@@ -209,43 +209,42 @@ function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
     var panels = pans || $('div.panel-collapse');
-
+    
     if ($(e).html().trim().startsWith(expand)) {
-        // Expand panels.
-        // If the panel data is not yet loaded, it will be loaded by ajax. Ajax loading
-        // is triggered by clicking on the element with class ajax_auto or
-        // ajax-response-auto.
-        // After element of class ajax_auto is clicked, the panel data for that element is loaded
-        // by ajax and the element is no longer of class ajax_auto. After element of class
-        // ajax-response-auto is clicked, the panel data for that element is loaded by ajax but
-        // the element is still of class ajax-response-auto.
-        // Ajax loading is needed when panel data are not yet loaded, this is determined by whether
-        // there is element of class ajax_auto.
-        var $ajax_auto = $(".ajax_auto");
-        var $ajax_response_auto = $(".ajax-response-auto");
-        var hasAjaxAutoLoading = $ajax_auto.length !== 0;
-        var hasAjaxResponseAutoLoading = $ajax_auto.length !== 0;
+        // toggleCollapse binds with clicking on both collapse panels button(button to expand all
+        // panels) and collapse panels button section (button for one panel).
+        var isCollapsePanelsButtonClicked = $(e).is($("#collapse-panels-button"));
 
-        // Ajax_auto is for panels to display normal feedback sessions while ajax-response-auto
-        // is for panels to display students who have no response.
-        if (hasAjaxAutoLoading){
-            $('.ajax_auto').click();
-            console.log("here1");
+        // If expand panels button is clicked and some of panel data is not yet loaded, it will be
+        // loaded here by Ajax. Ajax loading is triggered by clicking on the element with
+        // class ajax_auto or ajax-response-auto.
+        // After element of class ajax_auto or ajax-response-auto is clicked, the panel data for
+        // that element is loaded by Ajax and the element is no longer of class ajax_auto or
+        // ajax-response-auto. Therefore, an element of class ajax_auto or ajax-response-auto is
+        // not yet loaded by Ajax and we need to load them to expand all panels.
+        if (isCollapsePanelsButtonClicked) {
+            var $ajax_auto = $(".ajax_auto");
+            var $ajax_response_auto = $(".ajax-response-auto");
+            var hasAjaxAutoLoading = $ajax_auto.length !== 0;
+            var hasAjaxResponseAutoLoading = $ajax_response_auto.length !== 0;
+    
+            // Ajax_auto is for panels to display normal feedback sessions while ajax-response-auto
+            // is for panels to display students who have no response.
+            if (hasAjaxAutoLoading){
+                $('.ajax_auto').click();
+            }
             if (hasAjaxResponseAutoLoading) {
                 $('.ajax-response-auto').click();
-                console.log("here1");
             }
         }
 
-        // When ajax loading happens, panels expand automatically and we do not need to expand.
-        // If the toggle happens without Ajax loading, we need to expand panels.
-        if (!hasAjaxAutoLoading) {
-            var i = 0;
-            for (var idx = 0; idx < panels.length; idx++) {
-                if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                    setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                    i++;
-                }
+        var i = 0;
+        for (var idx = 0; idx < panels.length; idx++) {
+            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
+                // Expand all panels that has in class(in class in hidden)
+                // TODO: change the checking to use hasClass
+                setTimeout(showSingleCollapse, 50 * i, panels[idx]);
+                i++;
             }
         }
 

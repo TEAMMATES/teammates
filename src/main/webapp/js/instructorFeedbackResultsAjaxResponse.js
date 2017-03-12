@@ -21,6 +21,7 @@ $(document).ready(function() {
             success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
                 $(panelHeading).removeClass('ajax-response-submit');
+                $(panelHeading).removeClass('ajax-response-auto');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
                 $(panelHeading).click(toggleSingleCollapse);
