@@ -643,7 +643,6 @@ public class EmailGenerator {
                 "${joinUrl}", joinUrl);
     }
 
-
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
