@@ -2,8 +2,8 @@ package teammates.test.cases.util;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
@@ -39,11 +39,10 @@ public class ActivityLogEntryTest extends BaseTestCase {
         appLog.setTimeUsec(0);
         entry = new ActivityLogEntry(appLog);
 
-        assertEquals("<a href=\"URL?user=UserId\" class=\"text-success bold\" target=\"_blank\">instructorHome</a>",
-                     entry.getActionInfo());
-        assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
-        assertEquals("Message", entry.getMessageInfo());
-        assertEquals("UserId", entry.getPersonInfo());
+        assertEquals("instructorHome", entry.getServletName());
+        assertEquals(0, entry.getTime());
+        assertEquals("Message", entry.getMessage());
+        assertEquals("UserId", entry.getGoogleId());
         assertEquals("Instructor", entry.getRole());
     }
 

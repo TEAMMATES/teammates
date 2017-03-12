@@ -59,6 +59,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
       This value must be a valid **JDK 1.7** directory.
+      **Windows users** should use a **forward slash**(`/`) instead of the Windows default **backward slash**(`\`) while specifying the path.
    * `src/test/resources/test.properties`<br>
       Append a **same** unique id (e.g your name) to **each** of the default accounts found at the bottom of this file,
       e.g change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`.
@@ -88,16 +89,6 @@ More information can be found at [this documentation](https://help.github.com/ar
      
    **Verification:** Go to `Eclipse → Preferences → Java → Installed JREs`, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
       ![devverification-guide-1.png](images/devverification-guide-1.png)
-     
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
-     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
-     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * HTML: `Web → HTML Files → Editor → Indent using spaces`
-     * CSS: `Web → CSS Files → Editor → Indent using spaces`
-     * XML: `XML → XML Files → Editor → Indent using spaces`
-  * HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
-    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
 
 1. Run this command to download the dependencies required by TEAMMATES and configure them up to be used by Eclipse:
    ```sh
@@ -112,6 +103,16 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Select `Existing Projects into Workspace` under `General`.
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
+   
+1. Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
+     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
+     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * HTML: `Web → HTML Files → Editor → Indent using spaces`
+     * CSS: `Web → CSS Files → Editor → Indent using spaces`
+     * XML: `XML → XML Files → Editor → Indent using spaces`
+* HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
+    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
 
 ### IntelliJ IDEA
 
@@ -124,7 +125,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Text Encoding: Go to `File → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
    * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `File → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
 1. Import the project into IntelliJ.
-   * Click `Import existing project` and select the local repository folder.
+   * Click `Import project` and select the local repository folder.
    * Click `Import project from external model → Gradle`.
    * Click `Next`.
    * Check `Use auto-import`.

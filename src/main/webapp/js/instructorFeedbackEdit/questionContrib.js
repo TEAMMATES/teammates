@@ -1,5 +1,7 @@
+'use strict';
+
 function setDefaultContribQnVisibility(questionNum) {
-    $currentQuestionTable = $('#questionTable-' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     // All except STUDENTS can see answer
@@ -18,7 +20,7 @@ function setDefaultContribQnVisibility(questionNum) {
 }
 
 function setContribQnVisibilityFormat(questionNum) {
-    $currentQuestionTable = $('#questionTable-' + questionNum);
+    var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     // Show only the two visibility options valid for contrib questions; hide the rest
     $currentQuestionTable.find('.visibility-options-dropdown-option')
