@@ -5,16 +5,14 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.beust.jcommander.internal.Maps;
-
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.LogMessageGenerator;
 import teammates.logic.api.EmailGenerator;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
@@ -31,7 +29,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("With google login");
 
         UserType loginUser = new UserType("googleIdABC");
-        Map<String, String[]> mockParamMap = Maps.newHashMap();
+        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
         String url = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         Exception e = new IllegalArgumentException();
         EmailWrapper errorEmail = generateEmailWrapperFromException(e);
@@ -65,7 +63,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         UserType loginUser = new UserType("googleIdABC");
         String url = "/randomPage";
-        Map<String, String[]> mockParamMap = Maps.newHashMap();
+        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
         Exception e = new PageNotFoundException("randomPage");
         String logMessagePrefix = "TEAMMATESLOG|||Error when getting ActionName for requestUrl : /randomPage"
                 + "|||Servlet Action Failure|||true|||Unregistered|||Unknown|||googleIdABC|||Unknown|||";
@@ -91,7 +89,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
     public void testGenerateBasicActivityLogMessage() {
         ______TS("Automated task");
         String url = Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
-        Map<String, String[]> mockParamMap = Maps.newHashMap();
+        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
         String logMessage = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true"
                 + "|||Auto|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
 
@@ -108,7 +106,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Not login");
 
         String url = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        Map<String, String[]> mockParamMap = Maps.newHashMap();
+        Map<String, String[]> mockParamMap = new HashMap<String, String[]>();
         String logMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true|||Unknown|||Unknown"
                 + "|||Unknown|||Unknown|||Not authorized|||/page/instructorHomePage";
 
@@ -147,7 +145,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Google login (No account)");
 
         url = Const.ActionURIs.STUDENT_HOME_PAGE + "?course=A&user=test";
-        mockParamMap = Maps.newHashMap();
+        mockParamMap = new HashMap<String, String[]>();
         logMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true|||Unregistered|||Unknown"
                 + "|||googleId|||Unknown|||Try student home|||" + url;
         UserType userType = new UserType("googleId");
