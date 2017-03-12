@@ -13,6 +13,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
@@ -126,7 +127,7 @@ public class ControllerServlet extends HttpServlet {
              * in GAE shutting down the instance.
              * Note that severe logs are sent by email automatically in the cron job auto/compileLogs.
              */
-            log.severe("Unexpected exception " + t.getMessage());
+            log.severe(TeammatesException.toStringWithStackTrace(t));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }
