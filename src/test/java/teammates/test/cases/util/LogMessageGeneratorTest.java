@@ -187,9 +187,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         // masquerade: userType and account don't have the same google id
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View comments");
-        AssertHelper.assertLogMessageEqualsIgnoreLogId(logMessage, generatedMessage);
-        // logId will contains the googleId of user who is doing masquerade action
-        AssertHelper.assertLogIdContainsUserId(generatedMessage, userType.id);
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(logMessage, generatedMessage, userType.id);
     }
 
     private Map<String, String[]> generateRequestParamsWithRegKey() {

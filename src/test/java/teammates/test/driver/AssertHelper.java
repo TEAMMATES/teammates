@@ -163,6 +163,16 @@ public final class AssertHelper {
 
     /**
      * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
+     * and that the actual log message's ID contains information of the google id of admin.
+     */
+    public static void assertLogMessageEqualsInMasqueradeMode(String expected,
+            String actual, String adminGoogleId) {
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual, adminGoogleId);
+    }
+
+    /**
+     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
      * and that the actual log message's ID contains information of the specified student email and course ID.
      */
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
