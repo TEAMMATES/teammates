@@ -50,7 +50,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals(0, data.getCourseTables().size());
 
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage"
-                                    + "|||true|||Unregistered|||null|||unreg.user|||null"
+                                    + "|||true|||Unregistered|||Unknown|||unreg.user|||Unknown"
                                     + "|||Servlet Action Failure :Student with Google ID "
                                     + "unreg.user does not exist|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
