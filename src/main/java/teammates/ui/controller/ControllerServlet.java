@@ -123,11 +123,12 @@ public class ControllerServlet extends HttpServlet {
             }
         } catch (Throwable t) {
             /*
-             * Log only basic info about the exception to prevent delay in termination of request which can result
-             * in GAE shutting down the instance.
+             * Log only stack trace to prevent delay in termination of request
+             * which can result in GAE shutting down the instance.
              * Note that severe logs are sent by email automatically in the cron job auto/compileLogs.
              */
-            log.severe(TeammatesException.toStringWithStackTrace(t));
+            log.severe("Unexpected exception caught by ControllerServlet : "
+                        + TeammatesException.toStringWithStackTrace(t));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }
