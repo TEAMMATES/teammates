@@ -97,14 +97,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         String generatedMessage = logCenter.generateBasicActivityLogMessage(url, mockParamMap, "auto task",
                 null);
-        AssertHelper.assertLogMessageEqualsWithoutId(logMessage, generatedMessage);
-        assertTrue(generatedMessage.contains("Auto" + Const.ActivityLog.FIELD_CONNECTOR)); // log
-                                                                                           // id
-                                                                                           // contains
-                                                                                           // auto
+        AssertHelper.assertLogMessageEqualsIgnoreLogId(logMessage, generatedMessage);
+        assertTrue(generatedMessage.contains("Auto" + Const.ActivityLog.FIELD_CONNECTOR));
 
-        // other situations are tested in
-        // testGenerateNormalPageActionLogMessage()
+        // other situations are tested in testGenerateNormalPageActionLogMessage()
     }
 
     @Test

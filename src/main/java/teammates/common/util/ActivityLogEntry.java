@@ -24,7 +24,6 @@ public final class ActivityLogEntry {
     private static final int POSITION_OF_LOG_ID = 10;
     private static final int POSITION_OF_LOG_TIMETAKEN = 11;
 
-    // Required fields
     private static final Logger log = Logger.getLogger();
 
     // Required fields
@@ -33,6 +32,7 @@ public final class ActivityLogEntry {
     // or <studentemail>%<courseId>%<time> (for unregistered students)
     //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     private String logId;
+
     private long logTime;
     private String actionUrl;
     private String actionName;
@@ -59,12 +59,10 @@ public final class ActivityLogEntry {
     }
 
     /**
-     * Construct an {@link ActivityLogEntry} from {@link AppLogLine} provided by GAE.
-     * <p>
-     * If the log message in {@link AppLogLine} is not in the desired format specified in {@link ActivityLogEntry},
-     * an {@link ActivityLogEntry} will be returned with log message : 'Error. Problem parsing log message from the server.'
+     * Constructs an {@link ActivityLogEntry} from {@link AppLogLine} provided by GAE.
      *
-     * @param appLog
+     * <p>If the log message in {@link AppLogLine} is not in desired format, an instance will still
+     * be constructed, but with log message : 'Error. Problem parsing log message from the server.'
      */
     public ActivityLogEntry(AppLogLine appLog) {
         try {
@@ -182,7 +180,6 @@ public final class ActivityLogEntry {
 
     public String getActionName() {
         return actionName;
-
     }
 
     public String getActionResponse() {

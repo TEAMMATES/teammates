@@ -85,10 +85,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Gets the parameter map from the HttpServletRequest
-     *
-     * @param req HttpServletRequest
-     * @return the parameter map
+     * Gets the parameter map from HttpServletRequest.
      */
     @SuppressWarnings("unchecked")
     public static Map<String, String[]> getParameterMap(HttpServletRequest req) {
