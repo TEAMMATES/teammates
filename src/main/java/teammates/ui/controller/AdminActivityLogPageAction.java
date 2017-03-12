@@ -141,7 +141,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         //  if the search space is limited to a certain log
         if (logs.size() >= RELEVANT_LOGS_PER_PAGE && earliestLogChecked != null) {
-            earliestSearchTime = earliestLogChecked.getTime();
+            earliestSearchTime = earliestLogChecked.getLogTime();
         }
 
         double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
