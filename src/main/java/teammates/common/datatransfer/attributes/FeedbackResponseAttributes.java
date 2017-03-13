@@ -36,7 +36,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * Don't use directly unless for storing/loading from data store <br>
      * To get the answer text use {@code getResponseDetails().getAnswerString()}
      *
-     * This is set to null to represent a missing response.
+     * <p>This is set to null to represent a missing response.
      */
     public Text responseMetaData;
     public String giverSection;
@@ -177,8 +177,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         // nothing to sanitize before saving
     }
 
-    /** This method converts the given Feedback*ResponseDetails object to JSON for storing
-     * @param responseDetails
+    /**
+     * Converts the given Feedback*ResponseDetails object to JSON for storing.
      */
     public void setResponseDetails(FeedbackResponseDetails responseDetails) {
         if (responseDetails == null) {
@@ -193,7 +193,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         }
     }
 
-    /** This method retrieves the Feedback*ResponseDetails object for this response
+    /**
+     * Retrieves the Feedback*ResponseDetails object for this response.
      * @return The Feedback*ResponseDetails object representing the response's details
      */
     public FeedbackResponseDetails getResponseDetails() {

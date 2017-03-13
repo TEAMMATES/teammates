@@ -1,3 +1,5 @@
+'use strict';
+
 function updateConstSumPointsValue(questionNum) {
     if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + '-' + questionNum).val() < 1) {
         $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + '-' + questionNum).val(1);

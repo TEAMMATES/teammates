@@ -16,13 +16,6 @@ var TESTIMONIALS = [
 var LOOP_INTERVAL = '5000'; // in milliseconds
 var CURRENT_TESTIMONIAL = 0;
 
-function instructorLogin() {
-    // send request
-    requestInstructorLogin();
-    // handle response
-    handleInstructorLogin();
-}
-
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
     var errorMsg = 'Thousands of';
     if (!currentDate || !baseDate) {
@@ -51,7 +44,7 @@ $('document').ready(function() {
     var currentDate = new Date();
     $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
 
-    setInterval(loopTestimonials, LOOP_INTERVAL);
+    window.setInterval(loopTestimonials, LOOP_INTERVAL);
 });
 
 // Format large number with commas

@@ -19,7 +19,7 @@ import teammates.common.util.EmailWrapper;
  * This is the default service provided by Google App Engine.
  *
  * @see <a href="https://cloud.google.com/appengine/docs/java/mail/">https://cloud.google.com/appengine/docs/java/mail/</a>
- * @see {@link MimeMessage}
+ * @see MimeMessage
  */
 public class JavamailService extends EmailSenderService {
 

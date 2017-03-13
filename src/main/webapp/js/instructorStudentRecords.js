@@ -1,3 +1,5 @@
+'use strict';
+
 var COMMENT_TEXT = 'commenttext';
 var COMMENT_EDITTYPE = 'commentedittype';
 var DISPLAY_COMMENT_BLANK = 'Please enter a valid comment. The comment can\'t be empty.';
