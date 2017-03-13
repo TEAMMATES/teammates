@@ -120,7 +120,7 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 ```
 ./gradlew installEslint
 
-# Alternatively, if you want to install the ESLint module globally, use the install command manually to install both eslint and eslint-plugin-json
+# Alternatively, if you want to install the ESLint module globally, use the install command manually
 # Remember to use the correct tool and plugin version
 npm install -g eslint@{version} eslint-plugin-json@{version}
 ```
