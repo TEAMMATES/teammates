@@ -391,6 +391,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        return getQuestionResultStatisticsHtml(responses, question, studentEmail, bundle, view);
+    }
+
+    public String getQuestionResultStatisticsHtml(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle,
+            String view) {
 
         if ("student".equals(view) || responses.isEmpty()) {
             return "";

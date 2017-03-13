@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.FeedbackSessionState;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -234,5 +233,9 @@ public class AdminSearchPageData extends PageData {
         }
 
         return sessions;
+    }
+    
+    private enum FeedbackSessionState {
+        OPEN, CLOSED, PUBLISHED, AWAITING;
     }
 }
