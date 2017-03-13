@@ -846,12 +846,12 @@ public final class FeedbackSessionsLogic {
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId,
             String userEmail, String filterText, boolean isMissingResponsesShown,
-            boolean isStatsShown, String questionNumber)
+            boolean isStatsShown, String questionId)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, userEmail, null, filterText,
-                isMissingResponsesShown, isStatsShown, questionNumber);
+                isMissingResponsesShown, isStatsShown, questionId);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
