@@ -37,7 +37,7 @@ function submitFormAjax(offset) {
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
     var button = $('#button_older');
-    var lastLogRow = $('#emailLogsTable tr:last');
+    var $logsTable = $('#email-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
@@ -50,23 +50,11 @@ function submitFormAjax(offset) {
             button.html('Retry');
         },
         success: function(data) {
-            setTimeout(function() {
-                if (data.isError) {
-                    setFormErrorMessage(button, data.errorMessage);
-                } else {
-                    // Inject new log row
-                    var logs = data.logs;
-                    $.each(logs, function(i, value) {
-                        lastLogRow.after(value.logInfoAsHtml);
-                        lastLogRow = $('#emailLogsTable tr:last');
-                        bindClickAction();
-                        clickOlderButtonIfNeeded();
-                    });
-                }
-
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-
-            }, 500);
+            var $data = $(data);
+            $logsTable.append($data.find('#email-logs-table > tbody').html());
+            bindClickAction();
+            highlightKeywordsInEmailLogMessages();
+            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         }
     });
 }
