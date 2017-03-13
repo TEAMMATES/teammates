@@ -124,7 +124,7 @@ public class EmailGenerator {
 
         for (FeedbackSessionAttributes fsa : sessions) {
 
-            String submitUrlHtml = "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
+            String submitUrlHtml = "(Feedback session is not yet opened)";
             String reportUrlHtml = "(Feedback session is not yet published)";
 
             if (fsa.isOpened()) {
@@ -135,6 +135,16 @@ public class EmailGenerator {
                         .withStudentEmail(student.email)
                         .toAbsoluteString();
                 submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+            }
+            
+            if (fsa.isClosed()) {
+                String viewUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
+                        .withCourseId(course.getId())
+                        .withSessionName(fsa.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                submitUrlHtml = "<a href=\"" + viewUrl + "\">" + viewUrl + "</a>";
             }
 
             if (fsa.isPublished()) {
