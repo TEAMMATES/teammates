@@ -145,10 +145,10 @@ public class AdminInstructorAccountAddAction extends Action {
 
     /**
      * Extracts instructor's info from a string then store them in an array of string.
-     * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION
-     * or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
+     * @param instructorDetails
+     *         This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION
+     *         or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
      * @return A String array of size 3
-     * @throws InvalidParametersException
      */
     private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
         String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
@@ -163,8 +163,6 @@ public class AdminInstructorAccountAddAction extends Action {
      * Imports Demo course to new instructor.
      * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     private String importDemoData(AdminHomePageData pageData)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -222,37 +220,32 @@ public class AdminInstructorAccountAddAction extends Action {
         return courseId;
     }
 
-    /**
-    * Strategy to Generate New Demo Course Id:
-    *     a.  keep the part of email before "@"
-    *         replace "@" with "."
-    *         replace email host with their first 3 chars. eg, gmail.com -> gma
-    *         append "-demo"
-    *       to sum up: lebron@gmail.com -> lebron.gma-demo
-    *
-    *   b.  if the generated courseId already exists, create another one by appending a integer to the previous courseId.
-    *       if the newly generate id still exists, increment the id, until we find a feasible one
-    *       eg.
-    *       lebron@gmail.com -> lebron.gma-demo  // already exists!
-    *       lebron@gmail.com -> lebron.gma-demo0 // already exists!
-    *       lebron@gmail.com -> lebron.gma-demo1 // already exists!
-    *       ...
-    *       lebron@gmail.com -> lebron.gma-demo99 // already exists!
-    *       lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
-    *
-    *   c.  in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
-    *       before "@" of the intial input email, by continuously remove its last character
-    *
-    *    @see #generateDemoCourseId(String)
-    *    @see #generateNextDemoCourseId(String, int)
-    */
+    // Strategy to Generate New Demo Course Id:
+    // a. keep the part of email before "@"
+    //    replace "@" with "."
+    //    replace email host with their first 3 chars. eg, gmail.com -> gma
+    //    append "-demo"
+    //    to sum up: lebron@gmail.com -> lebron.gma-demo
+    //
+    // b. if the generated courseId already exists, create another one by appending a integer to the previous courseId.
+    //    if the newly generate id still exists, increment the id, until we find a feasible one
+    //    eg.
+    //    lebron@gmail.com -> lebron.gma-demo  // already exists!
+    //    lebron@gmail.com -> lebron.gma-demo0 // already exists!
+    //    lebron@gmail.com -> lebron.gma-demo1 // already exists!
+    //    ...
+    //    lebron@gmail.com -> lebron.gma-demo99 // already exists!
+    //    lebron@gmail.com -> lebron.gma-demo100 // found! a feasible id
+    //
+    // c. in any cases(a or b), if generated Id is longer than FieldValidator.COURSE_ID_MAX_LENGTH, shorten the part
+    //    before "@" of the intial input email, by continuously remove its last character
 
     /**
-    * Generate a course ID for demo course, and if the generated id already exists, try another one
-    *
-    * @param instructorEmail is the instructor email.
-    * @return generated course id
-    */
+     * Generate a course ID for demo course, and if the generated id already exists, try another one.
+     *
+     * @param instructorEmail is the instructor email.
+     * @return generated course id
+     */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
         while (logic.getCourse(proposedCourseId) != null) {
@@ -262,11 +255,11 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-    * Generate a course ID for demo course from a given email
-    *
-    * @param instructorEmail is the instructor email.
-    * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
-    */
+     * Generate a course ID for demo course from a given email.
+     *
+     * @param instructorEmail is the instructor email.
+     * @return the first proposed course id. eg.lebron@gmail.com -> lebron.gma-demo
+     */
     private String getDemoCourseIdRoot(String instructorEmail) {
         String[] emailSplit = instructorEmail.split("@");
 
@@ -280,19 +273,21 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-    * Generate a course ID for demo course from a given email or a generated course Id
-    * here we check the input string is a email or course Id and handle them accordingly
-    * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength
-    *
-    * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
-    * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
-    * @return the proposed course id.
-    *     eg.
-    *         lebron@gmail.com -> lebron.gma-demo
-    *         lebron.gma-demo -> lebron.gma-demo0
-    *         lebron.gma-demo0 -> lebron.gma-demo1
-    *         012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)
-    */
+     * Generate a course ID for demo course from a given email or a generated course Id.
+     *
+     * <p>Here we check the input string is an email or course Id and handle them accordingly;
+     * check the resulting course id, and if bigger than maximumIdLength, cut it so that it equals maximumIdLength.
+     *
+     * @param instructorEmailOrProposedCourseId is the instructor email or a proposed course id that already exists.
+     * @param maximumIdLength is the maximum resulting id length allowed, above which we will cut the part before "@"
+     * @return the proposed course id, e.g.:
+     *         <ul>
+     *         <li>lebron@gmail.com -> lebron.gma-demo</li>
+     *         <li>lebron.gma-demo -> lebron.gma-demo0</li>
+     *         <li>lebron.gma-demo0 -> lebron.gma-demo1</li>
+     *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
+     *         </ul>
+     */
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {

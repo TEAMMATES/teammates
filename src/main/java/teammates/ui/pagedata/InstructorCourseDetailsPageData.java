@@ -17,7 +17,7 @@ import teammates.ui.template.ElementTag;
 import teammates.ui.template.StudentListSectionData;
 
 /**
- * PageData: data used for the "Course Details" page
+ * PageData: data used for the "Course Details" page.
  */
 public class InstructorCourseDetailsPageData extends PageData {
     private InstructorAttributes currentInstructor;

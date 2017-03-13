@@ -354,7 +354,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     /**
-     * Click the delete instructor button at position {@code instrNum} and click "Yes" in the follow up dialog
+     * Click the delete instructor button at position {@code instrNum} and click "Yes" in the follow up dialog.
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
     public void clickDeleteInstructorLinkAndConfirm(int instrNum) {
@@ -364,7 +364,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     /**
-     * Click the delete instructor button at position {@code instrNum} and click "No" in the follow up dialog
+     * Click the delete instructor button at position {@code instrNum} and click "No" in the follow up dialog.
      * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
      */
     public void clickDeleteInstructorLinkAndCancel(int instrNum) {

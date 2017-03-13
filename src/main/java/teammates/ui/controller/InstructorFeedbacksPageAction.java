@@ -93,7 +93,6 @@ public class InstructorFeedbacksPageAction extends Action {
 
     /**
      * Gets a Map with courseId as key, and InstructorAttributes as value.
-     * @return
      */
     protected HashMap<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();

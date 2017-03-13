@@ -41,7 +41,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         testNullPostParamException();
     }
 
-    public void testAssertionError() {
+    private void testAssertionError() {
 
         ______TS("AssertionError testing");
 
@@ -52,7 +52,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
                 + Config.SUPPORT_EMAIL);
     }
 
-    public void testEntityDoesNotExistException() {
+    private void testEntityDoesNotExistException() {
 
         ______TS("EntityDoesNotExistException testing");
 
@@ -62,7 +62,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 
-    public void testNullPointerException() {
+    private void testNullPointerException() {
 
         ______TS("NullPointerException testing");
 
@@ -72,7 +72,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
     }
 
-    public void testDeadlineExceededException() {
+    private void testDeadlineExceededException() {
 
         ______TS("Deadline Exceeded testing");
 
@@ -84,7 +84,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     }
 
     //TODO: this test should be moved to the class testing access control
-    public void testUnauthorizedAccessException() {
+    private void testUnauthorizedAccessException() {
 
         ______TS("UnauthorizedAccessException testing");
 
@@ -94,7 +94,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 
-    public void testNullPostParamException() {
+    private void testNullPostParamException() {
         ______TS("NullPostParamException testing");
 
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)

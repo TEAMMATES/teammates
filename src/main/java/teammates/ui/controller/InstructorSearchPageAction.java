@@ -23,7 +23,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorSearchPageData;
 
 /**
- * Action: Showing the InstructorSearchPage for an instructor
+ * Action: Showing the InstructorSearchPage for an instructor.
  */
 public class InstructorSearchPageAction extends Action {
 

@@ -22,15 +22,14 @@ import teammates.test.pageobjects.LoginPage;
 
 public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
 
-    /** indicates if the test-run is to use GodMode */
+    /** Indicates if the test-run is to use GodMode. */
     private static boolean isGodModeEnabled;
 
     protected Browser browser;
     protected DataBundle testData;
 
     /**
-     * Checks if the current test-run should use godmode,
-     * if yes, enables GodMode
+     * Checks if the current test-run should use godmode, if yes, enables GodMode.
      */
     @BeforeSuite
     public static void checkAndEnableGodMode() {

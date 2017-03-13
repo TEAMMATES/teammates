@@ -76,9 +76,9 @@ public class ElementTag {
     }
 
     /**
-     * @return all attributes joined into a string for HTML purposes with a space in front;
+     * Returns all attributes joined into a string for HTML purposes with a space in front;
      *         attribute added if and only if it has a non-null value,
-     *         empty strings will still be treated as empty strings
+     *         empty strings will still be treated as empty strings.
      */
     public String getAttributesToString() {
         if (attributes == null || attributes.isEmpty()) {
