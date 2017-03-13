@@ -504,8 +504,10 @@ $(document).ready(() => {
     }
 });
 
+/*
 export default {
     enableEditInstructor,
     showNewInstructorForm,
     showInstructorRoleModal,
 };
+*/

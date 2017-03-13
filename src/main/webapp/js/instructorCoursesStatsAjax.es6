@@ -37,6 +37,8 @@ function linkAjaxForCourseStats() {
     $('td[id^="course-stats"] > a').click(courseStatsClickHandler);
 }
 
+/*
 export default {
     linkAjaxForCourseStats,
 };
+*/
