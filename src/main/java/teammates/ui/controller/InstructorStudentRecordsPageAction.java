@@ -58,7 +58,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         Map<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
         filterFeedbackSessions(courseId, sessions, instructor, student);
 
@@ -122,9 +122,6 @@ public class InstructorStudentRecordsPageAction extends Action {
 
     /**
      * Maps emails of instructors to the comments they gave.
-     * @param comments
-     * @param instructor
-     * @param courseId
      * @return A map with instructor email => comments mappings.
      */
     private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(
@@ -153,8 +150,6 @@ public class InstructorStudentRecordsPageAction extends Action {
 
     /**
      * Maps emails of instructors giving the comments to their names.
-     * @param courseId
-     * @param giverEmails
      * @return A map with instructor email => instructor name mappings.
      */
     private Map<String, String> mapGiverNameToGiverEmail(String courseId, Set<String> giverEmails) {

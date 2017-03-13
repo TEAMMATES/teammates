@@ -113,9 +113,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
     /**
      * Given an array of Course Ids, return only the Ids of Courses which has
-     * an existing feedback session with a name conflicting with feedbackSessionName
-     * @param feedbackSessionName
-     * @param coursesIdToCopyTo
+     * an existing feedback session with a name conflicting with feedbackSessionName.
      */
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();

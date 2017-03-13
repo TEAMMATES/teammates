@@ -31,7 +31,7 @@ import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogService.LogLevel;
 
 /**
- * SUT: {@link EmailGenerator}
+ * SUT: {@link EmailGenerator}.
  */
 public class EmailGeneratorTest extends BaseLogicTest {
 
@@ -40,7 +40,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
-    /** indicates if the test-run is to use GodMode */
+    /** indicates if the test-run is to use GodMode. */
     private static boolean isGodModeEnabled;
 
     @BeforeClass
