@@ -4,7 +4,7 @@ function generateRandomString(len) {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let data = '';
 
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < len; i += 1) {
         const rnum = Math.floor(Math.random() * chars.length);
         data += chars.substring(rnum, rnum + 1);
     }
