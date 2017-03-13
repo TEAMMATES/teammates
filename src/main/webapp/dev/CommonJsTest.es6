@@ -6,14 +6,14 @@ QUnit.module('common.js');
  * Warning: This test must be the first because it tests on the visibility
  * of the elements. Testing later may push the elements out of view.
  */
-QUnit.test('isWithinView()', function(assert) {
-    var testDiv = $('#visible');
+QUnit.test('isWithinView()', (assert) => {
+    const testDiv = $('#visible');
 
     // Applies style to visible element and asserts whether it should be visible
     function assertWithStyle(style, condition) {
-        testDiv.attr('style', 'position: absolute;' + style);
+        testDiv.attr('style', `position: absolute;${style}`);
 
-        var testString = 'Element with style ' + style + (condition ? ' is within view' : ' is not within view');
+        const testString = `Element with style ${style}${condition ? ' is within view' : ' is not within view'}`;
         assert.equal(isWithinView(testDiv), condition, testString);
     }
     assertWithStyle('top: 0%;', true);
@@ -26,7 +26,7 @@ QUnit.test('isWithinView()', function(assert) {
     assertWithStyle('top: 0%; right: 0%;', true);
 });
 
-QUnit.test('isNumber(num)', function(assert) {
+QUnit.test('isNumber(num)', (assert) => {
     assert.equal(isNumber('-0.001'), true, 'Negative double');
     assert.equal(isNumber('12.056'), true, 'Positive double');
     assert.equal(isNumber('100356'), true, 'Positive integer');
@@ -48,7 +48,7 @@ QUnit.test('isNumber(num)', function(assert) {
  * TEAMMATES currently follows the RFC2822 / IETF date syntax
  * e.g. 02 Apr 2012, 23:59
  */
-QUnit.test('isDate(date)', function(assert) {
+QUnit.test('isDate(date)', (assert) => {
     assert.equal(isDate('12432567'), false, 'Numbers');
     assert.equal(isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
     assert.equal(isDate('12/2/13'), true, '12/2/13 - valid format');
@@ -71,12 +71,12 @@ QUnit.test('isDate(date)', function(assert) {
     assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
 });
 
-QUnit.test('scrollToTop()', function(assert) {
+QUnit.test('scrollToTop()', (assert) => {
     // N/A, trivial function
     assert.expect(0);
 });
 
-QUnit.test('sortBase(x, y)', function(assert) {
+QUnit.test('sortBase(x, y)', (assert) => {
     assert.equal(sortBase('abc', 'abc'), 0, 'Same text');
     assert.equal(sortBase('ABC', 'abc'), -1, 'Bigger text');
     assert.equal(sortBase('abc', 'ABC'), 1, 'Smaller text');
@@ -85,7 +85,7 @@ QUnit.test('sortBase(x, y)', function(assert) {
     assert.equal(sortBase('abc', 'EFG'), 1, 'Smaller text');
 });
 
-QUnit.test('sortNum(x, y)', function(assert) {
+QUnit.test('sortNum(x, y)', (assert) => {
     assert.equal(sortNum('1', '2'), -1, 'x=1, y=2');
     assert.equal(sortNum('-10', '2'), -12, 'x=-10, y=2');
     assert.equal(sortNum('3', '-1'), 4, 'x=3, y=-1');
@@ -94,7 +94,7 @@ QUnit.test('sortNum(x, y)', function(assert) {
     assert.equal(sortNum('0.1', '-0.1'), 0.2, 'x=-0.1, y=-0.1');
 });
 
-QUnit.test('sortDate(x, y)', function(assert) {
+QUnit.test('sortDate(x, y)', (assert) => {
     assert.equal(sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
     assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
         '25 April 1999 2:00PM - 25 April 1999 1:59PM');
@@ -104,7 +104,7 @@ QUnit.test('sortDate(x, y)', function(assert) {
         '25 April 1999 2:00PM - 25 April 1999 2:01PM');
 });
 
-QUnit.test('getPointValue(s, ditchZero)', function(assert) {
+QUnit.test('getPointValue(s, ditchZero)', (assert) => {
     // getPointValue() is used by the application itself, thus
     // the inputs are always valid.
     assert.equal(getPointValue('N/S', false), 201,
@@ -129,7 +129,7 @@ QUnit.test('getPointValue(s, ditchZero)', function(assert) {
     assert.equal(getPointValue('1', false), 101, 'Integer 1');
 
     function isCloseEnough(numberA, numberB) {
-        var tolerance = 0.0001;
+        const tolerance = 0.0001;
         return Math.abs(numberA - numberB) < tolerance;
     }
     assert.ok(isCloseEnough(getPointValue('0.0', false), 100), 'Float 0');
@@ -141,7 +141,7 @@ QUnit.test('getPointValue(s, ditchZero)', function(assert) {
     assert.ok(isCloseEnough(getPointValue('-3.833333', false), 96.166667), 'Float -3.833333');
 });
 
-QUnit.test('sortByPoint(a, b)', function(assert) {
+QUnit.test('sortByPoint(a, b)', (assert) => {
     assert.ok(sortByPoint('N/S', 'N/A') < 0, 'Case N/S less than N/A');
     assert.ok(sortByPoint('N/S', 'E') > 0, 'N/S more than E');
     assert.ok(sortByPoint('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
@@ -168,9 +168,9 @@ QUnit.test('sortByPoint(a, b)', function(assert) {
     assert.ok(sortByPoint('NotNumber', 'Random') === 0, 'Equality for NaN');
 });
 
-QUnit.test('setStatusMessage(message,status)', function(assert) {
+QUnit.test('setStatusMessage(message,status)', (assert) => {
     $('body').append('<div id="statusMessagesToUser"></div>');
-    var message = 'Status Message';
+    const message = 'Status Message';
 
     // isError = false: class = overflow-auto alert alert-warning
     // isError = true: class = overflow-auto alert alert-danger
@@ -222,51 +222,51 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
               'Message with random status (defaulted to info)');
 });
 
-QUnit.test('clearStatusMessages()', function(assert) {
+QUnit.test('clearStatusMessages()', (assert) => {
     clearStatusMessages();
     assert.equal($('#statusMessagesToUser').html(), '', 'Status message cleared');
     assert.ok($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
         '#statusMessagesToUser').css('background-color') === 'transparent', 'No background');
 });
 
-QUnit.test('checkEvaluationForm()', function(assert) {
+QUnit.test('checkEvaluationForm()', (assert) => {
     // N/A, requires elements in the page
     assert.expect(0);
 });
 
-QUnit.test('addLoadingIndicator()', function(assert) {
-    var $fixture = $('#qunit-fixture');
+QUnit.test('addLoadingIndicator()', (assert) => {
+    const $fixture = $('#qunit-fixture');
     $fixture.append('<button>Submit</button>');
 
-    var $button = $('button', $fixture);
-    var buttonText = 'Loading';
+    const $button = $('button', $fixture);
+    const buttonText = 'Loading';
     addLoadingIndicator($button, buttonText);
 
-    assert.equal($button.text(), buttonText, 'Button text changes to ' + buttonText);
+    assert.equal($button.text(), buttonText, `Button text changes to ${buttonText}`);
     assert.equal($button.find('img').attr('src'), '/images/ajax-loader.gif', 'Loading gif appended');
     assert.ok($button.is(':disabled'), 'Button disabled');
 });
 
-QUnit.test('removeLoadingIndicator()', function(assert) {
-    var $fixture = $('#qunit-fixture');
+QUnit.test('removeLoadingIndicator()', (assert) => {
+    const $fixture = $('#qunit-fixture');
     $fixture.append('<button>Submit</button>');
 
-    var $button = $('button', $fixture);
-    var buttonText = 'Complete';
+    const $button = $('button', $fixture);
+    const buttonText = 'Complete';
     removeLoadingIndicator($button, buttonText);
 
-    assert.equal($button.text(), buttonText, 'Button text changes to ' + buttonText);
+    assert.equal($button.text(), buttonText, `Button text changes to ${buttonText}`);
     assert.equal($button.find('img').length, 0, 'Loading gif removed');
     assert.notOk($button.is(':disabled'), 'Button enabled');
 });
 
-QUnit.test('sanitizeGoogleId(googleId)', function(assert) {
+QUnit.test('sanitizeGoogleId(googleId)', (assert) => {
     assert.equal(sanitizeGoogleId('test  @Gmail.COM  '), 'test', 'test - valid');
     assert.equal(sanitizeGoogleId('  user@hotmail.com  '), 'user@hotmail.com',
         'user@hotmail.com - valid');
 });
 
-QUnit.test('isValidGoogleId(googleId)', function(assert) {
+QUnit.test('isValidGoogleId(googleId)', (assert) => {
     assert.equal(isValidGoogleId('  test  \t\n'), true, 'test - valid');
     assert.equal(isValidGoogleId('  charile.brown  \t\n'), true, 'charile.brown - valid');
     assert.equal(isValidGoogleId('  big-small_mini  \t\n'), true, 'big-small_mini - valid');
@@ -277,7 +277,7 @@ QUnit.test('isValidGoogleId(googleId)', function(assert) {
     assert.equal(isValidGoogleId('is/not\\correct'), false, 'is/not\\correct - invalid');
 });
 
-QUnit.test('isEmailValid(email)', function(assert) {
+QUnit.test('isEmailValid(email)', (assert) => {
     assert.equal(isEmailValid('test@gmail.com'), true, 'test@gmail.com - valid');
     assert.equal(isEmailValid('email'), false, 'email - invalid');
     assert.equal(isEmailValid('email@email'), false, 'email@email - invalid');
@@ -285,7 +285,7 @@ QUnit.test('isEmailValid(email)', function(assert) {
     assert.equal(isEmailValid('email.com'), false, 'email.com - invalid');
 });
 
-QUnit.test('isNameValid(name)', function(assert) {
+QUnit.test('isNameValid(name)', (assert) => {
     assert.equal(isNameValid('\tTom Jacobs,.\t\'()-/ \\  '), true,
         'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
     assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
@@ -305,11 +305,9 @@ QUnit.test('isNameValid(name)', function(assert) {
     assert.equal(isNameValid('1@2@3  456'), false, '@ character - invalid');
     assert.equal(isNameValid('Tom = Tom'), false, '= character - invalid');
     assert.equal(isNameValid('Tom||Jacobs'), false, '| character - invalid');
-
 });
 
-QUnit.test('roundToThreeDp(num)', function(assert) {
-
+QUnit.test('roundToThreeDp(num)', (assert) => {
     assert.equal(roundToThreeDp(0), 0, 'Zero test');
     assert.equal(roundToThreeDp(1), 1, 'Positive integer test');
     assert.equal(roundToThreeDp(-1), -1, 'Negative integer test');
@@ -319,19 +317,17 @@ QUnit.test('roundToThreeDp(num)', function(assert) {
     assert.equal(roundToThreeDp(1.0011), 1.001, 'Four dp negative number rounding down test');
     assert.equal(roundToThreeDp(-1.0015), -1.002, 'Four dp positive number rounding "up" test');
     assert.equal(roundToThreeDp(-1.0011), -1.001, 'Four dp negative number rounding "down" test');
-
 });
 
-QUnit.test('sanitizeForJs(string)', function(assert) {
+QUnit.test('sanitizeForJs(string)', (assert) => {
     assert.equal(sanitizeForJs(''), '', 'sanitization for empty string');
     assert.equal(sanitizeForJs('Will o\' Wisp'), 'Will o\\\' Wisp', 'sanitization for single quote');
     assert.equal(sanitizeForJs('Will o\'\'\'\'\'\\\\ Wisp'),
         'Will o\\\'\\\'\\\'\\\'\\\'\\\\\\\\ Wisp',
         'sanitization for single quote and slash \\');
-
 });
 
-QUnit.test('isBlank(string)', function(assert) {
+QUnit.test('isBlank(string)', (assert) => {
     assert.equal(isBlank(''), true, 'Test - empty string');
     assert.equal(isBlank(' '), true, 'Test - single space');
     assert.equal(isBlank('            '), true, 'Test - multiple spaces');

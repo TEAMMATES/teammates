@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 
 function generateRandomString(len) {
-    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
-    var data = '';
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+    let data = '';
 
-    for (var i = 0; i < len; i++) {
-        var rnum = Math.floor(Math.random() * chars.length);
+    for (let i = 0; i < len; i++) {
+        const rnum = Math.floor(Math.random() * chars.length);
         data += chars.substring(rnum, rnum + 1);
     }
 
@@ -45,26 +45,26 @@ function clearBootboxModalStub() {
     $('#test-bootbox-modal-stub').html('');
 }
 
-bootbox.dialog = function(params) {
+bootbox.dialog = function (params) {
     $('#test-bootbox-modal-stub').html(
-        '<div id="test-bootbox-modal-stub-title">' + params.title + '</div>'
-        + '<div id="test-bootbox-modal-stub-message">' + params.message + '</div>'
+        `<div id="test-bootbox-modal-stub-title">${params.title}</div>`
+        + `<div id="test-bootbox-modal-stub-message">${params.message}</div>`,
     );
     return {
-        find: function() {
+        find() {
             return {
-                addClass: function() {
+                addClass() {
                     // stub the subsequent method calls
-                }
+                },
             };
-        }
+        },
     };
 };
 
-$.fn.ready = function() {
+$.fn.ready = function () {
     // do not call the document ready functions as they are page-specific
 };
 
-$.ajax = function() {
+$.ajax = function () {
     // do not actually make the AJAX request
 };
