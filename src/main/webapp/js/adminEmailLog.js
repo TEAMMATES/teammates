@@ -36,18 +36,18 @@ function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
-    var button = $('#button_older');
+    var $button = $('#button_older');
     var $logsTable = $('#email-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
         url: '/admin/adminEmailLogPage?' + formData,
         beforeSend: function() {
-            button.html("<img src='/images/ajax-loader.gif'/>");
+            addLoadingIndicator($button, '');
         },
         error: function() {
-            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
-            button.html('Retry');
+            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
+            removeLoadingIndicator($button, 'Retry');
         },
         success: function(data) {
             var $data = $(data);
