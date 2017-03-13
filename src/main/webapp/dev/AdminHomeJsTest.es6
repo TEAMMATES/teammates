@@ -1,4 +1,7 @@
-/* eslint-disable no-undef */
+/* global
+addInstructorAjax:false, enableAddInstructorForm:true, createRowForResultTable:false
+addInstructorByAjaxRecursively:true, addInstructorFromFirstFormByAjax:false, addInstructorFromSecondFormByAjax:false
+*/
 
 QUnit.module('AdminHome.js');
 
@@ -29,7 +32,11 @@ QUnit.test('createRowForResultTable(shortName, name, email, institution, isSucce
 });
 
 const addInstructorDetailsSingleLine = '<textarea id="addInstructorDetailsSingleLine"></textarea>';
-const addInstructorResultTable = '<table id="addInstructorResultTable"><tbody></tbody></table>';
+
+let paramsCounter;
+let paramsList;
+let isInputFromFirstPanel;
+let instructorDetailsList;
 
 QUnit.module('addInstructorAjax', {
     afterEach() {
@@ -38,6 +45,7 @@ QUnit.module('addInstructorAjax', {
         isInputFromFirstPanel = false;
     },
 });
+
 QUnit.test('test when paramsCounter >= paramsList.length', (assert) => {
     assert.expect(2);
 

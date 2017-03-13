@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global submissionCounter:false */
 
 QUnit.module('index.js');
 

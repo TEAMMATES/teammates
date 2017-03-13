@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global extractQuestionNumFromEditFormId:false */
 
 QUnit.module('instructorFeedbacks.js');
 

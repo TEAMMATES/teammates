@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global isUserTyping:false */
 
 QUnit.module('instructorCourseEnrollPage.js');
 

@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 QUnit.module('instructorCourseDetails.js');
 
 QUnit.test('toggleSendRegistrationKey(courseID, email)', (assert) => {

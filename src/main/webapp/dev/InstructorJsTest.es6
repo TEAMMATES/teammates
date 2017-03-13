@@ -1,4 +1,9 @@
-/* eslint-disable no-undef */
+/* global
+isStudentTeamNameValid:false, isStudentInputValid:false, generateRandomString:false
+executeCopyCommand:false, selectElementContents:false
+
+TEAMNAME_MAX_LENGTH:false, NAME_MAX_LENGTH:false
+*/
 
 QUnit.module('instructor.js');
 

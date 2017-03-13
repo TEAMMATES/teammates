@@ -1,4 +1,11 @@
-/* eslint-disable no-undef */
+/* global
+isWithinView:false, isNumber:false, isDate:false, setStatusMessage:false, clearStatusMessages:false
+roundToThreeDp:false, sanitizeForJs:false, isBlank:false, StatusType:false
+addLoadingIndicator:false, removeLoadingIndicator:false
+sortBase:false, sortNum:false, sortDate:false, getPointValue:false, sortByPoint:false
+sanitizeGoogleId:false, isValidGoogleId:false, isEmailValid:false, isNameValid:false
+generateRandomString:false, NAME_MAX_LENGTH:false
+*/
 
 QUnit.module('common.js');
 

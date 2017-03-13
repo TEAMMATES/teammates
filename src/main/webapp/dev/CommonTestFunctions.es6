@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global bootbox:true */
 
 function generateRandomString(len) {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -68,3 +68,7 @@ $.fn.ready = function () {
 $.ajax = function () {
     // do not actually make the AJAX request
 };
+
+/* exported
+generateRandomString, ensureCorrectModal, clearBootboxButtonClickEvent, clearBootboxModalStub
+*/
