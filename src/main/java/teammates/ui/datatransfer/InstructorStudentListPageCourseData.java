@@ -6,7 +6,7 @@ import teammates.ui.pagedata.InstructorStudentListPageData;
 
 /**
  * Serves as a datatransfer class between {@link InstructorStudentListPageAction}
- * and {@link InstructorStudentListPageData}
+ * and {@link InstructorStudentListPageData}.
  */
 public class InstructorStudentListPageCourseData {
 

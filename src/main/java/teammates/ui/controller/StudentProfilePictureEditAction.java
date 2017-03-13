@@ -119,7 +119,7 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     /**
-     * Checks that the information given via POST is valid
+     * Checks that the information given via POST is valid.
      */
     private boolean validatePostParameters() {
         if (leftXString.isEmpty() || topYString.isEmpty()
@@ -147,8 +147,7 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     /**
-     * Gets all the parameters from the Request and ensures that
-     * they are not null
+     * Gets all the parameters from the Request and ensures that they are not null.
      */
     private void readAllPostParamterValuesToFields() {
         leftXString = getLeftXString();

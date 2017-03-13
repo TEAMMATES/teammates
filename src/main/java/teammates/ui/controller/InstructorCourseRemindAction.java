@@ -18,7 +18,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 
 /**
- * Action: remind instructor or student to register for a course by sending reminder emails
+ * Action: remind instructor or student to register for a course by sending reminder emails.
  */
 public class InstructorCourseRemindAction extends Action {
 

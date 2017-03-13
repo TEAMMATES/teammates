@@ -35,9 +35,9 @@ import com.google.appengine.api.log.AppLogLine;
 /**
  * Handles operations related to generating emails to be sent from provided templates.
  *
- * @see {@link EmailTemplates}
- * @see {@link EmailType}
- * @see {@link EmailWrapper}
+ * @see EmailTemplates
+ * @see EmailType
+ * @see EmailWrapper
  */
 public class EmailGenerator {
 
@@ -96,7 +96,7 @@ public class EmailGenerator {
 
     /**
      * Generates the email containing the summary of the feedback sessions
-     * email for the given {@code courseId} for {@code student}
+     * email for the given {@code courseId} for {@code student}.
      * @param courseId - ID of the course
      * @param student - attributes of student to send feedback session summary to
      */
@@ -172,7 +172,7 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates the feedback submission confirmation email for the given {@code session} for {@code student}
+     * Generates the feedback submission confirmation email for the given {@code session} for {@code student}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
             FeedbackSessionAttributes session, StudentAttributes student, Calendar timestamp) {
@@ -312,7 +312,6 @@ public class EmailGenerator {
 
     /**
      * Generates the feedback session closed emails for the given {@code session}.
-     * @throws EntityDoesNotExistException
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
 
