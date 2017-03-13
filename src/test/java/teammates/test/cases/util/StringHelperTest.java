@@ -124,9 +124,21 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(msg, decrptedMsg);
     }
 
-    @Test(expectedExceptions = {InvalidParametersException.class})
-    public void testEncryptingInvalidPlaintextThrowsException() throws InvalidParametersException {
-        StringHelper.decrypt("ABC");
+    @Test
+    public void testEncryptingInvalidPlaintextThrowsException() {
+        String invalidHexString = "GHI";
+        // each hex digit is 4 bits
+        String ciphertextLength120 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCC";
+        String ciphertextLength136 = ciphertextLength120 + "1234";
+        String[] invalidCiphertexts = {invalidHexString, ciphertextLength120, ciphertextLength136};
+        for (String invalidCiphertext : invalidCiphertexts) {
+            try {
+                StringHelper.decrypt(invalidCiphertext);
+                signalFailureToDetectException();
+            } catch (InvalidParametersException e) {
+                ignoreExpectedException();
+            }
+        }
     }
 
     @Test
