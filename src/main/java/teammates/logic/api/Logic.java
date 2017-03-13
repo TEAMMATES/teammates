@@ -1294,7 +1294,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters(except questionId) are non-null. <br>
      * @return summary for all questions if questionId is null
-     *  else return question summary specified by questionId
+     *         else return question summary specified by questionId
      */
     public String getFeedbackSessionResultSummaryAsCsv(String courseId,
                                                        String feedbackSessionName,
@@ -1318,7 +1318,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters(except questionId) are non-null. <br>
      * @return section summary for all questions if questionId is null
-     * else return section summary for question specified by questionId
+     *         else return section summary for question specified by questionId
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
