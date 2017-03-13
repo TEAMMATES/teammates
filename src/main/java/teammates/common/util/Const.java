@@ -1112,6 +1112,7 @@ public final class Const {
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
+        public static final String ADMIN_EMAIL_LOG_AJAX = "/jsp/adminEmailLogAjax.jsp";
 
         public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp";
         public static final String ENABLE_JS = "/enableJs.jsp";
