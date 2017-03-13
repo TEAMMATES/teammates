@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 /**
- * Action: Delete {@link FeedbackResponseCommentAttributes}
+ * Action: Delete {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentDeleteAction extends Action {
 

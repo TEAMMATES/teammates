@@ -52,11 +52,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 
     /**
-     * Used to update the mapping of ranks for the option optionReceivingPoints
-     *
-     * @param optionRanks
-     * @param optionReceivingRanks
-     * @param rankReceived
+     * Updates the mapping of ranks for the option optionReceivingPoints.
      */
     protected void updateOptionRanksMapping(
                         Map<String, List<Integer>> optionRanks,
@@ -71,8 +67,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     }
 
     /**
-     * Returns the list of points as as string to display
-     * @param ranksReceived
+     * Returns the list of points as as string to display.
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
         Collections.sort(ranksReceived);

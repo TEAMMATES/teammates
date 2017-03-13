@@ -428,7 +428,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     /**
-     * @return A Map with student email as key and StudentResultSummary as value for the specified question.
+     * Returns A Map with student email as key and StudentResultSummary as value for the specified question.
      */
     Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
@@ -451,7 +451,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     /**
-     * @return A Map with student email as key and TeamEvalResult as value for the specified question.
+     * Returns A Map with student email as key and TeamEvalResult as value for the specified question.
      */
     Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
@@ -849,7 +849,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     /**
-     * Return the CSS color of different point
+     * Returns the CSS color of different point.
      */
     private String getContributionOptionsColor(int points) {
         if (points == Const.POINTS_NOT_SURE
@@ -868,7 +868,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     /**
      * Converts points in integer to String.
-     * @param i
      * @return points in text form "Equal Share..."
      */
     static String convertToEqualShareFormat(int i) {
@@ -889,7 +888,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     /**
      * Converts points in integer to String for HTML display.
-     * @param i
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     static String convertToEqualShareFormatHtml(int i) {

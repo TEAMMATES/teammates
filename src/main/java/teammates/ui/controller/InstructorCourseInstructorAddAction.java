@@ -11,7 +11,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: add another instructor to a course that already exists
+ * Action: add another instructor to a course that already exists.
  */
 public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorAbstractAction {
 

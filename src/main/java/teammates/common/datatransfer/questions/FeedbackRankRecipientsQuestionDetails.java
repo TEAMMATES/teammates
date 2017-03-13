@@ -253,8 +253,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
-     * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses
-     * @param responses
+     * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses.
      * @see FeedbackRankQuestionDetails#obtainMappingToNormalisedRanksForRanking(Map, List) for how ties are resolved
      */
     private Map<FeedbackResponseAttributes, Integer> getNormalisedRankForEachResponse(

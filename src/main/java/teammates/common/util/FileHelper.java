@@ -3,7 +3,8 @@ package teammates.common.util;
 import java.io.InputStream;
 import java.util.Scanner;
 
-/** Holds file-related functions
+/**
+ * Holds file-related functions.
  */
 public final class FileHelper {
 
