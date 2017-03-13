@@ -1206,6 +1206,33 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         };
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
+        
+        ______TS("Download individual question");
+        final int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        final String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
+                session.getCourseId(), questionNum).getId();
+
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, questionId);
+
+        expected = new String[] {
+        // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+        "Course,\"" + session.getCourseId() + "\"",
+        "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+        "",
+        "",
+        "Question 2,\"Rate 1 other student's product\"",
+        "",
+        "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+        "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
+        "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
+        "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
+        "",
+        "",
+        ""
+        // CHECKSTYLE.ON:LineLength
+        };
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("MCQ results");
 
