@@ -133,7 +133,6 @@ public class AdminEmailLogPageAction extends Action {
             }
 
             EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
-
             if (data.shouldShowLog(emailLogEntry)) {
                 emailLogs.add(emailLogEntry);
             }

@@ -1475,6 +1475,32 @@ public final class Const {
     }
 
     /**
+     * These are constants that may be used in {@link ActivityLogEntry}.
+     */
+    public static class ActivityLog {
+        public static final String TEAMMATESLOG = "TEAMMATESLOG";
+
+        public static final String UNKNOWN = "Unknown";
+
+        public static final String ROLE_ADMIN = "Admin";
+        public static final String ROLE_INSTRUCTOR = "Instructor";
+        public static final String ROLE_STUDENT = "Student";
+        public static final String ROLE_AUTO = "Auto";
+        public static final String ROLE_UNREGISTERED = "Unregistered";
+        public static final String ROLE_UNKNOWN = "Unknown";
+        public static final String ROLE_MASQUERADE_POSTFIX = "(M)";
+
+        public static final String AUTH_NOT_LOGIN = "Unregistered";
+
+        public static final String FIELD_SEPARATOR = "|||";
+
+        public static final String TEST_DATA_POSTFIX = ".tmt";
+
+        public static final int TIME_TAKEN_EXPECTED = 10000;
+        public static final int TIME_TAKEN_MODERATE = 20000;
+    }
+
+    /**
      * These are constants that may be used in {@link EmailLogEntry}.
      */
     public static class EmailLog {

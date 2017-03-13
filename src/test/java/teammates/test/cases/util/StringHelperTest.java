@@ -339,4 +339,5 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("test|||data|||testdata",
                 StringHelper.join("|||", new String[] {"test", "data", "testdata"}));
     }
+
 }

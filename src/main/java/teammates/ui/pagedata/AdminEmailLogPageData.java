@@ -82,7 +82,7 @@ public class AdminEmailLogPageData extends PageData {
         return StringHelper.join(",", q.infoValues);
     }
 
-    /************* Setter methods *************/
+    // Setter methods
 
     public void setFilterQuery(String filterQuery) {
         this.filterQuery = filterQuery;
