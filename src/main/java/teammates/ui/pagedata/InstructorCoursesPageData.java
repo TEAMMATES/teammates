@@ -16,7 +16,7 @@ import teammates.ui.template.ArchivedCoursesTableRow;
 import teammates.ui.template.ElementTag;
 
 /**
- * This is the PageData object for the 'Courses' page
+ * This is the PageData object for the 'Courses' page.
  */
 public class InstructorCoursesPageData extends PageData {
 

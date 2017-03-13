@@ -88,7 +88,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtml("/instructorHomeHTMLPersistenceCheck.html");
     }
 
-    public void testLogin() {
+    private void testLogin() {
 
         ______TS("login");
 
@@ -116,7 +116,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("content: no courses");
 
@@ -159,7 +159,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         BackDoor.createInstructor(instructor);
     }
 
-    public void testHelpLink() {
+    private void testHelpLink() {
 
         ______TS("link: help page");
 
@@ -168,7 +168,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testCourseLinks() {
+    private void testCourseLinks() {
         String courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         String instructorId = testData.accounts.get("account").googleId;
 
@@ -214,7 +214,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testRemindActions() {
+    private void testRemindActions() {
 
         ______TS("remind action: AWAITING feedback session");
 
@@ -292,7 +292,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testPublishUnpublishActions() {
+    private void testPublishUnpublishActions() {
         ______TS("publish action: AWAITING feedback session");
 
         homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.getCourseId(),
@@ -325,7 +325,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
     }
 
-    public void testArchiveCourseAction() throws Exception {
+    private void testArchiveCourseAction() throws Exception {
         String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").getId();
 
         ______TS("archive course action: click and cancel");
@@ -376,7 +376,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
     }
 
-    public void testCopyToFsAction() throws Exception {
+    private void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
 
@@ -450,7 +450,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testDeleteCourseAction() throws Exception {
+    private void testDeleteCourseAction() throws Exception {
 
         ______TS("delete course action");
 
@@ -471,11 +471,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testSearchAction() {
+    private void testSearchAction() {
         // Tested in student list page
     }
 
-    public void testSortAction() throws Exception {
+    private void testSortAction() throws Exception {
         ______TS("sort courses by id");
         homePage.clickSortByIdButton();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLSortById.html");

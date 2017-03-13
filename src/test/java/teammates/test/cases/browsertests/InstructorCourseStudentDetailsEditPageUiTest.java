@@ -32,7 +32,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         testEditAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         String instructorId = testData.instructors.get("CCSDEditUiT.instr").googleId;
         String courseId = testData.courses.get("CCSDEditUiT.CS2104").getId();
@@ -60,7 +60,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.verifyHtml("/instructorCourseStudentEditPage.html");
     }
 
-    public void testInputValidation() throws Exception {
+    private void testInputValidation() throws Exception {
 
         ______TS("input validation");
 
@@ -102,7 +102,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                                   FieldValidator.EMAIL_MAX_LENGTH));
     }
 
-    public void testEditAction() {
+    private void testEditAction() {
 
         ______TS("Error case, invalid email parameter (email already taken by others)");
 

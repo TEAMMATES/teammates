@@ -71,10 +71,7 @@ public class InstructorFeedbacksPageAction extends Action {
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
             List<InstructorAttributes> instructorList) {
-
-        List<FeedbackSessionAttributes> sessions =
-                logic.getFeedbackSessionsListForInstructor(instructorList);
-        return sessions;
+        return logic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
     protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
@@ -93,7 +90,6 @@ public class InstructorFeedbacksPageAction extends Action {
 
     /**
      * Gets a Map with courseId as key, and InstructorAttributes as value.
-     * @return
      */
     protected HashMap<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();

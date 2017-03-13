@@ -55,7 +55,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("page load: Helper privileges (custom)");
 

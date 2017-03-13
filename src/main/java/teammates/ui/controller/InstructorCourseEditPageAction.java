@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorCourseEditPageData;
 
 /**
- * Action: showing the 'Edit' page for a course of an instructor
+ * Action: showing the 'Edit' page for a course of an instructor.
  */
 public class InstructorCourseEditPageAction extends Action {
 

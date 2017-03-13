@@ -14,7 +14,7 @@ import teammates.ui.pagedata.PageData;
 
 /**
  * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
- * and set up notification emails in the EmailsQueue
+ * and set up notification emails in the EmailsQueue.
  */
 public class InstructorStudentCommentClearPendingAction extends Action {
 

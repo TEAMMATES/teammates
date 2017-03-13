@@ -13,7 +13,7 @@ import teammates.storage.entity.Instructor;
  * Originally used to generate indexes to allow the 'isArchived' field to be filtered.
  * Can be used for generating indexes for other fields in the future.
  *
- * Uses low level DB calls for efficiency.
+ * <p>Uses low level DB calls for efficiency.
  */
 public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient {
 
