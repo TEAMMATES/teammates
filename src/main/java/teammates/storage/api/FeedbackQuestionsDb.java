@@ -102,9 +102,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForSession(
                 feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
-
-        return fqList;
+        return getListOfQuestionAttributes(questions);
     }
 
     /**
@@ -120,9 +118,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForGiverType(
                 feedbackSessionName, courseId, giverType);
-        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
-
-        return fqList;
+        return getListOfQuestionAttributes(questions);
     }
 
     /**
@@ -134,9 +130,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForCourse(courseId);
-        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
-
-        return fqList;
+        return getListOfQuestionAttributes(questions);
     }
 
     private List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {

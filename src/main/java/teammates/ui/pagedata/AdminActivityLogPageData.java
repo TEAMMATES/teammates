@@ -376,9 +376,7 @@ public class AdminActivityLogPageData extends PageData {
         }
 
         String[] splitedString = rawActionString.split("/");
-        String actionString = splitedString[splitedString.length - 1];
-
-        return actionString;
+        return splitedString[splitedString.length - 1];
     }
 
     public String getQueryKeywordsForInfo() {
