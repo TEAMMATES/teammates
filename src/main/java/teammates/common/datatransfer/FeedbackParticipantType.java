@@ -98,7 +98,7 @@ public enum FeedbackParticipantType {
      * Formats the participant type for display to user in the response visibility section.
      *
      * @return A user-friendly {@code String} representing this participant directed to users who are
-     * responding to a feedback.
+     *         responding to a feedback.
      */
     public String toVisibilityString() {
         return displayNameVisibility;
@@ -129,21 +129,21 @@ public enum FeedbackParticipantType {
     }
 
     /**
-     * Gets {@code displayNameGiver} property
+     * Gets {@code displayNameGiver} property.
      */
     public String getDisplayNameGiver() {
         return displayNameGiver;
     }
 
     /**
-     * Gets {@code displayNameRecipient} property
+     * Gets {@code displayNameRecipient} property.
      */
     public String getDisplayNameRecipient() {
         return displayNameRecipient;
     }
 
     /**
-     * @return A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
+     * Returns A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
      */
     public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
             String commaSeparatedValues) {

@@ -14,7 +14,9 @@ import teammates.common.util.JsonUtils;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
 
-/** Base class for all test cases */
+/**
+ * Base class for all test cases.
+ */
 public class BaseTestCase {
 
     /**
@@ -47,7 +49,7 @@ public class BaseTestCase {
     }
 
     /**
-     * Creates a DataBundle as specified in typicalDataBundle.json
+     * Creates a DataBundle as specified in typicalDataBundle.json.
      */
     protected static DataBundle getTypicalDataBundle() {
         return loadDataBundle("/typicalDataBundle.json");
@@ -79,7 +81,6 @@ public class BaseTestCase {
     /**
      * Invokes the method named {@code methodName} as defined in the {@code definingClass}.
      * @param definingClass     the class which defines the method
-     * @param methodName
      * @param parameterTypes    the parameter types of the method,
      *                          which must be passed in the same order defined in the method
      * @param invokingObject    the object which invokes the method, can be {@code null} if the method is static

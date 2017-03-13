@@ -9,7 +9,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: deleting an instructor for a course by another instructor
+ * Action: deleting an instructor for a course by another instructor.
  */
 public class InstructorCourseInstructorDeleteAction extends Action {
 
@@ -54,10 +54,11 @@ public class InstructorCourseInstructorDeleteAction extends Action {
     }
 
     /**
+     * Returns true if there is a joined instructor (other than the instructor to delete)
+     * with the privilege of modifying instructors.
+     *
      * @param courseId                Id of the course
      * @param instructorToDeleteEmail Email of the instructor who is being deleted
-     * @return {@code true} if there is a joined instructor (other than the instructor to delete)
-     *         with the privilege of modifying instructors
      */
     private boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
 

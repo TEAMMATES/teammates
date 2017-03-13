@@ -105,7 +105,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          */
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         /* Explanation: The page rendering is slightly different based on
          * whether the table is empty or not. We should test both cases.
@@ -135,7 +135,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testCourseStats() throws Exception {
+    private void testCourseStats() throws Exception {
         ______TS("Course Stats");
         coursesPage = getCoursesPage();
         coursesPage.triggerAjaxLoadCourseStats(1);
@@ -149,7 +149,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
     }
 
-    public void testLinks() {
+    private void testLinks() {
 
         /* Explanation: We test each of 'view' links and 'enroll' links.
          * 'Delete' is not a link, but an action.
@@ -183,7 +183,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testInputValidation() throws Exception {
+    private void testInputValidation() throws Exception {
 
         /* Explanation: If the validation is done through one JS function
          * (e.g., the entire form is validated in one go), we need to check only
@@ -221,7 +221,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testAddAction() throws Exception {
+    private void testAddAction() throws Exception {
 
         /* Explanation: We test at least one valid case and one invalid case.
          * If the action involves a confirmation dialog, we should test both
@@ -262,7 +262,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddMissingParamsFailed.html");
     }
 
-    public void testSortCourses() {
+    private void testSortCourses() {
 
         ______TS("sorting");
 
@@ -277,7 +277,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.sortByCourseId().verifyTablePattern(0, patternString);
     }
 
-    public void testDeleteAction() throws Exception {
+    private void testDeleteAction() throws Exception {
 
         /* Explanation: We test both 'confirm' and 'cancel' cases here.
          */
@@ -290,7 +290,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
                    .verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
     }
 
-    public void testArchiveAction() throws Exception {
+    private void testArchiveAction() throws Exception {
 
         InstructorAttributes instructor1CS1101 = testData.instructors.get("instructor1CS1101");
 

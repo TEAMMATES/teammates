@@ -35,7 +35,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         testDeleteInstructorAccountAction();
     }
 
-    public void testContent() {
+    private void testContent() {
 
         ______TS("content: typical page");
 
@@ -49,7 +49,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         assertEquals(expectedTableHeaders, accountsPage.getTableHeaders());
     }
 
-    public void testViewAccountDetailsLink() {
+    private void testViewAccountDetailsLink() {
 
         ______TS("link: view account details");
 
@@ -59,7 +59,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         detailsPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void testViewRecentActionsLink() {
+    private void testViewRecentActionsLink() {
 
         ______TS("link: view recent actions");
 
@@ -69,7 +69,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void testDeleteInstructorStatusAction() {
+    private void testDeleteInstructorStatusAction() {
 
         ______TS("action: delete instructor status");
 
@@ -79,7 +79,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         assertFalse(BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
     }
 
-    public void testDeleteInstructorAccountAction() {
+    private void testDeleteInstructorAccountAction() {
 
         ______TS("action: delete account");
 

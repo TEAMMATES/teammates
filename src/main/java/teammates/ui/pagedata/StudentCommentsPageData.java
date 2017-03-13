@@ -24,7 +24,7 @@ import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
 
 /**
- * PageData: the data used in the StudentCommentsPage
+ * PageData: the data used in the StudentCommentsPage.
  */
 public class StudentCommentsPageData extends PageData {
 

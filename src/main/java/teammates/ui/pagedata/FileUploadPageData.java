@@ -3,7 +3,7 @@ package teammates.ui.pagedata;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**
- * Page data for a page with uploaded file
+ * Page data for a page with uploaded file.
  */
 public class FileUploadPageData extends PageData {
     public boolean isFileUploaded;

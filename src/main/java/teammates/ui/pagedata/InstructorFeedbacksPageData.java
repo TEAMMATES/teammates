@@ -39,7 +39,7 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     /**
-     * Initializes the PageData
+     * Initializes the PageData.
      * @param courses                    courses that the user is an instructor of
      * @param courseIdForNewSession      the course id to automatically select in the dropdown
      * @param existingFeedbackSessions   list of existing feedback sessions
@@ -47,7 +47,6 @@ public class InstructorFeedbacksPageData extends PageData {
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
      * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
-     * @param courseIdToSectionNameMap   map of course id to names of sections in the course
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession,
                      List<FeedbackSessionAttributes> existingFeedbackSessions,

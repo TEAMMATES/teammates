@@ -95,7 +95,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return allCourses;
     }
 
-    public Set<String> filterLargeCoursesWithoutSections(Set<String> courses) {
+    private Set<String> filterLargeCoursesWithoutSections(Set<String> courses) {
         Set<String> largeCoursesWithoutSections = new HashSet<String>();
 
         CourseDetailsBundle courseDetails = null;
@@ -119,7 +119,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         return largeCoursesWithoutSections;
     }
 
-    public void addSectionsToCourse(String courseId) {
+    private void addSectionsToCourse(String courseId) {
         System.out.println("Course: [" + courseId + "] ");
 
         List<TeamDetailsBundle> teams;

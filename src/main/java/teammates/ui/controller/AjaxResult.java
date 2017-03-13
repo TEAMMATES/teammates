@@ -14,8 +14,9 @@ import teammates.ui.pagedata.PageData;
 
 public class AjaxResult extends ActionResult {
 
+    /** The data that will be sent back to the caller. */
     public PageData data;
-    public boolean isClearingStatusMessage = true;
+    private boolean isClearingStatusMessage = true;
 
     public AjaxResult(String destination,
                       AccountAttributes account,
