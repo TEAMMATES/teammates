@@ -422,9 +422,7 @@ public class FieldValidator {
         }
 
         // checks for unsanitized HTML characters
-        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                                                            feedbackSessionName);
-        return errorsFromNonHtmlValidation;
+        return getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName);
     }
 
     /**

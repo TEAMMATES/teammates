@@ -175,13 +175,13 @@ public final class DataGenerator {
      */
     private static String output() {
         System.out.println("Start writing to file !");
-        String output = "{\n" + allAccounts() + "\n\n"
-                      + allCourses() + "\n\n"
-                      + allInstructors() + "\n\n"
-                      + allStudents() + "\n\n}";
-
+        String allAccounts = allAccounts();
+        String allCourses = allCourses();
+        String allInstructors = allInstructors();
+        String allStudents = allStudents();
         System.out.println("Finish writing to file !");
-        return output;
+
+        return "{\n" + allAccounts + "\n\n" + allCourses + "\n\n" + allInstructors + "\n\n" + allStudents + "\n\n}";
     }
 
     private static String allAccounts() {
