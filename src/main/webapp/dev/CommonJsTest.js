@@ -1,12 +1,21 @@
 'use strict';
 
+/* global
+isWithinView:false, isNumber:false, isDate:false, setStatusMessage:false, clearStatusMessages:false
+roundToThreeDp:false, sanitizeForJs:false, isBlank:false, StatusType:false
+addLoadingIndicator:false, removeLoadingIndicator:false
+sortBase:false, sortNum:false, sortDate:false, getPointValue:false, sortByPoint:false
+sanitizeGoogleId:false, isValidGoogleId:false, isEmailValid:false, isNameValid:false
+generateRandomString:false, NAME_MAX_LENGTH:false
+*/
+
 QUnit.module('common.js');
 
 /**
  * Warning: This test must be the first because it tests on the visibility
  * of the elements. Testing later may push the elements out of view.
  */
-QUnit.test('isWithinView()', function(assert) {
+QUnit.test('isWithinView()', function (assert) {
     var testDiv = $('#visible');
 
     // Applies style to visible element and asserts whether it should be visible
@@ -26,7 +35,7 @@ QUnit.test('isWithinView()', function(assert) {
     assertWithStyle('top: 0%; right: 0%;', true);
 });
 
-QUnit.test('isNumber(num)', function(assert) {
+QUnit.test('isNumber(num)', function (assert) {
     assert.equal(isNumber('-0.001'), true, 'Negative double');
     assert.equal(isNumber('12.056'), true, 'Positive double');
     assert.equal(isNumber('100356'), true, 'Positive integer');
@@ -48,7 +57,7 @@ QUnit.test('isNumber(num)', function(assert) {
  * TEAMMATES currently follows the RFC2822 / IETF date syntax
  * e.g. 02 Apr 2012, 23:59
  */
-QUnit.test('isDate(date)', function(assert) {
+QUnit.test('isDate(date)', function (assert) {
     assert.equal(isDate('12432567'), false, 'Numbers');
     assert.equal(isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
     assert.equal(isDate('12/2/13'), true, '12/2/13 - valid format');
@@ -71,12 +80,12 @@ QUnit.test('isDate(date)', function(assert) {
     assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
 });
 
-QUnit.test('scrollToTop()', function(assert) {
+QUnit.test('scrollToTop()', function (assert) {
     // N/A, trivial function
     assert.expect(0);
 });
 
-QUnit.test('sortBase(x, y)', function(assert) {
+QUnit.test('sortBase(x, y)', function (assert) {
     assert.equal(sortBase('abc', 'abc'), 0, 'Same text');
     assert.equal(sortBase('ABC', 'abc'), -1, 'Bigger text');
     assert.equal(sortBase('abc', 'ABC'), 1, 'Smaller text');
@@ -85,7 +94,7 @@ QUnit.test('sortBase(x, y)', function(assert) {
     assert.equal(sortBase('abc', 'EFG'), 1, 'Smaller text');
 });
 
-QUnit.test('sortNum(x, y)', function(assert) {
+QUnit.test('sortNum(x, y)', function (assert) {
     assert.equal(sortNum('1', '2'), -1, 'x=1, y=2');
     assert.equal(sortNum('-10', '2'), -12, 'x=-10, y=2');
     assert.equal(sortNum('3', '-1'), 4, 'x=3, y=-1');
@@ -94,21 +103,17 @@ QUnit.test('sortNum(x, y)', function(assert) {
     assert.equal(sortNum('0.1', '-0.1'), 0.2, 'x=-0.1, y=-0.1');
 });
 
-QUnit.test('sortDate(x, y)', function(assert) {
+QUnit.test('sortDate(x, y)', function (assert) {
     assert.equal(sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
-        '25 April 1999 2:00PM - 25 April 1999 1:59PM');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0,
-        '25 April 1999 2:00PM - 25 April 1999 2:00PM');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
-        '25 April 1999 2:00PM - 25 April 1999 2:01PM');
+    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1, '25 April 1999 2:00PM - 25 April 1999 1:59PM');
+    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0, '25 April 1999 2:00PM - 25 April 1999 2:00PM');
+    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1, '25 April 1999 2:00PM - 25 April 1999 2:01PM');
 });
 
-QUnit.test('getPointValue(s, ditchZero)', function(assert) {
+QUnit.test('getPointValue(s, ditchZero)', function (assert) {
     // getPointValue() is used by the application itself, thus
     // the inputs are always valid.
-    assert.equal(getPointValue('N/S', false), 201,
-            'Case N/S (feedback contribution not sure)');
+    assert.equal(getPointValue('N/S', false), 201, 'Case N/S (feedback contribution not sure)');
 
     assert.equal(getPointValue('N/A', false), 202, 'Case N/A');
 
@@ -141,7 +146,7 @@ QUnit.test('getPointValue(s, ditchZero)', function(assert) {
     assert.ok(isCloseEnough(getPointValue('-3.833333', false), 96.166667), 'Float -3.833333');
 });
 
-QUnit.test('sortByPoint(a, b)', function(assert) {
+QUnit.test('sortByPoint(a, b)', function (assert) {
     assert.ok(sortByPoint('N/S', 'N/A') < 0, 'Case N/S less than N/A');
     assert.ok(sortByPoint('N/S', 'E') > 0, 'N/S more than E');
     assert.ok(sortByPoint('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
@@ -168,7 +173,7 @@ QUnit.test('sortByPoint(a, b)', function(assert) {
     assert.ok(sortByPoint('NotNumber', 'Random') === 0, 'Equality for NaN');
 });
 
-QUnit.test('setStatusMessage(message,status)', function(assert) {
+QUnit.test('setStatusMessage(message,status)', function (assert) {
     $('body').append('<div id="statusMessagesToUser"></div>');
     var message = 'Status Message';
 
@@ -177,32 +182,27 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
 
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
-        'Default message status without specifying status of message (info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage', 'Default message status without specifying status of message (info)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
-        'Info message status by specifying status of message (StatusType.INFO)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage', 'Info message status by specifying status of message (StatusType.INFO)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage',
-        'Success message status by specifying status of message (StatusType.SUCCESS)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage', 'Success message status by specifying status of message (StatusType.SUCCESS)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage',
-        'Warning message status by specifying status of message (StatusType.WARNING)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage', 'Warning message status by specifying status of message (StatusType.WARNING)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage',
-        'Danger message status by specifying status of message (StatusType.DANGER)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage', 'Danger message status by specifying status of message (StatusType.DANGER)');
     clearStatusMessages();
 
     setStatusMessage('');
@@ -212,29 +212,26 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
 
     setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined,
-              'Empty message with status (any status will be the same)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined, 'Empty message with status (any status will be the same)');
     clearStatusMessages();
 
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
-              'Message with random status (defaulted to info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage', 'Message with random status (defaulted to info)');
 });
 
-QUnit.test('clearStatusMessages()', function(assert) {
+QUnit.test('clearStatusMessages()', function (assert) {
     clearStatusMessages();
     assert.equal($('#statusMessagesToUser').html(), '', 'Status message cleared');
-    assert.ok($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
-        '#statusMessagesToUser').css('background-color') === 'transparent', 'No background');
+    assert.ok($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $('#statusMessagesToUser').css('background-color') === 'transparent', 'No background');
 });
 
-QUnit.test('checkEvaluationForm()', function(assert) {
+QUnit.test('checkEvaluationForm()', function (assert) {
     // N/A, requires elements in the page
     assert.expect(0);
 });
 
-QUnit.test('addLoadingIndicator()', function(assert) {
+QUnit.test('addLoadingIndicator()', function (assert) {
     var $fixture = $('#qunit-fixture');
     $fixture.append('<button>Submit</button>');
 
@@ -247,7 +244,7 @@ QUnit.test('addLoadingIndicator()', function(assert) {
     assert.ok($button.is(':disabled'), 'Button disabled');
 });
 
-QUnit.test('removeLoadingIndicator()', function(assert) {
+QUnit.test('removeLoadingIndicator()', function (assert) {
     var $fixture = $('#qunit-fixture');
     $fixture.append('<button>Submit</button>');
 
@@ -260,13 +257,12 @@ QUnit.test('removeLoadingIndicator()', function(assert) {
     assert.notOk($button.is(':disabled'), 'Button enabled');
 });
 
-QUnit.test('sanitizeGoogleId(googleId)', function(assert) {
+QUnit.test('sanitizeGoogleId(googleId)', function (assert) {
     assert.equal(sanitizeGoogleId('test  @Gmail.COM  '), 'test', 'test - valid');
-    assert.equal(sanitizeGoogleId('  user@hotmail.com  '), 'user@hotmail.com',
-        'user@hotmail.com - valid');
+    assert.equal(sanitizeGoogleId('  user@hotmail.com  '), 'user@hotmail.com', 'user@hotmail.com - valid');
 });
 
-QUnit.test('isValidGoogleId(googleId)', function(assert) {
+QUnit.test('isValidGoogleId(googleId)', function (assert) {
     assert.equal(isValidGoogleId('  test  \t\n'), true, 'test - valid');
     assert.equal(isValidGoogleId('  charile.brown  \t\n'), true, 'charile.brown - valid');
     assert.equal(isValidGoogleId('  big-small_mini  \t\n'), true, 'big-small_mini - valid');
@@ -277,7 +273,7 @@ QUnit.test('isValidGoogleId(googleId)', function(assert) {
     assert.equal(isValidGoogleId('is/not\\correct'), false, 'is/not\\correct - invalid');
 });
 
-QUnit.test('isEmailValid(email)', function(assert) {
+QUnit.test('isEmailValid(email)', function (assert) {
     assert.equal(isEmailValid('test@gmail.com'), true, 'test@gmail.com - valid');
     assert.equal(isEmailValid('email'), false, 'email - invalid');
     assert.equal(isEmailValid('email@email'), false, 'email@email - invalid');
@@ -285,15 +281,12 @@ QUnit.test('isEmailValid(email)', function(assert) {
     assert.equal(isEmailValid('email.com'), false, 'email.com - invalid');
 });
 
-QUnit.test('isNameValid(name)', function(assert) {
-    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-/ \\  '), true,
-        'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
-    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
-        'Maximum characters - valid');
+QUnit.test('isNameValid(name)', function (assert) {
+    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-/ \\  '), true, 'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
+    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true, 'Maximum characters - valid');
 
     assert.equal(isNameValid(''), false, 'Empty name - invalid');
-    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false,
-        'Exceed number of maximum characters - invalid');
+    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false, 'Exceed number of maximum characters - invalid');
     assert.equal(isNameValid('Tom! Jacobs'), false, '! character - invalid');
     assert.equal(isNameValid('Tom ^Jacobs'), false, '^ character - invalid');
     assert.equal(isNameValid('Tom#'), false, '# character - invalid');
@@ -305,11 +298,9 @@ QUnit.test('isNameValid(name)', function(assert) {
     assert.equal(isNameValid('1@2@3  456'), false, '@ character - invalid');
     assert.equal(isNameValid('Tom = Tom'), false, '= character - invalid');
     assert.equal(isNameValid('Tom||Jacobs'), false, '| character - invalid');
-
 });
 
-QUnit.test('roundToThreeDp(num)', function(assert) {
-
+QUnit.test('roundToThreeDp(num)', function (assert) {
     assert.equal(roundToThreeDp(0), 0, 'Zero test');
     assert.equal(roundToThreeDp(1), 1, 'Positive integer test');
     assert.equal(roundToThreeDp(-1), -1, 'Negative integer test');
@@ -319,19 +310,15 @@ QUnit.test('roundToThreeDp(num)', function(assert) {
     assert.equal(roundToThreeDp(1.0011), 1.001, 'Four dp negative number rounding down test');
     assert.equal(roundToThreeDp(-1.0015), -1.002, 'Four dp positive number rounding "up" test');
     assert.equal(roundToThreeDp(-1.0011), -1.001, 'Four dp negative number rounding "down" test');
-
 });
 
-QUnit.test('sanitizeForJs(string)', function(assert) {
+QUnit.test('sanitizeForJs(string)', function (assert) {
     assert.equal(sanitizeForJs(''), '', 'sanitization for empty string');
     assert.equal(sanitizeForJs('Will o\' Wisp'), 'Will o\\\' Wisp', 'sanitization for single quote');
-    assert.equal(sanitizeForJs('Will o\'\'\'\'\'\\\\ Wisp'),
-        'Will o\\\'\\\'\\\'\\\'\\\'\\\\\\\\ Wisp',
-        'sanitization for single quote and slash \\');
-
+    assert.equal(sanitizeForJs('Will o\'\'\'\'\'\\\\ Wisp'), 'Will o\\\'\\\'\\\'\\\'\\\'\\\\\\\\ Wisp', 'sanitization for single quote and slash \\');
 });
 
-QUnit.test('isBlank(string)', function(assert) {
+QUnit.test('isBlank(string)', function (assert) {
     assert.equal(isBlank(''), true, 'Test - empty string');
     assert.equal(isBlank(' '), true, 'Test - single space');
     assert.equal(isBlank('            '), true, 'Test - multiple spaces');

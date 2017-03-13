@@ -1,10 +1,12 @@
 'use strict';
 
+/* global bootbox:true */
+
 function generateRandomString(len) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     var data = '';
 
-    for (var i = 0; i < len; i++) {
+    for (var i = 0; i < len; i += 1) {
         var rnum = Math.floor(Math.random() * chars.length);
         data += chars.substring(rnum, rnum + 1);
     }
@@ -45,15 +47,12 @@ function clearBootboxModalStub() {
     $('#test-bootbox-modal-stub').html('');
 }
 
-bootbox.dialog = function(params) {
-    $('#test-bootbox-modal-stub').html(
-        '<div id="test-bootbox-modal-stub-title">' + params.title + '</div>'
-        + '<div id="test-bootbox-modal-stub-message">' + params.message + '</div>'
-    );
+bootbox.dialog = function (params) {
+    $('#test-bootbox-modal-stub').html('<div id="test-bootbox-modal-stub-title">' + params.title + '</div>' + ('<div id="test-bootbox-modal-stub-message">' + params.message + '</div>'));
     return {
-        find: function() {
+        find: function find() {
             return {
-                addClass: function() {
+                addClass: function addClass() {
                     // stub the subsequent method calls
                 }
             };
@@ -61,10 +60,14 @@ bootbox.dialog = function(params) {
     };
 };
 
-$.fn.ready = function() {
+$.fn.ready = function () {
     // do not call the document ready functions as they are page-specific
 };
 
-$.ajax = function() {
+$.ajax = function () {
     // do not actually make the AJAX request
 };
+
+/* exported
+generateRandomString, ensureCorrectModal, clearBootboxButtonClickEvent, clearBootboxModalStub
+*/
