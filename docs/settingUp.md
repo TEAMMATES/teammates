@@ -128,7 +128,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Click `Import project` and select the local repository folder.
    * Click `Import project from external model → Gradle`.
    * Click `Next`.
-   * Check `Use auto-import`.
+   * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
    * Click `Finish`.
 1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
 
