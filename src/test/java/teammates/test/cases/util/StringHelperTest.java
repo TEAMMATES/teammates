@@ -322,4 +322,22 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("Coevaluacin Prctica (Part 1)",
                      StringHelper.removeNonAscii("Coevaluación Práctica (Part 1)"));
     }
+
+    @Test
+    public void testJoin() {
+        assertEquals("", StringHelper.join("", new String[] {}));
+        assertEquals("", StringHelper.join(",", new String[] {}));
+        assertEquals("", StringHelper.join("||", new String[] {}));
+
+        assertEquals("test", StringHelper.join("", new String[] {"test"}));
+        assertEquals("test", StringHelper.join(",", new String[] {"test"}));
+        assertEquals("test", StringHelper.join("||", new String[] {"test"}));
+        assertEquals("testdata", StringHelper.join("", new String[] {"test", "data"}));
+
+        assertEquals("test,data", StringHelper.join(",", new String[] {"test", "data"}));
+        assertEquals("test||data", StringHelper.join("||", new String[] {"test", "data"}));
+        assertEquals("test|||data|||testdata",
+                StringHelper.join("|||", new String[] {"test", "data", "testdata"}));
+    }
+
 }
