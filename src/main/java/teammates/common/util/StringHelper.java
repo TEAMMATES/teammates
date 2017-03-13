@@ -152,8 +152,7 @@ public final class StringHelper {
             return new String(decrypted);
         } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
-            // potential PMD bug? No stack trace info is lost here
-            throw new InvalidParametersException(e.getMessage()); //NOPMD
+            throw new InvalidParametersException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -50,8 +50,7 @@ public class StudentProfilePictureAction extends Action {
             courseId = getCourseIdFromRequest();
         } catch (InvalidParametersException e) {
             log.warning("Attempting to decrypt malformed ciphertext when retrieving email or course id from request.");
-            // potential PMD bug? No stack trace info is lost here
-            throw new EntityDoesNotExistException(e.getMessage()); //NOPMD
+            throw new EntityDoesNotExistException(e);
         }
 
         log.info("email: " + email + ", course: " + courseId);
