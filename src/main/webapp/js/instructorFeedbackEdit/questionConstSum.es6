@@ -21,21 +21,22 @@ function addConstSumOption(questionNum) {
 
     const curNumberOfChoiceCreated = parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
-    $(`<div class="margin-bottom-7px" id="constSumOptionRow-${curNumberOfChoiceCreated}-${questionNum}">`
-          + '<div class="input-group width-100-pc">'
-              + `<input type="text" name="${FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}" `
-                      + `id="${FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}-${questionNum}" `
-                      + 'class="form-control constSumOptionTextBox">'
-              + '<span class="input-group-btn">'
-                  + '<button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" '
-                          + `onclick="removeConstSumOption(${curNumberOfChoiceCreated},${questionNum})" `
-                          + 'tabindex="-1">'
-                      + '<span class="glyphicon glyphicon-remove"></span>'
-                  + '</button>'
-              + '</span>'
-          + '</div>'
-        + '</div>',
-    ).insertBefore($(`#constSumAddOptionRow-${questionNum}`));
+    $(`
+    <div class="margin-bottom-7px" id="constSumOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+        <div class="input-group width-100-pc">
+            <input type="text" name="${FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}"
+                    id="${FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
+                    class="form-control constSumOptionTextBox">
+            <span class="input-group-btn">
+                <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink"
+                        onclick="removeConstSumOption(${curNumberOfChoiceCreated}, ${questionNum})"
+                        tabindex="-1">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    `).insertBefore($(`#constSumAddOptionRow-${questionNum}`));
 
     $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 

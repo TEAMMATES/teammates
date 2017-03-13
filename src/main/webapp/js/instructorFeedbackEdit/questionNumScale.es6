@@ -42,12 +42,11 @@ function updateNumScalePossibleValues(questionNum) {
 
     // step is 3 d.p. at most, so round it after * 1000.
     if (possibleValuesCount > 6) {
-        possibleValuesString += `${min.toString()}, ${
-                               (Math.round((min + step) * 1000) / 1000).toString()}, ${
-                               (Math.round((min + 2 * step) * 1000) / 1000).toString()}, ..., ${
-                               (Math.round((max - 2 * step) * 1000) / 1000).toString()}, ${
-                               (Math.round((max - step) * 1000) / 1000).toString()}, ${
-                               max.toString()}`;
+        possibleValuesString +=
+            `${min.toString()}, ${(Math.round((min + step) * 1000) / 1000).toString()},
+            ${(Math.round((min + 2 * step) * 1000) / 1000).toString()}, ...,
+            ${(Math.round((max - 2 * step) * 1000) / 1000).toString()},
+            ${(Math.round((max - step) * 1000) / 1000).toString()}, ${max.toString()}`;
     } else {
         possibleValuesString += min.toString();
         let cur = min + step;

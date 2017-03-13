@@ -14,20 +14,21 @@ function addRankOption(questionNum) {
 
     const curNumberOfChoiceCreated = parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
-    $(`<div id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}">`
-          + '<div class="input-group">'
-              + `<input type="text" name="${FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}" `
-                      + `id="${FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}-${questionNum}" `
-                      + 'class="form-control rankOptionTextBox">'
-              + '<span class="input-group-btn">'
-                  + '<button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" '
-                          + `onclick="removeRankOption(${curNumberOfChoiceCreated},${questionNum})" tabindex="-1">`
-                      + '<span class="glyphicon glyphicon-remove"></span>'
-                  + '</button>'
-              + '</span>'
-          + '</div>'
-        + '</div>',
-    ).insertBefore($(`#rankAddOptionRow-${questionNum}`));
+    $(`
+    <div id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+        <div class="input-group">
+            <input type="text" name="${FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}"
+                    id="${FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
+                    class="form-control rankOptionTextBox">
+            <span class="input-group-btn">
+                <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink"
+                        onclick="removeRankOption(${curNumberOfChoiceCreated}, ${questionNum})" tabindex="-1">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    `).insertBefore($(`#rankAddOptionRow-${questionNum}`));
 
     $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 

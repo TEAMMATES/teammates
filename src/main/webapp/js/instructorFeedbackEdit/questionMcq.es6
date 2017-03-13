@@ -8,23 +8,24 @@ function addMcqOption(questionNum) {
     const curNumberOfChoiceCreated =
             parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
-    $(`<div id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">`
-          + '<div class="input-group">'
-              + '<span class="input-group-addon">'
-                 + '<input type="radio" disabled>'
-              + '</span>'
-              + `<input type="text" name="${FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}" `
-                      + `id="${FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}" `
-                      + 'class="form-control mcqOptionTextBox">'
-              + '<span class="input-group-btn">'
-                  + '<button type="button" class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" '
-                          + `onclick="removeMcqOption(${curNumberOfChoiceCreated},${questionNum})" tabindex="-1">`
-                      + '<span class="glyphicon glyphicon-remove"></span>'
-                  + '</button>'
-              + '</span>'
-          + '</div>'
-        + '</div>',
-    ).insertBefore($(`#mcqAddOptionRow-${questionNum}`));
+    $(`
+    <div id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <input type="radio" disabled>
+            </span>
+            <input type="text" name="${FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}"
+                    id="${FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
+                    class="form-control mcqOptionTextBox">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink"
+                        onclick="removeMcqOption(${curNumberOfChoiceCreated}, ${questionNum})" tabindex="-1">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    `).insertBefore($(`#mcqAddOptionRow-${questionNum}`));
 
     $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 

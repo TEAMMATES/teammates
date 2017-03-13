@@ -8,23 +8,24 @@ function addMsqOption(questionNum) {
     const curNumberOfChoiceCreated =
             parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
-    $(`<div id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">`
-          + '<div class="input-group">'
-              + '<span class="input-group-addon">'
-                 + '<input type="checkbox" disabled>'
-              + '</span>'
-              + `<input type="text" name="${FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}" `
-                      + `id="${FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}" `
-                      + 'class="form-control msqOptionTextBox">'
-              + '<span class="input-group-btn">'
-                  + '<button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" '
-                          + `onclick="removeMsqOption(${curNumberOfChoiceCreated},${questionNum})" tabindex="-1">`
-                      + '<span class="glyphicon glyphicon-remove"></span>'
-                  + '</button>'
-              + '</span>'
-          + '</div>'
-        + '</div>',
-    ).insertBefore($(`#msqAddOptionRow-${questionNum}`));
+    $(`
+    <div id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <input type="checkbox" disabled>
+            </span>
+            <input type="text" name="${FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}"
+                    id="${FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
+                    class="form-control msqOptionTextBox">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink"
+                        onclick="removeMsqOption(${curNumberOfChoiceCreated}, ${questionNum})" tabindex="-1">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    `).insertBefore($(`#msqAddOptionRow-${questionNum}`));
 
     $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 

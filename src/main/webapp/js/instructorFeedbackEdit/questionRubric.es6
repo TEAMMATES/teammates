@@ -17,35 +17,33 @@ function addRubricRow(questionNum) {
             continue;
         }
         const rubricRowFragment =
-            `<td class="align-center rubricCol-${questionNum}-${cols}">`
-            + '<textarea class="form-control" rows="3" '
-                    + `id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}" `
-                    + `name="rubricDesc-${newRowNumber - 1}-${cols}">`
-            + '</textarea>'
-          + '</td>';
+            `<td class="align-center rubricCol-${questionNum}-${cols}">
+                <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}"
+                        name="rubricDesc-${newRowNumber - 1}-${cols}">
+                </textarea>
+            </td>`;
         rubricRowBodyFragments += rubricRowFragment;
     }
 
     // Create new rubric row
     const newRubricRow =
-        `<tr id="rubricRow-${questionNum}-${newRowNumber - 1}">`
-          + '<td>'
-              + '<div class="col-sm-12 input-group">'
-                  + `<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${questionNum}" `
-                          + `id="rubricRemoveSubQuestionLink-${questionNum}-${newRowNumber - 1}" `
-                          + `onclick="removeRubricRow(${newRowNumber - 1}, ${questionNum})" `
-                          + `onmouseover="highlightRubricRow(${newRowNumber - 1}, ${questionNum}, true)" `
-                          + `onmouseout="highlightRubricRow(${newRowNumber - 1}, ${questionNum}, false)">`
-                      + '<span class="glyphicon glyphicon-remove"></span>'
-                  + '</span>'
-                  + '<textarea class="form-control" rows="3" '
-                          + `id="rubricSubQn-${questionNum}-${newRowNumber - 1}" `
-                          + `name="rubricSubQn-${newRowNumber - 1}">`
-                  + '</textarea>'
-              + '</div>'
-          + '</td>'
-          + `${rubricRowBodyFragments}`
-      + '</tr>';
+        `<tr id="rubricRow-${questionNum}-${newRowNumber - 1}">
+            <td>
+                <div class="col-sm-12 input-group">
+                    <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${questionNum}"
+                            id="rubricRemoveSubQuestionLink-${questionNum}-${newRowNumber - 1}"
+                            onclick="removeRubricRow(${newRowNumber - 1}, ${questionNum})"
+                            onmouseover="highlightRubricRow(${newRowNumber - 1}, ${questionNum}, true)"
+                            onmouseout="highlightRubricRow(${newRowNumber - 1}, ${questionNum}, false)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </span>
+                    <textarea class="form-control" rows="3" id="rubricSubQn-${questionNum}-${newRowNumber - 1}"
+                            name="rubricSubQn-${newRowNumber - 1}">
+                    </textarea>
+                </div>
+            </td>
+            ${rubricRowBodyFragments}
+        </tr>`;
 
     // Row to insert new row after
     const lastRow = $(`#rubricEditTable-${questionNum} tr:last`);
@@ -69,20 +67,20 @@ function addRubricCol(questionNum) {
 
     // Insert header <th>
     const rubricHeaderFragment =
-       `<th class="rubricCol-${questionNum}-${newColNumber - 1}">`
-          + '<div class="input-group">'
-              + '<input type="text" class="col-sm-12 form-control" value="" '
-                      + `id="rubricChoice-${questionNum}-${newColNumber - 1}" `
-                      + `name="rubricChoice-${newColNumber - 1}">`
-              + `<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}" `
-                      + `id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}" `
-                      + `onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})" `
-                      + `onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)" `
-                      + `onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">`
-                  + '<span class="glyphicon glyphicon-remove"></span>'
-              + '</span>'
-          + '</div>'
-      + '</th>';
+        `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
+            <div class="input-group">
+                <input type="text" class="col-sm-12 form-control" value=""
+                        id="rubricChoice-${questionNum}-${newColNumber - 1}"
+                        name="rubricChoice-${newColNumber - 1}">
+                <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}"
+                        id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
+                        onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
+                        onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)"
+                        onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </div>
+        </th>`;
 
     // Insert after last <th>
     const lastTh = $(`#rubricEditTable-${questionNum}`).find('tr:first').children().last();
@@ -90,11 +88,11 @@ function addRubricCol(questionNum) {
 
     // Insert weight <th>
     const rubricWeightFragment =
-        `<th class="rubricCol-${questionNum}-${newColNumber - 1}">`
-           + '<input type="number" class="form-control nonDestructive" value="0" '
-                   + `id="rubricWeight-${questionNum}-${newColNumber - 1}" `
-                   + `name="rubricWeight-${newColNumber - 1}" step="0.01">`
-      + '</th>';
+        `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
+            <input type="number" class="form-control nonDestructive" value="0"
+                    id="rubricWeight-${questionNum}-${newColNumber - 1}"
+                    name="rubricWeight-${newColNumber - 1}" step="0.01">
+        </th>`;
 
     // Insert after last <th>
     const lastWeightCell = $(`#rubricWeights-${questionNum} th:last`);
@@ -109,12 +107,11 @@ function addRubricCol(questionNum) {
         }
         // Insert body <td>'s
         const rubricRowFragment =
-            `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">`
-            + '<textarea class="form-control" rows="3" '
-                    + `id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}" `
-                    + `name="rubricDesc-${rows}-${newColNumber - 1}">`
-            + '</textarea>'
-          + '</td>';
+            `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">
+                <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}"
+                        name="rubricDesc-${rows}-${newColNumber - 1}">
+                </textarea>
+            </td>`;
 
         // Insert after previous <td>
         const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
