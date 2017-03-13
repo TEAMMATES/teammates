@@ -125,7 +125,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testEncryptingInvalidPlaintextThrowsException() {
+    public void testDecryptingInvalidCiphertextThrowsException() {
         String invalidHexString = "GHI";
         // each hex digit is 4 bits
         String ciphertextLength120 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCC";
