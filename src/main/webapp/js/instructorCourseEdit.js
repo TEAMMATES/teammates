@@ -1,8 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 /* global scrollToElement:false BootboxWrapper:false StatusType:false */
 /* global COURSE_NAME:false COURSE_TIME_ZONE:false TimeZone:false courseTimeZone:false */
 
@@ -470,8 +467,10 @@ $(document).ready(function () {
     }
 });
 
-exports.default = {
-    enableEditInstructor: enableEditInstructor,
-    showNewInstructorForm: showNewInstructorForm,
-    showInstructorRoleModal: showInstructorRoleModal
+/*
+export default {
+    enableEditInstructor,
+    showNewInstructorForm,
+    showInstructorRoleModal,
 };
+*/

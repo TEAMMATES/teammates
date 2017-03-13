@@ -81,6 +81,8 @@ $(document).ready(() => {
     attachEventToDeleteStudentLink();
 });
 
+/*
 export default {
     submitFormAjax,
 };
+*/

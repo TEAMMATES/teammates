@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-
 function linkAjaxForCourseStats() {
     var courseStatsClickHandler = function courseStatsClickHandler(e) {
         var row = $(this).closest('tr');
@@ -36,6 +31,8 @@ function linkAjaxForCourseStats() {
     $('td[id^="course-stats"] > a').click(courseStatsClickHandler);
 }
 
-exports.default = {
-    linkAjaxForCourseStats: linkAjaxForCourseStats
+/*
+export default {
+    linkAjaxForCourseStats,
 };
+*/

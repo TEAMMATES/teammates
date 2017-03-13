@@ -1,8 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 /* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
 /* global BootboxWrapper:false StatusType:false */
 
@@ -81,6 +78,8 @@ $(document).ready(function () {
     attachEventToDeleteStudentLink();
 });
 
-exports.default = {
-    submitFormAjax: submitFormAjax
+/*
+export default {
+    submitFormAjax,
 };
+*/
