@@ -119,6 +119,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Download and install [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/).
    * You will need an Ultimate Edition license in order to work with Google App Engine in IntelliJ IDEA.
    * You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
+1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
 1. Configure IntelliJ as follows:
    * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `File → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
