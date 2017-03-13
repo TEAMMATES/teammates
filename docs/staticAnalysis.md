@@ -123,6 +123,9 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 # Alternatively, if you want to install the ESLint module globally, use the install command manually
 # Remember to use the correct tool version
 npm install -g eslint@{version}
+
+# Install eslint-plugin-json for eslint
+npm install -g eslint-plugin-json
 ```
 
 #### Installing ESLint from within IntelliJ
