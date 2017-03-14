@@ -7,7 +7,6 @@
            displayAsEmptyPanel:false,
            showHideStats:false
 */
-/* eslint-disable no-use-before-define */
 
 $(document).ready(() => {
     const seeMoreRequest = function (e) {

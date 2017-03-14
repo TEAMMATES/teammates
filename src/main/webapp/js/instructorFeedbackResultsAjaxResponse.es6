@@ -1,7 +1,6 @@
 /* global displayAjaxRetryMessageForPanelHeading:false,
           toggleSingleCollapse:false
 */
-/* eslint-disable no-use-before-define */
 
 $(document).ready(() => {
     const responseRateRequest = function (e) {

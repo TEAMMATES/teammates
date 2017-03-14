@@ -7,7 +7,6 @@
           hideSingleCollapse:false,
           toggleSingleCollapse:false
 */
-/* eslint-disable no-use-before-define */
 /* exported     submitFormAjax,
                 updateStatsCheckBox,
                 getNextId,
@@ -42,9 +41,8 @@ $(document).ready(() => {
     // prevent submitting form when enter is pressed.
     $('#results-search-box').keypress((e) => {
         if (e.which === 13) {
-            return false;
+            e.preventDefault();
         }
-        return true;
     });
 
     if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
@@ -260,7 +258,6 @@ function bindCollapseEvents(panels, nPanels) {
         const bodyCollapse = $(panels[i]).children('.panel-collapse');
         if (heading.length !== 0 && bodyCollapse.length !== 0) {
             numPanels += 1;
-            // $(heading[0]).attr('data-toggle', 'collapse');
             // Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             if ($(heading[0]).attr('class') === 'panel-heading') {
                 $(heading[0]).click(toggleSingleCollapse);
