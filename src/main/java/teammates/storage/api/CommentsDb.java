@@ -9,11 +9,11 @@ import java.util.Set;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -46,8 +46,8 @@ public class CommentsDb extends EntitiesDb {
             try {
                 updateComment(comment);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -387,10 +387,6 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
         List<Comment> giverComments = this.getCommentEntitiesForGiver(courseId, email);
-        // for now, this list is empty
-//        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
-//                CommentRecipientType.INSTRUCTOR, email);
-//        getPM().deletePersistentAll(recipientComments);
 
         getPm().deletePersistentAll(giverComments);
 
