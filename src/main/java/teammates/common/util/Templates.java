@@ -56,8 +56,6 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionResendAllLinks.html");
         public static final String USER_FEEDBACK_SESSION_RESEND_ALL_LINKS =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionResendAllLinks.html");
-        public static final String SYSTEM_ERROR =
-                FileHelper.readResourceFile("systemErrorEmailTemplate.html");
         public static final String SEVERE_ERROR_LOG_LINE =
                 FileHelper.readResourceFile("severeErrorLogLine.html");
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
