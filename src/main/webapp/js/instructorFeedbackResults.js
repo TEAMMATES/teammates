@@ -242,7 +242,6 @@ function toggleCollapse(e, pans) {
         if (!hasAjaxAutoLoading) {
             for (var idx = 0; idx < panels.length; idx++) {
                 if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                    // Expand all panels that has in class(in class in hidden)
                     // TODO: change the checking to use hasClass
                     setTimeout(showSingleCollapse, 50 * i, panels[idx]);
                     i++;
