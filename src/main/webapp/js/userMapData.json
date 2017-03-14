@@ -1,6 +1,9 @@
 {
   "lastUpdated": "31 January 2017",
   "institutes": {
+  	 "Abu Dhabi": [ 	
+  	   "Khalifa University"
+  	  ],
      "Argentina": [
        "Southworks"
       ],
@@ -29,11 +32,13 @@
       "Lavalla Catholic College",
       "Management Alternatives",
       "Mandurah Catholic College",
+      "Methodist Ladies College",
       "Monash University",
       "Morling College",
       "Murdoch University",
       "Narangba Valley SHS",
       "Photography Studies College",
+      "Queensland University of Technology", 
       "RMIT University",
       "St Catherine's Catholic College",
       "St Ives High School",
@@ -77,6 +82,7 @@
       "Erasmus Student Network",
       "Heilig-Hart Heverlee",
       "IMI - Roosdaal",
+      "KdG University College",
       "KU Leuven",
       "Sint Pieters College",
       "Sint-Lievens College",
@@ -85,7 +91,9 @@
       "Solvay Brussels School of Economics & Management",
       "Universiteit Gent",
       "University College Leuven-Limburg",
+      "Universiteit Antwerpen",
       "University of Antwerp",
+      "University of Namur",
       "Viatienen SWeTe",
       "Virgo Sapiens",
       "Vives Kortrijk",
@@ -95,7 +103,8 @@
       "Bahrain Polytechnic"
     ],
     "Botswana": [
-      "Alpha"
+      "Alpha",
+      "University of Botswana"
     ],
     "Brazil": [
       "AEDB",
@@ -127,15 +136,18 @@
     ],
     "Canada": [
       "Algonquin College",
+      "Appleby College",
       "Aussie Pet Mobile Groomer Training",
       "British Columbia Institute of Technology",
       "Brock University",
       "Capilano University",
+      "Collège Ahuntsic",
       "Collège Regina Assumpta",
       "Concordia University",
       "Conestoga College",
       "Cooksville Creek P.S.",
       "Dalhousie University",
+      "Durham College",
       "Ecole Cardinal Leger School",
       "Ecole de technologie superieure",
       "Ecole Polytechnique de Montreal",
@@ -211,6 +223,7 @@
       "Tianfu University Chengdu China"
     ],
     "Colombia": [
+      "Gimnasio Moderno",
       "Universidad EAFIT",
       "Universidad de Cundinamarca",
       "Universidad de Los Andes",
@@ -232,13 +245,15 @@
       "University College Sjaelland"
     ],
     "Ecuador": [
-      "Escuela Superior Politecnica Del Litoral"
+      "Escuela Superior Politecnica Del Litoral",
+      "ESPOL"
     ],
     "Egypt": [
       "Al-Hoda International School",
       "El-Alyaa Private School",
       "ISLC",
       "Modern Education Schools",
+      "South Valley University",
       "Summits International School",
       "The International School of Elite Education"
     ],
@@ -251,6 +266,8 @@
     "Finland": [
       "Nurmon yläaste",
       "Oulu School of Vocational Teacher Education",
+      "University of Turku",
+      "VAMK",
       "Vammalan lukio"
     ],
     "France": [
@@ -748,6 +765,7 @@
       "Middlesex University",
       "Mill Chase Academy",
       "Newcastle University",
+      "Oxford Brookes",
       "Quarrydale Academy",
       "Queen Margaret University",
       "Robert Gordon University",
