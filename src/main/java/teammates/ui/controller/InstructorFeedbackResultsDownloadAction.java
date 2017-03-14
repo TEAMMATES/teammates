@@ -52,23 +52,18 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                         courseId, feedbackSessionName, instructor.email, section,
-                        filterText, isMissingResponsesShown, isStatsShown, questionId);
+                        questionId, filterText, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " within " + section + " was downloaded";
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
-            String smallerDownloadOptionSuggestionMessage = "";
-            if (questionNumber == null) {
-                smallerDownloadOptionSuggestionMessage = "question by clicking the question number";
-            } else {
-                smallerDownloadOptionSuggestionMessage = "section";
-            }
-
             statusToUser.add(new StatusMessage("There are too many responses. "
-                        + "Please download the feedback results by " + smallerDownloadOptionSuggestionMessage,
-                                               StatusMessageColor.DANGER));
+                        + "Please download the feedback results by "
+                        + questionNumber == null ? "question by clicking the question number."
+                                                 : "section.",
+                                                 StatusMessageColor.DANGER));
             isError = true;
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);

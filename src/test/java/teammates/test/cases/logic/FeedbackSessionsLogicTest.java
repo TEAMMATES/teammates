@@ -1121,13 +1121,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
 
-        ______TS("typical case");
+        ______TS("typical case: get all results");
 
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 
         String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1207,13 +1207,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
 
-        ______TS("Download individual question");
+        ______TS("typical case: get results for single question");
         final int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
         final String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum).getId();
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, questionId);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, questionId, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1242,7 +1242,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1306,7 +1306,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1374,7 +1374,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1422,7 +1422,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1489,7 +1489,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor2OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1529,7 +1529,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1590,7 +1590,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String student5AnonName = getStudentAnonName(newDataBundle, "student5InCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1631,7 +1631,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourseWithSections");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1671,7 +1671,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1752,7 +1752,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1807,7 +1807,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, false, null);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, false);
 
         assertFalse(export.contains("Summary Statistics"));
 
@@ -1815,7 +1815,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         try {
             fsLogic.getFeedbackSessionResultsSummaryAsCsv("non.existent", "no course",
-                    instructor.email, null, true, true, null);
+                    instructor.email, null, null, true, true);
             signalFailureToDetectException("Failed to detect non-existent feedback session.");
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to view a non-existent feedback session: "

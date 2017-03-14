@@ -231,7 +231,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, filterText, isMissingResponsesShown, isStatsShown, null)));
+                                        selectedSection, null, filterText, isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

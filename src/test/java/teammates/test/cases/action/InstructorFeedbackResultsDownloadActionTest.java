@@ -190,7 +190,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_question2";
         assertEquals(expectedFileName, result.getFileName());
-        System.out.print(result.getFileContent());
         verifyFileContentForQuestion2Session1InCourse1(result.getFileContent(), session);
 
         ______TS("Typical case: results within section downloadable by question");
@@ -216,7 +215,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1" + "_question1";
         assertEquals(expectedFileName, result.getFileName());
-        System.out.print(result.getFileContent());
         verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
     }
 

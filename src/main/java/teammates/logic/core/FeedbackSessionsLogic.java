@@ -824,19 +824,18 @@ public final class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId,
-            String userEmail, String filterText, boolean isMissingResponsesShown,
-            boolean isStatsShown, String questionId)
+            String feedbackSessionName, String courseId, String userEmail,
+            String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, filterText,
-                isMissingResponsesShown, isStatsShown, questionId);
+                feedbackSessionName, courseId, userEmail, null, questionId,
+                filterText, isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
+            String section, String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
@@ -846,14 +845,12 @@ public final class FeedbackSessionsLogic {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
                 indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+        } else if (section == null) {
+            results = getFeedbackSessionResultsForInstructorFromQuestion(
+                    feedbackSessionName, courseId, userEmail, questionId);
         } else {
-            if (section == null) {
-                results = getFeedbackSessionResultsForInstructorFromQuestion(
-                        feedbackSessionName, courseId, userEmail, questionId);
-            } else {
-                results = getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                        feedbackSessionName, courseId, userEmail, questionId, section);
-            }
+            results = getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                    feedbackSessionName, courseId, userEmail, questionId, section);
         }
 
         if (!results.isComplete) {
