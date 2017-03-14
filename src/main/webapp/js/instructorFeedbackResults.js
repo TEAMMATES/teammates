@@ -222,11 +222,13 @@ function toggleCollapse(e, pans) {
         // that element is loaded by Ajax and the element is no longer of class ajax_auto or
         // ajax-response-auto. Therefore, an element of class ajax_auto or ajax-response-auto is
         // not yet loaded by Ajax and we need to load them to expand all panels.
+        var hasAjaxAutoLoading;
+        var hasAjaxResponseAutoLoading;
         if (isCollapsePanelsButtonClicked) {
             var $ajaxAuto = $('.ajax_auto');
             var $ajaxResponseAuto = $('.ajax-response-auto');
-            var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
-            var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
+            hasAjaxAutoLoading = $ajaxAuto.length !== 0;
+            hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
 
             // Ajax_auto is for panels to display normal feedback sessions while ajax-response-auto
             // is for panels to display students who have no response.
