@@ -20,10 +20,9 @@ import teammates.storage.entity.Course;
  * Script to set the isArchived attribute of instructors if the course's isArchived
  * attribute is set.
  *
- * If the course is not archived, the instructors of the course will not be modified
+ * <p>If the course is not archived, the instructors of the course will not be modified.
  *
- * Assumptions: the default value of an instructor without an isArchived attribute is null, and not false
- *
+ * <p>Assumptions: the default value of an instructor without an isArchived attribute is null, and not false.
  */
 public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
@@ -83,9 +82,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
 
     /**
-     * For the given course, set the isArchived attribute of the instructors in the course
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
+     * For the given course, set the isArchived attribute of the instructors in the course.
      */
     private void setInstructorsIsArchivedInCourse(CourseAttributes course)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -112,7 +109,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     }
 
     /**
-     * For preview mode, prints out the instructors of the course and their isArchived status
+     * For preview mode, prints out the instructors of the course and their isArchived status.
      */
     private void previewInstructorsIsArchivedInCourse(CourseAttributes course) {
         Assumption.assertEquals(true, isPreview);

@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 
 /**
- * Tests Student Course Details page
+ * Tests Student Course Details page.
  */
 public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 

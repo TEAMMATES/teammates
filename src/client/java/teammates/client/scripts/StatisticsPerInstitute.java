@@ -68,12 +68,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private String generateUniqueInstructorEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails) {
-
-        String result = "===============Unique Instructor Emails===============\n"
-                        + "Format=> Total Unique Emails [Total Emails]\n"
-                        + "===================================================\n"
-                        + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
-        return result;
+        return "===============Unique Instructor Emails===============\n"
+                + "Format=> Total Unique Emails [Total Emails]\n"
+                + "===================================================\n"
+                + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
     }
 
     private boolean isTestingInstructorData(Instructor instructor) {
@@ -92,12 +90,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private String generateUniqueStudentEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails) {
-
-        String result = "===============Unique Student Emails===============\n"
-                        + "Format=> Total Unique Emails [Total Emails]\n"
-                        + "===================================================\n"
-                        + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
-        return result;
+        return "===============Unique Student Emails===============\n"
+                + "Format=> Total Unique Emails [Total Emails]\n"
+                + "===================================================\n"
+                + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
     }
 
     private boolean isTestingStudentData(CourseStudent student) {

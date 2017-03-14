@@ -79,7 +79,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testDeleteFeedbackSessionsForCourse();
     }
 
-    public void testGetFeedbackSessionsListForInstructor() {
+    private void testGetFeedbackSessionsListForInstructor() {
         List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
 
@@ -96,7 +96,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testIsFeedbackSessionHasQuestionForStudents() throws Exception {
+    private void testIsFeedbackSessionHasQuestionForStudents() throws Exception {
         // no need to removeAndRestoreTypicalDataInDatastore() as the previous test does not change the db
 
         FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
@@ -124,7 +124,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                                                                     sessionWithoutStudents.getCourseId()));
     }
 
-    public void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
+    private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
 
         ______TS("init : 0 non private sessions closing within time-limit");
         List<FeedbackSessionAttributes> sessionList = fsLogic
@@ -163,7 +163,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 session.getCourseId());
     }
 
-    public void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
+    private void testGetFeedbackSessionsWhichNeedOpenMailsToBeSent() throws Exception {
 
         ______TS("init : 0 open sessions");
         List<FeedbackSessionAttributes> sessionList = fsLogic
@@ -210,7 +210,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 session.getCourseId());
     }
 
-    public void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
+    private void testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent() throws Exception {
 
         ______TS("init : no published sessions");
         unpublishAllSessions();
@@ -244,7 +244,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
     }
 
-    public void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
+    private void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("test create");
 
         FeedbackSessionAttributes fs = getNewFeedbackSession();
@@ -299,7 +299,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(fq);
     }
 
-    public void testCopyFeedbackSession() throws Exception {
+    private void testCopyFeedbackSession() throws Exception {
 
         ______TS("Test copy");
 
@@ -351,7 +351,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.deleteFeedbackSessionCascade(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
     }
 
-    public void testGetFeedbackSessionDetailsForInstructor() throws Exception {
+    private void testGetFeedbackSessionDetailsForInstructor() throws Exception {
 
         // This file contains a session with a private session + a standard
         // session + a special session with all questions without recipients.
@@ -511,7 +511,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetFeedbackSessionsForCourse() throws Exception {
+    private void testGetFeedbackSessionsForCourse() throws Exception {
 
         List<FeedbackSessionAttributes> actualSessions = null;
 
@@ -588,7 +588,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 actualSessions.toString());
     }
 
-    public void testGetFeedbackSessionQuestionsForStudent() throws Exception {
+    private void testGetFeedbackSessionQuestionsForStudent() throws Exception {
 
         ______TS("standard test");
 
@@ -692,7 +692,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetFeedbackSessionQuestionsForInstructor() throws Exception {
+    private void testGetFeedbackSessionQuestionsForInstructor() throws Exception {
         ______TS("standard test");
 
         FeedbackSessionQuestionsBundle actual =
@@ -750,7 +750,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetFeedbackSessionResultsForUser() throws Exception {
+    private void testGetFeedbackSessionResultsForUser() throws Exception {
 
         // This file contains a session with a private session + a standard
         // session which needs to have enough qn/response combinations to cover as much
@@ -1119,7 +1119,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         //TODO: check for cases where a person is both a student and an instructor
     }
 
-    public void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
+    private void testGetFeedbackSessionResultsSummaryAsCsv() throws Exception {
 
         ______TS("typical case");
 
@@ -1806,7 +1806,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                                                         dataBundle.students.get(studentKey).name);
     }
 
-    public void testIsFeedbackSessionViewableToStudents() {
+    private void testIsFeedbackSessionViewableToStudents() {
         ______TS("Session with questions for students to answer");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
@@ -1827,7 +1827,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
     }
 
-    public void testUpdateFeedbackSession() throws Exception {
+    private void testUpdateFeedbackSession() throws Exception {
 
         ______TS("failure 1: null object");
         try {
@@ -1865,7 +1865,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(fsa.toString(), fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).toString());
     }
 
-    public void testPublishUnpublishFeedbackSession() throws Exception {
+    private void testPublishUnpublishFeedbackSession() throws Exception {
 
         ______TS("success: publish");
         FeedbackSessionAttributes sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1939,7 +1939,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testIsFeedbackSessionCompletedByInstructor() throws Exception {
+    private void testIsFeedbackSessionCompletedByInstructor() throws Exception {
 
         ______TS("success: empty session");
 
@@ -1949,7 +1949,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
     }
 
-    public void testIsFeedbackSessionCompletedByStudent() {
+    private void testIsFeedbackSessionCompletedByStudent() {
 
         ______TS("success: empty session");
 
@@ -1959,7 +1959,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
     }
 
-    public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
+    private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1OfCourse1 = dataBundle.students.get("student1InCourse1");
@@ -2057,7 +2057,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         return tableString;
     }
 
-    public void testDeleteFeedbackSessionsForCourse() {
+    private void testDeleteFeedbackSessionsForCourse() {
 
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
         fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");

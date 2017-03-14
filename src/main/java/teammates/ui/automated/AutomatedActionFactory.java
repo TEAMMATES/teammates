@@ -48,7 +48,7 @@ public class AutomatedActionFactory {
     }
 
     /**
-     * @return the matching {@link AutomatedAction} object for the URI in the {@code req}.
+     * Returns the matching {@link AutomatedAction} object for the URI in the {@code req}.
      */
     public AutomatedAction getAction(HttpServletRequest req, HttpServletResponse resp) {
         String uri = req.getRequestURI();

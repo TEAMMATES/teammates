@@ -18,7 +18,7 @@ import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
- * Action: adding a course for an instructor
+ * Action: adding a course for an instructor.
  */
 public class InstructorCourseAddAction extends Action {
     private InstructorCoursesPageData data;

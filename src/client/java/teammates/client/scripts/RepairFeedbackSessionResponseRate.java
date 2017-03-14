@@ -32,7 +32,7 @@ import teammates.storage.entity.FeedbackSession;
  * </ul>
  * and verifies that the non-respondents do not have a response in the feedback session. <br>
  *
- * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
+ * <p>If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
  * be used to recompute the respondents' set.
  *
  */
@@ -157,9 +157,9 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     }
 
     /**
-     * Return a list of feedback sessions with start time from (now - numDays) and now
+     * Returns a list of feedback sessions with start time from (now - numDays) and now.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
+    private List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
         Calendar startCal = Calendar.getInstance();
         startCal.add(Calendar.DAY_OF_YEAR, -1 * numDays);
 

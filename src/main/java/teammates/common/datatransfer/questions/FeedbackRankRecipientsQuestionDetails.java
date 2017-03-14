@@ -57,7 +57,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
                 Slots.RANK_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
@@ -70,8 +70,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed())
                 );
-
-        return html;
     }
 
     @Override
@@ -154,15 +152,13 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
 
-        String html = Templates.populateTemplate(
+        return Templates.populateTemplate(
                         FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
                         Slots.MORE, "[more]",
                         Slots.LESS, "[less]",
                         Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                         Slots.ADDITIONAL_INFO_ID, additionalInfoId,
                         Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-
-        return html;
     }
 
     @Override
@@ -257,8 +253,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
-     * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses
-     * @param responses
+     * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses.
      * @see FeedbackRankQuestionDetails#obtainMappingToNormalisedRanksForRanking(Map, List) for how ties are resolved
      */
     private Map<FeedbackResponseAttributes, Integer> getNormalisedRankForEachResponse(
