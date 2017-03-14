@@ -143,7 +143,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void expandPanels() {
         try {
-            // In case the panels are already expanded
+            // in case the panels are already expanded
             if (!collapseExpandButton.getText().contains("Expand")) {
                 return;
             }
@@ -151,7 +151,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
             clickCollapseExpand();
             waitForPageToLoad();
         } catch (NoSuchElementException e) {
-            // For pages have no button, click each of the panel
+            // Pages with no feedback response do not have button element
+            // We need to click on each of the panels to expand them
             List<WebElement> panels = browser.driver.findElements(By.className("panel-heading"));
             for (WebElement panel : panels) {
                 click(panel);
