@@ -59,10 +59,11 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
-            statusToUser.add(new StatusMessage("There are too many responses. "
-                        + "Please download the feedback results by "
-                        + questionNumber == null ? "question by clicking the question number."
-                                                 : "section.",
+            statusToUser.add(new StatusMessage("This session has more responses than that can be downloaded in one go. "
+                        + "Please download responses for "
+                        + (questionNumber == null ? "one question at a time instead. "
+                        + "To download responses for a specific question, click on the corresponding question number."
+                                                 : "section instead."),
                                                  StatusMessageColor.DANGER));
             isError = true;
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
