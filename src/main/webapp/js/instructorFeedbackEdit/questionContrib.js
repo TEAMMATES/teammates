@@ -1,6 +1,15 @@
 'use strict';
 
-function setDefaultContribQnVisibility(questionNum) {
+function setDefaultContribQnVisibilityIfNeeded(questionNum) {
+    // If visibility options have already been copied from the previous contrib question, skip
+    var hasPreviousQuestion = $('.questionTable').size() >= 2;
+    if (hasPreviousQuestion) {
+        var previousQuestionType = $('input[name="questiontype"]').eq(-2).val();
+        if (previousQuestionType === 'CONTRIB') {
+            return;
+        }
+    }
+
     var $currentQuestionTable = $('#questionTable-' + questionNum);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);

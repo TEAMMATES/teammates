@@ -558,8 +558,8 @@ function tallyCheckboxes(questionNum) {
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
-    var hasCopiedOptions = copyOptions(type);
-    prepareQuestionForm(type, hasCopiedOptions);
+    copyOptions(type);
+    prepareQuestionForm(type);
     $('#questionTable-' + NEW_QUESTION).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
@@ -583,7 +583,7 @@ function hideAllNewQuestionForms() {
     $('#rankRecipientsForm').hide();
 }
 
-function prepareQuestionForm(type, hasCopiedOptions) {
+function prepareQuestionForm(type) {
     hideAllNewQuestionForms();
 
     switch (type) {
@@ -637,9 +637,7 @@ function prepareQuestionForm(type, hasCopiedOptions) {
         $('#contribForm').show();
         fixContribQnGiverRecipient(NEW_QUESTION);
         setContribQnVisibilityFormat(NEW_QUESTION);
-        if (!hasCopiedOptions) {
-            setDefaultContribQnVisibility(NEW_QUESTION);
-        }
+        setDefaultContribQnVisibilityIfNeeded(NEW_QUESTION);
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
@@ -672,19 +670,18 @@ function prepareQuestionForm(type, hasCopiedOptions) {
  * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
  * @param newType
- * @returns true if options were copied, false otherwise
  */
 function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
     if ($('.questionTable').size() < 2) {
-        return false;
+        return;
     }
 
     var prevType = $('input[name="questiontype"]').eq(-2).val();
 
     // Don't copy from non-contrib to contrib question, as these have special restrictions
     if (newType === 'CONTRIB' && prevType !== 'CONTRIB') {
-        return false;
+        return;
     }
 
     // Feedback giver setup
@@ -747,8 +744,6 @@ function copyOptions(newType) {
     }
 
     matchVisibilityOptionToFeedbackPath($currGiver);
-
-    return true;
 }
 
 /**
