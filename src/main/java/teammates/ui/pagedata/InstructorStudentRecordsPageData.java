@@ -108,11 +108,6 @@ public class InstructorStudentRecordsPageData extends PageData {
     /**
      * Generates the comment rows for a specific giver,
      * based on the current instructor's privilege to modify comments.
-     * @param student
-     * @param instructor
-     * @param giverEmail
-     * @param totalNumOfComments
-     * @param comments
      * @return A list of comment rows for comments from giverEmail.
      */
     private List<CommentRow> generateCommentRows(StudentAttributes student, InstructorAttributes instructor,

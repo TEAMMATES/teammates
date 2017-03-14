@@ -127,7 +127,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
     }
 
     /**
-     * Get the list of questions for the specified feedback session template
+     * Gets the list of questions for the specified feedback session template.
      */
     private static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
             String templateType, String courseId, String feedbackSessionName, String creatorEmail) {

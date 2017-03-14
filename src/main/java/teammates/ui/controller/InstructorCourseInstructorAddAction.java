@@ -11,7 +11,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: add another instructor to a course that already exists
+ * Action: add another instructor to a course that already exists.
  */
 public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorAbstractAction {
 
@@ -110,9 +110,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
 
-        InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instrName, instrEmail,
+        return new InstructorAttributes(null, courseId, instrName, instrEmail,
                 instrRole, isDisplayedToStudents, instrDisplayedName, privileges);
-
-        return instructorToAdd;
     }
 }

@@ -20,9 +20,9 @@ before_install:
   - |
       git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(.md)|(.txt)|(.png)|(.jpg)|(.gif)|^(LICENSE)|^(docs)'
       status_codes=( ${PIPESTATUS[*]} ); git_diff_status=${status_codes[0]}; grep_status=${status_codes[1]}
-      if [[ $git_diff_status == 0 && $grep_status == 1 ]]
+      if [[ $git_diff_status == 0 && $grep_status == 1 && $TRAVIS_PULL_REQUEST != "false" ]]
       then
-        echo "Only doc files were updated, not running the CI."
+        echo "Only doc files were updated in PR, not running the CI."
         exit
       fi
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \

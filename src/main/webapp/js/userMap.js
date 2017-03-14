@@ -1,3 +1,5 @@
+'use strict';
+
 function handleError() {
     var contentHolder = d3.select('.container');
     contentHolder.html('');

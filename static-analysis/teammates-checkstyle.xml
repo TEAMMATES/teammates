@@ -126,6 +126,33 @@
     <module name="SingleSpaceSeparator">
       <property name="validateComments" value="true"/>
     </module>
+    <module name="JavadocMethod">
+      <property name="allowedAnnotations" value="Test, Override, BeforeClass, BeforeTest, BeforeMethod, AfterClass, AfterTest, AfterMethod, PerformanceTest, BeforeGroups"/>
+      <property name="validateThrows" value="true"/>
+      <property name="scope" value="public"/>
+      <property name="allowUndeclaredRTE" value="true"/>
+      <property name="allowMissingParamTags" value="true"/>
+      <property name="allowMissingReturnTag" value="true"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+      <property name="suppressLoadErrors" value="true"/>
+      <property name="ignoreMethodNamesRegex" value="main"/>
+    </module>
+    <module name="JavadocParagraph"/>
+    <module name="JavadocStyle">
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
+    <module name="NonEmptyAtclauseDescription"/>
+    <module name="JavadocType">
+      <property name="scope" value="public"/>
+    </module>
+    <module name="AtclauseOrder"/>
+    <module name="JavadocTagContinuationIndentation">
+      <property name="offset" value="8"/>
+    </module>
+    <module name="SingleLineJavadoc"/>
+    <module name="JavadocVariable">
+      <property name="scope" value="public"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
@@ -139,4 +166,5 @@
   <module name="NewlineAtEndOfFile">
     <property name="lineSeparator" value="lf_cr_crlf"/>
   </module>
+  <module name="JavadocPackage"/>
 </module>

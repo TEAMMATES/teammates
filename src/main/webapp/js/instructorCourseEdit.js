@@ -1,3 +1,5 @@
+'use strict';
+
 // global parameter to remember settings for custom access level
 
 // to store the role of instructors (Co-owner, Manager, Observer, Tutor or Custom)

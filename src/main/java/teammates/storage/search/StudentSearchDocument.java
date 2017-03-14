@@ -69,8 +69,8 @@ public class StudentSearchDocument extends SearchDocument {
     /**
      * Produces a {@link StudentSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
      * The list of {@link InstructorAttributes} is used to filter out the search result.
-     * <p>
-     * This method should be used by admin only since the searching does not restrict the
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.
      */
     public static StudentSearchResultBundle fromResults(Results<ScoredDocument> results) {

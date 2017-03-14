@@ -41,7 +41,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("content: typical page");
 
@@ -76,7 +76,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
                    || logPage.getStatus().contains("Local Time Unavailable"));
     }
 
-    public void testViewActionsLink() {
+    private void testViewActionsLink() {
 
         ______TS("Link: recent actions link");
 
@@ -101,7 +101,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         }
     }
 
-    public void testInputValidation() {
+    private void testInputValidation() {
 
         ______TS("invalid query format");
 
