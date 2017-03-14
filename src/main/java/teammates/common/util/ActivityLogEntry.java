@@ -367,41 +367,6 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail,
-                                                             UserType userType) {
-        String[] actionTaken = req.getServletPath().split("/");
-        String action = req.getServletPath();
-        if (actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
-        }
-        String url = HttpRequestHelper.getRequestedUrl(req);
-
-        String message;
-
-        try {
-            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span>"
-                    + "<br>"
-                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">"
-                        + "Show/Hide Details >>"
-                    + "</a>"
-                    + "<br>"
-                    + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                        + errorEmail.getContent()
-                    + "</span>";
-        } catch (Exception e) {
-            message = "System Error: Unable to retrieve Email Report: "
-                    + TeammatesException.toStringWithStackTrace(e);
-        }
-
-        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
-        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
-
-        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail, userType);
-
-        return emailReportLog.generateLogMessage();
-    }
-
     public boolean isTestingData() {
         return email.endsWith(Const.ActivityLog.TEST_DATA_POSTFIX);
     }
