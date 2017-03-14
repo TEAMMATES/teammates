@@ -148,9 +148,10 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     /**
-     * Tests the case when contribution question is added after another question that
-     * has options invalid for contribution questions. This is to prevent invalid options
-     * from being copied over to the contribution question.
+     * Tests the copying of options to/from contribution questions. Options should not be
+     * copied in the case of a contribution question being added after a non-contribution
+     * question. This is to prevent options that are invalid for contribution questions
+     * from being copied over to a contribution question.
      */
     private void testCopyOptions() {
         ______TS("CONTRIB: skip copy visibility options non-contrib -> contrib");
@@ -194,7 +195,6 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
 
-        // "Shown anonymously to recipient, visible to instructors" should be interpreted as custom
         assertEquals("Shown anonymously to recipient and team members, visible to instructors",
                      feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,INSTRUCTORS",
