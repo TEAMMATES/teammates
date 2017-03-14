@@ -157,8 +157,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .getFeedbackSessionsClosingWithinTimeLimit();
         assertEquals(0, sessionList.size());
 
-        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
-                //wont do it
+        // delete the newly added session as removeAndRestoreTypicalDataInDatastore()
+        // wont do it
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(),
                 session.getCourseId());
     }
