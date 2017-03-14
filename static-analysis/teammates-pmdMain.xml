@@ -12,8 +12,7 @@
         <exclude name="GuardLogStatementJavaUtil"/>        
     </rule>
 
-	<rule
-		ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException" />
+	<rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException" />
 
 	<exclude-pattern>.*/test/java/.*</exclude-pattern>
 	<exclude-pattern>.*/client/java/.*</exclude-pattern>

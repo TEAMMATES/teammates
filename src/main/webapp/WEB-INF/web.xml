@@ -17,7 +17,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>appstats</filter-name>
 		<filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
 	</filter>
-
     <filter-mapping>
         <filter-name>appstats</filter-name>
         <url-pattern>/page/*</url-pattern>

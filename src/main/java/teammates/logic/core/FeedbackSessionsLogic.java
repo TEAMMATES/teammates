@@ -54,6 +54,7 @@ public final class FeedbackSessionsLogic {
     private static final int EMAIL_NAME_PAIR = 0;
     private static final int EMAIL_LASTNAME_PAIR = 1;
     private static final int EMAIL_TEAMNAME_PAIR = 2;
+    private static final int INSTRUCTOR_RESPONSE_LIMIT = 8000;
 
     private static final String PARAM_FROM_SECTION = "fromSection";
     private static final String PARAM_IN_SECTION = "inSection";
@@ -857,7 +858,7 @@ public final class FeedbackSessionsLogic {
             String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
                       
-        long indicatedRange = section == null ? 8000 : -1;
+        long indicatedRange = section == null ? INSTRUCTOR_RESPONSE_LIMIT : -1;
 
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
