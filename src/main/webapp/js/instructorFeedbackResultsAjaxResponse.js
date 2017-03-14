@@ -1,7 +1,12 @@
 'use strict';
 
-$(document).ready(function() {
-    var responseRateRequest = function(e) {
+/* global displayAjaxRetryMessageForPanelHeading:false,
+          toggleSingleCollapse:false
+*/
+/* eslint-disable no-use-before-define */
+
+$(document).ready(function () {
+    var responseRateRequest = function responseRateRequest(e) {
         var panelHeading = $(this);
         var displayIcon = $(this).children('.display-icon');
         var formObject = $(this).children('form');
@@ -11,14 +16,14 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             url: $(formObject[0]).attr('action') + '?' + formData,
-            beforeSend: function() {
+            beforeSend: function beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
                 // submitButton.html('<img src="/images/ajax-loader.gif">');
             },
-            error: function() {
+            error: function error() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
-            success: function(data) {
+            success: function success(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
                 $(panelHeading).removeClass('ajax-response-submit');
                 $(panelHeading).off('click');

@@ -1,40 +1,42 @@
 'use strict';
 
-$(document).ready(function() {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/* global selectElementContents:false,
+          bindCollapseEvents:false,
+          bindPublishButtons:false,
+          bindUnpublishButtons:false,
+          setStatusMessage:false,
+          showSingleCollapse:false,
+          hideSingleCollapse:false,
+          toggleSingleCollapse:false
+*/
+/* eslint-disable no-use-before-define */
+
+$(document).ready(function () {
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
-    $('a[id^="collapse-panels-button-section-"]').on('click', function() {
+    $('a[id^="collapse-panels-button-section-"]').on('click', function (e) {
         var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
-        var childPanelType;
-        if (isGroupByTeam) {
-            childPanelType = 'div.panel.panel-warning';
-        } else {
-            childPanelType = participantPanelType;
-        }
-        var panels = $(this).closest('.panel-success')
-                            .children('.panel-collapse')
-                            .find(childPanelType)
-                            .children('.panel-collapse');
-        toggleCollapse(this, panels);
+        var childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
+        var panels = $(e.currentTarget).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
+        toggleCollapse(e.currentTarget, panels);
     });
 
-    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
-        var panels = $(this).closest('.panel-warning')
-                            .children('.panel-collapse')
-                            .find(participantPanelType)
-                            .children('.panel-collapse');
-        toggleCollapse(this, panels);
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function (e) {
+        var panels = $(e.currentTarget).closest('.panel-warning').children('.panel-collapse').find(participantPanelType).children('.panel-collapse');
+        toggleCollapse(e.currentTarget, panels);
     });
 
-    $('#results-search-box').keyup(function() {
-        updateResultsFilter();
-    });
+    $('#results-search-box').keyup(updateResultsFilter);
 
     // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress(function(e) {
+    $('#results-search-box').keypress(function (e) {
         if (e.which === 13) {
             return false;
         }
+        return true;
     });
 
     if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
@@ -48,7 +50,7 @@ $(document).ready(function() {
     $('#show-stats-checkbox').change(showHideStats);
 
     // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
+    $('#fsResultsTableWindow').on('shown.bs.modal', function () {
         selectElementContents(document.getElementById('fsModalTable'));
     });
 
@@ -58,7 +60,7 @@ $(document).ready(function() {
     bindPublishButtons();
     bindUnpublishButtons();
 
-    $('#button-print').on('click', function() {
+    $('#button-print').on('click', function () {
         // Fix to hide the filter placeholder when it is empty.
         if ($('#results-search-box').val()) {
             $('#filter-box-parent-div').removeClass('hide-for-print');
@@ -82,15 +84,15 @@ function submitFormAjax() {
     $.ajax({
         type: 'POST',
         url: '/page/instructorFeedbackResultsPage?' + formData,
-        beforeSend: function() {
+        beforeSend: function beforeSend() {
             content.html('<img src="/images/ajax-loader.gif">');
         },
-        error: function() {
+        error: function error() {
             ajaxStatus.html('Failed to load results table. Please try again.');
             content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
         },
-        success: function(data) {
-            setTimeout(function() {
+        success: function success(data) {
+            setTimeout(function () {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
                     content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
@@ -136,7 +138,7 @@ function filterResults(rawSearchText) {
     // a stack that stores the parent panels that have been traversed so far
     var parentStack = [];
 
-    for (var p = 0; p < allPanelText.length; p++) {
+    for (var p = 0; p < allPanelText.length; p += 1) {
         var panelText = allPanelText[p];
         var panel = $(panelText).closest('div.panel');
 
@@ -167,7 +169,7 @@ function filterResults(rawSearchText) {
 
             // show all child panels of current panel
             if (hasChild) {
-                for (var c = p + 1; c <= p + childrenSize; c++) {
+                for (var c = p + 1; c <= p + childrenSize; c += 1) {
                     var childPanel = $(allPanelText[c]).closest('div.panel');
                     $(childPanel).show();
                 }
@@ -212,27 +214,25 @@ function toggleCollapse(e, pans) {
 
     if ($(e).html().trim().startsWith(expand)) {
         var i = 0;
-        for (var idx = 0; idx < panels.length; idx++) {
+        for (var idx = 0; idx < panels.length; idx += 1) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
                 setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                i++;
+                i += 1;
             }
         }
-        var htmlString = $(e).html();
-        htmlString = htmlString.replace(expand, collapse);
+        var htmlString = $(e).html().replace(expand, collapse);
         $(e).html(htmlString);
         var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
         var j = 0;
-        for (var k = 0; k < panels.length; k++) {
+        for (var k = 0; k < panels.length; k += 1) {
             if ($(panels[k]).attr('class').indexOf('in') !== -1) {
                 setTimeout(hideSingleCollapse, 100 * j, panels[k]);
-                j++;
+                j += 1;
             }
         }
-        var htmlStr = $(e).html();
-        htmlStr = htmlStr.replace(collapse, expand);
+        var htmlStr = $(e).html().replace(collapse, expand);
         $(e).html(htmlStr);
         var tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
         $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
@@ -241,17 +241,17 @@ function toggleCollapse(e, pans) {
 
 function getNextId(e) {
     var id = $(e).attr('id');
-    var nextId = '#panelBodyCollapse-' + (parseInt(id.split('-')[1]) + 1);
+    var nextId = '#panelBodyCollapse-' + (parseInt(id.split('-')[1], 10) + 1);
     return nextId;
 }
 
 function bindCollapseEvents(panels, nPanels) {
     var numPanels = nPanels;
-    for (var i = 0; i < panels.length; i++) {
+    for (var i = 0; i < panels.length; i += 1) {
         var heading = $(panels[i]).children('.panel-heading');
         var bodyCollapse = $(panels[i]).children('.panel-collapse');
         if (heading.length !== 0 && bodyCollapse.length !== 0) {
-            numPanels++;
+            numPanels += 1;
             // $(heading[0]).attr('data-toggle', 'collapse');
             // Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             if ($(heading[0]).attr('class') === 'panel-heading') {
@@ -299,8 +299,8 @@ function bindCollapseEvents(panels, nPanels) {
 function displayAjaxRetryMessageForPanelHeading($element) {
     var ajaxErrorStart = '<div class="ajax-error">';
     var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-    var errorMsg = '[ Failed to load. Click here to retry. ]';
-    errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
+    var errorMsgCenter = '[ Failed to load. Click here to retry. ]';
+    var errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsgCenter + '</strong>';
     var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
     var ajaxErrorEnd = '</div>';
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
@@ -317,3 +317,12 @@ function removeSection(id) {
 
     $heading.parent().remove();
 }
+
+exports.default = {
+    submitFormAjax: submitFormAjax,
+    updateStatsCheckBox: updateStatsCheckBox,
+    getNextId: getNextId,
+    displayAjaxRetryMessageForPanelHeading: displayAjaxRetryMessageForPanelHeading,
+    isEmptySection: isEmptySection,
+    removeSection: removeSection
+};

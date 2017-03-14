@@ -1,7 +1,19 @@
 'use strict';
 
-$(document).ready(function() {
-    var seeMoreRequest = function(e) {
+/* globals displayAjaxRetryMessageForPanelHeading:false,
+           isEmptySection:false,
+           removeSection:false,
+           bindDefaultImageIfMissing:false,
+           bindStudentPhotoLink:false,
+           bindStudentPhotoHoverLink:false,
+           bindCollapseEvents:false,
+           toggleSingleCollapse:false,
+           showHideStats:false
+*/
+/* eslint-disable no-use-before-define */
+
+$(document).ready(function () {
+    var seeMoreRequest = function seeMoreRequest(e) {
         var panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
             $(panelHeading).find('[id^="showStats-"]').val('on');
@@ -19,18 +31,17 @@ $(document).ready(function() {
             type: 'POST',
             cache: false,
             url: $(formObject[0]).attr('action') + '?' + formData,
-            beforeSend: function() {
+            beforeSend: function beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
-            error: function() {
+            error: function error() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
-            success: function(data) {
+            success: function success(data) {
                 var $sectionBody = $(panelBody[0]);
 
                 if (typeof data === 'undefined') {
-                    $sectionBody.html('The results is too large to be viewed. '
-                                      + 'Please choose to view the results by questions or download the results.');
+                    $sectionBody.html('The results is too large to be viewed. ' + 'Please choose to view the results by questions or download the results.');
                 } else {
                     var $appendedSection = $(data).find('#sectionBody-0');
                     var sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
@@ -40,20 +51,18 @@ $(document).ready(function() {
                             removeSection(sectionId);
                             return;
                         }
-                        $sectionBody.html('There are no responses for this section yet '
-                                        + 'or you do not have access to the responses collected so far.');
+                        $sectionBody.html('There are no responses for this section yet ' + 'or you do not have access to the responses collected so far.');
                     }
 
                     $(data).remove();
                     if (typeof $appendedSection === 'undefined') {
-                        $sectionBody.html('There are no responses for this section yet '
-                                          + 'or you do not have access to the responses collected so far.');
+                        $sectionBody.html('There are no responses for this section yet ' + 'or you do not have access to the responses collected so far.');
                     } else {
                         $sectionBody.html($appendedSection.html());
                     }
                 }
 
-                $sectionBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
+                $sectionBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function () {
                     bindDefaultImageIfMissing(this);
                 });
                 // bind the show picture onclick events

@@ -1,7 +1,18 @@
 'use strict';
 
-$(document).ready(function() {
-    var seeMoreRequest = function(e) {
+/* globals displayAjaxRetryMessageForPanelHeading:false,
+           bindDefaultImageIfMissing:false,
+           bindStudentPhotoLink:false,
+           bindStudentPhotoHoverLink:false,
+           toggleSingleCollapse:false,
+           isPanelSetAsEmptyByBackend:false,
+           displayAsEmptyPanel:false,
+           showHideStats:false
+*/
+/* eslint-disable no-use-before-define */
+
+$(document).ready(function () {
+    var seeMoreRequest = function seeMoreRequest(e) {
         var panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
             $(panelHeading).find('[id^="showStats-"]').val('on');
@@ -19,20 +30,19 @@ $(document).ready(function() {
             type: 'POST',
             cache: false,
             url: $(formObject[0]).attr('action') + '?' + formData,
-            beforeSend: function() {
+            beforeSend: function beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
-            error: function() {
+            error: function error() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
-            success: function(data) {
+            success: function success(data) {
                 var appendedQuestion = $(data).find('#questionBody-0').html();
                 var $panelBody = $(panelBody[0]);
                 $(data).remove();
                 if (typeof appendedQuestion === 'undefined') {
                     $panelBody.removeClass('padding-0');
-                    $panelBody.html('There are too many responses for this question. '
-                                    + 'Please view the responses one section at a time.');
+                    $panelBody.html('There are too many responses for this question. ' + 'Please view the responses one section at a time.');
                 } else {
                     if (appendedQuestion.indexOf('resultStatistics') === -1) {
                         $panelBody.removeClass('padding-0');
@@ -40,7 +50,7 @@ $(document).ready(function() {
                     $panelBody.html(appendedQuestion);
                 }
 
-                $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
+                $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function () {
                     bindDefaultImageIfMissing(this);
                 });
                 // bind the show picture onclick events
@@ -65,11 +75,11 @@ $(document).ready(function() {
         });
     };
 
-    var isPanelSetAsEmptyByBackend = function($panelBody) {
+    var isPanelSetAsEmptyByBackend = function isPanelSetAsEmptyByBackend($panelBody) {
         return $panelBody.find('.no-response').length !== 0;
     };
 
-    var displayAsEmptyPanel = function($panelBody) {
+    var displayAsEmptyPanel = function displayAsEmptyPanel($panelBody) {
         $panelBody.parents('.panel.panel-info').removeClass('panel-info').addClass('panel-default');
     };
 
