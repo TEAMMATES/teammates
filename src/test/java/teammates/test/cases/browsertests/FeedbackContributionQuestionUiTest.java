@@ -89,13 +89,19 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         // default (first option)
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
     }
 
@@ -161,6 +167,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q1, essay qn");
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -172,6 +180,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
         feedbackEditPage.clickAddQuestionButton();
@@ -185,6 +195,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Visible to instructors only",
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
         feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
         feedbackEditPage.clickAddQuestionButton();
@@ -199,6 +211,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
                      feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
     }
 
