@@ -1,18 +1,15 @@
-'use strict';
+/* global StatusType:false setStatusMessage:false */
+/**
+ * Contains functions to be used to display email logs in `/adminEmailLog`
+ */
 
-var retryTimes = 0;
-var numOfEntriesPerPage = 50;
-
-$(document).ready(function() {
-    bindClickAction();
-    clickOlderButtonIfNeeded();
-    $('#filterReference').toggle();
-});
+let retryTimes = 0;
+const numOfEntriesPerPage = 50;
 
 function toggleReference() {
     $('#filterReference').toggle('slow');
 
-    var button = $('#detailButton').attr('class');
+    const button = $('#detailButton').attr('class');
 
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
@@ -23,55 +20,59 @@ function toggleReference() {
     }
 }
 
+function handler() {
+    $(this).next('#small').toggle();
+    $(this).next('#small').next('#big').toggle();
+}
+
 function bindClickAction() {
     $('body').unbind('click', handler).on('click', '.log', handler);
 }
-
-var handler = function() {
-    $(this).next('#small').toggle();
-    $(this).next('#small').next('#big').toggle();
-};
 
 function clickOlderButtonIfNeeded() {
     if (retryTimes >= 20) {
         return;
     }
 
-    var curNumOfEntries = $('#emailLogsTable tbody tr').length;
+    const curNumOfEntries = $('#emailLogsTable tbody tr').length;
 
     if (curNumOfEntries < numOfEntriesPerPage) {
         if ($('#button_older').length) {
             $('#button_older').click();
-            retryTimes++;
+            retryTimes += 1;
         }
     }
 }
 
+function setFormErrorMessage(button, msg) {
+    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
+}
+
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
-    var formObject = $('#ajaxLoaderDataForm');
-    var formData = formObject.serialize();
-    var button = $('#button_older');
-    var lastLogRow = $('#emailLogsTable tr:last');
+    const formObject = $('#ajaxLoaderDataForm');
+    const formData = formObject.serialize();
+    const button = $('#button_older');
+    let lastLogRow = $('#emailLogsTable tr:last');
 
     $.ajax({
         type: 'POST',
-        url: '/admin/adminEmailLogPage?' + formData,
-        beforeSend: function() {
+        url: `/admin/adminEmailLogPage?${formData}`,
+        beforeSend() {
             button.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error: function() {
+        error() {
             setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
             button.html('Retry');
         },
-        success: function(data) {
-            setTimeout(function() {
+        success(data) {
+            setTimeout(() => {
                 if (data.isError) {
                     setFormErrorMessage(button, data.errorMessage);
                 } else {
                     // Inject new log row
-                    var logs = data.logs;
-                    $.each(logs, function(i, value) {
+                    const logs = data.logs;
+                    $.each(logs, (i, value) => {
                         lastLogRow.after(value.logInfoAsHtml);
                         lastLogRow = $('#emailLogsTable tr:last');
                         bindClickAction();
@@ -80,12 +81,21 @@ function submitFormAjax(offset) {
                 }
 
                 setStatusMessage(data.statusForAjax, StatusType.INFO);
-
             }, 500);
-        }
+        },
     });
 }
 
-function setFormErrorMessage(button, msg) {
-    button.after('&nbsp;&nbsp;&nbsp;' + msg);
-}
+$(document).ready(() => {
+    bindClickAction();
+    clickOlderButtonIfNeeded();
+    $('#filterReference').toggle();
+});
+
+/*
+export default {
+    toggleReference,
+    submitFormAjax,
+};
+*/
+/* exported toggleReference, submitFormAjax */

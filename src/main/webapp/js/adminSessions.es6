@@ -1,54 +1,47 @@
-'use strict';
-
-$(document).ready(function() {
+/* global AdminCommon:false */
+$(document).ready(() => {
     $('#timeFramePanel').toggle();
     AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
 
 function toggleContent(id) {
+    const duration = 500;
 
-    var duration = 500;
+    $(`#table_${id}`).slideToggle('slow');
 
-    $('#table_' + id).slideToggle('slow');
-
-    var pill = $('#pill_' + id).attr('class');
+    const pill = $(`#pill_${id}`).attr('class');
 
     if (pill === 'active') {
-        $('#pill_' + id).attr('class', ' ');
-        $('#badge_' + id).fadeIn(duration);
+        $(`#pill_${id}`).attr('class', ' ');
+        $(`#badge_${id}`).fadeIn(duration);
     } else {
-        $('#pill_' + id).attr('class', 'active');
-        $('#badge_' + id).fadeOut(duration);
+        $(`#pill_${id}`).attr('class', 'active');
+        $(`#badge_${id}`).fadeOut(duration);
     }
-
 }
 
 function openAllSections(count) {
-
-    for (var i = 1; i <= count; i++) {
-        var pill = $('#pill_' + i).attr('class');
+    for (let i = 1; i <= count; i += 1) {
+        const pill = $(`#pill_${i}`).attr('class');
         if (pill !== 'active') {
             toggleContent(i);
         }
     }
-
 }
 
 function closeAllSections(count) {
-
-    for (var i = 1; i <= count; i++) {
-        var pill = $('#pill_' + i).attr('class');
+    for (let i = 1; i <= count; i += 1) {
+        const pill = $(`#pill_${i}`).attr('class');
         if (pill === 'active') {
             toggleContent(i);
         }
     }
-
 }
 
 function toggleFilter() {
     $('#timeFramePanel').slideToggle('slow');
 
-    var button = $('#detailButton').attr('class');
+    const button = $('#detailButton').attr('class');
 
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
@@ -58,3 +51,12 @@ function toggleFilter() {
         $('#referenceText').text('Show Filter');
     }
 }
+
+/*
+export default {
+    openAllSections,
+    closeAllSections,
+    toggleFilter,
+};
+*/
+/* exported openAllSections, closeAllSections, toggleFilter */
