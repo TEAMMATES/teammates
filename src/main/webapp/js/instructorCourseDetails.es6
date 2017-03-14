@@ -64,6 +64,8 @@ function submitFormAjax() {
     });
 }
 
+const isShowCommentBox = false;
+
 $(document).ready(() => {
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));
@@ -84,5 +86,6 @@ $(document).ready(() => {
 /*
 export default {
     submitFormAjax,
+    isShowCommentBox
 };
 */
