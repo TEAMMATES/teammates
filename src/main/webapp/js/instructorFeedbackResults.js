@@ -1,8 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 /* global selectElementContents:false,
           bindCollapseEvents:false,
           bindPublishButtons:false,
@@ -13,6 +10,13 @@ Object.defineProperty(exports, "__esModule", {
           toggleSingleCollapse:false
 */
 /* eslint-disable no-use-before-define */
+/* exported     submitFormAjax,
+                updateStatsCheckBox,
+                getNextId,
+                displayAjaxRetryMessageForPanelHeading,
+                isEmptySection,
+                removeSection
+*/
 
 $(document).ready(function () {
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
@@ -317,12 +321,3 @@ function removeSection(id) {
 
     $heading.parent().remove();
 }
-
-exports.default = {
-    submitFormAjax: submitFormAjax,
-    updateStatsCheckBox: updateStatsCheckBox,
-    getNextId: getNextId,
-    displayAjaxRetryMessageForPanelHeading: displayAjaxRetryMessageForPanelHeading,
-    isEmptySection: isEmptySection,
-    removeSection: removeSection
-};

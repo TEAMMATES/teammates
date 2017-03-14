@@ -8,6 +8,13 @@
           toggleSingleCollapse:false
 */
 /* eslint-disable no-use-before-define */
+/* exported     submitFormAjax,
+                updateStatsCheckBox,
+                getNextId,
+                displayAjaxRetryMessageForPanelHeading,
+                isEmptySection,
+                removeSection
+*/
 
 $(document).ready(() => {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
@@ -318,13 +325,3 @@ function removeSection(id) {
 
     $heading.parent().remove();
 }
-
-
-export default {
-    submitFormAjax,
-    updateStatsCheckBox,
-    getNextId,
-    displayAjaxRetryMessageForPanelHeading,
-    isEmptySection,
-    removeSection,
-};
