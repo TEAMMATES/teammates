@@ -558,8 +558,8 @@ function tallyCheckboxes(questionNum) {
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
-    var didCopyOptions = copyOptions(type);
-    prepareQuestionForm(type, didCopyOptions);
+    var hasCopiedOptions = copyOptions(type);
+    prepareQuestionForm(type, hasCopiedOptions);
     $('#questionTable-' + NEW_QUESTION).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
@@ -583,7 +583,7 @@ function hideAllNewQuestionForms() {
     $('#rankRecipientsForm').hide();
 }
 
-function prepareQuestionForm(type, didCopyOptions) {
+function prepareQuestionForm(type, hasCopiedOptions) {
     hideAllNewQuestionForms();
 
     switch (type) {
@@ -637,7 +637,7 @@ function prepareQuestionForm(type, didCopyOptions) {
         $('#contribForm').show();
         fixContribQnGiverRecipient(NEW_QUESTION);
         setContribQnVisibilityFormat(NEW_QUESTION);
-        if (!didCopyOptions) {
+        if (!hasCopiedOptions) {
             setDefaultContribQnVisibility(NEW_QUESTION);
         }
         break;
@@ -671,6 +671,8 @@ function prepareQuestionForm(type, didCopyOptions) {
 /**
  * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
+ * @param newType
+ * @returns true if options were copied, false otherwise
  */
 function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
@@ -733,7 +735,7 @@ function copyOptions(newType) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
 
- // Hide visibility options and update common visibility options dropdown text if a common option is selected
+    // Hide visibility options and update common visibility options dropdown text if a common option is selected
     var prevQuestionVisibilityOption = $prevQuestionForm.find('.visibility-options-dropdown > button').text();
     $newQuestionForm.find('.visibility-options-dropdown > button').text(prevQuestionVisibilityOption);
 
