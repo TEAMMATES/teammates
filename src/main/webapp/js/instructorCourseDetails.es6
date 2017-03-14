@@ -1,36 +1,22 @@
 /* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
 /* global BootboxWrapper:false StatusType:false */
 
-function attachEventToRemindStudentsButton() {
-    $('#button_remind').on('click', (event) => {
-        const $clickedButton = $(event.target);
-        const messageText = `${'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
-                          + 'invite to students at the opening time of each session. Send a join request to '
-                          + 'all yet-to-join students in '}${$clickedButton.data('courseId')} anyway?`;
-        const okCallback = function okCallback() {
-            window.location = $clickedButton.attr('href');
-        };
+$(document).ready(() => {
+    if ($('#button_sortstudentsection').length) {
+        toggleSort($('#button_sortstudentsection'));
+    } else {
+        toggleSort($('#button_sortstudentteam'));
+    }
 
-        BootboxWrapper.showModalConfirmation('Confirm sending join requests', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+    // auto select the html table when modal is shown
+    $('#studentTableWindow').on('shown.bs.modal', () => {
+        selectElementContents(document.getElementById('detailsTable'));
     });
-}
 
-function attachEventToSendInviteLink() {
-    $('.course-student-remind-link').on('click', (event) => {
-        event.preventDefault();
-
-        const $clickedLink = $(event.target);
-        const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
-                          + 'invite to students at the opening time of each session. Send a join request anyway?';
-        const okCallback = function okCallback() {
-            window.location = $clickedLink.attr('href');
-        };
-
-        BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
-    });
-}
+    attachEventToRemindStudentsButton();
+    attachEventToSendInviteLink();
+    attachEventToDeleteStudentLink();
+});
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -64,24 +50,38 @@ function submitFormAjax() {
     });
 }
 
-const isShowCommentBox = false;
+function attachEventToRemindStudentsButton() {
+    $('#button_remind').on('click', (event) => {
+        const $clickedButton = $(event.target);
+        const messageText = `${'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                          + 'invite to students at the opening time of each session. Send a join request to '
+                          + 'all yet-to-join students in '}${$clickedButton.data('courseId')} anyway?`;
+        const okCallback = function okCallback() {
+            window.location = $clickedButton.attr('href');
+        };
 
-$(document).ready(() => {
-    if ($('#button_sortstudentsection').length) {
-        toggleSort($('#button_sortstudentsection'));
-    } else {
-        toggleSort($('#button_sortstudentteam'));
-    }
-
-    // auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('detailsTable'));
+        BootboxWrapper.showModalConfirmation('Confirm sending join requests', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
+}
 
-    attachEventToRemindStudentsButton();
-    attachEventToSendInviteLink();
-    attachEventToDeleteStudentLink();
-});
+function attachEventToSendInviteLink() {
+    $('.course-student-remind-link').on('click', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.target);
+        const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                          + 'invite to students at the opening time of each session. Send a join request anyway?';
+        const okCallback = function okCallback() {
+            window.location = $clickedLink.attr('href');
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+    });
+}
+
+const isShowCommentBox = false;
 
 /*
 export default {

@@ -26,108 +26,55 @@ const instructorPrivilegeValues = [
     'canmodifysessioncommentinsection',
 ];
 
-function showNewInstructorForm() {
-    $('#panelAddInstructor').show();
-    $('#btnShowNewInstructorForm').hide();
-    scrollToElement($('#panelAddInstructor')[0], { duration: 1000 });
-}
-
-function hideNewInstructorForm() {
-    $('#panelAddInstructor').hide();
-    $('#btnShowNewInstructorForm').show();
-}
-
-function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
-    $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .html('Give different permissions for sessions in this section');
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .attr('onclick', `showTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'false');
-}
-
-function setAddSectionLevelLink(instrNum) {
-    let foundNewLink = false;
-    const allSectionSelects = $(`#tunePermissionsDivForInstructor${instrNum
-                               } div[id^='tuneSectionPermissionsDiv']`).find('input[type=hidden]')
-                                                                        .not("[name*='sessions']");
-    for (let idx = 0; idx < allSectionSelects.length; idx += 1) {
-        const item = $(allSectionSelects[idx]);
-        if (item.attr('value') === 'false') {
-            const sectionNumStr = item.attr('name').substring(14).slice(0, -3);
-            $(`#addSectionLevelForInstructor${instrNum}`)
-                .attr('onclick', `showTuneSectionPermissionsDiv(${instrNum}, ${sectionNumStr})`);
-            foundNewLink = true;
-            break;
-        }
+$(document).ready(() => {
+    const numOfInstr = $("form[id^='formEditInstructor']").length;
+    for (let i = 0; i < numOfInstr; i += 1) {
+        const instrNum = i + 1;
+        const instrRole = $(`#accessControlInfoForInstr${instrNum} div div p span`).html().trim();
+        instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
+        checkTheRoleThatApplies(i + 1);
     }
-    if (foundNewLink) {
-        $(`#addSectionLevelForInstructor${instrNum}`).show();
-    } else {
-        $(`#addSectionLevelForInstructor${instrNum}`).hide();
-    }
-}
 
-function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}set']`).attr('value', 'false');
-    $(`#addSectionLevelForInstructor${instrNum}`).show();
-    setAddSectionLevelLink(instrNum);
-}
-
-function hideAllTunePermissionsDivs(instrNum) {
-    const $tunePermissionsDiv = $(`#tunePermissionsDivForInstructor${instrNum}`);
-    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each((i) => {
-        hideTuneSessionnPermissionsDiv(instrNum, i);
-        hideTuneSectionPermissionsDiv(instrNum, i);
+    $('#courseEditLink').click(editCourse);
+    $('a[id^="instrCancelLink"]').hide();
+    $('a[id^="instrCancelLink"]').click(function () {
+        const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
+        disableFormEditInstructor(instrNum);
     });
-    $tunePermissionsDiv.hide();
-}
+    bindCheckboxToggle();
+    const index = $('#new-instructor-index').val();
+    bindChangingRole(index);
 
-function showTunePermissionsDiv(instrNum) {
-    $(`#tunePermissionsDivForInstructor${instrNum}`).show();
-}
+    bindRemindInstructorLink();
+    bindDeleteInstructorLink();
 
-function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
-    const numberOfSections = $(`select#section${sectionNum}forinstructor${instrNum} option`).length;
-    const numOfVisibleSections = $(`#tunePermissionsDivForInstructor${1
-                                  } div[id^='tuneSectionPermissionsDiv']`).filter(':visible').length;
+    if (typeof moment !== 'undefined') {
+        const $selectElement = $(`#${COURSE_TIME_ZONE}`);
+        TimeZone.prepareTimeZoneInput($selectElement);
+        TimeZone.updateTimeZone($selectElement, courseTimeZone);
 
-    if (numOfVisibleSections === numberOfSections) {
-        $(`#addSectionLevelForInstructor${instrNum}`).hide();
+        $('#auto-detect-time-zone').on('click', () => {
+            autoDetectTimeZone();
+        });
     }
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}set']`).attr('value', 'true');
-    setAddSectionLevelLink(instrNum);
-}
+});
 
-function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
-    $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).html('Hide session-level permissions');
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .attr('onclick', `hideTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'true');
-}
-
-function showAllSpecialSectionAndSessionPermissionsDivs(instrNum) {
-    const $tunePermissionsDiv = $(`#tunePermissionsDivForInstructor${instrNum}`);
-    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function (i) {
-        const $currTunePermissionsDiv = $(this);
-        if ($currTunePermissionsDiv.data('is-originally-displayed')) {
-            showTuneSectionPermissionsDiv(instrNum, i);
+/**
+ * Enable the user to edit one instructor and disable editting for other instructors
+ * @param instructorNum
+ * @param totalInstructors
+ */
+function enableEditInstructor(event) {
+    const instructorNum = event.data.instructorIndex;
+    const totalInstructors = event.data.total;
+    for (let i = 1; i <= totalInstructors; i += 1) {
+        if (i === instructorNum) {
+            enableFormEditInstructor(i);
+        } else {
+            disableFormEditInstructor(i);
         }
-        if ($currTunePermissionsDiv.find('div[id^="tuneSessionPermissionsDiv"]').data('is-originally-displayed')) {
-            showTuneSessionnPermissionsDiv(instrNum, i);
-        }
-    });
-}
-
-function hideTunePermissionDiv(instrNum) {
-    $(`#tunePermissionsDivForInstructor${instrNum}`).hide();
+    }
+    hideNewInstructorForm();
 }
 
 /**
@@ -167,22 +114,140 @@ function disableFormEditInstructor(number) {
     hideAllTunePermissionsDivs(number);
 }
 
-/**
- * Enable the user to edit one instructor and disable editting for other instructors
- * @param instructorNum
- * @param totalInstructors
- */
-function enableEditInstructor(event) {
-    const instructorNum = event.data.instructorIndex;
-    const totalInstructors = event.data.total;
-    for (let i = 1; i <= totalInstructors; i += 1) {
-        if (i === instructorNum) {
-            enableFormEditInstructor(i);
-        } else {
-            disableFormEditInstructor(i);
+function showNewInstructorForm() {
+    $('#panelAddInstructor').show();
+    $('#btnShowNewInstructorForm').hide();
+    scrollToElement($('#panelAddInstructor')[0], { duration: 1000 });
+}
+
+function hideNewInstructorForm() {
+    $('#panelAddInstructor').hide();
+    $('#btnShowNewInstructorForm').show();
+}
+
+function hideAllTunePermissionsDivs(instrNum) {
+    const $tunePermissionsDiv = $(`#tunePermissionsDivForInstructor${instrNum}`);
+    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each((i) => {
+        hideTuneSessionnPermissionsDiv(instrNum, i);
+        hideTuneSectionPermissionsDiv(instrNum, i);
+    });
+    $tunePermissionsDiv.hide();
+}
+
+function showAllSpecialSectionAndSessionPermissionsDivs(instrNum) {
+    const $tunePermissionsDiv = $(`#tunePermissionsDivForInstructor${instrNum}`);
+    $tunePermissionsDiv.find('div[id^="tuneSectionPermissionsDiv"]').each(function (i) {
+        const $currTunePermissionsDiv = $(this);
+        if ($currTunePermissionsDiv.data('is-originally-displayed')) {
+            showTuneSectionPermissionsDiv(instrNum, i);
+        }
+        if ($currTunePermissionsDiv.find('div[id^="tuneSessionPermissionsDiv"]').data('is-originally-displayed')) {
+            showTuneSessionnPermissionsDiv(instrNum, i);
+        }
+    });
+}
+
+function showTunePermissionsDiv(instrNum) {
+    $(`#tunePermissionsDivForInstructor${instrNum}`).show();
+}
+
+function hideTunePermissionDiv(instrNum) {
+    $(`#tunePermissionsDivForInstructor${instrNum}`).hide();
+}
+
+function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
+    const numberOfSections = $(`select#section${sectionNum}forinstructor${instrNum} option`).length;
+    const numOfVisibleSections = $(`#tunePermissionsDivForInstructor${1
+                                  } div[id^='tuneSectionPermissionsDiv']`).filter(':visible').length;
+
+    if (numOfVisibleSections === numberOfSections) {
+        $(`#addSectionLevelForInstructor${instrNum}`).hide();
+    }
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
+         } input[name='issectiongroup${sectionNum}set']`).attr('value', 'true');
+    setAddSectionLevelLink(instrNum);
+}
+
+function setAddSectionLevelLink(instrNum) {
+    let foundNewLink = false;
+    const allSectionSelects = $(`#tunePermissionsDivForInstructor${instrNum
+                               } div[id^='tuneSectionPermissionsDiv']`).find('input[type=hidden]')
+                                                                        .not("[name*='sessions']");
+    for (let idx = 0; idx < allSectionSelects.length; idx += 1) {
+        const item = $(allSectionSelects[idx]);
+        if (item.attr('value') === 'false') {
+            const sectionNumStr = item.attr('name').substring(14).slice(0, -3);
+            $(`#addSectionLevelForInstructor${instrNum}`)
+                .attr('onclick', `showTuneSectionPermissionsDiv(${instrNum}, ${sectionNumStr})`);
+            foundNewLink = true;
+            break;
         }
     }
-    hideNewInstructorForm();
+    if (foundNewLink) {
+        $(`#addSectionLevelForInstructor${instrNum}`).show();
+    } else {
+        $(`#addSectionLevelForInstructor${instrNum}`).hide();
+    }
+}
+
+function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
+         } input[name='issectiongroup${sectionNum}set']`).attr('value', 'false');
+    $(`#addSectionLevelForInstructor${instrNum}`).show();
+    setAddSectionLevelLink(instrNum);
+}
+
+function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
+    $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).html('Hide session-level permissions');
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
+        .attr('onclick', `hideTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
+         } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'true');
+}
+
+function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
+    $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
+        .html('Give different permissions for sessions in this section');
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
+        .attr('onclick', `showTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
+         } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'false');
+}
+
+function checkTheRoleThatApplies(instrNum) {
+    const instrRole = $(`#accessControlInfoForInstr${instrNum} div div p span`).html();
+    $(`input[id='instructorroleforinstructor${instrNum}']`).filter(`[value='${instrRole}']`).prop('checked', true);
+    if (instrRole === 'Custom') {
+        // Save original values of Custom Role
+        instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = {};
+        for (let i = 0; i < instructorPrivilegeValues.length; i += 1) {
+            const checkValue = $(`#tunePermissionsDivForInstructor${instrNum
+                                } input[name='${instructorPrivilegeValues[i]}']`).prop('checked');
+            instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
+        }
+
+        checkPrivilegesOfRoleForInstructor(instrNum, instrRole);
+    }
+}
+
+function checkPrivilegesOfRoleForInstructor(instrNum, role) {
+    if (role === 'Co-owner') {
+        checkPrivilegesOfCoownerForInstructor(instrNum);
+    } else if (role === 'Manager') {
+        checkPrivilegesOfManagerForInstructor(instrNum);
+    } else if (role === 'Observer') {
+        checkPrivilegesOfObserverForInstructor(instrNum);
+    } else if (role === 'Tutor') {
+        checkPrivilegesOfTutorForInstructor(instrNum);
+    } else if (role === 'Custom') {
+        checkPrivilegesOfCustomForInstructor(instrNum);
+    }
+
+    // do nothing if role not recognized
 }
 
 function checkPrivilegesOfCoownerForInstructor(instrNum) {
@@ -224,9 +289,6 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
        } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
 }
 
-/* Suppress no-use-before-define because the 2 functions below are strangely mutually recursive, TODO: rewrite */
-/* eslint-disable no-use-before-define */
-
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     const originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
@@ -256,38 +318,26 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
     showTunePermissionsDiv(instrNum);
 }
 
-function checkPrivilegesOfRoleForInstructor(instrNum, role) {
-    if (role === 'Co-owner') {
-        checkPrivilegesOfCoownerForInstructor(instrNum);
-    } else if (role === 'Manager') {
-        checkPrivilegesOfManagerForInstructor(instrNum);
-    } else if (role === 'Observer') {
-        checkPrivilegesOfObserverForInstructor(instrNum);
-    } else if (role === 'Tutor') {
-        checkPrivilegesOfTutorForInstructor(instrNum);
-    } else if (role === 'Custom') {
-        checkPrivilegesOfCustomForInstructor(instrNum);
+function showInstructorRoleModal(instrRole) {
+    const isValidRole = checkPrivilegesOfRoleForModal(instrRole);
+    if (isValidRole) {
+        $('#tunePermissionsDivForInstructorAll').modal();
     }
-
-    // do nothing if role not recognized
 }
 
-/* eslint-enable no-use-before-define */
-
-function checkTheRoleThatApplies(instrNum) {
-    const instrRole = $(`#accessControlInfoForInstr${instrNum} div div p span`).html();
-    $(`input[id='instructorroleforinstructor${instrNum}']`).filter(`[value='${instrRole}']`).prop('checked', true);
-    if (instrRole === 'Custom') {
-        // Save original values of Custom Role
-        instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = {};
-        for (let i = 0; i < instructorPrivilegeValues.length; i += 1) {
-            const checkValue = $(`#tunePermissionsDivForInstructor${instrNum
-                                } input[name='${instructorPrivilegeValues[i]}']`).prop('checked');
-            instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
-        }
-
-        checkPrivilegesOfRoleForInstructor(instrNum, instrRole);
+function checkPrivilegesOfRoleForModal(role) {
+    if (role === 'Co-owner') {
+        checkPrivilegesOfCoownerForModal();
+    } else if (role === 'Manager') {
+        checkPrivilegesOfManagerForModal();
+    } else if (role === 'Observer') {
+        checkPrivilegesOfObserverForModal();
+    } else if (role === 'Tutor') {
+        checkPrivilegesOfTutorForModal();
+    } else {
+        return false;
     }
+    return true;
 }
 
 function checkPrivilegesOfCoownerForModal() {
@@ -332,28 +382,6 @@ function checkPrivilegesOfTutorForModal() {
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop('checked', false);
 
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Tutor');
-}
-
-function checkPrivilegesOfRoleForModal(role) {
-    if (role === 'Co-owner') {
-        checkPrivilegesOfCoownerForModal();
-    } else if (role === 'Manager') {
-        checkPrivilegesOfManagerForModal();
-    } else if (role === 'Observer') {
-        checkPrivilegesOfObserverForModal();
-    } else if (role === 'Tutor') {
-        checkPrivilegesOfTutorForModal();
-    } else {
-        return false;
-    }
-    return true;
-}
-
-function showInstructorRoleModal(instrRole) {
-    const isValidRole = checkPrivilegesOfRoleForModal(instrRole);
-    if (isValidRole) {
-        $('#tunePermissionsDivForInstructorAll').modal();
-    }
 }
 
 function bindDeleteInstructorLink() {
@@ -470,39 +498,6 @@ function autoDetectTimeZone() {
     const $selectElement = $(`#${COURSE_TIME_ZONE}`);
     TimeZone.autoDetectAndUpdateTimeZone($selectElement);
 }
-
-$(document).ready(() => {
-    const numOfInstr = $("form[id^='formEditInstructor']").length;
-    for (let i = 0; i < numOfInstr; i += 1) {
-        const instrNum = i + 1;
-        const instrRole = $(`#accessControlInfoForInstr${instrNum} div div p span`).html().trim();
-        instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
-        checkTheRoleThatApplies(i + 1);
-    }
-
-    $('#courseEditLink').click(editCourse);
-    $('a[id^="instrCancelLink"]').hide();
-    $('a[id^="instrCancelLink"]').click(function () {
-        const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
-        disableFormEditInstructor(instrNum);
-    });
-    bindCheckboxToggle();
-    const index = $('#new-instructor-index').val();
-    bindChangingRole(index);
-
-    bindRemindInstructorLink();
-    bindDeleteInstructorLink();
-
-    if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${COURSE_TIME_ZONE}`);
-        TimeZone.prepareTimeZoneInput($selectElement);
-        TimeZone.updateTimeZone($selectElement, courseTimeZone);
-
-        $('#auto-detect-time-zone').on('click', () => {
-            autoDetectTimeZone();
-        });
-    }
-});
 
 /*
 export default {
