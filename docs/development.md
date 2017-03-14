@@ -45,7 +45,7 @@ Click the "Terminate" icon on the Eclipse console.
 1. Click `+ → Google AppEngine Dev Server`.
 1. Name it `Dev Server`.
 1. Click `Configure` next to `Application server`.
-1. Click `+ → ...`. Select the App Engine SDK (appengine-java-sdk-<version> sub-folder) you downloaded in Step 3 of the Setting up a development environment guide.
+1. Click `+ → ...`. Select the App Engine SDK (appengine-java-sdk-<version> sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
 1. Under `Open browser`, uncheck `After launch`.
 1. Set the `JRE` to `1.7`.
 1. Set the `Port` to `8888`.
