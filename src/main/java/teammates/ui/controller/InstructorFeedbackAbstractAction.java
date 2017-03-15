@@ -39,27 +39,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         // handle session visible after results visible to avoid having a
         // results visible date when session is private (session not visible)
-        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
-        switch (type) {
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            // overwrite if private
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-            break;
-        default:
-            log.severe("Invalid sessionVisibleFrom setting in creating "
-                       + newSession.getIdentificationString());
-            break;
-        }
+        setSessionVisibleFromTime(newSession);
 
         String[] sendReminderEmailsArray =
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
@@ -121,6 +101,28 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         default:
             log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
+            break;
+        }
+    }
+
+    private void setSessionVisibleFromTime(FeedbackSessionAttributes newSession) {
+        switch (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON)) {
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
+            newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
+            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
+            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            // overwrite if private
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
+            break;
+        default:
+            log.severe("Invalid sessionVisibleFrom setting in creating " + newSession.getIdentificationString());
             break;
         }
     }
