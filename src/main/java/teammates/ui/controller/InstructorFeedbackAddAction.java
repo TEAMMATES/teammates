@@ -141,13 +141,13 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         return new ArrayList<FeedbackQuestionAttributes>();
     }
 
-    private FeedbackSessionAttributes setUniqueAttributesForSession(
+    @Override
+    protected void setUniqueAttributesForSession(
             FeedbackSessionAttributes newSession, List<String> sendRemainderEmailsList) {
         newSession.setCreatedTime(new Date());
         newSession.setSentOpenEmail(false);
         newSession.setSentPublishedEmail(false);
         newSession.setInstructions(new Text(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
-        return newSession;
     }
 }

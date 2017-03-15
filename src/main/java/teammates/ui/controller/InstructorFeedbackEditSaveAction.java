@@ -60,13 +60,13 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         return createAjaxResult(data);
     }
 
-    private FeedbackSessionAttributes setUniqueAttributesForSession(
+    @Override
+    protected void setUniqueAttributesForSession(
             FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList) {
         newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
         newSession.setInstructions(new Text(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
         newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
                 .toString()));
-        return newSession;
     }
 }
