@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AdminEmailComposePageAction;
@@ -13,7 +12,7 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposePageActionTest extends BaseActionTest {
 
-    protected AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    private AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -54,14 +53,13 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
 
         ______TS("case: edit existing email");
         // retrieve email id from logic
-        AdminEmailAttributes email = adminEmailsLogic.getAllAdminEmails().get(0);
+        AdminEmailAttributes email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
                 Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user", pageResult.getDestinationWithParams());
 
-        String expectedLogSegment = normalLogSegment + " : Edit Email ["
-                                    + SanitizationHelper.sanitizeForHtml(email.getSubject()) + "]";
+        String expectedLogSegment = normalLogSegment + " : Edit Email [Admin Email 1 &lt;b&gt;bold tags&lt;&#x2f;b&gt;]";
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
         assertEquals("", pageResult.getStatusMessage());
