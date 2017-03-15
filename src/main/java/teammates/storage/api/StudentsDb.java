@@ -177,17 +177,17 @@ public class StudentsDb extends EntitiesDb {
      *
      * @return null if no matching student.
      */
-    public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
-
+    public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
         try {
-            // CourseStudent
-            String originalKey = StringHelper.decrypt(registrationKey.trim());
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(originalKey);
+            String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
+            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
             if (courseStudent == null) {
                 return null;
             }
             return new StudentAttributes(courseStudent);
+        } catch (InvalidParametersException e) {
+            return null; // invalid registration key cannot be decrypted
         } catch (Exception e) {
             // TODO change this to an Assumption.fail
             log.severe("Exception thrown trying to retrieve CourseStudent \n"
