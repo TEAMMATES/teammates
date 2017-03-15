@@ -911,7 +911,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isRadioButtonChecked(3));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
 
-         // refresh page
+        // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
         feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.getCourseId());
