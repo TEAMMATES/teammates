@@ -669,7 +669,6 @@ function prepareQuestionForm(type) {
 /**
  * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
- * @param newType
  */
 function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
