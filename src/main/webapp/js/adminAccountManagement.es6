@@ -1,4 +1,4 @@
-/* global BootboxWrapper:false StatusType:false toggleSort:false */
+/* global BootboxWrapper:false StatusType:false toggleSort:false bindBackToTopButtons:false */
 const entryPerPage = 200;
 
 let begin = 0;

@@ -1,4 +1,4 @@
-/* global setStatusMessage:false StatusType:false */
+/* global setStatusMessage:false StatusType:false bindBackToTopButtons:false */
 
 $(document).ready(() => {
     $('#filterReference').toggle();
