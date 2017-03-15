@@ -35,27 +35,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         setTimeZone(newSession);
         setGracePeriod(newSession);
 
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
-        switch (type) {
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            break;
-        default:
-            log.severe("Invalid resultsVisibleFrom setting in creating"
-                       + newSession.getIdentificationString());
-            break;
-        }
+        setResultsVisibleFromTime(newSession);
 
         // handle session visible after results visible to avoid having a
         // results visible date when session is private (session not visible)
@@ -120,6 +100,28 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
+        }
+    }
+
+    private void setResultsVisibleFromTime(FeedbackSessionAttributes newSession) {
+        switch (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON)) {
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
+            newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+            break;
+        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
+            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            break;
+        default:
+            log.severe("Invalid resultsVisibleFrom setting in creating" + newSession.getIdentificationString());
+            break;
         }
     }
 
