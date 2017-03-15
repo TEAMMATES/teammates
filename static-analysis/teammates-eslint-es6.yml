@@ -20,6 +20,15 @@ rules:
     # enforce a maximum line length
     max-len: ["error", 125]
 
+    # disallow continue statements
+    no-continue: "off"
+
+    # disallow mixes of different operators
+    no-mixed-operators: "off"
+
+    # disallow reassigning function parameters
+    no-param-reassign: ["error", { "props": false }]
+
     # disallow the use of variables before they are defined
     no-use-before-define: "off"
 
