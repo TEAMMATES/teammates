@@ -36,8 +36,4 @@ public class LoopHelper {
         }
     }
 
-    public int getCount() {
-        return count;
-    }
-
 }
