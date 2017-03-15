@@ -403,26 +403,29 @@ public final class CommentsLogic {
         removeNonVisibleCommentsForTeam(commentsForSection, student, teammatesEmails, commentsVisitedSet, comments);
 
         for (CommentAttributes c : commentsForSection) {
-            //for teammates
             if (c.recipientType == CommentParticipantType.PERSON
                     && isCommentRecipientsWithinGroup(sectionStudentsEmails, c)) {
+                //for teammates
+
                 if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
-            //for team
             } else if (c.recipientType == CommentParticipantType.TEAM
                        && isCommentRecipientsWithinGroup(teamsInThisSection, c)) {
+                //for team
+
                 if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
-            //for section
             } else if (c.recipientType == CommentParticipantType.SECTION && c.recipients.contains(student.section)) {
+                //for section
+
                 if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
@@ -437,17 +440,19 @@ public final class CommentsLogic {
                                                  List<String> teammates, HashSet<String> commentsVisitedSet,
                                                  List<CommentAttributes> comments) {
         for (CommentAttributes c : commentsForTeam) {
-            //for teammates
             if (c.recipientType == CommentParticipantType.PERSON && isCommentRecipientsWithinGroup(teammates, c)) {
+                //for teammates
+
                 if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
-            //for team
             } else if (c.recipientType == CommentParticipantType.TEAM
                        && c.recipients.contains(SanitizationHelper.sanitizeForHtml(student.team))) {
+                //for team
+
                 if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);
