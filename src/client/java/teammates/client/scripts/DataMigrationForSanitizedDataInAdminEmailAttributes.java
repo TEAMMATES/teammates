@@ -18,14 +18,13 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Script to desanitize content of AdminEmailAttributes if it is sanitized.
  * Html sanitization of content before saving is removed and content is expected to be in its unsanitized form.
- * This script helps to desanitize content of exisiting AdminEmailAttributes so that they follow the new standard.
+ * This script desanitizes content of exisiting AdminEmailAttributes so that
+ * all emails will have unsanitized content.
  */
 public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteApiClient {
     private static final boolean isPreview = true;
     private AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
     private AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
-    private int numberOfAffectedEmails;
-    private int numberOfUpdatedEmails;
 
     public static void main(String[] args) throws IOException {
         new DataMigrationForSanitizedDataInAdminEmailAttributes().doOperationRemotely();
@@ -34,18 +33,29 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     @Override
     protected void doOperation() {
         List<AdminEmailAttributes> allEmails = adminEmailsLogic.getAllAdminEmails();
-        numberOfAffectedEmails = 0;
-        numberOfUpdatedEmails = 0;
+        int numberOfAffectedEmails = 0;
+        int numberOfUpdatedEmails = 0;
         LoopHelper loopHelper = new LoopHelper(100, "admin emails processed.");
         println("Running data migration for sanitization on admin emails...");
         println("Preview: " + isPreview);
         for (AdminEmailAttributes email : allEmails) {
             loopHelper.recordLoop();
-            fixSanitizedDataForEmail(email);
+            if (!isEmailSanitized(email)) {
+                // skip the update if email is not sanitized
+                continue;
+            }
+            numberOfAffectedEmails++;
+            try {
+                desanitizeAndUpdateEmail(email);
+                numberOfUpdatedEmails++;
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                println("Problem sanitizing email id " + email.getEmailId());
+                e.printStackTrace();
+            }
         }
-        println("There are/is " + loopHelper.getCount() + " email(s).");
-        println("There are/is " + numberOfAffectedEmails + " affected email(s).");
-        println((isPreview ? 0 : numberOfUpdatedEmails) + " email(s) are/is successfully updated.");
+        println("Total number of emails: " + allEmails.size());
+        println("Number of affected emails: " + numberOfAffectedEmails);
+        println("Number of updated emails: " + numberOfUpdatedEmails);
     }
 
     private boolean isEmailSanitized(AdminEmailAttributes email) {
@@ -53,44 +63,15 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
     }
 
     /**
-     * Desanitizes and updates the {@code email} in the database if the email has sanitized data.
-     * If there is no sanitized data, the method does nothing.
-     * Updates the counters {@link #numberOfAffectedEmails}, {@link #numberOfUpdatedEmails} accordingly.
+     * Desanitizes the {@code email} content and updates it in the database.
      */
-    private void fixSanitizedDataForEmail(AdminEmailAttributes email) {
-        if (!isEmailSanitized(email)) {
-            return;
-        }
-        numberOfAffectedEmails++;
-        printingForPreview(email);
-        desanitizeEmail(email);
-        try {
-            if (!isPreview) {
-                adminEmailsDb.updateAdminEmail(email);
-            }
-            numberOfUpdatedEmails++;
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            println("Problem sanitizing email " + email.getSubject());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Desanitizes the {@code email} content.
-     */
-    private void desanitizeEmail(AdminEmailAttributes email) {
+    private void desanitizeAndUpdateEmail(AdminEmailAttributes email)
+            throws InvalidParametersException, EntityDoesNotExistException {
         String desanitizedContent = SanitizationHelper.desanitizeFromHtml(email.getContentValue());
         email.content = new Text(desanitizedContent);
-    }
-
-    /**
-     * Prints information of the {@code email} in preview mode.
-     */
-    private void printingForPreview(AdminEmailAttributes email) {
         if (!isPreview) {
-            return;
+            adminEmailsDb.updateAdminEmail(email);
         }
-        println("Email to be sanitized: " + email.getSubject());
     }
 
     /**
