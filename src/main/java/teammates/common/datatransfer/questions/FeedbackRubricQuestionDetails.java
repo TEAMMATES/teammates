@@ -490,9 +490,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Gets the description for given sub-question and choice
-     * @param subQuestion
-     * @param choice
+     * Gets the description for given sub-question and choice.
      */
     private String getDescription(int subQuestion, int choice) {
         return rubricDescriptions.get(subQuestion).get(choice);
@@ -626,7 +624,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Returns a list of FeedbackResponseAttributes filtered according to view, question recipient type
-     * for the Statistics Table
+     * for the Statistics Table.
      */
     private List<FeedbackResponseAttributes> filterResponsesForStatistics(
             List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
@@ -803,16 +801,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                + Const.FeedbackQuestionTypeNames.RUBRIC + "</a></li>";
     }
 
-    /**
-     * For rubric questions,
-     *      1) Description size should be valid
-     *      2) At least 2 choices
-     *      3) At least 1 sub-question
-     *      4) Choices and sub-questions should not be empty
-     *      5) Choices must have corresponding weights if weights are assigned
-     */
     @Override
     public List<String> validateQuestionDetails() {
+        // For rubric questions,
+        // 1) Description size should be valid
+        // 2) At least 2 choices
+        // 3) At least 1 sub-question
+        // 4) Choices and sub-questions should not be empty
+        // 5) Choices must have corresponding weights if weights are assigned
+
         List<String> errors = new ArrayList<String>();
 
         if (!isValidDescriptionSize()) {
@@ -872,6 +869,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
+    boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    List<Double> getRubricWeights() {
+        return new ArrayList<Double>(rubricWeights);
+    }
+
     public int getNumOfRubricChoices() {
         return numOfRubricChoices;
     }
@@ -904,10 +909,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Stores the frequency of being selected for each choice of each sub-question
          * and the total number of responses for each sub-question.
-         * Last element in each row stores the total number of responses for the sub-question.
-         * e.g.
+         *
+         * <p>Last element in each row stores the total number of responses for the sub-question.
+         *
+         * <p>e.g.<br>
          * responseFrequency[subQuestionIndex][choiceIndex]
-         * -> is the number of times choiceIndex is chosen for subQuestionIndex.
+         * -> is the number of times choiceIndex is chosen for subQuestionIndex.<br>
          * responseFrequency[subQuestionIndex][numOfRubricChoices]
          * -> is the total number of the responses for the given sub-question.
          */
@@ -916,11 +923,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Stores the percentage value between [0,1] of each choice
          * being selected for the sub-question.
-         * Values are set to 0 if there are no responses to that sub-question.
+         *
+         * <p>Values are set to 0 if there are no responses to that sub-question.
          * Average value is set to 0 if there are no assigned weights.
-         * e.g.
+         *
+         * <p>e.g.<br>
          * percentageFrequencyAndAverageValue[subQuestionIndex][choiceIndex]
-         * -> is the percentage choiceIndex is chosen for subQuestionIndex.
+         * -> is the percentage choiceIndex is chosen for subQuestionIndex.<br>
          * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
          * -> is the average weight of the responses for the given sub-question.
          */
@@ -938,8 +947,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             this.responses = responses;
             this.questionDetails = questionDetails;
 
-            this.numOfRubricSubQuestions = questionDetails.numOfRubricSubQuestions;
-            this.numOfRubricChoices = questionDetails.numOfRubricChoices;
+            this.numOfRubricSubQuestions = questionDetails.getNumOfRubricSubQuestions();
+            this.numOfRubricChoices = questionDetails.getNumOfRubricChoices();
             this.responseTotalIndex = numOfRubricChoices;
 
             calculateResponseFrequency();
@@ -982,10 +991,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     percentageFrequencyAndAverage[i][j] = (float) responseFrequency[i][j] / totalForSubQuestion;
                 }
                 // calculate the average for each sub-question
-                if (questionDetails.hasAssignedWeights) {
+                if (questionDetails.hasAssignedWeights()) {
                     for (int j = 0; j < numOfRubricChoices; j++) {
                         float choiceWeight =
-                                (float) (questionDetails.rubricWeights.get(j) * percentageFrequencyAndAverage[i][j]);
+                                (float) (questionDetails.getRubricWeights().get(j) * percentageFrequencyAndAverage[i][j]);
                         percentageFrequencyAndAverage[i][numOfRubricChoices] += choiceWeight;
                     }
                 }

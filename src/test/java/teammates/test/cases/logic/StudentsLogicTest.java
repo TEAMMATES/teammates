@@ -86,7 +86,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      * tested in a separate class.
      */
 
-    public void testGetTeamForStudent() {
+    private void testGetTeamForStudent() {
         ______TS("Typical case: get team of existing student");
 
         String courseId = "idOfTypicalCourse1";
@@ -108,7 +108,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testEnrollStudent() throws Exception {
+    private void testEnrollStudent() throws Exception {
 
         String instructorId = "instructorForEnrollTesting";
         String instructorCourse = "courseForEnrollTesting";
@@ -165,7 +165,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetStudentProfile() throws Exception {
+    private void testGetStudentProfile() throws Exception {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         AccountAttributes student1 = dataBundle.accounts.get("student1InCourse1");
@@ -201,7 +201,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
     }
 
-    public void testValidateSections() throws Exception {
+    private void testValidateSections() throws Exception {
 
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
         String courseId = typicalCourse1.getId();
@@ -243,7 +243,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testupdateStudentCascadeWithoutDocument() throws Exception {
+    private void testupdateStudentCascadeWithoutDocument() throws Exception {
 
         ______TS("typical edit");
 
@@ -309,7 +309,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testKeyGeneration() {
+    private void testKeyGeneration() {
 
         ______TS("key generation");
 
@@ -320,7 +320,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
     }
 
-    public void testAdjustFeedbackResponseForEnrollments() throws Exception {
+    private void testAdjustFeedbackResponseForEnrollments() throws Exception {
 
         // the case below will not cause the response to be deleted
         // because the studentEnrollDetails'email is not the same as giver or recipient
@@ -404,7 +404,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testEnrollLinesChecking() throws Exception {
+    private void testEnrollLinesChecking() throws Exception {
         String info;
         String enrollLines;
         String courseId = "CourseID";
@@ -605,7 +605,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         return invalidInfoString;
     }
 
-    public void testEnrollStudents() throws Exception {
+    private void testEnrollStudents() throws Exception {
 
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
@@ -764,7 +764,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetStudentForEmail() {
+    private void testGetStudentForEmail() {
 
         ______TS("null parameters");
 
@@ -788,7 +788,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                      studentsLogic.getStudentForEmail(course1Id, student1InCourse1.email).googleId);
     }
 
-    public void testGetStudentForRegistrationKey() {
+    private void testGetStudentForRegistrationKey() {
 
         ______TS("null parameter");
 
@@ -813,7 +813,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
     }
 
-    public void testGetStudentsForGoogleId() {
+    private void testGetStudentsForGoogleId() {
 
         ______TS("student in one course");
 
@@ -887,7 +887,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetStudentForCourseIdAndGoogleId() {
+    private void testGetStudentForCourseIdAndGoogleId() {
 
         ______TS("student in two courses");
 
@@ -922,7 +922,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetStudentsForCourse() {
+    private void testGetStudentsForCourse() {
 
         ______TS("course with multiple students");
 
@@ -956,7 +956,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetEncryptedKeyForStudent() throws Exception {
+    private void testGetEncryptedKeyForStudent() throws Exception {
 
         ______TS("null parameters");
 
@@ -991,7 +991,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(expectedKey, actualKey);
     }
 
-    public void testIsStudentInAnyCourse() {
+    private void testIsStudentInAnyCourse() {
 
         ______TS("non-existent student");
 
@@ -1004,7 +1004,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertTrue(studentsLogic.isStudentInAnyCourse(student1InCourse1.googleId));
     }
 
-    public void testIsStudentInCourse() {
+    private void testIsStudentInCourse() {
 
         ______TS("non-existent student");
 
@@ -1018,7 +1018,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertTrue(studentsLogic.isStudentInCourse(course1.getId(), student1InCourse1.email));
     }
 
-    public void testIsStudentInTeam() {
+    private void testIsStudentInTeam() {
 
         ______TS("non-existent student");
 
@@ -1037,7 +1037,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertTrue(studentsLogic.isStudentInTeam(course1.getId(), teamName, student1InCourse1.email));
     }
 
-    public void testIsStudentsInSameTeam() {
+    private void testIsStudentsInSameTeam() {
 
         ______TS("non-existent student1");
 
@@ -1061,7 +1061,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testDeleteStudent() {
+    private void testDeleteStudent() {
 
         ______TS("typical delete");
 

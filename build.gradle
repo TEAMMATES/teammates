@@ -8,7 +8,7 @@ apply plugin: "jacoco"
 
 def appengineVersion = "1.9.27"
 def checkstyleVersion = "6.19"
-def pmdVersion = "5.5.2"
+def pmdVersion = "5.5.4"
 def findbugsVersion = "3.0.1"
 
 buildscript {
@@ -54,9 +54,9 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.3",
                     "com.sun.jersey:jersey-core:1.19.3",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.3",
-                    "joda-time:joda-time:2.9.6",
+                    "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.10.1"
+                    "org.jsoup:jsoup:1.10.2"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
@@ -74,7 +74,7 @@ dependencies {
     runtime         configurations.exclude
 
     enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "joda-time:joda-time:2.9.6",
+                    "joda-time:joda-time:2.9.7",
                     "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
@@ -320,9 +320,6 @@ pmd {
     ruleSets = []
 }
 
-pmdMain.dependsOn compileJava
-pmdTest.dependsOn compileTestJava
-
 findbugs {
     toolVersion = findbugsVersion
     visitors = [
@@ -338,11 +335,11 @@ tasks.withType(FindBugs) {
 }
 
 task installEslint(type: Exec) {
-    commandLine "npm", "install", "eslint@3.11.1", "eslint-plugin-json@1.2.0"
+    commandLine "npm", "install", "eslint@3.17.1", "eslint-plugin-json@1.2.0"
 }
 
 task installStylelint(type: Exec) {
-    commandLine "npm", "install", "stylelint@7.6.0"
+    commandLine "npm", "install", "stylelint@7.9.0"
 }
 
 task downloadStaticAnalysisTools {

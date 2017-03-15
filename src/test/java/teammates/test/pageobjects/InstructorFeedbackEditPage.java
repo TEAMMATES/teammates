@@ -167,7 +167,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * @return number of question edit forms + question add form
+     * Returns number of question edit forms + question add form.
      */
     public int getNumberOfQuestionEditForms() {
         return browser.driver.findElements(By.className("questionTable")).size();
@@ -465,7 +465,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * @return true if submission button of the 'copy question' modal is enabled
+     * Returns true if submission button of the 'copy question' modal is enabled.
      */
     public boolean isCopySubmitButtonEnabled() {
         return copyQuestionSubmitButton.isEnabled();
@@ -572,10 +572,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     *
-     * @return {@code True} if all elements expected to be enabled
-     * in the edit session frame are enabled after edit link is clicked.
-     * {@code False} if not.
+     * Returns true if all elements expected to be enabled in the edit session frame are enabled
+     * after edit link is clicked.
      */
     public boolean verifyEditSessionBoxIsEnabled() {
         boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled()
@@ -651,9 +649,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
+     * Returns true if the dates of previous, current and next month are enabled.
+     *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
-     * @return true if the dates of previous, current and next month are
-     *         enabled, otherwise false
      * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
     private boolean areDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
@@ -690,7 +688,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
+     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}.
      *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
      * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
@@ -786,11 +784,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM)), recipientType);
     }
 
-    /**
-     *
-     * @return {@code True} if the button was clicked successfully and an element in the new question
-     * frame is now visible. {@code False} if not.
-     */
     public void clickNewQuestionButton() {
         click(openNewQuestionButton);
     }

@@ -8,7 +8,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 
 /**
- * Action: showing page to enroll students into a course for an instructor
+ * Action: showing page to enroll students into a course for an instructor.
  */
 public class InstructorCourseEnrollPageAction extends Action {
 

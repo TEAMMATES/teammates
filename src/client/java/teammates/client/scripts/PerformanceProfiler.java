@@ -31,21 +31,13 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 /**
- * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
- * of this script in parallel, use ParallelProfiler.Java.
- *
- *
- * Notes:
- * -Edit name of the report file, the result will be written to a file in src/test/resources/data folder
- * -Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)
- */
-
-/**
  * Annotations for Performance tests with
- *         -Name : name of the test.
- *         -CustomTimer:(default if false) if true, the function will return the duration need to recorded itself
- *                     if false, the function return the status of the test and expected the function
- *                     which called it to record the duration.
+ * <ul>
+ * <li>Name: name of the test</li>
+ * <li>CustomTimer: (default is false) if true, the function will return the duration need to recorded itself.
+ *                  If false, the function return the status of the test and expected the function
+ *                  which called it to record the duration.</li>
+ * </ul>
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -54,6 +46,16 @@ import teammates.test.pageobjects.BrowserPool;
     boolean customTimer() default false;
 }
 
+/**
+ * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
+ * of this script in parallel, use ParallelProfiler.Java.
+ *
+ * <p>Notes:
+ * <ul>
+ * <li>Edit name of the report file, the result will be written to a file in src/test/resources/data folder</li>
+ * <li>Make sure that the data in PerformanceProfilerImportData.json is imported (by using ImportData.java)</li>
+ * </ul>
+ */
 public class PerformanceProfiler extends Thread {
 
     private static final String defaultReportPath = TestProperties.TEST_DATA_FOLDER + "/" + "nameOfTheReportFile.txt";
@@ -66,7 +68,7 @@ public class PerformanceProfiler extends Thread {
     private DataBundle data;
     private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
 
-    public PerformanceProfiler(String path) {
+    protected PerformanceProfiler(String path) {
         reportFilePath = path;
     }
 
@@ -118,10 +120,9 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * This function perform the method and print the return value for debugging
-     * @param method
+     * This function perform the method and print the return value for debugging.
      */
-    public void performMethod(Method method) {
+    private void performMethod(Method method) {
         if (method.isAnnotationPresent(PerformanceTest.class)) {
             PerformanceTest test = method.getAnnotation(PerformanceTest.class);
             String name = test.name();
@@ -159,19 +160,18 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * Run this script as an single-thread Java application (for simple, non-parallel profiling)
-     * For parallel profiling, please use ParallelProfiler.java
-     * @param args
+     * Run this script as an single-thread Java application (for simple, non-parallel profiling).
+     * For parallel profiling, please use ParallelProfiler.java.
      */
     public static void main(String[] args) {
+        // Run this script as an single-thread Java application (for simple, non-parallel profiling)
+        // For parallel profiling, please use ParallelProfiler.java
         new PerformanceProfiler(defaultReportPath).start();
     }
 
     /**
-     * The results from file stored in filePath
-     * @param filePath
-     * @return HashMap<nameOfTest,durations> of the report stored in filePath
-     * @throws IOException
+     * The results from file stored in filePath.
+     * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
         HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
@@ -209,9 +209,7 @@ public class PerformanceProfiler extends Thread {
     }
 
     /**
-     * Write the results to the file with path filePath
-     * @param filePath
-     * @throws IOException
+     * Writes the results to the file with path filePath.
      */
     private void printResult(String filePath) throws IOException {
         List<String> list = new ArrayList<String>();

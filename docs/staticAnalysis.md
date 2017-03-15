@@ -24,10 +24,10 @@ Conversely, when updating any tool, ensure that the tool version is supported by
 
 [CheckStyle](http://checkstyle.sourceforge.net/index.html) helps to enforce coding standard in Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
-The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
-The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
 
 #####Configuring Checkstyle Eclipse plugin
+
+The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
@@ -36,6 +36,8 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK.
 
 ##### Configuring Checkstyle in IntelliJ IDEA
+
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
 
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
@@ -68,10 +70,10 @@ private String ID;
 
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
-The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
-The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
 
 #####Configuring PMD Eclipse plugin
+
+The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
 1. In `Project > Properties`, go to the `PMD` tab.
 2. Check `Enable PMD`.
@@ -79,6 +81,8 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
    navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
 
 ##### Configuring PMD for IntelliJ
+
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
 
 1. Go to `File → Settings → Other Settings → PMD`.
 1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
@@ -117,8 +121,8 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 ./gradlew installEslint
 
 # Alternatively, if you want to install the ESLint module globally, use the install command manually
-# Remember to use the correct tool version
-npm install -g eslint@{version}
+# Remember to use the correct tool and plugin version
+npm install -g eslint@{version} eslint-plugin-json@{version}
 ```
 
 #### Installing ESLint from within IntelliJ

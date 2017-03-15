@@ -7,7 +7,7 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.ui.pagedata.CreateImageUploadUrlAjaxPageData;
 
 /**
- * Action: creates a URL for uploading an image
+ * Action: creates a URL for uploading an image.
  */
 public class CreateImageUploadUrlAction extends Action {
 
