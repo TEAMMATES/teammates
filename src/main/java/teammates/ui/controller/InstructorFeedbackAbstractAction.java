@@ -31,12 +31,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setFeedbackSessionName(SanitizationHelper.sanitizeTitle(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        newSession.setStartTime(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
-        newSession.setEndTime(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
+        setTime(newSession);
 
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
@@ -111,6 +106,15 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
         this.setUniqueAttributesForSession(newSession, sendReminderEmailsList);
         return newSession;
+    }
+
+    private void setTime(FeedbackSessionAttributes newSession) {
+        newSession.setStartTime(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
+        newSession.setEndTime(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
