@@ -1,39 +1,48 @@
-'use strict';
+/* global displayAjaxRetryMessageForPanelHeading:false,
+          isEmptySection:false,
+          removeSection:false,
+          bindDefaultImageIfMissing:false,
+          bindStudentPhotoLink:false,
+          bindStudentPhotoHoverLink:false,
+          bindCollapseEvents:false,
+          toggleSingleCollapse:false,
+          showHideStats:false
+*/
 
-$(document).ready(function() {
-    var seeMoreRequest = function(e) {
-        var panelHeading = $(this);
+$(document).ready(() => {
+    const seeMoreRequest = function (e) {
+        const panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
             $(panelHeading).find('[id^="showStats-"]').val('on');
         } else {
             $(panelHeading).find('[id^="showStats-"]').val('off');
         }
 
-        var displayIcon = $(this).find('.display-icon');
-        var formObject = $(this).children('form');
-        var panelCollapse = $(this).parent().children('.panel-collapse');
-        var panelBody = $(panelCollapse[0]).children('.panel-body');
-        var formData = formObject.serialize();
+        const displayIcon = $(this).find('.display-icon');
+        const formObject = $(this).children('form');
+        const panelCollapse = $(this).parent().children('.panel-collapse');
+        const panelBody = $(panelCollapse[0]).children('.panel-body');
+        const formData = formObject.serialize();
         e.preventDefault();
         $.ajax({
             type: 'POST',
             cache: false,
-            url: $(formObject[0]).attr('action') + '?' + formData,
-            beforeSend: function() {
+            url: `${$(formObject[0]).attr('action')}?${formData}`,
+            beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
-            error: function() {
+            error() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
-            success: function(data) {
-                var $sectionBody = $(panelBody[0]);
+            success(data) {
+                const $sectionBody = $(panelBody[0]);
 
                 if (typeof data === 'undefined') {
                     $sectionBody.html('The results is too large to be viewed. '
                             + 'Please choose to view the results by questions or download the results.');
                 } else {
-                    var $appendedSection = $(data).find('#sectionBody-0');
-                    var sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
+                    const $appendedSection = $(data).find('#sectionBody-0');
+                    const sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
 
                     if (isEmptySection($appendedSection)) {
                         if (parseInt(sectionId, 10) === 0) {
@@ -53,7 +62,7 @@ $(document).ready(function() {
                     }
                 }
 
-                $sectionBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
+                $sectionBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function () {
                     bindDefaultImageIfMissing(this);
                 });
                 // bind the show picture onclick events
@@ -65,16 +74,16 @@ $(document).ready(function() {
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
 
-                var childrenPanels = $sectionBody.find('div.panel');
+                const childrenPanels = $sectionBody.find('div.panel');
                 bindCollapseEvents(childrenPanels, 0);
 
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
                 showHideStats();
-            }
+            },
         });
     };
-    var $sectionPanelHeadings = $('.ajax_auto');
+    const $sectionPanelHeadings = $('.ajax_auto');
     $sectionPanelHeadings.click(seeMoreRequest);
     $('.ajax_auto').click();
 });

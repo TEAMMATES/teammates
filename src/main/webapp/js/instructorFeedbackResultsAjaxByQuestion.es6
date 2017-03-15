@@ -1,33 +1,41 @@
-'use strict';
+/* globals displayAjaxRetryMessageForPanelHeading:false,
+           bindDefaultImageIfMissing:false,
+           bindStudentPhotoLink:false,
+           bindStudentPhotoHoverLink:false,
+           toggleSingleCollapse:false,
+           isPanelSetAsEmptyByBackend:false,
+           displayAsEmptyPanel:false,
+           showHideStats:false
+*/
 
-$(document).ready(function() {
-    var seeMoreRequest = function(e) {
-        var panelHeading = $(this);
+$(document).ready(() => {
+    const seeMoreRequest = function (e) {
+        const panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
             $(panelHeading).find('[id^="showStats-"]').val('on');
         } else {
             $(panelHeading).find('[id^="showStats-"]').val('off');
         }
 
-        var displayIcon = $(this).find('.display-icon');
-        var formObject = $(this).children('form');
-        var panelCollapse = $(this).parent().children('.panel-collapse');
-        var panelBody = $(panelCollapse[0]).children('.panel-body');
-        var formData = formObject.serialize();
+        const displayIcon = $(this).find('.display-icon');
+        const formObject = $(this).children('form');
+        const panelCollapse = $(this).parent().children('.panel-collapse');
+        const panelBody = $(panelCollapse[0]).children('.panel-body');
+        const formData = formObject.serialize();
         e.preventDefault();
         $.ajax({
             type: 'POST',
             cache: false,
-            url: $(formObject[0]).attr('action') + '?' + formData,
-            beforeSend: function() {
+            url: `${$(formObject[0]).attr('action')}?${formData}`,
+            beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
-            error: function() {
+            error() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
-            success: function(data) {
-                var appendedQuestion = $(data).find('#questionBody-0').html();
-                var $panelBody = $(panelBody[0]);
+            success(data) {
+                const appendedQuestion = $(data).find('#questionBody-0').html();
+                const $panelBody = $(panelBody[0]);
                 $(data).remove();
                 if (typeof appendedQuestion === 'undefined') {
                     $panelBody.removeClass('padding-0');
@@ -40,7 +48,7 @@ $(document).ready(function() {
                     $panelBody.html(appendedQuestion);
                 }
 
-                $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
+                $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function () {
                     bindDefaultImageIfMissing(this);
                 });
                 // bind the show picture onclick events
@@ -61,19 +69,19 @@ $(document).ready(function() {
                 }
 
                 showHideStats();
-            }
+            },
         });
     };
 
-    var isPanelSetAsEmptyByBackend = function($panelBody) {
+    const isPanelSetAsEmptyByBackend = function ($panelBody) {
         return $panelBody.find('.no-response').length !== 0;
     };
 
-    var displayAsEmptyPanel = function($panelBody) {
+    const displayAsEmptyPanel = function ($panelBody) {
         $panelBody.parents('.panel.panel-info').removeClass('panel-info').addClass('panel-default');
     };
 
-    var $questionPanelHeadings = $('.ajax_submit,.ajax_auto');
+    const $questionPanelHeadings = $('.ajax_submit,.ajax_auto');
     $questionPanelHeadings.click(seeMoreRequest);
     $('.ajax_auto').click();
 });
