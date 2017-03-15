@@ -1,39 +1,47 @@
-'use strict';
+/* global selectElementContents:false,
+          bindCollapseEvents:false,
+          bindPublishButtons:false,
+          bindUnpublishButtons:false,
+          setStatusMessage:false,
+          showSingleCollapse:false,
+          hideSingleCollapse:false,
+          toggleSingleCollapse:false
+*/
+/* exported     submitFormAjax,
+                updateStatsCheckBox,
+                getNextId,
+                displayAjaxRetryMessageForPanelHeading,
+                isEmptySection,
+                removeSection
+*/
 
-$(document).ready(function() {
-    var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
+$(document).ready(() => {
+    const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
-    $('a[id^="collapse-panels-button-section-"]').on('click', function() {
-        var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
-        var childPanelType;
-        if (isGroupByTeam) {
-            childPanelType = 'div.panel.panel-warning';
-        } else {
-            childPanelType = participantPanelType;
-        }
-        var panels = $(this).closest('.panel-success')
+    $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
+        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
+        const panels = $(e.currentTarget).closest('.panel-success')
                             .children('.panel-collapse')
                             .find(childPanelType)
                             .children('.panel-collapse');
-        toggleCollapse(this, panels);
+        toggleCollapse(e.currentTarget, panels);
     });
 
-    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
-        var panels = $(this).closest('.panel-warning')
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
+        const panels = $(e.currentTarget).closest('.panel-warning')
                             .children('.panel-collapse')
                             .find(participantPanelType)
                             .children('.panel-collapse');
-        toggleCollapse(this, panels);
+        toggleCollapse(e.currentTarget, panels);
     });
 
-    $('#results-search-box').keyup(function() {
-        updateResultsFilter();
-    });
+    $('#results-search-box').keyup(updateResultsFilter);
 
     // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress(function(e) {
+    $('#results-search-box').keypress((e) => {
         if (e.which === 13) {
-            return false;
+            e.preventDefault();
         }
     });
 
@@ -48,17 +56,17 @@ $(document).ready(function() {
     $('#show-stats-checkbox').change(showHideStats);
 
     // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', function() {
+    $('#fsResultsTableWindow').on('shown.bs.modal', () => {
         selectElementContents(document.getElementById('fsModalTable'));
     });
 
-    var panels = $('div.panel');
+    const panels = $('div.panel');
     bindCollapseEvents(panels, 0);
 
     bindPublishButtons();
     bindUnpublishButtons();
 
-    $('#button-print').on('click', function() {
+    $('#button-print').on('click', () => {
         // Fix to hide the filter placeholder when it is empty.
         if ($('#results-search-box').val()) {
             $('#filter-box-parent-div').removeClass('hide-for-print');
@@ -69,39 +77,39 @@ $(document).ready(function() {
         $('#mainContent').printThis({
             importCSS: true,
             importStyle: true,
-            loadCSS: '/stylesheets/printview.css'
+            loadCSS: '/stylesheets/printview.css',
         });
     });
 });
 
 function submitFormAjax() {
-    var formObject = $('#csvToHtmlForm');
-    var formData = formObject.serialize();
-    var content = $('#fsModalTable');
-    var ajaxStatus = $('#ajaxStatus');
+    const formObject = $('#csvToHtmlForm');
+    const formData = formObject.serialize();
+    const content = $('#fsModalTable');
+    const ajaxStatus = $('#ajaxStatus');
     $.ajax({
         type: 'POST',
-        url: '/page/instructorFeedbackResultsPage?' + formData,
-        beforeSend: function() {
+        url: `/page/instructorFeedbackResultsPage?${formData}`,
+        beforeSend() {
             content.html('<img src="/images/ajax-loader.gif">');
         },
-        error: function() {
+        error() {
             ajaxStatus.html('Failed to load results table. Please try again.');
             content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
         },
-        success: function(data) {
-            setTimeout(function() {
+        success(data) {
+            setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
                     content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 } else {
-                    var table = data.sessionResultsHtmlTableAsString;
-                    content.html('<small>' + table + '</small>');
+                    const table = data.sessionResultsHtmlTableAsString;
+                    content.html(`<small>${table}</small>`);
                     ajaxStatus.html(data.ajaxStatus);
                 }
                 setStatusMessage(data.statusForAjax);
             }, 500);
-        }
+        },
     });
 }
 
@@ -124,27 +132,27 @@ function showHideStats() {
 // the panel will be shown
 function filterResults(rawSearchText) {
     // Reduce white spaces to only 1 white space
-    var searchText = rawSearchText.split('\\s+').join(' ').toLowerCase();
+    const searchText = rawSearchText.split('\\s+').join(' ').toLowerCase();
 
     // all panel text will be sorted in post-order
-    var allPanelText = $('#mainContent').find('div.panel-heading-text');
+    const allPanelText = $('#mainContent').find('div.panel-heading-text');
 
     // a stack that stores parent panels that are pending on
     // the search result from the child panels to decide show/hide
-    var showStack = [];
+    const showStack = [];
 
     // a stack that stores the parent panels that have been traversed so far
-    var parentStack = [];
+    const parentStack = [];
 
-    for (var p = 0; p < allPanelText.length; p++) {
-        var panelText = allPanelText[p];
-        var panel = $(panelText).closest('div.panel');
+    for (let p = 0; p < allPanelText.length; p += 1) {
+        const panelText = allPanelText[p];
+        const panel = $(panelText).closest('div.panel');
 
         // find the number of child panels in the current panel
-        var childrenSize = $(panel).find('div.panel-heading-text').not(panelText).length;
-        var hasChild = childrenSize > 0;
+        const childrenSize = $(panel).find('div.panel-heading-text').not(panelText).length;
+        const hasChild = childrenSize > 0;
 
-        var panelParent = $(panel).parent().closest('div.panel');
+        const panelParent = $(panel).parent().closest('div.panel');
 
         // reset traversed parent panel stack & pending parent panel stack
         // to the parent of current panel
@@ -167,8 +175,8 @@ function filterResults(rawSearchText) {
 
             // show all child panels of current panel
             if (hasChild) {
-                for (var c = p + 1; c <= p + childrenSize; c++) {
-                    var childPanel = $(allPanelText[c]).closest('div.panel');
+                for (let c = p + 1; c <= p + childrenSize; c += 1) {
+                    const childPanel = $(allPanelText[c]).closest('div.panel');
                     $(childPanel).show();
                 }
 
@@ -206,59 +214,56 @@ function updateStatsCheckBox() {
 }
 
 function toggleCollapse(e, pans) {
-    var expand = 'Expand';
-    var collapse = 'Collapse';
-    var panels = pans || $('div.panel-collapse');
+    const expand = 'Expand';
+    const collapse = 'Collapse';
+    const panels = pans || $('div.panel-collapse');
 
     if ($(e).html().trim().startsWith(expand)) {
-        var i = 0;
-        for (var idx = 0; idx < panels.length; idx++) {
+        let i = 0;
+        for (let idx = 0; idx < panels.length; idx += 1) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
                 setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                i++;
+                i += 1;
             }
         }
-        var htmlString = $(e).html();
-        htmlString = htmlString.replace(expand, collapse);
+        const htmlString = $(e).html().replace(expand, collapse);
         $(e).html(htmlString);
-        var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
+        const tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
-        var j = 0;
-        for (var k = 0; k < panels.length; k++) {
+        let j = 0;
+        for (let k = 0; k < panels.length; k += 1) {
             if ($(panels[k]).attr('class').indexOf('in') !== -1) {
                 setTimeout(hideSingleCollapse, 100 * j, panels[k]);
-                j++;
+                j += 1;
             }
         }
-        var htmlStr = $(e).html();
-        htmlStr = htmlStr.replace(collapse, expand);
+        const htmlStr = $(e).html().replace(collapse, expand);
         $(e).html(htmlStr);
-        var tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
+        const tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
         $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
     }
 }
 
 function getNextId(e) {
-    var id = $(e).attr('id');
-    var nextId = '#panelBodyCollapse-' + (parseInt(id.split('-')[1]) + 1);
+    const id = $(e).attr('id');
+    const nextId = `#panelBodyCollapse-${parseInt(id.split('-')[1], 10) + 1}`;
     return nextId;
 }
 
 function bindCollapseEvents(panels, nPanels) {
-    var numPanels = nPanels;
-    for (var i = 0; i < panels.length; i++) {
-        var heading = $(panels[i]).children('.panel-heading');
-        var bodyCollapse = $(panels[i]).children('.panel-collapse');
+    let numPanels = nPanels;
+    for (let i = 0; i < panels.length; i += 1) {
+        const heading = $(panels[i]).children('.panel-heading');
+        const bodyCollapse = $(panels[i]).children('.panel-collapse');
         if (heading.length !== 0 && bodyCollapse.length !== 0) {
-            numPanels++;
-            // $(heading[0]).attr('data-toggle', 'collapse');
+            numPanels += 1;
             // Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             if ($(heading[0]).attr('class') === 'panel-heading') {
                 $(heading[0]).click(toggleSingleCollapse);
             }
 
-            var sectionIndex = '';
+            let sectionIndex = '';
 
             /*
              * There is one call of bindCollapseEvents() for outer section panels and one call per request
@@ -267,8 +272,8 @@ function bindCollapseEvents(panels, nPanels) {
              * For panels inside section we add prefix in format "-<sectionIndex>-". This is done in order
              * to have fixed IDs for panels regardless of asynchronous execution of requests.
             */
-            var isSectionPanel = true;
-            var sectionBody = $(heading).next().find('[id^="sectionBody-"]');
+            let isSectionPanel = true;
+            let sectionBody = $(heading).next().find('[id^="sectionBody-"]');
 
             if (sectionBody.length === 0) {
                 sectionBody = $(heading).parents('[id^="sectionBody-"]');
@@ -276,16 +281,16 @@ function bindCollapseEvents(panels, nPanels) {
             }
 
             if (sectionBody.length !== 0) {
-                sectionIndex = sectionBody.attr('id').match(/sectionBody-(\d+)/)[1] + '-';
+                sectionIndex = `${sectionBody.attr('id').match(/sectionBody-(\d+)/)[1]}-`;
                 if (isSectionPanel) {
-                    sectionIndex = 'section-' + sectionIndex;
+                    sectionIndex = `section-${sectionIndex}`;
                 }
             }
 
-            $(heading[0]).attr('data-target', '#panelBodyCollapse-' + sectionIndex + numPanels);
-            $(heading[0]).attr('id', 'panelHeading-' + sectionIndex + numPanels);
+            $(heading[0]).attr('data-target', `#panelBodyCollapse-${sectionIndex}${numPanels}`);
+            $(heading[0]).attr('id', `panelHeading-${sectionIndex}${numPanels}`);
             $(heading[0]).css('cursor', 'pointer');
-            $(bodyCollapse[0]).attr('id', 'panelBodyCollapse-' + sectionIndex + numPanels);
+            $(bodyCollapse[0]).attr('id', `panelBodyCollapse-${sectionIndex}${numPanels}`);
         }
     }
     return numPanels;
@@ -297,23 +302,23 @@ function bindCollapseEvents(panels, nPanels) {
  * the user to retry.
  */
 function displayAjaxRetryMessageForPanelHeading($element) {
-    var ajaxErrorStart = '<div class="ajax-error">';
-    var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-    var errorMsg = '[ Failed to load. Click here to retry. ]';
-    errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
-    var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
-    var ajaxErrorEnd = '</div>';
+    const ajaxErrorStart = '<div class="ajax-error">';
+    const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+    const errorMsgCenter = '[ Failed to load. Click here to retry. ]';
+    const errorMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${errorMsgCenter}</strong>`;
+    const chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
+    const ajaxErrorEnd = '</div>';
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
 }
 
 function isEmptySection(content) {
-    var panelsInSection = content.find('div.panel');
+    const panelsInSection = content.find('div.panel');
 
     return panelsInSection.length === 0;
 }
 
 function removeSection(id) {
-    var $heading = $('[id^=panelHeading-section-' + id + ']');
+    const $heading = $(`[id^=panelHeading-section-${id}]`);
 
     $heading.parent().remove();
 }
