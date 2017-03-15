@@ -19,6 +19,9 @@ import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
+    protected abstract void setUniqueAttributesForSession(
+            FeedbackSessionAttributes newSession, List<String> sendReminderEmailsList);
+
     protected FeedbackSessionAttributes extractFeedbackSessionData() {
         // TODO assert parameters are not null then update test
         // TODO make this method stateless
