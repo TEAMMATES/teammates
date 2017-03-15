@@ -1,16 +1,14 @@
-'use strict';
-
 function setDefaultContribQnVisibilityIfNeeded(questionNum) {
     // If visibility options have already been copied from the previous contrib question, skip
-    var hasPreviousQuestion = $('.questionTable').size() >= 2;
+    const hasPreviousQuestion = $('.questionTable').size() >= 2;
     if (hasPreviousQuestion) {
-        var previousQuestionType = $('input[name="questiontype"]').eq(-2).val();
+        const previousQuestionType = $('input[name="questiontype"]').eq(-2).val();
         if (previousQuestionType === 'CONTRIB') {
             return;
         }
     }
 
-    var $currentQuestionTable = $('#questionTable-' + questionNum);
+    const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     // All except STUDENTS can see answer
@@ -25,24 +23,24 @@ function setDefaultContribQnVisibilityIfNeeded(questionNum) {
     $currentQuestionTable.find('input.visibilityCheckbox')
                          .filter('.recipientCheckbox')
                          .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
-
 }
 
 function setContribQnVisibilityFormat(questionNum) {
-    var $currentQuestionTable = $('#questionTable-' + questionNum);
+    const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
     // Show only the two visibility options valid for contrib questions; hide the rest
     $currentQuestionTable.find('.visibility-options-dropdown-option')
                          .not('[data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"]')
                          .not('[data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY"]')
-                         .parent().addClass('hidden');
+                         .parent()
+                         .addClass('hidden');
     $currentQuestionTable.find('.visibility-options-dropdown .dropdown-menu .divider').addClass('hidden');
 
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
     $currentQuestionTable.find('input.visibilityCheckbox').off('change');
 
-    $currentQuestionTable.find('input.visibilityCheckbox').filter('.answerCheckbox').change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('.answerCheckbox').change(function () {
         if (!$(this).prop('checked')) {
             if ($(this).val() === 'RECEIVER'
                     || $(this).val() === 'OWN_TEAM_MEMBERS'
@@ -52,13 +50,12 @@ function setContribQnVisibilityFormat(questionNum) {
                                      .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
                                      .prop('checked', false);
             } else {
-                var visibilityOptionsRow = $(this).closest('tr');
+                const visibilityOptionsRow = $(this).closest('tr');
                 visibilityOptionsRow.find('input[class*="giverCheckbox"]')
                                          .prop('checked', false);
                 visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
                                          .prop('checked', false);
             }
-
         }
 
         if ($(this).val() === 'RECEIVER'
@@ -79,36 +76,35 @@ function setContribQnVisibilityFormat(questionNum) {
         }
     });
 
-    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="giverCheckbox"]').change(function () {
         if ($(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
+            const visibilityOptionsRow = $(this).closest('tr');
             visibilityOptionsRow.find('input.answerCheckbox')
                                      .prop('checked', true)
                                      .trigger('change');
         }
     });
 
-    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[class*="recipientCheckbox"]').change(function () {
         if ($(this).is(':checked')) {
-            var visibilityOptionsRow = $(this).closest('tr');
+            const visibilityOptionsRow = $(this).closest('tr');
             visibilityOptionsRow.find('input.answerCheckbox')
                                      .prop('checked', true)
                                      .trigger('change');
         }
     });
 
-    $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function() {
-        var visibilityOptionsRow = $(this).closest('tr');
+    $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function () {
+        const visibilityOptionsRow = $(this).closest('tr');
         visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
                                  .prop('checked', $(this).prop('checked'));
     });
-
 }
 
 function fixContribQnGiverRecipient(questionNum) {
-    var $giverType = $('#givertype-' + questionNum);
-    var $recipientType = $('#recipienttype-' + questionNum);
-    var $questionTable = $('#questionTable-' + questionNum);
+    const $giverType = $(`#givertype-${questionNum}`);
+    const $recipientType = $(`#recipienttype-${questionNum}`);
+    const $questionTable = $(`#questionTable-${questionNum}`);
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();
@@ -126,3 +122,7 @@ function fixContribQnGiverRecipient(questionNum) {
     // the dropdown button is not an input tag and has no property "disabled", so .addClass is used
     $questionTable.find('.feedback-path-dropdown > button').addClass('disabled');
 }
+
+/* exported
+setDefaultContribQnVisibility, setContribQnVisibilityFormat, fixContribQnGiverRecipient
+*/
