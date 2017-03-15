@@ -20,7 +20,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Action: Create a new {@link FeedbackResponseCommentAttributes}
+ * Action: Create a new {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentAddAction extends Action {
 

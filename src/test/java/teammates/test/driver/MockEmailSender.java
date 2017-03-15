@@ -9,7 +9,7 @@ import teammates.logic.api.EmailSender;
 /**
  * Allows mocking of the {@link EmailSender} API used in production.
  *
- * Instead of actually sending the email via the configured email sending service,
+ * <p>Instead of actually sending the email via the configured email sending service,
  * the API will perform some operations that allow the sent emails to be tracked.
  */
 public class MockEmailSender extends EmailSender {

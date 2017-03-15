@@ -7,12 +7,19 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
-/** Holds String-related helper functions
+import teammates.common.exception.InvalidParametersException;
+
+/**
+ * Holds String-related helper functions.
  */
+
 public final class StringHelper {
+    private static final Logger log = Logger.getLogger();
 
     private StringHelper() {
         // utility class
@@ -36,7 +43,7 @@ public final class StringHelper {
     }
 
     /**
-     * Check whether the input string matches the regex
+     * Checks whether the input string matches the regex.
      * @param input The string to be matched
      * @param regex The regex  used for the matching
      */
@@ -47,9 +54,7 @@ public final class StringHelper {
     }
 
     /**
-     * Check whether any substring of the input string matches any of the group of given regex expressions
-     * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
-     * Case Insensitive
+     * Checks whether any substring of the input string matches any of the group of given regex expressions.
      * @param input The string to be matched
      * @param regexList The regex list used for the matching
      */
@@ -86,7 +91,6 @@ public final class StringHelper {
     /**
      * Trims head of the String if it is longer than specified Length.
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
-     * @param inputString
      * @param maximumStringLength - maximum required length of the string
      * @return String with at most maximumStringLength length
      */
@@ -110,10 +114,7 @@ public final class StringHelper {
 
     /**
      * Substitutes the middle third of the given string with dots
-     * and returns the "obscured" string
-     *
-     * @param inputString
-     * @return
+     * and returns the "obscured" string.
      */
     public static String obscure(String inputString) {
         Assumption.assertNotNull(inputString);
@@ -134,13 +135,24 @@ public final class StringHelper {
         }
     }
 
-    public static String decrypt(String message) {
+    /*
+     * Decrypts the supplied string.
+     *
+     * @param message the ciphertext as a hexadecimal string
+     * @return the plaintext
+     * @throws InvalidParameterException if the ciphertext is invalid.
+     * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
+     */
+    public static String decrypt(String message) throws InvalidParametersException {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
+        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            throw new InvalidParametersException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -278,8 +290,8 @@ public final class StringHelper {
     }
 
     /**
-     * trims the string and reduces consecutive white spaces to only one space
-     * Example: " a   a  " --> "a a"
+     * Trims the string and reduces consecutive white spaces to only one space.
+     * Example: " a   a  " --> "a a".
      * @return processed string, returns null if parameter is null
      */
     public static String removeExtraSpace(String str) {
@@ -290,7 +302,7 @@ public final class StringHelper {
     }
 
     /**
-     * trims all strings in the set and reduces consecutive white spaces to only one space
+     * Trims all strings in the set and reduces consecutive white spaces to only one space.
      */
     public static Set<String> removeExtraSpace(Set<String> strSet) {
         if (strSet == null) {
@@ -351,8 +363,7 @@ public final class StringHelper {
     }
 
     /**
-     * Convert a csv string to a html table string for displaying
-     * @param str
+     * Converts a csv string to a html table string for displaying.
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
@@ -476,7 +487,6 @@ public final class StringHelper {
     /**
      * Trims the string if it is not null.
      *
-     * @param string
      * @return the trimmed string or null (if the parameter was null).
      */
     public static String trimIfNotNull(String string) {
@@ -487,7 +497,6 @@ public final class StringHelper {
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
      *
-     * @param strings
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
@@ -504,7 +513,6 @@ public final class StringHelper {
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
      *
-     * @param str
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
@@ -514,7 +522,6 @@ public final class StringHelper {
     /**
      * Removes the outermost enclosing square brackets surrounding a string.
      *
-     * @param str
      * @return the string without the outermost enclosing square brackets
      *         if the given string is enclosed by square brackets <br>
      *         the string itself if the given string is not enclosed by square brackets <br>
@@ -546,7 +553,7 @@ public final class StringHelper {
     }
 
     /**
-     * @return text with all non-ASCII characters removed
+     * Returns text with all non-ASCII characters removed.
      */
     public static String removeNonAscii(String text) {
         return text.replaceAll("[^\\x00-\\x7F]", "");

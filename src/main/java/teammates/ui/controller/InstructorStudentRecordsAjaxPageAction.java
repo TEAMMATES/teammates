@@ -43,7 +43,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
 
-        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
         filterFeedbackSessions(courseId, feedbacks, instructor, student);
 

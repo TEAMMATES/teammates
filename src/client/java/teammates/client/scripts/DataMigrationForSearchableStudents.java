@@ -5,11 +5,11 @@ import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.logic.api.Logic;
+import teammates.logic.core.StudentsLogic;
 
 public class DataMigrationForSearchableStudents extends RemoteApiClient {
 
-    private Logic logic = new Logic();
+    private StudentsLogic studentsLogic = StudentsLogic.inst();
 
     public static void main(String[] args) throws IOException {
         DataMigrationForSearchableStudents migrator = new DataMigrationForSearchableStudents();
@@ -26,11 +26,11 @@ public class DataMigrationForSearchableStudents extends RemoteApiClient {
 
     private List<StudentAttributes> getAllStudents() {
 
-        return logic.getAllStudents();
+        return studentsLogic.getAllStudents();
     }
 
     private void updateDocumentForStudent(StudentAttributes student) {
-        logic.putDocument(student);
+        studentsLogic.putDocument(student);
     }
 
 }

@@ -4,7 +4,7 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 
 /**
- * Action: creates a URL for uploading an image in admin email
+ * Action: creates a URL for uploading an image in admin email.
  */
 public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAction {
 

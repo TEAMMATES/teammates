@@ -265,11 +265,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                      newQuestionForm.getDoneEditingLink());
     }
 
-    public InstructorAttributes getInstructorFromBundle(String instructor) {
+    private InstructorAttributes getInstructorFromBundle(String instructor) {
         return dataBundle.instructors.get(instructor);
     }
 
-    public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {
+    private void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {
         for (FeedbackParticipantType participant : list) {
             assertTrue(map.get(participant.name()));
         }

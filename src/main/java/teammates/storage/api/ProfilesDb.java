@@ -23,8 +23,8 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Handles CRUD operations for student profiles.
  *
- * @see {@link StudentProfile}
- * @see {@link StudentProfileAttributes}
+ * @see StudentProfile
+ * @see StudentProfileAttributes
  */
 public class ProfilesDb extends EntitiesDb {
 
@@ -32,8 +32,6 @@ public class ProfilesDb extends EntitiesDb {
      * Gets the datatransfer (*Attributes) version of the profile
      * corresponding to the googleId given. Returns null if the
      * profile was not found
-     *
-     * @param accountGoogleId
      */
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
         StudentProfile sp = getStudentProfileEntityFromDb(accountGoogleId);
@@ -48,13 +46,8 @@ public class ProfilesDb extends EntitiesDb {
      * Updates the entire profile based on the given new profile attributes.
      * Assumes that the googleId remains the same and so updates the profile
      * with the given googleId.
-     *
-     * TODO: update the profile with whatever given values are valid and
-     * ignore those that are not valid.
-     * @param newSpa
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
+    // TODO: update the profile with whatever given values are valid and ignore those that are not valid.
     public void updateStudentProfile(StudentProfileAttributes newSpa)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -106,15 +99,10 @@ public class ProfilesDb extends EntitiesDb {
     }
 
     /**
-     * Udates the pictureKey of the profile with given GoogleId.
+     * Updates the pictureKey of the profile with given GoogleId.
      * Deletes existing picture if key is different and updates
      * modifiedDate
-     *
-     * @param googleId
-     * @param newPictureKey
-     * @throws EntityDoesNotExistException
      */
-
     public void updateStudentProfilePicture(String googleId,
             String newPictureKey) throws EntityDoesNotExistException {
 
@@ -143,10 +131,7 @@ public class ProfilesDb extends EntitiesDb {
     /**
      * Deletes the profile picture from GCS and
      * updates the profile entity:
-     *     empties the key and updates the modifiedDate
-     *
-     * @param googleId
-     * @throws EntityDoesNotExistException
+     *     empties the key and updates the modifiedDate.
      */
     public void deleteStudentProfilePicture(String googleId) throws EntityDoesNotExistException {
         StudentProfile sp = getCurrentProfileFromDb(googleId);
@@ -184,11 +169,8 @@ public class ProfilesDb extends EntitiesDb {
      * Checks if an account entity exists for the given googleId and creates
      * a profile entity for this account. This is only used for porting
      * legacy account entities on the fly.
-     *
-     * TODO: remove this function once legacy data have been ported over
-     * @param googleId
-     * @return
      */
+    // TODO: remove this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
@@ -213,10 +195,8 @@ public class ProfilesDb extends EntitiesDb {
      * If the profile does not exist, it tries to get the
      * profile from the function
      * 'getStudentProfileEntityForLegacyData'.
-     *
-     * TODO: update this function once legacy data have been ported over
-     * @param googleId
      */
+    // TODO: update this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityFromDb(String googleId) {
         Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), googleId)
                                  .getChild(StudentProfile.class.getSimpleName(), googleId);

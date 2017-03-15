@@ -20,11 +20,11 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorCommentsPageData;
 
 /**
- * Action: Showing the InstructorCommentsPage for an instructor
+ * Action: Showing the InstructorCommentsPage for an instructor.
  */
 public class InstructorCommentsPageAction extends Action {
 
-    public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
+    private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
 
     private String courseId;
     private String isDisplayArchivedCourseString;

@@ -18,8 +18,8 @@ import teammates.storage.entity.Course;
 /**
  * Handles CRUD operations for courses.
  *
- * @see {@link Course}
- * @see {@link CourseAttributes}
+ * @see Course
+ * @see CourseAttributes
  */
 public class CoursesDb extends EntitiesDb {
 
@@ -77,6 +77,8 @@ public class CoursesDb extends EntitiesDb {
     }
 
     /**
+     * Gets all courses in the Datastore.
+     *
      * @deprecated Not scalable. Use only in admin features.
      */
     @Deprecated

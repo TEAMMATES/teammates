@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.ui.template.EnrollResultPanel;
 
 /**
- * PageData: page data for the 'Result' page after enrollment for a course
+ * PageData: page data for the 'Result' page after enrollment for a course.
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
 

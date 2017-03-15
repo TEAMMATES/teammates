@@ -272,9 +272,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     /**
-     * Get all question specific edit forms
-     * Used in instructorFeedbackEdit.jsp for new question
-     * @return
+     * Get all question specific edit forms.
      */
     public String getNewQuestionSpecificEditFormHtml() {
         StringBuilder newQuestionSpecificEditForms = new StringBuilder();
