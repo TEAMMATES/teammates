@@ -1,4 +1,3 @@
-/* global AdminCommon:false */
 /**
  * Contains functions common to the administrator pages.
  */

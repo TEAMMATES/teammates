@@ -1,4 +1,3 @@
-/* global AdminCommon:false */
 /**
  * Functions defined and used in `/adminHome`
  */

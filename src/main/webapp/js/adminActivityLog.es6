@@ -1,8 +1,8 @@
-/* global AdminCommon:false setStatusMessage:false StatusType:false */
+/* global setStatusMessage:false StatusType:false */
 
 $(document).ready(() => {
     $('#filterReference').toggle();
-    AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
 
 function toggleReference() {

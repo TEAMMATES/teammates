@@ -1,7 +1,6 @@
-/* global AdminCommon:false */
 $(document).ready(() => {
     $('#timeFramePanel').toggle();
-    AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
 
 function toggleContent(id) {

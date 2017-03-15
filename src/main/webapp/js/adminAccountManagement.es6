@@ -1,4 +1,4 @@
-/* global BootboxWrapper:false StatusType:false toggleSort:false AdminCommon:false */
+/* global BootboxWrapper:false StatusType:false toggleSort:false */
 const entryPerPage = 200;
 
 let begin = 0;
@@ -168,5 +168,5 @@ $(document).ready(() => {
     showFirstPage();
     updateEntriesCount();
     bindDeleteAccountAction();
-    AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
