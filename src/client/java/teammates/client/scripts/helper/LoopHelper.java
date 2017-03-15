@@ -5,10 +5,21 @@ package teammates.client.scripts.helper;
  */
 public class LoopHelper {
 
+    /**
+     * The number of iterations between every printing.
+     */
     public final int printCycle;
+
+    /**
+     * The message which will be printed regularly.
+     */
     public final String message;
+
     private int count;
 
+    /**
+     * Constructs a {@link LoopHelper} object with the given parameters.
+     */
     public LoopHelper(int printCycle, String message) {
         this.printCycle = printCycle;
         this.message = message;
