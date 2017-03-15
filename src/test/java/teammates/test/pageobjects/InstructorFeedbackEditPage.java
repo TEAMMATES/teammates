@@ -167,7 +167,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * @return number of question edit forms + question add form
+     * Returns number of question edit forms + question add form.
      */
     public int getNumberOfQuestionEditForms() {
         return browser.driver.findElements(By.className("questionTable")).size();
@@ -465,7 +465,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * @return true if submission button of the 'copy question' modal is enabled
+     * Returns true if submission button of the 'copy question' modal is enabled.
      */
     public boolean isCopySubmitButtonEnabled() {
         return copyQuestionSubmitButton.isEnabled();
@@ -541,6 +541,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickVisibilityDropdown(optionValue, NEW_QUESTION_NUM);
     }
 
+    public String getVisibilityDropdownLabel(int qnNumber) {
+        return browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber
+                                                         + " .visibility-options-dropdown button")).getText().trim();
+    }
+
+    public String getVisibilityDropdownLabelForNewQuestion() {
+        return getVisibilityDropdownLabel(NEW_QUESTION_NUM);
+    }
+
     public void clickAddQuestionButton() {
         click(addNewQuestionButton);
         waitForPageToLoad();
@@ -572,10 +581,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     *
-     * @return {@code True} if all elements expected to be enabled
-     * in the edit session frame are enabled after edit link is clicked.
-     * {@code False} if not.
+     * Returns true if all elements expected to be enabled in the edit session frame are enabled
+     * after edit link is clicked.
      */
     public boolean verifyEditSessionBoxIsEnabled() {
         boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled()
@@ -651,9 +658,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
+     * Returns true if the dates of previous, current and next month are enabled.
+     *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
-     * @return true if the dates of previous, current and next month are
-     *         enabled, otherwise false
      * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
     private boolean areDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
@@ -690,7 +697,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
+     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}.
      *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
      * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
@@ -786,11 +793,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM)), recipientType);
     }
 
-    /**
-     *
-     * @return {@code True} if the button was clicked successfully and an element in the new question
-     * frame is now visible. {@code False} if not.
-     */
     public void clickNewQuestionButton() {
         click(openNewQuestionButton);
     }
@@ -800,6 +802,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         options.addAll(browser.driver.findElements(By.cssSelector("#recipienttype-" + NEW_QUESTION_NUM + " option")));
         for (WebElement option : options) {
             if (!option.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isAllVisibilityOptionsEnabledForNewQuestion() {
+        List<WebElement> visibilityDropdownItems = browser.driver.findElement(By.id("questionTable-" + NEW_QUESTION_NUM))
+                .findElements(By.cssSelector(".visibility-options-dropdown .dropdown-menu li"));
+        for (WebElement item : visibilityDropdownItems) {
+            if (item.getAttribute("class").contains("hidden")) {
                 return false;
             }
         }
@@ -1155,6 +1168,27 @@ public class InstructorFeedbackEditPage extends AppPage {
                 By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
     }
 
+    public boolean isVisibilityDropdownOptionHidden(String optionValue, int qnNumber) {
+        return browser.driver.findElement(By.id("questionTable-" + qnNumber))
+                             .findElement(By.className("visibility-options-dropdown-option"))
+                             .findElement(By.xpath("//a[@data-option-name='" + optionValue + "']/.."))
+                             .getAttribute("class").contains("hidden");
+    }
+
+    public boolean isVisibilityDropdownOptionHiddenForNewQuestion(String optionValue) {
+        return isVisibilityDropdownOptionHidden(optionValue, NEW_QUESTION_NUM);
+    }
+
+    public boolean isVisibilityDropdownSeparatorHidden(int qnNumber) {
+        return browser.driver.findElement(By.id("questionTable-" + qnNumber))
+                             .findElement(By.cssSelector(".visibility-options-dropdown .divider"))
+                             .getAttribute("class").contains("hidden");
+    }
+
+    public boolean isVisibilityDropdownSeparatorHiddenForNewQuestion() {
+        return isVisibilityDropdownSeparatorHidden(NEW_QUESTION_NUM);
+    }
+
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
         WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
         waitForElementVisibility(visibilityMessageDiv);
@@ -1184,6 +1218,36 @@ public class InstructorFeedbackEditPage extends AppPage {
     public String getVisibilityMessage(int questionNumber) {
         WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
         return visibilityMessageDiv.getText();
+    }
+
+    public String getVisibilityParamShowResponsesTo(int questionNumber) {
+        return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
+                             .findElement(By.cssSelector("input[name='showresponsesto']"))
+                             .getAttribute("value");
+    }
+
+    public String getVisibilityParamShowResponsesToForNewQuestion() {
+        return getVisibilityParamShowResponsesTo(NEW_QUESTION_NUM);
+    }
+
+    public String getVisibilityParamShowGiverTo(int questionNumber) {
+        return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
+                             .findElement(By.cssSelector("input[name='showgiverto']"))
+                             .getAttribute("value");
+    }
+
+    public String getVisibilityParamShowGiverToForNewQuestion() {
+        return getVisibilityParamShowGiverTo(NEW_QUESTION_NUM);
+    }
+
+    public String getVisibilityParamShowRecipientTo(int questionNumber) {
+        return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
+                             .findElement(By.cssSelector("input[name='showrecipientto']"))
+                             .getAttribute("value");
+    }
+
+    public String getVisibilityParamShowRecipientToForNewQuestion() {
+        return getVisibilityParamShowRecipientTo(NEW_QUESTION_NUM);
     }
 
     public WebElement getVisibilityOptions(int questionNumber) {

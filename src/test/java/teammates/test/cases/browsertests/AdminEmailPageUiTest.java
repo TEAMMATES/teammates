@@ -120,8 +120,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email sent data table is displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailSentDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
@@ -129,8 +129,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email draft data table is displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailDraftDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
@@ -138,8 +138,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email trash data table is displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailTrashDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table"))

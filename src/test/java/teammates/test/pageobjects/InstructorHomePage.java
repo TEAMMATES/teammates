@@ -119,27 +119,18 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorFeedbacksPage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
         click(getViewResultsLink(courseId, fsName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackResultsPage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public InstructorFeedbackEditPage clickFeedbackSessionEditLink(String courseId, String fsName) {
         click(getEditLink(courseId, fsName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackEditPage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
         clickAndConfirm(getDeleteEvalLink(courseId, fsName));
         waitForPageToLoad();
@@ -147,9 +138,6 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorFeedbacksPage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
         click(getSubmitLink(courseId, fsName));
         waitForPageToLoad();
@@ -157,9 +145,6 @@ public class InstructorHomePage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
         clickAndConfirm(getRemindLink(courseId, fsName));
         waitForPageToLoad();
@@ -167,9 +152,6 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorHomePage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
         clickAndConfirm(getUnpublishLink(courseId, fsName));
         waitForPageToLoad();
@@ -177,9 +159,6 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorHomePage.class);
     }
 
-    /**
-     * This is for customized feedback session
-     */
     public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
         clickAndConfirm(getPublishLink(courseId, fsName));
         return changePageType(InstructorHomePage.class);

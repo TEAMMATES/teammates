@@ -42,7 +42,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testDeleteQuestionsForCourse();
     }
 
-    public void testGetRecipientsForQuestion() throws Exception {
+    private void testGetRecipientsForQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         String email;
         Map<String, String> recipients;
@@ -111,7 +111,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testUpdateQuestionNumber() throws Exception {
+    private void testUpdateQuestionNumber() throws Exception {
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -174,7 +174,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testAddQuestion() throws Exception {
+    private void testAddQuestion() throws Exception {
 
         ______TS("Add question for feedback session that does not exist");
         FeedbackQuestionAttributes question = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -287,7 +287,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testCopyQuestion() throws Exception {
+    private void testCopyQuestion() throws Exception {
 
         InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         ______TS("Typical case: copy question successfully");
@@ -296,8 +296,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
 
         FeedbackQuestionAttributes copiedQuestion =
-                fqLogic.copyFeedbackQuestion(question1.courseId, question1.feedbackSessionName,
-                                             question1.getId(), question1.feedbackSessionName, question1.courseId,
+                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId,
                                              instructor2OfCourse1.email);
 
         FeedbackQuestionDetails question1Details = question1.getQuestionDetails();
@@ -311,7 +310,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testUpdateQuestion() throws Exception {
+    private void testUpdateQuestion() throws Exception {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
@@ -390,7 +389,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testDeleteQuestion() {
+    private void testDeleteQuestion() {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
 
@@ -399,7 +398,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testDeleteQuestionsForCourse() throws EntityDoesNotExistException {
+    private void testDeleteQuestionsForCourse() throws EntityDoesNotExistException {
         ______TS("standard case");
 
         // test that questions are deleted
@@ -427,7 +426,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertNotNull(getQuestionFromDatastore("qn1InSession4InCourse1"));
     }
 
-    public void testGetFeedbackQuestionsForInstructor() throws Exception {
+    private void testGetFeedbackQuestionsForInstructor() throws Exception {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
         List<FeedbackQuestionAttributes> allQuestions;
@@ -515,7 +514,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(actualQuestions, expectedQuestions);
     }
 
-    public void testGetFeedbackQuestionsForStudents() {
+    private void testGetFeedbackQuestionsForStudents() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
         List<FeedbackQuestionAttributes> allQuestions;
@@ -570,7 +569,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(actualQuestions, expectedQuestions);
     }
 
-    public void testIsQuestionHasResponses() {
+    private void testIsQuestionHasResponses() {
         FeedbackQuestionAttributes questionWithResponse;
         FeedbackQuestionAttributes questionWithoutResponse;
 
@@ -585,7 +584,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertFalse(fqLogic.areThereResponsesForQuestion(questionWithoutResponse.getId()));
     }
 
-    public void testIsQuestionAnswered() throws Exception {
+    private void testIsQuestionAnswered() throws Exception {
         FeedbackQuestionAttributes question;
 
         ______TS("test question is fully answered by user");
@@ -601,7 +600,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
 
         ______TS("Add questions sequentially - test for initial template question");
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");

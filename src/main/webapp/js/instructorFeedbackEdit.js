@@ -1,3 +1,5 @@
+'use strict';
+
 var NEW_QUESTION = -1;
 
 var WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
@@ -418,7 +420,7 @@ function disableQuestion(questionNum) {
  */
 function deleteQuestion(questionNum) {
     if (questionNum === NEW_QUESTION) {
-        location.reload();
+        window.location.reload();
         return false;
     }
 
@@ -475,10 +477,11 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $('#questionTable-' + NEW_QUESTION).hide();
     $('#addNewQuestionTable').show();
 
-    // re-enables all feedback path options, which may have been hidden by team contribution question
+    // re-enables all feedback path and visibility options, which may have been hidden by team contribution question
     $('#givertype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#recipienttype-' + NEW_QUESTION).find('option').show().prop('disabled', false);
     $('#questionTable-' + NEW_QUESTION).find('.feedback-path-dropdown > button').removeClass('disabled');
+    $('#questionTable-' + NEW_QUESTION).find('.visibility-options-dropdown .dropdown-menu li').removeClass('hidden');
     FeedbackPath.attachEvents();
 }
 
@@ -555,7 +558,7 @@ function tallyCheckboxes(questionNum) {
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
-    copyOptions();
+    copyOptions(type);
     prepareQuestionForm(type);
     $('#questionTable-' + NEW_QUESTION).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
@@ -633,8 +636,8 @@ function prepareQuestionForm(type) {
 
         $('#contribForm').show();
         fixContribQnGiverRecipient(NEW_QUESTION);
-        setDefaultContribQnVisibility(NEW_QUESTION);
         setContribQnVisibilityFormat(NEW_QUESTION);
+        setDefaultContribQnVisibilityIfNeeded(NEW_QUESTION);
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
@@ -667,9 +670,16 @@ function prepareQuestionForm(type) {
  * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
  */
-function copyOptions() {
+function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
     if ($('.questionTable').size() < 2) {
+        return;
+    }
+
+    var prevType = $('input[name="questiontype"]').eq(-2).val();
+
+    // Don't copy from non-contrib to contrib question, as these have special restrictions
+    if (newType === 'CONTRIB' && prevType !== 'CONTRIB') {
         return;
     }
 

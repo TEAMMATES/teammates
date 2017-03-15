@@ -13,7 +13,6 @@ public class FeedbackSessionsTableRow {
 
     /**
      * Constructs a session row for a course table.
-     * @param courseId
      * @param name name of the session
      * @param tooltip tooltip displayed when hovering over status
      * @param status status of the session
