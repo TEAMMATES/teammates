@@ -40,17 +40,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         // handle session visible after results visible to avoid having a
         // results visible date when session is private (session not visible)
         setSessionVisibleFromTime(newSession);
-
-        String[] sendReminderEmailsArray =
-                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
-        List<String> sendReminderEmailsList =
-                sendReminderEmailsArray == null ? new ArrayList<String>()
-                                                : Arrays.asList(sendReminderEmailsArray);
-        newSession.setClosingEmailEnabled(
-                sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
-        newSession.setPublishedEmailEnabled(
-                sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
-        this.setUniqueAttributesForSession(newSession, sendReminderEmailsList);
+        setEmail(newSession);
         return newSession;
     }
 
@@ -127,12 +117,21 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
     }
 
+    private void setEmail(FeedbackSessionAttributes newSession) {
+        String[] sendReminderEmailsArray =
+                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
+        List<String> sendReminderEmailsList =
+                sendReminderEmailsArray == null ? new ArrayList<String>()
+                                                : Arrays.asList(sendReminderEmailsArray);
+        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
+        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+        this.setUniqueAttributesForSession(newSession, sendReminderEmailsList);
+    }
+
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
             List<InstructorAttributes> instructorList) {
 
-        List<FeedbackSessionAttributes> sessions =
-                logic.getFeedbackSessionsListForInstructor(instructorList);
-        return sessions;
+        return logic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
     protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
@@ -161,5 +160,4 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
         return courseInstructorMap;
     }
-    
 }
