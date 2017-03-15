@@ -402,6 +402,8 @@ public final class Const {
                                      "Shown anonymously to recipient and instructors");
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
                                      "Shown anonymously to recipient, visible to instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS",
+                                     "Shown anonymously to recipient and team members, visible to instructors");
             visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
             visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
 
@@ -469,6 +471,11 @@ public final class Const {
                 + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
                 + " as the feedback giver and recipient respectively."
                 + " These values will be used instead.";
+        public static final String CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS =
+                Const.FeedbackQuestionTypeNames.CONTRIB + " must use one of the common visibility options. The \""
+                + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
+                                        .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
+                + "\" option will be used instead.";
 
         // Constant sum
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
