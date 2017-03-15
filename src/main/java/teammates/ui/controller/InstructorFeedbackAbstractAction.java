@@ -109,6 +109,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(
                 sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+        this.setUniqueAttributesForSession(newSession, sendReminderEmailsList);
         return newSession;
     }
 
