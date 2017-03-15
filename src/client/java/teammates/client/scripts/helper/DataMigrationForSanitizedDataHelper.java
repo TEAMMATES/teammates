@@ -26,8 +26,7 @@ public final class DataMigrationForSanitizedDataHelper {
     }
 
     /**
-     * Returns true if text contains at least one of the {@code strings},
-     * false if text does not contain any of the strings or if no strings are given.
+     * Returns true if {@code text} contains at least one of the {@code strings}.
      */
     public static boolean isTextContainingAny(String text, String... strings) {
         for (String string : strings) {
