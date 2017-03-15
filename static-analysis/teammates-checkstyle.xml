@@ -153,6 +153,7 @@
     <module name="JavadocVariable">
       <property name="scope" value="public"/>
     </module>
+    <module name="CommentsIndentation"/>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

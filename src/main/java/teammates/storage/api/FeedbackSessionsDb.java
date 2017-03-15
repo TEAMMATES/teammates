@@ -39,8 +39,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
             try {
                 updateFeedbackSession(session);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
