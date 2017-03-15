@@ -1,6 +1,7 @@
-'use strict';
+/* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
+/* global BootboxWrapper:false StatusType:false */
 
-$(document).ready(function() {
+$(document).ready(() => {
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));
     } else {
@@ -8,7 +9,7 @@ $(document).ready(function() {
     }
 
     // auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', function() {
+    $('#studentTableWindow').on('shown.bs.modal', () => {
         selectElementContents(document.getElementById('detailsTable'));
     });
 
@@ -18,45 +19,44 @@ $(document).ready(function() {
 });
 
 function submitFormAjax() {
-
-    var formObject = $('#csvToHtmlForm');
-    var formData = formObject.serialize();
-    var content = $('#detailsTable');
-    var ajaxStatus = $('#ajaxStatus');
+    const formObject = $('#csvToHtmlForm');
+    const formData = formObject.serialize();
+    const content = $('#detailsTable');
+    const ajaxStatus = $('#ajaxStatus');
 
     $.ajax({
         type: 'POST',
-        url: '/page/instructorCourseDetailsPage?' + formData,
-        beforeSend: function() {
+        url: `/page/instructorCourseDetailsPage?${formData}`,
+        beforeSend() {
             content.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error: function() {
+        error() {
             ajaxStatus.html('Failed to load student table. Please try again.');
             content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
         },
-        success: function(data) {
-            setTimeout(function() {
+        success(data) {
+            setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
                     content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 } else {
-                    var table = data.studentListHtmlTableAsString;
-                    content.html('<small>' + table + '</small>');
+                    const table = data.studentListHtmlTableAsString;
+                    content.html(`<small>${table}</small>`);
                 }
 
                 setStatusMessage(data.statusForAjax);
             }, 500);
-        }
+        },
     });
 }
 
 function attachEventToRemindStudentsButton() {
-    $('#button_remind').on('click', function(event) {
-        var $clickedButton = $(event.target);
-        var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+    $('#button_remind').on('click', (event) => {
+        const $clickedButton = $(event.target);
+        const messageText = `${'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request to '
-                          + 'all yet-to-join students in ' + $clickedButton.data('courseId') + ' anyway?';
-        var okCallback = function() {
+                          + 'all yet-to-join students in '}${$clickedButton.data('courseId')} anyway?`;
+        const okCallback = function okCallback() {
             window.location = $clickedButton.attr('href');
         };
 
@@ -66,16 +66,16 @@ function attachEventToRemindStudentsButton() {
 }
 
 function attachEventToSendInviteLink() {
-    $('.course-student-remind-link').on('click', function(event) {
+    $('.course-student-remind-link').on('click', (event) => {
         event.preventDefault();
 
-        var $clickedLink = $(event.target);
-        var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+        const $clickedLink = $(event.target);
+        const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request anyway?';
-        var okCallback = function() {
-            $.get($clickedLink.attr('href'), function() {
-                var studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
-                var message = 'An email has been sent to ' + studentEmail;
+        const okCallback = function okCallback() {
+            $.get($clickedLink.attr('href'), () => {
+                const studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
+                const message = `An email has been sent to ${studentEmail}`;
                 setStatusMessage(message, 'success');
             });
         };
@@ -85,4 +85,11 @@ function attachEventToSendInviteLink() {
     });
 }
 
-var isShowCommentBox = false;
+const isShowCommentBox = false;
+
+/*
+export default {
+    submitFormAjax,
+    isShowCommentBox
+};
+*/
