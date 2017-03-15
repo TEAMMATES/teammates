@@ -155,6 +155,11 @@ public class InstructorFeedbackEditPageData extends PageData {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS");
         }
 
+        if (isVisibilitySetToAnonymousToRecipientAndTeamVisibleToInstructors(question)) {
+            return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
+                                         .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
+        }
+
         if (isVisibilitySetToVisibleToInstructorsOnly(question)) {
             return Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS.get("VISIBLE_TO_INSTRUCTORS_ONLY");
         }
@@ -183,6 +188,18 @@ public class InstructorFeedbackEditPageData extends PageData {
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
         return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
+    }
+
+    private boolean isVisibilitySetToAnonymousToRecipientAndTeamVisibleToInstructors(FeedbackQuestionAttributes question) {
+        boolean responsesVisibleOnlyToRecipientTeamAndInstructors = question.showResponsesTo.size() == 4
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                && question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+                && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+
+        return responsesVisibleOnlyToRecipientTeamAndInstructors && giverNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToVisibleToInstructorsOnly(FeedbackQuestionAttributes question) {
