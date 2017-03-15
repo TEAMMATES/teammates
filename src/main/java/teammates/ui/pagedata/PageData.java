@@ -17,7 +17,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 import teammates.common.util.Logger;
@@ -43,17 +42,11 @@ public class PageData {
 
     private List<StatusMessage> statusMessagesToUser;
 
-    /**
-     * @param account The account for the nominal user.
-     */
     public PageData(AccountAttributes account) {
         this.account = account;
         this.student = null;
     }
 
-    /**
-     * @param account The account for the nominal user.
-     */
     public PageData(AccountAttributes account, StudentAttributes student) {
         this.account = account;
         this.student = student;
@@ -163,7 +156,7 @@ public class PageData {
     }
 
     /**
-     * Returns an element tag representing a HTML option
+     * Returns an element tag representing a HTML option.
      */
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
@@ -173,7 +166,7 @@ public class PageData {
     }
 
     /**
-     * Returns an element tag representing a HTML option
+     * Returns an element tag representing a HTML option.
      */
     public static ElementTag createOption(String text, String value) {
         return new ElementTag(text, "value", value);
@@ -195,7 +188,6 @@ public class PageData {
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
-     * @param timeToShowAsSelected
      */
     public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -222,16 +214,14 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student home page.
-     * Defaults to whether the student is unregistered.
+     * Returns The relative path to the student home page. Defaults to whether the student is unregistered.
      */
     public String getStudentHomeLink() {
         return getStudentHomeLink(isUnregisteredStudent());
     }
 
     /**
-     * @return The relative path to the student home page.
-     * The user Id is encoded in the url as a parameter.
+     * Returns The relative path to the student home page. The user Id is encoded in the url as a parameter.
      */
     public String getStudentHomeLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_HOME_PAGE;
@@ -243,16 +233,14 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student profile page.
-     * Defaults to whether the student is unregistered.
+     * Returns The relative path to the student profile page. Defaults to whether the student is unregistered.
      */
     public String getStudentProfileLink() {
         return getStudentProfileLink(isUnregisteredStudent());
     }
 
     /**
-     * @return The relative path to the student profile page.
-     * The user Id is encoded in the url as a parameter.
+     * Returns The relative path to the student profile page. The user Id is encoded in the url as a parameter.
      */
     public String getStudentProfileLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
@@ -264,16 +252,14 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the student comments page.
-     * Defaults to whether the student is unregistered.
+     * Returns The relative path to the student comments page. Defaults to whether the student is unregistered.
      */
     public String getStudentCommentsLink() {
         return getStudentCommentsLink(isUnregisteredStudent());
     }
 
     /**
-     * @return The relative path to the student comments page.
-     * The user Id is encoded in the url as a parameter.
+     * Returns The relative path to the student comments page. The user Id is encoded in the url as a parameter.
      */
     public String getStudentCommentsLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
@@ -316,8 +302,7 @@ public class PageData {
     }
 
     /**
-     * @return The relative path to the instructor home page.
-     * The user Id is encoded in the url as a parameter.
+     * Returns The relative path to the instructor home page. The user Id is encoded in the url as a parameter.
      */
     public String getInstructorHomeLink() {
         String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
@@ -399,10 +384,6 @@ public class PageData {
         return link;
     }
 
-    /**
-     * @param courseId
-     * @param isHome True if the Browser should redirect to the Home page after the operation.
-     */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -506,7 +487,7 @@ public class PageData {
     }
 
     /**
-     * Retrieves the link to load remind modal
+     * Retrieves the link to load remind modal.
      * @param courseId the course ID
      * @param feedbackSessionName the name of the feedback session
      * @return the link to load remind modal
@@ -520,7 +501,7 @@ public class PageData {
     }
 
     /**
-     * Retrieves the link to submit the request to remind a particular student(s)
+     * Retrieves the link to submit the request to remind a particular student(s).
      * @param returnUrl the url to return to after submitting the request
      * @return submit link with return url appended to it
      */
@@ -687,17 +668,14 @@ public class PageData {
     }
 
     /**
-     * Returns the links of actions available for a specific session
+     * Returns the links of actions available for a specific session.
+     *
      * @param session
      *         The feedback session details
      * @param returnUrl
      *         The return URL after performing the action.
      * @param instructor
      *         The Instructor details
-     * @param sectionsInCourse
-     *         The list of sections for the course
-     * @return
-     * @throws EntityDoesNotExistException
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
                                                                                 String returnUrl,

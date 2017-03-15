@@ -73,9 +73,8 @@ public class StudentProfilePictureUploadAction extends Action {
         blobStream.read(imageData);
         blobStream.close();
 
-        String newKey = GoogleCloudStorageHelper.writeImageDataToGcs(account.googleId, imageData);
         deletePicture(blobKey);
-        return newKey;
+        return GoogleCloudStorageHelper.writeImageDataToGcs(account.googleId, imageData);
     }
 
     private BlobInfo extractProfilePictureKey() {

@@ -27,13 +27,13 @@ public abstract class ActionResult {
      */
     public String destination;
 
-    /** True if the action did not complete successfully*/
+    /** True if the action did not complete successfully. */
     public boolean isError;
 
-    /** The 'nominal' user for whom the action was executed */
+    /** The 'nominal' user for whom the action was executed. */
     protected AccountAttributes account;
 
-    /** A list of status messages to be shown to the user */
+    /** A list of status messages to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
 
     /**
@@ -55,8 +55,8 @@ public abstract class ActionResult {
     }
 
     /**
-     * @return Concatenated version of the status messages collected during the
-     * execution of the action. Messages are separated by {@code '<br>'}
+     * Returns Concatenated version of the status messages collected during the
+     *         execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
         List<String> statusMessageTexts = new ArrayList<String>();
@@ -80,8 +80,8 @@ public abstract class ActionResult {
     }
 
     /**
-     * @return Destination of the result, including parameters.
-     * e.g. {@code /page/instructorHome?user=abc}
+     * Returns Destination of the result, including parameters.
+     *         e.g. {@code /page/instructorHome?user=abc}
      */
     public String getDestinationWithParams() {
         return appendParameters(destination, responseParams);

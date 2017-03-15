@@ -9,11 +9,11 @@ import org.openqa.selenium.support.FindBy;
 /**
  * InstructorEditStudentFeedbackPage is a page object to represent the page seen by a instructor
  * when moderating feedback.
- * <p>
- * It inherits the methods and attributes from {@link FeedbackSubmitPage} as the page is
+ *
+ * <p>It inherits the methods and attributes from {@link FeedbackSubmitPage} as the page is
  * built upon the feedback submission page seen by students/instructors.
  *
- * @see {@link FeedbackSubmitPage}
+ * @see FeedbackSubmitPage
  */
 public class InstructorEditStudentFeedbackPage extends FeedbackSubmitPage {
 

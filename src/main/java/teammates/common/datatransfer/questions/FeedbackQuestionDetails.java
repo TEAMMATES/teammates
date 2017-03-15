@@ -123,10 +123,10 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
-     * Validates the question details
+     * Validates the question details.
      *
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
-     * empty list if question details are valid.
+     *         empty list if question details are valid.
      */
     public abstract List<String> validateQuestionDetails();
 
@@ -136,7 +136,7 @@ public abstract class FeedbackQuestionDetails {
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
-     * empty list if question responses are valid.
+     *         empty list if question responses are valid.
      */
     public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
 
@@ -144,18 +144,14 @@ public abstract class FeedbackQuestionDetails {
      * Validates if giverType and recipientType are valid for the question type.
      * Validates visibility options as well.
      *
-     * Override in Feedback*QuestionDetails if necessary.
-     * @param giverType
-     * @param recipientType
+     * <p>Override in Feedback*QuestionDetails if necessary.
      * @return error message detailing the error, or an empty string if valid.
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
     /**
-     * Extract question details and sets details accordingly
+     * Extract question details and sets details accordingly.
      *
-     * @param requestParameters
-     * @param questionType
      * @return true to indicate success in extracting the details, false otherwise.
      */
     public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
@@ -183,7 +179,7 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
-     * @return true if 'No Response' is to be displayed in the Response rows.
+     * Returns true if 'No Response' is to be displayed in the Response rows.
      */
     public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
         // we do not show all possible responses
@@ -200,12 +196,8 @@ public abstract class FeedbackQuestionDetails {
     /**
      * Returns text to indicate that there is no response between the giver and recipient.
      *
-     * Used in instructorFeedbackResultsPage to show possible givers and recipients who did
+     * <p>Used in instructorFeedbackResultsPage to show possible givers and recipients who did
      * not respond to the question in the feedback session.
-     * @param giverEmail
-     * @param recipientEmail
-     * @param bundle
-     * @param question
      */
     public String getNoResponseText(String giverEmail, String recipientEmail,
                                     FeedbackSessionResultsBundle bundle,

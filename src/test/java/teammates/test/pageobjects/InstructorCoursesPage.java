@@ -39,7 +39,7 @@ public class InstructorCoursesPage extends AppPage {
         super(browser);
     }
 
-    /** Used to check if the loaded page is indeed the 'Courses' page */
+    /** Used to check if the loaded page is indeed the 'Courses' page. */
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Course</h1>");

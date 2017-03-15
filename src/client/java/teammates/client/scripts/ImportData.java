@@ -16,11 +16,12 @@ import teammates.test.driver.TestProperties;
  * Usage: This script imports a large data bundle to the appengine. The target of the script is the app with
  * appID in the test.properties file.Can use DataGenerator.java to generate random data.
  *
- * Notes:
- * -Edit SOURCE_FILE_NAME before use
- * -Should not have any limit on the size of the databundle. However, the number of entities per request
- * should not be set to too large as it may cause Deadline Exception (especially for evaluations)
- *
+ * <p>Notes:
+ * <ul>
+ * <li>Edit SOURCE_FILE_NAME before use</li>
+ * <li>Should not have any limit on the size of the databundle. However, the number of entities per request
+ * should not be set to too large as it may cause DeadlineExceededException (especially for evaluations)</li>
+ * </ul>
  */
 public final class ImportData {
     //
@@ -29,7 +30,6 @@ public final class ImportData {
 
     private static final int MAX_NUMBER_OF_ENTITY_PER_REQUEST = 100;
     private static final int MAX_NUMBER_OF_EVALUATION_PER_REQUEST = 1;
-    private static final int WAIT_TIME_BETWEEN_REQUEST = 1000; //ms
 
     private static DataBundle data;
     private static String jsonString;
@@ -118,14 +118,6 @@ public final class ImportData {
         }
         System.out.print(count + " entities of type " + type + " left " + map.size() + " \n");
 
-        String status = BackDoor.restoreDataBundle(bundle);
-
-        // wait a few seconds to allow data to persist completedly
-        try {
-            Thread.sleep(WAIT_TIME_BETWEEN_REQUEST);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return status;
+        return BackDoor.restoreDataBundle(bundle);
     }
 }
