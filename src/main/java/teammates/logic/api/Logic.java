@@ -834,7 +834,7 @@ public class Logic {
         return studentsLogic.getStudentsForCourse(courseId);
     }
 
-     /**
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return Empty list if none found.

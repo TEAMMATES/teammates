@@ -28,7 +28,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     public void testAll() throws Exception {
         testContent();
         testInputValidation();
-//        no links to check
+        // no links to check
         testEditAction();
     }
 
