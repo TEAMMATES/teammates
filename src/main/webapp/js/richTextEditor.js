@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
 var richTextEditorBuilder = {
     getDefaultConfiguration: function() {
@@ -21,7 +23,7 @@ var richTextEditorBuilder = {
                           + 'Verdana=verdana,geneva;'
                           + 'Webdings=webdings;'
                           + 'Wingdings=wingdings,zapf dingbats',
-                
+
             relative_urls: false,
             convert_urls: false,
             remove_linebreaks: false,

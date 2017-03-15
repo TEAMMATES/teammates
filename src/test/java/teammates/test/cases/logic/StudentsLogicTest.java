@@ -45,14 +45,14 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 public class StudentsLogicTest extends BaseLogicTest {
-    
+
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    
+
     @Test
     public void testAll() throws Exception {
-        
+
         testGetStudentProfile();
         testGetStudentForEmail();
         testGetStudentForRegistrationKey();
@@ -64,9 +64,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         testIsStudentInCourse();
         testIsStudentInTeam();
         testIsStudentsInSameTeam();
-        
+
         testGetTeamForStudent();
-        
+
         testEnrollStudent();
         testAdjustFeedbackResponseForEnrollments();
 
@@ -75,10 +75,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         testKeyGeneration();
         testEnrollLinesChecking();
         testEnrollStudents();
-        
+
         testDeleteStudent();
-        
-        
+
     }
 
     /*
@@ -87,37 +86,37 @@ public class StudentsLogicTest extends BaseLogicTest {
      * tested in a separate class.
      */
 
-    public void testGetTeamForStudent() {
+    private void testGetTeamForStudent() {
         ______TS("Typical case: get team of existing student");
-        
+
         String courseId = "idOfTypicalCourse1";
         String googleId = "student1InCourse1";
         StudentAttributes student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
         TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
-        
+
         assertEquals("Team 1.1</td></div>'\"", team.name);
         assertNotNull(team.students);
         assertEquals(4, team.students.size());
-        
+
         ______TS("Typical case: get team of non-existing student");
         courseId = "idOfTypicalCourse1";
         googleId = "idOfNonExistingStudent";
         student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
         team = StudentsLogic.inst().getTeamDetailsForStudent(student);
-        
+
         assertEquals(null, team);
 
     }
 
-    public void testEnrollStudent() throws Exception {
+    private void testEnrollStudent() throws Exception {
 
         String instructorId = "instructorForEnrollTesting";
         String instructorCourse = "courseForEnrollTesting";
-        
+
         //delete leftover data, if any
         accountsLogic.deleteAccountCascade(instructorId);
         coursesLogic.deleteCourseCascade(instructorCourse);
-        
+
         //create fresh test data
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
@@ -152,41 +151,40 @@ public class StudentsLogicTest extends BaseLogicTest {
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentUpdateStatus.NEW);
-        
+
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
         enrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
         enrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
-        
+
         ______TS("modify info of existing student");
         //add some more details to the student
         student1.googleId = "googleId";
         studentsLogic.updateStudentCascadeWithoutDocument(student1.email, student1);
-        
 
     }
-    
-    public void testGetStudentProfile() throws Exception {
+
+    private void testGetStudentProfile() throws Exception {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         AccountAttributes student1 = dataBundle.accounts.get("student1InCourse1");
-        
+
         ______TS("success: default profile");
-        
+
         StudentProfileAttributes actualSpa = studentsLogic.getStudentProfile(student1InCourse1.googleId);
         StudentProfileAttributes expectedSpa = student1.studentProfile;
-        
+
         // fill-in auto-generated and default values
         expectedSpa.institute = actualSpa.institute;
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        
+
         assertEquals(expectedSpa.toString(), actualSpa.toString());
-        
+
         ______TS("success: edited profile");
-        
+
         StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
-        
+
         expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.tmt";
@@ -194,16 +192,16 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedStudentProfile.nationality = "Angolan";
         expectedStudentProfile.gender = "female";
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
-        
+
         student1.studentProfile = expectedStudentProfile;
         accountsLogic.updateAccount(student1, true);
-        
+
         StudentProfileAttributes actualStudentProfile = studentsLogic.getStudentProfile(student1InCourse1.googleId);
         expectedStudentProfile.modifiedDate = actualStudentProfile.modifiedDate;
         assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
     }
-    
-    public void testValidateSections() throws Exception {
+
+    private void testValidateSections() throws Exception {
 
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
         String courseId = typicalCourse1.getId();
@@ -215,7 +213,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentList.add(
                 new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
                                       "student2InCourse1@gmail.tmt", "", courseId));
-        
+
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
         ______TS("Failure case: invalid section");
@@ -245,8 +243,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testupdateStudentCascadeWithoutDocument() throws Exception {
-        
+    private void testupdateStudentCascadeWithoutDocument() throws Exception {
+
         ______TS("typical edit");
 
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
@@ -266,7 +264,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertFalse(student4InCourse1.getUpdatedAt().equals(updatedStudent4InCourse1.getUpdatedAt()));
 
         ______TS("check for KeepExistingPolicy : change email only");
-        
+
         // create an empty student and then copy course and email attributes
         StudentAttributes copyOfStudent1 = new StudentAttributes();
         copyOfStudent1.course = student4InCourse1.course;
@@ -280,14 +278,14 @@ public class StudentsLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(student4InCourse1);
 
         ______TS("check for KeepExistingPolicy : change nothing");
-        
+
         originalEmail = student4InCourse1.email;
         copyOfStudent1.email = null;
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         verifyPresentInDatastore(copyOfStudent1);
-        
+
         ______TS("non-existent student");
-        
+
         try {
             studentsLogic.updateStudentCascadeWithoutDocument("non-existent@email", student4InCourse1);
             signalFailureToDetectException();
@@ -297,7 +295,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                     e.getMessage());
         }
 
-        
         ______TS("check for InvalidParameters");
         copyOfStudent1.email = "invalid email";
         try {
@@ -307,30 +304,28 @@ public class StudentsLogicTest extends BaseLogicTest {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
                     e.getMessage());
         }
-        
+
         // delete student from db
-        
+
     }
-    
-    public void testKeyGeneration() {
-        
+
+    private void testKeyGeneration() {
+
         ______TS("key generation");
-        
+
         long key = 5;
         String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
         long reverseKey = KeyFactory.stringToKey(longKey).getId();
         assertEquals(key, reverseKey);
         assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
     }
-    
-    public void testAdjustFeedbackResponseForEnrollments() throws Exception {
-        
-        
-        
+
+    private void testAdjustFeedbackResponseForEnrollments() throws Exception {
+
         // the case below will not cause the response to be deleted
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: no change of team");
-        
+
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
@@ -341,7 +336,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
         enrollmentList.add(studentDetails1);
-        
+
         FeedbackResponseAttributes feedbackResponse1InBundle = dataBundle.feedbackResponses.get("response1ForQ2S2C1");
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -353,18 +348,17 @@ public class StudentsLogicTest extends BaseLogicTest {
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                                             feedbackResponse1InBundle.giver,
                                             feedbackResponse1InBundle.recipient);
-        
+
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-        
+
         FeedbackResponseAttributes responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         assertEquals(responseBefore.getId(), responseAfter.getId());
-        
-        
+
         // the case below will not cause the response to be deleted
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: unmodified status");
-        
+
         enrollmentList = new ArrayList<StudentEnrollDetails>();
         studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
@@ -372,24 +366,23 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
         enrollmentList.add(studentDetails1);
-        
+
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        
+
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-        
+
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         assertEquals(responseBefore.getId(), responseAfter.getId());
-        
-        
+
         // the code below will cause the feedback to be deleted because
         // recipient's e-mail is the same as the one in studentEnrollDetails
         // and the question's recipient's type is own team members
         ______TS("adjust feedback response: delete after adjustment");
-        
+
         studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.MODIFIED, course1Id,
                                          student2InCourse1.email, student1InCourse1.team,
@@ -397,33 +390,33 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student1InCourse1.section + "tmp");
         enrollmentList = new ArrayList<StudentEnrollDetails>();
         enrollmentList.add(studentDetails1);
-        
+
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
         responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        
+
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
-        
+
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
         assertEquals(null, responseAfter);
-        
+
     }
-    
-    public void testEnrollLinesChecking() throws Exception {
+
+    private void testEnrollLinesChecking() throws Exception {
         String info;
         String enrollLines;
         String courseId = "CourseID";
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
-        
-        List<String> invalidInfo;
-        List<String> expectedInvalidInfo = new ArrayList<String>();
-        
+        String invalidInfoString = null;
+        String expectedInvalidInfoString;
+        List<String> expectedInvalidInfoList = new ArrayList<String>();
+
         ______TS("enrollLines with invalid parameters");
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
-        
+
         String headerLine = "Team | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
         String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + "| student@email.tmt";
@@ -433,155 +426,152 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + "Paul_invalid_email.tmt";
         String lineWithInvalidTeamNameAndStudentNameAndEmail =
                 invalidTeamName + "|" + invalidStudentName + "|" + "invalid_email.tmt";
-        
+
         enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName
                     + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
                     + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
-        
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
+
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
-        expectedInvalidInfo.clear();
+        expectedInvalidInfoList.clear();
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidStudentName, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentName, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidEmail, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidStudentNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidStudentNameAndEmail, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamNameAndEmail, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                               lineWithInvalidTeamNameAndStudentNameAndEmail, info));
-        
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
-        
+
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
+
         ______TS("enrollLines with too few");
         String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
         String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | "
                 + " studentWithExtraParameters@email.tmt | comment | extra_parameter";
-        
-        enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
-        
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
-        expectedInvalidInfo.clear();
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
+        enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
+
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
+
+        expectedInvalidInfoList.clear();
+        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithNoEmailInput,
                 StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS));
-        
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
-        
+
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
+
+
         ______TS("enrollLines with some empty fields");
-       
+
         String lineWithTeamNameEmpty = " | StudentWithTeamFieldEmpty | student@email.tmt";
         String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.tmt";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
-        
+
         enrollLines = headerLine + Const.EOL
                       + lineWithTeamNameEmpty + Const.EOL
                       + lineWithStudentNameEmpty + Const.EOL
                       + lineWithEmailEmpty;
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
-        expectedInvalidInfo.clear();
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
+
+        expectedInvalidInfoList.clear();
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
+        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithStudentNameEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
+        expectedInvalidInfoList.add(
+                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithStudentNameEmpty, info));
         info = StringHelper.toString(
                 SanitizationHelper.sanitizeForHtml(saf.makeStudent(lineWithEmailEmpty, courseId).getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithEmailEmpty, info));
+        expectedInvalidInfoList.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithEmailEmpty, info));
 
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with correct input");
         headerLine = "Team | Name | Email | Comment";
         String lineWithCorrectInput = "Team 3 | Mary | mary@email.tmt";
         String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.tmt | Foreign student";
-        
-        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
-        
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
-        assertEquals(0, invalidInfo.size());
-        
+        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
+        // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
+        studentsLogic.createStudents(enrollLines, courseId);
+
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
-        
-        
-        ______TS("enrollLines with duplicate emails");
-        
-        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
-        
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
 
-        assertEquals(1, invalidInfo.size());
-        
-        
+        ______TS("enrollLines with duplicate emails");
+
+        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
+
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
+
+        expectedInvalidInfoString = "Same email address as the student in line \"" + lineWithCorrectInput + "\"";
+        AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
+
         ______TS("enrollLines with a mix of all above cases");
         enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL
                 + lineWithInvalidTeamNameAndStudentNameAndEmail
                 + Const.EOL + lineWithExtraParameters + Const.EOL
                 + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
 
-        invalidInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
-        
-        expectedInvalidInfo.clear();
+        invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
+
+        expectedInvalidInfoList.clear();
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamName, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithInvalidTeamName, info));
 
         info = StringHelper.toString(
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithInvalidTeamNameAndStudentNameAndEmail, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                               lineWithInvalidTeamNameAndStudentNameAndEmail, info));
 
@@ -589,31 +579,41 @@ public class StudentsLogicTest extends BaseLogicTest {
                     SanitizationHelper.sanitizeForHtml(
                         saf.makeStudent(lineWithTeamNameEmpty, courseId).getInvalidityInfo()),
                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
+        expectedInvalidInfoList.add(
                 String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithTeamNameEmpty, info));
 
-        info = StringHelper.toString(
-                    SanitizationHelper.sanitizeForHtml(
-                        saf.makeStudent(lineWithCorrectInput, courseId).getInvalidityInfo()),
-                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        expectedInvalidInfo.add(
-                String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, lineWithCorrectInput, info));
-        
-        for (int i = 0; i < invalidInfo.size(); i++) {
-            assertEquals(expectedInvalidInfo.get(i), invalidInfo.get(i));
-        }
-        
+        expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
+        assertEquals(expectedInvalidInfoString, invalidInfoString);
     }
-    
-    public void testEnrollStudents() throws Exception {
-        
+
+    /**
+     * Returns the error message of EnrollException thrown when trying to call
+     * {@link teammates.logic.core.StudentsLogic#createStudents(String, String)} method with
+     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
+     * {@link #signalFailureToDetectException()}.
+     *
+     * @param invalidEnrollLines is assumed to be invalid
+     */
+    private String getExceptionMessageOnCreatingStudentsList(String invalidEnrollLines, String courseId) {
+        String invalidInfoString = null;
+        try {
+            studentsLogic.createStudents(invalidEnrollLines, courseId);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            invalidInfoString = e.getMessage();
+        }
+        return invalidInfoString;
+    }
+
+    private void testEnrollStudents() throws Exception {
+
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
                 new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
-        
+
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -624,10 +624,9 @@ public class StudentsLogicTest extends BaseLogicTest {
                 TimeHelper.getHoursOffsetToCurrentTime(6),
                 8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
-        
-        
+
         ______TS("all valid students, but contains blank lines and trailing spaces");
-        
+
         String headerLine = "team | name | email | comment";
         String line0 = "t1   |  n1   |   e1@g  |   c1";
         String line1 = " t2|  n2|  e2@g|  c2";
@@ -638,7 +637,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                     + "  \t \t \t \t           " + Const.EOL + line3 + Const.EOL + Const.EOL + line4
                     + Const.EOL + "    " + Const.EOL + Const.EOL;
         CourseEnrollmentResult enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
-        
+
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         assertEquals(5, enrollResults.studentList.size());
         assertEquals(5, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
@@ -650,13 +649,12 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          enrollResults.studentList.get(1), StudentUpdateStatus.NEW);
         verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseIdForEnrollTest),
                                          enrollResults.studentList.get(4), StudentUpdateStatus.NEW);
-            
+
         CourseDetailsBundle courseDetails = coursesLogic.getCourseSummary(courseIdForEnrollTest);
         assertEquals(5, courseDetails.stats.unregisteredTotal);
-        
-        
+
         ______TS("includes a mix of unmodified, modified, and new");
-        
+
         String modifiedLine2 = "t3|modified name|e3@g|c3";
         String line5 = "t6|n6|e6@g|c6";
         lines = headerLine + Const.EOL + line0 + Const.EOL + modifiedLine2 + Const.EOL + line1 + Const.EOL + line5;
@@ -675,9 +673,9 @@ public class StudentsLogicTest extends BaseLogicTest {
                      enrollResults.studentList.get(4).updateStatus);
         assertEquals(StudentUpdateStatus.NOT_IN_ENROLL_LIST,
                      enrollResults.studentList.get(5).updateStatus);
-        
+
         ______TS("includes an incorrect line");
-        
+
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
         lines = headerLine + Const.EOL + "t7|n7|e7@g|c7" + Const.EOL + incorrectLine + Const.EOL + line2 + Const.EOL
@@ -689,43 +687,41 @@ public class StudentsLogicTest extends BaseLogicTest {
             assertTrue(e.getMessage().contains(incorrectLine));
         }
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
-        
-        
+
         ______TS("null parameters");
-        
+
         try {
             studentsLogic.enrollStudentsWithoutDocument("a|b|c|d", null);
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
-        
-        
+
         ______TS("same student added, modified and unmodified");
-        
+
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
                 new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
-            
+
         String line = headerLine + Const.EOL + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.NEW, enrollResults.studentList.get(0).updateStatus);
-            
+
         line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.MODIFIED, enrollResults.studentList.get(0).updateStatus);
-            
+
         line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.UNMODIFIED, enrollResults.studentList.get(0).updateStatus);
 
         ______TS("duplicated emails");
-            
+
         String lineT9 = "t9|n9|e9@g|c9";
         String lineT10 = "t10|n10|e9@g|c10";
         lines = headerLine + Const.EOL + lineT9 + Const.EOL + lineT10;
@@ -735,10 +731,9 @@ public class StudentsLogicTest extends BaseLogicTest {
             assertTrue(e.getMessage().contains(lineT10));
             AssertHelper.assertContains("Same email address as the student in line \"" + lineT9 + "\"", e.getMessage());
         }
-        
-        
+
         ______TS("invalid course id");
-        
+
         String enrollLines = headerLine + Const.EOL;
         String invalidCourseId = "invalidCourseId";
         try {
@@ -747,20 +742,18 @@ public class StudentsLogicTest extends BaseLogicTest {
         } catch (EntityDoesNotExistException e) {
             ignoreExpectedException();
         }
-        
-        
+
         ______TS("empty enroll line");
-        
+
         try {
             studentsLogic.enrollStudentsWithoutDocument("", courseIdForEnrollTest);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             ignoreExpectedException();
         }
-        
-        
+
         ______TS("invalidity info in enroll line");
-        
+
         enrollLines = headerLine + Const.EOL + "invalidline0\ninvalidline1\n";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, courseIdForEnrollTest);
@@ -768,10 +761,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         } catch (EnrollException e) {
             ignoreExpectedException();
         }
-        
+
     }
-   
-    public void testGetStudentForEmail() {
+
+    private void testGetStudentForEmail() {
 
         ______TS("null parameters");
 
@@ -781,23 +774,22 @@ public class StudentsLogicTest extends BaseLogicTest {
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
-        
+
         ______TS("non-exist student");
-        
+
         String nonExistStudentEmail = "nonExist@google.tmt";
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         assertEquals(null, studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
-        
-        
+
         ______TS("typical case");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertEquals(student1InCourse1.googleId,
                      studentsLogic.getStudentForEmail(course1Id, student1InCourse1.email).googleId);
     }
-    
-    public void testGetStudentForRegistrationKey() {
-        
+
+    private void testGetStudentForRegistrationKey() {
+
         ______TS("null parameter");
 
         try {
@@ -806,14 +798,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
-        
-        
+
         ______TS("non-exist student");
-        
+
         String nonExistStudentKey = StringHelper.encrypt("nonExistKey");
         assertEquals(null, studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
-        
-        
+
         ______TS("typical case");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -823,10 +813,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
     }
 
-    public void testGetStudentsForGoogleId() {
-    
+    private void testGetStudentsForGoogleId() {
+
         ______TS("student in one course");
-    
+
         StudentAttributes studentInCourse1 = dataBundle.students.get("student1InCourse1");
         assertEquals(1, studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).size());
         assertEquals(studentInCourse1.email,
@@ -835,36 +825,35 @@ public class StudentsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).name);
         assertEquals(studentInCourse1.course,
                 studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).course);
-    
-        
+
         ______TS("student in two courses");
-    
+
         // this student is in two courses, course1 and course 2.
-    
+
         // get list using student data from course 1
         StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
                 .get("student2InCourse1");
         List<StudentAttributes> listReceivedUsingStudentInCourse1 = studentsLogic
                 .getStudentsForGoogleId(studentInTwoCoursesInCourse1.googleId);
         assertEquals(2, listReceivedUsingStudentInCourse1.size());
-    
+
         // get list using student data from course 2
         StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
                 .get("student2InCourse2");
         List<StudentAttributes> listReceivedUsingStudentInCourse2 = studentsLogic
                 .getStudentsForGoogleId(studentInTwoCoursesInCourse2.googleId);
         assertEquals(2, listReceivedUsingStudentInCourse2.size());
-    
+
         // check the content from first list (we assume the content of the
         // second list is similar.
-    
+
         Collections.sort(listReceivedUsingStudentInCourse1, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes o1, StudentAttributes o2) {
                 return o1.course.compareTo(o2.course);
             }
         });
-        
+
         StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2
         assertEquals(studentInTwoCoursesInCourse2.email,
@@ -873,7 +862,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 firstStudentReceived.name);
         assertEquals(studentInTwoCoursesInCourse2.course,
                 firstStudentReceived.course);
-    
+
         // then the second student received must be from course 1
         StudentAttributes secondStudentReceived = listReceivedUsingStudentInCourse1
                 .get(0);
@@ -883,13 +872,13 @@ public class StudentsLogicTest extends BaseLogicTest {
                 secondStudentReceived.name);
         assertEquals(studentInTwoCoursesInCourse1.course,
                 secondStudentReceived.course);
-    
+
         ______TS("non existent student");
-    
+
         assertEquals(0, studentsLogic.getStudentsForGoogleId("non-existent").size());
-    
+
         ______TS("null parameters");
-    
+
         try {
             studentsLogic.getStudentsForGoogleId(null);
             signalFailureToDetectException();
@@ -898,33 +887,33 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetStudentForCourseIdAndGoogleId() {
-    
+    private void testGetStudentForCourseIdAndGoogleId() {
+
         ______TS("student in two courses");
-        
+
         StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
                 .get("student2InCourse1");
-    
+
         String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.googleId;
         assertEquals(studentInTwoCoursesInCourse1.email,
                 studentsLogic.getStudentForCourseIdAndGoogleId(
                         studentInTwoCoursesInCourse1.course,
                         googleIdOfstudentInTwoCourses).email);
-    
+
         StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
                 .get("student2InCourse2");
         assertEquals(studentInTwoCoursesInCourse2.email,
                 studentsLogic.getStudentForCourseIdAndGoogleId(
                         studentInTwoCoursesInCourse2.course,
                         googleIdOfstudentInTwoCourses).email);
-    
+
         ______TS("student in zero courses");
-    
+
         assertEquals(null, studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
                 "random-google-id"));
-    
+
         ______TS("null parameters");
-    
+
         try {
             studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null);
             signalFailureToDetectException();
@@ -933,10 +922,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetStudentsForCourse() {
-        
+    private void testGetStudentsForCourse() {
+
         ______TS("course with multiple students");
-    
+
         CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
         List<StudentAttributes> studentList = studentsLogic
                 .getStudentsForCourse(course1OfInstructor1.getId());
@@ -944,43 +933,42 @@ public class StudentsLogicTest extends BaseLogicTest {
         for (StudentAttributes s : studentList) {
             assertEquals(course1OfInstructor1.getId(), s.course);
         }
-    
+
         ______TS("course with 0 students");
-    
+
         CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
         studentList = studentsLogic.getStudentsForCourse(course2OfInstructor1.getId());
         assertEquals(0, studentList.size());
-    
+
         ______TS("null parameter");
-    
+
         try {
             studentsLogic.getStudentsForCourse(null);
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
-    
+
         ______TS("non-existent course");
-    
+
         studentList = studentsLogic.getStudentsForCourse("non-existent");
         assertEquals(0, studentList.size());
-        
+
     }
 
-    public void testGetEncryptedKeyForStudent() throws Exception {
-        
+    private void testGetEncryptedKeyForStudent() throws Exception {
+
         ______TS("null parameters");
-        
+
         try {
             studentsLogic.getEncryptedKeyForStudent("valid.course.id", null);
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
-    
-        
+
         ______TS("non-existent student");
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String nonExistStudentEmail = "non@existent";
         try {
@@ -991,95 +979,89 @@ public class StudentsLogicTest extends BaseLogicTest {
                                       + "[" + student1InCourse1.course + "/" + nonExistStudentEmail + "]";
             assertEquals(expectedErrorMsg, e.getMessage());
         }
-        
-        
+
         // the typical case below seems unnecessary though--it is not useful for now
         // as the method itself is too simple
         ______TS("typical case");
-        
+
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String actualKey = studentsLogic.getEncryptedKeyForStudent(course1Id, student1InCourse1.email);
         String expectedKey = StringHelper.encrypt(
                 studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
         assertEquals(expectedKey, actualKey);
     }
-    
-    public void testIsStudentInAnyCourse() {
-        
+
+    private void testIsStudentInAnyCourse() {
+
         ______TS("non-existent student");
-        
+
         String nonExistStudentGoogleId = "nonExistGoogleId";
         assertFalse(studentsLogic.isStudentInAnyCourse(nonExistStudentGoogleId));
-        
-        
+
         ______TS("typical case");
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertTrue(studentsLogic.isStudentInAnyCourse(student1InCourse1.googleId));
     }
-    
-    public void testIsStudentInCourse() {
-        
+
+    private void testIsStudentInCourse() {
+
         ______TS("non-existent student");
-        
+
         String nonExistStudentEmail = "nonExist@google.tmt";
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         assertFalse(studentsLogic.isStudentInCourse(course1.getId(), nonExistStudentEmail));
-        
-        
+
         ______TS("typical case");
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertTrue(studentsLogic.isStudentInCourse(course1.getId(), student1InCourse1.email));
     }
-    
-    public void testIsStudentInTeam() {
-        
+
+    private void testIsStudentInTeam() {
+
         ______TS("non-existent student");
-        
+
         String nonExistStudentEmail = "nonExist@google.tmt";
         String teamName = "Team 1";
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         assertFalse(studentsLogic.isStudentInTeam(course1.getId(), teamName, nonExistStudentEmail));
-        
-        
+
         ______TS("student not in given team");
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertFalse(studentsLogic.isStudentInTeam(course1.getId(), teamName, nonExistStudentEmail));
-        
+
         ______TS("typical case");
         teamName = student1InCourse1.team;
         assertTrue(studentsLogic.isStudentInTeam(course1.getId(), teamName, student1InCourse1.email));
     }
-    
-    public void testIsStudentsInSameTeam() {
-        
+
+    private void testIsStudentsInSameTeam() {
+
         ______TS("non-existent student1");
-        
+
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         String nonExistStudentEmail = "nonExist@google.tmt";
         assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), nonExistStudentEmail,
                                                        student2InCourse1.email));
-        
-        
+
         ______TS("students of different teams");
-        
+
         StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
         assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
                                                        student5InCourse1.email));
-        
-        
+
         ______TS("students of different teams");
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
                                                       student1InCourse1.email));
-        
+
     }
-    
-    public void testDeleteStudent() {
+
+    private void testDeleteStudent() {
 
         ______TS("typical delete");
 
@@ -1091,7 +1073,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
-        
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyPresentInDatastore(student1InCourse1);
 
@@ -1118,19 +1100,12 @@ public class StudentsLogicTest extends BaseLogicTest {
                                                    new Class<?>[] { StudentAttributes.class, Boolean.class },
                                                    StudentsLogic.inst(), new Object[] { student, false });
     }
-    
-    @SuppressWarnings("unchecked")
-    private static List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws Exception {
-        return (List<String>) invokeMethod(StudentsLogic.class, "getInvalidityInfoInEnrollLines",
-                                           new Class<?>[] { String.class, String.class },
-                                           StudentsLogic.inst(), new Object[] { lines, courseId });
-    }
-        
+
     @AfterClass
     public void classTearDown() {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
     }
-    
+
     private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,
                                                    StudentEnrollDetails enrollmentResult, StudentUpdateStatus status) {
         assertEquals(expectedStudent.email, enrollmentResult.email);
@@ -1139,7 +1114,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(oldTeam, enrollmentResult.oldTeam);
         assertEquals(status, enrollmentResult.updateStatus);
     }
-    
+
     private void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
                                                   StudentAttributes enrollmentResult, StudentUpdateStatus status) {
         String errorMessage = "mismatch! \n expected:\n"

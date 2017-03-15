@@ -11,18 +11,18 @@ import teammates.ui.template.StudentCourseDetailsPanel;
 
 public class StudentCourseDetailsPageData extends PageData {
     private StudentCourseDetailsPanel studentCourseDetailsPanel;
-    
+
     public StudentCourseDetailsPageData(AccountAttributes account) {
         super(account);
     }
-    
+
     public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,
                          StudentAttributes student, TeamDetailsBundle team) {
         this.student = student;
         studentCourseDetailsPanel = createStudentCourseDetailsPanel(
                                         courseDetails, instructors, student, team);
     }
-    
+
     public StudentCourseDetailsPanel getStudentCourseDetailsPanel() {
         return studentCourseDetailsPanel;
     }
@@ -36,9 +36,9 @@ public class StudentCourseDetailsPageData extends PageData {
         String studentName = student.name;
         String studentEmail = student.email;
         List<StudentAttributes> teammates = team.students;
-        
+
         return new StudentCourseDetailsPanel(courseId, courseName, instructors, studentTeam,
                                                  studentName, studentEmail, teammates);
     }
-    
+
 }

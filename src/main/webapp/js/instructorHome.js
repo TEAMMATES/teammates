@@ -1,3 +1,5 @@
+'use strict';
+
 var COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 var CURRENT_YEAR = (new Date()).getFullYear();
 
@@ -7,9 +9,9 @@ $(document).ready(function() {
     bindRemindButtons();
     bindPublishButtons();
     bindUnpublishButtons();
-    
+
     setupFsCopyModal();
-    
+
     // Click event binding for radio buttons
     var $radioButtons = $('label[name="sortby"]');
     $.each($radioButtons, function() {
@@ -17,7 +19,7 @@ $(document).ready(function() {
             var currentPath = window.location.pathname;
             var query = window.location.search.substring(1);
             var params = {};
-            
+
             var paramValues = query.split('&');
             for (var i = 0; i < paramValues.length; i++) {
                 var paramValue = paramValues[i].split('=');
@@ -31,7 +33,7 @@ $(document).ready(function() {
             window.location.href = currentPath + '?user=' + params.user + '&sortby=' + $(this).attr('data');
         });
     });
-    
+
     // Click event binding for course archive button
     $('body').on('click', '.course-archive-for-test', function(event) {
         event.preventDefault();
@@ -57,7 +59,7 @@ $(document).ready(function() {
             var $panel = $(this);
             var formData = $panel.find('form').serialize();
             var content = $panel.find('.pull-right')[0];
-            
+
             $.ajax({
                 type: 'POST',
                 url: '/page/instructorHomePage?' + formData,
@@ -80,7 +82,7 @@ $(document).ready(function() {
             });
         });
     });
-    
+
     // Automatically load top few course panels
     $coursePanels.slice(0, COURSE_PANELS_TO_AUTO_LOAD_COUNT).click();
 });

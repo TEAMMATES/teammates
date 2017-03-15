@@ -10,21 +10,20 @@ import teammates.common.util.TimeHelper;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.GenericAppPage;
 
-/** This is considered a UI test case because it uses a Browser */
 @Priority(5)
 public class AutomatedSessionRemindersTest extends BaseUiTestCase {
-    
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
-        
-        /* 
+
+        /*
          * In this test, we set the email address of the accounts to be the same as the
          * support email address. When running the test against a production server,
          * email alerts will be sent to the specified support email address.
          * The tester should manually check the email box after running the test suite.
          */
-        
+
         testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;
         testData.instructors.get("AutSessRem.instructor").email = Config.SUPPORT_EMAIL;
         testData.students.get("alice.tmms@AutSessRem.course").email = Config.SUPPORT_EMAIL;
@@ -35,7 +34,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         testData.feedbackQuestions.get("questionForOpeningSession").creatorEmail = Config.SUPPORT_EMAIL;
         testData.feedbackQuestions.get("questionForClosingSession").creatorEmail = Config.SUPPORT_EMAIL;
         testData.feedbackQuestions.get("questionForPublishedSession").creatorEmail = Config.SUPPORT_EMAIL;
-        
+
         // Set closing time of one feedback session to tomorrow
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
         closingFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
@@ -47,34 +46,34 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         // Set opening time for one feedback session to yesterday
         FeedbackSessionAttributes openingFeedbackSession = testData.feedbackSessions.get("openingSession");
         openingFeedbackSession.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        
+
         //Published time for one feedback session already set to some time in the past.
-        
+
         removeAndRestoreDataBundle(testData);
     }
-    
+
     @Test
     public void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
     }
-    
+
     @Test
     public void testFeedbackSessionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
     }
-    
+
     @Test
     public void testFeedbackSessionClosedReminders() {
         AppUrl closedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
         loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
     }
-    
+
     @Test
     public void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
     }
-    
+
 }

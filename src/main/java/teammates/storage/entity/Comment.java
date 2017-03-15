@@ -25,11 +25,11 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class Comment {
-    
+
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long commentId;
-    
+
     /** The foreign key to locate the Course object. */
     @Persistent
     private String courseId;
@@ -37,7 +37,7 @@ public class Comment {
     /** The giver's email used for this comment. */
     @Persistent
     private String giverEmail;
-    
+
     /** The recipient type for this comment. */
     @Persistent
     private CommentParticipantType recipientType;
@@ -49,43 +49,43 @@ public class Comment {
      * id. */
     @Persistent
     private Set<String> recipients;
-    
-    /** The comment's status */
+
+    /** The comment's status. */
     @Persistent
     private CommentStatus status;
-    
-    /** Is this comment pending to be sent to recipient (through email) or sending or sent */
+
+    /** Is this comment pending to be sent to recipient (through email) or sending or sent. */
     @Persistent
     private CommentSendingState sendingState;
-    
-    /** Visibility options **/
+
+    /** Visibility options. **/
     @Persistent
     private List<CommentParticipantType> showCommentTo;
-    
+
     @Persistent
     private List<CommentParticipantType> showGiverNameTo;
-    
+
     @Persistent
     private List<CommentParticipantType> showRecipientNameTo;
-    
+
     //TODO: remove this property after data migration
     /** The receiver's email used for this comment. */
     @Persistent
     private String receiverEmail;
-    
+
     /** The creation time of this comment. */
     @Persistent
     private Date createdAt;
-    
-    /** The comment from giver for receiver */
+
+    /** The comment from giver for receiver. */
     @Persistent
     private Text commentText;
-    
-    /** The e-mail of the account that last edited the comment */
+
+    /** The e-mail of the account that last edited the comment. */
     @Persistent
     private String lastEditorEmail;
-    
-    /** The time in which the comment is last edited */
+
+    /** The time in which the comment is last edited. */
     @Persistent
     private Date lastEditedAt;
 
@@ -138,11 +138,11 @@ public class Comment {
     public CommentParticipantType getRecipientType() {
         return recipientType;
     }
-    
+
     public void setRecipientType(CommentParticipantType recipientType) {
         this.recipientType = recipientType;
     }
-    
+
     public Set<String> getRecipients() {
         return recipients;
     }
@@ -150,47 +150,47 @@ public class Comment {
     public void setRecipients(Set<String> recipients) {
         this.recipients = recipients;
     }
-    
+
     public CommentStatus getStatus() {
         return status;
     }
-    
+
     public void setStatus(CommentStatus status) {
         this.status = status;
     }
-    
+
     public CommentSendingState getSendingState() {
         return sendingState;
     }
-    
+
     public void setSendingState(CommentSendingState sendingState) {
         this.sendingState = sendingState;
     }
-    
+
     public List<CommentParticipantType> getShowCommentTo() {
         return showCommentTo;
     }
-    
+
     public void setShowCommentTo(List<CommentParticipantType> showCommentTo) {
         this.showCommentTo = showCommentTo;
     }
-    
+
     public List<CommentParticipantType> getShowGiverNameTo() {
         return showGiverNameTo;
     }
-    
+
     public void setShowGiverNameTo(List<CommentParticipantType> showGiverNameTo) {
         this.showGiverNameTo = showGiverNameTo;
     }
-    
+
     public List<CommentParticipantType> getShowRecipientNameTo() {
         return showRecipientNameTo;
     }
-    
+
     public void setShowRecipientNameTo(List<CommentParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
     }
-    
+
     @Deprecated
     public String getReceiverEmail() {
         return receiverEmail;
@@ -200,7 +200,7 @@ public class Comment {
     public void setReceiverEmail(String receiverEmail) {
         this.receiverEmail = receiverEmail;
     }
-    
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -220,11 +220,11 @@ public class Comment {
     public void setLastEditorEmail(String lastEditorEmail) {
         this.lastEditorEmail = lastEditorEmail;
     }
-    
+
     public String getLastEditorEmail() {
         return this.lastEditorEmail;
     }
-    
+
     public Date getLastEditedAt() {
         return this.lastEditedAt;
     }

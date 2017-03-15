@@ -22,15 +22,15 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
     private InstructorAttributes instructor;
-    
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        
+
         String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull(fsName);
-        
+
         String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
         Assumption.assertNotNull(fsIndexString);
         int fsIndex = 0;
@@ -39,14 +39,14 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         } catch (NumberFormatException e) {
             Assumption.fail("Invalid request parameter value for feedback session index: " + fsIndexString);
         }
-        
+
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        
+
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
-        
+
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));
-        
+
         int numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsName, roster);
@@ -61,11 +61,9 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         FeedbackSessionResultsBundle bundle =
                 logic.getFeedbackSessionResultsForInstructor(
                         fsname, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
-        if (bundle != null) {
-            removeQuestionsAndResponsesIfNotAllowed(bundle);
-            removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-        }
-        
+        removeQuestionsAndResponsesIfNotAllowed(bundle);
+        removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+
         return bundle.questions.isEmpty() ? null : bundle;
     }
 
@@ -79,7 +77,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
             boolean canInstructorViewSessionInRecipientSection =
                     instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-            
+
             boolean instructorHasSessionViewingPrivileges = canInstructorViewSessionInGiverSection
                                                             && canInstructorViewSessionInRecipientSection;
             if (!instructorHasSessionViewingPrivileges) {

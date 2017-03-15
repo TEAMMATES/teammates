@@ -9,35 +9,35 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
-    private static InstructorFeedbackEditPage feedbackEditPage;
+    private InstructorFeedbackEditPage feedbackEditPage;
 
-    private static String courseId;
-    private static String feedbackSessionName;
-    private static String instructorId;
-    
+    private String courseId;
+    private String feedbackSessionName;
+    private String instructorId;
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackMsqQuestionUiTest.json");
         removeAndRestoreDataBundle(testData);
-        
+
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").getId();
         feedbackSessionName = testData.feedbackSessions.get("openSession").getFeedbackSessionName();
     }
-    
+
     @BeforeClass
     public void classSetup() {
         feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName);
     }
-    
+
     @Test
     public void allTests() throws Exception {
         testEditPage();
-        
+
         //TODO: move/create other MSQ question related UI tests here.
         //i.e. results page, submit page.
     }
-    
+
     private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
@@ -56,7 +56,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
-    
+
     @Override
     public void testInputValidation() {
 
@@ -64,7 +64,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
-        
+
         ______TS("empty options");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
@@ -72,7 +72,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
                                       + "Minimum number of options is: 2.");
-        
+
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
@@ -82,7 +82,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
-        
+
         // TODO: Check that after deleting, the value is cleared
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(0);
@@ -90,7 +90,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
                                       + "Minimum number of options is: 2.");
-        
+
         ______TS("select Add Other Option");
 
         feedbackEditPage.clickNewQuestionButton();
@@ -98,7 +98,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq with other option");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
-        
+
         assertTrue(feedbackEditPage.isElementPresent("msqOtherOptionFlag--1"));
         feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
         assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
@@ -110,10 +110,10 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
-        
+
         feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
         feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
-        
+
         ______TS("MSQ: add msq option");
 
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-2--1"));
@@ -213,7 +213,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 FeedbackParticipantType.TEAMS.toString());
 
     }
-    
+
     @Override
     public void testDeleteQuestionAction() {
 
@@ -230,5 +230,5 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
-    
+
 }

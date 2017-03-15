@@ -8,12 +8,11 @@ public class FeedbackSessionsTableRow {
     private String recent;
     private String status;
     private InstructorFeedbackSessionActions actions;
-        
+
     private ElementTag rowAttributes;
 
     /**
      * Constructs a session row for a course table.
-     * @param courseId
      * @param name name of the session
      * @param tooltip tooltip displayed when hovering over status
      * @param status status of the session
@@ -32,7 +31,7 @@ public class FeedbackSessionsTableRow {
         this.recent = recent;
         this.rowAttributes = attributes;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
@@ -52,7 +51,7 @@ public class FeedbackSessionsTableRow {
     public String getHref() {
         return href;
     }
-    
+
     public String getRecent() {
         return recent;
     }
@@ -60,9 +59,9 @@ public class FeedbackSessionsTableRow {
     public InstructorFeedbackSessionActions getActions() {
         return actions;
     }
-    
+
     public ElementTag getRowAttributes() {
         return rowAttributes;
     }
-    
+
 }

@@ -15,51 +15,51 @@ import teammates.test.pageobjects.AdminAccountDetailsPage;
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
-    private static AdminAccountDetailsPage detailsPage;
-    
+    private AdminAccountDetailsPage detailsPage;
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
-    
+
     @Test
     public void testAll() throws Exception {
         testContent();
         //no links or input validation to check
         testRemoveFromCourseAction();
     }
-    
-    public void testContent() throws Exception {
-        
+
+    private void testContent() throws Exception {
+
         ______TS("content: typical page");
-        
+
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
                 .withInstructorId("AAMgtUiT.instr2")
                 .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
         detailsPage = loginAdminToPage(detailsPageUrl, AdminAccountDetailsPage.class);
-        
+
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
 
-    public void testRemoveFromCourseAction() throws Exception {
-        
+    private void testRemoveFromCourseAction() throws Exception {
+
         ______TS("action: remove instructor from course");
-        
+
         String googleId = "AAMgtUiT.instr2";
         String courseId = "AAMgtUiT.CS2104";
-        
+
         detailsPage.clickRemoveInstructorFromCourse(courseId)
             .verifyStatus(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
         assertNull(BackDoor.getInstructorByGoogleId(googleId, courseId));
-    
+
         ______TS("action: remove student from course");
-        
+
         courseId = "AAMgtUiT.CS1101";
         detailsPage.clickRemoveStudentFromCourse(courseId)
             .verifyStatus(Const.StatusMessages.STUDENT_DELETED);
         assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
         detailsPage.verifyHtmlMainContent("/adminAccountDetailsRemoveStudent.html");
     }
-    
+
 }

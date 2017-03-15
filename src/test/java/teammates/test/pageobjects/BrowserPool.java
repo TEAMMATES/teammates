@@ -12,8 +12,8 @@ public final class BrowserPool {
      * The reason we're not implementing this class as static because we want to
      * use wait() and notify().
      */
-    
-    /** Ideally, should be equal to the number of threads used for testing */
+
+    /** Ideally, should be equal to the number of threads used for testing. */
     private static final int CAPACITY = System.getenv("CI") == null ? 9 + 1 : 2;
     //+1 in case a sequential ui test uses a browser other than the first in pool
 
@@ -24,9 +24,6 @@ public final class BrowserPool {
         pool = new ArrayList<Browser>(CAPACITY);
     }
 
-    /**
-    
-     */
     private static synchronized BrowserPool getInstance() {
         if (instance == null) {
             instance = new BrowserPool();
@@ -35,12 +32,12 @@ public final class BrowserPool {
     }
 
     /**
-     * @return a Browser object ready to be used.
+     * Returns a Browser object ready to be used.
      */
     public static Browser getBrowser() {
         return getInstance().requestInstance();
     }
-    
+
     /**
      * Releases a Browser instance back to the pool, ready to be reused.
      */
@@ -54,7 +51,7 @@ public final class BrowserPool {
     }
 
     private Browser requestInstance() {
-        
+
         while (true) {
             //synchronized to ensure thread-safety
             synchronized (this) {
@@ -73,7 +70,7 @@ public final class BrowserPool {
                     pool.add(b);
                     return b;
                 }
-                
+
                 // Wait if no more free objects and no more capacity.
                 try {
                     this.wait(200);

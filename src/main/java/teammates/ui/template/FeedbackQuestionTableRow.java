@@ -1,8 +1,7 @@
 package teammates.ui.template;
 
 /**
- * Data model for an individual question in the copying question modal on instructorFeedbackEdit.jsp
- *
+ * Data model for an individual question in the copying question modal on instructorFeedbackEdit.jsp.
  */
 public class FeedbackQuestionTableRow {
     private String courseId;
@@ -10,7 +9,7 @@ public class FeedbackQuestionTableRow {
     private String qnType;
     private String qnText;
     private String qnId;
-    
+
     public FeedbackQuestionTableRow(String courseId, String fsName, String qnType, String qnText, String qnId) {
         this.courseId = courseId;
         this.fsName = fsName;
@@ -18,19 +17,19 @@ public class FeedbackQuestionTableRow {
         this.qnText = qnText;
         this.qnId = qnId;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getFsName() {
         return fsName;
     }
-    
+
     public String getQnType() {
         return qnType;
     }
-    
+
     public String getQnText() {
         return qnText;
     }

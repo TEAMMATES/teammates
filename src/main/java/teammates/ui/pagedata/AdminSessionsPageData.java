@@ -16,7 +16,6 @@ import teammates.ui.template.AdminFilter;
 import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageData extends PageData {
-    private static final String UNKNOWN_INSTITUTION = "Unknown";
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
     private int totalClosedStatusSessions;
@@ -28,12 +27,12 @@ public class AdminSessionsPageData extends PageData {
     private boolean isShowAll;
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
-    
+
     public AdminSessionsPageData(AccountAttributes account) {
         super(account);
 
     }
-    
+
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
             int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
@@ -56,19 +55,19 @@ public class AdminSessionsPageData extends PageData {
     public int getTotalOngoingSessions() {
         return totalOngoingSessions;
     }
-    
+
     public int getTotalOpenStatusSessions() {
         return totalOpenStatusSessions;
     }
-    
+
     public int getTotalClosedStatusSessions() {
         return totalClosedStatusSessions;
     }
-    
+
     public int getTotalWaitToOpenStatusSessions() {
         return totalWaitToOpenStatusSessions;
     }
-    
+
     public int gettotalInstitutes() {
         return totalInstitutes;
     }
@@ -76,27 +75,27 @@ public class AdminSessionsPageData extends PageData {
     public int getTableCount() {
         return institutionPanels.size();
     }
-    
+
     public boolean isShowAll() {
         return isShowAll;
     }
-    
+
     public AdminFilter getFilter() {
         return filter;
     }
-    
+
     public String getRangeStartString() {
         return TimeHelper.formatTime12H(rangeStart);
     }
-    
+
     public String getRangeEndString() {
         return TimeHelper.formatTime12H(rangeEnd);
     }
-    
+
     public List<InstitutionPanel> getInstitutionPanels() {
         return institutionPanels;
     }
-    
+
     private String getInstructorHomePageViewLink(String googleId) {
         String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
@@ -132,7 +131,7 @@ public class AdminSessionsPageData extends PageData {
     public String getTimeZoneAsString() {
         return StringHelper.toUtcFormat(zone);
     }
-    
+
     public String getFeedbackSessionStatsLink(String courseId, String feedbackSessionName, String user) {
         String link;
         if (user.isEmpty()) {
@@ -145,9 +144,9 @@ public class AdminSessionsPageData extends PageData {
         }
         return link;
     }
-    
+
     public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
-        
+
         StringBuilder status = new StringBuilder(100);
         if (fs.isClosed()) {
             status.append("[Closed]");
@@ -164,10 +163,10 @@ public class AdminSessionsPageData extends PageData {
         if (fs.isInGracePeriod()) {
             status.append("[Grace Period]");
         }
-          
+
         return status.length() == 0 ? "No Status" : status.toString();
     }
-    
+
     public List<AdminFeedbackSessionRow> getFeedbackSessionRows(
             List<FeedbackSessionAttributes> feedbackSessions, Map<String, String> sessionToInstructorIdMap) {
         List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<AdminFeedbackSessionRow>();
@@ -195,25 +194,14 @@ public class AdminSessionsPageData extends PageData {
                                  getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
                                  getTimeZoneOptionsAsHtml());
     }
-    
+
     public void setInstitutionPanels(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap) {
         institutionPanels = new ArrayList<InstitutionPanel>();
-        for (String key : map.keySet()) {
-            if (!key.equals(UNKNOWN_INSTITUTION)) {
-                institutionPanels.add(new InstitutionPanel(
-                                              key, getFeedbackSessionRows(
-                                                           map.get(key),
-                                                           sessionToInstructorIdMap)));
-            }
-        }
-        String key = UNKNOWN_INSTITUTION;
-        List<FeedbackSessionAttributes> feedbackSessions = map.get(key);
-        if (feedbackSessions != null) {
-            institutionPanels.add(new InstitutionPanel(
-                                          key, getFeedbackSessionRows(
-                                                       feedbackSessions,
-                                                       sessionToInstructorIdMap)));
+        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : map.entrySet()) {
+            institutionPanels.add(
+                    new InstitutionPanel(
+                            entry.getKey(), getFeedbackSessionRows(entry.getValue(), sessionToInstructorIdMap)));
         }
     }
 }

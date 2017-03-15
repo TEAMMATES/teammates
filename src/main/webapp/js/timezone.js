@@ -1,3 +1,5 @@
+'use strict';
+
 var TimeZone = {
     /**
      * Generate time zone <option>s using time zone IDs from Moment-Timezone library
@@ -14,11 +16,11 @@ var TimeZone = {
             // thus the +/- sign needs to be swapped
             return 'UTC ' + (offset < 0 ? '+' : '-') + addLeadingZeroes(hr) + ':' + addLeadingZeroes(min);
         }
-        
+
         function addLeadingZeroes(num) {
             return (num > 9 ? '' : '0') + num;
         }
-        
+
         moment.tz.names().forEach(function(name) {
             var o = document.createElement('option');
             var date = new Date();

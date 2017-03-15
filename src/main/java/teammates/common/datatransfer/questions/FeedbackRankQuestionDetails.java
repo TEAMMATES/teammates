@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
-    
+
     private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
@@ -25,12 +25,12 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     @Override
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
-        
+
         String areDuplicatesAllowedString =
                 HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
-        
+
         this.areDuplicatesAllowed = areDuplicatesAllowed;
         return true;
     }
@@ -52,11 +52,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 
     /**
-     * Used to update the mapping of ranks for the option optionReceivingPoints
-     * 
-     * @param optionRanks
-     * @param optionReceivingRanks
-     * @param rankReceived
+     * Updates the mapping of ranks for the option optionReceivingPoints.
      */
     protected void updateOptionRanksMapping(
                         Map<String, List<Integer>> optionRanks,
@@ -65,39 +61,38 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
             List<Integer> ranks = new ArrayList<Integer>();
             optionRanks.put(optionReceivingRanks, ranks);
         }
-        
+
         List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
         ranksReceived.add(rankReceived);
     }
 
     /**
-     * Returns the list of points as as string to display
-     * @param ranksReceived
+     * Returns the list of points as as string to display.
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
         Collections.sort(ranksReceived);
         StringBuilder pointsReceived = new StringBuilder();
-        
+
         if (ranksReceived.size() > 10) {
             for (int i = 0; i < 5; i++) {
                 pointsReceived.append(ranksReceived.get(i)).append(" , ");
             }
-            
+
             pointsReceived.append("...");
-            
+
             for (int i = ranksReceived.size() - 5; i < ranksReceived.size(); i++) {
                 pointsReceived.append(" , ").append(ranksReceived.get(i));
             }
         } else {
             for (int i = 0; i < ranksReceived.size(); i++) {
                 pointsReceived.append(ranksReceived.get(i));
-                
+
                 if (i != ranksReceived.size() - 1) {
                     pointsReceived.append(" , ");
                 }
             }
         }
-        
+
         return pointsReceived.toString();
     }
 
@@ -108,7 +103,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         }
         return average / values.size();
     }
-   
+
     /**
      * For a single set of ranking (options / feedback responses),
      * fix ties by assigning the MIN value of the ordering to all the tied options
@@ -121,7 +116,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                                                         Map<K, Integer> rankOfOption,
                                                         List<K> options) {
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
-        
+
         // group the options/feedback response by its rank
         TreeMap<Integer, List<K>> rankToAnswersMap = new TreeMap<>();
         for (K answer : options) {
@@ -130,23 +125,23 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 normalisedRankForSingleSetOfRankings.put(answer, Const.POINTS_NOT_SUBMITTED);
                 continue;
             }
-            
+
             if (!rankToAnswersMap.containsKey(rankGiven)) {
                 rankToAnswersMap.put(rankGiven, new ArrayList<K>());
             }
             rankToAnswersMap.get(rankGiven).add(answer);
         }
-        
+
         // every answer in the same group is given the same rank
         int currentRank = 1;
         for (List<K> answersWithSameRank : rankToAnswersMap.values()) {
             for (K answer : answersWithSameRank) {
                 normalisedRankForSingleSetOfRankings.put(answer, currentRank);
             }
-            
+
             currentRank += answersWithSameRank.size();
         }
-        
+
         return normalisedRankForSingleSetOfRankings;
     }
 

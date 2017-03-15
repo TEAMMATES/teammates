@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
@@ -52,10 +54,10 @@ $(document).ready(function() {
 
     var panels = $('div.panel');
     bindCollapseEvents(panels, 0);
-    
+
     bindPublishButtons();
     bindUnpublishButtons();
-    
+
     $('#button-print').on('click', function() {
         // Fix to hide the filter placeholder when it is empty.
         if ($('#results-search-box').val()) {
@@ -63,7 +65,7 @@ $(document).ready(function() {
         } else {
             $('#filter-box-parent-div').addClass('hide-for-print');
         }
-        
+
         $('#mainContent').printThis({
             importCSS: true,
             importStyle: true,
@@ -207,9 +209,8 @@ function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
     var panels = pans || $('div.panel-collapse');
-    
+
     if ($(e).html().trim().startsWith(expand)) {
-        isExpandingAll = true;
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
@@ -223,7 +224,6 @@ function toggleCollapse(e, pans) {
         var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
-        isCollapsingAll = true;
         var j = 0;
         for (var k = 0; k < panels.length; k++) {
             if ($(panels[k]).attr('class').indexOf('in') !== -1) {

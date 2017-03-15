@@ -1,5 +1,9 @@
 package teammates.test.cases.browsertests;
 
+import java.io.File;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,15 +18,15 @@ import teammates.test.pageobjects.QUnitPage;
  * because it is not a regular UI test.
  */
 public class AllJsTests extends BaseUiTestCase {
-    
-    private static QUnitPage page;
+
     private static final float MIN_COVERAGE_REQUIREMENT = 25;
-    
+    private QUnitPage page;
+
     @Override
     protected void prepareTestData() {
         // no test data used in this test
     }
-    
+
     @BeforeClass
     public void classSetup() {
         loginAdmin();
@@ -33,21 +37,41 @@ public class AllJsTests extends BaseUiTestCase {
     }
 
     @Test
+    public void verifyAllJsTestFilesIncluded() {
+        Document pageSource = Jsoup.parse(page.getPageSource());
+        String testScripts = pageSource.getElementById("test-scripts").html();
+
+        File folder = new File("./src/main/webapp/dev");
+        File[] listOfFiles = folder.listFiles();
+        for (File f : listOfFiles) {
+            String fileName = f.getName();
+            if (fileName.endsWith("Test.js")) {
+                assertTrue(fileName + " is not present in JS test file",
+                           testScripts.contains(getSrcStringForJsTestFile(fileName)));
+            }
+        }
+    }
+
+    private String getSrcStringForJsTestFile(String fileName) {
+        return "src=\"/dev/" + fileName + "\"";
+    }
+
+    @Test
     public void executeJsTests() {
         int totalCases = page.getTotalCases();
         int failedCases = page.getFailedCases();
-        
+
         print("Executed " + totalCases + " JavaScript Unit tests...");
 
         // Some tests such as date-checking behave differently in Firefox and Chrome.
         int expectedFailedCases = "firefox".equals(TestProperties.BROWSER) ? 0 : 4;
         assertEquals(expectedFailedCases, failedCases);
         assertTrue(totalCases != 0);
-        
+
         print("As expected, " + expectedFailedCases + " failed tests out of " + totalCases + " tests.");
 
         float coverage = page.getCoverage();
-        
+
         print(coverage + "% of scripts covered, the minimum requirement is " + MIN_COVERAGE_REQUIREMENT + "%");
         assertTrue(coverage >= MIN_COVERAGE_REQUIREMENT);
     }

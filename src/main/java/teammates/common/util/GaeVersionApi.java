@@ -11,9 +11,9 @@ import com.google.appengine.api.modules.ModulesServiceFactory;
  * Provides access to application versions via Google AppEngine API.
  */
 public class GaeVersionApi {
-    
+
     private static final Logger log = Logger.getLogger();
-    
+
     /**
      * Gets all available versions.
      */
@@ -27,7 +27,7 @@ public class GaeVersionApi {
         Collections.sort(versionList);
         return versionList;
     }
-    
+
     /**
      * Gets the current version of the application.
      */
@@ -35,15 +35,15 @@ public class GaeVersionApi {
         ModulesService modulesService = ModulesServiceFactory.getModulesService();
         return new Version(modulesService.getCurrentVersion());
     }
-    
+
     /**
-     * Gets a number of most recent versions
+     * Gets a number of most recent versions.
      * @return a list of versions.
      */
     public List<String> getMostRecentVersions(int numVersions) {
         List<Version> versionList = getAvailableVersions();
         Version currentVersion = getCurrentVersion();
-        
+
         List<String> resultVersions = new ArrayList<String>();
         try {
             int currentVersionIndex = versionList.indexOf(currentVersion);
@@ -58,7 +58,6 @@ public class GaeVersionApi {
     /**
      * Finds a sublist of versionList, starting from startIndex and at most `maxAmount` elements.
      * @param startIndex starting position to get versions
-     * @param amount
      */
     private List<String> getSublistOfVersionList(List<Version> versionList, int startIndex, int maxAmount) {
         int endIndex = Math.min(startIndex + maxAmount, versionList.size());

@@ -12,12 +12,12 @@ import teammates.ui.controller.InstructorFeedbackPreviewAsStudentAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest {
-    
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -57,21 +57,21 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
                 + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackPreviewAsStudent",
                 paia.getLogMessage());
-        
+
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
-        
+
         ______TS("failure: not enough privilege");
-        
+
         feedbackSessionName = "First feedback session";
         courseId = "idOfTypicalCourse1";
         previewAsEmail = student.email;
-        
+
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
         };
-        
+
         try {
             paia = getAction(submissionParams);
             showPageResult = getShowPageResult(paia);
@@ -79,11 +79,11 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
             assertEquals("Feedback session [First feedback session] is not accessible to instructor ["
                          + instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
         }
-        
+
         gaeSimulation.loginAsInstructor(idOfInstructor);
 
         ______TS("failure: non-existent previewas email");
-        
+
         previewAsEmail = "non-exIstentEmail@gsail.tmt";
 
         submissionParams = new String[]{
@@ -101,7 +101,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
                          enfe.getMessage());
         }
     }
-            
+
     @Override
     protected InstructorFeedbackPreviewAsStudentAction getAction(String... params) {
         return (InstructorFeedbackPreviewAsStudentAction) gaeSimulation.getActionObject(getActionUri(), params);

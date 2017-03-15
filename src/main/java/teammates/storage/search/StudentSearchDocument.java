@@ -24,25 +24,25 @@ public class StudentSearchDocument extends SearchDocument {
 
     private StudentAttributes student;
     private CourseAttributes course;
-    
+
     public StudentSearchDocument(StudentAttributes student) {
         this.student = student;
     }
-    
+
     @Override
     protected void prepareData() {
         if (student == null) {
             return;
         }
-        
+
         course = coursesDb.getCourse(student.course);
     }
 
     @Override
     public Document toDocument() {
-        
+
         String delim = ",";
-        
+
         // produce searchableText for this student document:
         // it contains courseId, courseName, studentEmail, studentName studentTeam and studentSection
         String searchableText = student.course + delim
@@ -51,7 +51,7 @@ public class StudentSearchDocument extends SearchDocument {
                                 + student.name + delim
                                 + student.team + delim
                                 + student.section;
-        
+
         return Document.newBuilder()
                 // this is used to filter documents visible to certain instructor
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
@@ -65,12 +65,12 @@ public class StudentSearchDocument extends SearchDocument {
                 .setId(student.key)
                 .build();
     }
-    
+
     /**
      * Produces a {@link StudentSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
      * The list of {@link InstructorAttributes} is used to filter out the search result.
-     * <p>
-     * This method should be used by admin only since the searching does not restrict the
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.
      */
     public static StudentSearchResultBundle fromResults(Results<ScoredDocument> results) {
@@ -78,7 +78,7 @@ public class StudentSearchDocument extends SearchDocument {
         if (results == null) {
             return bundle;
         }
-        
+
         for (ScoredDocument doc : results) {
             StudentAttributes student = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(),
@@ -88,16 +88,16 @@ public class StudentSearchDocument extends SearchDocument {
                 studentsDb.deleteDocument(student);
                 continue;
             }
-            
+
             bundle.studentList.add(student);
             bundle.numberOfResults++;
         }
-        
+
         sortStudentResultList(bundle.studentList);
-        
+
         return bundle;
     }
-    
+
     /**
      * Produces a {@link StudentSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
      * The list of {@link InstructorAttributes} is used to filter out the search result.
@@ -108,11 +108,11 @@ public class StudentSearchDocument extends SearchDocument {
         if (results == null) {
             return bundle;
         }
-        
+
         for (InstructorAttributes ins : instructors) {
             bundle.courseIdInstructorMap.put(ins.courseId, ins);
         }
-        
+
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
             StudentAttributes student = JsonUtils.fromJson(
@@ -123,18 +123,18 @@ public class StudentSearchDocument extends SearchDocument {
                 studentsDb.deleteDocument(student);
                 continue;
             }
-            
+
             bundle.studentList.add(student);
             bundle.numberOfResults++;
         }
-        
+
         sortStudentResultList(bundle.studentList);
-        
+
         return bundle;
     }
 
     private static void sortStudentResultList(List<StudentAttributes> studentList) {
-        
+
         Collections.sort(studentList, new Comparator<StudentAttributes>() {
             @Override
             public int compare(StudentAttributes s1, StudentAttributes s2) {
@@ -142,25 +142,25 @@ public class StudentSearchDocument extends SearchDocument {
                 if (compareResult != 0) {
                     return compareResult;
                 }
-                
+
                 compareResult = s1.section.compareTo(s2.section);
                 if (compareResult != 0) {
                     return compareResult;
                 }
-                
+
                 compareResult = s1.team.compareTo(s2.team);
                 if (compareResult != 0) {
                     return compareResult;
                 }
-                
+
                 compareResult = s1.name.compareTo(s2.name);
                 if (compareResult != 0) {
                     return compareResult;
                 }
-                
+
                 return s1.email.compareTo(s2.email);
             }
         });
     }
-    
+
 }

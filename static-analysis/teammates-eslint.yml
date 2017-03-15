@@ -2,6 +2,10 @@ env:
     browser: true
     jquery: true
     qunit: true
+
+plugins:
+    - json
+
 rules:
 
     #################################################################################
@@ -15,6 +19,12 @@ rules:
     #################################################################################
 
     # Possible Errors
+
+    # disallow await inside of loops
+    # no-await-in-loop: "off"
+
+    # disallow comparing against -0
+    # no-compare-neg-zero: "off"
 
     # disallow assignment operators in conditional expressions
     no-cond-assign: ["error", "except-parens"]
@@ -303,6 +313,9 @@ rules:
     # disallow with statements
     # no-with: "off"
 
+    # require using Error objects as Promise rejection reasons
+    # prefer-promise-reject-errors: "off"
+
     # enforce the consistent use of the radix argument when using parseInt()
     radix: "off" # recommended by Airbnb and Google
 
@@ -321,7 +334,7 @@ rules:
     # Strict Mode
 
     # require or disallow strict mode directives
-    strict: "off" # recommended by Airbnb
+    strict: ["error", "global"]
 
     # Variables
 
@@ -501,6 +514,9 @@ rules:
     # disallow mixed spaces and tabs for indentation
     # no-mixed-spaces-and-tabs: "off"
 
+    # disallow use of chained assignment expressions
+    # no-multi-assign: "off"
+
     # disallow multiple empty lines
     no-multiple-empty-lines: ["error", { "max": 1, "maxBOF": 0, "maxEOF": 1}]
 
@@ -526,7 +542,7 @@ rules:
     # no-ternary: "off"
 
     # disallow trailing whitespace at the end of lines
-    no-trailing-spaces: ["error", { "skipBlankLines": true }]
+    no-trailing-spaces: "error"
 
     # disallow dangling underscores in identifiers
     no-underscore-dangle: "error"
@@ -536,6 +552,9 @@ rules:
 
     # disallow whitespace before properties
     no-whitespace-before-property: "error"
+
+    # enforce the location of single-line statements
+    # nonblock-statement-body-position: "off"
 
     # enforce consistent line breaks inside braces
     # object-curly-newline: "off"
@@ -599,6 +618,9 @@ rules:
 
     # enforce consistent spacing after the // or /* in a comment
     spaced-comment: ["error", "always"]
+
+    # require or disallow spacing between template tags and their literals
+    # template-tag-spacing: "off"
 
     # require or disallow Unicode BOM
     # unicode-bom: "off"

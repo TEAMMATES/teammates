@@ -1,5 +1,7 @@
+'use strict';
+
 $(document).ready(function() {
-    
+
     attachEventToDeleteStudentLink();
 
     $('a[id^="enroll-"]').on('click', function(e) {
@@ -14,7 +16,7 @@ $(document).ready(function() {
 
     // Binding for "Display Archived Courses" check box.
     $('#displayArchivedCourses_check').on('change', function() {
-        var urlToGo = $(location).attr('href');
+        var urlToGo = $(window.location).attr('href');
         if (this.checked) {
             gotoUrlWithParam(urlToGo, 'displayarchive', 'true');
         } else {
@@ -26,7 +28,7 @@ $(document).ready(function() {
     $('#show_email').on('change', function() {
         var $copyEmailButton = $('#copy-email-button');
         var $emails = $('#emails');
-        
+
         if (this.checked) {
             $emails.show();
             $copyEmailButton.show();
@@ -34,10 +36,10 @@ $(document).ready(function() {
             $emails.hide();
             $copyEmailButton.hide();
         }
-        
+
         filterEmails();
     });
-    
+
     // Binding for copy email button
     var copyEmailPopoverTimeout;
     $('#copy-email-button').click(function(e) {
@@ -47,7 +49,7 @@ $(document).ready(function() {
         var tips = 'Emails now are copied. If it doesn\'t work, you can also use <kbd>Ctrl + C</kbd> to COPY.<br>'
                    + 'You may use <kbd>Ctrl + V</kbd> to PASTE to your email client. <br>'
                    + '<small class="text-muted">This message will disappear in 10 seconds</small>';
-        
+
         $copyEmailButton
             .popover('destroy')
             .popover({
@@ -59,10 +61,10 @@ $(document).ready(function() {
                 }
             })
             .popover('show');
-        
+
         selectElementContents($('#emails').get(0));
         executeCopyCommand();
-        
+
         copyEmailPopoverTimeout = setTimeout(function() {
             $copyEmailButton.popover('destroy');
         }, 10000); // popover will disappear in 10 seconds
@@ -223,14 +225,14 @@ function checkCourseBinding(e) {
         $('input[id^="team_check-' + courseIdx + '-"]').parent().remove();
         $('div[id^="student_email-c' + courseIdx + '"]').remove();
     }
-    
+
     // If all the courses are selected, check the 'Select All' option
     if ($('input[id^="course_check"]:checked').length === $('input[id^="course_check"]').length) {
         $('#course_all').prop('checked', true);
     } else {
         $('#course_all').prop('checked', false);
     }
-    
+
     // If none of of the courses are selected, hide the section"s 'Select All' option
     if ($('input[id^="course_check"]:checked').length === 0) {
         $('#section_all').parent().hide();
@@ -241,7 +243,7 @@ function checkCourseBinding(e) {
         $('#team_all').parent().show();
         $('#show_email').parent().show();
     }
-    
+
     // If all the currently visible sections are selected, check the 'Select All' option
     // This is necessary here because we show/hide the section's 'Select All' previously
     checkAllSectionsSelected();

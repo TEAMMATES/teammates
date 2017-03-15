@@ -1,3 +1,5 @@
+'use strict';
+
 var isSessionsAjaxSending = false;
 var oldStatus = null;
 
@@ -8,11 +10,11 @@ $(document).ready(function() {
 
 var ajaxRequest = function(e) {
     e.preventDefault();
-    
+
     if (isSessionsAjaxSending) {
         return;
     }
-    
+
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
@@ -28,7 +30,7 @@ var ajaxRequest = function(e) {
             $('#sessionList').html('');
             var msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
-            
+
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {
                 appendStatusMessage(oldStatus);
             }

@@ -13,11 +13,11 @@ import com.google.gson.JsonSyntaxException;
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
  */
 public final class JsonUtils {
-    
+
     private JsonUtils() {
         // utility class
     }
-    
+
     /**
      * This creates a Gson object that can handle the Date format we use in the
      * Json file and also reformat the Json string in pretty-print format.
@@ -29,23 +29,29 @@ public final class JsonUtils {
                                 .disableHtmlEscaping()
                                 .create();
     }
-    
+
     /**
-     * @see {@link Gson#toJson(Object, Type)}.
+     * Serializes the specified object into its equivalent JSON string.
+     *
+     * @see Gson#toJson(Object, Type)
      */
     public static String toJson(Object src, Type typeOfSrc) {
         return getTeammatesGson().toJson(src, typeOfSrc);
     }
-    
+
     /**
-     * @see {@link Gson#toJson(Object)}.
+     * Serializes the specified object into its equivalent JSON string.
+     *
+     * @see Gson#toJson(Object)
      */
     public static String toJson(Object src) {
         return getTeammatesGson().toJson(src);
     }
-    
+
     /**
-     * @see {@link Gson#fromJson(String, Type)}.
+     * Deserializes the specified JSON string into an object of the specified type.
+     *
+     * @see Gson#fromJson(String, Type)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
         try {
@@ -55,13 +61,15 @@ public final class JsonUtils {
             return new Gson().fromJson(json, typeOfT);
         }
     }
-    
+
     /**
-     * @see {@link JsonParser#parse(String)}.
+     * Parses the specified JSON string into a {@link JsonElement} object.
+     *
+     * @see JsonParser#parse(String)
      */
     public static JsonElement parse(String json) {
         JsonParser parser = new JsonParser();
         return parser.parse(json);
     }
-    
+
 }

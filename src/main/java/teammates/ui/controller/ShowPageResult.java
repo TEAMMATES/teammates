@@ -17,17 +17,17 @@ import teammates.ui.pagedata.PageData;
  * JSP pages.
  */
 public class ShowPageResult extends ActionResult {
-    
-    /** The data that will be used to render the page*/
+
+    /** The data that will be used to render the page. */
     public PageData data;
-    
+
     public ShowPageResult(
             String destination,
             AccountAttributes account,
             List<StatusMessage> status) {
         super(destination, account, status);
     }
-    
+
     public ShowPageResult(
             String destination,
             AccountAttributes account,
@@ -40,10 +40,10 @@ public class ShowPageResult extends ActionResult {
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        
+
         addStatusMessagesToPageData(req);
         req.setAttribute("data", data);
-        
+
         /* These two are required for the 'status message' section of the page
          * Although these two are also sent as parameters in the URL,
          *  they should be set as attributes too, because the status message
@@ -51,7 +51,7 @@ public class ShowPageResult extends ActionResult {
          *  in the URL
          */
         req.setAttribute(Const.ParamsNames.ERROR, Boolean.toString(isError));
-        
+
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
 
@@ -63,7 +63,7 @@ public class ShowPageResult extends ActionResult {
         @SuppressWarnings("unchecked")
         List<StatusMessage> statusMessagesToUser =
                 (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
-        
+
         // If the list of status messages can be found in the session and it is not empty,
         // means there are status messages to be shown to the user, add them to the page data.
         if (statusMessagesToUser != null && !statusMessagesToUser.isEmpty()) {

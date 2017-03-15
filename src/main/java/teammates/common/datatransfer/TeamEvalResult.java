@@ -12,27 +12,27 @@ import teammates.common.util.StringHelper;
  * It exposes the result via some public variables.
  */
 public class TeamEvalResult {
-    
-    /** submitted value is uninitialized */
+
+    /** submitted value is uninitialized. */
     public static final int NA = Const.INT_UNINITIALIZED;
-    /** submitted 'Not SUre' */
+    /** submitted 'Not SUre'. */
     public static final int NSU = Const.POINTS_NOT_SURE;
-    /** did Not SuBmit */
+    /** did Not SuBmit. */
     public static final int NSB = Const.POINTS_NOT_SUBMITTED;
     private static final Logger log = Logger.getLogger();
 
-    /** submission values originally from students of the team */
+    /** submission values originally from students of the team. */
     public int[][] claimed;
-    /** submission values to be shown to instructor (after normalization) */
+    /** submission values to be shown to instructor (after normalization). */
     public int[][] normalizedClaimed;
     /** average perception of team shown to instructor. Excludes self evaluations */
     public int[] normalizedAveragePerceived;
     /** team perception shown to students. denormalized to match their own claims */
     public int[][] denormalizedAveragePerceived;
 
-    /** the values that were used to calculate normalizedAveragePerceived values*/
+    /** the values that were used to calculate normalizedAveragePerceived values. */
     public int[][] normalizedPeerContributionRatio;
-    
+
     // List of student email's.
     // The index of the student in the list is used as the index for the int arrays.
     // The 2d int arrays are of the format [giverIndex][recipientIndex]
@@ -94,7 +94,7 @@ public class TeamEvalResult {
 
     /**
      * Replaces all missing points (for various reasons such as 'not sure' or
-     * 'did not submit') with NA
+     * 'did not submit') with NA.
      */
     private int[][] sanitizeInput(int[][] input) {
         int teamSize = input.length;
@@ -287,7 +287,7 @@ public class TeamEvalResult {
             actualSum += value;
             count++;
         }
-    
+
         double idealSum = count * 100.0;
         double factor = actualSum == 0 ? 0 : idealSum / actualSum;
         log.fine("Factor = " + idealSum + "/" + actualSum + " = " + factor);

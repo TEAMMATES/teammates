@@ -11,7 +11,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: add another instructor to a course that already exists
+ * Action: add another instructor to a course that already exists.
  */
 public class InstructorCourseInstructorAddAction extends InstructorCourseInstructorAbstractAction {
 
@@ -24,18 +24,19 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         Assumption.assertNotNull(instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(instructorEmail);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        
+
         InstructorAttributes instructorToAdd = extractCompleteInstructor(
                 courseId, instructorName, instructorEmail);
-        
+
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
             logic.createInstructor(instructorToAdd);
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(
+                    loggedInUser.googleId, instructorEmail, courseId);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                                                              instructorName, instructorEmail),
@@ -47,16 +48,16 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
-        
+
         RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         redirectResult.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return redirectResult;
     }
-    
+
     /**
      * Creates a new instructor with all information filled in, using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
-     * 
+     *
      * @param courseId        Id of the course the instructor is being added to.
      * @param instructorName  Name of the instructor.
      * @param instructorEmail Email of the instructor.
@@ -72,25 +73,25 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         }
         instructorRole = SanitizationHelper.sanitizeName(instructorRole);
         displayedName = SanitizationHelper.sanitizeName(displayedName);
-        
+
         InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId, instructorName,
                 instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
-        
+
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToAdd);
         }
-        
+
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToAdd);
-        
+
         instructorToAdd.privileges.validatePrivileges();
-        
+
         return instructorToAdd;
     }
-    
+
     /**
      * Creates a new instructor with basic information.
      * This consists of everything apart from custom privileges.
-     * 
+     *
      * @param courseId              Id of the course the instructor is being added to.
      * @param instructorName        Name of the instructor.
      * @param instructorEmail       Email of the instructor.
@@ -108,10 +109,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
         String instrRole = SanitizationHelper.sanitizeName(instructorRole);
         String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
-        
-        InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instrName, instrEmail,
+
+        return new InstructorAttributes(null, courseId, instrName, instrEmail,
                 instrRole, isDisplayedToStudents, instrDisplayedName, privileges);
-        
-        return instructorToAdd;
     }
 }

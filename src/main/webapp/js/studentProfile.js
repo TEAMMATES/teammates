@@ -1,18 +1,20 @@
+'use strict';
+
 $(document).ready(function() {
     $('.form-control').on('click', function() {
         if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();
         }
     });
-    
+
     $('#profileUploadPictureSubmit').on('click', function() {
         finaliseUploadPictureForm();
     });
-    
+
     $('#profileEditPictureSubmit').on('click', function() {
         finaliseEditPictureForm();
     });
-    
+
     $(window).load(function() {
         $('#studentPhoto').change(function() {
             if ($(this).val() === '') {

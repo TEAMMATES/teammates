@@ -13,21 +13,25 @@ import java.util.Scanner;
  * the server side.
  */
 public final class FileHelper {
-    
+
     private FileHelper() {
         // utility class
     }
-    
+
     /**
      * Reads the file with the specified path as a String.
      */
     public static String readFile(String filePath) throws IOException {
-        Scanner sc = new Scanner(new BufferedReader(new FileReader(filePath)));
-        String result = sc.useDelimiter("\\Z").next();
-        sc.close();
-        return result;
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        Scanner sc = new Scanner(br);
+        try {
+            return sc.useDelimiter("\\Z").next();
+        } finally {
+            sc.close();
+            br.close();
+        }
     }
-    
+
     /**
      * Reads the file with the specified path as a byte array.
      */
@@ -38,7 +42,7 @@ public final class FileHelper {
         fis.close();
         return buffer;
     }
-    
+
     /**
      * Saves the supplied content to the specified file path.
      */
@@ -47,7 +51,7 @@ public final class FileHelper {
         fw.write(content);
         fw.close();
     }
-    
+
     /**
      * Deletes the file with the specified path.
      */

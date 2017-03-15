@@ -17,14 +17,14 @@ import teammates.test.pageobjects.AdminActivityLogPage;
  * SUT: {@link AdminAccountManagementPage}
  */
 public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
-    private static AdminAccountManagementPage accountsPage;
-    
+    private AdminAccountManagementPage accountsPage;
+
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
-    
+
     @Test
     public void testAll() {
         testContent();
@@ -34,66 +34,66 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         testDeleteInstructorStatusAction();
         testDeleteInstructorAccountAction();
     }
-    
-    public void testContent() {
-        
+
+    private void testContent() {
+
         ______TS("content: typical page");
-        
+
         String instructor1GoogleId = "AAMgtUiT.instr1";
         loginToAdminAccountsManagementPage(instructor1GoogleId);
         accountsPage.verifyIsCorrectPage();
         assertTrue(accountsPage.isTableVisible());
-        
+
         List<String> expectedTableHeaders =
                 Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
         assertEquals(expectedTableHeaders, accountsPage.getTableHeaders());
     }
 
-    public void testViewAccountDetailsLink() {
+    private void testViewAccountDetailsLink() {
 
         ______TS("link: view account details");
-        
+
         String instructorId = "AAMgtUiT.instr1";
         AdminAccountDetailsPage detailsPage = accountsPage.clickViewInstructorDetails(instructorId);
         detailsPage.verifyIsCorrectPage(instructorId);
         detailsPage.closeCurrentWindowAndSwitchToParentWindow();
     }
-    
-    public void testViewRecentActionsLink() {
+
+    private void testViewRecentActionsLink() {
 
         ______TS("link: view recent actions");
-        
+
         String instructorId = "AAMgtUiT.instr1";
         AdminActivityLogPage logPage = accountsPage.clickViewRecentActions(instructorId);
         logPage.verifyIsCorrectPage();
         logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void testDeleteInstructorStatusAction() {
-        
+    private void testDeleteInstructorStatusAction() {
+
         ______TS("action: delete instructor status");
-        
+
         String idOfInstructorToDelete = "AAMgtUiT.instr1";
         accountsPage.clickDeleteInstructorStatus(idOfInstructorToDelete)
             .verifyStatus(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
         assertFalse(BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
     }
 
-    public void testDeleteInstructorAccountAction() {
-        
+    private void testDeleteInstructorAccountAction() {
+
         ______TS("action: delete account");
-        
+
         String instructor3GoogleId = "AAMgtUiT.instr3";
         loginToAdminAccountsManagementPage(instructor3GoogleId);
-        
+
         accountsPage.clickAndCancelDeleteAccountLink(instructor3GoogleId);
         assertNotNull(BackDoor.getAccount(instructor3GoogleId));
-        
+
         accountsPage.clickAndConfirmDeleteAccountLink(instructor3GoogleId);
         assertNull(BackDoor.getAccount(instructor3GoogleId));
-        
+
     }
-    
+
     private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
         AppUrl accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE
                                            + "?all=true&googleId=" + instructorIdToShow);
@@ -101,5 +101,5 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();
     }
-    
+
 }

@@ -28,38 +28,38 @@ import teammates.ui.pagedata.PageData;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Action: Create a new {@link CommentAttributes}
+ * Action: Create a new {@link CommentAttributes}.
  */
 public class InstructorStudentCommentAddAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        
+
         //used to redirect to studentDetailsPage or studentRecordsPage
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        
+
         boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
         boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
         boolean isFromCourseDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COURSE_DETAILS_PAGE);
         boolean isFromStudentRecordsPage = !isFromCommentsPage
                                         && !isFromStudentDetailsPage
                                         && !isFromCourseDetailsPage;
-        
+
         if (isFromStudentDetailsPage || isFromStudentRecordsPage) {
             Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         }
-        
+
         String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_TEXT, commentText);
         Assumption.assertNotEmpty(commentText);
-        
+
         verifyAccessibleByInstructor(courseId);
-        
+
         CommentAttributes comment = extractCommentData();
-        
+
         try {
             CommentAttributes createdComment = logic.createComment(comment);
             //TODO: move putDocument to Task Queue
@@ -81,7 +81,7 @@ public class InstructorStudentCommentAddAction extends Action {
             statusToAdmin = e.getMessage();
             isError = true;
         }
-        
+
         //TODO: remove fromCommentsPage
         if (isFromCommentsPage) {
             return createRedirectResult(
@@ -131,13 +131,13 @@ public class InstructorStudentCommentAddAction extends Action {
 
     private CommentAttributes extractCommentData() {
         CommentAttributes comment = new CommentAttributes();
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        
+
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
         Assumption.assertNotNull("Account trying to add comment is not an instructor of the course",
                                  instructorDetailForCourse);
-        
+
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
@@ -145,7 +145,7 @@ public class InstructorStudentCommentAddAction extends Action {
         String showGiverTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWGIVERTO);
         String showRecipientTo = getRequestParamValue(Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO);
         Text commentText = new Text(getRequestParamValue(Const.ParamsNames.COMMENT_TEXT));
-        
+
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email;
         comment.recipientType = recipientType == null
@@ -161,7 +161,7 @@ public class InstructorStudentCommentAddAction extends Action {
             }
         }
         comment.status = CommentStatus.FINAL;
-        
+
         comment.showCommentTo = new ArrayList<CommentParticipantType>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
@@ -169,7 +169,7 @@ public class InstructorStudentCommentAddAction extends Action {
                 comment.showCommentTo.add(CommentParticipantType.valueOf(sct.trim()));
             }
         }
-        
+
         comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
         if (showGiverTo != null && !showGiverTo.isEmpty()) {
             String[] showGiverToArray = showGiverTo.split(",");
@@ -177,7 +177,7 @@ public class InstructorStudentCommentAddAction extends Action {
                 comment.showGiverNameTo.add(CommentParticipantType.valueOf(sgt.trim()));
             }
         }
-        
+
         comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
         if (showRecipientTo != null && !showRecipientTo.isEmpty()) {
             String[] showRecipientToArray = showRecipientTo.split(",");
@@ -185,14 +185,14 @@ public class InstructorStudentCommentAddAction extends Action {
                 comment.showRecipientNameTo.add(CommentParticipantType.valueOf(srt.trim()));
             }
         }
-        
+
         //if a comment is public to recipient (except Instructor), it's a pending comment
         if (isCommentPublicToRecipient(comment)) {
             comment.sendingState = CommentSendingState.PENDING;
         }
         comment.createdAt = new Date();
         comment.commentText = commentText;
-        
+
         return comment;
     }
 
@@ -202,7 +202,7 @@ public class InstructorStudentCommentAddAction extends Action {
                || comment.isVisibleTo(CommentParticipantType.SECTION)
                || comment.isVisibleTo(CommentParticipantType.COURSE);
     }
-    
+
     public String getCourseStudentDetailsLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

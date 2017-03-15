@@ -1,3 +1,5 @@
+'use strict';
+
 var isFetchingCourses = false;
 var needsRetrying = false;
 
@@ -36,7 +38,7 @@ $(document).ready(function() {
                     clearStatusMessages();
                     needsRetrying = false;
                 }
-                
+
                 var statusMessages = $(data).find('.statusMessage');
                 appendStatusMessage(statusMessages);
 

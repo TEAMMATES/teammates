@@ -1,5 +1,7 @@
+'use strict';
+
 function handleError() {
-    var contentHolder = d3.select('#contentHolder');
+    var contentHolder = d3.select('.container');
     contentHolder.html('');
     contentHolder.append('p')
         .text('An error has occured in getting data, please try reloading.');
@@ -7,7 +9,7 @@ function handleError() {
         .html('If the problem persists after a few retries, please <a href="/contact.jsp">contact us</a>.');
 }
 
-function handleData(err, countryCoordinates, userData) {
+function initializeMap(err, countryCoordinates, userData) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     if (err) {
@@ -31,7 +33,7 @@ function handleData(err, countryCoordinates, userData) {
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
     document.getElementById('totalCountryCount').innerHTML = userCountries.length;
-    
+
     // Data format example
     // var series = [
     //     ['United States', 1], ['Bulgaria', 1], ['Russia', 1], ['France', 1], ['Singapore', 1]
@@ -63,16 +65,17 @@ function handleData(err, countryCoordinates, userData) {
         });
     });
 
-    // Word map
+    // World-map
     var map = new Datamap({
         scope: 'world',
-        element: document.getElementById('container'),
+        element: document.getElementById('world-map'),
+        responsive: true,
         setProjection: function(element) {
             var projection = d3.geo.mercator()
-              .center([0, 20])
-              .rotate([-5, 0])
-              .scale(130)
-              .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+            .center([0, 20])
+            .rotate([-5, 0])
+            .scale(130)
+            .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
             var path = d3.geo.path()
                 .projection(projection);
             return {
@@ -80,9 +83,6 @@ function handleData(err, countryCoordinates, userData) {
                 projection: projection
             };
         },
-        // Set height and width to avoid overlapping with border
-        height: 500,
-        width: 800,
         // countries don't listed in dataset will be painted with this color
         fills: { defaultFill: '#F5F5F5' },
         data: dataset,
@@ -179,14 +179,16 @@ function handleData(err, countryCoordinates, userData) {
         popupOnHover: true,
         popupTemplate: getTooltipContent
     });
+
+    return map;
 }
 
 function getTooltipContent(data) {
     return '<div class="hoverinfo">'
             + '<p>'
-                + '<span class="bold">'
+                + '<b>'
                 + data.name
-                + '</span>'
+                + '</b>'
                 + '<br>'
                 + 'Institutions: '
                 + data.numOfInstitutions
@@ -195,9 +197,15 @@ function getTooltipContent(data) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    var map;
     d3.json('/js/countryCoordinates.json', function(countryCoordinates) {
         d3.json('/js/userMapData.json', function(err, userData) {
-            handleData(err, countryCoordinates, userData);
+            map = initializeMap(err, countryCoordinates, userData);
+
         });
+    });
+
+    d3.select(window).on('resize', function() {
+        map.resize();
     });
 });

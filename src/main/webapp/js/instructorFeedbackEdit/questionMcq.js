@@ -1,9 +1,11 @@
+'use strict';
+
 function addMcqOption(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val());
-    
+
     $('<div id="mcqOptionRow-' + curNumberOfChoiceCreated + '-' + questionNum + '">'
           + '<div class="input-group">'
               + '<span class="input-group-addon">'
@@ -23,7 +25,7 @@ function addMcqOption(questionNum) {
     ).insertBefore($('#mcqAddOptionRow-' + questionNum));
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val(curNumberOfChoiceCreated + 1);
-    
+
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
@@ -31,17 +33,17 @@ function addMcqOption(questionNum) {
 
 function removeMcqOption(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var $thisRow = $('#mcqOptionRow-' + index + '-' + questionNum);
-    
+
     // count number of child rows the table have and - 1 because of add option button
     var numberOfOptions = $thisRow.parent().children('div').length - 1;
-    
+
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-        
+
         if ($(questionId).attr('editStatus') === 'hasResponses') {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
@@ -66,7 +68,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 }
 
 function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
-    questionId = '#form_editquestion-' + questionNum;
+    var questionId = '#form_editquestion-' + questionNum;
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -77,4 +79,3 @@ function changeMcqGenerateFor(questionNum) {
     $('#generatedOptions-' + questionNum).attr('value',
                                                $('#mcqGenerateForSelect-' + questionNum).prop('value'));
 }
-

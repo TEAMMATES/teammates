@@ -13,29 +13,27 @@ public class AdminLogQuery {
      * A flag to decide whether to include application logs in result or not.
      */
     private static final boolean INCLUDE_APP_LOG = true;
-    
+
     /**
      * Affects the internal strategy to get logs. It doesn't affect the result.
      */
     private static final int BATCH_SIZE = 1000;
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
-    
+
     private LogQuery query;
     private long startTime;
     private long endTime;
-    
+
     /**
      * Sets values for query.
      * If startTime is null, it will be considered as 0.
      * If endTime is null, it will be considered as the current time.
-     * 
+     *
      * @param versionsToQuery decide which versions to find logs from.
-     * @param startTime
-     * @param endTime
      */
     public AdminLogQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
         Assumption.assertNotNull(versionsToQuery);
-        
+
         query = LogQuery.Builder.withDefaults();
         query.includeAppLogs(INCLUDE_APP_LOG);
         query.batchSize(BATCH_SIZE);
@@ -43,48 +41,45 @@ public class AdminLogQuery {
         setTimePeriod(startTime, endTime);
         query.majorVersionIds(versionsToQuery);
     }
-    
+
     /**
      * Gets query to retrieve logs.
      */
     public LogQuery getQuery() {
         return query;
     }
-    
+
     /**
      * Sets time period to search for query.
      * If startTime is null, it will be considered as 0.
      * If endTime is null, it will be considered as the current time.
-     * 
-     * The time is in Unix time. https://en.wikipedia.org/wiki/Unix_time
+     *
+     * <p>The time is in Unix time. https://en.wikipedia.org/wiki/Unix_time
      * 0 means it will take logs after Thursday, 1 January 1970 (since forever).
-     * 
-     * @param startTime
-     * @param endTime
      */
     public void setTimePeriod(Long startTimeParam, Long endTimeParam) {
-        Long startTime = startTimeParam == null ? 0L : startTimeParam;
-        Long endTime = endTimeParam == null ? TimeHelper.now(0.0).getTimeInMillis() : endTimeParam;
+        long startTime = startTimeParam == null ? 0L : startTimeParam;
+        long endTime = endTimeParam == null ? TimeHelper.now(0.0).getTimeInMillis() : endTimeParam;
         query.startTimeMillis(startTime);
         query.endTimeMillis(endTime);
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    
+
     /**
      * Gets end time of the query.
      */
     public long getEndTime() {
         return endTime;
     }
-    
+
     /**
      * Gets start time of the query.
      */
     public long getStartTime() {
         return startTime;
     }
-    
+
     /**
      * Moves the time period to query logs to the next period in the past with a length of timeInMillis.
      * @param timeInMillis the length of the next period in milliseconds.

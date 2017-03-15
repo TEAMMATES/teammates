@@ -14,9 +14,9 @@ import teammates.storage.entity.Instructor;
  * The data transfer class for Instructor entities.
  */
 public class InstructorAttributes extends EntityAttributes {
-    
+
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
-    
+
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
     public String courseId;
@@ -29,15 +29,11 @@ public class InstructorAttributes extends EntityAttributes {
     public String displayedName;
 
     public InstructorPrivileges privileges;
-    
+
     /**
-     * Creates a new instructor with default access level and default displayedName
-     * Deprecated as it is only to be used for testing
-     * 
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
+     * Creates a new instructor with default access level and default displayedName.
+     *
+     * @deprecated only to be used for testing
      */
     @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
@@ -47,15 +43,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
-     * Creates a new instructor with params specified(isDisplayedToStudent is set to true by default)
-     * 
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
-     * @param role
-     * @param displayedName
-     * @param instructorPrivilegesAsText
+     * Creates a new instructor with params specified (isDisplayedToStudent is set to true by default).
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, String instructorPrivilegesAsText) {
@@ -69,17 +57,9 @@ public class InstructorAttributes extends EntityAttributes {
         this.displayedName = SanitizationHelper.sanitizeName(displayedName);
         this.privileges = getInstructorPrivilegesFromText(instructorPrivilegesAsText);
     }
-    
+
     /**
-     * Create an instructor(isDisplayedToStudent is set to true by default)
-     * 
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
-     * @param role
-     * @param displayedName
-     * @param privileges
+     * Creates an instructor (isDisplayedToStudent is set to true by default).
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, InstructorPrivileges privileges) {
@@ -93,18 +73,9 @@ public class InstructorAttributes extends EntityAttributes {
         this.displayedName = SanitizationHelper.sanitizeName(displayedName);
         this.privileges = privileges;
     }
-    
+
     /**
-     * create an instructor
-     * 
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
-     * @param role
-     * @param isDisplayedToStudents
-     * @param displayName
-     * @param privileges
+     * Creates an instructor.
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
@@ -112,34 +83,34 @@ public class InstructorAttributes extends EntityAttributes {
         this.isDisplayedToStudents = isDisplayedToStudents;
         this.isArchived = false;
     }
-    
+
     public InstructorAttributes(Instructor instructor) {
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
         this.isArchived = instructor.getIsArchived() != null && instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
-        
+
         if (instructor.getRegistrationKey() == null) {
             instructor.setGeneratedKeyIfNull();
         }
-        
+
         this.key = instructor.getRegistrationKey();
-        
+
         if (instructor.getRole() == null) {
             this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
             this.role = instructor.getRole();
         }
-        
+
         this.isDisplayedToStudents = instructor.isDisplayedToStudents();
-        
+
         if (instructor.getDisplayedName() == null) {
             this.displayedName = DEFAULT_DISPLAY_NAME;
         } else {
             this.displayedName = instructor.getDisplayedName();
         }
-        
+
         if (instructor.getInstructorPrivilegesAsText() == null) {
             this.privileges =
                     new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -147,19 +118,19 @@ public class InstructorAttributes extends EntityAttributes {
             this.privileges = getInstructorPrivilegesFromText(instructor.getInstructorPrivilegesAsText());
         }
     }
-    
+
     @Deprecated
     public InstructorAttributes() {
         // deprecated
     }
-    
+
     private InstructorAttributes(InstructorAttributes other) {
         this(other.googleId, other.courseId, other.name, other.email,
              other.role, other.isDisplayedToStudents, other.displayedName, other.privileges);
         this.key = other.key;
         this.isArchived = other.isArchived;
     }
-    
+
     public InstructorAttributes getCopy() {
         return new InstructorAttributes(this);
     }
@@ -167,27 +138,27 @@ public class InstructorAttributes extends EntityAttributes {
     public String getTextFromInstructorPrivileges() {
         return JsonUtils.toJson(privileges, InstructorPrivileges.class);
     }
-    
+
     private static InstructorPrivileges getInstructorPrivilegesFromText(String instructorPrivilegesAsText) {
         return JsonUtils.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getDisplayedName() {
         return displayedName;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public boolean isDisplayedToStudents() {
         return isDisplayedToStudents;
     }
-    
+
     public boolean isRegistered() {
         return googleId != null;
     }
@@ -195,7 +166,7 @@ public class InstructorAttributes extends EntityAttributes {
     @Override
     public Instructor toEntity() {
         if (key != null) {
-            return new Instructor(googleId, courseId, name, email, key, role,
+            return new Instructor(googleId, courseId, isArchived, name, email, key, role,
                                   isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
         }
         return new Instructor(googleId, courseId, isArchived, name, email, role,
@@ -207,42 +178,42 @@ public class InstructorAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
-        
+
         if (googleId != null) {
             error = validator.getInvalidityInfoForGoogleId(googleId);
             if (!error.isEmpty()) {
                 errors.add(error);
             }
         }
-        
+
         error = validator.getInvalidityInfoForCourseId(courseId);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForEmail(email);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForPersonName(displayedName);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         return errors;
     }
-    
+
     @Override
     public String toString() {
         return JsonUtils.toJson(this, InstructorAttributes.class);
     }
- 
+
     @Override
     public String getIdentificationString() {
         return courseId + "/" + email;
@@ -257,57 +228,57 @@ public class InstructorAttributes extends EntityAttributes {
     public String getBackupIdentifier() {
         return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
-    
+
     @Override
     public String getJsonString() {
         return JsonUtils.toJson(this, InstructorAttributes.class);
     }
-    
+
     @Override
     public void sanitizeForSaving() {
         googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         name = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(name));
         email = SanitizationHelper.sanitizeEmail(email);
         courseId = SanitizationHelper.sanitizeTitle(courseId);
-        
+
         if (role == null) {
             role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
             role = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(role));
         }
-        
+
         if (displayedName == null) {
             displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
             displayedName = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(displayedName));
         }
-        
+
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
     }
-    
+
     public boolean isAllowedForPrivilege(String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
         return privileges.isAllowedForPrivilege(privilegeName);
     }
-    
+
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
         return privileges.isAllowedForPrivilege(sectionName, privilegeName);
     }
-    
+
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
         return privileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
     }
-    
+
     /**
      * Returns true if privilege for session is present for any section.
      */
@@ -335,6 +306,8 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
+     * Returns true if this instructor object is equal with the given {@code instructor} object.
+     *
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
      *            {@code null}
@@ -347,19 +320,19 @@ public class InstructorAttributes extends EntityAttributes {
         // comparison ignores the order of key-value pairs in the json strings.
         return JsonUtils.parse(getJsonString()).equals(JsonUtils.parse(instructor.getJsonString()));
     }
-    
+
     public boolean isCustomRole() {
         return Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(role);
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getGoogleId() {
         return googleId;
     }
-    
+
     public String getRole() {
         return role;
     }

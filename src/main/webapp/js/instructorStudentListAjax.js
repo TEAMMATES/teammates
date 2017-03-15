@@ -1,3 +1,5 @@
+'use strict';
+
 var STUDENT_LIMIT = 3000;
 var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT
                                 + ' students. Please deselect some courses to view student list of other courses.';
@@ -30,7 +32,7 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $('td[id^="studentphoto-c' + courseIdx + '"]').each(function() {
-        
+
         $(this).children('.profile-pic-icon-click > img').each(function() {
             bindDefaultImageIfMissing(this);
         });
@@ -66,7 +68,7 @@ var seeMoreRequest = function(e) {
     var courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
     var courseCheck = $('#course_check-' + courseIndex);
     var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
-    
+
     if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();
         if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {

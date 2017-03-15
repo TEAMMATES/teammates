@@ -25,12 +25,12 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
 /**
  * Tests 'Submit Feedback' view of students.
  *
- * The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
+ * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  *
- * SUT: {@link StudentFeedbackSubmitPage}.
+ * <p>SUT: {@link FeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
-    private static FeedbackSubmitPage submitPage;
+    private FeedbackSubmitPage submitPage;
 
     @Override
     protected void prepareTestData() {
@@ -68,7 +68,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("unreg student");
 
         logout();
-        
+
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
         // This is the full HTML verification for Unregistered Student Feedback Submit Page,
@@ -112,13 +112,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEmpty.html");
-        
+
         ______TS("Not yet visible session");
-        
+
         FeedbackSessionNotVisiblePage fsNotVisiblePage =
                 loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible("Alice", "Not Yet Visible Session");
         fsNotVisiblePage.verifyHtmlMainContent("/studentFeedbackSubmitPageNotYetVisible.html");
-        
+
     }
 
     private void testSubmitAction() throws Exception {
@@ -136,12 +136,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseRichTextEditor(2, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
-        
+
         responseText = "Response to student who is going to drop out.";
         submitPage.selectRecipient(2, 1, "Drop out");
         submitPage.fillResponseRichTextEditor(2, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 1));
-        
+
         responseText = "Response to extra guy.";
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseRichTextEditor(2, 2, responseText);
@@ -157,14 +157,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(6, 0, "");
         submitPage.waitForOtherOptionTextToBeClickable(6, 0);
         submitPage.fillMcqOtherOptionTextBox(6, 0, "Features");
-        
+
         submitPage.chooseMcqOption(7, 0, "Algo");
-        
+
         submitPage.verifyOtherOptionTextUnclickable(8, 0);
         submitPage.toggleMsqOption(8, 0, "");
         submitPage.waitForOtherOptionTextToBeClickable(8, 0);
         submitPage.fillMsqOtherOptionTextBox(8, 0, "Features");
-        
+
         submitPage.toggleMsqOption(9, 0, "UI");
         submitPage.toggleMsqOption(9, 0, "Design");
 
@@ -268,15 +268,15 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         String editedResponse = "Edited response to Benny.";
         submitPage.fillResponseRichTextEditor(2, 0, editedResponse);
         assertEquals(editedResponse.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
-        
+
         responseText = "Feedback to instructors";
         submitPage.fillResponseRichTextEditor(3, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(3, 0));
-        
+
         responseText = "Feedback to team 2.";
         submitPage.fillResponseRichTextEditor(4, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 1));
-        
+
         responseText = "Feedback to teammate.";
         submitPage.fillResponseRichTextEditor(5, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(5, 0));
@@ -399,29 +399,29 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         responseText = "Test Self Feedback";
         submitPage.fillResponseRichTextEditor(1, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
-        
+
         responseText = "Response to Benny.";
         submitPage.selectRecipient(2, 0, "Benny Charles");
         submitPage.fillResponseRichTextEditor(2, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 0));
-        
+
         responseText = "Response to student who is number 1.";
         submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
         submitPage.fillResponseRichTextEditor(2, 1, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 1));
-        
+
         responseText = "Response to extra guy.";
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseRichTextEditor(2, 2, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(2, 2));
-        
+
         submitPage.fillResponseTextBox(14, 0, "1");
 
         // Test partial response for question
         responseText = "Feedback to team 3";
         submitPage.fillResponseRichTextEditor(4, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(4, 0));
-        
+
         submitPage.chooseMcqOption(7, 1, "Algo");
         submitPage.toggleMsqOption(9, 1, "UI");
         submitPage.toggleMsqOption(9, 1, "Design");
@@ -511,7 +511,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
             assertEquals("5", frNumscale.getResponseDetails().getAnswerString());
         } else {
             assertEquals("1", frNumscale.getResponseDetails().getAnswerString());
-            
+
             // We need the final response value for this particular question to be "5"
             submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
             submitPage.fillResponseTextBox(14, 0, "5");
@@ -545,7 +545,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
-        
+
         // Clear option for the first question for each student
         submitPage.reloadPage();
         submitPage.changeToMobileView();
@@ -567,7 +567,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 1, 1, 1));
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 2, 1, 1));
         assertTrue(submitPage.isRubricRadioMobileChecked(21, 3, 1, 1));
-
 
         FeedbackQuestionAttributes fqRubric = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 22);
         assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
@@ -625,20 +624,20 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageModified.html");
-        
+
         // verify submission with no-response questions are possible
         submitPage.fillResponseTextBox(19, 2, "100");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        
+
         ______TS("Responses with invalid recipients do not prevent submission");
         StudentAttributes alice = testData.students.get("Alice");
-        
+
         FeedbackQuestionAttributes questionFromDataBundle = testData.feedbackQuestions.get("qn4InSession1");
         FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(
                 questionFromDataBundle.courseId, questionFromDataBundle.feedbackSessionName,
                 questionFromDataBundle.questionNumber);
-        
+
         FeedbackResponseAttributes existingResponse =
                 BackDoor.getFeedbackResponse(question.getId(), alice.team, "Team 2");
         FeedbackResponseAttributes response = new FeedbackResponseAttributes(existingResponse);
@@ -665,7 +664,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         return AppPage.getNewPageInstance(browser, submitUrl, FeedbackSubmitPage.class);
     }
-    
+
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
@@ -674,7 +673,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
     }
-    
+
     private FeedbackSessionNotVisiblePage
             loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
         AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)

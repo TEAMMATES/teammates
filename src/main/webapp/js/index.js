@@ -1,3 +1,5 @@
+'use strict';
+
 // TESTIMONIALS
 /* eslint-disable max-len */ // testimonials are better left off as is
 var TESTIMONIALS = [
@@ -13,13 +15,6 @@ var TESTIMONIALS = [
 /* eslint-enable max-len */
 var LOOP_INTERVAL = '5000'; // in milliseconds
 var CURRENT_TESTIMONIAL = 0;
-
-function instructorLogin() {
-    // send request
-    requestInstructorLogin();
-    // handle response
-    handleInstructorLogin();
-}
 
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
     var errorMsg = 'Thousands of';
@@ -38,20 +33,19 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 }
 
 // Setting submission count at page load
-onload = function() {
-    
+$('document').ready(function() {
+
     // Parameters for the estimation calculation
     var baseDate = new Date('December 31, 2016 00:00:00');  // The date the parameters were adjusted
     var baseCount = 5000000;     // The submission count on the above date
     var submissionPerHour = 128; // The rate at which the submission count is growing
-    
-    // set the submission count in the page
-    var e = document.getElementById('submissionsNumber');
-    var currentDate = new Date();
-    e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
 
-    setInterval(loopTestimonials, LOOP_INTERVAL);
-};
+    // set the submission count in the page
+    var currentDate = new Date();
+    $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
+
+    window.setInterval(loopTestimonials, LOOP_INTERVAL);
+});
 
 // Format large number with commas
 function formatNumber(n) {
@@ -65,13 +59,13 @@ function formatNumber(n) {
 
 // looping through all the testimonials
 function loopTestimonials() {
-    var tc = document.getElementById('testimonialContainer');
-    
+    var tc = $('#testimonialContainer');
+
     // intended null checking and early return, to prevent constant failures in JavaScript tests
-    if (tc === null && typeof tc === 'object') {
+    if (tc.length === 0) {
         return;
     }
-    
-    tc.innerHTML = TESTIMONIALS[CURRENT_TESTIMONIAL];
+
+    tc.html(TESTIMONIALS[CURRENT_TESTIMONIAL]);
     CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
 }

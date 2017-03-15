@@ -1,3 +1,5 @@
+'use strict';
+
 var FeedbackPath = {
     attachEvents: function() {
         var allDropdownOptions = $('.feedback-path-dropdown-option');
@@ -74,4 +76,3 @@ var FeedbackPath = {
         return containingForm.find('.feedback-path-dropdown > button').html().trim() !== 'Predefined combinations:';
     }
 };
-

@@ -6,13 +6,13 @@ import teammates.common.util.StringHelper;
 public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetails {
 
     private static final Logger log = Logger.getLogger();
-    
+
     private double answer;
-    
+
     public FeedbackNumericalScaleResponseDetails() {
         super(FeedbackQuestionType.NUMSCALE);
     }
-    
+
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
@@ -26,7 +26,7 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
     }
 
     /**
-     * @return answer in double form
+     * Returns answer in double form.
      */
     public double getAnswer() {
         return answer;

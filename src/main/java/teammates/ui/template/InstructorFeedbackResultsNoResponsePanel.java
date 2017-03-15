@@ -17,7 +17,7 @@ public class InstructorFeedbackResultsNoResponsePanel {
     private Map<String, Boolean> instructorStatus;
 
     private Map<String, InstructorFeedbackResultsModerationButton> moderationButtons;
-    
+
     public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus,
                                     Map<String, InstructorFeedbackResultsModerationButton> moderationButtons) {
         this.instructorStatus = new HashMap<String, Boolean>();
@@ -47,34 +47,34 @@ public class InstructorFeedbackResultsNoResponsePanel {
     private List<String> getFilteredEmails(List<String> allEmails) {
         Assumption.assertNotNull(allEmails);
         Assumption.assertNotNull(names);
-        
+
         List<String> emails = new ArrayList<>();
         emails.addAll(allEmails);
         emails.retainAll(names.keySet());
         return emails;
     }
-    
+
     private Map<String, String> getTeamsWithInstructorTeam(Map<String, String> studentTeams,
                                                            String instructorTeamName) {
         Assumption.assertNotNull(emails);
         Assumption.assertNotNull(studentTeams);
-        
+
         Map<String, String> teams = new HashMap<>();
         teams.putAll(studentTeams);
-        
+
         // TODO: Support for users who are both instructor and student
         List<String> instructorEmails = new ArrayList<>();
         instructorEmails.addAll(emails);
         instructorEmails.removeAll(studentTeams.keySet());
-        
+
         for (String email : instructorEmails) {
             teams.put(email, instructorTeamName);
             instructorStatus.put(email, true);
         }
-        
+
         return Collections.unmodifiableMap(teams);
     }
-    
+
     public Map<String, InstructorFeedbackResultsModerationButton> getModerationButtons() {
         return moderationButtons;
     }

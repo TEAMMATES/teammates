@@ -14,11 +14,11 @@ import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
     private List<Integer> answers;
-    
+
     public FeedbackRankOptionsResponseDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
     }
-    
+
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails,
@@ -36,25 +36,25 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     }
 
     /**
-     * @return List of sorted answers, with uninitialised values filtered out
+     * Returns List of sorted answers, with uninitialised values filtered out.
      */
     public List<Integer> getFilteredSortedAnswerList() {
         List<Integer> filteredAnswers = new ArrayList<>();
-        
+
         for (int answer : answers) {
             if (answer != Const.POINTS_NOT_SUBMITTED) {
                 filteredAnswers.add(answer);
             }
         }
-        
+
         Collections.sort(filteredAnswers);
         return filteredAnswers;
     }
-    
+
     public List<Integer> getAnswerList() {
         return new ArrayList<>(answers);
     }
-    
+
     @Override
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
@@ -64,18 +64,18 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
-        
+
         SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
-        
+
         StringBuilder htmlBuilder = new StringBuilder(100);
         htmlBuilder.append("<ul>");
-        
+
         for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
             Integer rank = rankAndOption.getKey();
             if (rank == Const.POINTS_NOT_SUBMITTED) {
                 continue;
             }
-            
+
             List<String> optionsWithGivenRank = rankAndOption.getValue();
             for (String option : optionsWithGivenRank) {
                 htmlBuilder.append("<li>");
@@ -85,7 +85,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                 htmlBuilder.append("</li>");
             }
         }
-        
+
         htmlBuilder.append("</ul>");
         return htmlBuilder.toString();
     }
@@ -93,20 +93,20 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
-        
+
         SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
-        
+
         StringBuilder csvBuilder = new StringBuilder();
-        
+
         for (int rank = 1; rank <= rankQuestion.options.size(); rank++) {
             if (!orderedOptions.containsKey(rank)) {
                 csvBuilder.append(',');
                 continue;
             }
             List<String> optionsWithGivenRank = orderedOptions.get(rank);
-            
+
             String optionsInCsv = SanitizationHelper.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
-            
+
             csvBuilder.append(optionsInCsv).append(',');
         }
 
@@ -120,7 +120,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         for (int i = 0; i < answers.size(); i++) {
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
-            
+
             if (!orderedOptions.containsKey(answer)) {
                 orderedOptions.put(answer, new ArrayList<String>());
             }
@@ -132,11 +132,11 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
 
     private void setRankResponseDetails(List<Integer> answers, List<String> options) {
         this.answers = answers;
-    
+
         Assumption.assertEquals("Rank question: number of responses does not match number of options. "
                                         + answers.size() + "/" + options.size(),
                                 answers.size(), options.size());
-        
+
     }
 
 }

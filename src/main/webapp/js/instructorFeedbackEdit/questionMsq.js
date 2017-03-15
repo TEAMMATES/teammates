@@ -1,9 +1,11 @@
+'use strict';
+
 function addMsqOption(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
 
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val());
-        
+
     $('<div id="msqOptionRow-' + curNumberOfChoiceCreated + '-' + questionNum + '">'
           + '<div class="input-group">'
               + '<span class="input-group-addon">'
@@ -23,7 +25,7 @@ function addMsqOption(questionNum) {
     ).insertBefore($('#msqAddOptionRow-' + questionNum));
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val(curNumberOfChoiceCreated + 1);
-    
+
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
@@ -31,17 +33,17 @@ function addMsqOption(questionNum) {
 
 function removeMsqOption(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var $thisRow = $('#msqOptionRow-' + index + '-' + questionNum);
-    
+
     // count number of child rows the table have and - 1 because of add option button
     var numberOfOptions = $thisRow.parent().children('div').length - 1;
-    
+
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-    
+
         if ($(questionId).attr('editStatus') === 'hasResponses') {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
@@ -69,4 +71,3 @@ function changeMsqGenerateFor(questionNum) {
     $('#generatedOptions-' + questionNum).attr('value',
                                                $('#msqGenerateForSelect-' + questionNum).prop('value'));
 }
-

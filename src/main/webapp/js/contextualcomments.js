@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     $('#button_add_comment').click(function() {
         if ($('#commentArea').is(':visible')) {
@@ -20,7 +22,7 @@ $(document).ready(function() {
         tinymce.get('commenttext').save();
         return checkComment(this);
     });
-    
+
     function checkComment() {
         var formTextField = tinymce.get('commenttext').getContent();
         if (isBlank(formTextField)) {
@@ -45,9 +47,9 @@ $(document).ready(function() {
     $('#button_cancel_comment').click(function() {
         $('#commentArea').hide();
     });
-    
+
     $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
-    
+
     function commentRecipientSelectChangeHandler() {
         // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
         var selectedValue = $('#comment_recipient_select option:selected').val();
@@ -75,14 +77,14 @@ $(document).ready(function() {
             $('#recipient-team').hide();
         }
     }
-    
+
     $('input[type=checkbox]').on('click', visibilityOptionsHandler);
-    
+
     function visibilityOptionsHandler(e) {
         var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
-        
+
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
             visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
@@ -91,25 +93,25 @@ $(document).ready(function() {
                 && target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
-        
+
         $('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showcommentsto']").val(visibilityOptions.join(', '));
-        
+
         visibilityOptions = [];
         $('.giverCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showgiverto']").val(visibilityOptions.join(', '));
-        
+
         visibilityOptions = [];
         $('.recipientCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     }
-    
+
     if (isShowCommentBox) {
         $('#button_add_comment').click();
         if (commentRecipient === 'team') {

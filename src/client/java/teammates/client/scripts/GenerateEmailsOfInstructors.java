@@ -7,22 +7,22 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
 /**
- * Obtains email of instructors and prints to console
+ * Obtains email of instructors and prints to console.
  */
 public class GenerateEmailsOfInstructors extends RemoteApiClient {
-    
+
     public static void main(String[] args) throws IOException {
         GenerateEmailsOfInstructors statistics = new GenerateEmailsOfInstructors();
         statistics.doOperationRemotely();
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     protected void doOperation() {
         String q = "SELECT FROM " + Account.class.getName() + " WHERE isInstructor == true";
-        
+
         List<Account> instructorAccounts = (List<Account>) PM.newQuery(q).execute();
-        
+
         // Print
         for (int i = 0; i < instructorAccounts.size() - 1; i++) {
             String email = instructorAccounts.get(i).getEmail();
@@ -33,9 +33,9 @@ public class GenerateEmailsOfInstructors extends RemoteApiClient {
                 }
             }
         }
-        
+
         // Last one
         System.out.println(instructorAccounts.get(instructorAccounts.size() - 1).getEmail());
     }
-    
+
 }

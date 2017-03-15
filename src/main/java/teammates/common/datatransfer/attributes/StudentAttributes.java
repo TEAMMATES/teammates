@@ -32,7 +32,7 @@ public class StudentAttributes extends EntityAttributes {
     public String key;
 
     public transient StudentUpdateStatus updateStatus = StudentUpdateStatus.UNKNOWN;
-    
+
     /*
      * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
@@ -73,19 +73,19 @@ public class StudentAttributes extends EntityAttributes {
         this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION : student.getSectionName();
         this.googleId = student.getGoogleId() == null ? "" : student.getGoogleId();
         this.key = student.getRegistrationKey();
-        
+
         this.createdAt = student.getCreatedAt();
         this.updatedAt = student.getUpdatedAt();
-        
+
     }
-    
+
     private StudentAttributes(StudentAttributes other) {
         this(other.googleId, other.email, other.name, other.comments,
              other.course, other.team, other.section);
         this.key = other.key;
         this.updateStatus = other.updateStatus;
     }
-    
+
     public StudentAttributes getCopy() {
         return new StudentAttributes(this);
     }
@@ -118,36 +118,38 @@ public class StudentAttributes extends EntityAttributes {
                            .withCourseId(StringHelper.encrypt(course))
                            .toString();
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public String getKey() {
         return key;
     }
-    
-    /** Format: email%courseId e.g., adam@gmail.com%cs1101 */
+
+    /**
+     * Format: email%courseId e.g., adam@gmail.com%cs1101.
+     */
     public String getId() {
         return email + "%" + course;
     }
-    
+
     public String getSection() {
         return section;
     }
-    
+
     public String getTeam() {
         return team;
     }
-    
+
     public String getComments() {
         return comments;
     }
-    
+
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return otherStudent != null && otherStudent.email.equals(this.email)
                && otherStudent.course.equals(this.course)
@@ -292,12 +294,12 @@ public class StudentAttributes extends EntityAttributes {
             this.section = originalStudent.section;
         }
     }
-    
+
     @Override
     public Object toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
-    
+
     @Override
     public String toString() {
         return toString(0);
@@ -337,14 +339,14 @@ public class StudentAttributes extends EntityAttributes {
         name = SanitizationHelper.sanitizeName(name);
         comments = SanitizationHelper.sanitizeTextField(comments);
     }
-    
+
     public String getStudentStatus() {
         if (isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
         }
         return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
-    
+
     public Date getCreatedAt() {
         return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
@@ -352,27 +354,21 @@ public class StudentAttributes extends EntityAttributes {
     public Date getUpdatedAt() {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
-    
+
     /**
-     * Checks whether the edit form of student has changed the section value.
-     * 
-     * @param originalStudentAttribute
-     * @return true if section value has changed from its original value.
+     * Returns true if section value has changed from its original value.
      */
     public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
         return this.section != null && !this.section.equals(originalStudentAttribute.section);
     }
-    
+
     /**
-     * Checks whether the edit form of student has changed the team value.
-     * 
-     * @param originalStudentAttribute
-     * @return true if team value has changed from its original value.
+     * Returns true if team value has changed from its original value.
      */
     public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
         return this.team != null && !this.team.equals(originalStudentAttribute.team);
     }
-    
+
     /**
      * Returns true if email value has changed from its original value.
      */

@@ -13,7 +13,7 @@ public class FeedbackConstantSumResponseDetails extends
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
     }
-    
+
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails, String[] answer) {
@@ -32,12 +32,12 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     /**
-     * @return List of answers (for constant sum to recipients, there will only be one answer.)
+     * Returns the list of answers (for constant sum to recipients, there will only be one answer).
      */
     public List<Integer> getAnswerList() {
         return answers;
     }
-    
+
     @Override
     public String getAnswerString() {
         String listString = answers.toString(); //[1, 2, 3] format
@@ -55,7 +55,7 @@ public class FeedbackConstantSumResponseDetails extends
         for (int i = 0; i < answers.size(); i++) {
             String answerString = answers.get(i).toString();
             String optionString = csQd.getConstSumOptions().get(i);
-            
+
             htmlBuilder.append("<li>");
             htmlBuilder.append(optionString).append(": ").append(SanitizationHelper.sanitizeForHtml(answerString));
             htmlBuilder.append("</li>");
@@ -67,7 +67,7 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         StringBuilder csvBuilder = new StringBuilder();
-        
+
         for (int i = 0; i < answers.size(); i++) {
             if (!((FeedbackConstantSumQuestionDetails) questionDetails).isDistributeToRecipients()) {
                 csvBuilder.append(',');

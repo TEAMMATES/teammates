@@ -23,7 +23,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {

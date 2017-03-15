@@ -20,7 +20,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class StudentProfileAttributesTest extends BaseTestCase {
 
-    private static StudentProfileAttributes profile;
+    private StudentProfileAttributes profile;
 
     @BeforeClass
     public void classSetup() {

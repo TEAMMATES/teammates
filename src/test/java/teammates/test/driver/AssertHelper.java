@@ -16,28 +16,28 @@ import teammates.common.util.TimeHelper;
 import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 
 public final class AssertHelper {
-    
+
     private AssertHelper() {
         // utility class
     }
-    
+
     /**
-     * Assert date is now +- 1 min
+     * Assert date is now +- 1 min.
      */
     public static void assertDateIsNow(Date date) {
         assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
                                     TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
     }
-    
+
     public static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
         assertTrue(!(date.before(startDate) || date.after(endDate)));
     }
-    
+
     public static void assertSameDates(Date expected, Date actual) {
         assertEquals(TimeHelper.calendarToString(TimeHelper.dateToCalendar(expected)),
                 TimeHelper.calendarToString(TimeHelper.dateToCalendar(actual)));
     }
-    
+
     /**
      * Asserts that the {@link String} {@code superstringActual} contains the exact occurrence of
      * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}.
@@ -128,36 +128,34 @@ public final class AssertHelper {
                 .replaceAll("[\t\r\n]", "");
         return processedActual.matches("(?s)(?m).*?" + processedRegex + ".*?");
     }
-    
+
     /**
      * Asserts that the actual log message, excluding its id, is equal to the expected log message,
      * and that the actual log message's id contains the expected google id.
-     * @param expected
-     * @param actual
      */
     public static void assertLogMessageEquals(String expected, String actual) {
         String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
 
         assertLogMessageEquals(expected, actual, expectedGoogleId);
     }
-    
+
     private static void assertLogMessageEquals(String expected, String actual, String userIdentifier) {
         int endIndex = actual.lastIndexOf("|||");
         String actualLogWithoutId = actual.substring(0, endIndex);
-        
+
         assertEquals(expected, actualLogWithoutId);
-        
+
         String actualId = actual.substring(endIndex + "|||".length());
         assertTrue("expected actual message's id to contain " + userIdentifier
                    + " but was " + actualId,
                    actualId.contains(userIdentifier));
     }
-    
+
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
-    
+
     public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {
 
         String expectedListAsString = Joiner.on("\t").join(a);
