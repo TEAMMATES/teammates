@@ -42,7 +42,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         testCourseTables(data.getCourseTables());
     }
 
-    public void testCourseTables(List<CourseTable> courseTables) {
+    private void testCourseTables(List<CourseTable> courseTables) {
         assertEquals(courses.size(), courseTables.size());
 
         CourseDetailsBundle newCourse = courses.get(0);

@@ -31,8 +31,8 @@ import teammates.storage.api.CommentsDb;
 /**
  * Handles operations related to student comments.
  *
- * @see {@link CommentAttributes}
- * @see {@link CommentsDb}
+ * @see CommentAttributes
+ * @see CommentsDb
  */
 public final class CommentsLogic {
 
@@ -55,7 +55,7 @@ public final class CommentsLogic {
         return instance;
     }
 
-    /************ CRUD ************/
+    // CRUD
 
     public CommentAttributes createComment(CommentAttributes comment)
            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
@@ -106,12 +106,7 @@ public final class CommentsLogic {
 
     /**
      * Gets comments for a particular receiver, then filters out comments that the instructor cannot see.
-     * @param courseId
-     * @param recipientType
-     * @param receiverEmail
-     * @param instructorEmail
      * @return List of comments visible to the instructor, directed at the receiver.
-     * @throws EntityDoesNotExistException
      */
     public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
             String courseId, CommentParticipantType recipientType, String receiverEmail, String instructorEmail)
@@ -177,20 +172,14 @@ public final class CommentsLogic {
     }
 
     /**
-     * updates comment's giver and last editor email (assume to be an instructor)
-     * @param courseId
-     * @param oldInstrEmail
-     * @param updatedInstrEmail
+     * Updates comment's giver and last editor email (assumed to be an instructor).
      */
     public void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail) {
         commentsDb.updateInstructorEmail(courseId, oldInstrEmail, updatedInstrEmail);
     }
 
     /**
-     * update comment's recipient email (assume to be a student)
-     * @param courseId
-     * @param oldStudentEmail
-     * @param updatedStudentEmail
+     * Update comment's recipient email (assumed to be a student).
      */
     public void updateStudentEmail(String courseId, String oldStudentEmail, String updatedStudentEmail) {
         commentsDb.updateStudentEmail(courseId, oldStudentEmail, updatedStudentEmail);
@@ -225,6 +214,10 @@ public final class CommentsLogic {
         commentsDb.deleteEntity(comment);
     }
 
+    /**
+     * Removes document for the given comment.
+     * @param comment to be removed from the documents
+     */
     public void deleteDocument(CommentAttributes comment) {
         commentsDb.deleteDocument(comment);
     }
@@ -234,8 +227,7 @@ public final class CommentsLogic {
     }
 
     /**
-     * Create or update document for comment
-     * @param comment
+     * Creates or updates document for comment.
      */
     public void putDocument(CommentAttributes comment) {
         commentsDb.putDocument(comment);
@@ -260,11 +252,8 @@ public final class CommentsLogic {
         }
     }
 
-    /************ Get Comments For an Instructor ************/
-
     /**
-     * Get comments visible for the given instructor
-     * @param instructor
+     * Gets comments visible for the given instructor.
      * @return list of {@link CommentAttributes}
      * @throws EntityDoesNotExistException when the course doesn't exist
      */
@@ -316,11 +305,8 @@ public final class CommentsLogic {
         return commentsDb.getCommentsForGiverAndStatus(courseId, giverEmail, status);
     }
 
-    /************ Get Comments For a Student ************/
-
     /**
-     * Get comments visible to the given student
-     * @param student
+     * Gets comments visible to the given student.
      * @return list of {@link CommentAttributes}
      * @throws EntityDoesNotExistException when the course doesn't exist
      */
@@ -547,7 +533,6 @@ public final class CommentsLogic {
     /**
      * Get recipient emails for comments with sending state.
      * When pending comments are cleared, they'll become sending comments.
-     * @param courseId
      * @return set of emails for recipients who can see the sending comments
      * @throws EntityDoesNotExistException when the course doesn't exist
      */
@@ -560,10 +545,7 @@ public final class CommentsLogic {
         Map<String, List<StudentAttributes>> sectionStudentTable = new HashMap<String, List<StudentAttributes>>();
         populateTeamSectionStudentTables(allStudents, teamStudentTable, sectionStudentTable);
 
-        Set<String> recipientEmailsList = populateRecipientEmails(courseId,
-                allStudents, roster, teamStudentTable, sectionStudentTable);
-
-        return recipientEmailsList;
+        return populateRecipientEmails(courseId, allStudents, roster, teamStudentTable, sectionStudentTable);
     }
 
     private Set<String> populateRecipientEmails(String courseId, List<StudentAttributes> allStudents,
@@ -602,8 +584,6 @@ public final class CommentsLogic {
             studentsInTheSameSection.add(student);
         }
     }
-
-    /************ Send Email For Pending Comments : populate recipients emails from Feedback Response Comments ************/
 
     private void populateRecipientEmailsFromPendingResponseComments(
                      List<FeedbackResponseCommentAttributes> sendingResponseCommentsList,
@@ -718,8 +698,6 @@ public final class CommentsLogic {
         }
         return relatedQuestion;
     }
-
-    /************ Send Email For Pending Comments : populate recipients emails from Student Comments ************/
 
     private void populateRecipientEmailsFromPendingComments(List<CommentAttributes> sendingCommentsList,
                                                             List<StudentAttributes> allStudents, CourseRoster roster,

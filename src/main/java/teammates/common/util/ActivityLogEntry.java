@@ -54,7 +54,7 @@ public class ActivityLogEntry {
     private String id;
 
     /**
-     * Constructor that creates a empty ActivityLog
+     * Constructor that creates a empty ActivityLog.
      */
     public ActivityLogEntry(String servlet, String params, String link) {
         time = System.currentTimeMillis();
@@ -90,8 +90,7 @@ public class ActivityLogEntry {
     }
 
     /**
-     * Constructor that creates an ActivityLog object from scratch
-     * Used in the various servlets in the application
+     * Constructor that creates an ActivityLog object from scratch.
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
                             UserType userType) {
@@ -243,7 +242,7 @@ public class ActivityLogEntry {
 
     /**
      * Assumption: the {@code requestUrl} is in the format "/something/actionName"
-     *   possibly followed by "?something" e.g., "/page/studentHome?user=abc"
+     *   possibly followed by "?something" e.g., "/page/studentHome?user=abc".
      * @return action name in the URL e.g., "studentHome" in the above example.
      */
     public static String getActionName(String requestUrl) {
@@ -251,7 +250,7 @@ public class ActivityLogEntry {
     }
 
     /**
-     * Generates a log message that will be logged in the server
+     * Generates a log message that will be logged in the server.
      */
     public String generateLogMessage() {
         // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
@@ -366,41 +365,6 @@ public class ActivityLogEntry {
                                                              url, courseId, studentEmail, userType);
 
         return exceptionLog.generateLogMessage();
-    }
-
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail,
-                                                             UserType userType) {
-        String[] actionTaken = req.getServletPath().split("/");
-        String action = req.getServletPath();
-        if (actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
-        }
-        String url = HttpRequestHelper.getRequestedUrl(req);
-
-        String message;
-
-        try {
-            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span>"
-                    + "<br>"
-                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">"
-                        + "Show/Hide Details >>"
-                    + "</a>"
-                    + "<br>"
-                    + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                        + errorEmail.getContent()
-                    + "</span>";
-        } catch (Exception e) {
-            message = "System Error: Unable to retrieve Email Report: "
-                    + TeammatesException.toStringWithStackTrace(e);
-        }
-
-        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
-        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
-
-        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail, userType);
-
-        return emailReportLog.generateLogMessage();
     }
 
     public boolean isTestingData() {

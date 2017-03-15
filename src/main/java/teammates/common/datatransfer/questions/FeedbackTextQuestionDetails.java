@@ -110,7 +110,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        String html = "";
+        return "";
         /*
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;
@@ -139,7 +139,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
         */
         //TODO: evaluate what statistics are needed for text questions later.
-        return html;
     }
 
     @Override

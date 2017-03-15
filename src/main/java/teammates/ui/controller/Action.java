@@ -36,7 +36,7 @@ import teammates.ui.pagedata.PageData;
 public abstract class Action {
     protected static final Logger log = Logger.getLogger();
 
-    /** This is used to ensure unregistered users don't access certain pages in the system */
+    /** This is used to ensure unregistered users don't access certain pages in the system. */
     public String regkey;
 
     /** This will be the admin user if the application is running under the masquerade mode. */
@@ -53,30 +53,31 @@ public abstract class Action {
     protected TaskQueuer taskQueuer;
     protected EmailSender emailSender;
 
-    /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
+    /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1}. */
     protected String requestUrl;
 
-    /** Parameters received with the request */
+    /** Parameters received with the request. */
     protected Map<String, String[]> requestParameters;
 
-    /** Execution status info to be shown to he admin (in 'activity log')*/
+    /** Execution status info to be shown to he admin (in 'activity log'). */
     protected String statusToAdmin; // TODO: make this a list?
 
-    /** Execution status info to be shown to the user */
+    /** Execution status info to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
 
-    /** Whether the execution completed without any errors or
-     * when we are unable to perform the requested action(s)
+    /**
+     * Whether the execution completed without any errors or
+     * when we are unable to perform the requested action(s).
      **/
     protected boolean isError;
 
-    /** Session that contains status message information */
+    /** Session that contains status message information. */
     protected HttpSession session;
 
-    /** This is to get the blobInfo for any file upload from prev pages */
+    /** This is to get the blobInfo for any file upload from prev pages. */
     protected HttpServletRequest request;
 
-    /** This is for authentication at Action Level */
+    /** This is for authentication at Action Level. */
     private String authenticationRedirectUrl = "";
 
     /** Initializes variables.
@@ -153,7 +154,7 @@ public abstract class Action {
     }
 
     /**
-     * Retrieves registration key from the HTTP request
+     * Retrieves registration key from the HTTP request.
      *
      * @return Registration key or null if key not in HTTP request
      */
@@ -324,11 +325,8 @@ public abstract class Action {
         return userNeedsRegistrationForPage && userIsNotRegistered;
     }
 
-    /** ------------------------------------------------
-     * These methods are used for CRUD operations on
-     * urls used for redirecting users to login page
-     * @return
-     */
+    // These methods are used for CRUD operations on urls used for redirecting users to login page
+
     public boolean isValidUser() {
         return authenticationRedirectUrl.isEmpty();
     }
@@ -428,8 +426,7 @@ public abstract class Action {
     protected abstract ActionResult execute() throws EntityDoesNotExistException;
 
     /**
-     * @return The log message in the special format used for generating
-     *   the 'activity log' for the Admin.
+     * Returns The log message in the special format used for generating the 'activity log' for the Admin.
      */
     public String getLogMessage() {
         UserType currentUser = gateKeeper.getCurrentUser();
@@ -445,7 +442,7 @@ public abstract class Action {
     }
 
     /**
-     * @return null if the specified parameter was not found in the request.
+     * Returns null if the specified parameter was not found in the request.
      */
     public String getRequestParamValue(String paramName) {
         return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
@@ -462,7 +459,7 @@ public abstract class Action {
     }
 
     /**
-     * @return null if the specified parameter was not found in the request.
+     * Returns null if the specified parameter was not found in the request.
      */
     public String[] getRequestParamValues(String paramName) {
         return HttpRequestHelper.getValuesFromParamMap(requestParameters, paramName);
