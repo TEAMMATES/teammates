@@ -276,8 +276,10 @@
       "EMLYON Business School",
       "EM Strasbourg",
       "ESC-Dijon",
+      "ESSEC",
       "Grenoble Ecole de Management",
       "HEC Paris",
+      "IESEG Business School",
       "IESEG School of Management",
       "INSEAD",
       "ISEN",
@@ -343,6 +345,7 @@
       "Doon Business School",
       "Gujarat University",
       "Guru Gobind Singh Indraprastha University",
+      "Ideas That Scale Accelerator LLP",
       "IIIT",
       "IIT Bombay",
       "IIT Madras",
@@ -387,6 +390,7 @@
       "Dublin Institute of Technology",
       "Dundalk Institute of Technology",
       "Greenhills College",
+      "IT Carlow",
       "National University of Ireland Galway",
       "Royal College of Surgeons in Ireland",
       "Trinity Business School",
@@ -395,11 +399,13 @@
     ],
     "Israel": [
       "Hebrew University",
+      "Rabin High School",
       "The Kibbutzim College of Education"
     ],
     "Italy": [
       "Arxo",
       "IIS Bruno-Franchetti",
+      "ITD - CNR",
       "ITE LL Gadda Rosselli",
       "Instilla",
       "Kefato University of Trento",
@@ -423,6 +429,9 @@
     ],
     "Lebanon": [
       "Lebanese American University"
+    ],
+    "Lithuania": [
+      "Šiaulių Dainų progymnasium"
     ],
     "Macau": [
       "Institute for Tourism Studies"
@@ -480,8 +489,10 @@
       "Erasmus University Rotterdam",
       "Fontys Hogescholen",
       "Fontys University of Applied Sciences",
+      "Gymnasium Erasmianum",
       "Haagse Hogeschool",
       "HAN University of Applied Sciences",
+      "Hanzehogeschool",
       "Hanze University of Applied Science",
       "Hogeschool van Amsterdam",
       "Inholland University of Applied Sciences",
@@ -506,6 +517,7 @@
       "The School of Life",
       "TIAS Business School",
       "TU Delft",
+      "TU Eindhoven",
       "University of Amsterdam",
       "University of Groningen",
       "University of Inholland",
@@ -534,6 +546,9 @@
     "Pakistan": [
       "Institute of Business Management",
       "National University of Sciences and Technology"
+    ],
+    "Palestine: [
+      "Arab American University"
     ],
     "Paraguay": [
       "Universidad San Carlos"
@@ -575,7 +590,8 @@
       "Universidade do Minho"
     ],
     "Puerto Rico": [
-      "Universidad del Este"
+      "Universidad del Este",
+      "University of Coimbra"
     ],
     "Qatar": [
       "Carnegie Mellon University",
@@ -613,6 +629,7 @@
       "Hwa Chong Institution",
       "Institute of Technical Education",
       "International Community School",
+      "Institute of Technical Education",
       "ITE",
       "Methodist Girls' School",
       "Millennia Institute",
@@ -676,6 +693,7 @@
       "Escola Oficial d'Idiomes Sant Feliu de Guíxols",
       "IE Business School",
       "IESE Business School",
+      "INS Bernat el Ferrer",
       "Mondragon University",
       "Santa María del Pilar",
       "Universidad Complutense de Madrid",
@@ -687,7 +705,8 @@
       "Universitat Autonoma de Barcelona",
       "University of Deusto",
       "University of Navarra",
-      "University of the Basque Country"
+      "University of the Basque Country",
+      "University of Valencia"
     ],
     "Sri Lanka": [
       "University of Kelaniya",
@@ -720,6 +739,7 @@
     "Thailand": [
       "Chulalongkorn University",
       "Harrow International School",
+      "Mae Fah Luang University",
       "Mahidol University",
       "PSED"
     ],
@@ -741,10 +761,12 @@
       "ALHOSN University",
       "Hult International Business School",
       "IMT Dubai",
+      "Khalifa University",
       "The Petroleum Institute",
       "Zayed University"
     ],
     "United Kingdom": [
+      "Barking Abbey School",
       "Bournemouth University",
       "Cardiff University",
       "City University London",
@@ -765,7 +787,9 @@
       "Middlesex University",
       "Mill Chase Academy",
       "Newcastle University",
+      "Nottingham Trent University",
       "Oxford Brookes",
+      "Plymouth University",
       "Quarrydale Academy",
       "Queen Margaret University",
       "Robert Gordon University",
@@ -794,6 +818,7 @@
       "University of Glasgow",
       "University of Hertfordshire",
       "University of Huddersfield",
+      "University of Leeds", 
       "University of Manchester",
       "University of Northampton",
       "University of Portsmouth",
@@ -817,6 +842,7 @@
       "Allen High School",
       "Allen University",
       "Amargosa Creek Middle School",
+      "Andrews University",
       "Anne Arundel Community College",
       "Arcadia University",
       "Arizona State University",
@@ -833,12 +859,16 @@
       "Bellarmine Preparatory School",
       "Bellevue School District",
       "Bellevue University",
+      "Belmont University",
       "Benedictine College",
+      "Benedictine University",
       "Benjamin Bosse High School",
       "Benjamin Stoddert Middle School",
       "Bessemer City High School",
       "Bethany High School",
       "Binghamton University",
+      "Bio-Med Science Academy",
+      "Bishop Ireton High School",
       "Black Hawk College",
       "Bloomfield College",
       "Bluffton High School",
@@ -862,6 +892,7 @@
       "Bullock Creek High School",
       "Burrell College of Osteopathic Medicine",
       "Butte College",
+      "BYU-Idaho",
       "BYU Idaho Online",
       "Cal Poly Pomona",
       "Caledonia Middle School",
@@ -875,6 +906,7 @@
       "California State University Long Beach",
       "California State University Northridge",
       "California State University San Marcos",
+      "California State University, Stanislaus",
       "Calvin College",
       "Camden Middle School",
       "Carnegie Mellon Tepper School",
@@ -904,6 +936,7 @@
       "Clarkson University",
       "Clayton Valley Charter High School",
       "Clemson University",
+      "Cleveland State University",
       "Clio Area High School",
       "Coastal Carolina University",
       "College of Mount Saint Vincent",
@@ -961,6 +994,7 @@
       "Emil's Lawns",
       "Emma Lazarus High School",
       "Emory University",
+      "Endicott College",
       "Engineering and Science University Magnet School",
       "Enlitic",
       "Everett Meredith Middle School",
@@ -1000,6 +1034,7 @@
       "Greensboro Day School",
       "Griffin Middle School",
       "Hackensack High School",
+      "Harding University",
       "Harding University College of Pharmacy",
       "Harper College",
       "Harrisburg Area Community College",
@@ -1072,6 +1107,7 @@
       "Limestone College",
       "Lincoln-King Academy",
       "Lincoln Memorial University",
+      "Locust Fork High School",
       "London Middle School",
       "Los Alamitos High School Science",
       "Louisiana State University",
@@ -1080,6 +1116,7 @@
       "Luther College",
       "Macomb Community College",
       "Madera High School",
+      "Manor New Technology High School",
       "Marin Juniors Volleyball Club",
       "Marquette University",
       "Mary Ellen Henderson",
@@ -1092,6 +1129,7 @@
       "Mercer University",
       "Merrimack College",
       "MGH Institute of Health Professions",
+      "Mid Pacific Institute",
       "Miami Dade College",
       "Miami International University of Art and Design",
       "Miami University",
@@ -1143,6 +1181,7 @@
       "North Carolina Central University",
       "North Carolina School of Science and Mathematics",
       "North Carolina State University",
+      "North Central College",
       "North Montgomery High School",
       "North Park University",
       "Northeastern University",
@@ -1175,6 +1214,7 @@
       "Pacific Lutheran University",
       "Palm Beach Atlantic University",
       "Palmer High School",
+      "Parsippany Hills High School",
       "Patrick County High School",
       "Paxton Consolidated Schools",
       "Penn State Behrend",
@@ -1184,7 +1224,9 @@
       "Person High School",
       "Pickens High School",
       "Pima Community College",
+      "Plymouth State University",
       "Pomona High School",
+      "Portland State University",
       "Prairie View A&M University",
       "Purdue North Central",
       "Purdue University",
@@ -1281,10 +1323,12 @@
       "Texas Southern University",
       "Texas Tech University",
       "Texas Woman's University",
+      "The College of Mount Saint Vincent",
       "The College of Wooster",
       "The Hun School of Princeton",
       "The Master's School",
       "The Shipley School",
+      "The University of Kansas",
       "Thiel College",
       "Thomas Jefferson Middle School",
       "Thomas Nelson Community College",
@@ -1412,6 +1456,7 @@
       "Vandegrift HS, Leander ISD",
       "Virginia Commonwealth University",
       "Virginia State University",
+      "Wahlert Catholic High School",
       "Walden University",
       "Walnut Hills High School",
       "Walsh University",
@@ -1431,6 +1476,7 @@
       "West Virginia Department of Education",
       "West Virginia University",
       "Western Carolina University",
+      "Western High School",
       "Western Illinois University",
       "Western Kentucky University",
       "Western Technical College",
