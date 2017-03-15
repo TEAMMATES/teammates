@@ -41,8 +41,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         ______TS("case: compose new email");
         AdminEmailComposePageAction action = getAction();
         ShowPageResult pageResult = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user", pageResult.getDestinationWithParams());
 
         String normalLogSegment = "adminEmailComposePage Page Load";
         AssertHelper.assertContains(normalLogSegment, action.getLogMessage());
@@ -57,8 +57,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         AdminEmailAttributes email = adminEmailsLogic.getAllAdminEmails().get(0);
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
         pageResult = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user", pageResult.getDestinationWithParams());
 
         String expectedLogSegment = normalLogSegment + " : Edit Email ["
                                     + SanitizationHelper.sanitizeForHtml(email.getSubject()) + "]";
@@ -73,8 +73,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         String emailId = "nonexistingEmailId";
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
-        assertEquals(Const.ViewURIs.ADMIN_EMAIL + "?error=true&user=admin.user",
-                pageResult.getDestinationWithParams());
+        assertEquals(
+                Const.ViewURIs.ADMIN_EMAIL + "?error=true&user=admin.user", pageResult.getDestinationWithParams());
 
         expectedLogSegment = normalLogSegment + " : " + Const.StatusMessages.EMAIL_NOT_FOUND;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
