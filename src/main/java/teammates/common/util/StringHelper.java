@@ -7,13 +7,19 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
+
+import teammates.common.exception.InvalidParametersException;
 
 /**
  * Holds String-related helper functions.
  */
+
 public final class StringHelper {
+    private static final Logger log = Logger.getLogger();
 
     private StringHelper() {
         // utility class
@@ -129,13 +135,24 @@ public final class StringHelper {
         }
     }
 
-    public static String decrypt(String message) {
+    /*
+     * Decrypts the supplied string.
+     *
+     * @param message the ciphertext as a hexadecimal string
+     * @return the plaintext
+     * @throws InvalidParameterException if the ciphertext is invalid.
+     * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
+     */
+    public static String decrypt(String message) throws InvalidParametersException {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
+        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            throw new InvalidParametersException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
