@@ -32,16 +32,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME)));
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         setTime(newSession);
-
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        if (paramTimeZone != null) {
-            try {
-                newSession.setTimeZone(Double.parseDouble(paramTimeZone));
-            } catch (NumberFormatException nfe) {
-                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
-            }
-        }
-
+        setTimeZone(newSession);
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
             newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
@@ -115,6 +106,17 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setEndTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
+    }
+
+    private void setTimeZone(FeedbackSessionAttributes newSession) {
+        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
+        if (paramTimeZone != null) {
+            try {
+                newSession.setTimeZone(Double.parseDouble(paramTimeZone));
+            } catch (NumberFormatException nfe) {
+                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
+            }
+        }
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
