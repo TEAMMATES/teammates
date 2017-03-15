@@ -1,11 +1,8 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -13,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.TimeHelper;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
 import com.google.appengine.api.datastore.Text;
