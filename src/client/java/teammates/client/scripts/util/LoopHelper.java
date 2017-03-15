@@ -1,4 +1,4 @@
-package teammates.client.scripts.helper;
+package teammates.client.scripts.util;
 
 /**
  * Utility class to be used with loops to print messages regularly.

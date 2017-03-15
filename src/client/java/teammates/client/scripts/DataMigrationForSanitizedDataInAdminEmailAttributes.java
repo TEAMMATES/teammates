@@ -1,8 +1,8 @@
 package teammates.client.scripts;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.client.scripts.helper.DataMigrationForSanitizedDataHelper;
-import teammates.client.scripts.helper.LoopHelper;
+import teammates.client.scripts.util.DataMigrationForSanitizedDataHelper;
+import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;

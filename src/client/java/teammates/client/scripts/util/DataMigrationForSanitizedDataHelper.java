@@ -1,4 +1,4 @@
-package teammates.client.scripts.helper;
+package teammates.client.scripts.util;
 
 /**
  * Utility class that provides methods to help with migrating data to its desanitized form.
