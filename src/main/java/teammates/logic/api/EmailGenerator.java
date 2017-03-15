@@ -122,10 +122,10 @@ public class EmailGenerator {
 
         for (FeedbackSessionAttributes fsa : sessions) {
 
-            String submitUrlHtml = "(Feedback session is " + (fsa.isClosed() ? "closed" : "not yet opened") + ")";
+            String submitUrlHtml = "(Feedback session is not yet opened)";
             String reportUrlHtml = "(Feedback session is not yet published)";
 
-            if (fsa.isOpened()) {
+            if (fsa.isOpened() || fsa.isClosed()) {
                 String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
