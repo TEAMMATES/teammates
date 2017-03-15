@@ -243,7 +243,7 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     /**
-     * Checks if the body of all the comment panels are hidden
+     * Checks if the body of all the comment panels are hidden.
      * @return true if all comment panel body are hidden
      */
     public boolean areCommentsHidden() {

@@ -55,9 +55,7 @@ public class StudentHomePageAction extends Action {
 
         StudentHomePageData data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
 
-        ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
-
-        return response;
+        return createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
     }
 
     private Map<FeedbackSessionAttributes, Boolean> generateFeedbackSessionSubmissionStatusMap(

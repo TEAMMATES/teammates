@@ -65,8 +65,8 @@ public class InstructorSearchDocument extends SearchDocument {
 
     /**
      * Produces an {@link InstructorSearchResultBundle} from the {@code Results<ScoredDocument>} collection.
-     * <p>
-     * This method should be used by admin only since the searching does not restrict the
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.
      */
     public static InstructorSearchResultBundle fromResults(Results<ScoredDocument> results) {

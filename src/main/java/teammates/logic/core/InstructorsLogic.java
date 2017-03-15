@@ -17,8 +17,8 @@ import teammates.storage.api.InstructorsDb;
 /**
  * Handles operations related to instructors.
  *
- * @see {@link InstructorAttributes}
- * @see {@link InstructorsDb}
+ * @see InstructorAttributes
+ * @see InstructorsDb
  */
 public final class InstructorsLogic {
 
@@ -47,10 +47,18 @@ public final class InstructorsLogic {
      * ====================================
      */
 
+    /**
+     * Creates or updates document for the given Instructor.
+     * @param instructor to be put into documents
+     */
     public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
     }
 
+    /**
+     * Removes document for the given Instructor.
+     * @param instructor to be removed from documents
+     */
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsDb.deleteDocument(instructor);
     }
@@ -59,7 +67,6 @@ public final class InstructorsLogic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
-     * @param queryString
      * @return null if no result found
      */
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
@@ -134,6 +141,8 @@ public final class InstructorsLogic {
     }
 
     /**
+     * Gets all instructors in the Datastore.
+     *
      * @deprecated Not scalable. Use only for admin features.
      */
     @Deprecated
@@ -152,6 +161,13 @@ public final class InstructorsLogic {
         return instructorsDb.getInstructorForEmail(courseId, instructorEmail) != null;
     }
 
+    /**
+     * Returns whether the instructor is a new user, according to one of the following criteria:
+     * <ul>
+     * <li>There is only a sample course (created by system) for the instructor.</li>
+     * <li>There is no any course for the instructor.</li>
+     * </ul>
+     */
     public boolean isNewInstructor(String googleId) {
         List<InstructorAttributes> instructorList = getInstructorsForGoogleId(googleId);
         return instructorList.isEmpty()
@@ -178,10 +194,7 @@ public final class InstructorsLogic {
 
     /**
      * Update the name and email address of an instructor with the specific Google ID.
-     * @param googleId
      * @param instructor InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -222,10 +235,7 @@ public final class InstructorsLogic {
 
     /**
      * Update the Google ID and name of an instructor with the specific email.
-     * @param email
      * @param instructor InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByEmail(String email, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {

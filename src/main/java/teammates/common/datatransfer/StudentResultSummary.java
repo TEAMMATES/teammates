@@ -8,10 +8,10 @@ import teammates.common.util.Const;
  */
 public class StudentResultSummary {
 
-    /** The normalized 'claimed contribution' value to be shown to the instructor  */
+    /** The normalized 'claimed contribution' value to be shown to the instructor. */
     public int claimedToInstructor = Const.INT_UNINITIALIZED;
 
-    /** The normalized 'perceived contribution' value to be shown to the instructor  */
+    /** The normalized 'perceived contribution' value to be shown to the instructor. */
     public int perceivedToInstructor = Const.INT_UNINITIALIZED;
 
 }
