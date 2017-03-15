@@ -46,13 +46,23 @@ function readyFeedbackEditPage() {
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
         prepareDescription($(event.currentTarget));
-        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
+        /* if ($(this).attr('editStatus') === 'mustDeleteResponses') { */
+        // bug: warning message sometimes not shown
+        // temporary fix: always show warning message
+        if ($(this).attr('editStatus') === 'mustDeleteResponses'
+                || $(this).attr('editStatus') === 'hasResponses') {
             event.preventDefault();
             var okCallback = function() {
                 event.currentTarget.submit();
             };
+            var tempWarningTitle = 'Warning: Existing responses may be deleted by your action';
+            var tempWarningMessage = '<p>There are existing responses to this question, editing these fields may '
+                    + 'result in <strong>all existing responses for this question to be deleted.</strong></p><p>Are you '
+                    + 'sure you want to continue?</p><em>(If you are not sure, you should choose the \'View Results\' '
+                    + 'option on the \'Sessions\' page and download a copy of the results first.)</em>';
             BootboxWrapper.showModalConfirmation(
-                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
+                    /* WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null, */
+                    tempWarningTitle, tempWarningMessage, okCallback, null,
                     BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
                     StatusType.DANGER);
         }
