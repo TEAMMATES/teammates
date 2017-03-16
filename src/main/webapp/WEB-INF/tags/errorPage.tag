@@ -20,7 +20,9 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <t:navBarBrand/>
+            <div class="navbar-header">
+                <t:navBarBrand/>
+            </div>
         </div>
     </div>
     <div class="container" id="mainContent">

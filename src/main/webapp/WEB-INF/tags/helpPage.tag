@@ -1,6 +1,5 @@
 <%@ tag description="Generic TEAMMATES Help Page" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +30,9 @@
     <div id="footerComponent" class="container-fluid">
         <div class="container">
             <div class="row">
-                <t:navBarBrand/>
+                <div class="col-md-2">
+                    <span>[<a href="/index.jsp">TEAMMATES</a>]</span>
+                </div>
                 <div class="col-md-8">
                     [hosted on <a href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>]
                 </div>
