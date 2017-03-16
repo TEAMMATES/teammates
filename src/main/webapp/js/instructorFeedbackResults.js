@@ -209,47 +209,43 @@ function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
     var panels = pans || $('div.panel-collapse');
+    var shouldExpandPanels = $(e).html().trim().startsWith(expand);
 
-    if ($(e).html().trim().startsWith(expand)) {
-        // toggleCollapse binds with clicking on both collapse panels button(button to expand all
-        // panels) and collapse panels button section (button for one panel).
+    if (shouldExpandPanels) {
+        // toggleCollapse binds with clicking on both collapse panels button(button for all panels)
+        // and collapse panels button section (button for one panel).
         var isCollapsePanelsButtonClicked = $(e).is($('#collapse-panels-button'));
 
-        // If expand panels button is clicked and some of panel data is not yet loaded, it will be
-        // loaded here by Ajax. Ajax loading is triggered by clicking on the element with
-        // class ajax_auto or ajax-response-auto.
-        // After element of class ajax_auto or ajax-response-auto is clicked, the panel data for
-        // that element is loaded by Ajax and the element is no longer of class ajax_auto or
-        // ajax-response-auto. Therefore, an element of class ajax_auto or ajax-response-auto is
-        // not yet loaded by Ajax and we need to load them to expand all panels.
-        var hasAjaxAutoLoading;
-        var hasAjaxResponseAutoLoading;
-        if (isCollapsePanelsButtonClicked) {
-            var $ajaxAuto = $('.ajax_auto');
-            var $ajaxResponseAuto = $('.ajax-response-auto');
-            hasAjaxAutoLoading = $ajaxAuto.length !== 0;
-            hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
-
-            // Ajax_auto is for panels to display normal feedback sessions while ajax-response-auto
-            // is for panels to display students who have no response.
-            if (hasAjaxAutoLoading) {
-                $('.ajax_auto').click();
-            }
-            if (hasAjaxResponseAutoLoading) {
-                $('.ajax-response-auto').click();
-            }
-        }
-
+        // Expand each panel if not yet expanded.
+        // When a panel has class ajax_auto or auto-response-auto, the panel data has not been loaded yet.
+        // We will load the data  by ajax and ajax_auto or auto-response-auto class will be removed.
+        // Class ajax_auto or auto-response-auto is found in {@code panels} only if this method is invoked
+        // when collapse panels button is clicked.
         var i = 0;
-        if (!hasAjaxAutoLoading) {
-            for (var idx = 0; idx < panels.length; idx++) {
-                if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                    // TODO: change the checking to use hasClass
-                    setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                    i++;
+        for (var idx = 0; idx < panels.length; idx++) {
+            if (isCollapsePanelsButtonClicked) {
+                var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
+                var $ajaxResponseAuto = $(panels[idx]).parent().children('.ajax-response-auto');
+                var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
+                var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
+                if (hasAjaxAutoLoading) {
+                    $ajaxAuto.click();
+                }
+                if (hasAjaxResponseAutoLoading) {
+                    $ajaxResponseAuto.click();
+                }
+                if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
+                    // Ajax loading is triggered by clicking, therefore we do not need to expand the panel.
+                    continue;
                 }
             }
+            // Expand the panel if the panel is collapsed at the moment
+            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
+                setTimeout(showSingleCollapse, 50 * i, panels[idx]);
+                i++;
+            }
         }
+
         var htmlString = $(e).html();
         htmlString = htmlString.replace(expand, collapse);
         $(e).html(htmlString);
