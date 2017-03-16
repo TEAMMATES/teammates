@@ -13,7 +13,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.AdminSearchPageAction.FeedbackSessionState;
 import teammates.ui.template.AdminSearchInstructorRow;
 import teammates.ui.template.AdminSearchInstructorTable;
 import teammates.ui.template.AdminSearchStudentFeedbackSession;
@@ -22,6 +21,10 @@ import teammates.ui.template.AdminSearchStudentRow;
 import teammates.ui.template.AdminSearchStudentTable;
 
 public class AdminSearchPageData extends PageData {
+
+    private enum FeedbackSessionState {
+        OPEN, CLOSED, PUBLISHED, AWAITING;
+    }
 
     public String searchKey = "";
 
