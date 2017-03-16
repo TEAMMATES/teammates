@@ -1,6 +1,7 @@
 <%@ tag description="Generic TEAMMATES Static Page" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="currentPage" %>
 <!DOCTYPE html>
@@ -29,9 +30,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">
-                        <img height="100%" src="images/teammateslogo.jpg" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
-                    </a>
+                    <t:navBarBrand/>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav">

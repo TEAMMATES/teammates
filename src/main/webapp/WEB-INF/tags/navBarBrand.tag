@@ -3,4 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 
-<a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+<a class="navbar-brand" href="/">
+    <img height="100%" src="../images/teammateslogo.png" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
+</a>
