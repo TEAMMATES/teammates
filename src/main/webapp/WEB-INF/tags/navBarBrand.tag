@@ -4,5 +4,5 @@
 <%@ tag import="teammates.common.util.Const" %>
 
 <a class="navbar-brand" href="/">
-    <img height="100%" src="../images/teammateslogo.png" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
+    <img height="100%" src="../images/teammateslogo.jpg" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
 </a>
