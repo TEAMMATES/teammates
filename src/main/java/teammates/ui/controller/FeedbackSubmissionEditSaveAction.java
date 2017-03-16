@@ -72,6 +72,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String userSectionForCourse = getUserSectionForCourse();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
+        List<FeedbackResponseAttributes> newResponses = new ArrayList<FeedbackResponseAttributes>();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String totalResponsesForQuestion = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
@@ -130,7 +131,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
                 if (response.responseMetaData.getValue().isEmpty()) {
                     // deletes the response since answer is empty
-                    saveResponse(response);
+                    saveResponse(response, null);
                 } else {
                     response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
@@ -150,7 +151,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
-                    saveResponse(response);
+                    saveResponse(response, newResponses);
                 }
             } else {
                 List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
@@ -162,8 +163,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 statusToUser.addAll(errorMessages);
                 isError = true;
             }
-
         }
+
+        saveNewReponses(newResponses);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -239,7 +241,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return existingResponsesId.contains(response.getId());
     }
 
-    private void saveResponse(FeedbackResponseAttributes response)
+    private void saveResponse(FeedbackResponseAttributes response, List<FeedbackResponseAttributes> newResponses)
             throws EntityDoesNotExistException {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
@@ -256,12 +258,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         } else if (!response.responseMetaData.getValue().isEmpty()
                    && !response.recipient.isEmpty()) {
-            try {
-                logic.createFeedbackResponse(response);
-                hasValidResponse = true;
-            } catch (InvalidParametersException e) {
-                setStatusForException(e);
-            }
+            newResponses.add(response);
+        }
+    }
+
+    private void saveNewReponses(List<FeedbackResponseAttributes> newResponses)
+            throws EntityDoesNotExistException {
+        try {
+            logic.createFeedbackResponses(newResponses);
+            hasValidResponse = true;
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
         }
     }
 
