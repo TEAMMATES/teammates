@@ -499,7 +499,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     /**
-     * Puts recipients from an unsorted map to a sorted map
+     * Puts recipients from an unsorted map to a sorted map.
      *
      * @param recipientMapping      Original map containing recipients
      * @param identifierMap         Helper map to retrieve email from name concatenated with email string
@@ -520,7 +520,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     /**
-     * Puts options from an unsorted map to a sorted map
+     * Puts options from an unsorted map to a sorted map.
      *
      * @param optionPoints          Original mapping of option points
      * @param optionList            List of options in question
@@ -562,11 +562,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     /**
-     * Used to update the OptionPointsMapping for the option optionReceivingPoints
-     *
-     * @param optionPoints
-     * @param optionReceivingPoints
-     * @param pointsReceived
+     * Used to update the OptionPointsMapping for the option optionReceivingPoints.
      */
     private void updateOptionPointsMapping(
             Map<String, List<Integer>> optionPoints,
@@ -581,8 +577,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     /**
-     * Returns the list of points as as string to display
-     * @param points
+     * Returns the list of points as as string to display.
      */
     private String getListOfPointsAsString(List<Integer> points) {
         Collections.sort(points);

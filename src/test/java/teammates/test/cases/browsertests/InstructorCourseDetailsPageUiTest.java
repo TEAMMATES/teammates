@@ -59,7 +59,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testDeleteAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("content: no students");
 
@@ -133,7 +133,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
 
-    public void testLinks() {
+    private void testLinks() {
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
@@ -174,7 +174,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
-    public void testRemindAction() throws Exception {
+    private void testRemindAction() throws Exception {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         String courseName = testData.courses.get("CCDetailsUiT.CS2104").getName();
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
@@ -213,7 +213,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         }
     }
 
-    public void testDeleteAction() throws Exception {
+    private void testDeleteAction() throws Exception {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
         StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");

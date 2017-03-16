@@ -39,7 +39,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected abstract Action getAction(String... params);
 
-    public abstract void testExecuteAndPostProcess() throws Exception;
+    protected abstract void testExecuteAndPostProcess() throws Exception;
 
     @BeforeClass
     public void baseClassSetup() {
@@ -87,8 +87,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     /**
-     * @return The {@code params} array with the {@code userId}
-     * (together with the parameter name) inserted at the beginning.
+     * Returns The {@code params} array with the {@code userId}
+     *         (together with the parameter name) inserted at the beginning.
      */
     protected String[] addUserIdToParams(String userId, String[] params) {
         List<String> list = new ArrayList<String>();
@@ -115,7 +115,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected String[] createValidParamsForProfile() {
-        String[] submissionParams = new String[]{
+        return new String[] {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
@@ -123,11 +123,10 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_GENDER, "  other   ",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
-        return submissionParams;
     }
 
     protected String[] createInvalidParamsForProfile() {
-        String[] submissionParams = new String[]{
+        return new String[] {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "$$short",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
@@ -135,7 +134,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_GENDER, "female",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };
-        return submissionParams;
     }
 
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {

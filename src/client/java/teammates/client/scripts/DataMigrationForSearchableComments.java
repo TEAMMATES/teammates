@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.logic.api.Logic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.entity.Comment;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -23,8 +24,9 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void doOperation() {
-        List<InstructorAttributes> allInstructors = getAllInstructors();
+        List<InstructorAttributes> allInstructors = InstructorsLogic.inst().getAllInstructors();
         for (InstructorAttributes instructor : allInstructors) {
             updateCommentsForInstructor(instructor);
         }
@@ -74,8 +76,4 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         logic.putDocument(comment);
     }
 
-    @SuppressWarnings("deprecation")
-    protected List<InstructorAttributes> getAllInstructors() {
-        return logic.getAllInstructors();
-    }
 }

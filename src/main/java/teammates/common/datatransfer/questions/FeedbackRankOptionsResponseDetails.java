@@ -36,7 +36,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     }
 
     /**
-     * @return List of sorted answers, with uninitialised values filtered out
+     * Returns List of sorted answers, with uninitialised values filtered out.
      */
     public List<Integer> getFilteredSortedAnswerList() {
         List<Integer> filteredAnswers = new ArrayList<>();

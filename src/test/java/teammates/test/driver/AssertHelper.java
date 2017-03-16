@@ -22,7 +22,7 @@ public final class AssertHelper {
     }
 
     /**
-     * Assert date is now +- 1 min
+     * Assert date is now +- 1 min.
      */
     public static void assertDateIsNow(Date date) {
         assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
@@ -132,8 +132,6 @@ public final class AssertHelper {
     /**
      * Asserts that the actual log message, excluding its id, is equal to the expected log message,
      * and that the actual log message's id contains the expected google id.
-     * @param expected
-     * @param actual
      */
     public static void assertLogMessageEquals(String expected, String actual) {
         String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];

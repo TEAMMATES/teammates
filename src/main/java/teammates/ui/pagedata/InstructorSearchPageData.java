@@ -30,7 +30,7 @@ import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.StudentListSectionData;
 
 /**
- * PageData: the data to be used in the InstructorSearchPage
+ * PageData: the data to be used in the InstructorSearchPage.
  */
 public class InstructorSearchPageData extends PageData {
     private String searchKey = "";
@@ -75,7 +75,6 @@ public class InstructorSearchPageData extends PageData {
         setSearchStudentsTables(studentSearchResultBundle);
     }
 
-    /*************** Get methods ********************/
     public String getSearchKey() {
         return sanitizeForHtml(searchKey);
     }
@@ -116,7 +115,6 @@ public class InstructorSearchPageData extends PageData {
         return searchStudentsTables;
     }
 
-    /*************** Set results tables *********************/
     private void setSearchCommentsForStudentsTables(
                                     CommentSearchResultBundle commentSearchResultBundle) {
 
@@ -149,7 +147,6 @@ public class InstructorSearchPageData extends PageData {
         }
     }
 
-    /*************** Create data structures for feedback response comments results ********************/
     private List<FeedbackSessionRow> createFeedbackSessionRows(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
@@ -249,7 +246,6 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
 
-    /*************** Create data structures for student search results ********************/
     private List<StudentListSectionData> createStudentRows(String courseId,
                                                            StudentSearchResultBundle studentSearchResultBundle) {
         List<StudentListSectionData> rows = new ArrayList<StudentListSectionData>();
@@ -320,8 +316,7 @@ public class InstructorSearchPageData extends PageData {
     }
 
     /**
-     * Filters students from studentSearchResultBundle by course ID
-     * @param courseId
+     * Filters students from studentSearchResultBundle by course ID.
      * @return students whose course ID is equal to the courseId given in the parameter
      */
     private List<StudentAttributes> filterStudentsByCourse(

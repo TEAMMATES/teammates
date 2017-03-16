@@ -13,7 +13,7 @@ import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorCourseDetailsPageData;
 
 /**
- * Action: showing the details page for a course of an instructor
+ * Action: showing the details page for a course of an instructor.
  */
 public class InstructorCourseDetailsPageAction extends Action {
 

@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('common.js');
 
 /**
