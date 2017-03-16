@@ -1,3 +1,4 @@
+/* global encodeHtmlString:false */
 /**
  * Functions defined and used in `/adminHome`
  */
@@ -18,10 +19,10 @@
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
     return `
     <tr class="${isSuccess ? 'success' : 'danger'}">
-        <td>${shortName}</td>
-        <td>${name}</td>
-        <td>${email}</td>
-        <td>${institution}</td>
+        <td>${encodeHtmlString(shortName)}</td>
+        <td>${encodeHtmlString(name)}</td>
+        <td>${encodeHtmlString(email)}</td>
+        <td>${encodeHtmlString(institution)}</td>
         <td>${isSuccess ? 'Success' : 'Fail'}</td>
         <td>${status}</td>
     </tr>
