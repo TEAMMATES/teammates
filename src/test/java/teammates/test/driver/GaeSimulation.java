@@ -44,10 +44,10 @@ public class GaeSimulation {
 
     private static GaeSimulation instance = new GaeSimulation();
 
-    /** This is used only to generate an HttpServletRequest for given parameters */
-    protected ServletUnitClient sc;
+    /** This is used only to generate an HttpServletRequest for given parameters. */
+    private ServletUnitClient sc;
 
-    protected LocalServiceTestHelper helper;
+    private LocalServiceTestHelper helper;
 
     private LocalLogService localLogService;
 
@@ -148,9 +148,9 @@ public class GaeSimulation {
     }
 
     /**
-     * @param parameters Parameters that appear in a HttpServletRequest
-     * received by the app.
-     * @return an {@link Action} object that matches the parameters given.
+     * Returns an {@link Action} object that matches the parameters given.
+     *
+     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
     public Action getActionObject(String uri, String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);
@@ -161,9 +161,9 @@ public class GaeSimulation {
     }
 
     /**
-     * @param parameters Parameters that appear in a HttpServletRequest
-     * received by the app.
-     * @return an {@link AutomatedAction} object that matches the parameters given.
+     * Returns an {@link AutomatedAction} object that matches the parameters given.
+     *
+     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
     public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);

@@ -20,12 +20,10 @@ public class InstructorHomePageAction extends Action {
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         if (!account.isInstructor && isPersistenceIssue()) {
-            ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME,
-                                                           new InstructorHomePageData(account));
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE,
                                                StatusMessageColor.WARNING));
             statusToAdmin = "instructorHome " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE;
-            return response;
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, new InstructorHomePageData(account));
         }
 
         gateKeeper.verifyInstructorPrivileges(account);

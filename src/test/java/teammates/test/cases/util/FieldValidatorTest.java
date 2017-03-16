@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Text;
 
 public class FieldValidatorTest extends BaseTestCase {
 
-    public FieldValidator validator = new FieldValidator();
+    private FieldValidator validator = new FieldValidator();
 
     @Test
     public void testGetValidityInfoForSizeCappedNonEmptyString() {

@@ -57,7 +57,7 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
 
-    public static CourseAttributes generateValidCourseAttributesObject() {
+    private static CourseAttributes generateValidCourseAttributesObject() {
         return new CourseAttributes("valid-id-$_abc", "valid-name", "UTC");
     }
 

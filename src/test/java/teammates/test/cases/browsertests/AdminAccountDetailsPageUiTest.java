@@ -30,7 +30,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         testRemoveFromCourseAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("content: typical page");
 
@@ -42,7 +42,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
 
-    public void testRemoveFromCourseAction() throws Exception {
+    private void testRemoveFromCourseAction() throws Exception {
 
         ______TS("action: remove instructor from course");
 

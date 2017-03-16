@@ -13,9 +13,7 @@ import teammates.ui.template.AdminAccountManagementAccountTableRow;
 public class AdminAccountManagementPageData extends PageData {
     private List<AdminAccountManagementAccountTableRow> accountTable;
 
-    /**
-     * By default the testing accounts should not be shown
-     */
+    // By default the testing accounts should not be shown
     private boolean isToShowAll;
 
     public AdminAccountManagementPageData(AccountAttributes account,

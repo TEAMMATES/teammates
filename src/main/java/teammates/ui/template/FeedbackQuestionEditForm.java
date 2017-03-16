@@ -11,8 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
 /**
- * Data model for adding/editing a single question
- *
+ * Data model for adding/editing a single question.
  */
 public class FeedbackQuestionEditForm {
     private String actionLink;

@@ -1,10 +1,12 @@
+'use strict';
+
 $(document).ready(function() {
     function isRedirectToSpecificComment() {
-        return location.href.includes('#');
+        return window.location.href.includes('#');
     }
 
     function getRedirectSpecificCommentRow() {
-        var url = location.href;
+        var url = window.location.href;
         var start = url.indexOf('#');
         var end = url.length;
         var rowId = url.substring(start, end);
