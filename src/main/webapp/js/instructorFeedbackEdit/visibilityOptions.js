@@ -6,6 +6,10 @@ var ROW_RECIPIENT_TEAM = 3;
 var ROW_OTHER_STUDENTS = 4;
 var ROW_INSTRUCTORS = 5;
 
+var SPINNER_ID = "spinner";
+var SPINNER_GIF_SRC = "../../images/ajax-preload.gif";
+var SPINNER_MAX_WIDTH = "30px";
+var SPINNER_MAX_HEIGHT = "30px";
 // ////////////// //
 // EVENT HANDLERS //
 // ////////////// //
@@ -437,6 +441,8 @@ function updateVisibilityMessageDiv($containingForm) {
     $visibilityMessageDiv.html('');
 
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
+    // show the spinner here
+    showSpinnerWhenLoadingVisibilityPreview($visibilityMessageDiv, SPINNER_ID);
     $.ajax({
         type: 'POST',
         url: url,
@@ -451,6 +457,20 @@ function updateVisibilityMessageDiv($containingForm) {
             showAjaxErrorMessage($containingForm);
         }
     });
+}
+
+/**
+ * Shows spinner when updating visibility preview
+ */
+function showSpinnerWhenLoadingVisibilityPreview($visibilityMessageDiv, spinnerId) {
+    var spinner = document.createElement('img');
+    spinner.setAttribute("id", spinnerId);
+    spinner.setAttribute("src", SPINNER_GIF_SRC);
+    spinner.style.maxWidth = SPINNER_MAX_WIDTH;
+    spinner.style.maxHeight =  SPINNER_MAX_HEIGHT;
+    spinner.style.display = "block";
+    spinner.style.margin = "auto";
+    $visibilityMessageDiv.append(spinner);
 }
 
 function formatVisibilityMessageDivHtml(visibilityMessage) {
