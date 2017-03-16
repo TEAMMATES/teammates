@@ -1,7 +1,7 @@
 package teammates.client.scripts.util;
 
 /**
- * Utility class to be used with loops to print messages regularly.
+ * Helper class to help manage loops.
  */
 public class LoopHelper {
 
@@ -18,7 +18,7 @@ public class LoopHelper {
     private int count;
 
     /**
-     * Constructs a {@link LoopHelper} object with the given parameters.
+     * Constructs a {@link LoopHelper} object which prints {@code message} for every {@code printCycle} iterations.
      */
     public LoopHelper(int printCycle, String message) {
         this.printCycle = printCycle;
@@ -34,6 +34,10 @@ public class LoopHelper {
         if (count % printCycle == 0) {
             System.out.printf("[%d] %s\n", count, message);
         }
+    }
+
+    public int getCount() {
+        return count;
     }
 
 }

@@ -40,7 +40,8 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         println("Preview: " + isPreview);
         for (AdminEmailAttributes email : allEmails) {
             loopHelper.recordLoop();
-            if (!isEmailSanitized(email)) {
+            boolean isEmailUnsanitized = !DataMigrationForSanitizedDataHelper.isSanitizedHtml(email.getContentValue());
+            if (isEmailUnsanitized) {
                 // skip the update if email is not sanitized
                 continue;
             }
@@ -50,16 +51,12 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
                 numberOfUpdatedEmails++;
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 println("Problem sanitizing email id " + email.getEmailId());
-                e.printStackTrace();
+                println(e.getMessage());
             }
         }
-        println("Total number of emails: " + allEmails.size());
+        println("Total number of emails: " + loopHelper.getCount());
         println("Number of affected emails: " + numberOfAffectedEmails);
         println("Number of updated emails: " + numberOfUpdatedEmails);
-    }
-
-    private boolean isEmailSanitized(AdminEmailAttributes email) {
-        return DataMigrationForSanitizedDataHelper.isSanitizedHtml(email.getContentValue());
     }
 
     /**

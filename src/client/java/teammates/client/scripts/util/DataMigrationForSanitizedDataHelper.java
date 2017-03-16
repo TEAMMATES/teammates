@@ -7,7 +7,7 @@ package teammates.client.scripts.util;
 public final class DataMigrationForSanitizedDataHelper {
 
     private DataMigrationForSanitizedDataHelper() {
-        // utility class
+        // empty constructor to prevent instantiation because this is a utility class
     }
 
     /**
