@@ -1,12 +1,9 @@
 {
-  "lastUpdated": "15 March 2017",
+  "lastUpdated": "28 February 2017",
   "institutes": {
-  	 "Abu Dhabi": [ 	
-  	   "Khalifa University"
-  	  ],
      "Argentina": [
        "Southworks"
-      ],
+     ],
      "Armenia": [
        "American University of Armenia"
      ],
@@ -91,7 +88,6 @@
       "Solvay Brussels School of Economics & Management",
       "Universiteit Gent",
       "University College Leuven-Limburg",
-      "Universiteit Antwerpen",
       "University of Antwerp",
       "University of Namur",
       "Viatienen SWeTe",
@@ -898,12 +894,12 @@
       "California College San Diego",
       "California State Polytechnic University, Pomona",
       "California State University",
-      "California State University Chico",
+      "California State University, Chico",
       "California State University, East Bay",
-      "California State University Fullerton",
-      "California State University Long Beach",
-      "California State University Northridge",
-      "California State University San Marcos",
+      "California State University, Fullerton",
+      "California State University, Long Beach",
+      "California State University, Northridge",
+      "California State University, San Marcos",
       "California State University, Stanislaus",
       "Calvin College",
       "Camden Middle School",
