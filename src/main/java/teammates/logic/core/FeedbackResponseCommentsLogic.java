@@ -25,8 +25,8 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 /**
  * Handles operations related to feedback response comments.
  *
- * @see {@link FeedbackResponseCommentAttributes}
- * @see {@link FeedbackResponseCommentsDb}
+ * @see FeedbackResponseCommentAttributes
+ * @see FeedbackResponseCommentsDb
  */
 public final class FeedbackResponseCommentsLogic {
 
@@ -168,8 +168,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Create or update document for the given comment
-     * @param comment
+     * Creates or updates document for the given comment.
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         frcDb.putDocument(comment);
@@ -198,20 +197,14 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Remove document for the given comment
-     * @param commentToDelete
+     * Removes document for the given comment.
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         frcDb.deleteDocument(commentToDelete);
     }
 
     /**
-     * Verify whether the comment's giver name is visible to certain user
-     * @param comment
-     * @param response
-     * @param userEmail
-     * @param roster
-     * @return true/false
+     * Returns true if the comment's giver name is visible to certain user.
      */
     public boolean isNameVisibleToUser(FeedbackResponseCommentAttributes comment, FeedbackResponseAttributes response,
                                    String userEmail, CourseRoster roster) {
@@ -283,7 +276,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Verify whether the comment is visible to certain user
+     * Verifies whether the comment is visible to certain user.
      * @return true/false
      */
     public boolean isResponseCommentVisibleForUser(String userEmail, UserRole role,
@@ -369,10 +362,9 @@ public final class FeedbackResponseCommentsLogic {
                                                FeedbackResponseCommentAttributes relatedComment,
                                                FeedbackParticipantType viewerType) {
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
-        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion
-                            ? relatedQuestion.isResponseVisibleTo(viewerType)
-                            : relatedComment.isVisibleTo(viewerType);
-        return isVisibleTo;
+        return isVisibilityFollowingFeedbackQuestion
+                ? relatedQuestion.isResponseVisibleTo(viewerType)
+                : relatedComment.isVisibleTo(viewerType);
     }
 
     private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException {

@@ -30,8 +30,6 @@ public class AdminLogQuery {
      * If endTime is null, it will be considered as the current time.
      *
      * @param versionsToQuery decide which versions to find logs from.
-     * @param startTime
-     * @param endTime
      */
     public AdminLogQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
         Assumption.assertNotNull(versionsToQuery);
@@ -56,11 +54,8 @@ public class AdminLogQuery {
      * If startTime is null, it will be considered as 0.
      * If endTime is null, it will be considered as the current time.
      *
-     * The time is in Unix time. https://en.wikipedia.org/wiki/Unix_time
+     * <p>The time is in Unix time. https://en.wikipedia.org/wiki/Unix_time
      * 0 means it will take logs after Thursday, 1 January 1970 (since forever).
-     *
-     * @param startTime
-     * @param endTime
      */
     public void setTimePeriod(Long startTimeParam, Long endTimeParam) {
         long startTime = startTimeParam == null ? 0L : startTimeParam;

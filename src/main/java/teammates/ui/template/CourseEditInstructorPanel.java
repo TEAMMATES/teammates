@@ -62,10 +62,8 @@ public class CourseEditInstructorPanel {
 
         distinguishSpecialAndNonSpecialSections(sectionNames, specialSectionNames, nonSpecialSectionNames);
 
-        List<CourseEditSectionRow> rows =
-                createSpecialAndNonSpecialSectionRowsInOrder(instructorIndex, sectionNames, feedbackNames,
-                                                             specialSectionNames, nonSpecialSectionNames);
-        return rows;
+        return createSpecialAndNonSpecialSectionRowsInOrder(instructorIndex, sectionNames, feedbackNames,
+                                                            specialSectionNames, nonSpecialSectionNames);
     }
 
     /**

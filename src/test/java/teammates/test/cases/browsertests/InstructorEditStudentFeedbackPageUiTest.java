@@ -48,7 +48,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("[More]", submitPage.getModerationHintButtonText());
     }
 
-    public void testEditResponse() throws Exception {
+    private void testEditResponse() throws Exception {
         ______TS("edit responses");
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);

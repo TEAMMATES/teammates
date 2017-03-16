@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var today = new Date();
     var yesterday = new Date();
@@ -71,7 +73,7 @@ function triggerDatepickerOnClick(datepickerDivs) {
 
 /**
  * @assumption: startDate has a valid value
- * @returns
+ * @returns {Date} publishDate if it is valid and smaller than startDate, else startDate
  */
 function getMaxDateForVisibleDate(startDate, publishDate) {
     var minDate = 0;
@@ -89,7 +91,7 @@ function getMaxDateForVisibleDate(startDate, publishDate) {
 
 /**
  * @assumption: visibleDate has a valid value
- * @returns
+ * @returns {Date} visibleDate
  */
 function getMinDateForPublishDate(visibleDate) {
     return visibleDate;

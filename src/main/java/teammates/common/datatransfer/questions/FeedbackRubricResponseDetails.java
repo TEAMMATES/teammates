@@ -15,8 +15,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     private static final Logger log = Logger.getLogger();
 
     /**
-     * List of integers, the size of the list corresponds to the number of sub-questions
-     * Each integer at index i, represents the choice chosen for sub-question i
+     * List of integers, the size of the list corresponds to the number of sub-questions.
+     * Each integer at index i, represents the choice chosen for sub-question i.
      */
     public List<Integer> answer;
 
@@ -65,13 +65,12 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     /**
-     * Initializes the answer list to have empty responses
-     * -1 indicates no choice chosen
-     * @param numSubQuestions
+     * Initializes the answer list to have empty responses.
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<Integer>();
         for (int i = 0; i < numSubQuestions; i++) {
+            // -1 indicates no choice chosen
             answer.add(-1);
         }
     }

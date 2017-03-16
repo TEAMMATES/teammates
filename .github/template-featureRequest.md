@@ -1,4 +1,4 @@
-**Issue Title:** Feature: [your request in a line] OR Enhancement: [your suggestion in a line]
+**Issue Title:** [brief description of feature/enhancement request]
 
 Copy-and-paste the following template to the issue tracker and fill it in with relevant details:
 ```markdown

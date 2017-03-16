@@ -67,7 +67,7 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
 
     private boolean isPreview = true;
 
-    public static void map(String doubleTimezone, String timezoneId) {
+    private static void map(String doubleTimezone, String timezoneId) {
         timeZoneDoubleToIdMapping.put(doubleTimezone, timezoneId);
     }
 

@@ -169,39 +169,35 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private String getExpectedLogMessageNonExistentBlob(AccountAttributes student) {
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                           + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
-                           + student.googleId + "|||student2InCourse1@gmail.tmt|||"
-                           + "Servlet Action Failure : Reading and transforming image failed.Could not read blob."
-                           + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
-        return expectedLogMessage;
+        return "TEAMMATESLOG|||studentProfilePictureEdit|||"
+                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                + student.googleId + "|||student2InCourse1@gmail.tmt|||"
+                + "Servlet Action Failure : Reading and transforming image failed.Could not read blob."
+                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
 
     private String getExpectedLogMessageZeroDimensions(AccountAttributes student) {
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                                  + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
-                                  + student.googleId + "|||" + student.email + "|||"
-                                  + "Servlet Action Failure : One or both of the image dimensions were zero."
-                                  + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
-        return expectedLogMessage;
+        return "TEAMMATESLOG|||studentProfilePictureEdit|||"
+                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                + student.googleId + "|||" + student.email + "|||"
+                + "Servlet Action Failure : One or both of the image dimensions were zero."
+                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
 
     private String getExpectedLogMessageEmptyDimensions(AccountAttributes student) {
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                                  + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
-                                  + student.googleId + "|||" + student.email + "|||"
-                                  + "Servlet Action Failure : One or both of the image dimensions were empty."
-                                  + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
-        return expectedLogMessage;
+        return "TEAMMATESLOG|||studentProfilePictureEdit|||"
+                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                + student.googleId + "|||" + student.email + "|||"
+                + "Servlet Action Failure : One or both of the image dimensions were empty."
+                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
 
     private String getExpectedLogMessageEmptyCoords(AccountAttributes student) {
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                                  + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
-                                  + student.googleId + "|||" + student.email + "|||"
-                                  + "Servlet Action Failure : One or more of the given coords were empty."
-                                  + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
-        return expectedLogMessage;
+        return "TEAMMATESLOG|||studentProfilePictureEdit|||"
+                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                + student.googleId + "|||" + student.email + "|||"
+                + "Servlet Action Failure : One or more of the given coords were empty."
+                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
 
     private String[] createValidParamsForProfilePictureEdit() {

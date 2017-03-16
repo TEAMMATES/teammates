@@ -1,3 +1,5 @@
+'use strict';
+
 var isSessionsAjaxSending = false;
 var oldStatus = null;
 

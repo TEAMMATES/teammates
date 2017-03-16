@@ -9,11 +9,11 @@ import java.util.Set;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -32,18 +32,13 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for student comments.
  *
- * @see {@link Comment}
- * @see {@link CommentAttributes}
+ * @see Comment
+ * @see CommentAttributes
  */
 public class CommentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
 
-    /**
-     * This method is for testing only
-     * @param commentsToAdd
-     * @throws InvalidParametersException
-     */
     public void createComments(Collection<CommentAttributes> commentsToAdd) throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
         for (EntityAttributes entity : commentsToUpdate) {
@@ -51,8 +46,8 @@ public class CommentsDb extends EntitiesDb {
             try {
                 updateComment(comment);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -74,8 +69,7 @@ public class CommentsDb extends EntitiesDb {
     }
 
     /**
-     * Remove search document for the given comment
-     * @param commentToDelete
+     * Removes search document for the given comment.
      */
     public void deleteDocument(CommentAttributes commentToDelete) {
         if (commentToDelete.getCommentId() == null) {
@@ -393,10 +387,6 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
         List<Comment> giverComments = this.getCommentEntitiesForGiver(courseId, email);
-        // for now, this list is empty
-//        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId,
-//                CommentRecipientType.INSTRUCTOR, email);
-//        getPM().deletePersistentAll(recipientComments);
 
         getPm().deletePersistentAll(giverComments);
 
@@ -486,7 +476,7 @@ public class CommentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for comments
+     * Searches for comments.
      * @return {@link CommentSearchResultBundle}
      */
     public CommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
@@ -501,6 +491,8 @@ public class CommentsDb extends EntitiesDb {
     }
 
     /**
+     * Gets all student comments in the Datastore.
+     *
      * @deprecated Not scalable. Don't use unless in admin features.
      */
     @Deprecated
