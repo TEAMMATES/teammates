@@ -20,7 +20,7 @@ import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
 
-    protected enum FeedbackSessionState {
+    public enum FeedbackSessionState {
         OPEN, CLOSED, PUBLISHED, AWAITING;
     }
 
