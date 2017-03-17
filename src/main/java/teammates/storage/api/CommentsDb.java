@@ -657,11 +657,7 @@ public class CommentsDb extends EntitiesDb {
         q.setResult(primaryKeyName);
         List<?> results;
 
-        if (id != null) {
-            q.declareParameters("Long idParam");
-            q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
-        } else {
+        if (id == null) {
             q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam, "
                     + "String recipientTypeParam, String receiverParam");
             q.setFilter("courseId == courseIdParam "
@@ -672,6 +668,10 @@ public class CommentsDb extends EntitiesDb {
             Object[] params = new Object[]{ca.courseId, ca.giverEmail, ca.createdAt, ca.recipientType.toString(),
                     SanitizationHelper.sanitizeForHtml(ca.recipients.iterator().next())};
             results = (List<?>) q.executeWithArray(params);
+        } else {
+            q.declareParameters("Long idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
         }
 
         return !results.isEmpty();

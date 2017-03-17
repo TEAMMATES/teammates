@@ -120,10 +120,10 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
 
-            if (!hasEntity(entityToAdd)) {
-                entities.add(entityToAdd.toEntity());
-            } else {
+            if (hasEntity(entityToAdd)) {
                 entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
             }
 
             log.info(entityToAdd.getBackupIdentifier());

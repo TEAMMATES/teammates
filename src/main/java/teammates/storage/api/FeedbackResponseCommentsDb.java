@@ -506,14 +506,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         q.setResult(primaryKeyName);
         List<?> results;
 
-        if (id != null) {
-            q.declareParameters("String idParam");
-            q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
-        } else {
+        if (id == null) {
             q.declareParameters("String courseIdParam, java.util.Date createdAtParam, String giverEmailParam");
             q.setFilter("courseId == courseIdParam && createdAt == createdAtParam && giverEmail == giverEmailParam");
             results = (List<?>) q.execute(frca.courseId, frca.createdAt, frca.giverEmail);
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
         }
 
         return !results.isEmpty();

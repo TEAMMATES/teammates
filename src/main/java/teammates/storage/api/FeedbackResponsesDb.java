@@ -1139,15 +1139,15 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setResult(primaryKeyName);
         List<?> results;
 
-        if (id != null) {
-            q.declareParameters("String idParam");
-            q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
-        } else {
+        if (id == null) {
             q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String receiverParam");
             q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam && "
                         + "receiver == receiverParam");
             results = (List<?>) q.execute(fra.feedbackQuestionId, fra.giver, fra.recipient);
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
         }
 
         return !results.isEmpty();

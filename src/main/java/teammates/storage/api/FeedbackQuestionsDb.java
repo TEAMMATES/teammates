@@ -339,16 +339,16 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         q.setResult(primaryKeyName);
         List<?> results;
 
-        if (id != null) {
-            q.declareParameters("String idParam");
-            q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
-        } else {
+        if (id == null) {
             q.declareParameters("String feedbackSessionNameParam, String courseIdParam, int questionNumberParam");
             q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                         + "courseId == courseIdParam && "
                         + "questionNumber == questionNumberParam");
             results = (List<?>) q.execute(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
         }
 
         return !results.isEmpty();

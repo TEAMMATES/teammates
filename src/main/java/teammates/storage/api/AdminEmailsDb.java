@@ -325,14 +325,14 @@ public class AdminEmailsDb extends EntitiesDb {
         q.setResult(primaryKeyName);
         List<?> results;
 
-        if (id != null) {
-            q.declareParameters("String idParam");
-            q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
-        } else {
+        if (id == null) {
             q.declareParameters("String subjectParam, java.util.Date createDateParam");
             q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
             results = (List<?>) q.execute(aea.subject, aea.createDate);
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
         }
 
         return !results.isEmpty();
