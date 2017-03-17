@@ -332,10 +332,25 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackQuestion.class;
         String primaryKeyName = "feedbackQuestionId";
+        FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) attributes;
+        String id = fqa.getId();
+
         Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((FeedbackQuestionAttributes) attributes).getId()) != null;
+        List<?> results;
+
+        if (id != null) {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
+        } else {
+            q.declareParameters("String feedbackSessionNameParam, String courseIdParam, int questionNumberParam");
+            q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
+                        + "courseId == courseIdParam && "
+                        + "questionNumber == questionNumberParam");
+            results = (List<?>) q.execute(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
+        }
+
+        return !results.isEmpty();
     }
 }

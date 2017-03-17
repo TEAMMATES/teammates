@@ -581,12 +581,16 @@ public class InstructorsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = Instructor.class;
         String primaryKeyName = "id";
+        InstructorAttributes ia = (InstructorAttributes) attributes;
+
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String courseIdParam, String emailParam");
         q.setFilter("courseId == courseIdParam && email == emailParam");
         q.setResult(primaryKeyName);
-        InstructorAttributes ia = (InstructorAttributes) attributes;
-        return q.execute(ia.courseId, ia.email) != null;
+
+        List<?> results = (List<?>) q.execute(ia.courseId, ia.email);
+
+        return !results.isEmpty();
     }
 
 }

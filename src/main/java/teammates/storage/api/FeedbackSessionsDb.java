@@ -614,11 +614,15 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackSession.class;
         String primaryKeyName = "feedbackSessionId";
+        FeedbackSessionAttributes fsa = (FeedbackSessionAttributes) attributes;
+
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
         q.setResult(primaryKeyName);
-        FeedbackSessionAttributes fsa = (FeedbackSessionAttributes) attributes;
-        return q.execute(fsa.getFeedbackSessionName(), fsa.getCourseId()) != null;
+
+        List<?> results = (List<?>) q.execute(fsa.getFeedbackSessionName(), fsa.getCourseId());
+
+        return !results.isEmpty();
     }
 }

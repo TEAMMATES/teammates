@@ -155,11 +155,17 @@ public class CoursesDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = Course.class;
         String primaryKeyName = "ID";
+        CourseAttributes ca = (CourseAttributes) attributes;
+        String id = ca.getId();
+
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String idParam");
         q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((CourseAttributes) attributes).getId()) != null;
+
+        List<?> results = (List<?>) q.execute(id);
+
+        return !results.isEmpty();
     }
 
     private Course getCourseEntity(String courseId) {

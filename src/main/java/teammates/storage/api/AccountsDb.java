@@ -240,10 +240,16 @@ public class AccountsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = Account.class;
         String primaryKeyName = "googleId";
+        AccountAttributes aa = (AccountAttributes) attributes;
+        String id = aa.googleId;
+
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String idParam");
         q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((AccountAttributes) attributes).googleId) != null;
+
+        List<?> results = (List<?>) q.execute(id);
+
+        return !results.isEmpty();
     }
 }

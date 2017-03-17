@@ -318,11 +318,24 @@ public class AdminEmailsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = AdminEmail.class;
         String primaryKeyName = "emailId";
+        AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
+        String id = aea.emailId;
+
         Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((AdminEmailAttributes) attributes).emailId) != null;
+        List<?> results;
+
+        if (id != null) {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
+        } else {
+            q.declareParameters("String subjectParam, java.util.Date createDateParam");
+            q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
+            results = (List<?>) q.execute(aea.subject, aea.createDate);
+        }
+
+        return !results.isEmpty();
     }
 
 }
