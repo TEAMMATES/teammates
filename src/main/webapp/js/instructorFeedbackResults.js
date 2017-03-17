@@ -212,18 +212,18 @@ function toggleCollapse(e, pans) {
     var shouldExpandPanels = $(e).html().trim().startsWith(expand);
 
     if (shouldExpandPanels) {
-        // toggleCollapse binds with clicking on both collapse panels button(button for all panels)
-        // and collapse panels button section (button for one panel).
-        var isCollapsePanelsButtonClicked = $(e).is($('#collapse-panels-button'));
-
         // Expand each panel if not yet expanded.
-        // When a panel has class ajax_auto or auto-response-auto, the panel data has not been loaded yet.
-        // We will load the data  by ajax and ajax_auto or auto-response-auto class will be removed.
-        // Class ajax_auto or auto-response-auto is found in {@code panels} only if this method is invoked
-        // when collapse panels button is clicked.
+        // When a panel has class ajax_auto or ajax-response-auto, the panel data has not been loaded yet.
+        // We will load the data by Ajax, and ajax_auto or ajax-response-auto class will be removed.
+        // {@link #toggleCollapse} binds with clicking on both collapse panels button(button for all panels)
+        // and collapse panels button section (button for one panel). Class ajax_auto or ajax-response-auto
+        // is found in {@code panels} only if {@link #toggleCollapse} is invoked by clicking on collapse
+        // panels button.
+        var mightNeedAjaxLoading = $(e).is($('#collapse-panels-button'));
+
         var i = 0;
         for (var idx = 0; idx < panels.length; idx++) {
-            if (isCollapsePanelsButtonClicked) {
+            if (mightNeedAjaxLoading) {
                 var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
                 var $ajaxResponseAuto = $(panels[idx]).parent().children('.ajax-response-auto');
                 var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
