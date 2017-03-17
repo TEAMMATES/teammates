@@ -1,4 +1,5 @@
 /* global bindBackToTopButtons:false */
+
 $(document).ready(() => {
     $('#timeFramePanel').toggle();
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');

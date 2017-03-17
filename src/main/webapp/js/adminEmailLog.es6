@@ -6,6 +6,12 @@
 let retryTimes = 0;
 const numOfEntriesPerPage = 50;
 
+$(document).ready(() => {
+    bindClickAction();
+    clickOlderButtonIfNeeded();
+    $('#filterReference').toggle();
+});
+
 function toggleReference() {
     $('#filterReference').toggle('slow');
 
@@ -20,13 +26,13 @@ function toggleReference() {
     }
 }
 
+function bindClickAction() {
+    $('body').unbind('click', handler).on('click', '.log', handler);
+}
+
 function handler() {
     $(this).next('#small').toggle();
     $(this).next('#small').next('#big').toggle();
-}
-
-function bindClickAction() {
-    $('body').unbind('click', handler).on('click', '.log', handler);
 }
 
 function clickOlderButtonIfNeeded() {
@@ -42,10 +48,6 @@ function clickOlderButtonIfNeeded() {
             retryTimes += 1;
         }
     }
-}
-
-function setFormErrorMessage(button, msg) {
-    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
 }
 
 function submitFormAjax(offset) {
@@ -86,11 +88,9 @@ function submitFormAjax(offset) {
     });
 }
 
-$(document).ready(() => {
-    bindClickAction();
-    clickOlderButtonIfNeeded();
-    $('#filterReference').toggle();
-});
+function setFormErrorMessage(button, msg) {
+    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
+}
 
 /*
 export default {

@@ -19,10 +19,6 @@ function toggleReference() {
     }
 }
 
-function setFormErrorMessage(button, msg) {
-    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
-}
-
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     const params = `logTimeInAdminTimeZone=${time
                   }&logRole=${role
@@ -54,14 +50,6 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
             }, 500);
         },
     });
-}
-
-function updateInfoForRecentActionButton() {
-    const isShowAll = $('#ifShowAll').val();
-    $('.ifShowAll_for_person').val(isShowAll);
-
-    const isShowTestData = $('#ifShowTestData').val();
-    $('.ifShowTestData_for_person').val(isShowTestData);
 }
 
 function submitFormAjax(searchTimeOffset) {
@@ -101,6 +89,18 @@ function submitFormAjax(searchTimeOffset) {
             }, 500);
         },
     });
+}
+
+function setFormErrorMessage(button, msg) {
+    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
+}
+
+function updateInfoForRecentActionButton() {
+    const isShowAll = $('#ifShowAll').val();
+    $('.ifShowAll_for_person').val(isShowAll);
+
+    const isShowTestData = $('#ifShowTestData').val();
+    $('.ifShowTestData_for_person').val(isShowTestData);
 }
 
 /*
