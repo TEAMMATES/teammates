@@ -1874,7 +1874,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
         feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
-    
+
     public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
             throws InvalidParametersException, EntityDoesNotExistException {
 
