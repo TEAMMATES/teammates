@@ -520,20 +520,18 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
-        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
-        if (frcList.isEmpty()) {
+        Query q = getPm().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam");
+        q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam && createdAt == createdAtParam");
+
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> results = (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
+
+        if (results.isEmpty()) {
             return null;
         }
 
-        for (FeedbackResponseComment frc : frcList) {
-            if (!JDOHelper.isDeleted(frc)
-                    && frc.getCourseId().equals(courseId)
-                    && frc.getGiverEmail().equals(giverEmail)
-                    && frc.getCreatedAt().equals(createdAt)) {
-                return frc;
-            }
-        }
-        return null;
+        return results.get(0);
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForGiver(String courseId, String giverEmail) {
