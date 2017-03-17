@@ -499,11 +499,24 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackResponseComment.class;
         String primaryKeyName = "feedbackResponseCommentId";
+        FeedbackResponseCommentAttributes frca = (FeedbackResponseCommentAttributes) attributes;
+        Long id = frca.getId();
+
         Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((FeedbackResponseCommentAttributes) attributes).getId()) != null;
+        List<?> results;
+
+        if (id != null) {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
+        } else {
+            q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam");
+            q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam && createdAt == createdAtParam");
+            results = (List<?>) q.execute(frca.courseId, frca.createdAt, frca.giverEmail);
+        }
+
+        return !results.isEmpty();
     }
 
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
