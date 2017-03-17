@@ -56,8 +56,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
             logic.createFeedbackSession(fs);
 
             try {
-                createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                fs.getCreatorEmail(), feedbackSessionType);
+                createTemplateFeedbackQuestions(
+                        fs.getCourseId(), fs.getFeedbackSessionName(), fs.getCreatorEmail(), feedbackSessionType);
             } catch (InvalidParametersException e) {
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -95,12 +95,12 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
 
         if (feedbackSessions.isEmpty()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY,
-                                               StatusMessageColor.WARNING));
+            statusToUser.add(new StatusMessage(
+                    Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
 
-        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
-                                       feedbackSessionType);
+        data.initWithoutHighlightedRow(
+                courses, courseId, feedbackSessions, instructors, fs, feedbackSessionType);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }

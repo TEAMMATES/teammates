@@ -66,7 +66,7 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
         newSession.setInstructions(new Text(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
-        newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING
-                .toString()));
+        newSession.setOpeningEmailEnabled(
+                sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
     }
 }

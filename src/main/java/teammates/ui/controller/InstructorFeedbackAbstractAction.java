@@ -34,7 +34,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         setTime(newSession);
         setTimeZone(newSession);
         setGracePeriod(newSession);
-
         setResultsVisibleFromTime(newSession);
 
         // handle session visible after results visible to avoid having a
@@ -121,8 +120,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String[] sendReminderEmailsArray =
                 getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList =
-                sendReminderEmailsArray == null ? new ArrayList<String>()
-                                                : Arrays.asList(sendReminderEmailsArray);
+                sendReminderEmailsArray == null ? new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
         newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
         this.setUniqueAttributesForSession(newSession, sendReminderEmailsList);
@@ -153,8 +151,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      */
     protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId,
-                                                                                 omitArchived);
+        List<InstructorAttributes> instructors =
+                logic.getInstructorsForGoogleId(account.googleId, omitArchived);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
