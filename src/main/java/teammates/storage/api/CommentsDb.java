@@ -675,23 +675,25 @@ public class CommentsDb extends EntitiesDb {
     private Comment getCommentEntity(String courseId, String giverEmail, CommentParticipantType recipientType,
                                      Set<String> recipients, Date date) {
         String firstRecipient = recipients.iterator().next();
-        List<Comment> commentList = getCommentEntitiesForRecipients(courseId, recipientType, firstRecipient);
 
-        if (commentList.isEmpty()) {
+        Query q = getPm().newQuery(Comment.class);
+        q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam, "
+                            + "String recipientTypeParam, String receiverParam");
+        q.setFilter("courseId == courseIdParam "
+                    + "&& giverEmail == giverEmailParam "
+                    + "&& createdAt == createdAtParam "
+                    + "&& recipientType == recipientTypeParam "
+                    + "&& recipients.contains(receiverParam)");
+        Object[] params = new Object[]{courseId, giverEmail, date, recipientType.toString(),
+                SanitizationHelper.sanitizeForHtml(firstRecipient)};
+
+        @SuppressWarnings("unchecked")
+        List<Comment> results = (List<Comment>) q.executeWithArray(params);
+
+        if (results.isEmpty()) {
             return null;
         }
 
-        //JDO query can't seem to handle Text comparison correctly,
-        //we have to compare the texts separately.
-        for (Comment comment : commentList) {
-            if (!JDOHelper.isDeleted(comment)
-                    && comment.getGiverEmail().equals(giverEmail)
-                    && comment.getCreatedAt().equals(date)
-                    && comment.getRecipients().equals(SanitizationHelper.sanitizeForHtml(recipients))) {
-                return comment;
-            }
-        }
-
-        return null;
+        return results.get(0);
     }
 }
