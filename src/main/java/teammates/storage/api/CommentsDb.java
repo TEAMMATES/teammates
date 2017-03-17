@@ -650,11 +650,31 @@ public class CommentsDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = Comment.class;
         String primaryKeyName = "commentId";
+        CommentAttributes ca = (CommentAttributes) attributes;
+        Long id = ca.getCommentId();
+
         Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((CommentAttributes) attributes).getCommentId()) != null;
+        List<?> results;
+
+        if (id != null) {
+            q.declareParameters("Long idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            results = (List<?>) q.execute(id);
+        } else {
+            q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam, "
+                    + "String recipientTypeParam, String receiverParam");
+            q.setFilter("courseId == courseIdParam "
+                        + "&& giverEmail == giverEmailParam "
+                        + "&& createdAt == createdAtParam "
+                        + "&& recipientType == recipientTypeParam "
+                        + "&& recipients.contains(receiverParam)");
+            Object[] params = new Object[]{ca.courseId, ca.giverEmail, ca.createdAt, ca.recipientType.toString(),
+                    SanitizationHelper.sanitizeForHtml(ca.recipients.iterator().next())};
+            results = (List<?>) q.executeWithArray(params);
+        }
+
+        return !results.isEmpty();
     }
 
     // Gets a comment entity if the ID is known
