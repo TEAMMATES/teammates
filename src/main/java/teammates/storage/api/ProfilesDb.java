@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -225,10 +226,16 @@ public class ProfilesDb extends EntitiesDb {
     public boolean hasEntity(EntityAttributes attributes) {
         Class<?> entityClass = StudentProfile.class;
         String primaryKeyName = "profileId";
+        StudentProfileAttributes spa = (StudentProfileAttributes) attributes;
+        String id = spa.googleId;
+
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String idParam");
         q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
-        return q.execute(((StudentProfileAttributes) attributes).googleId) != null;
+
+        List<?> results = (List<?>) q.execute(id);
+
+        return !results.isEmpty();
     }
 }
