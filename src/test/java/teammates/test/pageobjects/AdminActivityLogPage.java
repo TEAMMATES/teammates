@@ -29,7 +29,7 @@ public class AdminActivityLogPage extends AppPage {
 
     public String getPersonInfoOfFirstEntry() {
 
-        WebElement table = browser.driver.findElement(By.id("activity-logs-table"));
+        WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
         WebElement element = tableRow.findElement(By.tagName("small"));
         WebElement hiddenInput = element.findElement(By.name("filterQuery"));
@@ -38,7 +38,7 @@ public class AdminActivityLogPage extends AppPage {
 
     public void clickViewActionsButtonOfFirstEntry() {
 
-        WebElement table = browser.driver.findElement(By.id("activity-logs-table"));
+        WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
         WebElement element = tableRow.findElement(By.tagName("button"));
         click(element);
@@ -71,18 +71,17 @@ public class AdminActivityLogPage extends AppPage {
     }
 
     public WebElement getLogsTable() {
-        List<WebElement> list = browser.driver.findElements(By.id("activity-logs-table"));
+        List<WebElement> list = browser.driver.findElements(By.id("logsTable"));
         if (list.isEmpty()) {
             return null;
         }
 
-        return browser.driver.findElement(By.id("activity-logs-table"));
+        return browser.driver.findElement(By.id("logsTable"));
     }
 
     public int getNumberOfTableHeaders() {
         if (isLogsTableVisible()) {
-            List<WebElement> headerList = browser.driver
-                    .findElements(By.cssSelector("#activity-logs-table > thead > tr > th"));
+            List<WebElement> headerList = browser.driver.findElements(By.cssSelector("#logsTable > thead > tr > th"));
             return headerList.size();
         }
         return 0;
@@ -100,8 +99,7 @@ public class AdminActivityLogPage extends AppPage {
     }
 
     public void clickUserTimezoneAtFirstRow() {
-        WebElement button = browser.driver
-                .findElement(By.cssSelector("#activity-logs-table td > a"));
+        WebElement button = browser.driver.findElement(By.cssSelector("#first-row > td > a"));
         click(button);
     }
 
@@ -111,17 +109,16 @@ public class AdminActivityLogPage extends AppPage {
     }
 
     public By getFirstActivityLogRow() {
-        return By.id("#activity-logs-table tr");
+        return By.id("first-row");
     }
 
     public boolean isUserTimezoneAtFirstRowClicked() {
-        List<WebElement> elements = browser.driver
-                .findElements(By.cssSelector("#activity-logs-table td > mark"));
+        List<WebElement> elements = browser.driver.findElements(By.cssSelector("#first-row > td > mark"));
         return !elements.isEmpty();
     }
 
     public Date getDateOfEarliestLog() throws ParseException {
-        String dateFormat = "MM/dd/yyyy HH:mm:ss SSS";
+        String dateFormat = "dd-MM-yyyy HH:mm:ss";
         DateFormat sdf = new SimpleDateFormat(dateFormat);
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
 

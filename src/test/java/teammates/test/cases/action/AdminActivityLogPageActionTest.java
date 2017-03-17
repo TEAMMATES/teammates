@@ -23,7 +23,6 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminActivityLogPageData;
 import teammates.ui.pagedata.PageData;
-import teammates.ui.template.AdminActivityLogTableRow;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -140,11 +139,11 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "testdata", "true");
 
         // not show test data, show excluded URI
-        expected = new int[][]{{0, 1, 3, 4, 5, 7, 8}};
+        expected = new int[][]{{0, 1, 3, 4, 5, 7, 8, 9}};
         verifyActionResult(expected, "all", "true");
 
         // show everything
-        expected = new int[][]{{0, 1, 2, 3, 4, 5, 6, 7, 8}};
+        expected = new int[][]{{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
         verifyActionResult(expected, "testdata", "true", "all", "true");
     }
 
@@ -231,12 +230,12 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
 
         // filterQuery with showing all URI
-        int[][] expected = new int[][]{{0, 3, 5, 7, 8}};
+        int[][] expected = new int[][]{{0, 3, 5, 7, 8, 9}};
         String query = "info:keyword1";
         verifyActionResult(expected, "filterQuery", query, "all", "true");
 
         // another filterQuery with showing all URI
-        expected = new int[][]{{0, 1, 3, 7, 8}, {0, 1, 4}, {3}};
+        expected = new int[][]{{0, 1, 3, 7, 8, 9}, {0, 1, 4}, {3}};
         query = String.format("person:Name1 | from:%s and to:%s",
                 formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(today));
         verifyActionResult(expected, "filterQuery", query, "all", "true");
@@ -274,14 +273,14 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // test statusMessage for default search
         AdminActivityLogPageAction action = getAction();
         String statusMessage = getShowPageResult(action).getStatusMessage();
-        verifyStatusMessage(statusMessage, 11, 5, yesterday);
+        verifyStatusMessage(statusMessage, 12, 5, yesterday);
         verifyLocalTimeInStatusMessage(statusMessage, yesterday, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
 
         // test statusMessage with filterQuery
         String query = "person:idOfInstructor1OfCourse1";
         action = getAction("filterQuery", query);
         statusMessage = getShowPageResult(action).getStatusMessage();
-        verifyStatusMessage(statusMessage, 11, 1, yesterday);
+        verifyStatusMessage(statusMessage, 12, 1, yesterday);
 
         // test statusMessage with `to`
         query = "to:" + formatterAdminTime.format(yesterday);
@@ -296,7 +295,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         action = getAction("filterQuery", query);
         Calendar fromDate = adminTimeZoneToUtc(getBeginOfTheDayOffsetNowInAdminTimeZone(-1));
         statusMessage = getShowPageResult(action).getStatusMessage();
-        verifyStatusMessage(statusMessage, 17, 8, fromDate.getTime());
+        verifyStatusMessage(statusMessage, 18, 8, fromDate.getTime());
         verifyLocalTimeInStatusMessage(statusMessage, fromDate.getTime(), Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
@@ -358,7 +357,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         params = new String[] {"searchTimeOffset", String.valueOf(yesterday.getTime()),
                 "filterQuery", String.format("from:%s", formatterAdminTime.format(yesterday))};
         Calendar yesterdayBegin = adminTimeZoneToUtc(getBeginOfTheDayOffsetNowInAdminTimeZone(-1));
-        verifyContinueSearch(params, expected, 17, 8, yesterdayBegin.getTime());
+        verifyContinueSearch(params, expected, 18, 8, yesterdayBegin.getTime());
 
         // `to` present, search with 1 day interval
         expected = new int[][]{{}, {}, {0, 1}};
@@ -393,16 +392,16 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // continue search will get next #logs around 50
         long nextSearch = today.getTime() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("searchTimeOffset", String.valueOf(nextSearch));
-        result = getShowPageResult(action);
+        AjaxResult resultAjax = getAjaxResult(action);
         earliestDateInUtc = new Date(today.getTime() - 110 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
-        verifyManyLogs(56, 55, 110, result.data, result.getStatusMessage(), earliestDateInUtc);
+        verifyManyLogs(56, 55, 110, resultAjax.data, resultAjax.getStatusMessage(), earliestDateInUtc);
 
         // continue search will get logs until no logs
         nextSearch = today.getTime() - 112 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("searchTimeOffset", String.valueOf(nextSearch));
-        result = getShowPageResult(action);
+        resultAjax = getAjaxResult(action);
         earliestDateInUtc = new Date(nextSearch - 24 * 60 * 60 * 1000);
-        verifyManyLogs(39, 111, 149, result.data, result.getStatusMessage(), earliestDateInUtc);
+        verifyManyLogs(39, 111, 149, resultAjax.data, resultAjax.getStatusMessage(), earliestDateInUtc);
 
         // default search with filter stop at #logs around 50
         action = getAction("filterQuery", "request:testdata1");
@@ -413,25 +412,25 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // continue search with filter will get logs until no logs
         nextSearch = today.getTime() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("filterQuery", "request:testdata1", "searchTimeOffset", String.valueOf(nextSearch));
-        result = getShowPageResult(action);
+        resultAjax = getAjaxResult(action);
         earliestDateInUtc = new Date(nextSearch - 24 * 60 * 60 * 1000);
-        verifyManyLogs(95, 55, 60, result.data, result.getStatusMessage(), earliestDateInUtc);
+        verifyManyLogs(95, 55, 60, resultAjax.data, resultAjax.getStatusMessage(), earliestDateInUtc);
     }
 
     private void verifyContinueSearch(String[] params, int[][] expected, int totalLogs,
             int filteredLogs, Date earliestDateInUtc) {
         AdminActivityLogPageAction action = getAction(params);
-        ShowPageResult result = getShowPageResult(action);
+        AjaxResult result = getAjaxResult(action);
         AdminActivityLogPageData pageData = (AdminActivityLogPageData) result.data;
         verifyStatusMessage(result.getStatusMessage(), totalLogs, filteredLogs, earliestDateInUtc);
-        verifyLogs(expected, getLogsFromLogTemplateRows(pageData.getLogs()));
+        verifyLogs(expected, pageData.getLogs());
     }
 
     private void verifyActionResult(int[][] expectedLogs, String... params) {
         AdminActivityLogPageAction action = getAction(params);
         ShowPageResult result = getShowPageResult(action);
         AdminActivityLogPageData pageData = (AdminActivityLogPageData) result.data;
-        List<ActivityLogEntry> actualLogs = getLogsFromLogTemplateRows(pageData.getLogs());
+        List<ActivityLogEntry> actualLogs = pageData.getLogs();
         verifyLogs(expectedLogs, actualLogs);
     }
 
@@ -497,8 +496,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     private void verifyManyLogs(int totalLogs, int first, int last,
             PageData pageData, String statusMessage, Date earliestDateInUtc) {
-        List<ActivityLogEntry> actualLogs =
-                getLogsFromLogTemplateRows(((AdminActivityLogPageData) pageData).getLogs());
+        List<ActivityLogEntry> actualLogs = ((AdminActivityLogPageData) pageData).getLogs();
         int numLogs = last - first + 1;
 
         verifyLogsIdInRange(actualLogs, first, last);
@@ -510,14 +508,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         for (int i = 0; i < actualLogs.size(); i++) {
             assertEquals(String.format("id4%02d", first + i), actualLogs.get(i).getId());
         }
-    }
-
-    private List<ActivityLogEntry> getLogsFromLogTemplateRows(List<AdminActivityLogTableRow> rows) {
-        List<ActivityLogEntry> logs = new ArrayList<ActivityLogEntry>();
-        for (AdminActivityLogTableRow row : rows) {
-            logs.add(row.getLogEntry());
-        }
-        return logs;
     }
 
     private void insertLogMessagesAtTime(List<String> msgList, long timeMillis) {

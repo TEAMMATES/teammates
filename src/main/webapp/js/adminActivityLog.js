@@ -3,7 +3,6 @@
 $(document).ready(function() {
     $('#filterReference').toggle();
     AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
-    highlightKeywordsInLogMessages();
 });
 
 function toggleReference() {
@@ -58,25 +57,36 @@ function submitFormAjax(searchTimeOffset) {
 
     var formObject = $('#ajaxLoaderDataForm');
     var formData = formObject.serialize();
-    var $button = $('#button_older');
-    var $logsTable = $('#activity-logs-table > tbody');
+    var button = $('#button_older');
+    var lastLogRow = $('#logsTable tr:last');
 
     $.ajax({
         type: 'POST',
         url: '/admin/adminActivityLogPage?' + formData,
         beforeSend: function() {
-            addLoadingIndicator($button, '');
+            button.html("<img src='/images/ajax-loader.gif'/>");
         },
         error: function() {
-            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
-            removeLoadingIndicator($button, 'Retry');
+            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
+            button.html('Retry');
         },
         success: function(data) {
-            var $data = $(data);
-            $logsTable.append($data.find('#activity-logs-table > tbody').html());
-            updateInfoForRecentActionButton();
-            highlightKeywordsInLogMessages();
-            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
+            setTimeout(function() {
+                if (data.isError) {
+                    setFormErrorMessage(button, data.errorMessage);
+                } else {
+                    // Inject new log row
+                    var logs = data.logs;
+                    $.each(logs, function(i, value) {
+                        lastLogRow.after(value.logInfoAsHtml);
+                        lastLogRow = $('#logsTable tr:last');
+                    });
+
+                    updateInfoForRecentActionButton();
+                }
+
+                setStatusMessage(data.statusForAjax, StatusType.INFO);
+            }, 500);
         }
     });
 }
@@ -91,23 +101,4 @@ function updateInfoForRecentActionButton() {
 
     var isShowTestData = $('#ifShowTestData').val();
     $('.ifShowTestData_for_person').val(isShowTestData);
-}
-
-/**
- * Highlights default/search keywords in log messages.
- */
-function highlightKeywordsInLogMessages() {
-    var allLogMessages = $('.log-message');
-    // highlight search keywords
-    var searchKeywords = $('#query-keywords-for-info').val();
-    var searchKeywordsList = searchKeywords.split(',');
-    allLogMessages.highlight(searchKeywordsList);
-
-    // highlight default keywords
-    var defaultKeywords = $('#query-keywords-default-for-info').val();
-    var defaultKeywordsList = defaultKeywords.split(',');
-    allLogMessages.highlight(defaultKeywordsList, {
-        element: 'b',
-        className: ' '
-    });
 }
