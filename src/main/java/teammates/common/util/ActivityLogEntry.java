@@ -63,7 +63,7 @@ public class ActivityLogEntry {
     private String[] keyStringsToHighlight;
 
     /**
-     * Constructor that creates a empty ActivityLog
+     * Constructor that creates a empty ActivityLog.
      */
     public ActivityLogEntry(String servlet, String params, String link) {
         time = System.currentTimeMillis();
@@ -102,8 +102,7 @@ public class ActivityLogEntry {
     }
 
     /**
-     * Constructor that creates an ActivityLog object from scratch
-     * Used in the various servlets in the application
+     * Constructor that creates an ActivityLog object from scratch.
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link,
                             UserType userType) {
@@ -285,7 +284,7 @@ public class ActivityLogEntry {
 
     /**
      * Assumption: the {@code requestUrl} is in the format "/something/actionName"
-     *   possibly followed by "?something" e.g., "/page/studentHome?user=abc"
+     *   possibly followed by "?something" e.g., "/page/studentHome?user=abc".
      * @return action name in the URL e.g., "studentHome" in the above example.
      */
     public static String getActionName(String requestUrl) {
@@ -293,7 +292,7 @@ public class ActivityLogEntry {
     }
 
     /**
-     * Generates a log message that will be logged in the server
+     * Generates a log message that will be logged in the server.
      */
     public String generateLogMessage() {
         //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
@@ -506,122 +505,6 @@ public class ActivityLogEntry {
                                                              url, courseId, studentEmail, userType);
 
         return exceptionLog.generateLogMessage();
-    }
-
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, EmailWrapper errorEmail,
-                                                             UserType userType) {
-        String[] actionTaken = req.getServletPath().split("/");
-        String action = req.getServletPath();
-        if (actionTaken.length > 0) {
-            action = actionTaken[actionTaken.length - 1]; //retrieve last segment in path
-        }
-        String url = HttpRequestHelper.getRequestedUrl(req);
-
-        String message;
-
-        try {
-            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span>"
-                    + "<br>"
-                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">"
-                        + "Show/Hide Details >>"
-                    + "</a>"
-                    + "<br>"
-                    + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
-                        + errorEmail.getContent()
-                    + "</span>";
-        } catch (Exception e) {
-            message = "System Error: Unable to retrieve Email Report: "
-                    + TeammatesException.toStringWithStackTrace(e);
-        }
-
-        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
-        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
-
-        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
-                                                               message, url, courseId, studentEmail, userType);
-
-        return emailReportLog.generateLogMessage();
-    }
-
-    private String getInstructorHomePageViewLink(String googleId) {
-        String link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
-        return link;
-    }
-
-    private String getStudentHomePageViewLink(String googleId) {
-        String link = Const.ActionURIs.STUDENT_HOME_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
-        return link;
-    }
-
-    public String getLogInfoForTableRowAsHtml() {
-        return "<tr" + (isFirstRow ? " id=\"first-row\"" : "") + ">"
-                 + "<td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
-                     + "<a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">"
-                         + getDateInfo()
-                     + "</a>"
-                     + "<p class=\"localTime\"></p>"
-                     + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
-                         + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
-                     + "</p>"
-                 + "</td>"
-                 + "<td class=\"" + getTableCellColorCode(timeTaken) + "\">"
-                     + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\">"
-                         + "<h4 class=\"list-group-item-heading\">"
-                             + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
-                             + "<small> id:" + id + " " + getPersonInfo() + "</small>" + "&nbsp;"
-                             + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() + " btn-xs\">"
-                                 + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
-                             + "</button>"
-                             + "<input type=\"hidden\" name=\"filterQuery\""
-                                     + " value=\"person:" + getAvailableIdenficationString() + "\">"
-                             + "<input class=\"ifShowAll_for_person\" type=\"hidden\" name=\"all\""
-                                     + " value=\"false\">"
-                             + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\""
-                                     + " value=\"false\">"
-                         + "</h4>"
-                         + "<div>" + getMessageInfo() + "</div>"
-                     + "</form>"
-                 + "</td>"
-             + "</tr>";
-    }
-
-    private String getAvailableIdenficationString() {
-        if (!getGoogleId().contentEquals("Unregistered") && !getGoogleId().contentEquals("Unknown")) {
-            return getGoogleId();
-        }
-        if (getEmail() != null && !getEmail().contentEquals("Unknown")) {
-            return getEmail();
-        }
-        if (getName() != null && !getName().contentEquals("Unknown")) {
-            return getName();
-        }
-        return "";
-    }
-
-    public void highlightKeyStringInMessageInfoHtml() {
-
-        if (keyStringsToHighlight == null) {
-            return;
-        }
-
-        for (String stringToHighlight : keyStringsToHighlight) {
-            if (message.toLowerCase().contains(stringToHighlight.toLowerCase())) {
-
-                int startIndex = message.toLowerCase().indexOf(stringToHighlight.toLowerCase());
-                int endIndex = startIndex + stringToHighlight.length();
-                String realStringToHighlight = message.substring(startIndex, endIndex);
-                message = message.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
-            }
-        }
-
-        logInfoAsHtml = getLogInfoForTableRowAsHtml();
-
-    }
-
-    public void setFirstRow() {
-        isFirstRow = true;
     }
 
     public boolean isTestingData() {

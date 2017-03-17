@@ -20,7 +20,7 @@ import teammates.common.util.TimeHelper;
 public class AdminActivityLogPageData extends PageData {
 
     /**
-     * this array stores the requests to be excluded from being shown in admin activity logs page
+     * Stores the requests to be excluded from being shown in admin activity logs page.
      */
     private static String[] excludedLogRequestURIs = {
             Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
@@ -128,8 +128,8 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     /**
-     * Checks in an array contains a specific value
-     * value is converted to lower case before comparing
+     * Checks that an array contains a specific value.
+     * (value is converted to lower case before comparing)
      */
     private boolean arrayContains(String[] array, String value) {
         for (String element : array) {
@@ -141,7 +141,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     /**
-     * Creates a QueryParameters object used for filtering
+     * Creates a QueryParameters object used for filtering.
      */
     public void generateQueryParameters(String query) {
         filterQuery = query.trim();
@@ -249,8 +249,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     /**
-     * Converts the query string into a QueryParameters object
-     *
+     * Converts the query string into a QueryParameters object.
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
@@ -309,7 +308,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     /**
-     * @return possible servlet requests list as html
+     * Returns the possible servlet requests list as html.
      */
     public String getActionListAsHtml() {
         List<String> allActionNames = getAllActionNames();
@@ -397,9 +396,7 @@ public class AdminActivityLogPageData extends PageData {
         }
 
         String[] splitedString = rawActionString.split("/");
-        String actionString = splitedString[splitedString.length - 1];
-
-        return actionString;
+        return splitedString[splitedString.length - 1];
     }
 
     /**
@@ -441,7 +438,7 @@ public class AdminActivityLogPageData extends PageData {
         }
 
         /**
-         * add a label and values in
+         * Add a label and values in.
          */
         public void add(String label, String[] values) throws InvalidParametersException {
             switch (label) {

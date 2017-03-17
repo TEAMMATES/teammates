@@ -5,7 +5,9 @@ import java.util.TimeZone;
 
 import com.google.appengine.api.log.AppLogLine;
 
-/** A log entry which contains info about subject, receiver, content and sent date of a sent email*/
+/**
+ * A log entry which contains info about subject, receiver, content and sent date of a sent email.
+ */
 public class EmailLogEntry {
 
     private String receiver;
@@ -68,7 +70,7 @@ public class EmailLogEntry {
     }
 
     /**
-     * Generates a log message that will be logged in the server
+     * Generates a log message that will be logged in the server.
      */
     public String generateLogMessage() {
         //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT

@@ -11,7 +11,7 @@ import teammates.logic.api.TaskQueuer;
 /**
  * Allows mocking of the {@link TaskQueuer} API used in production.
  *
- * Instead of actually adding the task to the dev/production server's task queue,
+ * <p>Instead of actually adding the task to the dev/production server's task queue,
  * the API will perform some operations that allow the queued tasks to be tracked.
  */
 public class MockTaskQueuer extends TaskQueuer {

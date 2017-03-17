@@ -26,11 +26,11 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
 
-        private void setCreatedAt(Date createdAt) {
+        void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
         }
 
-        private void setUpdatedAt(Date updatedAt) {
+        void setUpdatedAt(Date updatedAt) {
             this.updatedAt = updatedAt;
         }
 

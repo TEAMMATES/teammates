@@ -28,7 +28,7 @@ import teammates.ui.pagedata.PageData;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Action: Create a new {@link CommentAttributes}
+ * Action: Create a new {@link CommentAttributes}.
  */
 public class InstructorStudentCommentAddAction extends Action {
 

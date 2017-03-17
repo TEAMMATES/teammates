@@ -379,7 +379,9 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
 
-    @Test(groups = "manyLogs", dependsOnGroups = "typicalLogs")
+    // The two test groups should have different 'priority' so that they can run separately
+    // as they depend on different sets of log messages
+    @Test(groups = "manyLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
 
@@ -440,9 +442,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
      * <p>expectedLogs is a 2D array, the outer indices correspond to {@link #LOG_MESSAGE_INDEX_TODAY}
      * {@link #LOG_MESSAGE_YESTDAY_INDEX} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
      * every {@code LOG_MESSAGE_*_INDEX} correspond to the orders in the test data.
-     *
-     * @param expectedLogs
-     * @param actualLogs
      */
     private void verifyLogs(int[][] expectedLogs, List<ActivityLogEntry> actualLogs) {
         List<String> expectedMsgs = generateExpectedMsgFrom(expectedLogs);

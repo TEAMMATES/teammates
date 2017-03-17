@@ -31,13 +31,9 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorPrivileges privileges;
 
     /**
-     * Creates a new instructor with default access level and default displayedName
-     * Deprecated as it is only to be used for testing
+     * Creates a new instructor with default access level and default displayedName.
      *
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
+     * @deprecated only to be used for testing
      */
     @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
@@ -47,15 +43,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
-     * Creates a new instructor with params specified(isDisplayedToStudent is set to true by default)
-     *
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
-     * @param role
-     * @param displayedName
-     * @param instructorPrivilegesAsText
+     * Creates a new instructor with params specified (isDisplayedToStudent is set to true by default).
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, String instructorPrivilegesAsText) {
@@ -71,15 +59,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
-     * Create an instructor(isDisplayedToStudent is set to true by default)
-     *
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
-     * @param role
-     * @param displayedName
-     * @param privileges
+     * Creates an instructor (isDisplayedToStudent is set to true by default).
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 String displayedName, InstructorPrivileges privileges) {
@@ -95,16 +75,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
-     * create an instructor
-     *
-     * @param googleId
-     * @param courseId
-     * @param name
-     * @param email
-     * @param role
-     * @param isDisplayedToStudents
-     * @param displayName
-     * @param privileges
+     * Creates an instructor.
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
                                 boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
@@ -335,6 +306,8 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
+     * Returns true if this instructor object is equal with the given {@code instructor} object.
+     *
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
      *            {@code null}

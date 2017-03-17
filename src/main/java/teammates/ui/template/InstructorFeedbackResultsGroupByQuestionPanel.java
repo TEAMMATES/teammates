@@ -6,9 +6,7 @@ import teammates.common.util.FieldValidator;
 
 /**
  * Data model for the giver panel in InstructorFeedbackResults for Giver > Question > Recipient,
- * and for the recipient panel in Recipient > Question > Giver
- *
- *
+ * and for the recipient panel in Recipient > Question > Giver.
  */
 public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFeedbackResultsParticipantPanel {
 
@@ -35,7 +33,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
     }
 
     /**
-     * Constructs a GroupByQuestionPanel without a moderation button
+     * Constructs a GroupByQuestionPanel without a moderation button.
      */
     public InstructorFeedbackResultsGroupByQuestionPanel(
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
@@ -46,7 +44,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
     }
 
     /**
-     * Constructs a GroupByQuestionPanel with a moderation button
+     * Constructs a GroupByQuestionPanel with a moderation button.
      */
     public InstructorFeedbackResultsGroupByQuestionPanel(
                                     String participantIdentifier, String participantName,

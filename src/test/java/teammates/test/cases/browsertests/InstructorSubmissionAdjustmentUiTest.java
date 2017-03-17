@@ -19,7 +19,7 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
- * Covers Ui aspect of submission adjustment for evaluations and feedbacks
+ * Covers Ui aspect of submission adjustment for evaluations and feedbacks.
  */
 @Priority(1)
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {

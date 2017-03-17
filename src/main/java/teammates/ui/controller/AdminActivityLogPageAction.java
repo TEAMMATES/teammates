@@ -238,11 +238,10 @@ public class AdminActivityLogPageAction extends Action {
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminLogQuery query, AdminActivityLogPageData data) {
         GaeLogApi logApi = new GaeLogApi();
         List<AppLogLine> searchResult = logApi.fetchLogs(query);
-        List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
 
         nextEndTimeToSearch = data.getFromDate() - 1;
         totalLogsSearched = searchResult.size();
-        return filteredLogs;
+        return filterLogsForActivityLogPage(searchResult, data);
     }
 
     /**

@@ -30,16 +30,11 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for feedback response comments.
  *
- * @see {@link FeedbackResponseComment}
- * @see {@link FeedbackResponseCommentAttributes}
+ * @see FeedbackResponseComment
+ * @see FeedbackResponseCommentAttributes
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
-    /**
-     * This method is for testing only
-     * @param commentsToAdd
-     * @throws InvalidParametersException
-     */
     public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd)
             throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
@@ -298,8 +293,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
                                                      FeedbackResponseCommentAttributes newAttributes)
@@ -431,7 +424,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for response comments
+     * Searches for response comments.
      * @return {@link FeedbackResponseCommentSearchResultBundle}
      */
     public FeedbackResponseCommentSearchResultBundle search(String queryString,
@@ -447,6 +440,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
+     * Returns all feedback response comments in the Datastore.
+     *
      * @deprecated Not scalable. Don't use unless in admin features.
      */
     @Deprecated

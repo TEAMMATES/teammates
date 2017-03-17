@@ -10,7 +10,7 @@ import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
 
 /**
- * SUT: {@link EmailChecker}
+ * SUT: {@link EmailChecker}.
  */
 public class EmailCheckerTest {
 

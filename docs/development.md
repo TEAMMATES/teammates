@@ -45,14 +45,14 @@ Click the "Terminate" icon on the Eclipse console.
 1. Click `+ → Google AppEngine Dev Server`.
 1. Name it `Dev Server`.
 1. Click `Configure` next to `Application server`.
-1. Click `+ → ...`. Select the App Engine SDK you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+1. Click `+ → ...`. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
 1. Under `Open browser`, uncheck `After launch`.
 1. Set the `JRE` to `1.7`.
 1. Set the `Port` to `8888`.
 1. Under `Before launch`, click `+ → Run Gradle task`.
-1. Select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
+1. Click the folder icon, select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
 1. Click `OK`.
-1. Move the item you just created above "Build".
+1. Remove "Build" by selecting it and clicking `-`.
 1. Click `OK`.
 
 #### Starting the dev server
