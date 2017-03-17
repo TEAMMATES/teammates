@@ -412,11 +412,13 @@ function updateVisibilityMessageDiv($containingForm) {
 
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     // show the spinner here
-    showSpinnerWhenLoadingVisibilityPreview($visibilityMessageDiv, SPINNER_ID);
     $.ajax({
         type: 'POST',
         url: url,
         data: formData,
+        beforeSend: function() {
+            $visibilityMessageDiv.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
+        },
         success: function(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
@@ -427,20 +429,6 @@ function updateVisibilityMessageDiv($containingForm) {
             showAjaxErrorMessage($containingForm);
         }
     });
-}
-
-/**
- * Shows spinner when updating visibility preview
- */
-function showSpinnerWhenLoadingVisibilityPreview($visibilityMessageDiv, spinnerId) {
-    var spinner = document.createElement('img');
-    spinner.setAttribute("id", spinnerId);
-    spinner.setAttribute("src", SPINNER_GIF_SRC);
-    spinner.style.maxWidth = SPINNER_MAX_WIDTH;
-    spinner.style.maxHeight =  SPINNER_MAX_HEIGHT;
-    spinner.style.display = "block";
-    spinner.style.margin = "auto";
-    $visibilityMessageDiv.append(spinner);
 }
 
 function formatVisibilityMessageDivHtml(visibilityMessage) {
