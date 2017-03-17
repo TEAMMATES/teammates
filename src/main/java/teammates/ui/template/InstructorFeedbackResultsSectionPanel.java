@@ -46,7 +46,7 @@ public class InstructorFeedbackResultsSectionPanel {
 
     /**
      * Adds a participant panel. The participant panel will not be grouped with any team panel.
-     * @see {@link #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)}
+     * @see #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)
      */
     public void addParticipantPanel(InstructorFeedbackResultsParticipantPanel participantPanel) {
         addParticipantPanel("", participantPanel);
@@ -54,7 +54,7 @@ public class InstructorFeedbackResultsSectionPanel {
 
     /**
      * Adds a participant panel. The participant panel is grouped with the team panel with team {@code currentTeam}.
-     * @see {@link #addParticipantPanel(InstructorFeedbackResultsParticipantPanel)}
+     * @see #addParticipantPanel(InstructorFeedbackResultsParticipantPanel)
      */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {

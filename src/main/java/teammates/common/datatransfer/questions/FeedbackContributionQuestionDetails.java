@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -14,7 +15,6 @@ import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
@@ -428,7 +428,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     /**
-     * @return A Map with student email as key and StudentResultSummary as value for the specified question.
+     * Returns A Map with student email as key and StudentResultSummary as value for the specified question.
      */
     Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
@@ -451,7 +451,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     /**
-     * @return A Map with student email as key and TeamEvalResult as value for the specified question.
+     * Returns A Map with student email as key and TeamEvalResult as value for the specified question.
      */
     Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
@@ -468,9 +468,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
                 teamNames, teamMembersEmail, teamResponses);
 
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-
-        return teamResults;
+        return getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
     }
 
     private Map<String, StudentResultSummary> getStudentResults(
@@ -756,11 +754,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
 
         // restrictions on visibility options
-        Assumption.assertTrue("Contrib Qn Invalid visibility options",
-                feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+        if (!(feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                 == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
+            log.severe("Unexpected showResponsesTo for contribution question: "
+                       + feedbackQuestionAttributes.showResponsesTo + " (forced to :"
+                       + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
+                                               .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
+                       + ")");
+            feedbackQuestionAttributes.showResponsesTo = Arrays.asList(FeedbackParticipantType.RECEIVER,
+                                                                       FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                                                                       FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                                       FeedbackParticipantType.INSTRUCTORS);
+            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
+        }
 
         return errorMsg;
     }
@@ -851,7 +859,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     /**
-     * Return the CSS color of different point
+     * Returns the CSS color of different point.
      */
     private String getContributionOptionsColor(int points) {
         if (points == Const.POINTS_NOT_SURE
@@ -870,7 +878,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     /**
      * Converts points in integer to String.
-     * @param i
      * @return points in text form "Equal Share..."
      */
     static String convertToEqualShareFormat(int i) {
@@ -891,7 +898,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     /**
      * Converts points in integer to String for HTML display.
-     * @param i
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     static String convertToEqualShareFormatHtml(int i) {

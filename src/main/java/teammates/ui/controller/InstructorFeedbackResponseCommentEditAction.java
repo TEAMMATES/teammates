@@ -18,7 +18,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Action: Edit {@link FeedbackResponseCommentAttributes}
+ * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentEditAction extends Action {
     @Override

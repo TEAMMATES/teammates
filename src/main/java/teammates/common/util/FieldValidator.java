@@ -190,7 +190,7 @@ public class FieldValidator {
     ///////////////////////////////////////
 
     /**
-     * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%)
+     * Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%).
      */
     public static final String REGEX_NAME = "^[\\p{IsL}\\p{IsN}][^|%]*+$";
 
@@ -247,8 +247,7 @@ public class FieldValidator {
     /////////////////////////////////////////
 
     /**
-     * Checks if {@code emailContent} is not null and not empty
-     * @param emailContent
+     * Checks if {@code emailContent} is not null and not empty.
      * @return An explanation of why the {@code emailContent} is not acceptable.
      *         Returns an empty string if the {@code emailContent} is acceptable.
      */
@@ -263,7 +262,6 @@ public class FieldValidator {
     /**
      * Checks if {@code emailSubject} is a non-null non-empty string no longer than the specified length
      * {@code EMAIL_SUBJECT_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param emailSubject
      * @return An explanation of why the {@code emailSubject} is not acceptable.
      *         Returns an empty string if the {@code emailSubject} is acceptable.
      */
@@ -274,8 +272,7 @@ public class FieldValidator {
 
     /**
      * Checks if {@code email} is not null, not empty, not longer than {@code EMAIL_MAX_LENGTH}, and is a
-     * valid email address according to {@code REGEX_EMAIL}
-     * @param email
+     * valid email address according to {@code REGEX_EMAIL}.
      * @return An explanation of why the {@code email} is not acceptable.
      *         Returns an empty string if the {@code email} is acceptable.
      */
@@ -302,8 +299,7 @@ public class FieldValidator {
     /**
      * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
      * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
-     * or a valid email address that does not end in "@gmail.com"
-     * @param googleId
+     * or a valid email address that does not end in "@gmail.com".
      * @return An explanation of why the {@code googleId} is not acceptable.
      *         Returns an empty string if the {@code googleId} is acceptable.
      */
@@ -334,8 +330,7 @@ public class FieldValidator {
 
     /**
      * Checks if {@code courseId} is not null, not empty, has no surrounding whitespaces, not longer than
-     * {@code COURSE_ID_MAX_LENGTH}, is sanitized for HTML, and match the REGEX {@code REGEX_COURSE_ID}
-     * @param courseId
+     * {@code COURSE_ID_MAX_LENGTH}, is sanitized for HTML, and match the REGEX {@code REGEX_COURSE_ID}.
      * @return An explanation of why the {@code courseId} is not acceptable.
      *         Returns an empty string if the {@code courseId} is acceptable.
      */
@@ -366,7 +361,6 @@ public class FieldValidator {
     /**
      * Checks if {@code sectionName} is a non-null non-empty string no longer than the specified length
      * {@code SECTION_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param sectionName
      * @return An explanation of why the {@code sectionName} is not acceptable.
      *         Returns an empty string if the {@code sectionName} is acceptable.
      */
@@ -377,7 +371,6 @@ public class FieldValidator {
     /**
      * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
      * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param teamName
      * @return An explanation of why the {@code teamName} is not acceptable.
      *         Returns an empty string if the {@code teamName} is acceptable.
      */
@@ -388,7 +381,6 @@ public class FieldValidator {
     /**
      * Checks if the given studentRoleComments is a non-null string no longer than
      * the specified length {@code STUDENT_ROLE_COMMENTS_MAX_LENGTH}. However, this string can be empty.
-     * @param studentRoleComments
      * @return An explanation of why the {@code studentRoleComments} is not acceptable.
      *         Returns an empty string "" if the {@code studentRoleComments} is acceptable.
      */
@@ -399,8 +391,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}
-     * @param gender
+     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}.
      * @return An explanation of why the {@code gender} is not acceptable.
      *         Returns an empty string if the {@code gender} is acceptable.
      */
@@ -417,8 +408,7 @@ public class FieldValidator {
     /**
      * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
      * {@code FEEDBACK_SESSION_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no
-     * unsanitized HTML characters
-     * @param feedbackSessionName
+     * unsanitized HTML characters.
      * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
      *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
      */
@@ -432,15 +422,12 @@ public class FieldValidator {
         }
 
         // checks for unsanitized HTML characters
-        String errorsFromNonHtmlValidation = getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                                                            feedbackSessionName);
-        return errorsFromNonHtmlValidation;
+        return getValidityInfoForNonHtmlField(FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName);
     }
 
     /**
      * Checks if {@code courseName} is a non-null non-empty string no longer than the specified length
      * {@code COURSE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param courseName
      * @return An explanation of why the {@code courseName} is not acceptable.
      *         Returns an empty string if the {@code courseName} is acceptable.
      */
@@ -465,7 +452,6 @@ public class FieldValidator {
     /**
      * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
      * {@code INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param instituteName
      * @return An explanation of why the {@code instituteName} is not acceptable.
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
@@ -477,7 +463,6 @@ public class FieldValidator {
     /**
      * Checks if {@code personName} is a non-null non-empty string no longer than the specified length
      * {@code PERSON_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @param personName
      * @return An explanation of why the {@code personName} is not acceptable.
      *         Returns an empty string if the {@code personName} is acceptable.
      */
@@ -488,7 +473,6 @@ public class FieldValidator {
     /**
      * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
      * list of time zone IDs.
-     * @param timeZoneValue
      * @return An explanation of why the {@code timeZoneValue} is not acceptable.
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
@@ -509,7 +493,6 @@ public class FieldValidator {
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
      *            descriptive.
-     * @param maxLength
      * @param value
      *            The string to be checked.
      * @return An explanation of why the {@code value} is not acceptable.
@@ -543,7 +526,6 @@ public class FieldValidator {
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
      *            descriptive.
-     * @param maxLength
      * @param value
      *            The string to be checked.
      * @return An explanation of why the {@code value} is not acceptable.
@@ -592,7 +574,6 @@ public class FieldValidator {
      *            A descriptive name of the field e.g., "student name", to be
      *            used in the return value to make the explanation more
      *            descriptive.
-     * @param maxLength
      * @param value
      *            The string to be checked.
      * @return An explanation of why the {@code value} is not acceptable.
@@ -613,7 +594,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if Session Start Time is before Session End Time
+     * Checks if Session Start Time is before Session End Time.
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
@@ -623,7 +604,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if Session Visibility Start Time is before Session Start Time
+     * Checks if Session Visibility Start Time is before Session Start Time.
      * @return Error string if {@code visibilityStart} is before {@code sessionStart}
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
@@ -634,7 +615,7 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if Visibility Start Time is before Results Publish Time
+     * Checks if Visibility Start Time is before Results Publish Time.
      * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
      *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
      */

@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var statusMessage = document.getElementById('statusMessagesToUser');
     var navbarHeight = 0;

@@ -1,3 +1,5 @@
+'use strict';
+
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -69,8 +71,8 @@ $(document).ready(function() {
     });
 
     $("input[type='radio']").change(function() {
-        idOfOtherOptionText = 'otherOptionText' + $(this).attr('name').substr($(this).attr('name').search('-'));
-        idOfOtherOptionFlag = 'otherOptionFlag' + $(this).attr('name').substr($(this).attr('name').search('-'));
+        var idOfOtherOptionText = 'otherOptionText' + $(this).attr('name').substr($(this).attr('name').search('-'));
+        var idOfOtherOptionFlag = 'otherOptionFlag' + $(this).attr('name').substr($(this).attr('name').search('-'));
 
         if ($(this).data('text') === 'otherOptionText') {
             // Other option is selected by the student
@@ -84,7 +86,7 @@ $(document).ready(function() {
     });
 
     $("input[id^='otherOptionText']").keyup(function() {
-        idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+        var idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
         $('#' + idOfOtherOptionRadioButton).val($(this).val());
     });
 
@@ -191,7 +193,7 @@ function prepareMCQQuestions() {
     var radioButtons = {};
     var radioStates = {};
 
-    for (var i = 0; i < mcqQuestionNums.length; i++) {
+    $.each(mcqQuestionNums, function(i) {
         var qnNum = mcqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
 
@@ -237,19 +239,19 @@ function prepareMCQQuestions() {
                 event.stopImmediatePropagation();
             });
         }
-    }
+    });
 }
 
 function prepareContribQuestions() {
     var contribQuestionNums = getQuestionTypeNumbers('CONTRIB');
 
-    for (var i = 0; i < contribQuestionNums.length; i++) {
+    $.each(contribQuestionNums, function(i) {
         var qnNum = contribQuestionNums[i];
 
-        // Get number of options for the specified question number of contribution question type
-        var optionNums = $('[name^="responsetext-' + qnNum + '-"]').length;
+        // Get options for the specified question number of contribution question type
+        var options = $('[name^="responsetext-' + qnNum + '-"]');
 
-        for (var k = 0; k < optionNums; k++) {
+        $.each(options, function(k) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
 
             // Set initial color
@@ -261,15 +263,15 @@ function prepareContribQuestions() {
                 $(this).removeClass('color-negative');
                 $(this).addClass(this.options[this.selectedIndex].className);
             });
-        }
-    }
+        });
+    });
 }
 
 function prepareMSQQuestions() {
     // Get index of MSQ questions
     var msqQuestionNums = getQuestionTypeNumbers('MSQ');
 
-    for (var i = 0; i < msqQuestionNums.length; i++) {
+    $.each(msqQuestionNums, function(i) {
         var qnNum = msqQuestionNums[i];
 
         var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '-"][value=""]:not([data-text])');
@@ -322,7 +324,7 @@ function prepareMSQQuestions() {
             }
         });
 
-    }
+    });
 }
 
 function updateOtherOptionAttributes(otherOption, indexSuffix) {
@@ -347,7 +349,7 @@ function prepareRubricQuestions() {
 function prepareDesktopRubricQuestions() {
     var $rubricRadioInputs = $('[name^="rubricChoice-"]');
 
-    for (var i = 0; i < $rubricRadioInputs.length; i++) {
+    $.each($rubricRadioInputs, function(i) {
         var $parentCell = $($rubricRadioInputs[i]).parent();
 
         $parentCell.hover(function() {
@@ -393,7 +395,7 @@ function prepareDesktopRubricQuestions() {
         for (var j = 0; j < $rubricRadioInputs.length; j++) {
             updateRubricCellSelectedColor($rubricRadioInputs[j]);
         }
-    }
+    });
 }
 
 /**

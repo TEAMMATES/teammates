@@ -13,7 +13,7 @@ import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents profile details for student entities associated with an
- * account entity
+ * account entity.
  */
 @PersistenceCapable
 public class StudentProfile {
@@ -67,7 +67,7 @@ public class StudentProfile {
      *
      * @param googleId
      *            the Google ID of the user.
-     * @param name
+     * @param shortName
      *            The shortened name of the user.
      * @param email
      *            The long-term (personal) email of the user.

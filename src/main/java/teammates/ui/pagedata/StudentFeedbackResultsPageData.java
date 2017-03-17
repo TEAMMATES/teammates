@@ -56,7 +56,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Parses the contents of the map and keeps only those data which will be displayed on the browser
+     * Parses the contents of the map and keeps only those data which will be displayed on the browser.
      * @param questionsWithResponses Question with all responses
      */
     private void createFeedbackResultsQuestionsWithResponses(
@@ -89,10 +89,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Parses question details which will be displayed on the browser
-     * @param questionIndex
-     * @param question
-     * @param questionDetailsBundle
+     * Parses question details which will be displayed on the browser.
      * @param responsesBundle  Responses for the question
      * @return Only those details which will be displayed on the page are returned
      */
@@ -115,7 +112,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Create feedback results responses tables for every recipient
+     * Creates feedback results responses tables for every recipient.
      * @param question  Question for which the responses are generated
      * @param responsesBundle  All responses for a question
      * @return List of feedback results response tables for a question
@@ -156,7 +153,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Creates a feedback results responses table for a recipient
+     * Creates a feedback results responses table for a recipient.
      * @param question  Question for which the responses are generated
      * @param responsesBundleForRecipient  All responses for the question having a particular recipient
      * @return Feedback results responses table for a question and a recipient
@@ -206,7 +203,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Creates a list of comments for a feedback results response
+     * Creates a list of comments for a feedback results response.
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
@@ -225,7 +222,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Filters responses by recipient's email
+     * Filters responses by recipient's email.
      * @param recipientEmail  Check whether a response's recipient email is equal to this parameter
      * @param responsesBundle  All responses for a question
      * @return Responses whose recipient email is equal to the parameter

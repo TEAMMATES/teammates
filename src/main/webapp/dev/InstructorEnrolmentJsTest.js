@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('instructorCourseEnrollPage.js');
 
 QUnit.test('isUserTyping(strText)', function(assert) {
