@@ -83,14 +83,12 @@ public abstract class EntitiesDb {
 
         // Wait for the operation to persist
         int elapsedTime = 0;
-        Object createdEntity = getEntity(entityToAdd);
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-            while (createdEntity == null
+            while (!hasEntity(entityToAdd)
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                createdEntity = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
-                if (createdEntity == null) {
+                if (!hasEntity(entityToAdd)) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
@@ -122,7 +120,7 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
 
-            if (getEntity(entityToAdd) == null) {
+            if (!hasEntity(entityToAdd)) {
                 entities.add(entityToAdd.toEntity());
             } else {
                 entitiesToUpdate.add(entityToAdd);
@@ -162,13 +160,11 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
-            Object entityCheck = getEntity(entityToAdd);
-            while (entityCheck == null
+            while (!hasEntity(entityToAdd)
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                entityCheck = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
-                if (entityCheck == null) {
+                if (!hasEntity(entityToAdd)) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
@@ -205,14 +201,12 @@ public abstract class EntitiesDb {
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
-            Object entityCheck = getEntity(entityToDelete);
-            boolean isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+            boolean isEntityDeleted = !hasEntity(entityToDelete);
             while (!isEntityDeleted
                     && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                entityCheck = getEntity(entityToDelete);
 
-                isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+                isEntityDeleted = !hasEntity(entityToDelete);
                 //check before incrementing to avoid boundary case problem
                 if (!isEntityDeleted) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
