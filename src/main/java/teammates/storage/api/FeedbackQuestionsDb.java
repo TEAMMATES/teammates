@@ -327,4 +327,15 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 feedbackQuestionToGet.courseId,
                 feedbackQuestionToGet.questionNumber);
     }
+
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = FeedbackQuestion.class;
+        String primaryKeyName = "feedbackQuestionId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((FeedbackQuestionAttributes) attributes).getId()) != null;
+    }
 }

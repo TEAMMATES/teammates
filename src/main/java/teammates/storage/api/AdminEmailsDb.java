@@ -18,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
-
 import com.google.appengine.api.blobstore.BlobKey;
 
 /**
@@ -313,6 +312,17 @@ public class AdminEmailsDb extends EntitiesDb {
 
         return getAdminEmailEntity(adminEmailToGet.getSubject(),
                                    adminEmailToGet.getCreateDate());
+    }
+
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = AdminEmail.class;
+        String primaryKeyName = "emailId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((AdminEmailAttributes) attributes).emailId) != null;
     }
 
 }

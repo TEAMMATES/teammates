@@ -495,6 +495,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             feedbackResponseCommentToGet.giverEmail);
     }
 
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = FeedbackResponseComment.class;
+        String primaryKeyName = "feedbackResponseCommentId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((FeedbackResponseCommentAttributes) attributes).getId()) != null;
+    }
+
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
         if (frcList.isEmpty()) {

@@ -646,6 +646,17 @@ public class CommentsDb extends EntitiesDb {
                                 commentToGet.recipients, commentToGet.createdAt);
     }
 
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = Comment.class;
+        String primaryKeyName = "commentId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((CommentAttributes) attributes).getCommentId()) != null;
+    }
+
     // Gets a comment entity if the ID is known
     private Comment getCommentEntity(Long commentId) {
         Query q = getPm().newQuery(Comment.class);

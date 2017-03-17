@@ -235,4 +235,15 @@ public class AccountsDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes entity) {
         return getAccountEntity(((AccountAttributes) entity).googleId);
     }
+
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = Account.class;
+        String primaryKeyName = "googleId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((AccountAttributes) attributes).googleId) != null;
+    }
 }

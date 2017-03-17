@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
+import javax.jdo.Query;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -218,5 +219,16 @@ public class ProfilesDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes attributes) {
         // this method is never used and is here only for future expansion and completeness
         return getStudentProfileEntityFromDb(((StudentProfileAttributes) attributes).googleId);
+    }
+
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = StudentProfile.class;
+        String primaryKeyName = "profileId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((StudentProfileAttributes) attributes).googleId) != null;
     }
 }

@@ -257,6 +257,8 @@ public abstract class EntitiesDb {
         GoogleCloudStorageHelper.deleteFile(key);
     }
 
+    public abstract boolean hasEntity(EntityAttributes attributes);
+
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the Entity
      * matching the EntityAttributes in the parameter.

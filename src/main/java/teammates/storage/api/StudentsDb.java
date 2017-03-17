@@ -703,4 +703,16 @@ public class StudentsDb extends EntitiesDb {
         return getStudentForEmail(studentToGet.course, studentToGet.email);
     }
 
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = CourseStudent.class;
+        String primaryKeyName = "id";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String courseIdParam, String emailParam");
+        q.setFilter("courseId == courseIdParam && email == emailParam");
+        q.setResult(primaryKeyName);
+        StudentAttributes sa = (StudentAttributes) attributes;
+        return q.execute(sa.course, sa.email) != null;
+    }
+
 }

@@ -1127,4 +1127,15 @@ public class FeedbackResponsesDb extends EntitiesDb {
             feedbackResponseToGet.giver,
             feedbackResponseToGet.recipient);
     }
+
+    @Override
+    public boolean hasEntity(EntityAttributes attributes) {
+        Class<?> entityClass = FeedbackResponse.class;
+        String primaryKeyName = "feedbackResponseId";
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+        q.setResult(primaryKeyName);
+        return q.execute(((FeedbackResponseAttributes) attributes).getId()) != null;
+    }
 }
