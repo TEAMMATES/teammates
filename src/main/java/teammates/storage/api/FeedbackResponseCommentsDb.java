@@ -511,8 +511,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             q.setFilter(primaryKeyName + " == idParam");
             results = (List<?>) q.execute(id);
         } else {
-            q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam");
-            q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam && createdAt == createdAtParam");
+            q.declareParameters("String courseIdParam, java.util.Date createdAtParam, String giverEmailParam");
+            q.setFilter("courseId == courseIdParam && createdAt == createdAtParam && giverEmail == giverEmailParam");
             results = (List<?>) q.execute(frca.courseId, frca.createdAt, frca.giverEmail);
         }
 
@@ -521,11 +521,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
         Query q = getPm().newQuery(FeedbackResponseComment.class);
-        q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam");
-        q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam && createdAt == createdAtParam");
+        q.declareParameters("String courseIdParam, java.util.Date createdAtParam, String giverEmailParam");
+        q.setFilter("courseId == courseIdParam && createdAt == createdAtParam && giverEmail == giverEmailParam");
 
         @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> results = (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
+        List<FeedbackResponseComment> results = (List<FeedbackResponseComment>) q.execute(courseId, createdAt, giverEmail);
 
         if (results.isEmpty()) {
             return null;
