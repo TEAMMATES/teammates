@@ -1,8 +1,11 @@
-/* global setStatusMessage:false StatusType:false bindBackToTopButtons:false */
+/* global
+setStatusMessage:false StatusType:false bindBackToTopButtons:false addLoadingIndicator:false removeLoadingIndicator:false
+*/
 
 $(document).ready(() => {
     $('#filterReference').toggle();
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    highlightKeywordsInLogMessages();
 });
 
 function toggleReference() {
@@ -57,36 +60,25 @@ function submitFormAjax(searchTimeOffset) {
 
     const formObject = $('#ajaxLoaderDataForm');
     const formData = formObject.serialize();
-    const button = $('#button_older');
-    let lastLogRow = $('#logsTable tr:last');
+    const $button = $('#button_older');
+    const $logsTable = $('#activity-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
         url: `/admin/adminActivityLogPage?${formData}`,
         beforeSend() {
-            button.html("<img src='/images/ajax-loader.gif'/>");
+            addLoadingIndicator($button, '');
         },
         error() {
-            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
-            button.html('Retry');
+            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
+            removeLoadingIndicator($button, 'Retry');
         },
         success(data) {
-            setTimeout(() => {
-                if (data.isError) {
-                    setFormErrorMessage(button, data.errorMessage);
-                } else {
-                    // Inject new log row
-                    const logs = data.logs;
-                    $.each(logs, (i, value) => {
-                        lastLogRow.after(value.logInfoAsHtml);
-                        lastLogRow = $('#logsTable tr:last');
-                    });
-
-                    updateInfoForRecentActionButton();
-                }
-
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-            }, 500);
+            const $data = $(data);
+            $logsTable.append($data.find('#activity-logs-table > tbody').html());
+            updateInfoForRecentActionButton();
+            highlightKeywordsInLogMessages();
+            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         },
     });
 }
@@ -101,6 +93,25 @@ function updateInfoForRecentActionButton() {
 
     const isShowTestData = $('#ifShowTestData').val();
     $('.ifShowTestData_for_person').val(isShowTestData);
+}
+
+/**
+ * Highlights default/search keywords in log messages.
+ */
+function highlightKeywordsInLogMessages() {
+    const allLogMessages = $('.log-message');
+    // highlight search keywords
+    const searchKeywords = $('#query-keywords-for-info').val();
+    const searchKeywordsList = searchKeywords.split(',');
+    allLogMessages.highlight(searchKeywordsList);
+
+    // highlight default keywords
+    const defaultKeywords = $('#query-keywords-default-for-info').val();
+    const defaultKeywordsList = defaultKeywords.split(',');
+    allLogMessages.highlight(defaultKeywordsList, {
+        element: 'b',
+        className: ' ',
+    });
 }
 
 /*
