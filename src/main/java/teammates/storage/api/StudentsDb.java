@@ -101,8 +101,8 @@ public class StudentsDb extends EntitiesDb {
                 updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
                                                   student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
