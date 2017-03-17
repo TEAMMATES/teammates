@@ -1,5 +1,6 @@
 <%@ tag description="Generic TEAMMATES Help Page" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+                <t:navBarBrand/>
             </div>
         </div>
     </div>
