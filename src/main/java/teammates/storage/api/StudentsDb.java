@@ -703,7 +703,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = CourseStudent.class;
         String primaryKeyName = "id";
         StudentAttributes sa = (StudentAttributes) attributes;
@@ -715,7 +715,11 @@ public class StudentsDb extends EntitiesDb {
 
         List<?> results = (List<?>) q.execute(sa.course, sa.email);
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
 }

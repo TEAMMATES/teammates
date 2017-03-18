@@ -237,7 +237,7 @@ public class AccountsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = Account.class;
         String primaryKeyName = "googleId";
         AccountAttributes aa = (AccountAttributes) attributes;
@@ -250,6 +250,10 @@ public class AccountsDb extends EntitiesDb {
 
         List<?> results = (List<?>) q.execute(id);
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 }

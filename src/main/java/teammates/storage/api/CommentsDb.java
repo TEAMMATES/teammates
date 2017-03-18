@@ -647,7 +647,7 @@ public class CommentsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = Comment.class;
         String primaryKeyName = "commentId";
         CommentAttributes ca = (CommentAttributes) attributes;
@@ -674,7 +674,11 @@ public class CommentsDb extends EntitiesDb {
             results = (List<?>) q.execute(id);
         }
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
     // Gets a comment entity if the ID is known

@@ -611,7 +611,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackSession.class;
         String primaryKeyName = "feedbackSessionId";
         FeedbackSessionAttributes fsa = (FeedbackSessionAttributes) attributes;
@@ -623,6 +623,10 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         List<?> results = (List<?>) q.execute(fsa.getFeedbackSessionName(), fsa.getCourseId());
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 }

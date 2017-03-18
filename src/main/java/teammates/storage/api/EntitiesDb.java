@@ -250,8 +250,6 @@ public abstract class EntitiesDb {
         GoogleCloudStorageHelper.deleteFile(key);
     }
 
-    public abstract boolean hasEntity(EntityAttributes attributes);
-
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the Entity
      * matching the EntityAttributes in the parameter.
@@ -260,6 +258,12 @@ public abstract class EntitiesDb {
      *             does not already exist in the Datastore.
      */
     protected abstract Object getEntity(EntityAttributes attributes);
+
+    protected abstract Object getEntityKeyOnly(EntityAttributes attributes);
+
+    public boolean hasEntity(EntityAttributes attributes) {
+        return getEntityKeyOnly(attributes) != null;
+    }
 
     protected PersistenceManager getPm() {
         PersistenceManager pm = PER_THREAD_PM.get();

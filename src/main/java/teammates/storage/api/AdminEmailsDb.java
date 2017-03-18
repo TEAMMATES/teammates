@@ -315,7 +315,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = AdminEmail.class;
         String primaryKeyName = "emailId";
         AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
@@ -335,7 +335,11 @@ public class AdminEmailsDb extends EntitiesDb {
             results = (List<?>) q.execute(id);
         }
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
 }

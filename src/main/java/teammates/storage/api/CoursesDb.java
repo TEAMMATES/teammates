@@ -152,7 +152,7 @@ public class CoursesDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = Course.class;
         String primaryKeyName = "ID";
         CourseAttributes ca = (CourseAttributes) attributes;
@@ -165,7 +165,11 @@ public class CoursesDb extends EntitiesDb {
 
         List<?> results = (List<?>) q.execute(id);
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
     private Course getCourseEntity(String courseId) {

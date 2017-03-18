@@ -223,7 +223,7 @@ public class ProfilesDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = StudentProfile.class;
         String primaryKeyName = "profileId";
         StudentProfileAttributes spa = (StudentProfileAttributes) attributes;
@@ -236,6 +236,10 @@ public class ProfilesDb extends EntitiesDb {
 
         List<?> results = (List<?>) q.execute(id);
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 }

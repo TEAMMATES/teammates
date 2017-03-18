@@ -496,7 +496,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackResponseComment.class;
         String primaryKeyName = "feedbackResponseCommentId";
         FeedbackResponseCommentAttributes frca = (FeedbackResponseCommentAttributes) attributes;
@@ -516,7 +516,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             results = (List<?>) q.execute(id);
         }
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {

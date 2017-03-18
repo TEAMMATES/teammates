@@ -329,7 +329,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
+    protected Object getEntityKeyOnly(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackQuestion.class;
         String primaryKeyName = "feedbackQuestionId";
         FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) attributes;
@@ -351,6 +351,10 @@ public class FeedbackQuestionsDb extends EntitiesDb {
             results = (List<?>) q.execute(id);
         }
 
-        return !results.isEmpty();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 }
