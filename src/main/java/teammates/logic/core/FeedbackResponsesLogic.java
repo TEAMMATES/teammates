@@ -54,8 +54,9 @@ public final class FeedbackResponsesLogic {
         try {
             frDb.createEntity(fra);
         } catch (EntityAlreadyExistsException eaee) {
+            FeedbackResponse existingResponse = frDb.getFeedbackResponseEntityOptimized(fra);
             try {
-                updateFeedbackResponse(fra, (FeedbackResponse) eaee.existingEntity);
+                updateFeedbackResponse(fra, existingResponse);
             } catch (EntityAlreadyExistsException entityAlreadyExistsException) {
                 Assumption.fail();
             }
