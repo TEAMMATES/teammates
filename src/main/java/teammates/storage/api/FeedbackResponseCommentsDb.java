@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -189,9 +190,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
 
-        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntitiesForResponse(responseId);
-
-        getPm().deletePersistentAll(frcList);
+        getFeedbackResponseCommentsForResponseQuery(responseId).deletePersistentAll();
         getPm().flush();
     }
 
@@ -201,32 +200,28 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        List<FeedbackResponseComment> feedbackResponseCommentList =
-                getFeedbackResponseCommentEntitiesForCourses(courseIds);
-
-        getPm().deletePersistentAll(feedbackResponseCommentList);
+        getFeedbackResponseCommentsForCoursesQuery(courseIds).deletePersistentAll();
         getPm().flush();
     }
 
     public void deleteFeedbackResponseCommentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<String> courseIds = new ArrayList<String>();
-        courseIds.add(courseId);
-        deleteFeedbackResponseCommentsForCourses(courseIds);
+        deleteFeedbackResponseCommentsForCourses(Arrays.asList(courseId));
+    }
+
+    private QueryWithParams getFeedbackResponseCommentsForCoursesQuery(List<String> courseIds) {
+        Query q = getPm().newQuery(FeedbackResponseComment.class);
+        q.setFilter(":p.contains(courseId)");
+        return new QueryWithParams(q, new Object[] {courseIds});
     }
 
     /*
      * Get response comments for the course Ids
      */
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourses(List<String> courseIds) {
-        Query q = getPm().newQuery(FeedbackResponseComment.class);
-        q.setFilter(":p.contains(courseId)");
-
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> feedbackResponseCommentList =
-                (List<FeedbackResponseComment>) q.execute(courseIds);
-        return feedbackResponseCommentList;
+        return (List<FeedbackResponseComment>) getFeedbackResponseCommentsForCoursesQuery(courseIds).execute();
     }
 
     /*
@@ -624,16 +619,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return feedbackResponseComments;
     }
 
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
+    private QueryWithParams getFeedbackResponseCommentsForResponseQuery(String feedbackResponseId) {
         Query q = getPm().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String feedbackResponseIdParam");
         q.setFilter("feedbackResponseId == feedbackResponseIdParam");
+        return new QueryWithParams(q, new Object[] {feedbackResponseId});
+    }
 
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> feedbackResponseCommentList =
-                (List<FeedbackResponseComment>) q.execute(feedbackResponseId);
-
-        return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
+    @SuppressWarnings("unchecked")
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
+        return getCommentsWithoutDeletedEntity(
+                (List<FeedbackResponseComment>) getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).execute());
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(String courseId,
