@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -502,26 +503,20 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public void deleteFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<String> courseIds = new ArrayList<String>();
-        courseIds.add(courseId);
-        deleteFeedbackSessionsForCourses(courseIds);
+        deleteFeedbackSessionsForCourses(Arrays.asList(courseId));
     }
 
     public void deleteFeedbackSessionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        List<FeedbackSession> feedbackSessionList = getFeedbackSessionEntitiesForCourses(courseIds);
-
-        getPm().deletePersistentAll(feedbackSessionList);
+        getFeedbackSessionsForCoursesQuery(courseIds).deletePersistentAll();
         getPm().flush();
     }
 
-    @SuppressWarnings("unchecked")
-    private List<FeedbackSession> getFeedbackSessionEntitiesForCourses(List<String> courseIds) {
+    private QueryWithParams getFeedbackSessionsForCoursesQuery(List<String> courseIds) {
         Query q = getPm().newQuery(FeedbackSession.class);
         q.setFilter(":p.contains(courseId)");
-
-        return (List<FeedbackSession>) q.execute(courseIds);
+        return new QueryWithParams(q, new Object[] {courseIds});
     }
 
     @SuppressWarnings("unchecked")
