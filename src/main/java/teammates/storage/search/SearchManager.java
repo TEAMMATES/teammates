@@ -32,6 +32,7 @@ public final class SearchManager {
             "Operation did not succeed in time: putting document %s into search index %s.";
     private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
+    private static final int MAX_RETRIES = 3;
 
     private SearchManager() {
         // utility class
@@ -41,34 +42,42 @@ public final class SearchManager {
      * Creates or updates the search document for the given document and index.
      */
     public static void putDocument(String indexName, Document document) {
-        int elapsedTime = 0;
-        boolean isSuccessful = tryPutDocument(indexName, document);
-        while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-            ThreadHelper.waitBriefly();
-            // retry putting the document
-            isSuccessful = tryPutDocument(indexName, document);
-            // check before incrementing to avoid boundary case problem
-            if (!isSuccessful) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
-            }
-        }
-        if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe(String.format(ERROR_EXCEED_DURATION, document, indexName));
-        }
-    }
-
-    private static boolean tryPutDocument(String indexName, Document document) {
         Index index = getIndex(indexName);
-        try {
-            PutResponse result = index.put(document);
-            return result.getResults().get(0).getCode() == StatusCode.OK;
-        } catch (PutException e) {
-            // if it's a transient error in the server, it can be re-tried
-            if (!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
-                           + TeammatesException.toStringWithStackTrace(e));
+
+        int delay = 2;
+        for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
+            try {
+                PutResponse result = index.put(document);
+
+                if (Config.PERSISTENCE_CHECK_DURATION > 0) {
+                    int elapsedTime = 0;
+                    boolean isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                    while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                        ThreadHelper.waitBriefly();
+                        // retry putting the document
+                        result = index.put(document);
+                        isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                        // check before incrementing to avoid boundary case problem
+                        if (!isSuccessful) {
+                            elapsedTime += ThreadHelper.WAIT_DURATION;
+                        }
+                    }
+                    if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                        log.info(String.format(ERROR_EXCEED_DURATION, document, indexName));
+                    }
+                }
+            } catch (PutException e) {
+                if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
+                    // if it's a transient error in the server, it can be retried
+                    ThreadHelper.waitFor(delay * 1000);
+                    delay *= 2; // use exponential backoff
+                    continue;
+                } else {
+                    log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
+                            + TeammatesException.toStringWithStackTrace(e));
+                    break;
+                }
             }
-            return false;
         }
     }
 
