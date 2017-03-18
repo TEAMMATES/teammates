@@ -65,18 +65,17 @@ $(document).ready(() => {
 
     $(window).load(() => {
         $('#studentPhoto').change(function () {
-            if ($(this).val() === '') {
+            const val = $(this).val();
+            if (val === '') {
                 $('#profileUploadPictureSubmit').prop('disabled', true);
                 $('.filename-preview').val('No File Selected');
             } else {
                 $('#profileUploadPictureSubmit').prop('disabled', false);
-                const val = $(this)
-                    .val()
-                    .split('\\')
-                    .pop()
-                    .split('/')
-                    .pop();
-                $('.filename-preview').val(val);
+                const newVal = val.split('\\')
+                                  .pop()
+                                  .split('/')
+                                  .pop();
+                $('.filename-preview').val(newVal);
             }
         });
         const picture = $('#editableProfilePicture');
