@@ -9,18 +9,22 @@ import javax.jdo.Query;
  */
 public class QueryWithParams {
 
-    public Query query;
-    public Object[] params;
-    public String expectedResultField;
+    private Query query;
+    private Object[] params;
+    private String expectedResultField;
 
     public QueryWithParams(Query query, Object[] params) {
         this(query, params, null);
     }
 
-    public QueryWithParams(Query query, Object[] params, String expectedResult) {
+    public QueryWithParams(Query query, Object[] params, String expectedResultField) {
         this.query = query;
         this.params = params;
-        this.expectedResultField = expectedResult;
+        this.expectedResultField = expectedResultField;
+    }
+
+    public void setExpectedResultField(String expectedResultField) {
+        this.expectedResultField = expectedResultField;
     }
 
     public List<?> execute() {
