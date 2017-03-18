@@ -255,7 +255,7 @@ public class ActivityLogEntry {
     public String generateLogMessage() {
         // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
         return StringHelper.join(Const.ActivityLog.FIELD_SEPARATOR, Const.ActivityLog.TEAMMATESLOG,
-                servletName, action, toShow, role, name, googleId, email, message, url, id);
+                servletName, action, Boolean.toString(toShow), role, name, googleId, email, message, url, id);
     }
 
     public String getId() {
