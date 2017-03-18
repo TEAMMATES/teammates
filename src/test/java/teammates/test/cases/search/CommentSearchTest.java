@@ -10,6 +10,8 @@ import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.storage.api.CommentsDb;
+import teammates.storage.search.CommentSearchQuery;
+import teammates.storage.search.CommentSearchDocument;
 import teammates.test.driver.AssertHelper;
 
 /**

@@ -6,7 +6,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: Delete a course for an instructor
+ * Action: Delete a course for an instructor.
  */
 public class InstructorCourseDeleteAction extends Action {
 
@@ -33,12 +33,10 @@ public class InstructorCourseDeleteAction extends Action {
     }
 
     /**
-     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection
+     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection.
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        boolean isHomePageUrl = nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-
-        return isHomePageUrl;
+        return nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 }

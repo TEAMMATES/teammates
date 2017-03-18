@@ -40,7 +40,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourse();
     }
 
-    public void testActionWithNoParams() {
+    private void testActionWithNoParams() {
 
         ______TS("Failure case: no parameters given");
         gaeSimulation.loginAsStudent(account.googleId);
@@ -61,8 +61,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * Tests the branch of the Action handling a request from the Student
      * directly, where the parameters are simply the blobKey of the picture
      * itself.
-     *
-     * @throws Exception
      */
     public void testActionWithBlobKey() {
         testActionWithBlobKeySuccess();
@@ -103,11 +101,9 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
     /**
      * Tests the branch of the Action handling a request from an Instructor,
-     * where the parameters are the student's course and email
-     *
-     * @throws Exception
+     * where the parameters are the student's course and email.
      */
-    public void testActionWithEmailAndCourse() throws Exception {
+    private void testActionWithEmailAndCourse() throws Exception {
         AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
 

@@ -24,7 +24,7 @@ import teammates.ui.pagedata.PageData;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Action: Edit or delete the {@link CommentAttributes} based on the given editType (edit|delete)
+ * Action: Edit or delete the {@link CommentAttributes} based on the given editType (edit|delete).
  */
 public class InstructorStudentCommentEditAction extends Action {
 

@@ -47,8 +47,7 @@ public final class StudentDataGenerator {
     }
 
     /**
-     *
-     * @return Returns enroll lines, sorted by team name
+     * Returns enroll lines, sorted by team name.
      */
     private static List<String> generateEnrollText(int numberOfStudents,
             List<String> teamnames) {

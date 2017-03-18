@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('index.js');
 
 QUnit.test('submissionCounter(currDate, baseDate)', function(assert) {

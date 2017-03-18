@@ -26,7 +26,7 @@ public abstract class PublicResourcesServlet extends HttpServlet {
     protected String servletName = "Unspecified";
     protected String action = "unspecified";
 
-    /** Parameters received with the request */
+    /** Parameters received with the request. */
     protected Map<String, String[]> requestParameters;
 
     @Override

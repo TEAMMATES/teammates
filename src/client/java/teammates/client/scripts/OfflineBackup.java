@@ -56,7 +56,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities
+     * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities.
      */
     private List<String> getModifiedLogs() {
         List<String> modifiedLogs = new ArrayList<String>();
@@ -97,7 +97,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     * Returns the current date and time to label the backup folder
+     * Returns the current date and time to label the backup folder.
      */
     protected String getCurrentDateAndTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
@@ -106,7 +106,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     * Creates a directory to store the backup files
+     * Creates a directory to store the backup files.
      */
     protected void createBackupDirectory(String directoryName) {
         File directory = new File(directoryName);
@@ -120,7 +120,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Looks through all the modified courses and retrieve their respective entities.
+     * Looks through all the modified courses and retrieve their respective entities.
      */
     protected void retrieveEntitiesByCourse(Set<String> coursesList) {
 
@@ -147,7 +147,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the accounts from a course and saves them
+     * Retrieves all the accounts from a course and saves them.
      */
     protected void retrieveAndSaveAccountsByCourse(String courseId) {
 
@@ -170,7 +170,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the comments from a course and saves them
+     * Retrieves all the comments from a course and saves them.
      */
     protected void retrieveAndSaveCommentsByCourse(String courseId) {
         CommentsDb commentsDb = new CommentsDb();
@@ -186,7 +186,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves the course and saves them
+     * Retrieves the course and saves them.
      */
     protected void retrieveAndSaveCourse(String courseId) {
         Logic logic = new Logic();
@@ -204,7 +204,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the feedback questions from a course and saves them
+     * Retrieves all the feedback questions from a course and saves them.
      */
     protected void retrieveAndSaveFeedbackQuestionsByCourse(String courseId) {
 
@@ -221,7 +221,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the feedback responses from a course and saves them
+     * Retrieves all the feedback responses from a course and saves them.
      */
     protected void retrieveAndSaveFeedbackResponsesByCourse(String courseId) {
 
@@ -238,7 +238,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the feedback responses comments from a course and saves them
+     * Retrieves all the feedback responses comments from a course and saves them.
      */
     protected void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
 
@@ -256,7 +256,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the feedback sessions from a course and saves them
+     * Retrieves all the feedback sessions from a course and saves them.
      */
     protected void retrieveAndSaveFeedbackSessionsByCourse(String courseId) {
         Logic logic = new Logic();
@@ -272,7 +272,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the instructors from a course and saves them
+     * Retrieves all the instructors from a course and saves them.
      */
     protected void retrieveAndSaveInstructorsByCourse(String courseId) {
         Logic logic = new Logic();
@@ -288,7 +288,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the students from a course and saves them
+     * Retrieves all the students from a course and saves them.
      */
     protected void retrieveAndSaveStudentsByCourse(String courseId) {
         Logic logic = new Logic();
@@ -304,7 +304,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the submissions from a course and saves them
+     * Retrieves all the submissions from a course and saves them.
      */
     protected void retrieveAndSaveStudentProfilesByCourse(String courseId) {
 
@@ -327,7 +327,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Perform formatting of the string to ensure that it conforms to json formatting
+     * Performs formatting of the string to ensure that it conforms to json formatting.
      */
     protected String formatJsonString(String entityJsonString, String name) {
         StringBuilder formattedString = new StringBuilder();
@@ -344,7 +344,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the student accounts and saves them
+     * Retrieves all the student accounts and saves them.
      */
     protected void saveStudentAccount(StudentAttributes student) {
         if (student == null) {
@@ -363,7 +363,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     *  Retrieves all the instructor accounts and saves them
+     * Retrieves all the instructor accounts and saves them.
      */
     protected void saveInstructorAccount(InstructorAttributes instructor) {
         if (instructor == null) {
