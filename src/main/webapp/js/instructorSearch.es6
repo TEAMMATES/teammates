@@ -1,9 +1,11 @@
+/* global highlightSearchResult:false */
+
 'use strict';
 
-$(document).ready(function() {
-    $('.comments > .list-group-item').hover(function() {
+$(document).ready(() => {
+    $('.comments > .list-group-item').hover(function () {
         $("a[type='button']", this).show();
-    }, function() {
+    }, function () {
         $("a[type='button']", this).hide();
     });
 
