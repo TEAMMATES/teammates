@@ -13,6 +13,10 @@ public class QueryWithParams {
     public Object[] params;
     public String expectedResultField;
 
+    public QueryWithParams(Query query, Object[] params) {
+        this(query, params, null);
+    }
+
     public QueryWithParams(Query query, Object[] params, String expectedResult) {
         this.query = query;
         this.params = params;
@@ -20,11 +24,13 @@ public class QueryWithParams {
     }
 
     public List<?> execute() {
-        query.setResult(expectedResultField);
+        if (expectedResultField != null) {
+            query.setResult(expectedResultField);
+        }
         return (List<?>) query.executeWithArray(params);
     }
 
-    public long delete() {
+    public long deletePersistentAll() {
         return query.deletePersistentAll(params);
     }
 }

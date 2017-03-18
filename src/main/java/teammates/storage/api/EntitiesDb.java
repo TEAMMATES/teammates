@@ -187,7 +187,7 @@ public abstract class EntitiesDb {
     public void deleteEntity(EntityAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
-        getEntityKeyOnlyQuery(entityToDelete).delete();
+        getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
         getPm().flush();
 
         // wait for the operation to persist
@@ -217,7 +217,7 @@ public abstract class EntitiesDb {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         for (EntityAttributes entityToDelete : entitiesToDelete) {
-            getEntityKeyOnlyQuery(entityToDelete).delete();
+            getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
         }
 
         getPm().flush();
