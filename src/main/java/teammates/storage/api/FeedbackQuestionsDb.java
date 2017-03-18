@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -208,28 +209,20 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     public void deleteFeedbackQuestionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<String> courseIds = new ArrayList<String>();
-        courseIds.add(courseId);
-        deleteFeedbackQuestionsForCourses(courseIds);
+        deleteFeedbackQuestionsForCourses(Arrays.asList(courseId));
     }
 
     public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        List<FeedbackQuestion> feedbackQuestionList = getFeedbackQuestionEntitiesForCourses(courseIds);
-
-        getPm().deletePersistentAll(feedbackQuestionList);
+        getFeedbackQuestionsForCoursesQuery(courseIds).deletePersistentAll();
         getPm().flush();
     }
 
-    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourses(List<String> courseIds) {
+    private QueryWithParams getFeedbackQuestionsForCoursesQuery(List<String> courseIds) {
         Query q = getPm().newQuery(FeedbackQuestion.class);
         q.setFilter(":p.contains(courseId)");
-
-        @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseIds);
-
-        return feedbackQuestionList;
+        return new QueryWithParams(q, new Object[] {courseIds});
     }
 
     // Gets a question entity if it's Key (feedbackQuestionId) is known.
