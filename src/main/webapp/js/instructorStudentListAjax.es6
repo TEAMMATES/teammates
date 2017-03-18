@@ -1,39 +1,41 @@
+/* global bindDefaultImageIfMissing:false bindStudentPhotoLink:false setStatusMessage:false */
+/* global StatusType:false clearStatusMessages:false checkCourseBinding:false */
+
 'use strict';
 
-var STUDENT_LIMIT = 3000;
-var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT
-                                + ' students. Please deselect some courses to view student list of other courses.';
-var numStudents = 0;
+const STUDENT_LIMIT = 3000;
+const PERFORMANCE_ISSUE_MESSAGE = `Due to performance issue, it is not allowed to show more than ${STUDENT_LIMIT
+                                 } students. Please deselect some courses to view student list of other courses.`;
+let numStudents = 0;
 
-$(document).ready(function() {
+$(document).ready(() => {
     $('.ajax_submit').click(seeMoreRequest);
 });
 
 function transportSectionChoices() {
-    var sectionChoices = $('.section-to-be-transported');
+    const sectionChoices = $('.section-to-be-transported');
     sectionChoices.remove();
     $('#sectionChoices').append(sectionChoices);
     sectionChoices.removeClass('section-to-be-transported');
 }
 
 function transportTeamChoices() {
-    var teamChoices = $('.team-to-be-transported');
+    const teamChoices = $('.team-to-be-transported');
     teamChoices.remove();
     $('#teamChoices').append(teamChoices);
     teamChoices.removeClass('team-to-be-transported');
 }
 
 function transportEmailChoices() {
-    var emailChoices = $('.email-to-be-transported');
+    const emailChoices = $('.email-to-be-transported');
     emailChoices.remove();
     $('#emails').append(emailChoices);
     emailChoices.removeAttr('class'); // the email divs have no other class
 }
 
 function bindPhotos(courseIdx) {
-    $('td[id^="studentphoto-c' + courseIdx + '"]').each(function() {
-
-        $(this).children('.profile-pic-icon-click > img').each(function() {
+    $(`td[id^="studentphoto-c${courseIdx}"]`).each(function () {
+        $(this).children('.profile-pic-icon-click > img').each(function () {
             bindDefaultImageIfMissing(this);
         });
         bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
@@ -41,7 +43,7 @@ function bindPhotos(courseIdx) {
 }
 
 function numStudentsRetrieved() {
-    var emailChoices = $('.email-to-be-transported');
+    const emailChoices = $('.email-to-be-transported');
     return emailChoices.length;
 }
 
@@ -52,22 +54,22 @@ function showStudentLimitError(courseCheck, displayIcon) {
 }
 
 function removeDataToBeTransported() {
-    var sectionChoices = $('.section-to-be-transported');
+    const sectionChoices = $('.section-to-be-transported');
     sectionChoices.remove();
-    var teamChoices = $('.team-to-be-transported');
+    const teamChoices = $('.team-to-be-transported');
     teamChoices.remove();
-    var emailChoices = $('.email-to-be-transported');
+    const emailChoices = $('.email-to-be-transported');
     emailChoices.remove();
 }
 
-var seeMoreRequest = function(e) {
-    var panelHeading = $(this);
-    var panelCollapse = $(this).parent().children('.panel-collapse');
-    var panelBody = $(panelCollapse[0]).children('.panel-body');
-    var displayIcon = $(this).children('.display-icon');
-    var courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
-    var courseCheck = $('#course_check-' + courseIndex);
-    var courseNumStudents = parseInt($('#numStudents-' + courseIndex).val());
+const seeMoreRequest = function (e) {
+    const panelHeading = $(this);
+    const panelCollapse = $(this).parent().children('.panel-collapse');
+    const panelBody = $(panelCollapse[0]).children('.panel-body');
+    const displayIcon = $(this).children('.display-icon');
+    const courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
+    const courseCheck = $(`#course_check-${courseIndex}`);
+    let courseNumStudents = parseInt($(`#numStudents-${courseIndex}`).val(), 10);
 
     if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();
@@ -86,29 +88,29 @@ var seeMoreRequest = function(e) {
         checkCourseBinding(courseCheck);
     } else if (numStudents < STUDENT_LIMIT) {
         clearStatusMessages();
-        var formObject = $(this).children('form');
-        var courseIdx = $(formObject[0]).attr('class').split('-')[1];
-        var formData = formObject.serialize();
+        const formObject = $(this).children('form');
+        const courseIdx = $(formObject[0]).attr('class').split('-')[1];
+        const formData = formObject.serialize();
         e.preventDefault();
         if (displayIcon.html().indexOf('img') === -1) {
             $.ajax({
                 type: 'POST',
-                url: $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
-                beforeSend: function() {
+                url: `${$(formObject[0]).attr('action')}?${formData}&courseidx=${courseIdx}`,
+                beforeSend() {
                     displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
                 },
-                error: function() {
-                    var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-                    var errorMsg = '[ Failed to load. Click here to retry. ]';
-                    errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
+                error() {
+                    const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+                    let errorMsg = '[ Failed to load. Click here to retry. ]';
+                    errorMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${errorMsg}</strong>`;
                     displayIcon.html(warningSign + errorMsg);
                 },
-                success: function(data) {
+                success(data) {
                     $(panelBody[0]).html(data);
 
                     // Count number of students retrieved
                     courseNumStudents = numStudentsRetrieved();
-                    $('#numStudents-' + courseIdx).val(courseNumStudents);
+                    $(`#numStudents-${courseIdx}`).val(courseNumStudents);
 
                     // If number of students shown is already more than the limit
                     // Do not show more, even if we can retrieve it, as browser will lag.
@@ -130,7 +132,7 @@ var seeMoreRequest = function(e) {
                     if ($(panelCollapse[0]).attr('class').indexOf('in') === -1) {
                         $(panelHeading).trigger('click');
                     }
-                }
+                },
             });
         }
     } else {
