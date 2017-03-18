@@ -49,23 +49,26 @@ public final class SearchManager {
             try {
                 PutResponse result = index.put(document);
 
-                if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-                    int elapsedTime = 0;
-                    boolean isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
-                    while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                        ThreadHelper.waitBriefly();
-                        // retry putting the document
-                        result = index.put(document);
-                        isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
-                        // check before incrementing to avoid boundary case problem
-                        if (!isSuccessful) {
-                            elapsedTime += ThreadHelper.WAIT_DURATION;
-                        }
-                    }
-                    if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                        log.info(String.format(ERROR_EXCEED_DURATION, document, indexName));
+                if (Config.PERSISTENCE_CHECK_DURATION == 0) {
+                    continue;
+                }
+
+                int elapsedTime = 0;
+                boolean isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                    ThreadHelper.waitBriefly();
+                    // retry putting the document
+                    result = index.put(document);
+                    isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                    // check before incrementing to avoid boundary case problem
+                    if (!isSuccessful) {
+                        elapsedTime += ThreadHelper.WAIT_DURATION;
                     }
                 }
+                if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                    log.info(String.format(ERROR_EXCEED_DURATION, document, indexName));
+                }
+
             } catch (PutException e) {
                 if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
                     // if it's a transient error in the server, it can be retried
