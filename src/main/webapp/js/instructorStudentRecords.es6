@@ -100,6 +100,9 @@ function submitCommentForm(commentIdx) {
     return false;
 }
 
+/* This function returns boolean or undefined when handling form submit event */
+/* eslint-disable consistent-return */
+
 /**
  * Check the submitted comment text field of the form
  * Blanks are not allowed.
@@ -124,6 +127,8 @@ function checkComment(form) {
         return false;
     }
 }
+
+/* eslint-enable consistent-return */
 
 /**
  * Show the comment box, focus comment text area and hide "Add Comment link"
