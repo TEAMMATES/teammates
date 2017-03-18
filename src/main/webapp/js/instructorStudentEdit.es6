@@ -1,8 +1,10 @@
+/* global BootboxWrapper:false StatusType:false */
+
 'use strict';
 
-var INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
+const INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 
-$(document).ready(function() {
+$(document).ready(() => {
     readyInstructorStudentEditPage();
 });
 
@@ -11,21 +13,18 @@ $(document).ready(function() {
  * and the confirmation dialog is sent
  */
 function readyInstructorStudentEditPage() {
-
-    $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', function(event) {
-
-        var newStudentEmail = $('#newstudentemail').val();
-        var isEmailFieldChanged = newStudentEmail !== $('#studentemail').val();
-        var isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
+    $(INSTRUCTOR_STUDENT_EDIT_FORM).on('submit', (event) => {
+        const newStudentEmail = $('#newstudentemail').val();
+        const isEmailFieldChanged = newStudentEmail !== $('#studentemail').val();
+        const isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
 
         if ($(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
 
-            var messageText = 'Editing these fields will result in some existing responses from this student '
+            const messageText = 'Editing these fields will result in some existing responses from this student '
                               + 'to be deleted. You may download the data before you make the changes. Are '
                               + 'you sure you want to continue?';
-            var okCallback = function() {
-
+            const okCallback = function () {
                 if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
                     sendEmailToNewEmailOption(event, newStudentEmail);
                 } else {
@@ -42,13 +41,13 @@ function readyInstructorStudentEditPage() {
 
     function sendEmailToNewEmailOption(event, newStudentEmail) {
         event.preventDefault();
-        var messageText = 'Do you want to resend past session links of this course to the new email '
-                + newStudentEmail + '?';
-        var yesCallback = function() {
+        const messageText = `Do you want to resend past session links of this course to the new email ${
+                 newStudentEmail}?`;
+        const yesCallback = function () {
             $('#isSendEmail').val(true);
             event.target.submit();
         };
-        var noCallback = function() {
+        const noCallback = function () {
             $('#isSendEmail').val(false);
             event.target.submit();
         };
@@ -57,7 +56,7 @@ function readyInstructorStudentEditPage() {
                 'No, just save the changes', 'Cancel', StatusType.PRIMARY);
     }
 
-    $('#teamname').change(function() {
+    $('#teamname').change(() => {
         $(INSTRUCTOR_STUDENT_EDIT_FORM).attr('editStatus', 'mustDeleteResponses');
     });
 }
