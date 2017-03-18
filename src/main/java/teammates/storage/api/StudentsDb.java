@@ -154,7 +154,6 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        // Return CourseStudent if it exists. Otherwise, fall back on Student.
         Query q = getPm().newQuery(CourseStudent.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
         q.setFilter("googleId == googleIdParam && courseId == courseIdParam");
@@ -588,8 +587,6 @@ public class StudentsDb extends EntitiesDb {
         }
 
     }
-
-    // Functions for the new CourseStudent class to replace Student class
 
     private QueryWithParams getCourseStudentForEmailQuery(String courseId, String email) {
         Query q = getPm().newQuery(CourseStudent.class);
