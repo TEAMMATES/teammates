@@ -578,7 +578,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Instructor.class;
         String primaryKeyName = "id";
         InstructorAttributes ia = (InstructorAttributes) attributes;
@@ -588,13 +588,7 @@ public class InstructorsDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && email == emailParam");
         q.setResult(primaryKeyName);
 
-        List<?> results = (List<?>) q.execute(ia.courseId, ia.email);
-
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, new Object[] {ia.courseId, ia.email});
     }
 
 }

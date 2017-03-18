@@ -7,7 +7,6 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
-
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -188,13 +187,7 @@ public abstract class EntitiesDb {
     public void deleteEntity(EntityAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
-        Object entity = getEntity(entityToDelete);
-
-        if (entity == null) {
-            return;
-        }
-
-        getPm().deletePersistent(entity);
+        getEntityKeyOnlyQuery(entityToDelete).delete();
         getPm().flush();
 
         // wait for the operation to persist
@@ -223,16 +216,10 @@ public abstract class EntitiesDb {
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
-        List<Object> entities = new ArrayList<Object>();
         for (EntityAttributes entityToDelete : entitiesToDelete) {
-            Object entity = getEntity(entityToDelete);
-            if (entity != null) {
-                entities.add(entity);
-                log.info(entityToDelete.getBackupIdentifier());
-            }
+            getEntityKeyOnlyQuery(entityToDelete).delete();
         }
 
-        getPm().deletePersistentAll(entities);
         getPm().flush();
     }
 
@@ -259,10 +246,12 @@ public abstract class EntitiesDb {
      */
     protected abstract Object getEntity(EntityAttributes attributes);
 
-    protected abstract Object getEntityKeyOnly(EntityAttributes attributes);
+    protected abstract QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes);
 
     public boolean hasEntity(EntityAttributes attributes) {
-        return getEntityKeyOnly(attributes) != null;
+        QueryWithParams q = getEntityKeyOnlyQuery(attributes);
+        List<?> results = q.execute();
+        return !results.isEmpty();
     }
 
     protected PersistenceManager getPm() {

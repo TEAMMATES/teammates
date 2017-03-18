@@ -496,7 +496,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackResponseComment.class;
         String primaryKeyName = "feedbackResponseCommentId";
         FeedbackResponseCommentAttributes frca = (FeedbackResponseCommentAttributes) attributes;
@@ -504,23 +504,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Query q = getPm().newQuery(entityClass);
         q.setResult(primaryKeyName);
-        List<?> results;
+        Object[] params;
 
         if (id == null) {
             q.declareParameters("String courseIdParam, java.util.Date createdAtParam, String giverEmailParam");
             q.setFilter("courseId == courseIdParam && createdAt == createdAtParam && giverEmail == giverEmailParam");
-            results = (List<?>) q.execute(frca.courseId, frca.createdAt, frca.giverEmail);
+            params = new Object[] {frca.courseId, frca.createdAt, frca.giverEmail};
         } else {
             q.declareParameters("String idParam");
             q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
+            params = new Object[] {id};
         }
 
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, params);
     }
 
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {

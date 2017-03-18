@@ -647,7 +647,7 @@ public class CommentsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Comment.class;
         String primaryKeyName = "commentId";
         CommentAttributes ca = (CommentAttributes) attributes;
@@ -655,7 +655,7 @@ public class CommentsDb extends EntitiesDb {
 
         Query q = getPm().newQuery(entityClass);
         q.setResult(primaryKeyName);
-        List<?> results;
+        Object[] params;
 
         if (id == null) {
             q.declareParameters("String courseIdParam, String giverEmailParam, java.util.Date createdAtParam, "
@@ -665,20 +665,15 @@ public class CommentsDb extends EntitiesDb {
                         + "&& createdAt == createdAtParam "
                         + "&& recipientType == recipientTypeParam "
                         + "&& recipients.contains(receiverParam)");
-            Object[] params = new Object[]{ca.courseId, ca.giverEmail, ca.createdAt, ca.recipientType.toString(),
+            params = new Object[]{ca.courseId, ca.giverEmail, ca.createdAt, ca.recipientType.toString(),
                     SanitizationHelper.sanitizeForHtml(ca.recipients.iterator().next())};
-            results = (List<?>) q.executeWithArray(params);
         } else {
             q.declareParameters("Long idParam");
             q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
+            params = new Object[] {id};
         }
 
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, params);
     }
 
     // Gets a comment entity if the ID is known

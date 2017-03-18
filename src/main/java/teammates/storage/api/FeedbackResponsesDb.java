@@ -1129,7 +1129,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackResponse.class;
         String primaryKeyName = "feedbackResponseId";
         FeedbackResponseAttributes fra = (FeedbackResponseAttributes) attributes;
@@ -1137,23 +1137,19 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         Query q = getPm().newQuery(entityClass);
         q.setResult(primaryKeyName);
-        List<?> results;
+        Object[] params;
 
         if (id == null) {
             q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String receiverParam");
             q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam && "
                         + "receiver == receiverParam");
-            results = (List<?>) q.execute(fra.feedbackQuestionId, fra.giver, fra.recipient);
+            params = new Object[] {fra.feedbackQuestionId, fra.giver, fra.recipient};
         } else {
             q.declareParameters("String idParam");
             q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
+            params = new Object[] {id};
         }
 
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, params);
     }
 }

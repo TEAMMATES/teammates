@@ -237,7 +237,7 @@ public class AccountsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Account.class;
         String primaryKeyName = "googleId";
         AccountAttributes aa = (AccountAttributes) attributes;
@@ -248,12 +248,6 @@ public class AccountsDb extends EntitiesDb {
         q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
 
-        List<?> results = (List<?>) q.execute(id);
-
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, new Object[] {id});
     }
 }

@@ -611,7 +611,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackSession.class;
         String primaryKeyName = "feedbackSessionId";
         FeedbackSessionAttributes fsa = (FeedbackSessionAttributes) attributes;
@@ -621,12 +621,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
         q.setResult(primaryKeyName);
 
-        List<?> results = (List<?>) q.execute(fsa.getFeedbackSessionName(), fsa.getCourseId());
-
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, new Object[] {fsa.getFeedbackSessionName(), fsa.getCourseId()});
     }
 }

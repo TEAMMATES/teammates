@@ -1,8 +1,6 @@
 package teammates.storage.api;
 
 import java.util.Date;
-import java.util.List;
-
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
@@ -223,7 +221,7 @@ public class ProfilesDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = StudentProfile.class;
         String primaryKeyName = "profileId";
         StudentProfileAttributes spa = (StudentProfileAttributes) attributes;
@@ -234,12 +232,6 @@ public class ProfilesDb extends EntitiesDb {
         q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
 
-        List<?> results = (List<?>) q.execute(id);
-
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, new Object[] {id});
     }
 }

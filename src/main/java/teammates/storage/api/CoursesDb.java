@@ -152,7 +152,7 @@ public class CoursesDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Course.class;
         String primaryKeyName = "ID";
         CourseAttributes ca = (CourseAttributes) attributes;
@@ -163,13 +163,7 @@ public class CoursesDb extends EntitiesDb {
         q.setFilter(primaryKeyName + " == idParam");
         q.setResult(primaryKeyName);
 
-        List<?> results = (List<?>) q.execute(id);
-
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, new Object[] {id});
     }
 
     private Course getCourseEntity(String courseId) {

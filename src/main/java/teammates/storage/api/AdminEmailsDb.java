@@ -315,7 +315,7 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = AdminEmail.class;
         String primaryKeyName = "emailId";
         AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
@@ -323,23 +323,19 @@ public class AdminEmailsDb extends EntitiesDb {
 
         Query q = getPm().newQuery(entityClass);
         q.setResult(primaryKeyName);
-        List<?> results;
+        Object[] params;
 
         if (id == null) {
             q.declareParameters("String subjectParam, java.util.Date createDateParam");
             q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
-            results = (List<?>) q.execute(aea.subject, aea.createDate);
+            params = new Object[] {aea.subject, aea.createDate};
         } else {
             q.declareParameters("String idParam");
             q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
+            params = new Object[] {id};
         }
 
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, params);
     }
 
 }

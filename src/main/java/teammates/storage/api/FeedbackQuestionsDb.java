@@ -329,7 +329,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
 
     @Override
-    protected Object getEntityKeyOnly(EntityAttributes attributes) {
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackQuestion.class;
         String primaryKeyName = "feedbackQuestionId";
         FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) attributes;
@@ -337,24 +337,20 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         Query q = getPm().newQuery(entityClass);
         q.setResult(primaryKeyName);
-        List<?> results;
+        Object[] params;
 
         if (id == null) {
             q.declareParameters("String feedbackSessionNameParam, String courseIdParam, int questionNumberParam");
             q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                         + "courseId == courseIdParam && "
                         + "questionNumber == questionNumberParam");
-            results = (List<?>) q.execute(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber);
+            params = new Object[] {fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber};
         } else {
             q.declareParameters("String idParam");
             q.setFilter(primaryKeyName + " == idParam");
-            results = (List<?>) q.execute(id);
+            params = new Object[] {id};
         }
 
-        if (results.isEmpty()) {
-            return null;
-        } else {
-            return results.get(0);
-        }
+        return new QueryWithParams(q, params);
     }
 }
