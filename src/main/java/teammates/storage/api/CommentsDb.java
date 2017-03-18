@@ -654,7 +654,6 @@ public class CommentsDb extends EntitiesDb {
         Long id = ca.getCommentId();
 
         Query q = getPm().newQuery(entityClass);
-        q.setResult(primaryKeyName);
         Object[] params;
 
         if (id == null) {
@@ -673,7 +672,7 @@ public class CommentsDb extends EntitiesDb {
             params = new Object[] {id};
         }
 
-        return new QueryWithParams(q, params);
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 
     // Gets a comment entity if the ID is known

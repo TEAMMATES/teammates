@@ -230,8 +230,7 @@ public class ProfilesDb extends EntitiesDb {
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String idParam");
         q.setFilter(primaryKeyName + " == idParam");
-        q.setResult(primaryKeyName);
 
-        return new QueryWithParams(q, new Object[] {id});
+        return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
     }
 }

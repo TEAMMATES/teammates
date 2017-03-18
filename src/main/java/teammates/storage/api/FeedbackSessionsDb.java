@@ -619,8 +619,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
-        q.setResult(primaryKeyName);
 
-        return new QueryWithParams(q, new Object[] {fsa.getFeedbackSessionName(), fsa.getCourseId()});
+        return new QueryWithParams(q, new Object[] {fsa.getFeedbackSessionName(), fsa.getCourseId()}, primaryKeyName);
     }
 }

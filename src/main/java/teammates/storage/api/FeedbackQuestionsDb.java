@@ -336,7 +336,6 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         String id = fqa.getId();
 
         Query q = getPm().newQuery(entityClass);
-        q.setResult(primaryKeyName);
         Object[] params;
 
         if (id == null) {
@@ -351,6 +350,6 @@ public class FeedbackQuestionsDb extends EntitiesDb {
             params = new Object[] {id};
         }
 
-        return new QueryWithParams(q, params);
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 }

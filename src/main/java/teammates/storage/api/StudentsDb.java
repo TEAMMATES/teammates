@@ -711,9 +711,8 @@ public class StudentsDb extends EntitiesDb {
         Query q = getPm().newQuery(entityClass);
         q.declareParameters("String courseIdParam, String emailParam");
         q.setFilter("courseId == courseIdParam && email == emailParam");
-        q.setResult(primaryKeyName);
 
-        return new QueryWithParams(q, new Object[] {sa.course, sa.email});
+        return new QueryWithParams(q, new Object[] {sa.course, sa.email}, primaryKeyName);
     }
 
 }

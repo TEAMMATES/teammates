@@ -322,7 +322,6 @@ public class AdminEmailsDb extends EntitiesDb {
         String id = aea.emailId;
 
         Query q = getPm().newQuery(entityClass);
-        q.setResult(primaryKeyName);
         Object[] params;
 
         if (id == null) {
@@ -335,7 +334,7 @@ public class AdminEmailsDb extends EntitiesDb {
             params = new Object[] {id};
         }
 
-        return new QueryWithParams(q, params);
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 
 }

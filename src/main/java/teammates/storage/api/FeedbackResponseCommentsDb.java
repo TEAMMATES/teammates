@@ -503,7 +503,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Long id = frca.getId();
 
         Query q = getPm().newQuery(entityClass);
-        q.setResult(primaryKeyName);
         Object[] params;
 
         if (id == null) {
@@ -516,7 +515,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             params = new Object[] {id};
         }
 
-        return new QueryWithParams(q, params);
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 
     private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
