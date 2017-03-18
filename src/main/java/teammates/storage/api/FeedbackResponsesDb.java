@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -653,27 +654,25 @@ public class FeedbackResponsesDb extends EntitiesDb {
     public void deleteFeedbackResponsesForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<String> courseIds = new ArrayList<String>();
-        courseIds.add(courseId);
-        deleteFeedbackResponsesForCourses(courseIds);
-
+        deleteFeedbackResponsesForCourses(Arrays.asList(courseId));
     }
 
     public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        List<FeedbackResponse> feedbackResponses = getFeedbackResponseEntitiesForCourses(courseIds);
-
-        getPm().deletePersistentAll(feedbackResponses);
+        getFeedbackResponsesForCoursesQuery(courseIds).deletePersistentAll();
         getPm().flush();
+    }
+
+    private QueryWithParams getFeedbackResponsesForCoursesQuery(List<String> courseIds) {
+        Query q = getPm().newQuery(FeedbackResponse.class);
+        q.setFilter(":p.contains(courseId)");
+        return new QueryWithParams(q, new Object[] {courseIds});
     }
 
     @SuppressWarnings("unchecked")
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
-        Query q = getPm().newQuery(FeedbackResponse.class);
-        q.setFilter(":p.contains(courseId)");
-
-        return (List<FeedbackResponse>) q.execute(courseIds);
+        return (List<FeedbackResponse>) getFeedbackResponsesForCoursesQuery(courseIds).execute();
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
