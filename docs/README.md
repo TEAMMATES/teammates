@@ -29,6 +29,7 @@ Here are some documents important for TEAMMATES developers.
   [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true),
   [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true),
   [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true)
+* [Compressing images](compressing-images.md): How to compress images for use in TEAMMATES.
 
 ## Technical reports
 

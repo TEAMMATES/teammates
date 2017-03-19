@@ -58,8 +58,8 @@ public class InstructorCommentsPageAction extends Action {
         Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new HashMap<String, List<Boolean>>();
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         if (!coursePaginationList.isEmpty()) {
-        //Load details of students and instructors once and pass it to callee methods
-        //  (rather than loading them many times).
+            // Load details of students and instructors once and pass it to callee methods
+            // (rather than loading them many times).
             roster = new CourseRoster(logic.getStudentsForCourse(courseId), logic.getInstructorsForCourse(courseId));
 
             //Prepare comments data

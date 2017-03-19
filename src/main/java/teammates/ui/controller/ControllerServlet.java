@@ -13,16 +13,14 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
@@ -124,18 +122,12 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable t) {
-            String requestMethod = req.getMethod();
-            String requestUserAgent = req.getHeader("User-Agent");
-            String requestPath = req.getServletPath();
-            String requestUrl = req.getRequestURL().toString();
-            String requestParams = HttpRequestHelper.printRequestParameters(req);
-
-            EmailWrapper errorReport =
-                    new EmailGenerator().generateSystemErrorEmail(requestMethod, requestUserAgent, requestPath,
-                                                                  requestUrl, requestParams, userType, t);
-            new EmailSender().sendReport(errorReport);
-            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, errorReport, userType));
-
+            /* Log only stack trace to prevent delay in termination of request
+             * which can result in GAE shutting down the instance.
+             * Note that severe logs are sent by email automatically in the cron job auto/compileLogs.
+             */
+            log.severe("Unexpected exception caught by ControllerServlet : "
+                        + TeammatesException.toStringWithStackTrace(t));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }
