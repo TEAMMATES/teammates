@@ -422,7 +422,7 @@ public class StudentsDb extends EntitiesDb {
     private void recreateStudentWithNewEmail(
             CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
             boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         newCourseStudent.setLastName(lastName);
         newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
         if (keepUpdateTimestamp) {
