@@ -72,7 +72,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String userSectionForCourse = getUserSectionForCourse();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
-        List<FeedbackResponseAttributes> newResponses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String totalResponsesForQuestion = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
@@ -131,7 +133,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
                 if (response.responseMetaData.getValue().isEmpty()) {
                     // deletes the response since answer is empty
-                    saveResponse(response, null);
+                    collectResponses(response, responsesToSave, responsesToDelete, responsesToUpdate);
                 } else {
                     response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
@@ -151,7 +153,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
-                    saveResponse(response, newResponses);
+                    collectResponses(response, responsesToSave, responsesToDelete, responsesToUpdate);
                 }
             } else {
                 List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
@@ -165,7 +167,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
 
-        saveNewReponses(newResponses);
+        saveNewReponses(responsesToSave);
+        deleteResponses(responsesToDelete);
+        updateResponses(responsesToUpdate);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -241,34 +245,48 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return existingResponsesId.contains(response.getId());
     }
 
-    private void saveResponse(FeedbackResponseAttributes response, List<FeedbackResponseAttributes> newResponses)
-            throws EntityDoesNotExistException {
+    private void collectResponses(FeedbackResponseAttributes response, List<FeedbackResponseAttributes> responsesToSave,
+            List<FeedbackResponseAttributes> responsesToDelete, List<FeedbackResponseAttributes> responsesToUpdate) {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() || response.recipient.isEmpty()) {
-                logic.deleteFeedbackResponse(response);
+                responsesToDelete.add(response);
                 return;
             }
+            responsesToUpdate.add(response);
+        } else if (!response.responseMetaData.getValue().isEmpty()
+                   && !response.recipient.isEmpty()) {
+            responsesToSave.add(response);
+        }
+    }
+
+    private void saveNewReponses(List<FeedbackResponseAttributes> responsesToSave)
+            throws EntityDoesNotExistException {
+        try {
+            logic.createFeedbackResponses(responsesToSave);
+            hasValidResponse = true;
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+        }
+    }
+
+    private void deleteResponses(List<FeedbackResponseAttributes> responsesToDelete) {
+        for(FeedbackResponseAttributes response : responsesToDelete) {
+            logic.deleteFeedbackResponse(response);
+        }
+    }
+
+    private void updateResponses(List<FeedbackResponseAttributes> responsesToUpdate)
+            throws EntityDoesNotExistException {
+        for(FeedbackResponseAttributes response : responsesToUpdate) {
             try {
                 logic.updateFeedbackResponse(response);
                 hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
+                continue;
             }
-        } else if (!response.responseMetaData.getValue().isEmpty()
-                   && !response.recipient.isEmpty()) {
-            newResponses.add(response);
-        }
-    }
-
-    private void saveNewReponses(List<FeedbackResponseAttributes> newResponses)
-            throws EntityDoesNotExistException {
-        try {
-            logic.createFeedbackResponses(newResponses);
-            hasValidResponse = true;
-        } catch (InvalidParametersException e) {
-            setStatusForException(e);
         }
     }
 
