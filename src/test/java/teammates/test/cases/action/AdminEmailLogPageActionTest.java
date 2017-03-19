@@ -27,7 +27,7 @@ import teammates.ui.template.AdminEmailTableRow;
 import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
 
 /**
- * Action test for {@link AdminEmailLogPageAction}.
+ * SUT: {@link AdminEmailLogPageAction}.
  *
  * <p>The test will inject predefined GAE logs using {@link teammates.test.driver.GaeSimulation} and
  * then test the correct execution of the action.
@@ -106,15 +106,19 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     public void filterQuery_invalidQuery_defaultSearchPerformed() {
         int[][] expected = new int[][]{{0, 1, 2, 3}};
 
-        verifyActionResult(expected, "filterQuery", "unknown");
+        String query = "unknown";
+        verifyActionResult(expected, "filterQuery", query);
 
-        verifyActionResult(expected, "filterQuery", "");
+        query = "";
+        verifyActionResult(expected, "filterQuery", query);
 
-        verifyActionResult(expected, "filterQuery", "info");
+        query = "info";
+        verifyActionResult(expected, "filterQuery", query);
 
-        verifyActionResult(expected, "filterQuery", "info:");
+        query = "info:";
+        verifyActionResult(expected, "filterQuery", query);
 
-        String query = "receiver unknown_connector info:content";
+        query = "receiver unknown_connector info:content";
         verifyActionResult(expected, "filterQuery", query);
 
         query = "unknown:subject1 | info:keyword1";
