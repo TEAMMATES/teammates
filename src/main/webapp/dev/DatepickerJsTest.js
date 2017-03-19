@@ -18,11 +18,16 @@ QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', function(assert) 
     var startDate = new Date(2017, 3, 19, 2, 31, 0, 0);
     var publishDate = new Date(2017, 3, 19, 2, 30, 0, 0);
 
-    assert.equal(getMaxDateForVisibleDate(startDate, null), startDate, 'Returns startDate when publishDate is null');
-    assert.equal(getMaxDateForVisibleDate(startDate, undefined), startDate, 'Returns startDate when publishDate is undefined');
-    assert.equal(getMaxDateForVisibleDate(startDate, publishDate), publishDate, 'Returns publishDate when startDate > publishDate');
-    assert.equal(getMaxDateForVisibleDate(startDate, startDate), startDate, 'Returns startDate when startDate = publishDate');
-    assert.equal(getMaxDateForVisibleDate(publishDate, startDate), publishDate, 'Returns startDate when startDate < publishDate');
+    assert.equal(getMaxDateForVisibleDate(startDate, null), startDate,
+            'Returns startDate when publishDate is null');
+    assert.equal(getMaxDateForVisibleDate(startDate, undefined), startDate,
+            'Returns startDate when publishDate is undefined');
+    assert.equal(getMaxDateForVisibleDate(startDate, publishDate), publishDate,
+            'Returns publishDate when startDate > publishDate');
+    assert.equal(getMaxDateForVisibleDate(startDate, startDate), startDate,
+            'Returns startDate when startDate = publishDate');
+    assert.equal(getMaxDateForVisibleDate(publishDate, startDate), publishDate,
+            'Returns startDate when startDate < publishDate');
 });
 
 QUnit.test('getMinDateForPublishDate(visibleDate)', function(assert) {
