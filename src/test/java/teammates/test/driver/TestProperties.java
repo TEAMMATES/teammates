@@ -18,9 +18,6 @@ public final class TestProperties {
     public static final String TEST_EMAILS_FOLDER = "src/test/resources/emails";
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
-    public static final String TEAMMATES_REMOTEAPI_APP_DOMAIN;
-    public static final int TEAMMATES_REMOTEAPI_APP_PORT;
-
     public static final String TEAMMATES_URL;
     public static final String TEAMMATES_VERSION;
 
@@ -53,12 +50,6 @@ public final class TestProperties {
             prop.load(new FileInputStream("src/test/resources/test.properties"));
 
             TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
-
-            // remove "http\://" and "https\://"
-            String remoteApiDomain = TEAMMATES_URL.substring(TEAMMATES_URL.indexOf("://") + 3);
-            TEAMMATES_REMOTEAPI_APP_DOMAIN = remoteApiDomain.split(":")[0];
-            TEAMMATES_REMOTEAPI_APP_PORT =
-                    remoteApiDomain.contains(":") ? Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
 
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
