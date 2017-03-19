@@ -33,4 +33,4 @@ rules:
     no-use-before-define: "off"
 
     # require or disallow strict mode directives
-    strict: "off"
+    strict: ["error", "never"]
