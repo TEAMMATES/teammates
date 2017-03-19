@@ -178,7 +178,8 @@ public class AdminEmailLogPageData extends PageData {
             }
 
             String[] values = pair[1].split(",", -1);
-            String label = pair[0];
+            values = StringHelper.trim(values);
+            String label = pair[0].trim();
 
             if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
