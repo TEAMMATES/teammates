@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "eslint": "3.17.1",
+    "eslint-plugin-json": "1.2.0",
+    "stylelint": "7.9.0"
+  }
+}
