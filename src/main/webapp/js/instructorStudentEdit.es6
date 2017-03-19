@@ -1,7 +1,5 @@
 /* global BootboxWrapper:false StatusType:false */
 
-'use strict';
-
 const INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 
 $(document).ready(() => {

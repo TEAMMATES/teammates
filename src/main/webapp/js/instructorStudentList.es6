@@ -1,8 +1,6 @@
 /* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
 /* global toggleSort:false match:false */
 
-'use strict';
-
 $(document).ready(() => {
     attachEventToDeleteStudentLink();
 

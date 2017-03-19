@@ -2,8 +2,6 @@
 /* global isBlank:false setStatusMessage:false StatusType:false */
 /* global scrollToTop:false richTextEditorBuilder:false BootboxWrapper:false */
 
-'use strict';
-
 const COMMENT_TEXT = 'commenttext';
 const COMMENT_EDITTYPE = 'commentedittype';
 const DISPLAY_COMMENT_BLANK = 'Please enter a valid comment. The comment can\'t be empty.';

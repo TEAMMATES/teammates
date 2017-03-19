@@ -1,7 +1,5 @@
 /* global highlightSearchResult:false */
 
-'use strict';
-
 $(document).ready(() => {
     $('.comments > .list-group-item').hover(function () {
         $("a[type='button']", this).show();

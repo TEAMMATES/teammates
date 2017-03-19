@@ -2,8 +2,6 @@
 /* global bindUnpublishButtons:false setupFsCopyModal:false BootboxWrapper:false */
 /* global StatusType:false global linkAjaxForResponseRate:false */
 
-'use strict';
-
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 const CURRENT_YEAR = (new Date()).getFullYear();
 
