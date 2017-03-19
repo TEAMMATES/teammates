@@ -450,7 +450,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         assertEquals(expectedMsgs.size(), actualLogs.size());
         for (int i = 0; i < expectedMsgs.size(); i++) {
             String actualMsg = actualLogs.get(i).generateLogMessage();
-            assertTrue("expecte: " + expectedMsgs.get(i) + "to contain:" + actualMsg,
+            assertTrue("expect: " + expectedMsgs.get(i) + "to contain:" + actualMsg,
                     expectedMsgs.get(i).contains(actualMsg));
         }
     }
