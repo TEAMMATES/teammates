@@ -85,7 +85,6 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     }
 
     @Override
-    @Test
     public void testExecuteAndPostProcess() {
         // See each independent test case
     }
@@ -106,22 +105,24 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     @Test(groups = "typicalEmailLogs")
     public void filterQuery_invalidQuery_defaultSearchPerformed() {
         int[][] expected = new int[][]{{0, 1, 2, 3}};
-        String query = "unknown";
+
+        verifyActionResult(expected, "filterQuery", "unknown");
+
+        verifyActionResult(expected, "filterQuery", "");
+
+        verifyActionResult(expected, "filterQuery", "info");
+
+        verifyActionResult(expected, "filterQuery", "info:");
+
+        String query = "receiver unknown_connector info:content";
         verifyActionResult(expected, "filterQuery", query);
-        query = "";
-        verifyActionResult(expected, "filterQuery", query);
-        query = "info";
-        verifyActionResult(expected, "filterQuery", query);
-        query = "info:";
-        verifyActionResult(expected, "filterQuery", query);
-        query = "receiver unknown_connector info:content";
-        verifyActionResult(expected, "filterQuery", query);
+
         query = "unknown:subject1 | info:keyword1";
         verifyActionResult(expected, "filterQuery", query);
 
         // invalid filterQuery with showing testing data
         expected = new int[][]{{0, 1, 2, 3, 4, 5, 6}};
-        query = "information:unkown";
+        query = "information:unknown";
         verifyActionResult(expected, "filterQuery", query, "all", "true");
     }
 
@@ -222,7 +223,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         String statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 8);
 
-        // test statusMessage with `from`
+        // test statusMessage with `after` filter
         String query = "after:" + formatterAdminTime.format(twoDaysAgo);
         action = getAction("filterQuery", query);
         statusMessage = getShowPageResult(action).getStatusMessage();
@@ -244,7 +245,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         params = new String[] {"offset", String.valueOf(threeDaysAgo.getTime())};
         verifyContinueSearch(params, expected, 0);
 
-        // with there are some filters
+        // continue search with some filters
         expected = new int[][]{{}, {1, 2}};
         params = new String[] {"offset", String.valueOf(yesterday.getTime()),
                 "filterQuery", "subject:subject2", "all", "true"};
@@ -331,8 +332,8 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
      * Verifies actualLogs contains expectedLogs.
      *
      * <p>expectedLogs is a 2D array, the outer indices correspond to {@link #LOG_MESSAGE_INDEX_TODAY}
-     * {@link #LOG_MESSAGE_YESTDAY_INDEX} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
-     * every {@code LOG_MESSAGE_*_INDEX} correspond to the orders in the test data.
+     * {@link #LOG_MESSAGE_INDEX_YESTERDAY} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
+     * every {@code LOG_MESSAGE_INDEX_*} correspond to the orders in the test data.
      */
     private void verifyLogs(int[][] expectedLogs, List<EmailLogEntry> actualLogs) {
         List<String> expectedMsgs = generateExpectedMsgFrom(expectedLogs);

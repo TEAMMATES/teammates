@@ -85,6 +85,7 @@ public class AdminEmailLogPageAction extends Action {
         AdminLogQuery query = new AdminLogQuery(versionToQuery, data.getFromDate(), data.getToDate());
 
         List<AppLogLine> searchResult = new GaeLogApi().fetchLogs(query);
+        data.setLogs(filterLogsForEmailLogPage(searchResult, data));
 
         long nextEndTimeToSearch = data.getFromDate() - 1;
         int totalLogsSearched = searchResult.size();
@@ -95,8 +96,6 @@ public class AdminEmailLogPageAction extends Action {
                 + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
-
-        data.setLogs(filterLogsForEmailLogPage(searchResult, data));
     }
 
     /**
@@ -124,16 +123,16 @@ public class AdminEmailLogPageAction extends Action {
             totalLogsSearched += searchResult.size();
             query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
-        long nextEndTimeToSearch = query.getEndTime();
 
+        data.setLogs(emailLogs);
+
+        long nextEndTimeToSearch = query.getEndTime();
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
                       + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
                       + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
-
-        data.setLogs(emailLogs);
     }
 
     private List<EmailLogEntry> filterLogsForEmailLogPage(List<AppLogLine> appLogLines,
@@ -152,6 +151,7 @@ public class AdminEmailLogPageAction extends Action {
                 emailLogs.add(emailLogEntry);
             }
         }
+
         return emailLogs;
     }
 }
