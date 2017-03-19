@@ -1,8 +1,9 @@
-'use strict';
+/* global tinymce:false, tinyMCE:false
+ */
 
 /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-var richTextEditorBuilder = {
-    getDefaultConfiguration: function() {
+const richTextEditorBuilder = {
+    getDefaultConfiguration() {
         return {
             theme: 'modern',
             fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 26pt 28pt 36pt 48pt 72pt',
@@ -31,23 +32,23 @@ var richTextEditorBuilder = {
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                 'searchreplace wordcount visualblocks visualchars code fullscreen',
                 'insertdatetime nonbreaking save table contextmenu directionality',
-                'emoticons template paste textcolor colorpicker textpattern'
+                'emoticons template paste textcolor colorpicker textpattern',
             ],
 
             toolbar1: 'insertfile undo redo | styleselect | bold italic underline | '
                     + 'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
             toolbar2: 'print preview | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
 
-            init_instance_callback: 'initEditorCallback'
+            init_instance_callback: 'initEditorCallback',
 
         };
     },
 
-    initEditor: function(selector, opts) {
+    initEditor(selector, opts) {
         tinymce.init($.extend(this.getDefaultConfiguration(), {
-            selector: selector
+            selector,
         }, opts));
-    }
+    },
 
 };
 /* eslint-enable camelcase */
@@ -64,7 +65,7 @@ function initEditorCallback(editor) {
     tinymce.DOM.addClass(editor.bodyElement, 'content-editor');
     setPlaceholderText(editor);
 
-    editor.on('selectionchange', function() {
+    editor.on('selectionchange', () => {
         setPlaceholderText(editor);
     });
 }
@@ -76,7 +77,7 @@ function destroyEditor(id) {
     if (typeof tinyMCE === 'undefined') {
         return;
     }
-    var currentEditor = tinyMCE.get(id);
+    const currentEditor = tinyMCE.get(id);
     if (currentEditor) {
         currentEditor.destroy();
     }
