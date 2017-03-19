@@ -1,5 +1,3 @@
-'use strict';
-
 // Browser Compatibility and support
 const MSIE = 'Microsoft Internet Explorer';
 const MSIE_LOWEST_VERSION = 9;
