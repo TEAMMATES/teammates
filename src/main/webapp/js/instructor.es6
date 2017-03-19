@@ -155,7 +155,6 @@ function bindStudentPhotoLink(elements) {
                                       .addClass('center-block margin-top-7px');
 
         $(this).siblings('img').attr('src', actualLink).load(function () {
-            const actualLink = $(this).parent().attr('data-link');
             const resolvedLink = $(this).attr('src');
 
             $loadingImage.remove();
