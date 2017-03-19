@@ -46,13 +46,6 @@ public class AdminEmailLogPageAction extends Action {
         AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
 
-        String pageChange = getRequestParamValue("pageChange");
-        boolean isPageChanged = "true".equals(pageChange) || timeOffset == null;
-        if (isPageChanged) {
-            //Reset the offset because we are performing a new search, so we start from the beginning of the logs
-            endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
-        }
-
         if (data.getFilterQuery() == null) {
             data.setFilterQuery("");
         }
@@ -64,7 +57,7 @@ public class AdminEmailLogPageAction extends Action {
 
         statusToAdmin = "adminEmailLogPage Page Load";
 
-        if (isPageChanged) {
+        if (timeOffset == null) {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
 
