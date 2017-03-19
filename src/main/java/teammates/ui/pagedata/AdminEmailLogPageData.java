@@ -168,12 +168,14 @@ public class AdminEmailLogPageData extends PageData {
      * @return false if the logEntry fails the filtering process
      */
     public boolean shouldShowLog(EmailLogEntry logEntry) {
+        // Skip test data if the request is not showing all logs
+        boolean isShowTestData = !logEntry.isTestData() || shouldShowAll;
 
         if (q == null) {
             if (this.queryMessage == null) {
                 this.queryMessage = "Error parsing the query. QueryParameters not created.";
             }
-            return true;
+            return isShowTestData;
         }
 
         // filter based on what is in the query
@@ -208,8 +210,7 @@ public class AdminEmailLogPageData extends PageData {
             }
         }
 
-        // Skip test data if the request is not showing all logs
-        return !logEntry.isTestData() || shouldShowAll;
+        return isShowTestData;
     }
 
     /**
