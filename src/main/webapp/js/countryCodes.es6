@@ -1,5 +1,3 @@
-'use strict';
-
 // Country code data from:
 // https://gist.github.com/maephisto/9228207
 // https://github.com/michaelwittig/node-i18n-iso-countries/blob/master/codes.js
