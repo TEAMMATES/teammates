@@ -152,9 +152,9 @@ public final class BackDoor {
     /**
      * Gets an instructor data with particular google ID from the datastore.
      */
-    public static InstructorAttributes getInstructorByGoogleId(String instructorId, String courseId) {
+    public static InstructorAttributes getInstructorByGoogleId(String googleId, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID);
-        params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_ID, instructorId);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
