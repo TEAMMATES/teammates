@@ -101,8 +101,8 @@ public class StudentsDb extends EntitiesDb {
                 updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
                                                   student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -177,17 +177,17 @@ public class StudentsDb extends EntitiesDb {
      *
      * @return null if no matching student.
      */
-    public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
-
+    public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
         try {
-            // CourseStudent
-            String originalKey = StringHelper.decrypt(registrationKey.trim());
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(originalKey);
+            String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
+            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
             if (courseStudent == null) {
                 return null;
             }
             return new StudentAttributes(courseStudent);
+        } catch (InvalidParametersException e) {
+            return null; // invalid registration key cannot be decrypted
         } catch (Exception e) {
             // TODO change this to an Assumption.fail
             log.severe("Exception thrown trying to retrieve CourseStudent \n"
