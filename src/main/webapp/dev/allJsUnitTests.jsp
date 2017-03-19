@@ -22,7 +22,7 @@
     <div id="test-bootbox-modal-stub"></div>
     <div id="visible">Visible</div>
     <input type="text" id="date-picker-div">
-    
+
     <!-- Library scripts -->
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
