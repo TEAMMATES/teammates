@@ -25,7 +25,7 @@ Conversely, when updating any tool, ensure that the tool version is supported by
 [CheckStyle](http://checkstyle.sourceforge.net/index.html) helps to enforce coding standard in Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
 
-#####Configuring Checkstyle Eclipse plugin
+##### Configuring Checkstyle Eclipse plugin
 
 The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
@@ -47,7 +47,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 1. Click `Finish`.
 1. Check the box next to the newly added rule to activate it.
 
-#####Suppressing Checkstyle warnings
+##### Suppressing Checkstyle warnings
 
 To introduce code that violates Checkstyle rules, wrap the violating code with `// CHECKSTYLE.OFF:RuleName` and re-enable it afterwards with `// CHECKSTYLE.ON:RuleName` (note the absence of space around `.` and `:`). Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
@@ -71,7 +71,7 @@ private String ID;
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 
-#####Configuring PMD Eclipse plugin
+##### Configuring PMD Eclipse plugin
 
 The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
@@ -89,7 +89,8 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 1. In the `Options` tab, set `Target JDK` to 1.7.
 1. Click `OK`.
 
-#####Suppressing PMD warnings
+##### Suppressing PMD warnings
+
 To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
@@ -121,8 +122,8 @@ To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (v
 ./gradlew installEslint
 
 # Alternatively, if you want to install the ESLint module globally, use the install command manually
-# Remember to use the correct tool version
-npm install -g eslint@{version}
+# Remember to use the correct tool and plugin version
+npm install -g eslint@{version} eslint-plugin-json@{version}
 ```
 
 #### Installing ESLint from within IntelliJ

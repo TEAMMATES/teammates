@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -115,12 +116,35 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testKeyEncryption() {
+    public void testKeyEncryption() throws InvalidParametersException {
         String msg = "Test decryption";
         String decrptedMsg;
 
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
+    }
+
+    @Test
+    public void testDecryptingInvalidCiphertextThrowsException() {
+        // The decrypt function converts a hex string into an array of bytes before decryption.
+        // E.g AF is the byte 10101111
+        // Hence, non-hex strings should fail to decrypt.
+        String invalidHexString = "GHI";
+
+        // AES requires the length of data to be multiples of 128 bits.
+        // Hence, decryptionn should fail  for inputs of 120 and 136 bits.
+        String ciphertextLength120 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCC";
+        String ciphertextLength136 = ciphertextLength120 + "1234";
+
+        String[] invalidCiphertexts = {invalidHexString, ciphertextLength120, ciphertextLength136};
+        for (String invalidCiphertext : invalidCiphertexts) {
+            try {
+                StringHelper.decrypt(invalidCiphertext);
+                signalFailureToDetectException();
+            } catch (InvalidParametersException e) {
+                ignoreExpectedException();
+            }
+        }
     }
 
     @Test
@@ -322,4 +346,22 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("Coevaluacin Prctica (Part 1)",
                      StringHelper.removeNonAscii("Coevaluación Práctica (Part 1)"));
     }
+
+    @Test
+    public void testJoin() {
+        assertEquals("", StringHelper.join("", new String[] {}));
+        assertEquals("", StringHelper.join(",", new String[] {}));
+        assertEquals("", StringHelper.join("||", new String[] {}));
+
+        assertEquals("test", StringHelper.join("", new String[] {"test"}));
+        assertEquals("test", StringHelper.join(",", new String[] {"test"}));
+        assertEquals("test", StringHelper.join("||", new String[] {"test"}));
+        assertEquals("testdata", StringHelper.join("", new String[] {"test", "data"}));
+
+        assertEquals("test,data", StringHelper.join(",", new String[] {"test", "data"}));
+        assertEquals("test||data", StringHelper.join("||", new String[] {"test", "data"}));
+        assertEquals("test|||data|||testdata",
+                StringHelper.join("|||", new String[] {"test", "data", "testdata"}));
+    }
+
 }
