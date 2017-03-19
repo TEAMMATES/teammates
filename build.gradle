@@ -334,21 +334,12 @@ tasks.withType(FindBugs) {
     }
 }
 
-task installEslint(type: Exec) {
-    commandLine "npm", "install", "eslint@3.17.1", "eslint-plugin-json@1.2.0"
-}
-
-task installStylelint(type: Exec) {
-    commandLine "npm", "install", "stylelint@7.9.0"
-}
-
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
     doFirst {
         configurations.staticAnalysis.resolve()
     }
-    finalizedBy installEslint, installStylelint
 }
 
 task staticAnalysisMain {
