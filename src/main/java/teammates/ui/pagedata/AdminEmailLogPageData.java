@@ -58,6 +58,30 @@ public class AdminEmailLogPageData extends PageData {
         return statusForAjax;
     }
 
+    /**
+     * Returns now if toDate is not present in the query.
+     */
+    public long getToDate() {
+        if (this.q == null || !this.q.isToDateInQuery) {
+            return TimeHelper.now(0.0).getTimeInMillis();
+        }
+        return this.q.toDateValue;
+    }
+
+    public boolean isFromDateInQuery() {
+        return this.q != null && this.q.isFromDateInQuery;
+    }
+
+    /**
+     * Returns 0 if fromDate is not present in the query.
+     */
+    public long getFromDate() {
+        if (this.q == null) {
+            return 0;
+        }
+        return this.q.fromDateValue;
+    }
+
     public String getQueryKeywordsForReceiver() {
         if (q == null || !q.isReceiverInQuery) {
             return "";
@@ -106,6 +130,14 @@ public class AdminEmailLogPageData extends PageData {
 
     public void setStatusForAjax(String statusForAjax) {
         this.statusForAjax = statusForAjax;
+    }
+
+    public void setToDate(long date) {
+        if (this.q == null) {
+            return;
+        }
+        this.q.isToDateInQuery = true;
+        this.q.toDateValue = date;
     }
 
     /**
