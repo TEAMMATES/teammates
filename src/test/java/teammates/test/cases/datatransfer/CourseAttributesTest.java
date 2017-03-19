@@ -9,6 +9,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link CourseAttributes}.
+ */
 public class CourseAttributesTest extends BaseTestCase {
 
     //TODO: add test for constructor

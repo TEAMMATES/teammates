@@ -8,6 +8,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 
+/**
+ * SUT: {@link BackDoorLogic}.
+ */
 public class BackDoorLogicTest extends BaseLogicTest {
 
     @Override

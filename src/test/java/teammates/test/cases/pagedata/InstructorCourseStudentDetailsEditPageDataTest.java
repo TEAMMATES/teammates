@@ -8,6 +8,9 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.template.StudentInfoTable;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsEditPageData}.
+ */
 public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase {
 
     private StudentAttributes inputStudent;

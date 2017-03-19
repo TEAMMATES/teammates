@@ -22,6 +22,9 @@ import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
+/**
+ * SUT: {@link StudentHomePageData}.
+ */
 public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
 

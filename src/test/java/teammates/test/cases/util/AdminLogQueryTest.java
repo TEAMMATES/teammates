@@ -10,6 +10,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.AdminLogQuery;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link AdminLogQuery}.
+ */
 public class AdminLogQueryTest extends BaseTestCase {
     @Test
     public void testAdminLogQuery() {

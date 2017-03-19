@@ -13,6 +13,9 @@ import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 import teammates.ui.template.StudentInfoTable;
 import teammates.ui.template.StudentProfile;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsPageData}.
+ */
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private static final String[] USERS_COMMENT_BOX_SHOWN_TO = {"student", "team", "section"};
 

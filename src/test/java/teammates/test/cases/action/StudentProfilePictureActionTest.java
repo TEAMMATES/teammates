@@ -16,6 +16,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ImageResult;
 import teammates.ui.controller.StudentProfilePictureAction;
 
+/**
+ * SUT: {@link StudentProfilePictureAction}.
+ */
 public class StudentProfilePictureActionTest extends BaseActionTest {
 
     private AccountAttributes account;

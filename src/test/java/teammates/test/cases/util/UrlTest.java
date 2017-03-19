@@ -7,6 +7,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link Url},
+ *      {@link AppUrl}.
+ */
 public class UrlTest extends BaseTestCase {
 
     @Test

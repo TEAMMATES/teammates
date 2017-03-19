@@ -11,6 +11,9 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_JOIN_CONFIRMATION_PAGE}.
+ */
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     @Override

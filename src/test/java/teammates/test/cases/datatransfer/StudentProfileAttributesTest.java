@@ -18,6 +18,9 @@ import teammates.test.driver.AssertHelper;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link StudentProfileAttributes}.
+ */
 public class StudentProfileAttributesTest extends BaseTestCase {
 
     private StudentProfileAttributes profile;
