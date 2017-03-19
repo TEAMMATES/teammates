@@ -91,6 +91,7 @@ public abstract class AutomatedAction {
 
     protected abstract String getActionMessage();
 
+    /** Executes the action. */
     public abstract void execute();
 
 }

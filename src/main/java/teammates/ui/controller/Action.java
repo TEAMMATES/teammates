@@ -475,8 +475,11 @@ public abstract class Action {
         return values;
     }
 
+    /**
+     * Returns false if the specified parameter was not found in the request.
+     */
     public boolean getRequestParamAsBoolean(String paramName) {
-        return Boolean.parseBoolean(HttpRequestHelper.getValueFromParamMap(requestParameters, paramName));
+        return Boolean.parseBoolean(getRequestParamValue(paramName));
     }
 
     /**
