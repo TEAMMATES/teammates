@@ -20,7 +20,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     private static final Logger log = Logger.getLogger();
 
-    StudentAttributes moderatedStudent;
+    private StudentAttributes moderatedStudent;
 
     @Override
     protected void verifyAccesibleForSpecificUser() {

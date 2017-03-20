@@ -18,7 +18,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
-    AdminEmailComposePageData data;
+    private AdminEmailComposePageData data;
 
     @Override
     protected ActionResult execute() {

@@ -11,7 +11,7 @@ import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
 
 public class PriorityInterceptor implements IMethodInterceptor {
-    static String packageOrder;
+    private static String packageOrder;
 
     static {
         try {

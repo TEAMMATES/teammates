@@ -22,7 +22,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
 
     private static final Logger log = Logger.getLogger();
 
-    InstructorAttributes moderatedInstructor;
+    private InstructorAttributes moderatedInstructor;
 
     /**
      * Verifies if the user is allowed to carry out the action.

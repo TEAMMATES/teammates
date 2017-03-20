@@ -76,7 +76,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         testInvalidityInfoForInvalidProfile();
     }
 
-    protected void testGetInvalidityInfoForValidProfileWithValues() {
+    private void testGetInvalidityInfoForValidProfileWithValues() {
         StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
 
         ______TS("Typical case: valid profile attributes");
@@ -84,7 +84,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    protected void testGetInvalidtyInfoForValidProfileWithEmptyValues() {
+    private void testGetInvalidtyInfoForValidProfileWithEmptyValues() {
         StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
 
         ______TS("Typical case: valid profile with empty attributes");
@@ -97,7 +97,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    protected void testInvalidityInfoForInvalidProfile() throws Exception {
+    private void testInvalidityInfoForInvalidProfile() throws Exception {
         StudentProfileAttributes invalidProfile = getInvalidStudentProfileAttributes();
 
         ______TS("Failure case: invalid profile attributes");
