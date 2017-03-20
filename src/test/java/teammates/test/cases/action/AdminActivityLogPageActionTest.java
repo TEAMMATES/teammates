@@ -91,7 +91,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // See each independent test case
     }
 
-    @BeforeGroups("typicalLogs")
+    @BeforeGroups("typicalActivityLogs")
     public void removeAndRestoreLogMessage() {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
@@ -104,7 +104,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), today.getTime());
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void filterQuery_invalidQuery_defaultSearchPerformed() {
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}};
         String query = "unknown";
@@ -126,7 +126,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query, "testdata", "true");
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void filterLogs_withUrlParams_showTestDataAndExcludedUriAccordingly() {
         // Besides filterQuery, logs can also be filtered by appending URL parameters (`testdata` or `all`)
         // to decide whether to show logs from test data or log contains excluded Uri.
@@ -148,7 +148,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "testdata", "true", "all", "true");
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void filterQuery_validQuery() {
         // from
         int[][] expected = new int[][]{{0, 1, 3, 4, 5}, {0, 1, 2}};
@@ -225,7 +225,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "testdata", "true", "filterQuery", query);
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void filterQueryAndUrlParams_combinationWithEachOther_querySuccessful() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
@@ -253,7 +253,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query, "testdata", "true", "all", "true");
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void filterQuery_queryDifferentAppVersions_querySuccessful() {
         // version query is controlled by GAE itself
         // so there is no need to write comprehensive test case for it
@@ -267,7 +267,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query);
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void statusMessage_validQuery_generatedCorrectly() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
 
@@ -300,7 +300,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyLocalTimeInStatusMessage(statusMessage, fromDate.getTime(), Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void loadingLocalTimeAjaxQuery_validAndInvalidInputs_returnCorrectly() {
         Calendar now = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -330,7 +330,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 "Unregistered:idOfTypicalCourse1", "Unregistered", now.getTimeInMillis());
     }
 
-    @Test(groups = "typicalLogs")
+    @Test(groups = "typicalActivityLogs")
     public void continueSearch_searchFromDifferentTime_searchCorrectly() {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
@@ -370,7 +370,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     }
 
-    @BeforeGroups("manyLogs")
+    @BeforeGroups("manyActivityLogs")
     public void removeAndRestoreManyLogs() {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
@@ -382,7 +382,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     // The two test groups should have different 'priority' so that they can run separately
     // as they depend on different sets of log messages
-    @Test(groups = "manyLogs", priority = 2)
+    @Test(groups = "manyActivityLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
 
