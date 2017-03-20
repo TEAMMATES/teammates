@@ -83,8 +83,8 @@ public abstract class EntitiesDb {
 
         // Wait for the operation to persist
         int elapsedTime = 0;
-        Object createdEntity = getEntity(entityToAdd);
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
+            Object createdEntity = getEntity(entityToAdd);
             while (createdEntity == null
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();

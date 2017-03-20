@@ -21,10 +21,6 @@ public abstract class FeedbackResponseDetails {
 
     /**
      * Extract response details and sets details accordingly.
-     *
-     * @param questionType
-     * @param questionDetails
-     * @param answer
      */
     public abstract void extractResponseDetails(
             FeedbackQuestionType questionType,
@@ -40,12 +36,8 @@ public abstract class FeedbackResponseDetails {
     /**
      * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
      *
-     * default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails)
+     * <p>default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails).
      * override in child class if necessary.
-     *
-     * @param questionDetails
-     * @param feedbackSessionResultsBundle
-     * @return
      */
     public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                 FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
@@ -55,12 +47,8 @@ public abstract class FeedbackResponseDetails {
     /**
      * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
      *
-     * default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails)
+     * <p>default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails).
      * override in child class if necessary.
-     *
-     * @param questionDetails
-     * @param feedbackSessionResultsBundle
-     * @return
      */
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                     FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
@@ -72,9 +60,7 @@ public abstract class FeedbackResponseDetails {
             FeedbackQuestionDetails questionDetails,
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
 
-        FeedbackResponseDetails responseDetails =
-                questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
-                                                                questionIndx, responseIndx);
-        return responseDetails;
+        return questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
+                                                               questionIndx, responseIndx);
     }
 }

@@ -92,9 +92,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Prepares question tables for viewing
+     * Prepares question tables for viewing.
      *
-     * {@code bundle} should be set before this method
+     * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
                                       String selectedSection, String showStats,
@@ -165,7 +165,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
      *
-     * Iterates through the responses and creates panels and questions for them. Keeps track
+     * <p>Iterates through the responses and creates panels and questions for them. Keeps track
      * of missing sections, teams and participants who do not have responses
      * and create panels for these missing sections, teams and participants.
      *
@@ -306,10 +306,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Constructs section panel for the {@code sortedResponses}.
      *
-     * Also builds team statistics tables for every team
-     * @param section
-     * @param sortedResponses
-     * @param additionalInfoId
+     * <p>Also builds team statistics tables for every team.
      */
     private void buildSectionPanelForViewByParticipantQuestionParticipant(String section,
                                 Map<String, Map<FeedbackQuestionAttributes,
@@ -410,12 +407,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         } else {
             moderationButton = null;
         }
-        InstructorFeedbackResultsGroupByParticipantPanel primaryParticipantPanel =
-                buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+        return buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                         primaryParticipantIdentifier, primaryParticipantNameWithTeamName,
                         secondaryParticipantPanels, moderationButton);
-
-        return primaryParticipantPanel;
     }
 
     private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> buildSecondaryParticipantPanels(
@@ -733,10 +727,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Builds participant panels for the specified team, and add to sectionPanel
-     * @param sectionPanel
-     * @param teamName
-     * @param teamMembers
+     * Builds participant panels for the specified team, and add to sectionPanel.
      */
     private void addMissingParticipantsPanelsWithModerationButtonForTeam(
                                                              InstructorFeedbackResultsSectionPanel sectionPanel,
@@ -799,11 +790,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Constructs InstructorFeedbackResultsQuestionTable containing statistics for each team.
      * The statistics tables are added to the sectionPanel.
-     *
-     * @param sectionPanel
-     * @param questions
-     * @param responsesGroupedByTeam
-     * @param teamsInSection
      */
     private void buildTeamsStatisticsTableForSectionPanel(
                      InstructorFeedbackResultsSectionPanel sectionPanel,
@@ -872,10 +858,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Builds question tables without response rows, but with stats
-     * @param question
+     * Builds question tables without response rows, but with stats.
      * @param responses  responses to compute statistics for
-     * @param additionalInfoId
      */
     private InstructorFeedbackResultsQuestionTable buildQuestionTableWithoutResponseRows(
                                     FeedbackQuestionAttributes question,
@@ -888,9 +872,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Builds a question table for given question, and response rows for the given responses.
      *
-     * @param question
-     * @param responses
-     * @param additionalInfoId
      * @param participantIdentifier  for viewTypes * > Question > *, constructs missing response rows
      *                               only for the given participant
      * @param isShowingResponseRows  if false, hides the response rows
@@ -1052,10 +1033,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Builds response rows for a given question. This not only builds response rows for existing responses, but includes
      * the missing responses between pairs of givers and recipients.
-     * @param question
      * @param responses  existing responses for the question
-     *
-     * @see configureResponseRowForViewType
      */
     private List<InstructorFeedbackResultsResponseRow> buildResponseRowsForQuestion(
             FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses) {
@@ -1227,10 +1205,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Construct missing response rows between the giver identified by {@code giverIdentifier} and
-     * {@code possibleReceivers}. The response rows are configured using
-     * {@code configureResponseRowForViewType(viewType)}.
-     *
-     * @see configureResponseRowForViewType
+     * {@code possibleReceivers}.
      */
     private List<InstructorFeedbackResultsResponseRow> buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                                                     FeedbackQuestionAttributes question,
@@ -1266,10 +1241,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Construct missing response rows between the recipient identified by {@code recipientIdentifier} and
-     * {@code possibleGivers}. The response rows are configured using
-     * {@code configureResponseRowForViewType(viewType)}.
-     *
-     * @see configureResponseRowForViewType
+     * {@code possibleGivers}.
      */
     private List<InstructorFeedbackResultsResponseRow> buildMissingResponseRowsBetweenRecipientAndPossibleGivers(
                                     FeedbackQuestionAttributes question,
@@ -1306,9 +1278,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList.
-     *
-     * @param participantIdentifierList
-     * @param participantIdentifier
      */
     private void removeParticipantIdentifierFromList(
                     List<String> participantIdentifierList, String participantIdentifier) {
@@ -1365,14 +1334,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Returns <br>
-     *  * null if the participant is not visible,<br>
-     *  * a disabled moderation button if the instructor does not have sufficient permissions, or<br>
-     *  * a working moderation button otherwise
-     * @param question
-     * @param giverIdentifier
-     * @param className
-     * @param buttonText
+     * Gets moderation button for giver.
+     *
+     * @return
+     * <ul>
+     * <li>null if the participant is not visible</li>
+     * <li>a disabled moderation button if the instructor does not have sufficient permissions</li>
+     * <li>a working moderation button otherwise</li>
+     * </ul>
      */
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                             String giverIdentifier, String className,
@@ -1394,11 +1363,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                               : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         moderateFeedbackResponseLink = addUserIdToUrl(moderateFeedbackResponseLink);
 
-        InstructorFeedbackResultsModerationButton moderationButton =
-                new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
-                                                              getFeedbackSessionName(), question, buttonText,
-                                                              moderateFeedbackResponseLink);
-        return moderationButton;
+        return new InstructorFeedbackResultsModerationButton(isDisabled, className, giverIdentifier, getCourseId(),
+                                                             getFeedbackSessionName(), question, buttonText,
+                                                             moderateFeedbackResponseLink);
     }
 
     private InstructorFeedbackResultsGroupByParticipantPanel buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(

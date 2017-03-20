@@ -38,7 +38,7 @@ public final class SearchManager {
     }
 
     /**
-     * Creates or updates the search document for the given document and index
+     * Creates or updates the search document for the given document and index.
      */
     public static void putDocument(String indexName, Document document) {
         int elapsedTime = 0;

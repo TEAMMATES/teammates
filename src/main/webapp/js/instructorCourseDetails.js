@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));
@@ -71,7 +73,11 @@ function attachEventToSendInviteLink() {
         var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request anyway?';
         var okCallback = function() {
-            window.location = $clickedLink.attr('href');
+            $.get($clickedLink.attr('href'), function() {
+                var studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
+                var message = 'An email has been sent to ' + studentEmail;
+                setStatusMessage(message, 'success');
+            });
         };
 
         BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,

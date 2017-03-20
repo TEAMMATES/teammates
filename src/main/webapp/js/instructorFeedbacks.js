@@ -1,3 +1,5 @@
+'use strict';
+
 // TODO: Move constants from Common.js into appropriate files if not shared.
 var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 

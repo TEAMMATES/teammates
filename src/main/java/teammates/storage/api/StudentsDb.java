@@ -33,8 +33,8 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for students.
  *
- * @see {@link CourseStudent}
- * @see {@link StudentAttributes}
+ * @see CourseStudent
+ * @see StudentAttributes
  */
 public class StudentsDb extends EntitiesDb {
 
@@ -45,7 +45,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for students
+     * Searches for students.
      * @return {@link StudentSearchResultBundle}
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
@@ -63,7 +63,6 @@ public class StudentsDb extends EntitiesDb {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
-     * @param queryString
      * @return null if no result found
      */
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
@@ -90,10 +89,7 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * Create students' records without searchability
-     * This function is currently used in testing process only
-     * @param studentsToAdd
-     * @throws InvalidParametersException
+     * Creates students' records without searchability.
      */
     public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd)
             throws InvalidParametersException {
@@ -105,8 +101,8 @@ public class StudentsDb extends EntitiesDb {
                 updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
                                                   student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -176,21 +172,22 @@ public class StudentsDb extends EntitiesDb {
     /**
      * Works only for encrypted keys.
      *
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * <p>Preconditions: <br>
+     * All parameters are non-null.
+     *
      * @return null if no matching student.
      */
-    public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
-
+    public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
         try {
-            // CourseStudent
-            String originalKey = StringHelper.decrypt(registrationKey.trim());
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(originalKey);
+            String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
+            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
             if (courseStudent == null) {
                 return null;
             }
             return new StudentAttributes(courseStudent);
+        } catch (InvalidParametersException e) {
+            return null; // invalid registration key cannot be decrypted
         } catch (Exception e) {
             // TODO change this to an Assumption.fail
             log.severe("Exception thrown trying to retrieve CourseStudent \n"
@@ -263,9 +260,9 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     *  Preconditions: <br>
-     *  All parameters are non-null
-     *  @return an empty list if no students in this section
+     * Preconditions: <br>
+     * All parameters are non-null.
+     * @return an empty list if no students in this section
      */
     public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
@@ -342,8 +339,6 @@ public class StudentsDb extends EntitiesDb {
      * Preconditions: <br>
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
      * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public void updateStudent(String courseId, String email, String newName,
                                     String newTeamName, String newSectionName, String newEmail,
@@ -390,7 +385,6 @@ public class StudentsDb extends EntitiesDb {
                 newEmail, newGoogleId, newComments, false, false);
     }
 
-    @SuppressWarnings("PMD.PreserveStackTrace")
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleId,
             String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
@@ -409,42 +403,57 @@ public class StudentsDb extends EntitiesDb {
             if (isEmailChanged) {
                 CourseStudent newCourseStudent = new CourseStudent(newEmail, newName, newGoogleId, newComments,
                                                                    courseId, newTeamName, newSectionName);
-                newCourseStudent.setLastName(lastName);
-                newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
-                if (keepUpdateTimestamp) {
-                    newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
-                }
-
-                try {
-                    createStudent(new StudentAttributes(newCourseStudent), hasDocument);
-                } catch (EntityAlreadyExistsException e) {
-                    StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
-                    String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                            + existingStudent.getName() + "/" + existingStudent.getEmail();
-                    throw new InvalidParametersException(error);
-                }
-
-                deleteStudent(courseId, email);
-
+                recreateStudentWithNewEmail(newCourseStudent, lastName, courseStudent, hasDocument,
+                                            keepUpdateTimestamp, courseId, email);
             } else {
-                courseStudent.setName(newName);
-                courseStudent.setLastName(lastName);
-                courseStudent.setComments(newComments);
-                courseStudent.setGoogleId(newGoogleId);
-                courseStudent.setTeamName(newTeamName);
-                courseStudent.setSectionName(newSectionName);
-
-                if (hasDocument) {
-                    putDocument(new StudentAttributes(courseStudent));
-                }
-
-                // Set true to prevent changes to last update timestamp
-                courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
+                updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
+                                     newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
 
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();
+    }
+
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    private void recreateStudentWithNewEmail(
+            CourseStudent newCourseStudent, String lastName, CourseStudent courseStudent,
+            boolean hasDocument, boolean keepUpdateTimestamp, String courseId, String email)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        newCourseStudent.setLastName(lastName);
+        newCourseStudent.setCreatedAt(courseStudent.getCreatedAt());
+        if (keepUpdateTimestamp) {
+            newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
+        }
+
+        try {
+            createStudent(new StudentAttributes(newCourseStudent), hasDocument);
+        } catch (EntityAlreadyExistsException e) {
+            StudentAttributes existingStudent = (StudentAttributes) e.existingEntity;
+            String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+                           + existingStudent.getName() + "/" + existingStudent.getEmail();
+            throw new InvalidParametersException(error);
+        }
+
+        deleteStudent(courseId, email);
+    }
+
+    private void updateStudentDetails(String newName, String newTeamName, String newSectionName,
+            String newGoogleId, String newComments, boolean hasDocument,
+            boolean keepUpdateTimestamp, CourseStudent courseStudent, String lastName) {
+        courseStudent.setName(newName);
+        courseStudent.setLastName(lastName);
+        courseStudent.setComments(newComments);
+        courseStudent.setGoogleId(newGoogleId);
+        courseStudent.setTeamName(newTeamName);
+        courseStudent.setSectionName(newSectionName);
+
+        if (hasDocument) {
+            putDocument(new StudentAttributes(courseStudent));
+        }
+
+        // Set true to prevent changes to last update timestamp
+        courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
     }
 
     //TODO: add an updateStudent(StudentAttributes) version and make the above private
@@ -569,8 +578,8 @@ public class StudentsDb extends EntitiesDb {
     }
 
     /**
-     * @param courseId
-     * @param email
+     * Verifies that the student with the specified {@code email} exists in the course {@code courseId}.
+     *
      * @throws EntityDoesNotExistException if the student specified by courseId and email does not exist,
      */
     public void verifyStudentExists(String courseId, String email)
@@ -583,11 +592,7 @@ public class StudentsDb extends EntitiesDb {
 
     }
 
-    /**
-     *
-     * Functions for the new CourseStudent class to replace Student class
-     *
-     */
+    // Functions for the new CourseStudent class to replace Student class
 
     private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {
 

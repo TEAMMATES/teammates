@@ -44,7 +44,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
-        testAddContributionQuestionAsSecondQuestion();
+        testCopyOptions();
     }
 
     @Override
@@ -71,12 +71,37 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
         //no question specific options to test
 
-        ______TS("CONTRIB: set visibility options");
+        ______TS("CONTRIB: verify only valid visibility options are visible");
 
-        feedbackEditPage.enableOtherVisibilityOptionsForNewQuestion();
-        //TODO: click and ensure can see answer for recipients,
-        //giver team members, recipient team members
-        //are always the same. (under visibility options)
+        assertTrue(feedbackEditPage
+                .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS"));
+        assertTrue(feedbackEditPage
+                .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS"));
+        assertFalse(feedbackEditPage
+                .isVisibilityDropdownOptionHiddenForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"));
+        assertFalse(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY"));
+        assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS"));
+        assertTrue(feedbackEditPage.isVisibilityDropdownSeparatorHiddenForNewQuestion());
+        assertTrue(feedbackEditPage.isVisibilityDropdownOptionHiddenForNewQuestion("OTHER"));
+
+        ______TS("CONTRIB: verify correct output params for selected visibility option");
+
+        // default (first option)
+        assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
+                feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
+
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
+
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
+        assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
+                feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
     }
 
@@ -129,26 +154,65 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     /**
-     * Tests the case when contribution question is added after another question that
-     * has options invalid for contribution questions. This is to prevent invalid options
-     * from being copied over to the contribution question.
+     * Tests the copying of options to/from contribution questions. Options should not be
+     * copied in the case of a contribution question being added after a non-contribution
+     * question. This is to prevent options that are invalid for contribution questions
+     * from being copied over to a contribution question.
      */
-    private void testAddContributionQuestionAsSecondQuestion() {
-        ______TS("CONTRIB: add as second question");
+    private void testCopyOptions() {
+        ______TS("CONTRIB: skip copy visibility options non-contrib -> contrib");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q1, essay qn");
-        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
+
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q2, contribution qn");
-        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        assertEquals("Please select a visibility option",
+                feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
+        assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
+                feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
+
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        ______TS("CONTRIB: copy visibility options contrib -> contrib");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONTRIB");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("q3, contribution qn");
+        assertEquals("Visible to instructors only",
+                feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
+
+        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        ______TS("CONTRIB: copy visibility options contrib -> non-contrib");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+
+        assertEquals("Shown anonymously to recipient and team members, visible to instructors",
+                feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
+        assertEquals("RECEIVER,OWN_TEAM_MEMBERS,INSTRUCTORS",
+                feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
+        assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
+        assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
     }
 

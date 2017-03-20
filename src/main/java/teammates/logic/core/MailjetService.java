@@ -18,9 +18,9 @@ import com.mailjet.client.resource.Email;
  * Email sender service provided by Mailjet.
  *
  * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailjet">https://cloud.google.com/appengine/docs/java/mail/mailjet</a>
- * @see {@link MailjetClient}
- * @see {@link MailjetRequest}
- * @see {@link MailjetResponse}
+ * @see MailjetClient
+ * @see MailjetRequest
+ * @see MailjetResponse
  */
 public class MailjetService extends EmailSenderService {
 

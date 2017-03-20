@@ -37,11 +37,11 @@ public class TestNgTest extends BaseTestCase {
     }
 
     /**
-     * Files to be checked in testng.xml are added to testFiles
+     * Files to be checked in testng.xml are added to testFiles.
      *
      * @param testNgXml    Contents of testng.xml
      * @param rootPath     Root path of test files
-     * @return             HashMap containing <class name, package name>
+     * @return             HashMap containing {@code <class name, package name>}
      */
     private HashMap<String, String> getTestFiles(String testNgXml, String rootPath) {
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because
@@ -51,7 +51,7 @@ public class TestNgTest extends BaseTestCase {
     }
 
     /**
-     * Exclude files which do not have tests in TestNG
+     * Excludes files which do not have tests in TestNG.
      *
      * @param testFiles                  Files to be checked before excluding tests
      * @param filesExcludedFromTestNg    Files to be excluded
@@ -71,7 +71,7 @@ public class TestNgTest extends BaseTestCase {
     }
 
     /**
-     * Recursively add files from testng.xml which are to be checked
+     * Recursively adds files from testng.xml which are to be checked.
      *
      * @param path                            Check files and directories in the current path
      *
@@ -81,7 +81,7 @@ public class TestNgTest extends BaseTestCase {
      * @param packageName                     Package name of the current file
      * @param testNgXml                       Contents of testng.xml
      *
-     * @return                                HashMap containing <class name, package name> including
+     * @return                                HashMap containing {@code <class name, package name>} including
      *                                        current file or tests in the current directory
      */
     private HashMap<String, String> addFilesToTestsRecursively(String path,
@@ -98,7 +98,8 @@ public class TestNgTest extends BaseTestCase {
         for (File file : listOfFiles) {
             String name = file.getName();
 
-            if (file.isFile() && name.endsWith(".java") && !areFilesInCurrentDirExcluded) {
+            if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
+                    && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
             } else if (file.isDirectory()) {
