@@ -668,6 +668,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.verifyDownloadLink(reportUrl);
 
+        ______TS("Typical case: download report for one question");
+
+        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                                                  .withUserId("CFResultsUiT.instr")
+                                                  .withCourseId("CFResultsUiT.CS2104")
+                                                  .withSessionName("First Session")
+                                                  .withQuestionNumber("2");
+
+        resultsPage.verifyDownloadLink(reportUrl);
+
         ______TS("Typical case: download report unsuccessfully");
 
         reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
