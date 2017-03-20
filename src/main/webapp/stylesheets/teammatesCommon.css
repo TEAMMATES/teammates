@@ -453,6 +453,16 @@ Apply to thead to make headers not bold.
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
 /* Prevents content overflow in navbar*/
 
+@media screen and (max-width: 800px) {
+    .margin-bottom-10 {
+        margin-bottom: 10px;
+    }
+    .margin-bottom-20 {
+        margin-bottom: 20px;
+    }
+}
+
+
 @media (min-width: 768px) and (max-width: 991px) {
     .container > .navbar-header {
         float: none;
