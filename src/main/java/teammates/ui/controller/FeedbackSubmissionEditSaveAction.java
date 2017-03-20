@@ -272,14 +272,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
 
     private void deleteResponses(List<FeedbackResponseAttributes> responsesToDelete) {
-        for(FeedbackResponseAttributes response : responsesToDelete) {
+        for (FeedbackResponseAttributes response : responsesToDelete) {
             logic.deleteFeedbackResponse(response);
         }
     }
 
     private void updateResponses(List<FeedbackResponseAttributes> responsesToUpdate)
             throws EntityDoesNotExistException {
-        for(FeedbackResponseAttributes response : responsesToUpdate) {
+        for (FeedbackResponseAttributes response : responsesToUpdate) {
             try {
                 logic.updateFeedbackResponse(response);
                 hasValidResponse = true;
