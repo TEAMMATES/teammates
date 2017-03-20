@@ -10,6 +10,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -18,6 +19,9 @@ import teammates.common.util.StatusMessageColor;
  * save the data after moderating the instructor.
  */
 public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
+
+    private static final Logger log = Logger.getLogger();
+
     InstructorAttributes moderatedInstructor;
 
     /**

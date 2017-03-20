@@ -21,6 +21,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.CourseStudent;
@@ -39,6 +40,8 @@ import com.google.appengine.api.search.ScoredDocument;
 public class StudentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));

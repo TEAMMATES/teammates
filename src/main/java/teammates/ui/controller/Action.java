@@ -18,7 +18,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -34,7 +33,6 @@ import teammates.ui.pagedata.PageData;
  * perform that action.
  */
 public abstract class Action {
-    protected static final Logger log = Logger.getLogger();
 
     /** This is used to ensure unregistered users don't access certain pages in the system. */
     public String regkey;

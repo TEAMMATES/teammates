@@ -6,6 +6,7 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.Logger;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
 import com.google.appengine.api.blobstore.BlobInfo;
@@ -14,6 +15,8 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailGroupReceiverListUploadAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     AdminEmailComposePageData data;
 

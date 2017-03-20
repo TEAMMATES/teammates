@@ -6,9 +6,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
+
+    private static final Logger log = Logger.getLogger();
+
     @Override
     protected void verifyAccesibleForSpecificUser() {
         gateKeeper.verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));

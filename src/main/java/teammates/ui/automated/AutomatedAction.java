@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
@@ -21,8 +20,6 @@ import teammates.logic.api.TaskQueuer;
  * </p>
  */
 public abstract class AutomatedAction {
-
-    protected static final Logger log = Logger.getLogger();
 
     protected Logic logic;
     protected TaskQueuer taskQueuer;
