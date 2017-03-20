@@ -285,7 +285,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
-                continue;
             }
         }
     }
