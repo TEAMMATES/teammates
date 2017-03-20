@@ -40,8 +40,8 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         println("Preview: " + isPreview);
         for (AdminEmailAttributes email : allEmails) {
             loopHelper.recordLoop();
-            boolean isEmailUnsanitized = !DataMigrationForSanitizedDataHelper.isSanitizedHtml(email.getContentValue());
-            if (isEmailUnsanitized) {
+            boolean isEmailSanitized = DataMigrationForSanitizedDataHelper.isSanitizedHtml(email.getContentValue());
+            if (!isEmailSanitized) {
                 // skip the update if email is not sanitized
                 continue;
             }

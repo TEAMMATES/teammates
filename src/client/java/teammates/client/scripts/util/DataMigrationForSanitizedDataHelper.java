@@ -16,13 +16,9 @@ public final class DataMigrationForSanitizedDataHelper {
      * and contains at least one of their sanitized equivalents or the sanitized equivalent of '&'.
      */
     public static boolean isSanitizedHtml(String string) {
-        if (string == null) {
-            return false;
-        }
-        if (isTextContainingAny(string, "<", ">", "\"", "/", "\'")) {
-            return false;
-        }
-        return isTextContainingAny(string, "&lt;", "&gt;", "&quot;", "&#x2f;", "&#39;", "&amp;");
+        return string != null
+                && !isTextContainingAny(string, "<", ">", "\"", "/", "\'")
+                && isTextContainingAny(string, "&lt;", "&gt;", "&quot;", "&#x2f;", "&#39;", "&amp;");
     }
 
     /**
