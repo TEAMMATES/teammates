@@ -824,23 +824,34 @@ public final class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId,
-            String userEmail, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String feedbackSessionName, String courseId, String userEmail,
+            String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown, isStatsShown);
+                feedbackSessionName, courseId, userEmail, null, questionId,
+                filterText, isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
+        FeedbackSessionResultsBundle results;
         long indicatedRange = section == null ? 2000 : -1;
-        FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
+
+        if (questionId == null) {
+            results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
                 indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+        } else if (section == null) {
+            results = getFeedbackSessionResultsForInstructorFromQuestion(
+                    feedbackSessionName, courseId, userEmail, questionId);
+        } else {
+            results = getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                    feedbackSessionName, courseId, userEmail, questionId, section);
+        }
 
         if (!results.isComplete) {
             throw new ExceedingRangeException(ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE);
@@ -877,7 +888,6 @@ public final class FeedbackSessionsLogic {
                     results, entry, isMissingResponsesShown, isStatsShown));
         }
         return exportBuilder.toString();
-
     }
 
     private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
