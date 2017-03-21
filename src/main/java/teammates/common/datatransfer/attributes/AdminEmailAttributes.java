@@ -96,7 +96,6 @@ public class AdminEmailAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         this.subject = SanitizationHelper.sanitizeTextField(subject);
-        this.content = new Text(SanitizationHelper.sanitizeForHtml(content.getValue()));
     }
 
     public String getEmailId() {
@@ -123,8 +122,8 @@ public class AdminEmailAttributes extends EntityAttributes {
         return this.createDate;
     }
 
-    public Text getContent() {
-        return this.content;
+    public String getContentValue() {
+        return this.content.getValue();
     }
 
     public boolean getIsInTrashBin() {
@@ -149,10 +148,6 @@ public class AdminEmailAttributes extends EntityAttributes {
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
 
         return TimeHelper.formatTime12H(cal.getTime());
-    }
-
-    public String getContentForDisplay() {
-        return SanitizationHelper.desanitizeFromHtml(this.getContent().getValue());
     }
 
     public String getFirstAddressReceiver() {
