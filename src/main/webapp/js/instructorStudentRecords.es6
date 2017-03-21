@@ -100,7 +100,6 @@ function submitCommentForm(commentIdx) {
     return false;
 }
 
-/* This function returns boolean or undefined when handling form submit event */
 /**
  * Check the submitted comment text field of the form
  * Blanks are not allowed.
@@ -122,8 +121,9 @@ function checkComment(form) {
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK, StatusType.DANGER);
         scrollToTop();
+        return false;
     }
-    return false;
+    return true;
 }
 
 /**
