@@ -37,7 +37,7 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        ______TS("case: compose new email");
+        ______TS("compose new email : typical values given : success");
         AdminEmailComposePageAction action = getAction();
         ShowPageResult pageResult = getShowPageResult(action);
         assertEquals(
@@ -51,7 +51,7 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         AdminEmailComposePageData data = (AdminEmailComposePageData) pageResult.data;
         assertNull(data.emailToEdit);
 
-        ______TS("case: edit existing email");
+        ______TS("edit existing email : typical values given : success");
         // retrieve email id from logic
         AdminEmailAttributes email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
@@ -67,7 +67,7 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertNotNull(data.emailToEdit);
 
-        ______TS("case: edit non-existing email");
+        ______TS("edit existing email : email does not exist : failure");
         String emailId = "nonexistingEmailId";
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);

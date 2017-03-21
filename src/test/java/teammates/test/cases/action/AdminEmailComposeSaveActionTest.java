@@ -35,7 +35,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        ______TS("case: save new email success");
+        ______TS("save new email : typical values given : success");
         AdminEmailComposeSaveAction action =
                 getAction(
                         Const.ParamsNames.ADMIN_EMAIL_CONTENT, "<p>Email Content</p>",
@@ -53,7 +53,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         AdminEmailComposePageData data = (AdminEmailComposePageData) pageResult.data;
         assertNull(data.emailToEdit);
 
-        ______TS("case: save new email failure: invalid subject");
+        ______TS("save new email : invalid subject : failure");
         String content = "<p>Email Content</p>";
         String subject = "!Not starting with alphanumeric";
         String receiver = "test@example.tmt";
@@ -75,7 +75,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertEquals(subject, data.emailToEdit.subject);
 
-        ______TS("case: save new email failure: invalid content");
+        ______TS("save new email : invalid content : failure");
         content = "";
         subject = "valid subject";
         receiver = "test@example.tmt";
@@ -96,7 +96,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertEquals(subject, data.emailToEdit.subject);
 
-        ______TS("case: save existing email success");
+        ______TS("save existing email : typical values given : success");
         AdminEmailAttributes email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         content = "valid content";
         subject = "valid subject <b>To check sanitization</b>";
@@ -119,7 +119,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertNull(data.emailToEdit);
 
-        ______TS("case: save existing email failure: invalid subject");
+        ______TS("save existing email : invalid subject : failure");
         email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         content = "valid content";
         subject = " ";
@@ -144,7 +144,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(subject, data.emailToEdit.subject);
         assertEquals(email.emailId, data.emailToEdit.emailId);
 
-        ______TS("case: save existing email failure: invalid content");
+        ______TS("save existing email : invalid content : failure");
         email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         content = "";
         subject = "valid subject";
@@ -168,7 +168,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(subject, data.emailToEdit.subject);
         assertEquals(email.emailId, data.emailToEdit.emailId);
 
-        ______TS("case: save non-existing email success");
+        ______TS("save non-existing email : typical values given : success");
         String emailId = "nonExisitingId";
         content = "valid content";
         subject = "valid subject <b>To check sanitization</b>";
@@ -191,7 +191,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertNull(data.emailToEdit);
 
-        ______TS("case: save non-existing email failure: invalid subject");
+        ______TS("save non-existing email : invalid subject : failure");
         emailId = "nonExisitingId";
         content = "valid content";
         subject = "";
@@ -214,7 +214,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertEquals(subject, data.emailToEdit.subject);
 
-        ______TS("case: save non-existing email failure: invalid content");
+        ______TS("save non-existing email : invalid content : failure");
         emailId = "nonExisitingId";
         content = "";
         subject = "valid subject";
