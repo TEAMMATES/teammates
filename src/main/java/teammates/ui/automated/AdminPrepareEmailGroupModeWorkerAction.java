@@ -82,7 +82,7 @@ public class AdminPrepareEmailGroupModeWorkerAction extends AutomatedAction {
             for (int j = indexOfEmailToResume; j < currentEmailList.size(); j++) {
                 String receiverEmail = currentEmailList.get(j);
                 taskQueuer.scheduleAdminEmailForSending(emailId, receiverEmail, adminEmail.getSubject(),
-                                                        adminEmail.getContent().getValue());
+                                                        adminEmail.getContentValue());
                 if (isNearDeadline()) {
                     taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, i, j);
                     log.info("Adding group mail tasks for mail with id " + emailId
