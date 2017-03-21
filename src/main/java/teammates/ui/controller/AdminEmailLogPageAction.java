@@ -68,7 +68,7 @@ public class AdminEmailLogPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
 
-        return createAjaxResult(data);
+        return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG_AJAX, data);
     }
 
     /**
@@ -113,7 +113,6 @@ public class AdminEmailLogPageAction extends Action {
 
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
-        //link for Next button, will fetch older logs
                       + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
                       + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);

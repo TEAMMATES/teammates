@@ -235,9 +235,9 @@ public class PerformanceProfiler extends Thread {
         out.close();
     }
 
-    //TODO: this class needs to be tweaked to work with the new Browser class
+    // TODO: this class needs to be tweaked to work with the new Browser class
 
-    /* Performance Tests , the order of these tests is also the order they will run */
+    // Performance Tests , the order of these tests is also the order they will run
 
     /*
 
@@ -497,22 +497,21 @@ public class PerformanceProfiler extends Thread {
         return status;
     }
 
-    /**
-     * The method createSubmission is not implemented in BackDoor yet.
-     * @return
-     */
-//    @PerformanceTest(name = "BD create submission")
-//    static public String createSubmissions()
-//    {
-//        String status = "";
-//        Set<String> set = data.submissions.keySet();
-//        for (String submissionKey : set)
-//        {
-//            SubmissionData submission = data.submissions.get(submissionKey);
-//            status += " " + BackDoor.createSubmission(submission);
-//        }
-//        return status;
-//    }
+    // The method createSubmission is not implemented in BackDoor yet.
+    @PerformanceTest(name = "BD create submission")
+    static public String createSubmissions()
+    {
+        String status = "";
+        Set<String> set = data.submissions.keySet();
+        for (String submissionKey : set)
+        {
+            SubmissionData submission = data.submissions.get(submissionKey);
+            status += " " + BackDoor.createSubmission(submission);
+        }
+        return status;
+    }
+
+    */
 
     @PerformanceTest(name = "BD get student")
     public String getStudent() {

@@ -402,6 +402,8 @@ public final class Const {
                                      "Shown anonymously to recipient and instructors");
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
                                      "Shown anonymously to recipient, visible to instructors");
+            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS",
+                                     "Shown anonymously to recipient and team members, visible to instructors");
             visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
             visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
 
@@ -469,6 +471,11 @@ public final class Const {
                 + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
                 + " as the feedback giver and recipient respectively."
                 + " These values will be used instead.";
+        public static final String CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS =
+                Const.FeedbackQuestionTypeNames.CONTRIB + " must use one of the common visibility options. The \""
+                + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
+                                        .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
+                + "\" option will be used instead.";
 
         // Constant sum
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
@@ -1105,6 +1112,7 @@ public final class Const {
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
+        public static final String ADMIN_EMAIL_LOG_AJAX = "/jsp/adminEmailLogAjax.jsp";
 
         public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp";
         public static final String ENABLE_JS = "/enableJs.jsp";
@@ -1497,6 +1505,19 @@ public final class Const {
 
         public static final int TIME_TAKEN_EXPECTED = 10000;
         public static final int TIME_TAKEN_MODERATE = 20000;
+    }
+
+    /**
+     * These are constants that may be used in {@link EmailLogEntry}.
+     */
+    public static class EmailLog {
+        public static final String TEAMMATES_EMAIL_LOG = "TEAMMATESEMAILLOG";
+        public static final String FIELD_SEPARATOR = "|||";
+
+        public static final String TEST_DATA_POSTFIX = ".tmt";
+
+        public static final String ERROR_LOG_FORMAT = "Email log message is not in expected format."
+                + " Raw log message: %1$s";
     }
 
 }
