@@ -232,16 +232,22 @@ function toggleCollapse(e, pans) {
     }
 }
 
+/**
+ * Expand each panel. If the panel data is not loaded, load it by Ajax first before expansion.
+ */
 function expand(panels, mightNeedAjaxLoading) {
     var i = 0;
     for (var idx = 0; idx < panels.length; idx++) {
         if (mightNeedAjaxLoading) {
-            // When a panel has class ajax_auto or ajax-response-auto, the panel data has not been loaded
-            // yet. We will load the data by Ajax, and ajax_auto or ajax-response-auto class will be removed.
+            // When the panel's parent element has class ajax_auto or ajax-response-auto, the panel data has
+            // not been loaded yet. We will need to load the panel data by Ajax.
             var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
             var $ajaxResponseAuto = $(panels[idx]).parent().children('.ajax-response-auto');
             var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
             var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
+
+            // Ajax loading is triggered by clicking on the element. When clicked, the panel data is loaded
+            // by Ajax, and ajax_auto or ajax-response-auto class will be removed from the element.
             if (hasAjaxAutoLoading) {
                 $ajaxAuto.click();
             }
@@ -249,8 +255,8 @@ function expand(panels, mightNeedAjaxLoading) {
                 $ajaxResponseAuto.click();
             }
             if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
-                // Ajax loading is triggered by clicking on the collapsed panel. Clicking will expands
-                // the panel.
+                // When the element needs Ajax loading, it must be collapsed because all expanded panels are
+                // already loaded.As Ajax is triggered by clicking, clicking will expand the collapsed panel.
                 continue;
             }
         }
