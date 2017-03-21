@@ -17,12 +17,12 @@ function isInCommentsPage() {
     return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
 
-const addCommentHandler = function (e) {
-    const submitButton = $(this);
-    const cancelButton = $(this).next("input[value='Cancel']");
-    const formObject = $(this).closest('form');
+const addCommentHandler = (e) => {
+    const submitButton = $(e.currentTarget);
+    const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
+    const formObject = $(e.currentTarget).closest('form');
     const addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
-    const panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
+    const panelHeading = $(e.currentTarget).parents("[id^='panel_display-']").find('.panel-heading').first();
 
     const responseCommentTableId = addFormRow.parent().attr('id');
     const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
@@ -83,13 +83,13 @@ const addCommentHandler = function (e) {
     });
 };
 
-const editCommentHandler = function (e) {
-    const submitButton = $(this);
-    const cancelButton = $(this).next("input[value='Cancel']");
-    const formObject = $(this).closest('form');
+const editCommentHandler = (e) => {
+    const submitButton = $(e.currentTarget);
+    const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
+    const formObject = $(e.currentTarget).closest('form');
     const displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     const commentBar = displayedText.parent().find('div[id^=commentBar]');
-    const panelHeading = $(this).parents("[id^='panel_display-']").find('.panel-heading').first();
+    const panelHeading = $(e.currentTarget).parents("[id^='panel_display-']").find('.panel-heading').first();
 
     e.preventDefault();
 
@@ -145,8 +145,8 @@ const editCommentHandler = function (e) {
     });
 };
 
-const deleteCommentHandler = function (e) {
-    const submitButton = $(this);
+const deleteCommentHandler = (e) => {
+    const submitButton = $(e.currentTarget);
     e.preventDefault();
 
     BootboxWrapper.showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
@@ -198,8 +198,7 @@ function showErrorMessage(errorMessage, submitButton) {
     if (editForm.is(':visible')) {
         setFormErrorMessage(editForm.find('div > a'), errorMessage);
     } else if (frCommentList.parent().find('div.delete_error_msg').length === 0) {
-        frCommentList.after(`<div class="delete_error_msg alert alert-danger">${
-                 errorMessage}</div>`);
+        frCommentList.after(`<div class="delete_error_msg alert alert-danger">${errorMessage}</div>`);
     }
     submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
 }
@@ -213,8 +212,8 @@ function registerResponseCommentsEvent() {
 }
 
 function registerResponseCommentCheckboxEvent() {
-    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function (e) {
-        const table = $(this).closest('table');
+    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', (e) => {
+        const table = $(e.currentTarget).closest('table');
         const form = table.closest('form');
         let visibilityOptions = [];
         const target = $(e.target);

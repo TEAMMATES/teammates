@@ -52,16 +52,16 @@ $(document).ready(() => {
     });
 
     // check submit text before submit
-    $('form.form_comment').submit(function (e) {
-        if ($(this).find('[id^=commentedittype]').val() !== 'delete') {
-            const commentTextInput = $(this).find('.mce-content-body');
+    $('form.form_comment').submit((e) => {
+        if ($(e.currentTarget).find('[id^=commentedittype]').val() !== 'delete') {
+            const commentTextInput = $(e.currentTarget).find('.mce-content-body');
             const commentTextId = commentTextInput.attr('id');
             const content = tinyMCE.get(commentTextId).getContent();
-            $(this).find(`input[name=${commentTextId}]`).prop('disabled', true);
-            $(this).find('input[name=commenttext]').val(content);
+            $(e.currentTarget).find(`input[name=${commentTextId}]`).prop('disabled', true);
+            $(e.currentTarget).find('input[name=commenttext]').val(content);
         }
 
-        return checkComment(this, e);
+        return checkComment(e.currentTarget, e);
     });
 
     // open or close show more options
@@ -352,8 +352,8 @@ $(document).ready(() => {
         }
     });
 
-    $('input[type=checkbox]').click(function (e) {
-        const table = $(this).closest('table');
+    $('input[type=checkbox]').click((e) => {
+        const table = $(e.currentTarget).closest('table');
         const form = table.closest('form');
         let visibilityOptions = [];
         const target = $(e.target);

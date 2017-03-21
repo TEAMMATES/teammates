@@ -4,8 +4,8 @@ $(document).ready(() => {
 
 function linkAjaxForResponseRate() {
     const responseRateClickHandler = function (e) {
-        const hyperlinkObject = $(this).clone();
-        const parentOfHyperlinkObject = $(this).parent();
+        const hyperlinkObject = $(e.currentTarget).clone();
+        const parentOfHyperlinkObject = $(e.currentTarget).parent();
         e.preventDefault();
         $.ajax({
             type: 'POST',
@@ -25,8 +25,9 @@ function linkAjaxForResponseRate() {
             success(data) {
                 setTimeout(() => {
                     const type = data.sessionDetails ? 'sessionDetails' : 'evaluationDetails';
-                    parentOfHyperlinkObject.html(`${data[type].stats.submittedTotal} / ${
-                                                  data[type].stats.expectedTotal}`);
+                    const submittedTotal = data[type].stats.submittedTotal;
+                    const expectedTotal = data[type].stats.expectedTotal;
+                    parentOfHyperlinkObject.html(`${submittedTotal} / ${expectedTotal}`);
                 }, 500);
             },
         });
@@ -36,12 +37,9 @@ function linkAjaxForResponseRate() {
     $('.table').each(function () {
         // this is bound to current object in question
         const currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);
-
         const allRows = currentTable.find('tr:has(td)');
         const recentElements = allRows.filter(i => $(allRows[i]).find('td[class*="recent"]').length);
-
         const nonRecentElements = allRows.filter(i => !$(allRows[i]).find('td[class*="recent"]').length);
-
         const sortedElements = $.merge(recentElements, nonRecentElements);
         sortedElements.each(function () {
             currentTable.get(0).appendChild(this);

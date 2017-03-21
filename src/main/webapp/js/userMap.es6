@@ -183,16 +183,12 @@ function initializeMap(err, countryCoordinates, userData) {
 }
 
 function getTooltipContent(data) {
-    return `${'<div class="hoverinfo">'
-            + '<p>'
-                + '<b>'}${
-                 data.name
-                 }</b>`
-                + '<br>'
-                + `Institutions: ${
-                 data.numOfInstitutions
-             }</p>`
-         + '</div>';
+    return `<div class="hoverinfo">
+                <p>
+                    <b>${data.name}</b>
+                    <br>Institutions: ${data.numOfInstitutions}
+                </p>
+            </div>`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
