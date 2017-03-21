@@ -12,7 +12,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Step 1: Install necessary tools and languages
 
-1. Install Git, and (optional but recommended) a Git GUI client such as GitHub for Windows/Mac.
+1. Install Source Tree or other similar Git Client, or at least Git.
 1. Install JDK 1.7.
 
 ## Step 2: Obtain your own repository copy
@@ -23,7 +23,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
    ```sh
    git remote add upstream https://github.com/TEAMMATES/teammates.git
    ```
-  
+
  **Verification:** Use the command `git remote -v` and the following lines should be part of the output:
 
   ```
@@ -45,9 +45,9 @@ More information can be found at [this documentation](https://help.github.com/ar
    ```sh
    ./gradlew appengineDownloadSdk
    ```
-   
+
  **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named `appengine-sdk` should be present.
- 
+
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
    ./gradlew setup
@@ -76,7 +76,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * [Google Plugin for Eclipse](https://developers.google.com/eclipse/docs/download). Use the correct version for your Eclipse IDE.<br>
      Be careful to omit other plugins shown on the screen (e.g Google App Engine Tools for Android, GWT plugin).
    * The latest stable [TestNG Eclipse plugin](http://testng.org/doc/download.html).
-   
+
    **Verification:** You can check if the plugins were installed successfully by going to `Help → Installation Details`.
 
 1. Configure Eclipse as follows (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
@@ -86,7 +86,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Text encoding: Go to `Eclipse → Preferences → General → Workspace`, change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a JDK (not a JRE) is selected (use **JDK 1.7**, as recommended by GAE).
      One of the items in the [troubleshooting guide](troubleshooting-guide.md) explains how to do this.
-     
+
    **Verification:** Go to `Eclipse → Preferences → Java → Installed JREs`, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
       ![devverification-guide-1.png](images/devverification-guide-1.png)
 
@@ -95,7 +95,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    ./gradlew resetEclipseDeps
    ```
    This command can be run again whenever the dependencies need to be updated.
-  
+
  **Verification:** The file named `.classpath` should be added to the project root directory.
 
 1. Import the project to your Eclipse instance.
@@ -103,7 +103,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Select `Existing Projects into Workspace` under `General`.
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
-   
+
 1. Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
      Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
