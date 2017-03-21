@@ -452,6 +452,7 @@ function checkComment(form, event) {
             setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
             scrollToTop();
             event.preventDefault();
+            event.stopPropagation();
         }
     }
 }
