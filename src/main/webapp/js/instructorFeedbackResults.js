@@ -235,10 +235,10 @@ function toggleCollapse(e, pans) {
 /**
  * Expand each panel. If the panel data is not loaded, load it by Ajax first before expansion.
  */
-function expand(panels, mightNeedAjaxLoading) {
+function expand(panels, needToCheckForAjaxLoading) {
     var i = 0;
     for (var idx = 0; idx < panels.length; idx++) {
-        if (mightNeedAjaxLoading) {
+        if (needToCheckForAjaxLoading) {
             // When the panel's parent element has class ajax_auto or ajax-response-auto, the panel data has
             // not been loaded yet. We will need to load the panel data by Ajax.
             var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
@@ -260,8 +260,9 @@ function expand(panels, mightNeedAjaxLoading) {
                 continue;
             }
         }
-        // Expand the panel if the panel is collapsed at the moment
+
         if ($(panels[idx]).attr('class').indexOf('in') === -1) {
+            // Expand the panel if the panel is collapsed at the moment
             setTimeout(showSingleCollapse, 50 * i, panels[idx]);
             i++;
         }
@@ -271,8 +272,8 @@ function expand(panels, mightNeedAjaxLoading) {
 function collapse(panels) {
     var i = 0;
     for (var inx = 0; inx < panels.length; inx++) {
-        // Collapse the panel if the panel is expanded at the moment
         if ($(panels[inx]).attr('class').indexOf('in') !== -1) {
+            // Collapse the panel if the panel is expanded at the moment
             setTimeout(hideSingleCollapse, 100 * i, panels[inx]);
             i++;
         }
