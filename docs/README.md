@@ -1,13 +1,25 @@
 # Documentation For Developers
 
-Here are some documents important for TEAMMATES developers.
+Welcome to the documentation of the TEAMMATES project.
+
+Although it may look intimidating, the documentation will make working on the project much easier. Read through them well and it'll make contributing to TEAMMATES that much more enjoyable!
+
+## Contributing
+
+ If you are new and want to contribute but don't know where to start, this is the right place:
+
+1. [**Get Started**](contributors-guide.md): Step-by-step guide on how to get started.
+2. [**Setting Up**](setting-up.md): How to set up a local development environment
+    * Stuck and need help? Check out the [trouble shooting guide](troubleshooting-guide.md).
+3. [**Development**](development.md): Now that everything is set up, learn how to work on it!
+4. [**Contributing Process**](process.md): We have a simple work flow that we expect contributors to follow.
 
 ## Main documents
 
 * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true) (short name: **Spec**): Product specification, written from the developers point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.jsp).
 * The project [**vision, challenges, and principles**](overview.md) from a developer's perspective.
 * Software [**Design**](design.md) - Architecture, APIs, etc.
-* How to [**set up the developer environment**](settingUp.md).
+* How to [**set up the developer environment**](setting-up.md).
 * [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
 * How the [**issue tracker**](issues.md) is used - issue lifecycle, issue labels, etc.
