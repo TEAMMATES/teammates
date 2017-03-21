@@ -64,7 +64,7 @@ function createGroupReceiverListUploadUrl() {
                 } else {
                     $('#adminEmailReceiverListForm').attr('action', data.nextUploadUrl);
                     setStatusMessage(data.ajaxStatus);
-                    submitGroupReceiverListUploadFormAjax();    // eslint-disable-line no-use-before-define
+                    submitGroupReceiverListUploadFormAjax();
                 }
             }, 500);
         },
@@ -127,7 +127,7 @@ function createImageUploadUrl() {
                 } else {
                     $('#adminEmailFileForm').attr('action', data.nextUploadUrl);
                     setStatusMessage(data.ajaxStatus);
-                    submitImageUploadFormAjax();        // eslint-disable-line no-use-before-define
+                    submitImageUploadFormAjax();
                 }
             }, 500);
         },
