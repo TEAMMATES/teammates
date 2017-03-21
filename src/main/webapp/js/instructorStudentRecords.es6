@@ -67,8 +67,10 @@ $(document).ready(() => {
  */
 function readyStudentRecordsPage() {
     // Bind form submission to check for blank comment field
-    $('form.form_comment').submit(function () {
-        return checkComment(this);
+    $('form.form_comment').submit(function (e) {
+        if (!checkComment(this)) {
+            e.preventDefault();
+        }
     });
 
     // Adjust size of each text area, except the new comment area
@@ -99,8 +101,6 @@ function submitCommentForm(commentIdx) {
 }
 
 /* This function returns boolean or undefined when handling form submit event */
-/* eslint-disable consistent-return */
-
 /**
  * Check the submitted comment text field of the form
  * Blanks are not allowed.
@@ -122,11 +122,9 @@ function checkComment(form) {
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK, StatusType.DANGER);
         scrollToTop();
-        return false;
     }
+    return false;
 }
-
-/* eslint-enable consistent-return */
 
 /**
  * Show the comment box, focus comment text area and hide "Add Comment link"
