@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.client.scripts.util.Stopwatch;
 import teammates.test.cases.browsertests.BaseUiTestCase;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -64,10 +65,10 @@ public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
         InstructorFeedbackResultsPage resultsPage =
                 loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
-        long timer = System.nanoTime();
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.start();
         resultsPage.waitForPageToLoad();
-        timer = System.nanoTime() - timer;
-        logger.info("Time taken: " + timer / 1000000000.0);
+        stopwatch.logTimeElapsedInSeconds(logger);
 
         return resultsPage;
     }

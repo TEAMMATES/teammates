@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.client.scripts.util.Stopwatch;
 import teammates.test.cases.browsertests.BaseUiTestCase;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
@@ -79,10 +80,10 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
                 readData("InstructorCourseEnrollPageScaleTestData" + numStudents, Charset.defaultCharset());
 
         logger.info("Testing with " + numStudents + " students...");
-        long timer = System.nanoTime();
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.start();
         enrollPage.enroll(enrollString);
-        timer = System.nanoTime() - timer;
-        logger.info("Time taken: " + timer / 1000000000.0);
+        stopwatch.logTimeElapsedInSeconds(logger);
     }
 
     String readData(String filename, Charset encoding) throws IOException {
