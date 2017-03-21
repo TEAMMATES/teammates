@@ -212,59 +212,63 @@ function toggleCollapse(e, pans) {
     var isElementAnExpandButton = $(e).html().trim().startsWith(expand);
 
     if (isElementAnExpandButton) {
-        // Expand panels if the element is an expand button.
-        // When a panel has class ajax_auto or ajax-response-auto, the panel data has not been loaded yet.
-        // We will load the data by Ajax, and ajax_auto or ajax-response-auto class will be removed.
-        // {@link #toggleCollapse} binds with clicking on both collapse panels button(button for all panels)
-        // and collapse panels button section (button for one panel). Class ajax_auto or ajax-response-auto
-        // is found in {@code panels} only if {@link #toggleCollapse} is invoked by clicking on collapse
-        // panels button.
-        var isCollapsePanelsButtonClicked = $(e).is($('#collapse-panels-button'));
-
-        var i = 0;
-        for (var idx = 0; idx < panels.length; idx++) {
-            if (isCollapsePanelsButtonClicked) {
-                // Might need to load Ajax if collapse panels button is clicked.
-                var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
-                var $ajaxResponseAuto = $(panels[idx]).parent().children('.ajax-response-auto');
-                var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
-                var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
-                if (hasAjaxAutoLoading) {
-                    $ajaxAuto.click();
-                }
-                if (hasAjaxResponseAutoLoading) {
-                    $ajaxResponseAuto.click();
-                }
-                if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
-                    // Ajax loading is triggered by clicking, therefore we do not need to expand the panel.
-                    continue;
-                }
-            }
-            // Expand the panel if the panel is collapsed at the moment
-            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                i++;
-            }
-        }
-
+        var isElementCollapsePanelsButton = $(e).is($('#collapse-panels-button'));
+        // We might need to load {@code panels} by Ajax if {@link #toggleCollapse} is invoked by clicking
+        // on collapse panels button.
+        var mightNeedAjaxLoading = isElementCollapsePanelsButton;
+        expand(panels, mightNeedAjaxLoading);
         var htmlString = $(e).html();
         htmlString = htmlString.replace(expand, collapse);
         $(e).html(htmlString);
         var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
         $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
-        var j = 0;
-        for (var k = 0; k < panels.length; k++) {
-            if ($(panels[k]).attr('class').indexOf('in') !== -1) {
-                setTimeout(hideSingleCollapse, 100 * j, panels[k]);
-                j++;
-            }
-        }
+        collapse(panels);
         var htmlStr = $(e).html();
         htmlStr = htmlStr.replace(collapse, expand);
         $(e).html(htmlStr);
         var tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
         $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
+    }
+}
+
+function expand(panels, mightNeedAjaxLoading) {
+    var i = 0;
+    for (var idx = 0; idx < panels.length; idx++) {
+        if (mightNeedAjaxLoading) {
+            // When a panel has class ajax_auto or ajax-response-auto, the panel data has not been loaded
+            // yet. We will load the data by Ajax, and ajax_auto or ajax-response-auto class will be removed.
+            var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
+            var $ajaxResponseAuto = $(panels[idx]).parent().children('.ajax-response-auto');
+            var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
+            var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
+            if (hasAjaxAutoLoading) {
+                $ajaxAuto.click();
+            }
+            if (hasAjaxResponseAutoLoading) {
+                $ajaxResponseAuto.click();
+            }
+            if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
+                // Ajax loading is triggered by clicking, therefore we do not need to expand the panel.
+                continue;
+            }
+        }
+        // Expand the panel if the panel is collapsed at the moment
+        if ($(panels[idx]).attr('class').indexOf('in') === -1) {
+            setTimeout(showSingleCollapse, 50 * i, panels[idx]);
+            i++;
+        }
+    }
+}
+
+function collapse(panels) {
+    var i = 0;
+    for (var inx = 0; inx < panels.length; inx++) {
+        // Collapse the panel if the panel is expanded at the moment
+        if ($(panels[inx]).attr('class').indexOf('in') !== -1) {
+            setTimeout(hideSingleCollapse, 100 * i, panels[inx]);
+            i++;
+        }
     }
 }
 
