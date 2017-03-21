@@ -119,7 +119,6 @@ function checkComment(form) {
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK, StatusType.DANGER);
         scrollToTop();
-        form.preventDefault();
     }
 }
 
