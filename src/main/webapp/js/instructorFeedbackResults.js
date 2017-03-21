@@ -213,8 +213,8 @@ function toggleCollapse(e, pans) {
 
     if (isElementAnExpandButton) {
         var isElementCollapsePanelsButton = $(e).is($('#collapse-panels-button'));
-        // We might need to load {@code panels} by Ajax if {@link #toggleCollapse} is invoked by clicking
-        // on collapse panels button.
+        // We might need to load {@code panels} data by Ajax if {@link #toggleCollapse} is invoked by
+        // clicking on collapse panels button.
         var mightNeedAjaxLoading = isElementCollapsePanelsButton;
         expand(panels, mightNeedAjaxLoading);
         var htmlString = $(e).html();
@@ -249,7 +249,8 @@ function expand(panels, mightNeedAjaxLoading) {
                 $ajaxResponseAuto.click();
             }
             if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
-                // Ajax loading is triggered by clicking, therefore we do not need to expand the panel.
+                // Ajax loading is triggered by clicking on the collapsed panel. Clicking will expands
+                // the panel.
                 continue;
             }
         }
