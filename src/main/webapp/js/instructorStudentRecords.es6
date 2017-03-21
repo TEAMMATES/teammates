@@ -98,9 +98,6 @@ function submitCommentForm(commentIdx) {
     return false;
 }
 
-/* This function returns boolean or undefined when handling form submit event */
-/* eslint-disable consistent-return */
-
 /**
  * Check the submitted comment text field of the form
  * Blanks are not allowed.
@@ -109,7 +106,7 @@ function checkComment(form) {
     let formTextField;
 
     if ($(form).find(`[id^=${COMMENT_EDITTYPE}]`).val() === 'delete') {
-        return true;
+        return;
     }
 
     if ($(form).attr('name') === 'form_commentadd') {
@@ -122,11 +119,9 @@ function checkComment(form) {
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK, StatusType.DANGER);
         scrollToTop();
-        return false;
+        form.preventDefault();
     }
 }
-
-/* eslint-enable consistent-return */
 
 /**
  * Show the comment box, focus comment text area and hide "Add Comment link"
