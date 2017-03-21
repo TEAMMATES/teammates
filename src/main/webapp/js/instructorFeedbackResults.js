@@ -230,7 +230,7 @@ function expand(panels, needToCheckForAjaxLoading) {
             if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
                 // When the element needs Ajax loading, it must be collapsed because all expanded panels are
                 // already loaded. As Ajax is triggered by clicking, clicking will expand the collapsed
-                // panel. Therefore we do not need to expand the panel.
+                // panel.
                 continue;
             }
         }
