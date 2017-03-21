@@ -141,4 +141,4 @@ You may proceed to the development routine as lined out in [this document](devel
 TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.
 It is highly encouraged to set up these tools in your local development environment.
 
-Refer to [this document](staticAnalysis.md) for details on the tools used, how to set them up, and how to run them locally.
+Refer to [this document](static-analysis.md) for details on the tools used, how to set them up, and how to run them locally.

@@ -1,4 +1,3 @@
-
 # Static Analysis
 
 TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.

@@ -106,7 +106,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      Select the code segments you modified and apply the code formatting function of Eclipse (`Source → Format`).
      You may tweak the code further to improve readability as auto-format does not always result in a good layout.
    * The code base passes **static analysis** (i.e. code quality check).<br>
-     The details on how to run static analysis locally is given on [this document](staticAnalysis.md).
+     The details on how to run static analysis locally is given on [this document](static-analysis.md).
    * **Dev green**, i.e. all *local tests* are passing on your dev server. Local tests can be run using the "Local Tests" run configuration in Eclipse.<br>
      You are more than welcome to also ensure all *CI tests* are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
