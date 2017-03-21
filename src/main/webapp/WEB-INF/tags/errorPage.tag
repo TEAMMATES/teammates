@@ -20,8 +20,10 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+            <div class="navbar-header">                
+                <a class="navbar-brand" href="/index.jsp">
+                    <img height="100%" src="/images/teammateslogo.jpg" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
+                </a>
             </div>
         </div>
     </div>

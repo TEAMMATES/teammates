@@ -12,7 +12,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+            <a class="navbar-brand" href="/index.jsp">
+                <img height="100%" src="/images/teammateslogo.jpg" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
+            </a>
         </div>
 
         <div class="collapse navbar-collapse" id="contentLinks">
