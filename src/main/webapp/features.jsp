@@ -118,7 +118,7 @@
                 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
                     You can download the collected responses (and statistics) as spreadsheets.
                     <br><br>
-                    The collected data belong to you and you may delete your data from TEAMMATES any time.
+                    The collected data belongs to you and you may delete your data from TEAMMATES any time.
                 </div>
                 <img class="img-responsive" src="images/raised-edge.png">
             </div>
