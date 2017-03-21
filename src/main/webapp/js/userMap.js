@@ -1,3 +1,5 @@
+'use strict';
+
 function handleError() {
     var contentHolder = d3.select('.container');
     contentHolder.html('');
@@ -31,7 +33,7 @@ function initializeMap(err, countryCoordinates, userData) {
     document.getElementById('totalUserCount').innerHTML = total;
     // set the country count in the page
     document.getElementById('totalCountryCount').innerHTML = userCountries.length;
-    
+
     // Data format example
     // var series = [
     //     ['United States', 1], ['Bulgaria', 1], ['Russia', 1], ['France', 1], ['Singapore', 1]

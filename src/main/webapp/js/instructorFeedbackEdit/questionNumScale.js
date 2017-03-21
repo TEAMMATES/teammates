@@ -1,3 +1,5 @@
+'use strict';
+
 function roundToThreeDp(num) {
     return parseFloat(num.toFixed(3));
 }
@@ -6,17 +8,17 @@ function updateNumScalePossibleValues(questionNum) {
     var min = parseInt($('#minScaleBox-' + questionNum).val());
     var max = parseInt($('#maxScaleBox-' + questionNum).val());
     var step = parseFloat($('#stepBox-' + questionNum).val());
-    
+
     if (max <= min) {
         max = min + 1;
         $('#maxScaleBox-' + questionNum).val(max);
     }
-    
+
     step = roundToThreeDp(step);
     if (step === 0) {
         step = 0.001;
     }
-    
+
     var $stepBox = $('#stepBox-' + questionNum);
     $stepBox.val(isNaN(step) ? '' : step);
 
@@ -39,7 +41,7 @@ function updateNumScalePossibleValues(questionNum) {
     }
     $numScalePossibleValues.css('color', 'black');
     possibleValuesString = '[Based on the above settings, acceptable responses are: ';
-    
+
     // step is 3 d.p. at most, so round it after * 1000.
     if (possibleValuesCount > 6) {
         possibleValuesString += min.toString() + ', '
@@ -56,9 +58,8 @@ function updateNumScalePossibleValues(questionNum) {
             cur += step;
         }
     }
-    
+
     possibleValuesString += ']';
     $numScalePossibleValues.text(possibleValuesString);
     return true;
 }
-

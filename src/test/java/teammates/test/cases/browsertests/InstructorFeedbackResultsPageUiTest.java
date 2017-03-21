@@ -61,14 +61,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testDownloadAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("Typical case: large session with no sections");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                 "Session with no sections", true, "question");
         resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
-        
+
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -91,21 +91,21 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
-        
+
     }
-    
+
     @Test
     public void testExceptionalCases() throws Exception {
         ______TS("Case where more than 1 question with same question number");
         // results page should be able to load incorrect data and still display it gracefully
-        
+
         FeedbackQuestionAttributes firstQuestion = testData.feedbackQuestions.get("qn1InSession4");
         assertEquals(1, firstQuestion.questionNumber);
         FeedbackQuestionAttributes firstQuestionFromDatastore =
                                         BackDoor.getFeedbackQuestion(firstQuestion.courseId,
                                                                      firstQuestion.feedbackSessionName,
                                                                      firstQuestion.questionNumber);
-        
+
         FeedbackQuestionAttributes secondQuestion = testData.feedbackQuestions.get("qn2InSession4");
         assertEquals(2, secondQuestion.questionNumber);
         // need to retrieve question from datastore to get its questionId
@@ -118,10 +118,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         secondQuestionFromDatastore.questionNumber = 1;
         BackDoor.editFeedbackQuestion(secondQuestionFromDatastore);
 
-        
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
         resultsPage.waitForPanelsToExpand();
-        
+
         // compare html for each question panel
         // to verify that the right responses are showing for each question
         By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
@@ -129,24 +128,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                              + "//div[contains(@class, 'table-responsive')]");
         resultsPage.verifyHtmlPart(firstQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel1.html");
-        
+
         By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
                                               + secondQuestionFromDatastore.getId() + "']]"
                                               + "//div[contains(@class, 'table-responsive')]");
         resultsPage.verifyHtmlPart(secondQuestionPanelResponses,
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
-        
-        
+
         ______TS("Results with sanitized data");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr",
                                                            "Session with sanitized data");
         resultsPage.waitForPanelsToExpand();
-        
+
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
-    public void testModerateResponsesButton() {
+    private void testModerateResponsesButton() {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
@@ -161,24 +159,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for team response");
 
         verifyModerateResponsesButton(4, "Team 1</td></div>'\"");
-        
+
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
         resultsPage.displayByQuestion();
         resultsPage.waitForPageToLoad();
-        
+
         ______TS("Typical case: test moderate responses button for instructors as givers");
         verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
                                       "CFResultsUiT.instr@gmail.tmt");
-        
+
     }
 
-    public void testSortAction() throws Exception {
+    private void testSortAction() throws Exception {
 
         ______TS("Typical case: test sort by giver > recipient > question");
-        
+
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-        
+
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
@@ -215,7 +213,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team");
-        
+
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
@@ -230,12 +228,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
 
         ______TS("test sort by question");
-        
+
         // By question
         resultsPage.displayByQuestion();
-        
+
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionTeam.html");
-        
+
         additionalInfoId = "";
         qnNumber = 8;
         verifyQuestionAdditionalInfoExpand(qnNumber, additionalInfoId);
@@ -254,7 +252,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                            "Benny Charles",
                            "Benny Charles",
                             "Charlie Dávis");
-        
+
         verifySortingOrder(By.id("button_sortFromTeam"),
                            "Team 1",
                            "Team 1",
@@ -278,14 +276,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
          */
 
     }
-    
+
     @Test
     public void testVisibilityOptions() throws Exception {
         ______TS("test sort by giver > recipient > question for second session");
-        
+
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Unpublished Session");
         resultsPage.displayByGiverRecipientQuestion();
-        
+
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestionTeam.html");
 
         ______TS("test sort by recipient > giver > question for second session");
@@ -312,7 +310,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team for second session");
-        
+
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestion.html");
 
@@ -329,12 +327,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestionTeam.html");
-        
+
         ______TS("filter by section A");
 
         resultsPage.filterResponsesForSection("Section A");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionFilteredBySectionATeam.html");
-        
+
     }
 
     @Test
@@ -344,7 +342,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         if ("chrome".equals(TestProperties.BROWSER)) {
             return;
         }
-        
+
         uploadPhotoForStudent(testData.students.get("Alice").googleId);
 
         ______TS("Typical case: ajax for view by questions");
@@ -354,14 +352,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
-        
+
         ______TS("Failure case: Ajax error");
-        
+
         // Change fs name so that the ajax request will fail
         resultsPage.changeFsNameInAjaxLoadResponsesForm(1, "invalidFsName");
         resultsPage.clickAjaxLoadResponsesPanel(1);
         resultsPage.waitForAjaxError(1);
-        
+
         resultsPage.changeFsNameInNoResponsePanelForm("InvalidFsName");
         resultsPage.clickAjaxNoResponsePanel();
         resultsPage.waitForAjaxErrorOnNoResponsePanel();
@@ -381,7 +379,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
-        
+
         ______TS("Typical case: ajax for view by question for helper2");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
                                         "Open Session", true, "question");
@@ -406,17 +404,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
-        
+
         ______TS("Typical case: ajax for view by giver > question > recipient");
-        
+
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-question-recipient");
-        
+
         resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
-                
+
         ______TS("Typical case: test view photo for view by giver > question > recipient");
-        
+
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
@@ -436,7 +434,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink("1-2", "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        
+
         ______TS("Typical case: ajax for view by recipient > giver > question");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
@@ -455,7 +453,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
     }
 
-    public void testFilterAction() throws Exception {
+    private void testFilterAction() throws Exception {
 
         ______TS("Typical case: filter by section A");
 
@@ -471,8 +469,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIPIENT);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
-        
-        
+
         ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIPIENT));
@@ -483,8 +480,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testPanelsCollapseExpand() {
-        
+    private void testPanelsCollapseExpand() {
+
         ______TS("Test that 'Collapse Student' button is working");
         resultsPage.clickGroupByTeam();
         resultsPage.displayByGiverRecipientQuestion();
@@ -525,7 +522,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testShowStats() {
+    private void testShowStats() {
 
         ______TS("Typical case: show stats");
 
@@ -561,8 +558,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
 
     }
-    
-    public void testSearchScript() throws Exception {
+
+    private void testSearchScript() throws Exception {
 
         ______TS("Typical case: test search/filter script");
 
@@ -575,17 +572,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickGroupByTeam();
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
-        
+
         resultsPage.fillSearchBox("alice");
         resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
-        
+
         resultsPage.fillSearchBox("Alice");
         resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
-        
+
         resultsPage.displayByQuestion();
     }
 
-    public void testDefaultSort() throws Exception {
+    private void testDefaultSort() throws Exception {
 
         ______TS("Typical case: test default sort Team Name-->Giver display name");
 
@@ -593,9 +590,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
     }
 
-    
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
-    public void testFeedbackResponseCommentActions() throws Exception {
+    private void testFeedbackResponseCommentActions() throws Exception {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
@@ -614,7 +610,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-0-1-1\"");
         resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyContains("id=\"visibility-options-0-1-0-1-2\"");
-        
+
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -672,6 +668,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.verifyDownloadLink(reportUrl);
 
+        ______TS("Typical case: download report for one question");
+
+        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                                                  .withUserId("CFResultsUiT.instr")
+                                                  .withCourseId("CFResultsUiT.CS2104")
+                                                  .withSessionName("First Session")
+                                                  .withQuestionNumber("2");
+
+        resultsPage.verifyDownloadLink(reportUrl);
+
         ______TS("Typical case: download report unsuccessfully");
 
         reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
@@ -693,7 +699,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testLink() {
         ______TS("action: test that edit link leads to correct edit page");
-        
+
         InstructorFeedbackEditPage editPage = resultsPage.clickEditLink();
         editPage.verifyContains("Edit Feedback Session");
         assertEquals("CFResultsUiT.CS2104", editPage.getCourseId());
@@ -742,7 +748,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         } else {
             resultsPage.waitForPageToLoad();
         }
-        
+
         return resultsPage;
     }
 
@@ -770,13 +776,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                     resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
         }
     }
-    
+
     private void verifyQuestionAdditionalInfoCollapse(int qnNumber, String additionalInfoId) {
         resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
         assertFalse(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
-    
+
     private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
         resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
         assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));

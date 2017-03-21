@@ -16,37 +16,37 @@ import teammates.logic.api.EmailGenerator;
  * Task queue worker action: sends feedback session reminder email to a course.
  */
 public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
-    
+
     @Override
     protected String getActionDescription() {
         return null;
     }
-    
+
     @Override
     protected String getActionMessage() {
         return null;
     }
-    
+
     @Override
     public void execute() {
         String feedbackSessionName = getRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
         Assumption.assertNotNull(feedbackSessionName);
-        
+
         String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
         Assumption.assertNotNull(courseId);
-        
+
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-            
+
             List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
             for (StudentAttributes student : studentList) {
                 if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
                     studentsToRemindList.add(student);
                 }
             }
-            
+
             // Filter out instructors who have submitted the feedback session
             List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
             for (InstructorAttributes instructor : instructorList) {
@@ -54,7 +54,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
                     instructorsToRemindList.add(instructor);
                 }
             }
-            
+
             List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorList);
             taskQueuer.scheduleEmailsForSending(emails);
@@ -62,5 +62,5 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));
         }
     }
-    
+
 }

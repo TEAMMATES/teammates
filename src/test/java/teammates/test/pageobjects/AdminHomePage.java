@@ -8,25 +8,25 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 public class AdminHomePage extends AppPage {
     @FindBy (id = "addInstructorDetailsSingleLine")
     private WebElement detailsSingleLineTextBox;
-    
+
     @FindBy (id = "instructorShortName")
     private WebElement shortNameTextBox;
 
     @FindBy (id = "instructorName")
     private WebElement nameTextBox;
-    
+
     @FindBy (id = "instructorEmail")
     private WebElement emailTextBox;
-    
+
     @FindBy (id = "instructorInstitution")
     private WebElement institutionTextBox;
-    
+
     @FindBy (id = "btnAddInstructor")
     private WebElement submitButton;
-    
+
     @FindBy (id = "btnAddInstructorDetailsSingleLineForm")
     private WebElement submitButtonDetailsSingleLineForm;
-    
+
     public AdminHomePage(Browser browser) {
         super(browser);
     }
@@ -36,11 +36,9 @@ public class AdminHomePage extends AppPage {
         return getPageSource().contains("<h1>Add New Instructor</h1>");
     }
 
-    /** Fills the form with values from the parameters and clicks the submit button.
+    /**
+     * Fills the form with values from the parameters and clicks the submit button.
      * If an attribute value is null, the existing value in the form is used.
-     * 
-     * @param attributesForNewAccount
-     * @param isCreateCourse True if a sample course should be created for this account.
      */
     public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
         if (shortName != null) {
@@ -68,31 +66,31 @@ public class AdminHomePage extends AppPage {
         click(submitButtonDetailsSingleLineForm);
         waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
     }
-    
+
     public void clearInstructorDetailsSingleLineForm() {
         fillTextBox(detailsSingleLineTextBox, "");
     }
-    
+
     public String getShortNameFromResultTable(int index) {
         return getCellValueFromDataTable(index, 0);
     }
-    
+
     public String getNameFromResultTable(int index) {
         return getCellValueFromDataTable(index, 1);
     }
-    
+
     public String getEmailFromResultTable(int index) {
         return getCellValueFromDataTable(index, 2);
     }
-    
+
     public String getInstitutionFromResultTable(int index) {
         return getCellValueFromDataTable(index, 3);
     }
-    
+
     public String getStatusFromResultTable(int index) {
         return getCellValueFromDataTable(index, 4);
     }
-    
+
     public String getMessageFromResultTable(int index) {
         return getCellValueFromDataTable(index, 5);
     }

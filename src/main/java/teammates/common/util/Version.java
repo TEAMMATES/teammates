@@ -2,27 +2,22 @@ package teammates.common.util;
 
 /**
  * Represents a version by 3 parts: major version, minor version and patch version.
- * 
- * If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
+ *
+ * <p>If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
  * Those without number will be null.
- * 
- * If the version has more than 3 numbers, the first number will be major, the second number
+ *
+ * <p>If the version has more than 3 numbers, the first number will be major, the second number
  * will be minor and the rest will be patch.
- * 
- * For example:
- * version = 15
- * major = "15", minor = null and patch = null
- * 
- * version = 15.01
- * major = "15", minor = "01" and patch = null
- * 
- * version = 15.01.03
- * major = "15", minor = "01" and patch = "03"
- * 
- * version = 15.01.03.01
- * major = "15", minor = "01" and patch = "03.01"
- * 
- * It also support RC versions, which has "rc" appended at the end of the string.
+ *
+ * <p>For example:
+ * <ul>
+ * <li>version = 15: major = "15", minor = null and patch = null</li>
+ * <li>version = 15.01: major = "15", minor = "01" and patch = null</li>
+ * <li>version = 15.01.03: major = "15", minor = "01" and patch = "03"</li>
+ * <li>version = 15.01.03.01: major = "15", minor = "01" and patch = "03.01"</li>
+ * </ul>
+ *
+ * <p>It also support RC versions, which has "rc" appended at the end of the string.
  * For example: 5rc, 4.55rc, 5.55.01rc
  */
 public class Version implements Comparable<Version> {
@@ -33,8 +28,8 @@ public class Version implements Comparable<Version> {
     private String major;
     private String minor;
     private String patch;
-    private Boolean isRcVersion;
-    
+    private boolean isRcVersion;
+
     /**
      * Creates a new instance of Version from string.
      * It accepts either XX-XX-XXXXX or XX.XX.XXXX format.
@@ -42,7 +37,7 @@ public class Version implements Comparable<Version> {
     public Version(String versionInString) {
         originalRepresentation = versionInString;
         isRcVersion = versionInString.endsWith("rc");
-        
+
         String[] list = versionInString.contains("-") // split to at most 3 parts
                       ? versionInString.replace("rc", "").split("-", 3)
                       : versionInString.replace("rc", "").split("\\.", 3); // regex escape for dots '.'
@@ -56,15 +51,18 @@ public class Version implements Comparable<Version> {
             patch = list[2];
         }
     }
-    
+
     /**
      * Compares by string representation.
      */
     @Override
     public boolean equals(Object anotherVersion) {
+        if (anotherVersion == null) {
+            return false;
+        }
         return toString().equals(anotherVersion.toString());
     }
-    
+
     /**
      * Gets hash code for this version.
      */
@@ -72,22 +70,22 @@ public class Version implements Comparable<Version> {
     public int hashCode() {
         return toString().hashCode();
     }
-    
+
     /**
-     * Converts Version to String in format XX.XX.XXXX
+     * Converts Version to String in format XX.XX.XXXX.
      */
     @Override
     public String toString() {
         return originalRepresentation.replace('-', '.');
     }
-    
+
     /**
-     * Converts to String in format XX-XX-XXXX
+     * Converts to String in format XX-XX-XXXX.
      */
     public String toStringWithDashes() {
         return originalRepresentation.replace('.', '-');
     }
-    
+
     /**
      * Compares version numbers.
      * If their length are different, 0s will be appended in front of shorter string until
@@ -117,7 +115,7 @@ public class Version implements Comparable<Version> {
         }
         return convertedS2.compareTo(convertedS1);
     }
-    
+
     /**
      * Compares versions by major, minor then by patch.
      * The version with greater major, minor or patch will be smaller.
@@ -136,6 +134,6 @@ public class Version implements Comparable<Version> {
         if (patchComparisonResult != 0) {
             return patchComparisonResult;
         }
-        return -isRcVersion.compareTo(anotherVersion.isRcVersion);
+        return Boolean.compare(anotherVersion.isRcVersion, isRcVersion);
     }
 }

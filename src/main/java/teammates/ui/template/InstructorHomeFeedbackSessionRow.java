@@ -43,5 +43,5 @@ public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     public String getEndTimeToolTip() {
         return endTimeToolTip;
     }
-    
+
 }

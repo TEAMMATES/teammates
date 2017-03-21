@@ -43,61 +43,56 @@ public final class SanitizationHelper {
     private SanitizationHelper() {
         // utility class
     }
-    
+
     /**
      * Sanitizes a google ID by removing leading/trailing whitespace
      * and the trailing "@gmail.com".
-     * 
-     * @param rawGoogleId
+     *
      * @return the sanitized google ID or null (if the parameter was null).
      */
     public static String sanitizeGoogleId(String rawGoogleId) {
         if (rawGoogleId == null) {
             return null;
         }
-        
+
         String sanitized = rawGoogleId.trim();
         if (sanitized.toLowerCase().endsWith("@gmail.com")) {
             sanitized = sanitized.split("@")[0];
         }
         return sanitized.trim();
     }
-    
+
     /**
      * Sanitizes an email address by removing leading/trailing whitespace.
-     * 
-     * @param rawEmail
+     *
      * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
         return StringHelper.trimIfNotNull(rawEmail);
     }
-    
+
     /**
      * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
-     * 
-     * @param rawName
+     *
      * @return the sanitized name or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
         return StringHelper.removeExtraSpace(rawName);
     }
-    
+
     /**
      * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
-     * 
-     * @param rawTitle
+     *
      * @return the sanitized title or null (if the parameter was null).
      */
     public static String sanitizeTitle(String rawTitle) {
         return StringHelper.removeExtraSpace(rawTitle);
     }
-    
+
     /**
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
-     * 
-     * @param rawText
+     *
      * @return the sanitized text or null (if the parameter was null).
      */
     public static String sanitizeTextField(String rawText) {
@@ -108,7 +103,6 @@ public final class SanitizationHelper {
      * Escape the string for inserting into javascript code.
      * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
      *
-     * @param str
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeForJs(String str) {
@@ -132,7 +126,7 @@ public final class SanitizationHelper {
         }
         return richTextPolicy.sanitize(sanitizeTextField(content));
     }
-    
+
     /**
      * Sanitizes the {@link Text} with rich-text.
      * Removes disallowed elements based on defined policy.
@@ -186,12 +180,11 @@ public final class SanitizationHelper {
     }
 
     /**
-     * This recovers a html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file <br>
+     * Recovers a html-sanitized string using {@link #sanitizeForHtml}
+     * to original encoding for appropriate display in files such as csv file.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
-     * @param sanitizedString
      * @return recovered string
      */
     public static String desanitizeFromHtml(String sanitizedString) {
@@ -210,11 +203,10 @@ public final class SanitizationHelper {
 
     /**
      * This recovers a set of html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file <br>
+     * to original encoding for appropriate display in files such as csv file.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
-     * @param sanitizedStringSet
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
@@ -234,9 +226,9 @@ public final class SanitizationHelper {
         }
         return string.replace("<", "&lt;").replace(">", "&gt;");
     }
-    
+
     /**
-     * Converts a string to be put in URL (replaces some characters)
+     * Converts a string to be put in URL (replaces some characters).
      */
     public static String sanitizeForUri(String uri) {
         try {
@@ -247,9 +239,9 @@ public final class SanitizationHelper {
             return uri;
         }
     }
-    
+
     /**
-     * Sanitizes the given URL for the parameter {@link Const.ParamsNames.NEXT_URL}.
+     * Sanitizes the given URL for the parameter {@link Const.ParamsNames#NEXT_URL}.
      * The following characters will be sanitized:
      * <ul>
      * <li>&, to prevent the parameters of the next URL from being considered as
@@ -260,7 +252,6 @@ public final class SanitizationHelper {
      *     which is used to traverse the HTML document to a certain id</li>
      * </ul>
      *
-     * @param url
      * @return the sanitized url or null (if the parameter was null).
      */
     public static String sanitizeForNextUrl(String url) {
@@ -271,11 +262,10 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Recovers the URL from sanitization due to {@link SanitizationHelper.sanitizeForNextUrl}.
+     * Recovers the URL from sanitization due to {@link SanitizationHelper#sanitizeForNextUrl}.
      * In addition, any un-encoded whitespace (they may be there due to Google's
      * behind-the-screen decoding process) will be encoded again to +.
-     * @param sanitizedUrl
-     * @return the unsantized url or null (if the parameter was null).
+     * @return the unsanitized url or null (if the parameter was null).
      */
     public static String desanitizeFromNextUrl(String sanitizedUrl) {
         if (sanitizedUrl == null) {
@@ -305,42 +295,43 @@ public final class SanitizationHelper {
                 .replace("<", "&lt;")
                 .replace(">", "&gt;");
     }
-    
+
     /**
      * Sanitizes the string for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180:<br>
-     * {@link http://tools.ietf.org/html/rfc4180}
+     * We follow the definition described by RFC 4180.
+     *
+     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static String sanitizeForCsv(String str) {
         return "\"" + str.replace("\"", "\"\"") + "\"";
     }
-    
+
     /**
      * Sanitizes the list of strings for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180:<br>
-     * {@link http://tools.ietf.org/html/rfc4180}
+     * We follow the definition described by RFC 4180.
+     *
+     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
         List<String> sanitizedStrList = new ArrayList<String>();
-        
+
         Iterator<String> itr = strList.iterator();
         while (itr.hasNext()) {
             sanitizedStrList.add(sanitizeForCsv(itr.next()));
         }
-        
+
         return sanitizedStrList;
     }
-    
+
     /**
      * Convert the string to a safer version for XPath
      * For example:
      * Will o' The Wisp => concat('Will o' , "'" , ' The Wisp' , '')
      * This will result in the same string when read by XPath.
-     * 
-     * This is used when writing the test case for some special characters
+     *
+     * <p>This is used when writing the test case for some special characters
      * such as ' and "
-     * 
-     * @param text
+     *
      * @return safer version of the text for XPath
      */
     public static String sanitizeStringForXPath(String text) {

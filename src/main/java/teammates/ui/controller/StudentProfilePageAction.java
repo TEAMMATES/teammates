@@ -4,7 +4,7 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.StudentProfilePageData;
 
 /**
- * Action: showing the profile page for a student in a course
+ * Action: showing the profile page for a student in a course.
  */
 public class StudentProfilePageAction extends Action {
 

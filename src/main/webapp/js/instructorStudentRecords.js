@@ -1,3 +1,5 @@
+'use strict';
+
 var COMMENT_TEXT = 'commenttext';
 var COMMENT_EDITTYPE = 'commentedittype';
 var DISPLAY_COMMENT_BLANK = 'Please enter a valid comment. The comment can\'t be empty.';
@@ -26,7 +28,7 @@ $(document).ready(function() {
         var visibilityOptions = [];
         var target = $(e.target);
         var visibilityOptionsRow = target.closest('tr');
-        
+
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
             visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
@@ -35,7 +37,7 @@ $(document).ready(function() {
                 && target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
-        
+
         table.find('.answerCheckbox:checked').each(function() {
             visibilityOptions.push($(this).val());
         });

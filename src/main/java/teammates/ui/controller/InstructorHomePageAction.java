@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -20,39 +19,36 @@ public class InstructorHomePageAction extends Action {
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         if (!account.isInstructor && isPersistenceIssue()) {
-            ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME,
-                                                           new InstructorHomePageData(account));
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE,
                                                StatusMessageColor.WARNING));
             statusToAdmin = "instructorHome " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE;
-            return response;
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, new InstructorHomePageData(account));
         }
-        
+
         gateKeeper.verifyInstructorPrivileges(account);
-        
+
         String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_TO_LOAD);
         return courseToLoad == null ? loadPage() : loadCourse(courseToLoad);
     }
 
     private ActionResult loadCourse(String courseToLoad) throws EntityDoesNotExistException {
         int index = Integer.parseInt(getRequestParamValue("index"));
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseToLoad, account.googleId);
-        
+
         CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(instructor);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
-        
+
         int commentsForSendingStateCount =
                 logic.getCommentsForSendingState(courseToLoad, CommentSendingState.PENDING).size();
         int feedbackResponseCommentsForSendingStateCount =
                 logic.getFeedbackResponseCommentsForSendingState(courseToLoad, CommentSendingState.PENDING)
                      .size();
         int pendingCommentsCount = commentsForSendingStateCount + feedbackResponseCommentsForSendingStateCount;
-        List<String> sectionNames = logic.getSectionNamesForCourse(course.course.getId());
-        
+
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
-        data.init(index, course, instructor, pendingCommentsCount, sectionNames);
-        
+        data.init(index, course, instructor, pendingCommentsCount);
+
         statusToAdmin = "instructorHome Course Load:<br>" + courseToLoad;
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
@@ -62,20 +58,20 @@ public class InstructorHomePageAction extends Action {
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, omitArchived);
-        
+
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
-        
+
         String sortCriteria = getSortCriteria();
         sortCourse(courseList, sortCriteria);
-        
+
         InstructorHomePageData data = new InstructorHomePageData(account);
         data.init(courseList, sortCriteria);
-        
+
         if (logic.isNewInstructor(account.googleId)) {
             statusToUser.add(new StatusMessage(StatusMessages.HINT_FOR_NEW_INSTRUCTOR, StatusMessageColor.INFO));
         }
         statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
     }
 
@@ -84,10 +80,10 @@ public class InstructorHomePageAction extends Action {
         if (sortCriteria == null) {
             sortCriteria = Const.DEFAULT_SORT_CRITERIA;
         }
-        
+
         return sortCriteria;
     }
-    
+
     private void sortCourse(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
         switch (sortCriteria) {
         case Const.SORT_BY_COURSE_ID:

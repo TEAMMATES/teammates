@@ -4,16 +4,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the home page of the website (i.e., index.jsp)
+ * Represents the home page of the website (i.e., index.jsp).
  */
 public class HomePage extends AppPage {
-    
+
     @FindBy(id = "btnInstructorLogin")
     private WebElement instructorLoginLink;
-    
+
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
-    
+
     public HomePage(Browser browser) {
         super(browser);
     }
@@ -24,7 +24,7 @@ public class HomePage extends AppPage {
     }
 
     public LoginPage clickInstructorLogin() {
-        
+
         click(instructorLoginLink);
         waitForPageToLoad();
         String pageSource = getPageSource();
@@ -36,7 +36,7 @@ public class HomePage extends AppPage {
             waitForPageToLoad();
         }
         return createCorrectLoginPageType(browser);
-        
+
     }
 
     public LoginPage clickStudentLogin() {

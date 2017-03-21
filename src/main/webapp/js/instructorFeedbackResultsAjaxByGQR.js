@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var seeMoreRequest = function(e) {
         var panelHeading = $(this);
@@ -62,7 +64,7 @@ $(document).ready(function() {
                 $(panelHeading).removeClass('ajax_auto');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
-                
+
                 var childrenPanels = $sectionBody.find('div.panel');
                 bindCollapseEvents(childrenPanels, 0);
 

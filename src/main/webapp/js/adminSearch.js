@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     $('.fslink').hide();
 
@@ -24,7 +26,7 @@ $(document).ready(function() {
         $('.fslink' + rawId).toggle();
 
     });
-    
+
     $('.instructorRow').click(function() {
 
         var rawId = $(this).attr('id');
@@ -36,23 +38,23 @@ $(document).ready(function() {
         $('.fslink' + rawId).toggle();
 
     });
-    
+
     $('.homePageLink').click(function(e) {
         e.stopPropagation();
     });
-    
+
     $('.detailsPageLink').click(function(e) {
         e.stopPropagation();
     });
-    
+
     $('.optionButton').click(function(e) {
         e.stopPropagation();
     });
-    
+
     $('input').click(function() {
         this.select();
     });
-    
+
     $('.resetGoogleIdButton').click(function(e) {
         e.stopPropagation();
     });
@@ -63,12 +65,12 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
     var params = 'studentemail=' + studentEmail
                  + '&courseid=' + studentCourseId
                  + '&googleid=' + wrongGoogleId;
-    
+
     var googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     var originalButton = $(button).html();
-    
+
     var originalGoogleIdEntry = $(googleIdEntry).html();
-    
+
     $.ajax({
         type: 'POST',
         url: '/admin/adminStudentGoogleIdReset?' + params,

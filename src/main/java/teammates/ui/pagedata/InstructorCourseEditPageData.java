@@ -18,7 +18,7 @@ public class InstructorCourseEditPageData extends PageData {
     private List<CourseEditInstructorPanel> instructorPanelList;
     private CourseEditInstructorPanel addInstructorPanel;
     private ElementTag addInstructorButton;
-    
+
     public InstructorCourseEditPageData(AccountAttributes account, CourseAttributes course,
                                         List<InstructorAttributes> instructorList,
                                         InstructorAttributes currentInstructor, int instructorToShowIndex,
@@ -26,7 +26,7 @@ public class InstructorCourseEditPageData extends PageData {
         super(account);
         this.course = course;
         this.instructorToShowIndex = instructorToShowIndex;
-        
+
         createCourseRelatedButtons(currentInstructor);
         boolean isShowingAllInstructors = instructorToShowIndex == -1;
         if (isShowingAllInstructors) {
@@ -55,7 +55,7 @@ public class InstructorCourseEditPageData extends PageData {
         }
         return panelList;
     }
-    
+
     private List<CourseEditInstructorPanel> createInstructorPanelForSingleInstructor(InstructorAttributes currentInstructor,
                                     InstructorAttributes instructorForPanel, int instructorIndex,
                                     List<String> sectionNames, List<String> feedbackNames) {
@@ -65,14 +65,14 @@ public class InstructorCourseEditPageData extends PageData {
                                                             instructorIndex, instructorForPanel,
                                                             sectionNames, feedbackNames);
         panelList.add(instructorPanel);
-     
+
         return panelList;
     }
 
     private void createCourseRelatedButtons(InstructorAttributes currentInstructor) {
         boolean isEditDeleteCourseButtonDisabled = !currentInstructor.isAllowedForPrivilege(
                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-        
+
         editCourseButton = createEditCourseButton(isEditDeleteCourseButtonDisabled);
         deleteCourseButton = createDeleteCourseButton(isEditDeleteCourseButtonDisabled);
 
@@ -80,7 +80,7 @@ public class InstructorCourseEditPageData extends PageData {
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         addInstructorButton = createAddInstructorButton(isAddInstructorButtonDisabled);
     }
-    
+
     private CourseEditInstructorPanel createInstructorPanel(InstructorAttributes currentInstructor,
                                                             int instructorIndex,
                                                             InstructorAttributes instructor,
@@ -89,7 +89,7 @@ public class InstructorCourseEditPageData extends PageData {
         CourseEditInstructorPanel instructorPanel = new CourseEditInstructorPanel(instructorToShowIndex,
                                                                           instructorIndex, instructor,
                                                                           sectionNames, feedbackNames);
-        
+
         if (instructor != null) {
             int panelIndex = instructorPanel.getIndex();
             boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
@@ -98,45 +98,45 @@ public class InstructorCourseEditPageData extends PageData {
             if (instructor.googleId == null) {
                 instructorPanel.setResendInviteButton(createRemindInstructorButton(instructor, panelIndex, isDisabled));
             }
-            
+
             instructorPanel.setEditButton(createEditInstructorButton(panelIndex, isDisabled));
 
             instructorPanel.setCancelButton(createCancelEditInstructorButton(panelIndex, isDisabled));
 
             instructorPanel.setDeleteButton(createDeleteInstructorButton(instructor, panelIndex, isDisabled));
         }
-        
+
         return instructorPanel;
     }
-    
+
     public ElementTag getEditCourseButton() {
         return editCourseButton;
     }
-    
+
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
     }
-    
+
     public ElementTag getAddInstructorButton() {
         return addInstructorButton;
     }
-    
+
     public CourseEditInstructorPanel getAddInstructorPanel() {
         return addInstructorPanel;
     }
-    
+
     public CourseAttributes getCourse() {
         return course;
     }
-    
+
     public List<CourseEditInstructorPanel> getInstructorPanelList() {
         return instructorPanelList;
     }
-    
+
     public int getInstructorToShowIndex() {
         return instructorToShowIndex;
     }
-    
+
     private ElementTag createAddInstructorButton(boolean isDisabled) {
         // addInstructorButton is an actual <input> button and is thus created differently from the rest of
         // the buttons created with <a> tags
@@ -217,7 +217,7 @@ public class InstructorCourseEditPageData extends PageData {
     }
 
     /**
-     * Creates a basic bootstrap button for use in <a> tags in panel header
+     * Creates a basic bootstrap button for use in {@code <a></a>} tags in panel header.
      */
     private ElementTag createBasicButton(String buttonText, String buttonId, String href, String tooltipText,
                                          boolean isDisabled) {

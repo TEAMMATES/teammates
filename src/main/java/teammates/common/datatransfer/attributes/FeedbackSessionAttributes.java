@@ -123,7 +123,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
     }
-    
+
     private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
         this(other.feedbackSessionName, other.courseId, other.creatorEmail,
             other.instructions, other.createdTime, other.startTime, other.endTime,
@@ -134,7 +134,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             other.isPublishedEmailEnabled, other.respondingInstructorList,
             other.respondingStudentList);
     }
-    
+
     public FeedbackSessionAttributes getCopy() {
         return new FeedbackSessionAttributes(this);
     }
@@ -142,19 +142,19 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
-    
+
     public String getStartTimeString() {
         return TimeHelper.formatTime12H(startTime);
     }
-    
+
     public String getEndTimeString() {
         return TimeHelper.formatTime12H(endTime);
     }
-    
+
     public String getInstructionsString() {
         return SanitizationHelper.sanitizeForRichText(instructions.getValue());
     }
@@ -320,7 +320,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         return now.after(start) && differenceBetweenDeadlineAndNow < hours;
     }
-    
+
     public boolean isClosingWithinTimeLimit(int hours) {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
@@ -344,18 +344,18 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                && differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours;
     }
-    
+
     /**
-     * returns true if the session is closed within the past hour of calling this function
+     * Returns true if the session is closed within the past hour of calling this function.
      */
     public boolean isClosedWithinPastHour() {
         long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
-        Date date = new Date(endTime.getTime() + gracePeriod * 60000 - timeZoneOffset);
+        Date date = new Date(endTime.getTime() + gracePeriod * 60000L - timeZoneOffset);
         return TimeHelper.isWithinPastHourFromNow(date);
     }
 
     /**
-     * @return {@code true} if it is after the closing time of this feedback session; {@code false} if not.
+     * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
         Calendar now = TimeHelper.now(timeZone);
@@ -366,7 +366,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} is currently open and accepting responses
+     * Returns true if the session is currently open and accepting responses.
      */
     public boolean isOpened() {
         Calendar now = TimeHelper.now(timeZone);
@@ -377,7 +377,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} is currently close but is still accept responses
+     * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
         Calendar now = TimeHelper.now(timeZone);
@@ -389,7 +389,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} has not opened before and is waiting to open.<br>
+     * Returns {@code true} has not opened before and is waiting to open,
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
@@ -400,8 +400,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} if the session is visible; {@code false} if not.
-     * Does not care if the session has started or not.
+     * Returns {@code true} if the session is visible; {@code false} if not.
+     *         Does not care if the session has started or not.
      */
     public boolean isVisible() {
         Date visibleTime = this.sessionVisibleFromTime;
@@ -417,8 +417,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} if the results of the feedback session is visible; {@code false} if not.
-     * Does not care if the session has ended or not.
+     * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
+     *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {
         Date now = TimeHelper.now(timeZone).getTime();
@@ -438,7 +438,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} if the session has been set by the creator to be manually published.
+     * Returns {@code true} if the session has been set by the creator to be manually published.
      */
     public boolean isManuallyPublished() {
         return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
@@ -446,7 +446,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     /**
-     * @return {@code true} if session is a private session (only open to the session creator),
+     * Returns {@code true} if session is a private session (only open to the session creator),
      *  {@code false} if not.
      */
     public boolean isPrivateSession() {
@@ -485,8 +485,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * (ascending), then by start time (ascending), then by feedback session name
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
-     *
-     * @param sessions
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
@@ -520,8 +518,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * (descending), then by start time (descending),then by courseID (ascending),then by feedback session name
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
-     *
-     * @param sessions
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
@@ -551,7 +547,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                 if (result == 0) {
                     result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
                 }
-                
+
                 return result;
             }
         });

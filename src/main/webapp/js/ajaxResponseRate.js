@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     linkAjaxForResponseRate();
 });
@@ -36,7 +38,7 @@ function linkAjaxForResponseRate() {
     $('.table').each(function() {
         // this is bound to current object in question
         var currentTable = $(this).has('tbody').length ? $(this).find('tbody') : $(this);
-        
+
         var allRows = currentTable.find('tr:has(td)');
         var recentElements = allRows.filter(function(i) {
             return $(allRows[i]).find('td[class*="recent"]').length;
@@ -51,7 +53,7 @@ function linkAjaxForResponseRate() {
             currentTable.get(0).appendChild(this);
         });
     });
-    
+
     // recent class will only be appended to 'td' element with class 't_session_response'
     $('.table .recent a').click();
 }

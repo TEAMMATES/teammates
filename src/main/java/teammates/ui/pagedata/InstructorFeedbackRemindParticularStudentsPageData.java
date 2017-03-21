@@ -7,7 +7,7 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
     private FeedbackSessionResponseStatus responseStatus;
     private String courseId;
     private String fsName;
-    
+
     public InstructorFeedbackRemindParticularStudentsPageData(
                 AccountAttributes account, FeedbackSessionResponseStatus responseStatus,
                 String courseId, String fsName) {
@@ -16,11 +16,11 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
         this.courseId = courseId;
         this.fsName = fsName;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getFsName() {
         return fsName;
     }

@@ -16,9 +16,12 @@ import teammates.ui.automated.AutomatedActionFactory;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionFactory;
 
+import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
@@ -41,38 +44,44 @@ public class GaeSimulation {
 
     private static GaeSimulation instance = new GaeSimulation();
 
-    /** This is used only to generate an HttpServletRequest for given parameters */
-    protected ServletUnitClient sc;
-    
-    protected LocalServiceTestHelper helper;
+    /** This is used only to generate an HttpServletRequest for given parameters. */
+    private ServletUnitClient sc;
+
+    private LocalServiceTestHelper helper;
+
+    private LocalLogService localLogService;
 
     public static GaeSimulation inst() {
         return instance;
     }
-    
+
     public synchronized void setup() {
         setupWithTaskQueueCallbackClass(null);
     }
-    
+
     public synchronized void setupWithTaskQueueCallbackClass(Class<? extends LocalTaskQueueCallback> callbackClass) {
         System.out.println("Setting up GAE simulation");
-        
+
         LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
         localTasks.setQueueXmlPath(QUEUE_XML_PATH);
         if (callbackClass != null) {
             localTasks.setCallbackClass(callbackClass)
                       .setDisableAutoTaskExecution(false);
         }
-        
+
         LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
         LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
         LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
         localSearch.setPersistent(false);
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localTasks, localSearch);
+        LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
+        LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
+                                            localTasks, localSearch, localModules, localLog);
         helper.setUp();
-        
+
         sc = new ServletRunner().newClient();
+        localLogService = LocalLogServiceTestConfig.getLocalLogService();
     }
 
     /**Logs in the user to the GAE simulation environment without admin rights.
@@ -118,11 +127,30 @@ public class GaeSimulation {
         assertFalse(gateKeeper.getCurrentUser().isInstructor);
         assertFalse(gateKeeper.getCurrentUser().isAdmin);
     }
-    
-    /** 
-     * @param parameters Parameters that appear in a HttpServletRequest
-     * received by the app.
-     * @return an {@link Action} object that matches the parameters given.
+
+    /**
+     * Clears all logs in GAE.
+     */
+    public void clearLogs() {
+        localLogService.clear();
+    }
+
+    public void addLogRequestInfo(String appId, String versionId, String requestId, String ip, String nickname,
+                                  long startTimeUsec, long endTimeUsec, String method, String resource,
+                                  String httpVersion, String userAgent, boolean complete, Integer status,
+                                  String referrer) {
+        localLogService.addRequestInfo(appId, versionId, requestId, ip, nickname, startTimeUsec, endTimeUsec,
+                                       method, resource, httpVersion, userAgent, complete, status, referrer);
+    }
+
+    public void addAppLogLine(String requestId, long time, int level, String message) {
+        localLogService.addAppLogLine(requestId, time, level, message);
+    }
+
+    /**
+     * Returns an {@link Action} object that matches the parameters given.
+     *
+     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
     public Action getActionObject(String uri, String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);
@@ -131,11 +159,11 @@ public class GaeSimulation {
         action.setEmailSender(new MockEmailSender());
         return action;
     }
-    
-    /** 
-     * @param parameters Parameters that appear in a HttpServletRequest
-     * received by the app.
-     * @return an {@link AutomatedAction} object that matches the parameters given.
+
+    /**
+     * Returns an {@link AutomatedAction} object that matches the parameters given.
+     *
+     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
     public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
         HttpServletRequest req = createWebRequest(uri, parameters);
@@ -157,9 +185,9 @@ public class GaeSimulation {
     }
 
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
-        
+
         WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
-        
+
         Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
         for (int i = 0; i < parameters.length; i = i + 2) {
             String key = parameters[i];
@@ -169,9 +197,9 @@ public class GaeSimulation {
             paramMultiMap.get(key).add(parameters[i + 1]);
         }
 
-        for (String key : paramMultiMap.keySet()) {
-            List<String> values = paramMultiMap.get(key);
-            request.setParameter(key, values.toArray(new String[values.size()]));
+        for (Map.Entry<String, List<String>> entry : paramMultiMap.entrySet()) {
+            List<String> values = entry.getValue();
+            request.setParameter(entry.getKey(), values.toArray(new String[values.size()]));
         }
 
         try {

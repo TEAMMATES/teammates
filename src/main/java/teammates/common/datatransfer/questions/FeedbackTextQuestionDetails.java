@@ -17,14 +17,14 @@ import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
-    
+
     private int recommendedLength;
 
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
         recommendedLength = 0;
     }
-    
+
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
         recommendedLength = 0;
@@ -46,7 +46,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionTypeDisplayName() {
         return Const.FeedbackQuestionTypeNames.TEXT;
     }
-    
+
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
@@ -87,7 +87,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                 FormTemplates.TEXT_EDIT_FORM,
                 "${recommendedlength}", recommendedLength == 0 ? "" : Integer.toString(recommendedLength));
     }
-    
+
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         return "<div id=\"textForm\">"
@@ -99,7 +99,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         return "";
     }
-    
+
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -109,15 +109,15 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         }
-        
-        String html = "";
+
+        return "";
         /*
         int averageLength = 0;
         int minLength = Integer.MAX_VALUE;
         int maxLength = Integer.MIN_VALUE;
         int numResponses = 0;
         int totalLength = 0;
-        
+
         for(FeedbackResponseAttributes response : responses){
             numResponses++;
             String answerString = response.getResponseDetails().getAnswerString();
@@ -129,9 +129,9 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                         : maxLength;
             totalLength += StringHelper.countWords(answerString);
         }
-        
+
         averageLength = totalLength/numResponses;
-        
+
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         FeedbackQuestionFormTemplates.TEXT_RESULT_STATS,
                         "${averageLength}", Integer.toString(averageLength),
@@ -139,7 +139,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
         */
         //TODO: evaluate what statistics are needed for text questions later.
-        return html;
     }
 
     @Override
@@ -149,7 +148,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle) {
         return "";
     }
-    
+
     @Override
     public String getCsvHeader() {
         return "Feedback";

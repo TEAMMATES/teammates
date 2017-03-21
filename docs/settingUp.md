@@ -59,13 +59,16 @@ More information can be found at [this documentation](https://help.github.com/ar
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
       This value must be a valid **JDK 1.7** directory.
+      **Windows users** should use a **forward slash**(`/`) instead of the Windows default **backward slash**(`\`) while specifying the path.
    * `src/test/resources/test.properties`<br>
       Append a **same** unique id (e.g your name) to **each** of the default accounts found at the bottom of this file,
       e.g change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`.
 
-## Step 4: Set up Eclipse IDE
+## Step 4: Set up an IDE
 
-Eclipse IDE is our preferred development environment. Support requests related to other IDEs will not be entertained.
+[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij-idea) usage is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
+
+### Eclipse
 
 > Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
 
@@ -86,16 +89,6 @@ Eclipse IDE is our preferred development environment. Support requests related t
      
    **Verification:** Go to `Eclipse → Preferences → Java → Installed JREs`, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
       ![devverification-guide-1.png](images/devverification-guide-1.png)
-     
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
-     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
-     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * HTML: `Web → HTML Files → Editor → Indent using spaces`
-     * CSS: `Web → CSS Files → Editor → Indent using spaces`
-     * XML: `XML → XML Files → Editor → Indent using spaces`
-  * HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
-    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
 
 1. Run this command to download the dependencies required by TEAMMATES and configure them up to be used by Eclipse:
    ```sh
@@ -110,6 +103,35 @@ Eclipse IDE is our preferred development environment. Support requests related t
    * Select `Existing Projects into Workspace` under `General`.
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
+   
+1. Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
+     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
+     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
+     * HTML: `Web → HTML Files → Editor → Indent using spaces`
+     * CSS: `Web → CSS Files → Editor → Indent using spaces`
+     * XML: `XML → XML Files → Editor → Indent using spaces`
+* HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
+    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
+
+### IntelliJ IDEA
+
+1. Download and install [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/).
+   * You will need an Ultimate Edition license in order to work with Google App Engine in IntelliJ IDEA.
+   * You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
+1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
+1. Configure IntelliJ as follows:
+   * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
+   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `Configure → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
+   * Text Encoding: Go to `Configure → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
+   * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `Configure → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
+1. Import the project into IntelliJ.
+   * Click `Import project` and select the local repository folder.
+   * Click `Import project from external model → Gradle`.
+   * Click `Next`.
+   * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
+   * Click `Finish`.
+1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
 
 If you followed every step correctly, you should have successfully set up the development environment.
 You may proceed to the development routine as lined out in [this document](development.md).

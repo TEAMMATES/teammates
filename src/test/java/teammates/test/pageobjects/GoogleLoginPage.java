@@ -6,13 +6,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class GoogleLoginPage extends LoginPage {
-    
+
     @FindBy(id = "Email")
     private WebElement usernameTextBox;
-    
+
     @FindBy(id = "Passwd")
     private WebElement passwordTextBox;
-    
+
     @FindBy(id = "signIn")
     private WebElement loginButton;
 
@@ -31,9 +31,8 @@ public class GoogleLoginPage extends LoginPage {
     @Override
     public InstructorHomePage loginAsInstructor(String username, String password) {
         completeGoogleLoginSteps(username, password);
-        InstructorHomePage homePage = changePageType(InstructorHomePage.class);
         browser.isAdminLoggedIn = false;
-        return homePage;
+        return changePageType(InstructorHomePage.class);
     }
 
     @Override
@@ -58,9 +57,8 @@ public class GoogleLoginPage extends LoginPage {
     @Override
     public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
-        T page = changePageType(typeOfPage);
         browser.isAdminLoggedIn = false;
-        return page;
+        return changePageType(typeOfPage);
     }
 
     private void completeGoogleLoginSteps(String username, String password) {
@@ -92,11 +90,11 @@ public class GoogleLoginPage extends LoginPage {
         click(By.id("next"));
         waitForElementVisibility(passwordTextBox);
         fillTextBox(passwordTextBox, password);
-        
+
         if (staySignedCheckbox.isSelected()) {
             click(staySignedCheckbox);
         }
-        
+
         click(loginButton);
         waitForPageToLoad();
     }
@@ -116,7 +114,7 @@ public class GoogleLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
     }
-    
+
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(
             String username, String password) {

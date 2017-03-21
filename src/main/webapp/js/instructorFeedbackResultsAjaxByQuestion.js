@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function() {
     var seeMoreRequest = function(e) {
         var panelHeading = $(this);
@@ -37,7 +39,7 @@ $(document).ready(function() {
                     }
                     $panelBody.html(appendedQuestion);
                 }
-                
+
                 $panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function() {
                     bindDefaultImageIfMissing(this);
                 });

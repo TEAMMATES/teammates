@@ -10,21 +10,23 @@ import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.logic.api.Logic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.entity.Comment;
 import teammates.storage.entity.FeedbackResponseComment;
 
 public class DataMigrationForSearchableComments extends RemoteApiClient {
 
     private Logic logic = new Logic();
-    
+
     public static void main(String[] args) throws IOException {
         DataMigrationForSearchableComments migrator = new DataMigrationForSearchableComments();
         migrator.doOperationRemotely();
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void doOperation() {
-        List<InstructorAttributes> allInstructors = getAllInstructors();
+        List<InstructorAttributes> allInstructors = InstructorsLogic.inst().getAllInstructors();
         for (InstructorAttributes instructor : allInstructors) {
             updateCommentsForInstructor(instructor);
         }
@@ -41,7 +43,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
         }
         PM.close();
     }
-    
+
     protected List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
         Query q = PM.newQuery(Comment.class);
@@ -53,7 +55,7 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
                 instructor.courseId, instructor.email);
         return commentList;
     }
-    
+
     protected List<FeedbackResponseComment> getFrCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
         Query q = PM.newQuery(FeedbackResponseComment.class);
@@ -65,17 +67,13 @@ public class DataMigrationForSearchableComments extends RemoteApiClient {
                 instructor.courseId, instructor.email);
         return commentList;
     }
-    
+
     protected void putCommentToSearchableDocument(CommentAttributes comment) {
         logic.putDocument(comment);
     }
-    
+
     protected void putFrCommentToSearchableDocument(FeedbackResponseCommentAttributes comment) {
         logic.putDocument(comment);
     }
 
-    @SuppressWarnings("deprecation")
-    protected List<InstructorAttributes> getAllInstructors() {
-        return logic.getAllInstructors();
-    }
 }

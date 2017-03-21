@@ -1,3 +1,5 @@
+'use strict';
+
 function updateConstSumPointsValue(questionNum) {
     if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + '-' + questionNum).val() < 1) {
         $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + '-' + questionNum).val(1);
@@ -12,9 +14,9 @@ function updateConstSumPointsValue(questionNum) {
 
 function addConstSumOption(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val());
-        
+
     $('<div class="margin-bottom-7px" id="constSumOptionRow-' + curNumberOfChoiceCreated + '-' + questionNum + '">'
           + '<div class="input-group width-100-pc">'
               + '<input type="text" name="' + FEEDBACK_QUESTION_CONSTSUMOPTION + '-' + curNumberOfChoiceCreated + '" '
@@ -32,7 +34,7 @@ function addConstSumOption(questionNum) {
     ).insertBefore($('#constSumAddOptionRow-' + questionNum));
 
     $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '-' + questionNum).val(curNumberOfChoiceCreated + 1);
-    
+
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
@@ -45,18 +47,17 @@ function hideConstSumOptionTable(questionNum) {
 function removeConstSumOption(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
     var $thisRow = $('#constSumOptionRow-' + index + '-' + questionNum);
-    
+
     // count number of child rows the table have and - 1 because of add option button
     var numberOfOptions = $thisRow.parent().children('div').length - 1;
-    
+
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-    
+
         if ($(questionId).attr('editStatus') === 'hasResponses') {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
 }
-

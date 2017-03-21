@@ -1,3 +1,5 @@
+'use strict';
+
 var ROW_RECIPIENT = 1;
 var ROW_GIVER_TEAM = 2;
 var ROW_RECIPIENT_TEAM = 3;
@@ -130,7 +132,7 @@ function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
 }
 
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
-    $containingForm.find('input[type="checkbox"]').each(function(index, checkbox) {
+    $containingForm.find('input.visibilityCheckbox').each(function(index, checkbox) {
         checkbox.checked = false;
     });
 }
@@ -160,6 +162,20 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
         allowInstructorToSee('.giverCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
+    case 'ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS':
+        // recipient can see answer and recipient, but not giver name
+        allowRecipientToSee('.answerCheckbox', $containingForm);
+        allowRecipientToSee('.recipientCheckbox', $containingForm);
+
+        // instructor can see answer, recipient AND giver name
+        allowInstructorToSee('.answerCheckbox', $containingForm);
+        allowInstructorToSee('.giverCheckbox', $containingForm);
+        allowInstructorToSee('.recipientCheckbox', $containingForm);
+
+        // recipient team (same as givers team) can see answer and recipient, but not giver name
+        allowRecipientsTeamToSee('.answerCheckbox', $containingForm);
+        allowGiversTeamToSee('.answerCheckbox', $containingForm);
+        break;
     case 'VISIBLE_TO_INSTRUCTORS_ONLY':
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.giverCheckbox', $containingForm);
@@ -185,6 +201,22 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
  */
 function allowRecipientToSee(checkboxClass, $containingForm) {
     $containingForm.find('input[type="checkbox"][value="RECEIVER"]' + checkboxClass).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for giver's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowGiversTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find('input[type="checkbox"][value="OWN_TEAM_MEMBERS"]' + checkboxClass).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for recipient's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowRecipientsTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find('input[type="checkbox"][value="RECEIVER_TEAM_MEMBERS"]' + checkboxClass).prop('checked', true);
 }
 
 /**
@@ -241,7 +273,7 @@ function tallyCheckboxes(questionNum) {
         '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
         '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
     };
-    
+
     $.each(checkboxTypes, function(className, checkboxType) {
         var checked = [];
         $('#form_editquestion-' + questionNum).find(className + ':checked').each(function() {
@@ -387,23 +419,23 @@ var previousFormDataMap = {};
 function updateVisibilityMessageDiv($containingForm) {
     var questionNum = $containingForm.find('[name=questionnum]').val();
     var newQuestionNum = $('input[name=questionnum]').last().val();
-    
+
     if (questionNum === newQuestionNum) {
         tallyCheckboxes(NEW_QUESTION);
     } else {
         tallyCheckboxes(questionNum);
     }
-    
+
     var formData = $containingForm.serialize();
     var $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
-    
+
     if (previousFormDataMap[questionNum] === formData) {
         return;
     }
 
     // empty current visibility message in the form
     $visibilityMessageDiv.html('');
-    
+
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
         type: 'POST',
@@ -412,7 +444,7 @@ function updateVisibilityMessageDiv($containingForm) {
         success: function(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
-            
+
             $visibilityMessageDiv.html(formatVisibilityMessageDivHtml(data.visibilityMessage));
         },
         error: function() {

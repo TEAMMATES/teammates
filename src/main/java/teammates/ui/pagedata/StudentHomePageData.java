@@ -17,20 +17,20 @@ import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
 public class StudentHomePageData extends PageData {
-    
+
     private List<CourseTable> courseTables;
-    
+
     public StudentHomePageData(AccountAttributes account,
                                List<CourseDetailsBundle> courses,
                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         super(account);
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
-    
+
     public List<CourseTable> getCourseTables() {
         return courseTables;
     }
-    
+
     private void setCourseTables(List<CourseDetailsBundle> courses,
                                  Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         courseTables = new ArrayList<CourseTable>();
@@ -45,7 +45,7 @@ public class StudentHomePageData extends PageData {
             courseTables.add(courseTable);
         }
     }
-    
+
     private List<ElementTag> createCourseTableLinks(String courseId) {
         List<ElementTag> links = new ArrayList<ElementTag>();
         links.add(new ElementTag("View Team",
@@ -53,17 +53,17 @@ public class StudentHomePageData extends PageData {
                                  "title", Const.Tooltips.STUDENT_COURSE_DETAILS));
         return links;
     }
-    
+
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
             Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int startingSessionIdx) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
-        
+
         int sessionIdx = startingSessionIdx;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.getFeedbackSessionName();
             boolean hasSubmitted = sessionSubmissionStatusMap.get(feedbackSession);
-            
+
             rows.add(new StudentHomeFeedbackSessionRow(
                     PageData.sanitizeForHtml(sessionName),
                     getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
@@ -71,44 +71,46 @@ public class StudentHomePageData extends PageData {
                     TimeHelper.formatTime12H(feedbackSession.getEndTime()),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
-            
+
             ++sessionIdx;
         }
-        
+
         return rows;
     }
-    
+
     /**
+     * Returns the submission status of the student for a given feedback session as a String.
+     *
      * @param session The feedback session in question.
      * @param hasSubmitted Whether the student had submitted the session or not.
-     * @return The submission status of the student for a given feedback session as a String.
      */
     private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         if (session.isOpened()) {
             return hasSubmitted ? "Submitted" : "Pending";
         }
-        
+
         if (session.isWaitingToOpen()) {
             return "Awaiting";
         }
-        
+
         if (session.isPublished()) {
             return "Published";
         }
-        
+
         return "Closed";
     }
-    
+
     /**
+     * Returns the hover message to explain feedback session submission status.
+     *
      * @param session The feedback session in question.
      * @param hasSubmitted Whether the student had submitted the session or not.
-     * @return The hover message to explain feedback session submission status.
      */
     private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         StringBuilder msg = new StringBuilder();
-        
+
         Boolean isAwaiting = session.isWaitingToOpen();
-        
+
         if (isAwaiting) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING);
         } else if (hasSubmitted) {
@@ -124,12 +126,12 @@ public class StudentHomePageData extends PageData {
         }
         return msg.toString();
     }
-    
+
     /**
+     * Returns the list of available actions for a specific feedback session.
+     *
      * @param fs The feedback session in question.
-     * @param idx The index of the session in the table.
      * @param hasSubmitted Whether the student had submitted the session or not.
-     * @return The list of available actions for a specific feedback session.
      */
     private StudentFeedbackSessionActions getStudentFeedbackSessionActions(
             FeedbackSessionAttributes fs, boolean hasSubmitted) {

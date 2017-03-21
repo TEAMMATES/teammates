@@ -20,7 +20,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
     public void testCreateEntity() throws Exception {
         //We are using CoursesDb to test EntititesDb here.
         CoursesDb coursesDb = new CoursesDb();
-        
+
         /*Explanation:
          * The SUT (i.e. EntitiesDb::createEntity) has 4 paths. Therefore, we
          * have 4 test cases here, one for each path.
@@ -32,7 +32,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
-        
+
         ______TS("fails: entity already exists");
         try {
             coursesDb.createEntity(c);
@@ -44,7 +44,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
         }
         coursesDb.deleteEntity(c);
-        
+
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = new CourseAttributes("invalid id spaces", "Basic Computing", "UTC");
         try {
@@ -58,7 +58,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                         FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
         }
-        
+
         ______TS("fails: null parameter");
         try {
             coursesDb.createEntity(null);

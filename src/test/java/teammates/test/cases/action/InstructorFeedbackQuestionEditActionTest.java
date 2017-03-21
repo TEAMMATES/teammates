@@ -30,7 +30,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
     }
-    
+
     @Override
     @Test
     public void testExecuteAndPostProcess() {
@@ -502,7 +502,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // There is already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        
+
         String[] editTextParams = {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -1132,7 +1132,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        
+
         ______TS("Edit rubric weight");
 
         // There are already responses for this question
@@ -1289,9 +1289,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessResponseRate() throws Exception {
-        
+
         removeAndRestoreTypicalDataBundle();
-        
+
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
 
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();

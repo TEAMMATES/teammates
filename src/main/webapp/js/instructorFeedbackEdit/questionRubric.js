@@ -1,6 +1,8 @@
+'use strict';
+
 function addRubricRow(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var numberOfRows = parseInt($('#rubricNumRows-' + questionNum).val());
     var numberOfCols = parseInt($('#rubricNumCols-' + questionNum).val());
 
@@ -65,7 +67,7 @@ function addRubricRow(questionNum) {
 
     // Increment
     $('#rubricNumRows-' + questionNum).val(newRowNumber);
-    
+
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
@@ -73,10 +75,10 @@ function addRubricRow(questionNum) {
 
 function addRubricCol(questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var numberOfRows = parseInt($('#rubricNumRows-' + questionNum).val());
     var numberOfCols = parseInt($('#rubricNumCols-' + questionNum).val());
-    
+
     var newColNumber = numberOfCols + 1;
 
     // Insert header <th>
@@ -106,7 +108,7 @@ function addRubricCol(questionNum) {
     // Insert after last <th>
     var lastTh = $('#rubricEditTable-' + questionNum).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
-    
+
     // Insert weight <th>
     var rubricWeightFragmentTemplate =
         '<th class="rubricCol-${qnIndex}-${col}">'
@@ -126,7 +128,7 @@ function addRubricCol(questionNum) {
     // Insert after last <th>
     var lastWeightCell = $('#rubricWeights-' + questionNum + ' th:last');
     $(rubricWeightFragment).insertAfter(lastWeightCell);
-    
+
     disallowNonNumericEntries($('#rubricWeight-' + questionNum + '-' + (newColNumber - 1)), true, true);
 
     // Insert body <td>'s
@@ -152,7 +154,7 @@ function addRubricCol(questionNum) {
         fragment = replaceAll(fragment,
                               '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}',
                               'rubricDesc');
-        
+
         // Insert after previous <td>
         var lastTd = $('#rubricRow-' + questionNum + '-' + rows + ' td:last');
         $(fragment).insertAfter(lastTd);
@@ -160,7 +162,7 @@ function addRubricCol(questionNum) {
 
     // Increment
     $('#rubricNumCols-' + questionNum).val(newColNumber);
-    
+
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
@@ -168,12 +170,12 @@ function addRubricCol(questionNum) {
 
 function removeRubricRow(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var $thisRow = $('#rubricRow-' + questionNum + '-' + index);
-    
+
     // count number of table rows from table body
     var numberOfRows = $thisRow.parent().children('tr').length;
-    
+
     var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
     var messageText = 'Are you sure you want to ' + delStr + ' the row?';
     var okCallback = function() {
@@ -194,12 +196,12 @@ function removeRubricRow(index, questionNum) {
 
 function removeRubricCol(index, questionNum) {
     var questionId = '#form_editquestion-' + questionNum;
-    
+
     var $thisCol = $('.rubricCol-' + questionNum + '-' + index);
-    
+
     // count number of table columns from table body
     var numberOfCols = $thisCol.first().parent().children().length - 1;
-    
+
     var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
     var messageText = 'Are you sure you want to ' + delStr + ' the column?';
     var okCallback = function() {
@@ -292,4 +294,3 @@ function moveAssignWeightsCheckbox(checkbox) {
 function hasAssignedWeights(questionNum) {
     return $('#rubricAssignWeights-' + questionNum).prop('checked');
 }
-

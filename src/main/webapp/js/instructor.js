@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * This JavaScript file is included in all instructor pages. Functions here
  * should be common to some/all instructor pages.
@@ -7,10 +9,10 @@
 // -----------------------------------------------------------------------------
 
 $(document).ready(function() {
-    
+
     // bind the show picture onclick events
     bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
-    
+
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 
@@ -51,7 +53,7 @@ function isStudentInputValid(editName, editTeamName, editEmail) {
         setStatusMessage(DISPLAY_EMAIL_INVALID, StatusType.DANGER);
         return false;
     }
-    
+
     return true;
 }
 
@@ -63,7 +65,7 @@ function setupFsCopyModal() {
         var fsname = button.data('fsname');
         var appUrl = window.location.origin;
         var currentPage = window.location.href.substring(appUrl.length); // use the page's relative URL
-        
+
         $.ajax({
             type: 'GET',
             url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname)
@@ -98,9 +100,9 @@ function setupFsCopyModal() {
         function(e) {
             e.preventDefault();
             var $this = $(this);
-            
+
             var $copyModalStatusMessage = $('#feedback-copy-modal-status');
-            
+
             $.ajax({
                 type: 'POST',
                 url: $this.prop('action'),
@@ -140,23 +142,23 @@ function setupFsCopyModal() {
 function bindStudentPhotoLink(elements) {
     $(elements).on('click', function(e) {
         var event = e || window.event;
-        
+
         event.cancelBubble = true;
-        
+
         if (event.stopPropagation) {
             event.stopPropagation();
         }
-        
+
         var actualLink = $(this).parent().attr('data-link');
         var $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif')
                                       .addClass('center-block margin-top-7px');
-        
+
         $(this).siblings('img').attr('src', actualLink).load(function() {
             var actualLink = $(this).parent().attr('data-link');
             var resolvedLink = $(this).attr('src');
-            
+
             $loadingImage.remove();
-            
+
             $(this).removeClass('hidden')
                 .parent().attr('data-link', '')
                 .popover({
@@ -182,14 +184,14 @@ function bindStudentPhotoLink(elements) {
                         }, 200, this);
                     });
                 });
-            
+
             updateHoverShowPictureEvents(actualLink, resolvedLink);
         });
-        
+
         var $imageCell = $(this).closest('td');
         $(this).remove();
         $imageCell.append($loadingImage);
-        
+
     });
 }
 
@@ -217,7 +219,7 @@ function bindStudentPhotoHoverLink(elements) {
                 }
             }, 200, this);
         });
-    
+
     // bind the default popover event for the
     // show picture onhover events
     $(elements).popover({
@@ -318,7 +320,7 @@ function bindRemindButtons() {
 function bindPublishButtons() {
     $('body').on('click', '.session-publish-for-test', function(event) {
         event.preventDefault();
- 
+
         var $button = $(this);
         var feedbackSessionName = $button.data('fsname');
         var messageText = 'Are you sure you want to publish the responses for the session "' + feedbackSessionName + '"?';
@@ -360,18 +362,18 @@ function bindUnpublishButtons() {
  */
 function loadProfilePictureForHoverEvent(obj) {
     obj.children('img')[0].src = obj.attr('data-link');
-    
+
     var $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
-    
+
     // load the pictures in all similar links
     obj.children('img').load(function() {
         var actualLink = $(this).parent().attr('data-link');
         var resolvedLink = $(this).attr('src');
-        
+
         $loadingImage.remove();
 
         updateHoverShowPictureEvents(actualLink, resolvedLink);
-        
+
         // this is to show the picture immediately for the one
         // the user just clicked on
         $(this).parent()
@@ -381,7 +383,7 @@ function loadProfilePictureForHoverEvent(obj) {
                 $(this).siblings('.profile-pic-icon-hover').popover('hide');
             });
     });
-    
+
     obj.popover('destroy').popover({
         html: true,
         trigger: 'manual',

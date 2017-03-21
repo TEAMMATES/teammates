@@ -1,10 +1,12 @@
+'use strict';
+
 $(document).ready(function() {
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));
     } else {
         toggleSort($('#button_sortstudentteam'));
     }
-    
+
     // auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', function() {
         selectElementContents(document.getElementById('detailsTable'));
@@ -21,7 +23,7 @@ function submitFormAjax() {
     var formData = formObject.serialize();
     var content = $('#detailsTable');
     var ajaxStatus = $('#ajaxStatus');
-    
+
     $.ajax({
         type: 'POST',
         url: '/page/instructorCourseDetailsPage?' + formData,
@@ -71,7 +73,11 @@ function attachEventToSendInviteLink() {
         var messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request anyway?';
         var okCallback = function() {
-            window.location = $clickedLink.attr('href');
+            $.get($clickedLink.attr('href'), function() {
+                var studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
+                var message = 'An email has been sent to ' + studentEmail;
+                setStatusMessage(message, 'success');
+            });
         };
 
         BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,

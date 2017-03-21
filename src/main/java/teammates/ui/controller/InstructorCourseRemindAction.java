@@ -18,24 +18,24 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 
 /**
- * Action: remind instructor or student to register for a course by sending reminder emails
+ * Action: remind instructor or student to register for a course by sending reminder emails.
  */
 public class InstructorCourseRemindAction extends Action {
-    
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        
+
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!");
         }
-        
+
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
@@ -51,7 +51,7 @@ public class InstructorCourseRemindAction extends Action {
             gateKeeper.verifyAccessible(
                     instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         }
-        
+
         /* Process sending emails and setup status to be shown to user and admin */
         Map<String, JoinEmailData> emailDataMap = new TreeMap<String, JoinEmailData>();
 
@@ -65,20 +65,23 @@ public class InstructorCourseRemindAction extends Action {
             }
             emailDataMap.put(studentEmail,
                              new JoinEmailData(studentData.getName(), extractStudentRegistrationKey(studentData)));
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         } else if (isSendingToInstructor) {
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(courseId, instructorEmail);
+            taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
+                    instructorEmail, courseId);
+
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
                 throw new EntityDoesNotExistException("Instructor with email " + instructorEmail + " does not exist "
                                                       + "in course " + courseId + "!");
             }
+
             emailDataMap.put(instructorEmail,
                     new JoinEmailData(instructorData.getName(), StringHelper.encrypt(instructorData.key)));
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail,
                                                StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
@@ -89,39 +92,39 @@ public class InstructorCourseRemindAction extends Action {
                 emailDataMap.put(student.getEmail(),
                         new JoinEmailData(student.getName(), extractStudentRegistrationKey(student)));
             }
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         }
-        
+
         statusToAdmin = generateStatusToAdmin(emailDataMap, courseId);
-        
+
         /* Create redirection with URL based on type of sending email */
         RedirectResult response = createRedirectResult(redirectUrl);
         response.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-        
+
         return response;
 
     }
-    
+
     private String generateStatusToAdmin(Map<String, JoinEmailData> emailDataMap, String courseId) {
         StringBuilder statusToAdmin = new StringBuilder(200);
         statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
                      .append(courseId)
                      .append("]</span>:<br>");
-        
+
         Set<Entry<String, JoinEmailData>> entries = emailDataMap.entrySet();
-        
+
         for (Entry<String, JoinEmailData> entry : entries) {
-            
+
             String userEmail = entry.getKey();
             JoinEmailData joinEmailData = entry.getValue();
-            
+
             statusToAdmin.append(joinEmailData.userName)
                          .append("<span class=\"bold\"> (").append(userEmail).append(")</span>.<br>")
                          .append(joinEmailData.regKey).append("<br>");
         }
-        
+
         return statusToAdmin.toString();
     }
 
@@ -131,11 +134,11 @@ public class InstructorCourseRemindAction extends Action {
         int startIndex = joinLink.indexOf(keyParam) + keyParam.length();
         return joinLink.substring(startIndex);
     }
-    
+
     private static class JoinEmailData {
         String userName;
         String regKey;
-        
+
         JoinEmailData(String userName, String regKey) {
             this.userName = userName;
             this.regKey = regKey;

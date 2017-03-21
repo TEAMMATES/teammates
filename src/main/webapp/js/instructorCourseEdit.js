@@ -1,3 +1,5 @@
+'use strict';
+
 // global parameter to remember settings for custom access level
 
 // to store the role of instructors (Co-owner, Manager, Observer, Tutor or Custom)
@@ -24,7 +26,7 @@ var instructorPrivilegeValues = [
 ];
 
 $(document).ready(function() {
-    
+
     var numOfInstr = $("form[id^='formEditInstructor']").length;
     for (var i = 0; i < numOfInstr; i++) {
         var instrNum = i + 1;
@@ -45,7 +47,7 @@ $(document).ready(function() {
 
     bindRemindInstructorLink();
     bindDeleteInstructorLink();
-    
+
     if (typeof moment !== 'undefined') {
         var $selectElement = $('#' + COURSE_TIME_ZONE);
         TimeZone.prepareTimeZoneInput($selectElement);
@@ -158,7 +160,7 @@ function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
     var numberOfSections = $('select#section' + sectionNum + 'forinstructor' + instrNum + ' option').length;
     var numOfVisibleSections = $('#tunePermissionsDivForInstructor' + 1
                                  + " div[id^='tuneSectionPermissionsDiv']").filter(':visible').length;
-    
+
     if (numOfVisibleSections === numberOfSections) {
         $('#addSectionLevelForInstructor' + instrNum).hide();
     }
@@ -227,7 +229,7 @@ function checkTheRoleThatApplies(instrNum) {
                                + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked');
             instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
         }
-        
+
         checkPrivilegesOfRoleForInstructor(instrNum, instrRole);
     }
 }
@@ -244,13 +246,13 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
     } else if (role === 'Custom') {
         checkPrivilegesOfCustomForInstructor(instrNum);
     }
-    
+
     // do nothing if role not recognized
 }
 
 function checkPrivilegesOfCoownerForInstructor(instrNum) {
     hideTunePermissionDiv(instrNum);
-    
+
     for (var i = 0; i < instructorPrivilegeValues.length; i++) {
         $('#tunePermissionsDivForInstructor' + instrNum
           + " input[name='" + instructorPrivilegeValues[i] + "']").prop('checked', true);
@@ -290,7 +292,7 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     var numOfInstr = $("form[id^='formEditInstructor']").length;
     var originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
-    
+
     if (instrNum <= numOfInstr && instrNum <= instructorCourseEditInstructorAccessLevelWhenLoadingPage.length) {
         if (originalRole === 'Custom') {
             // 'Custom' => 'Not Custom' => 'Custom'
@@ -347,15 +349,15 @@ function checkPrivilegesOfCoownerForModal() {
 
 function checkPrivilegesOfManagerForModal() {
     checkPrivilegesOfCoownerForModal();
-    
+
     $("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop('checked', false);
-    
+
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Manager');
 }
 
 function checkPrivilegesOfObserverForModal() {
     checkPrivilegesOfCoownerForModal();
-    
+
     $("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop('checked', false);
@@ -364,13 +366,13 @@ function checkPrivilegesOfObserverForModal() {
     $("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='cansubmitsessioninsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop('checked', false);
-    
+
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Observer');
 }
 
 function checkPrivilegesOfTutorForModal() {
     checkPrivilegesOfCoownerForModal();
-    
+
     $("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop('checked', false);
@@ -378,7 +380,7 @@ function checkPrivilegesOfTutorForModal() {
     $("#tunePermissionsDivForInstructorAll input[name='canviewcommentinsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop('checked', false);
-    
+
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Tutor');
 }
 
@@ -437,7 +439,7 @@ function bindCheckboxToggle() {
             permissionGroup.find('input[name^="canviewstudentinsection"]').prop('checked', true);
         }
     });
-    
+
     $('body').on('click', 'input[name^="canviewstudentinsection"]', function(e) {
         var target = $(e.target);
         var permissionGroup = target.closest('div');
@@ -445,7 +447,7 @@ function bindCheckboxToggle() {
             permissionGroup.find('input[name^="cangivecommentinsection"]').prop('checked', false);
         }
     });
-    
+
     $('body').on('click', 'input[name^="canmodifycommentinsection"]', function(e) {
         var target = $(e.target);
         var permissionGroup = target.closest('div');
@@ -453,7 +455,7 @@ function bindCheckboxToggle() {
             permissionGroup.find('input[name^="canviewcommentinsection"]').prop('checked', true);
         }
     });
-    
+
     $('body').on('click', 'input[name^="canviewcommentinsection"]', function(e) {
         var target = $(e.target);
         var permissionGroup = target.closest('div');
@@ -461,7 +463,7 @@ function bindCheckboxToggle() {
             permissionGroup.find('input[name^="canmodifycommentinsection"]').prop('checked', false);
         }
     });
-    
+
     $('body').on('click', 'input[name^="canmodifysessioncommentinsection"]', function(e) {
         var target = $(e.target);
         var isIndividualSessionPrivilege = target.is('[name*="feedback"]');
@@ -470,7 +472,7 @@ function bindCheckboxToggle() {
             permissionGroup.find('input[name^="canviewsessioninsection"]').prop('checked', true);
         }
     });
-    
+
     $('body').on('click', 'input[name^="canviewsessioninsection"]', function(e) {
         var target = $(e.target);
         var isIndividualSessionPrivilege = target.is('[name*="feedback"]');

@@ -22,24 +22,63 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ### With Eclipse
 
-* To start the dev server, right-click on the project folder and choose `Run As → Web Application`.<br>
-  After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-  The dev server URL will be given at the console output, e.g `http://localhost:8888`.
+#### Starting the dev server
 
-* To stop the dev server, click the "Terminate" icon on the Eclipse console.
+Right-click on the project folder and choose `Run As → Web Application`.<br>
+After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
+The dev server URL will be given at the console output, e.g `http://localhost:8888`.
 
-### Outside Eclipse
+#### Stopping the dev server
+
+Click the "Terminate" icon on the Eclipse console.
+
+### With IntelliJ
+
+> If this is your first time running the dev server, you will need to set up the required `Run Configuration`.
+
+#### Set up the Run Configuration
+
+1. Go to `File → Project Structure...`.
+1. Under `Artifacts → Gradle : <your-project-name>.war (exploded)`, check `Include in project build`.
+1. Click `OK`.
+1. Got to `Run → Edit Configurations...`.
+1. Click `+ → Google AppEngine Dev Server`.
+1. Name it `Dev Server`.
+1. Click `Configure` next to `Application server`.
+1. Click `+ → ...`. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+1. Under `Open browser`, uncheck `After launch`.
+1. Set the `JRE` to `1.7`.
+1. Set the `Port` to `8888`.
+1. Under `Before launch`, click `+ → Run Gradle task`.
+1. Click the folder icon, select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
+1. Click `OK`.
+1. Remove "Build" by selecting it and clicking `-`.
+1. Click `OK`.
+
+#### Starting the dev server
+
+Go to `Run → Run...` and select `Dev Server` in the pop-up box.
+
+#### Stopping the dev server
+
+Go to `Run → Stop` or hit `Ctrl + F2` (Windows).
+
+### Outside Eclipse and IntelliJ
 
 * Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
 
-* To start the dev server, run the following command:
+#### Starting the dev server
+
+Run the following command:
   ```sh
   ./gradlew appengineRun
   ```
   Wait until the task exits with a `BUILD SUCCESSFUL`.
   The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
 
-* To stop the dev server, run the following command:
+#### Stopping the dev server
+
+Run the following command:
   ```sh
   ./gradlew appengineStop
   ```
@@ -92,9 +131,13 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
 * Stop the dev server if it is running.
 * Specify timezone as a VM argument:
-  * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
-  * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-  * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
+  * Eclipse
+    * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
+    * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+    * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
+  * IntelliJ
+    * Go to `Run → Edit Configurations...` and select `Dev Server`.
+    * Add `-Duser.timezone=UTC` to the `VM options` text box. Click `OK`.
 * Start the server again using the run configuration you created in the previous step.
 
 ### Using Firefox
@@ -126,9 +169,11 @@ Before running the test suite, both the server and the test environment should b
   * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
   * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
 
-### Running the test suite with Eclipse
+### Running the test suites
 
-Test can be run using the configurations available under the green `Run` button on the Eclipse toolbar. Several configurations are provided by default:
+#### Test Configurations
+
+Several configurations are provided by default:
 * `All tests` - Runs `CI tests` and `Local tests`.
 * `CI tests` - Runs `src/test/testng-ci.xml`, all the tests that are run by CI (Travis/AppVeyor).
 * `Local tests` - Runs `src/test/testng-local.xml`, all the tests that need to be run locally by developers. `Dev green` means passing all the tests in this configuration.
@@ -138,15 +183,23 @@ Test can be run using the configurations available under the green `Run` button 
 Additionally, configurations that run the tests with `GodMode` turned on are also provided.
 More info on this can be found [here](godmode.md).
 
+### Running the test suite in an IDE
+
+When running the test cases, if a few cases fail (this can happen due to timing issues), rerun the failed cases using the `Run Failed Test` icon in the TestNG tab until they pass.
+
+#### Eclipse
+
+Run tests using the configurations available under the green `Run` button on the Eclipse toolbar.
+
 Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
 
-New developers should run `All tests` and have all of them passing at least once on their local environments.
+#### IntelliJ
 
-When running the test cases, if a few cases fail (this can happen due to timing issues), run the failed cases using the `Run Failed Test` icon in the TestNG tab in Eclipse until they pass.
+Run tests using the configurations available under `Run → Play`.
 
-### Running the test suite outside Eclipse
+### Running the test suite outside Eclipse and IntelliJ
 
-Typically, we run the test suite within Eclipse, but core developers may prefer to run it outside Eclipse so that they can continue to use Eclipse while the test suite is running. If you wish to do such, given below is the procedure:
+Typically, we run the test suite within an IDE, but core developers may prefer to run it outside the IDE so that they can continue to use their IDE while the test suite is running. If you wish to do such, given below is the procedure:
 
 1. Start the dev server.
 
@@ -174,8 +227,11 @@ This instruction set assumes that the app identifier is `teammates-john`.
      Modify to match app name and app id of your own app, and the version number if you need to. Do not modify anything else.
 
 1. Deploy the application to your staging server.
-   * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
-   * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+   * In Eclipse
+     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
+     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+   * In IntelliJ
+     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.

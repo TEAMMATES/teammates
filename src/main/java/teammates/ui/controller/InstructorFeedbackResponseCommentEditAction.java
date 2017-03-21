@@ -18,7 +18,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Action: Edit {@link FeedbackResponseCommentAttributes}
+ * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentEditAction extends Action {
     @Override
@@ -31,18 +31,18 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         Assumption.assertNotNull("null feedback response id", feedbackResponseId);
         String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         Assumption.assertNotNull("null response comment id", feedbackResponseCommentId);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-        
+
         verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
                                                                instructor, session, response);
-        
+
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
-        
+
         //Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertNotNull("null comment text", commentText);
@@ -51,12 +51,12 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             data.isError = true;
             return createAjaxResult(data);
         }
-        
+
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
                 courseId, feedbackSessionName, null, instructor.email, null, new Date(),
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
-        
+
         //Edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
@@ -78,7 +78,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
-        
+
         try {
             FeedbackResponseCommentAttributes updatedComment =
                     logic.updateFeedbackResponseComment(feedbackResponseComment);
@@ -89,7 +89,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             data.errorMessage = e.getMessage();
             data.isError = true;
         }
-        
+
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
                            + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
@@ -98,7 +98,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                            + "by: " + feedbackResponseComment.giverEmail + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
-        
+
         data.comment = feedbackResponseComment;
 
         return createAjaxResult(data);
@@ -111,7 +111,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                     || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                     || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
     }
-    
+
     private void verifyAccessibleForInstructorToFeedbackResponseComment(
             String feedbackResponseCommentId, InstructorAttributes instructor,
             FeedbackSessionAttributes session, FeedbackResponseAttributes response) {

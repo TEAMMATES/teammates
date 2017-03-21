@@ -19,7 +19,7 @@
         </h2>
         <div class="row">
             <div class="col-xs-10 col-sm-5 col-xs-offset-1 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
-                <a class="btn btn-default btn-block" href="https://youtube.googleapis.com/v/mDtfmNmRwBM&hd=1&autoplay=1&rel=0" target="_blank">
+                <a class="btn btn-default btn-block" href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank">
                     <span class="glyphicon glyphicon-film" aria-hidden="true"></span> Video Tour
                 </a>
             </div>
@@ -51,7 +51,7 @@
         <div class="col-xs-12 col-sm-8">
             <h2 class="media-heading">Award Winning, Mature, Field-tested:</h2>
             <p>
-                TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">190 developers</a>.<br>
+                TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">250 developers</a>.<br>
                 TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016) and Facebook Open Academy Program (2016).
             </p>
         </div>
@@ -106,7 +106,7 @@
             <h2 class="media-heading">Not for Profit:</h2>
             <p>
                 TEAMMATES does not have commercial ambitions. It is funded mainly by education grants from the National University of Singapore.
-                TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014 and 2015.
+                TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014, 2015, and 2016.
             </p>
         </div>
     </div>

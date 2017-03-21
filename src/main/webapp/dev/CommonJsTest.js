@@ -1,3 +1,5 @@
+'use strict';
+
 QUnit.module('common.js');
 
 /**
@@ -6,7 +8,7 @@ QUnit.module('common.js');
  */
 QUnit.test('isWithinView()', function(assert) {
     var testDiv = $('#visible');
-    
+
     // Applies style to visible element and asserts whether it should be visible
     function assertWithStyle(style, condition) {
         testDiv.attr('style', 'position: absolute;' + style);
@@ -107,25 +109,25 @@ QUnit.test('getPointValue(s, ditchZero)', function(assert) {
     // the inputs are always valid.
     assert.equal(getPointValue('N/S', false), 201,
             'Case N/S (feedback contribution not sure)');
-    
+
     assert.equal(getPointValue('N/A', false), 202, 'Case N/A');
-    
+
     assert.equal(getPointValue('0%', true), 0, 'Case 0% ditchZero true');
     assert.equal(getPointValue('0%', false), 100, 'Case 0% ditchZero false');
     assert.equal(getPointValue('1%', true), 101, 'Case 1%');
     assert.equal(getPointValue('-1%', true), 99, 'Case -1%');
-    
+
     assert.equal(getPointValue('E -1%', false), 99, 'Case E -1%');
     assert.equal(getPointValue('E +1%', false), 101, 'Case E +1%');
     assert.equal(getPointValue('E +100%', false), 200, 'Case E +100%');
     assert.equal(getPointValue('E -100%', false), 0, 'Case E -100%');
-    
+
     assert.equal(getPointValue('E', false), 100, 'Case E');
-    
+
     assert.equal(getPointValue('0', false), 100, 'Integer 0');
     assert.equal(getPointValue('-1', false), 99, 'Integer -1');
     assert.equal(getPointValue('1', false), 101, 'Integer 1');
-    
+
     function isCloseEnough(numberA, numberB) {
         var tolerance = 0.0001;
         return Math.abs(numberA - numberB) < tolerance;
@@ -144,25 +146,25 @@ QUnit.test('sortByPoint(a, b)', function(assert) {
     assert.ok(sortByPoint('N/S', 'E') > 0, 'N/S more than E');
     assert.ok(sortByPoint('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
     assert.ok(sortByPoint('N/S', 'E -1%') > 0, 'N/S more than E +(-)X%');
-    
+
     assert.ok(sortByPoint('0%', '0%') === 0, 'Case 0% equal 0%');
     assert.ok(sortByPoint('-1%', '0%') > 0, 'Case 0% less than every X%');
     assert.ok(sortByPoint('1%', '0%') > 0, 'Case 0% less than every X%');
     assert.ok(sortByPoint('3%', '-2%') > 0, 'Case 3% more than -2%');
-    
+
     assert.ok(sortByPoint('E +1%', 'E') > 0, 'Case E +1% more than E');
     assert.ok(sortByPoint('E -1%', 'E') < 0, 'Case E -1% less than E');
     assert.ok(sortByPoint('E +33%', 'E -23%') > 0, 'Case E +33% more than E -23%');
-    
+
     assert.ok(sortByPoint('0', '-1') > 0, 'Case Integer 0 more than -1');
     assert.ok(sortByPoint('1', '0') > 0, 'Case Integer 1 more than 0');
     assert.ok(sortByPoint('2', '-3') > 0, 'Case Integer 2 more than -3');
-    
+
     assert.ok(sortByPoint('0.0', '1.0') < 0, 'Case Float 0.0 less than 1.0');
     assert.ok(sortByPoint('0.3', '-1.1') > 0, 'Case Float 0.3 more than -1.1');
     assert.ok(sortByPoint('0.3', '0.33338') < 0, 'Case Float 0.3 less than 0.33338');
     assert.ok(sortByPoint('-4.33333', '-4.5') > 0, 'Case Float -4.33333 more than -4.5');
-    
+
     assert.ok(sortByPoint('NotNumber', 'Random') === 0, 'Equality for NaN');
 });
 
@@ -178,42 +180,42 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
         'Default message status without specifying status of message (info)');
     clearStatusMessages();
-    
+
     setStatusMessage(message, StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
         'Info message status by specifying status of message (StatusType.INFO)');
     clearStatusMessages();
-    
+
     setStatusMessage(message, StatusType.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage',
         'Success message status by specifying status of message (StatusType.SUCCESS)');
     clearStatusMessages();
-    
+
     setStatusMessage(message, StatusType.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage',
         'Warning message status by specifying status of message (StatusType.WARNING)');
     clearStatusMessages();
-    
+
     setStatusMessage(message, StatusType.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage',
         'Danger message status by specifying status of message (StatusType.DANGER)');
     clearStatusMessages();
-    
+
     setStatusMessage('');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined, 'Empty message without status');
     clearStatusMessages();
-    
+
     setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined,
               'Empty message with status (any status will be the same)');
     clearStatusMessages();
-    
+
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
@@ -230,6 +232,32 @@ QUnit.test('clearStatusMessages()', function(assert) {
 QUnit.test('checkEvaluationForm()', function(assert) {
     // N/A, requires elements in the page
     assert.expect(0);
+});
+
+QUnit.test('addLoadingIndicator()', function(assert) {
+    var $fixture = $('#qunit-fixture');
+    $fixture.append('<button>Submit</button>');
+
+    var $button = $('button', $fixture);
+    var buttonText = 'Loading';
+    addLoadingIndicator($button, buttonText);
+
+    assert.equal($button.text(), buttonText, 'Button text changes to ' + buttonText);
+    assert.equal($button.find('img').attr('src'), '/images/ajax-loader.gif', 'Loading gif appended');
+    assert.ok($button.is(':disabled'), 'Button disabled');
+});
+
+QUnit.test('removeLoadingIndicator()', function(assert) {
+    var $fixture = $('#qunit-fixture');
+    $fixture.append('<button>Submit</button>');
+
+    var $button = $('button', $fixture);
+    var buttonText = 'Complete';
+    removeLoadingIndicator($button, buttonText);
+
+    assert.equal($button.text(), buttonText, 'Button text changes to ' + buttonText);
+    assert.equal($button.find('img').length, 0, 'Loading gif removed');
+    assert.notOk($button.is(':disabled'), 'Button enabled');
 });
 
 QUnit.test('sanitizeGoogleId(googleId)', function(assert) {

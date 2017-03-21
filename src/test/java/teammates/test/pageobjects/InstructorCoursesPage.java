@@ -14,7 +14,7 @@ public class InstructorCoursesPage extends AppPage {
      * shown in the Browser. The test class interact with this object when it
      * wants to perform an action on the web page (e.g., click a button).
      */
-    
+
     /* Explanation: These are the elements in the page that we want to interact
      * with. The @FindBy annotation tells the PageFactory class
      * (see https://code.google.com/p/selenium/wiki/PageFactory) how to find
@@ -22,16 +22,16 @@ public class InstructorCoursesPage extends AppPage {
      */
     @FindBy (id = "button_sortcoursename")
     private WebElement sortByCourseNameIcon;
-    
+
     @FindBy (id = "button_sortcourseid")
     private WebElement sortByCourseIdIcon;
-    
+
     @FindBy(id = "courseid")
     private WebElement courseIdTextBox;
-    
+
     @FindBy(id = "coursename")
     private WebElement courseNameTextBox;
-    
+
     @FindBy(id = "btnAddCourse")
     private WebElement submitButton;
 
@@ -39,7 +39,7 @@ public class InstructorCoursesPage extends AppPage {
         super(browser);
     }
 
-    /** Used to check if the loaded page is indeed the 'Courses' page */
+    /** Used to check if the loaded page is indeed the 'Courses' page. */
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Course</h1>");
@@ -56,24 +56,24 @@ public class InstructorCoursesPage extends AppPage {
         waitForPageToLoad();
         return this;
     }
-    
+
     public InstructorCoursesPage archiveCourse(String courseId) {
         click(getArchiveLink(courseId));
         waitForPageToLoad();
         return this;
     }
-    
+
     public InstructorCoursesPage unarchiveCourse(String courseId) {
         click(getUnarchiveLink(courseId));
         waitForPageToLoad();
         return this;
     }
-    
+
     public String fillCourseIdTextBox(String value) {
         fillTextBox(courseIdTextBox, value);
         return getTextBoxValue(courseIdTextBox);
     }
-    
+
     public String fillCourseNameTextBox(String value) {
         fillTextBox(courseNameTextBox, value);
         return getTextBoxValue(courseNameTextBox);
@@ -93,22 +93,22 @@ public class InstructorCoursesPage extends AppPage {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getDeleteLinkInRow(courseRowNumber);
     }
-    
+
     public WebElement getArchiveLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getArchiveLinkInRow(courseRowNumber);
     }
-    
+
     public WebElement getUnarchiveLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getUnarchiveLinkInRow(courseRowNumber);
     }
-    
+
     public InstructorCoursesPage sortByCourseName() {
         click(sortByCourseNameIcon);
         return this;
     }
-    
+
     public InstructorCoursesPage sortByCourseId() {
         click(sortByCourseIdIcon);
         return this;
@@ -134,7 +134,7 @@ public class InstructorCoursesPage extends AppPage {
                 By.className("t_course_edit" + courseRowNumber),
                 InstructorCourseEditPage.class);
     }
-    
+
     public void changeUserIdInAjaxLoadCoursesForm(String newUserId) {
         By element = By.id("ajaxForCourses");
         waitForElementPresence(element);
@@ -146,17 +146,17 @@ public class InstructorCoursesPage extends AppPage {
         waitForElementPresence(element);
         executeScript("$('td[id^=\"course-stats\"] > a').attr('href', '" + newLink + "')");
     }
-    
+
     public void triggerAjaxLoadCourses() {
         By element = By.id("ajaxForCourses");
         waitForElementPresence(element);
         executeScript("$('#ajaxForCourses').trigger('submit')");
     }
-    
+
     public void triggerAjaxLoadCourseStats(int rowIndex) {
         executeScript("$('.course-stats-link-" + rowIndex + "').first().trigger('click')");
     }
-    
+
     public void waitForAjaxLoadCoursesError() {
         By element = By.id("retryAjax");
         waitForElementPresence(element);
@@ -164,12 +164,12 @@ public class InstructorCoursesPage extends AppPage {
                 browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
         assertEquals("Courses could not be loaded. Click here to retry.", statusMessage.getText());
     }
-    
+
     public void waitForAjaxLoadCoursesSuccess() {
         By element = By.id("tableActiveCourses");
         waitForElementPresence(element);
     }
-    
+
     private int getCourseCount() {
         By activeCoursesTable = By.id("tableActiveCourses");
         waitForElementPresence(activeCoursesTable);
@@ -193,12 +193,12 @@ public class InstructorCoursesPage extends AppPage {
         By deleteLink = By.className("t_course_delete" + rowId);
         return browser.driver.findElement(deleteLink);
     }
-    
+
     private WebElement getArchiveLinkInRow(int rowId) {
         By archiveLink = By.className("t_course_archive" + rowId);
         return browser.driver.findElement(archiveLink);
     }
-    
+
     private WebElement getUnarchiveLinkInRow(int rowId) {
         By archiveLink = By.id("t_course_unarchive" + rowId);
         return browser.driver.findElement(archiveLink);

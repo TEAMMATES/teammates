@@ -24,17 +24,30 @@ Conversely, when updating any tool, ensure that the tool version is supported by
 
 [CheckStyle](http://checkstyle.sourceforge.net/index.html) helps to enforce coding standard in Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
-The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
-#####Configuring Checkstyle Eclipse plugin  
+##### Configuring Checkstyle Eclipse plugin
+
+The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
 3. In the `Main` tab, uncheck `Use simple configuration`.
 4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
-5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK. You have successfully setup the Checkstyle Eclipse plugin.
+5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK.
 
-#####Suppressing Checkstyle warnings
+##### Configuring Checkstyle in IntelliJ IDEA
+
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
+
+1. Go to `File → Settings → Other Settings → Checkstyle`.
+1. Set `Scan Scope` to `Only Java sources (including tests)`.
+1. Click the `+` to add a new configuration file. Click the `Browse` button, navigate to the `static-analysis` folder, and choose the `teammates-checkstyle.xml` file.
+1. Fill in the `Description` field with the name of your project (e.g. teammates).
+1. Click `Next`. Set the value of `basedir` to the path of your project folder.
+1. Click `Finish`.
+1. Check the box next to the newly added rule to activate it.
+
+##### Suppressing Checkstyle warnings
 
 To introduce code that violates Checkstyle rules, wrap the violating code with `// CHECKSTYLE.OFF:RuleName` and re-enable it afterwards with `// CHECKSTYLE.ON:RuleName` (note the absence of space around `.` and `:`). Checkstyle also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://checkstyle.sourceforge.net/config_filters.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
@@ -57,18 +70,27 @@ private String ID;
 
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
-The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
-#####Configuring PMD Eclipse plugin
+##### Configuring PMD Eclipse plugin
+
+The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
 
 1. In `Project > Properties`, go to the `PMD` tab.
 2. Check `Enable PMD`.
-3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,  
-   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK. 
-   You have successfully setup the PMD Eclipse plugin.
+3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,
+   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
 
+##### Configuring PMD for IntelliJ
 
-#####Suppressing PMD warnings
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
+
+1. Go to `File → Settings → Other Settings → PMD`.
+1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
+1. In the `Options` tab, set `Target JDK` to 1.7.
+1. Click `OK`.
+
+##### Suppressing PMD warnings
+
 To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
@@ -77,6 +99,7 @@ The suppression should be as specific as possible, and the reason for violating 
 [FindBugs](http://findbugs.sourceforge.net) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
+The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea).
 
 ### Macker
 
@@ -94,14 +117,28 @@ The plugin for Eclipse can be found [here](http://eclemma.org).
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a node.js package, currently not supported for Eclipse Java EE project.
-To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (version 4 or later required) and then install the ESLint package:
-```
-./gradlew installEslint
+To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (version 4 or later required) and then install the ESLint packages:
+```sh
+npm install eslint eslint-plugin-json
 
-# Alternatively, if you want to install the ESLint module globally, use the install command manually
-# Remember to use the correct tool version
-npm install -g eslint@{version}
+# Alternatively, if you want to install the ESLint modules globally, use the '-g' flag and the correct tool version
+npm install -g eslint@{version} eslint-plugin-json@{version}
 ```
+
+#### Installing ESLint from within IntelliJ
+
+1. Ensure the [NodeJS Plugin](https://plugins.jetbrains.com/idea/plugin/6098-nodejs) is installed.
+1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint. Refer to `src/main/resources/package.json` for the appropriate version to install.
+1. Follow the same steps outlined in the guide above to install `eslint-plugin-json`.
+
+#### Configuring ESLint for IntelliJ
+
+1. Go to `File → Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
+1. Check the box next to `Enable`.
+1. Point `Node Interpreter` to where you installed `node.exe` (NodeJS).
+1. `ESLint Package` should already be filled in if you [installed ESLint from within IntelliJ](#installing-eslint-from-within-intellij).
+1. Point `Configuration file` to the location of `teammates-eslint.yml`.
+1. Click `OK`.
 
 ##### Suppressing ESLint warnings
 
@@ -121,11 +158,10 @@ An example to suppress the `camelcase` rule is as follows:
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-stylelint.yml).
 Stylelint is a node.js package, currently not supported for Eclipse Java EE project.
 To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the Stylelint package:
-```
-./gradlew installStylelint
+```sh
+npm install stylelint
 
-# Alternatively, if you want to install the Stylelint module globally, use the install command manually
-# Remember to use the correct tool version
+# Alternatively, if you want to install the Stylelint module globally, use the '-g' flag and the correct tool version
 npm install -g stylelint@{version}
 ```
 

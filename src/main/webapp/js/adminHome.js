@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Generates HTML text for a row containing instructor's information
  * and status of the action.
@@ -45,7 +47,7 @@ function disableAddInstructorForm() {
     $('.addInstructorFormControl').each(function() {
         $(this).prop('disabled', true);
     });
-    
+
 }
 
 /**
@@ -60,6 +62,37 @@ function enableAddInstructorForm() {
     });
 }
 
+function addInstructorAjax(isError, data) {
+    var rowText;
+    if (isError) {
+        rowText = createRowForResultTable('-', '-', '-', '-', false, 'Cannot send Ajax Request!');
+    } else {
+        rowText = createRowForResultTable(
+            data.instructorShortName,
+            data.instructorName,
+            data.instructorEmail,
+            data.instructorInstitution,
+            data.instructorAddingResultForAjax,
+            data.statusForAjax
+        );
+    }
+    $('#addInstructorResultTable tbody').append(rowText);
+    var isNotAddingResultForAjax = !(data && data.instructorAddingResultForAjax);
+    if (isInputFromFirstPanel && isNotAddingResultForAjax) {
+        var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val()
+                                        + instructorDetailsList[paramsCounter] + '\n';
+        $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
+    }
+    paramsCounter++;
+    var panelHeader = '<strong>Result (' + paramsCounter + '/' + paramsList.length + ')</strong>';
+    $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
+    if (paramsCounter < paramsList.length) {
+        addInstructorByAjaxRecursively();
+    } else {
+        enableAddInstructorForm();
+    }
+}
+
 /**
  * Sends Ajax request to add new instructor(s).
  * It only sends another Ajax request after it finishes.
@@ -68,44 +101,12 @@ function addInstructorByAjaxRecursively() {
     $.ajax({
         type: 'POST',
         url: '/admin/adminInstructorAccountAdd?' + paramsList[paramsCounter],
-        beforeSend: function() {
-            disableAddInstructorForm();
-        },
+        beforeSend: disableAddInstructorForm,
         error: function() {
-            var rowText = createRowForResultTable('-', '-', '-', '-', false, 'Cannot send Ajax Request!');
-            $('#addInstructorResultTable tbody').append(rowText);
-            if (isInputFromFirstPanel) {
-                var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val()
-                                             + instructorDetailsList[paramsCounter] + '\n';
-                $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
-            }
-            paramsCounter++;
-            var panelHeader = '<strong>Result (' + paramsCounter + '/' + paramsList.length + ')</strong>';
-            $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
-            if (paramsCounter < paramsList.length) {
-                addInstructorByAjaxRecursively();
-            } else {
-                enableAddInstructorForm();
-            }
+            addInstructorAjax(true, null);
         },
         success: function(data) {
-            var rowText = createRowForResultTable(data.instructorShortName, data.instructorName,
-                                                  data.instructorEmail, data.instructorInstitution,
-                                                  data.instructorAddingResultForAjax, data.statusForAjax);
-            $('#addInstructorResultTable tbody').append(rowText);
-            if (!data.instructorAddingResultForAjax && isInputFromFirstPanel) {
-                var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val()
-                                             + instructorDetailsList[paramsCounter] + '\n';
-                $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
-            }
-            paramsCounter++;
-            var panelHeader = '<strong>Result (' + paramsCounter + '/' + paramsList.length + ')</strong>';
-            $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
-            if (paramsCounter < paramsList.length) {
-                addInstructorByAjaxRecursively();
-            } else {
-                enableAddInstructorForm();
-            }
+            addInstructorAjax(false, data);
         }
     });
 }
@@ -116,7 +117,7 @@ function addInstructorByAjaxRecursively() {
 function addInstructorFromFirstFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = true;
-    
+
     var multipleLineText = $('#addInstructorDetailsSingleLine').val();    // get input from the first panel
     multipleLineText = multipleLineText.trim();
     if (multipleLineText.length > 0) {
@@ -142,7 +143,7 @@ function addInstructorFromFirstFormByAjax() {
 function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
-    
+
     var instructorDetails = encodeURIComponent($('#instructorName').val() + '|' + $('#instructorEmail').val()
                             + '|' + $('#instructorInstitution').val());
     instructorDetailsList = [instructorDetails];
@@ -153,7 +154,7 @@ function addInstructorFromSecondFormByAjax() {
         instructorinstitution: $('#instructorInstitution').val()
     });
     paramsList = [params];
-    
+
     paramsCounter = 0;
     $('#addInstructorResultTable tbody').html('');    // clear table
     $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>');    // clear panel header

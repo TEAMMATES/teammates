@@ -11,22 +11,20 @@ import com.google.appengine.api.search.Document;
  * The {@link SearchQuery} object that defines how we query {@link Document} for students.
  */
 public class StudentSearchQuery extends SearchQuery {
-    
+
     public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
         super(instructors, queryString);
     }
-    
+
     /**
      * This constructor should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
-     * @param queryString
-     * @return admin's StudentSearchQuery with visibilityQueryString to be empty
      */
     public StudentSearchQuery(String queryString) {
         super(queryString);
     }
-    
+
     @Override
     protected String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
@@ -39,5 +37,5 @@ public class StudentSearchQuery extends SearchQuery {
 
         return Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();
     }
-    
+
 }

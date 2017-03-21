@@ -17,7 +17,7 @@ import teammates.ui.template.ElementTag;
 import teammates.ui.template.StudentListSectionData;
 
 /**
- * PageData: data used for the "Course Details" page
+ * PageData: data used for the "Course Details" page.
  */
 public class InstructorCourseDetailsPageData extends PageData {
     private InstructorAttributes currentInstructor;
@@ -28,24 +28,24 @@ public class InstructorCourseDetailsPageData extends PageData {
     private ElementTag courseRemindButton;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
-    
+
     public InstructorCourseDetailsPageData(AccountAttributes account) {
         super(account);
     }
-    
+
     public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
                      List<InstructorAttributes> instructors) {
         this.currentInstructor = currentInstructor;
         this.courseDetails = courseDetails;
         this.instructors = instructors;
-        
+
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        
+
         String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
         giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
                                          "button_add_comment", null, "", "tooltip", null, isDisabled);
-        
+
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String courseId = sanitizeForJs(courseDetails.course.getId());
         String href = sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId()));
@@ -80,31 +80,31 @@ public class InstructorCourseDetailsPageData extends PageData {
             this.hasSection = true;
         }
     }
-    
+
     public InstructorAttributes getCurrentInstructor() {
         return currentInstructor;
     }
-    
+
     public CourseDetailsBundle getCourseDetails() {
         return courseDetails;
     }
-    
+
     public List<InstructorAttributes> getInstructors() {
         return instructors;
     }
-    
+
     public ElementTag getGiveCommentButton() {
         return giveCommentButton;
     }
-    
+
     public ElementTag getCourseRemindButton() {
         return courseRemindButton;
     }
-    
+
     public void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {
         this.studentListHtmlTableAsString = studentListHtmlTableAsString;
     }
-    
+
     public String getStudentListHtmlTableAsString() {
         return studentListHtmlTableAsString;
     }
@@ -120,32 +120,32 @@ public class InstructorCourseDetailsPageData extends PageData {
     private ElementTag createButton(String content, String buttonClass, String id, String href,
             String title, String dataToggle, String dataCourseId, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
-        
+
         if (buttonClass != null) {
             button.setAttribute("class", buttonClass);
         }
-        
+
         if (id != null) {
             button.setAttribute("id", id);
         }
-        
+
         if (href != null) {
             button.setAttribute("href", href);
         }
-        
+
         if (title != null) {
             button.setAttribute("title", title);
             button.setAttribute("data-placement", "top");
         }
-        
+
         if (dataToggle != null) {
             button.setAttribute("data-toggle", dataToggle);
         }
-                
+
         if (dataCourseId != null) {
             button.setAttribute("data-course-id", dataCourseId);
         }
-        
+
         if (isDisabled) {
             button.setAttribute("disabled", null);
         }
