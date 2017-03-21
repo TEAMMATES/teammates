@@ -108,7 +108,7 @@ function reLabelOrderedAccountEntries() {
 }
 
 function showEntriesForSelectedPage() {
-    begin = (currentPage - 1) * (entryPerPage + 1);
+    begin = ((currentPage - 1) * entryPerPage) + 1;
     end = begin + (entryPerPage - 1);
     showEntryInInterval(begin, end);
 }
