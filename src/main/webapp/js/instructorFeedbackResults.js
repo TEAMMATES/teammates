@@ -209,10 +209,10 @@ function toggleCollapse(e, pans) {
     var expand = 'Expand';
     var collapse = 'Collapse';
     var panels = pans || $('div.panel-collapse');
-    var isElementTextStartsWithExpand = $(e).html().trim().startsWith(expand);
+    var isElementAnExpandButton = $(e).html().trim().startsWith(expand);
 
-    if (isElementTextStartsWithExpand) {
-        // Expand panels if the element text starts with expand.
+    if (isElementAnExpandButton) {
+        // Expand panels if the element is an expand button.
         // When a panel has class ajax_auto or ajax-response-auto, the panel data has not been loaded yet.
         // We will load the data by Ajax, and ajax_auto or ajax-response-auto class will be removed.
         // {@link #toggleCollapse} binds with clicking on both collapse panels button(button for all panels)
