@@ -18,7 +18,7 @@ import teammates.ui.pagedata.PageData;
  */
 public class ShowPageResult extends ActionResult {
 
-    /** The data that will be used to render the page*/
+    /** The data that will be used to render the page. */
     public PageData data;
 
     public ShowPageResult(

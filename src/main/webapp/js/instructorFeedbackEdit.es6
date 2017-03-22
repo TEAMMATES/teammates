@@ -7,7 +7,7 @@ formatSessionVisibilityGroup:false, formatResponsesVisibilityGroup:false, collap
 setupFsCopyModal:false, bindAssignWeightsCheckboxes:false, tinyMCE:false, moveAssignWeightsCheckbox:false
 setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:false, setContribQnVisibilityFormat:false
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
-getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibility:false
+getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
@@ -510,6 +510,7 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $(`#givertype-${NEW_QUESTION}`).find('option').show().prop('disabled', false);
     $(`#recipienttype-${NEW_QUESTION}`).find('option').show().prop('disabled', false);
     $(`#questionTable-${NEW_QUESTION}`).find('.feedback-path-dropdown > button').removeClass('disabled');
+    $(`#questionTable-${NEW_QUESTION}`).find('.visibility-options-dropdown .dropdown-menu li').removeClass('hidden');
     FeedbackPath.attachEvents();
 }
 
@@ -580,7 +581,7 @@ function tallyCheckboxes(questionNum) {
 function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
-    copyOptions();
+    copyOptions(type);
     prepareQuestionForm(type);
     $(`#questionTable-${NEW_QUESTION}`).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
@@ -660,8 +661,8 @@ function prepareQuestionForm(type) {
 
         $('#contribForm').show();
         fixContribQnGiverRecipient(NEW_QUESTION);
-        setDefaultContribQnVisibility(NEW_QUESTION);
         setContribQnVisibilityFormat(NEW_QUESTION);
+        setDefaultContribQnVisibilityIfNeeded(NEW_QUESTION);
         break;
     case 'RUBRIC':
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
@@ -694,9 +695,16 @@ function prepareQuestionForm(type) {
  * Copy options (Feedback giver, recipient, and all check boxes)
  * from the previous question
  */
-function copyOptions() {
+function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
     if ($('.questionTable').size() < 2) {
+        return;
+    }
+
+    const prevType = $('input[name="questiontype"]').eq(-2).val();
+
+    // Don't copy from non-contrib to contrib question, as these have special restrictions
+    if (newType === 'CONTRIB' && prevType !== 'CONTRIB') {
         return;
     }
 

@@ -216,7 +216,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     /**
      * If the {@code response} is an existing response, check that
      * the questionId and responseId that it has
-     * is in {@code data.bundle.questionResponseBundle}
+     * is in {@code data.bundle.questionResponseBundle}.
      * @param response  a response which has non-null id
      */
     private boolean isExistingResponseValid(FeedbackResponseAttributes response) {
@@ -328,7 +328,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     /**
      * To be used to set any extra parameters or attributes that
-     * a class inheriting FeedbackSubmissionEditSaveAction requires
+     * a class inheriting FeedbackSubmissionEditSaveAction requires.
      */
     protected abstract void setAdditionalParameters() throws EntityDoesNotExistException;
 
@@ -337,14 +337,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * needs. For example, this is used in moderations that check that instructors did not
      * respond to any question that they did not have access to during moderation.
      *
-     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
+     * <p>Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
      */
     protected abstract void checkAdditionalConstraints();
 
     /**
      * Note that when overriding this method, this should not use {@code respondingStudentList}
      * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method
-     * is used to update {@code respondingStudentList} and {@code respondingInstructorList}
+     * is used to update {@code respondingStudentList} and {@code respondingInstructorList}.
      *
      * @return true if user has responses in the feedback session
      */

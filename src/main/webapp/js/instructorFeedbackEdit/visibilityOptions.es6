@@ -165,6 +165,20 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
         allowInstructorToSee('.giverCheckbox', $containingForm);
         allowInstructorToSee('.recipientCheckbox', $containingForm);
         break;
+    case 'ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS':
+        // recipient can see answer and recipient, but not giver name
+        allowRecipientToSee('.answerCheckbox', $containingForm);
+        allowRecipientToSee('.recipientCheckbox', $containingForm);
+
+        // instructor can see answer, recipient AND giver name
+        allowInstructorToSee('.answerCheckbox', $containingForm);
+        allowInstructorToSee('.giverCheckbox', $containingForm);
+        allowInstructorToSee('.recipientCheckbox', $containingForm);
+
+        // recipient team (same as givers team) can see answer and recipient, but not giver name
+        allowRecipientsTeamToSee('.answerCheckbox', $containingForm);
+        allowGiversTeamToSee('.answerCheckbox', $containingForm);
+        break;
     case 'VISIBLE_TO_INSTRUCTORS_ONLY':
         allowInstructorToSee('.answerCheckbox', $containingForm);
         allowInstructorToSee('.giverCheckbox', $containingForm);
@@ -190,6 +204,22 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
  */
 function allowRecipientToSee(checkboxClass, $containingForm) {
     $containingForm.find(`input[type="checkbox"][value="RECEIVER"]${checkboxClass}`).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for giver's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowGiversTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find(`input[type="checkbox"][value="OWN_TEAM_MEMBERS"]${checkboxClass}`).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for recipient's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowRecipientsTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find(`input[type="checkbox"][value="RECEIVER_TEAM_MEMBERS"]${checkboxClass}`).prop('checked', true);
 }
 
 /**

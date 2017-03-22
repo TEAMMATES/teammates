@@ -1,4 +1,13 @@
-function setDefaultContribQnVisibility(questionNum) {
+function setDefaultContribQnVisibilityIfNeeded(questionNum) {
+    // If visibility options have already been copied from the previous contrib question, skip
+    const hasPreviousQuestion = $('.questionTable').size() >= 2;
+    if (hasPreviousQuestion) {
+        const previousQuestionType = $('input[name="questiontype"]').eq(-2).val();
+        if (previousQuestionType === 'CONTRIB') {
+            return;
+        }
+    }
+
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
@@ -18,6 +27,14 @@ function setDefaultContribQnVisibility(questionNum) {
 
 function setContribQnVisibilityFormat(questionNum) {
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
+
+    // Show only the two visibility options valid for contrib questions; hide the rest
+    $currentQuestionTable.find('.visibility-options-dropdown-option')
+                         .not('[data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"]')
+                         .not('[data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY"]')
+                         .parent()
+                         .addClass('hidden');
+    $currentQuestionTable.find('.visibility-options-dropdown .dropdown-menu .divider').addClass('hidden');
 
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 

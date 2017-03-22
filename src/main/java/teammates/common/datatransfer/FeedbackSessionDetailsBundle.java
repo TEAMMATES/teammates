@@ -28,8 +28,6 @@ public class FeedbackSessionDetailsBundle {
      * (ascending), then by start time (ascending), then by feedback session name
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
-     *
-     * @param sessions
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> sessions) {
         Collections.sort(sessions, new Comparator<FeedbackSessionDetailsBundle>() {

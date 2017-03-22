@@ -7,7 +7,7 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 
 /**
- * Obtains email of instructors and prints to console
+ * Obtains email of instructors and prints to console.
  */
 public class GenerateEmailsOfInstructors extends RemoteApiClient {
 

@@ -443,9 +443,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
      * <p>expectedLogs is a 2D array, the outer indices correspond to {@link #LOG_MESSAGE_INDEX_TODAY}
      * {@link #LOG_MESSAGE_YESTDAY_INDEX} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
      * every {@code LOG_MESSAGE_*_INDEX} correspond to the orders in the test data.
-     *
-     * @param expectedLogs
-     * @param actualLogs
      */
     private void verifyLogs(int[][] expectedLogs, List<ActivityLogEntry> actualLogs) {
         List<String> expectedMsgs = generateExpectedMsgFrom(expectedLogs);
@@ -453,8 +450,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         assertEquals(expectedMsgs.size(), actualLogs.size());
         for (int i = 0; i < expectedMsgs.size(); i++) {
             String actualMsg = actualLogs.get(i).generateLogMessage();
-            actualMsg = actualMsg.replace("<mark>", "").replace("</mark>", "");
-            assertTrue("expecte: " + expectedMsgs.get(i) + "to contain:" + actualMsg,
+            assertTrue("expect: " + expectedMsgs.get(i) + "to contain:" + actualMsg,
                     expectedMsgs.get(i).contains(actualMsg));
         }
     }

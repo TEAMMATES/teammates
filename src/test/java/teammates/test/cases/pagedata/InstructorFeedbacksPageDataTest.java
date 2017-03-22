@@ -353,7 +353,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
     }
 
-    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
+    private List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>(dataBundle.instructors.values());
 
         Iterator<InstructorAttributes> iter = instructors.iterator();
@@ -373,7 +373,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         return instructors;
     }
 
-    public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorsForUser) {
+    private List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
 
         List<CourseAttributes> courses = new ArrayList<CourseAttributes>(dataBundle.courses.values());
@@ -389,7 +389,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         return courses;
     }
 
-    public List<FeedbackSessionAttributes>
+    private List<FeedbackSessionAttributes>
             getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
 

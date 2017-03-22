@@ -45,8 +45,8 @@ import teammates.storage.api.FeedbackSessionsDb;
 /**
  * Handles operations related to feedback sessions.
  *
- * @see {@link FeedbackSessionAttributes}
- * @see {@link FeedbackSessionsDb}
+ * @see FeedbackSessionAttributes
+ * @see FeedbackSessionsDb
  */
 public final class FeedbackSessionsLogic {
 
@@ -157,10 +157,7 @@ public final class FeedbackSessionsLogic {
      * Checks if the specified course exists, then gets the feedback sessions for
      * the specified user in the course if it does exist.
      *
-     * @param courseId
-     * @param userEmail
      * @return a list of viewable feedback sessions for any user for his course.
-     * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(
             String courseId, String userEmail)
@@ -178,8 +175,6 @@ public final class FeedbackSessionsLogic {
      * This method is usually called after the course's existence is assumed or
      * has been verified.
      *
-     * @param courseId
-     * @param userEmail
      * @return a list of viewable feedback sessions for any user for his course.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourseSkipCheck(
@@ -201,8 +196,9 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Returns true if there is some open or published email sent for the course.
+     *
      * @param courseId - ID of the course
-     * @return true if there is some open or published email sent for the course.
      */
     public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
@@ -219,10 +215,6 @@ public final class FeedbackSessionsLogic {
      * Returns a {@code List} of all feedback sessions bundled with their
      * response statistics for a instructor given by his googleId.<br>
      * Does not return private sessions unless the instructor is the creator.
-     *
-     * @param googleId
-     * @return
-     * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
             String googleId)
@@ -237,10 +229,6 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      * <br>
      * Omits archived sessions if omitArchived == true
-     *
-     * @param googleId
-     * @return
-     * @throws EntityDoesNotExistException
      */
     public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
             String googleId, boolean omitArchived)
@@ -264,9 +252,6 @@ public final class FeedbackSessionsLogic {
      * Does not return private sessions unless the instructor is the creator.
      * <br>
      * Omits sessions from archived courses if omitArchived == true
-     *
-     * @param googleId
-     * @return
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) {
 
@@ -296,7 +281,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that an instructor can view/submit as a
-     * {@link FeedbackSessionQuestionsBundle}
+     * {@link FeedbackSessionQuestionsBundle}.
      */
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
             String feedbackSessionName, String courseId, String userEmail)
@@ -405,7 +390,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that a student can view/submit as a
-     * {@link FeedbackSessionQuestionsBundle}
+     * {@link FeedbackSessionQuestionsBundle}.
      */
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
             String feedbackSessionName, String courseId, String userEmail)
@@ -553,10 +538,11 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Returns a {@link Set} of emails of the instructors who are not displayed
+     * to students in the course specified by {@code courseId}.
+     *
      * @param courseId
      *            the ID of the course
-     * @return a {@link Set} of emails of the instructors who are not displayed
-     *         to students in the course specified by {@code courseId}
      */
     private Set<String> getHiddenInstructorEmails(String courseId) {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
@@ -571,6 +557,9 @@ public final class FeedbackSessionsLogic {
         return hiddenInstructorEmails;
     }
 
+    /**
+     * Gets the response rate status for a session.
+     */
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
 
@@ -590,9 +579,8 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session to show to an instructor from an indicated question
-     * This will not retrieve the list of comments for this question
-     * @throws ExceedingRangeException if the results are beyond the range
+     * Gets results of a feedback session to show to an instructor from an indicated question.
+     * This will not retrieve the list of comments for this question.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
             String feedbackSessionName, String courseId, String userEmail, String questionId)
@@ -617,9 +605,8 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Gets results of a feedback session to show to an instructor from an indicated question
-     * and in a section
-     * This will not retrieve the list of comments for this question
-     * @throws ExceedingRangeException if the results are beyond the range
+     * and in a section.
+     * This will not retrieve the list of comments for this question.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 String feedbackSessionName, String courseId, String userEmail,
@@ -642,8 +629,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session to show to an instructor in an indicated range
-     * @throws ExceedingRangeException if the results are beyond the range
+     * Gets results of a feedback session to show to an instructor in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
             String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
@@ -654,8 +640,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session to show to an instructor in a section in an indicated range
-     * @throws ExceedingRangeException if the results are beyond the range
+     * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
             String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
@@ -680,8 +665,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session to show to an instructor in a section in an indicated range
-     * @throws ExceedingRangeException if the results are beyond the range
+     * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
             String feedbackSessionName, String courseId, String userEmail, String section, long range)
@@ -704,8 +688,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session to show to an instructor in a section in an indicated range
-     * @throws ExceedingRangeException if the results are beyond the range
+     * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
             String feedbackSessionName, String courseId, String userEmail, String section, long range)
@@ -738,8 +721,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session to show to an instructor for a
-     * specific section
+     * Gets results of a feedback session to show to an instructor for a specific section.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
             String feedbackSessionName, String courseId, String userEmail,
@@ -760,8 +742,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     *  Gets results of  a feedback session to show to an instructor from a
-     *  specific section
+     * Gets results of  a feedback session to show to an instructor from a specific section.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSection(
             String feedbackSessionName, String courseId, String userEmail,
@@ -782,8 +763,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     *  Gets results of  a feedback session to show to an instructor to a
-     *  specific section
+     * Gets results of  a feedback session to show to an instructor to a specific section.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSection(
             String feedbackSessionName, String courseId, String userEmail,
@@ -844,23 +824,34 @@ public final class FeedbackSessionsLogic {
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId,
-            String userEmail, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String feedbackSessionName, String courseId, String userEmail,
+            String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, filterText, isMissingResponsesShown, isStatsShown);
+                feedbackSessionName, courseId, userEmail, null, questionId,
+                filterText, isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
+        FeedbackSessionResultsBundle results;
         long indicatedRange = section == null ? 2000 : -1;
-        FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
+
+        if (questionId == null) {
+            results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
                 indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+        } else if (section == null) {
+            results = getFeedbackSessionResultsForInstructorFromQuestion(
+                    feedbackSessionName, courseId, userEmail, questionId);
+        } else {
+            results = getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                    feedbackSessionName, courseId, userEmail, questionId, section);
+        }
 
         if (!results.isComplete) {
             throw new ExceedingRangeException(ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE);
@@ -897,7 +888,6 @@ public final class FeedbackSessionsLogic {
                     results, entry, isMissingResponsesShown, isStatsShown));
         }
         return exportBuilder.toString();
-
     }
 
     private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
@@ -991,13 +981,8 @@ public final class FeedbackSessionsLogic {
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList.
      *
-     * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to
+     * <p>Before removal, {@link FeedbackSessionResultsBundle#getFullNameFromRoster} is used to
      * convert the identifier into a canonical form if the participantIdentifierType is TEAMS.
-     *
-     * @param participantIdentifierType
-     * @param participantIdentifierList
-     * @param participantIdentifier
-     * @param bundle
      */
     private void removeParticipantIdentifierFromList(
             FeedbackParticipantType participantIdentifierType,
@@ -1013,16 +998,8 @@ public final class FeedbackSessionsLogic {
     /**
      * Generate rows of missing responses for the remaining possible givers and recipients.
      *
-     * If for the prevGiver, possibleRecipientsForGiver is not empty,
+     * <p>If for the prevGiver, possibleRecipientsForGiver is not empty,
      * the remaining missing responses for the prevGiver will be generated first.
-     *
-     * @param results
-     * @param entry
-     * @param question
-     * @param questionDetails
-     * @param remainingPossibleGivers
-     * @param possibleRecipientsForGiver
-     * @param prevGiver
      * @return the remaining rows of missing responses in csv format
      */
     private StringBuilder getRemainingRowsInCsvFormat(
@@ -1057,14 +1034,7 @@ public final class FeedbackSessionsLogic {
 
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows
-     * of missing responses between the giver and the possible recipients
-     *
-     * @param results
-     * @param question
-     * @param questionDetails
-     * @param possibleRecipientsForGiver
-     * @param giver
-     * @return
+     * of missing responses between the giver and the possible recipients.
      */
     private StringBuilder getRowsOfPossibleRecipientsInCsvFormat(
             FeedbackSessionResultsBundle results,
@@ -1496,7 +1466,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * @return returns a list of sessions that were closed within past hour
+     * Returns returns a list of sessions that were closed within past hour.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
@@ -1517,7 +1487,6 @@ public final class FeedbackSessionsLogic {
      * Deletes the feedback sessions in the course specified. The delete
      * is cascaded, and feedback questions, feedback responses, and
      * feedback response comments in the course are deleted.
-     * @param courseId
      */
     public void deleteFeedbackSessionsForCourseCascade(String courseId) {
         frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
@@ -1530,7 +1499,7 @@ public final class FeedbackSessionsLogic {
      * Deletes all feedback sessions the course specified. This is
      * a non-cascade delete.
      *
-     * The responses, questions and the comments of the responses
+     * <p>The responses, questions and the comments of the responses
      * should be handled.
      */
     public void deleteFeedbackSessionsForCourse(String courseId) {
@@ -1538,8 +1507,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * This method deletes a specific feedback session, and all it's question
-     * and responses
+     * Deletes a specific feedback session, and all its question and responses.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
@@ -1750,13 +1718,10 @@ public final class FeedbackSessionsLogic {
 
         addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
-        FeedbackSessionResultsBundle results =
-                new FeedbackSessionResultsBundle(
+        return new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions, emailNameTable,
                         emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                         visibilityTable, responseStatus, roster, responseComments);
-
-        return results;
     }
 
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserWithParams(
@@ -2436,7 +2401,6 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Returns true if there are any questions for students to answer.
-     * @param session
      */
     public boolean isFeedbackSessionForStudentsToAnswer(FeedbackSessionAttributes session) {
 

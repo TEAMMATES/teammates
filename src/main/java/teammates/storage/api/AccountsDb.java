@@ -27,8 +27,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 /**
  * Handles CRUD operations for accounts.
  *
- * @see {@link Account}
- * @see {@link AccountAttributes}
+ * @see Account
+ * @see AccountAttributes
  */
 public class AccountsDb extends EntitiesDb {
 
@@ -70,8 +70,8 @@ public class AccountsDb extends EntitiesDb {
                 try {
                     updateAccount(account, true);
                 } catch (EntityDoesNotExistException e) {
-                 // This situation is not tested as replicating such a situation is
-                 // difficult during testing
+                    // This situation is not tested as replicating such a situation is
+                    // difficult during testing
                     Assumption.fail("Entity found be already existing and not existing simultaneously");
                 }
             }
@@ -103,8 +103,8 @@ public class AccountsDb extends EntitiesDb {
     }
 
     /**
-     * @return {@link AccountAttribute} objects for all accounts with instructor privileges.
-     *   Returns an empty list if no such accounts are found.
+     * Returns {@link AccountAttributes} objects for all accounts with instructor privileges.
+     *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
         Query q = getPm().newQuery(Account.class);

@@ -221,33 +221,21 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * set privilege for the privilege specified by privilegeName
-     *
-     * @param privilegeName
-     * @param isAllowed
+     * Sets privilege for the privilege specified by privilegeName.
      */
     public void updatePrivilege(String privilegeName, boolean isAllowed) {
         updatePrivilegeInCourseLevel(privilegeName, isAllowed);
     }
 
     /**
-     * set privilege for the privilege specified by privilegeName for sectionName
-     *
-     * @param sectionName
-     * @param privilegeName
-     * @param isAllowed
+     * Sets privilege for the privilege specified by privilegeName for sectionName.
      */
     public void updatePrivilege(String sectionName, String privilegeName, boolean isAllowed) {
         updatePrivilegeInSectionLevel(sectionName, privilegeName, isAllowed);
     }
 
     /**
-     * set privilege for the privilege specified by privilegeName for sessionName in sectionName
-     *
-     * @param sectionName
-     * @param sessionName
-     * @param privilegeName
-     * @param isAllowed
+     * Sets privilege for the privilege specified by privilegeName for sessionName in sectionName.
      */
     public void updatePrivilege(String sectionName, String sessionName, String privilegeName, boolean isAllowed) {
         updatePrivilegeInSessionLevel(sectionName, sessionName, privilegeName, isAllowed);
@@ -282,23 +270,10 @@ public final class InstructorPrivileges {
         this.sessionLevel.get(sectionName).get(sessionName).put(privilegeName, isAllowed);
     }
 
-    /**
-     * used for bulk update of privileges for sectionName
-     *
-     * @param sectionName
-     * @param privileges
-     */
     public void updatePrivileges(String sectionName, Map<String, Boolean> privileges) {
         updatePrivilegesInSectionLevel(sectionName, privileges);
     }
 
-    /**
-     * used for bulk update of privileges for sessionName in sectionName
-     *
-     * @param sectionName
-     * @param sessionName
-     * @param privileges
-     */
     public void updatePrivileges(String sectionName, String sessionName, Map<String, Boolean> privileges) {
         updatePrivilegesInSessionLevel(sectionName, sessionName, privileges);
     }
@@ -346,29 +321,21 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * @param privilegeName
-     * @return whether it is allowed for the privilege specified by privilegeName
+     * Returns true if it is allowed for the privilege specified by privilegeName.
      */
     public boolean isAllowedForPrivilege(String privilegeName) {
         return isAllowedInCourseLevel(privilegeName);
     }
 
     /**
-     *
-     * @param sectionName
-     * @param privilegeName
-     * @return whether it is allowed for the privilege specified by privilegeName in sectionName
+     * Returns true if it is allowed for the privilege specified by privilegeName in sectionName.
      */
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         return isAllowedInSectionLevel(sectionName, privilegeName);
     }
 
     /**
-     *
-     * @param sectionName
-     * @param sessionName
-     * @param privilegeName
-     * @return whether it is allowed for the privilege specified by privilegeName for sessionName in sectionName
+     * Returns true if it is allowed for the privilege specified by privilegeName for sessionName in sectionName.
      */
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
@@ -417,19 +384,14 @@ public final class InstructorPrivileges {
     }
 
     /**
-     *
-     * @param sectionName
-     * @return whether there are special settings for sectionName
+     * Returns true if there are special settings for sectionName.
      */
     public boolean isSessionsInSectionSpecial(String sectionName) {
         return this.sessionLevel.containsKey(sectionName);
     }
 
     /**
-     *
-     * @param sectionName
-     * @param sessionName
-     * @return whether there are special settings for sessionName in sectionName
+     * Returns true if there are special settings for sessionName in sectionName.
      */
     public boolean isSessionInSectionSpecial(String sectionName, String sessionName) {
         return this.sessionLevel.containsKey(sectionName)
@@ -437,8 +399,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * remove special settings for sectionName
-     * @param sectionName
+     * Removes special settings for sectionName.
      */
     public void removeSectionLevelPrivileges(String sectionName) {
         if (this.sectionLevel.containsKey(sectionName)) {
@@ -448,8 +409,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * remove special settings for all sessionNames in sectionName
-     * @param sectionName
+     * Removes special settings for all sessionNames in sectionName.
      */
     public void removeSessionsPrivilegesForSection(String sectionName) {
         if (this.sessionLevel.containsKey(sectionName)) {
@@ -458,9 +418,7 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * remove special settings for sessionName in sectionName
-     * @param sectionName
-     * @param sessionName
+     * Removes special settings for sessionName in sectionName.
      */
     public void removeSessionPrivileges(String sectionName, String sessionName) {
         if (this.sessionLevel.containsKey(sectionName) && this.sessionLevel.get(sectionName).containsKey(sessionName)) {
@@ -521,9 +479,10 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * validate the privileges in course level, section level and session level
-     * make sure there is nothing wrong with privileges hierarchy by adding the
-     * prerequisite privileges if they have not been granted yet
+     * Validates the privileges in course level, section level and session level.
+     *
+     * <p>Makes sure there is nothing wrong with privileges hierarchy by adding the
+     * prerequisite privileges if they have not been granted yet.
      */
     public void validatePrivileges() {
         if (this.courseLevel.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)

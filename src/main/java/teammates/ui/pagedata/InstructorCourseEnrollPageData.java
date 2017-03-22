@@ -3,7 +3,7 @@ package teammates.ui.pagedata;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**
- * PageData: this is page data for 'Enroll' page for a course of an instructor
+ * PageData: this is page data for 'Enroll' page for a course of an instructor.
  */
 public class InstructorCourseEnrollPageData extends PageData {
     private String courseId;

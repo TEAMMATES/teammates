@@ -19,11 +19,11 @@ public class StudentAttributesTest extends BaseTestCase {
 
     private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
 
-        private void setCreatedAt(Date createdAt) {
+        void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
         }
 
-        private void setUpdatedAt(Date updatedAt) {
+        void setUpdatedAt(Date updatedAt) {
             this.updatedAt = updatedAt;
         }
 
