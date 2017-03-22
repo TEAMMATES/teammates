@@ -39,6 +39,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
     protected boolean isSendSubmissionEmail;
+    List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
+    List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
+    List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -72,9 +75,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String userSectionForCourse = getUserSectionForCourse();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
-        List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
-        List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
-        List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
+
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String totalResponsesForQuestion = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
@@ -133,7 +134,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
                 if (response.responseMetaData.getValue().isEmpty()) {
                     // deletes the response since answer is empty
-                    collectResponses(response, responsesToSave, responsesToDelete, responsesToUpdate);
+                    addToPendingResponses(response);
                 } else {
                     response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
@@ -153,7 +154,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
-                    collectResponses(response, responsesToSave, responsesToDelete, responsesToUpdate);
+                    addToPendingResponses(response);
                 }
             } else {
                 List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
@@ -245,8 +246,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return existingResponsesId.contains(response.getId());
     }
 
-    private void collectResponses(FeedbackResponseAttributes response, List<FeedbackResponseAttributes> responsesToSave,
-            List<FeedbackResponseAttributes> responsesToDelete, List<FeedbackResponseAttributes> responsesToUpdate) {
+    private void addToPendingResponses(FeedbackResponseAttributes response) {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
