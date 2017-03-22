@@ -610,12 +610,11 @@ Apply to thead to make headers not bold.
 #raisedEdge {
     position: relative;
     z-index: -1;
-    top: -2em;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
     #raisedEdge {
-        top: 0;
+        top: -2em;
     }
 }
 
