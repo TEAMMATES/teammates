@@ -27,6 +27,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
 
@@ -56,7 +57,9 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorStudentList.js" data-cover></script>
     <script type="text/javascript" src="/js/student.js" data-cover></script>
-
+    <script type="text/javascript" src="/js/index.js" data-cover></script>
+    <script type="text/javascript" src="/js/datepicker.js" data-cover></script>
+    
     <div id="test-scripts">
         <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
         <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
@@ -66,6 +69,7 @@
         <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
         <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
         <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
+        <script type="text/javascript" src="/dev/DatePickerJsTest.js"></script>
     </div>
 </body>
 </html>

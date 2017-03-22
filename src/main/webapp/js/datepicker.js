@@ -13,11 +13,10 @@ $(document).ready(function() {
         gotoCurrent: true,
         defaultDate: today,
         onSelect: function() {
-            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
-                    $('#publishdate').datepicker('getDate'));
+            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'));
             $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
 
-            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
+            var newPublishDate = getMinDateForPublishDate($('#startdate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         }
     });
@@ -34,11 +33,7 @@ $(document).ready(function() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: yesterday,
-        maxDate: today,
-        onSelect: function() {
-            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
-            $('#publishdate').datepicker('option', 'minDate', newPublishDate);
-        }
+        maxDate: today
     });
 
     $('#publishdate').datepicker({
@@ -46,11 +41,7 @@ $(document).ready(function() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,
-        onSelect: function() {
-            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
-                    $('#publishdate').datepicker('getDate'));
-            $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
-        }
+        minDate: today
     });
 
     triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
@@ -73,26 +64,18 @@ function triggerDatepickerOnClick(datepickerDivs) {
 
 /**
  * @assumption: startDate has a valid value
- * @returns {Date} publishDate if it is valid and smaller than startDate, else startDate
+ * @param {Date} startDate
+ * @returns {Date} startDate
  */
-function getMaxDateForVisibleDate(startDate, publishDate) {
-    var minDate = 0;
-
-    if (publishDate === null || publishDate === undefined) {
-        minDate = startDate;
-    } else if (startDate > publishDate) {
-        minDate = publishDate;
-    } else {
-        minDate = startDate;
-    }
-
-    return minDate;
+function getMaxDateForVisibleDate(startDate) {
+    return startDate;
 }
 
 /**
- * @assumption: visibleDate has a valid value
- * @returns {Date} visibleDate
+ * @assumption: startDate has a valid value
+ * @param {Date} startDate
+ * @returns {Date} startDate
  */
-function getMinDateForPublishDate(visibleDate) {
-    return visibleDate;
+function getMinDateForPublishDate(startDate) {
+    return startDate;
 }

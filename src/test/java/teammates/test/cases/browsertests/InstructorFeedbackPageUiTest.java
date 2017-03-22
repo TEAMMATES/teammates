@@ -736,29 +736,21 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
         assertEquals(sdf.format(decreasedStartDate.getTime()), minValueOfPublishDate);
 
-        ______TS("changing visible date affects publish date range");
+        ______TS("changing visible date does not affect publish date range");
 
         Calendar changedVisibleDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         changedVisibleDate.set(2014, 1, 10, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
 
         String valueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(changedVisibleDate.getTime()), valueOfPublishDate);
+        assertEquals(sdf.format(decreasedStartDate.getTime()), valueOfPublishDate);
 
-        ______TS("changing publish date affects visible date range publishTime < startTime");
-
-        Calendar changedPublishDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedPublishDate.set(2014, 1, 19, 0, 0, 0);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
-
-        valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(changedPublishDate.getTime()), valueOfVisibleDate);
-
-        ______TS("changing publish date does not affect visible date range publishTime > startTime");
+        ______TS("changing publish date does not affect visible date range");
 
         decreasedStartDate.set(2014, 1, 19, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, decreasedStartDate);
 
+        Calendar changedPublishDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         changedPublishDate.set(2014, 2, 21, 0, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
