@@ -29,8 +29,7 @@ import teammates.test.pageobjects.InstructorFeedbacksPage;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Covers the 'Edit Feedback Session' page for instructors.
- * SUT is {@link InstructorFeedbackEditPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE}.
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {

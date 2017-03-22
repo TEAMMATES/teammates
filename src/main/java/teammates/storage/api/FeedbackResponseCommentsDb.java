@@ -20,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -34,6 +35,8 @@ import com.google.appengine.api.search.ScoredDocument;
  * @see FeedbackResponseCommentAttributes
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd)
             throws InvalidParametersException {

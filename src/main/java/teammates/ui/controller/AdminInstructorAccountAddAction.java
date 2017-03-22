@@ -20,6 +20,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -32,6 +33,8 @@ import teammates.logic.backdoor.BackDoorLogic;
 import teammates.ui.pagedata.AdminHomePageData;
 
 public class AdminInstructorAccountAddAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() {

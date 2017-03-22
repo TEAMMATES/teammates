@@ -36,6 +36,9 @@ import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
 
+/**
+ * SUT: {@link StudentCommentsPageData}.
+ */
 public class StudentCommentsPageDataTest extends BaseTestCase {
     private DataBundle dataBundle = getTypicalDataBundle();
     private StudentCommentsPageData data;

@@ -17,7 +17,7 @@ import teammates.logic.api.GateKeeper;
 @SuppressWarnings("serial")
 public class AutomatedServlet extends HttpServlet {
 
-    protected static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {

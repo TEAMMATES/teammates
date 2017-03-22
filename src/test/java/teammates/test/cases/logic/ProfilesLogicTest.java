@@ -9,6 +9,9 @@ import teammates.logic.core.ProfilesLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * SUT: {@link ProfilesLogic}.
+ */
 public class ProfilesLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();

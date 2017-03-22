@@ -21,6 +21,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
@@ -38,6 +39,8 @@ import com.google.appengine.api.search.ScoredDocument;
 public class CommentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createComments(Collection<CommentAttributes> commentsToAdd) throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);

@@ -14,8 +14,7 @@ import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
- * Tests 'Feedback Results' view of students.
- * SUT: {@link StudentFeedbackResultsPage}.
+ * SUT: {@link Const.ActionURIs#STUDENT_FEEDBACK_RESULTS_PAGE}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private StudentFeedbackResultsPage resultsPage;

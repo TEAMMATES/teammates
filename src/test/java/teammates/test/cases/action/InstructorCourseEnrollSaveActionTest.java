@@ -23,6 +23,9 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 import teammates.ui.template.EnrollResultPanel;
 
+/**
+ * SUT: {@link InstructorCourseEnrollSaveAction}.
+ */
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
     @Override

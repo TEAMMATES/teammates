@@ -11,6 +11,9 @@ import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 
+/**
+ * SUT: {@link HtmlHelper}.
+ */
 public class HtmlHelperTest extends BaseTestCase {
 
     @Test

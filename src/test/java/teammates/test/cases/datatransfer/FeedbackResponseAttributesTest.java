@@ -8,6 +8,9 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link FeedbackResponseAttributes}.
+ */
 public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     private static class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {

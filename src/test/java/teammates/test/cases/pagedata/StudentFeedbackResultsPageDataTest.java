@@ -20,6 +20,9 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
+/**
+ * SUT: {@link StudentFeedbackResultsPageData}.
+ */
 public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 

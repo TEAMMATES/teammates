@@ -13,9 +13,7 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.QUnitPage;
 
 /**
- * Loads all JavaScript unit tests (done in QUnit) into a browser window and
- * ensures all tests passed. This class is not using the PageObject pattern
- * because it is not a regular UI test.
+ * Loads all JavaScript unit tests (done with QUnit) into a browser and ensures all tests passed.
  */
 public class AllJsTests extends BaseUiTestCase {
 

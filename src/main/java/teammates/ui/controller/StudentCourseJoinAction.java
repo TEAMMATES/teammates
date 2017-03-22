@@ -63,7 +63,7 @@ public class StudentCourseJoinAction extends Action {
                 Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, data);
     }
 
-    protected String getNextUrl() {
+    private String getNextUrl() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         if (nextUrl == null) {
             nextUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
@@ -72,7 +72,7 @@ public class StudentCourseJoinAction extends Action {
         return nextUrl;
     }
 
-    protected ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
+    private ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
         // send straight to next page as the user can choose to login as he wishes
         String redirectUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
                 .withRegistrationKey(regkey)
