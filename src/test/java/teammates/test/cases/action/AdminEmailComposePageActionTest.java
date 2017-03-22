@@ -10,6 +10,9 @@ import teammates.ui.controller.AdminEmailComposePageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
+/**
+ * SUT: {@link AdminEmailComposePageAction}.
+ */
 public class AdminEmailComposePageActionTest extends BaseActionTest {
 
     private AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
