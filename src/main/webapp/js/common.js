@@ -147,6 +147,8 @@ var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid opti
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
         'Please enter valid options. The interval is not divisible by the specified increment.';
 
+var DISPLAY_FEEDBACK_QUESTION_CONSTSUM_OPTIONSDUPLICATED = "There are duplicate options."
+
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
