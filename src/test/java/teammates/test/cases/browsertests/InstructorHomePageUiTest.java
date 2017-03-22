@@ -20,10 +20,7 @@ import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * Tests Home page and login page for instructors.
- * SUT: {@link InstructorHomePage}.<br>
- * Uses a real account.
- *
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_HOME_PAGE}.
  */
 public class InstructorHomePageUiTest extends BaseUiTestCase {
     private InstructorHomePage homePage;

@@ -25,15 +25,11 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.test.cases.BaseTestCase;
 
 /**
- * Tests methods contained in Feedback*ResponseDetails classes. <br>
- * There is no need to test methods that output string/html/csv
- * as they are implicitly tested in the UI tests. <br><br>
- * SUT: <br>
- * * {@link FeedbackResponseDetails} <br>
- * * {@link FeedbackTextResponseDetails} <br>
- * * {@link FeedbackMcqResponseDetails} <br>
- * * {@link FeedbackMsqResponseDetails} <br>
- * * {@link FeedbackNumericalScaleResponseDetails}
+ * SUT: {@link FeedbackResponseDetails},
+ *      {@link FeedbackTextResponseDetails},
+ *      {@link FeedbackMcqResponseDetails},
+ *      {@link FeedbackMsqResponseDetails},
+ *      {@link FeedbackNumericalScaleResponseDetails}.
  */
 public class FeedbackResponseDetailsTest extends BaseTestCase {
     @Test

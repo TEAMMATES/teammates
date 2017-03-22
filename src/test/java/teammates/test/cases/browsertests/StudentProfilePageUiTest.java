@@ -19,6 +19,9 @@ import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.pageobjects.StudentProfilePicturePage;
 
+/**
+ * SUT: {@link Const.ActionURIs#STUDENT_PROFILE_PAGE}.
+ */
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {
     private StudentProfilePage profilePage;

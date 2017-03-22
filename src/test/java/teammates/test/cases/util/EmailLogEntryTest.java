@@ -8,6 +8,9 @@ import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.log.AppLogLine;
 
+/**
+ * SUT: {@link EmailLogEntry}.
+ */
 public class EmailLogEntryTest extends BaseTestCase {
 
     @Test

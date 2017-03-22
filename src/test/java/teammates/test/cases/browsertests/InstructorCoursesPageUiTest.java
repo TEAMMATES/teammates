@@ -16,8 +16,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * Covers the 'Courses' page for instructors.
- * The main SUT is {@link InstructorCoursesPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSES_PAGE}.
  */
 public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     /* Comments given as 'Explanation:' are extra comments added to train

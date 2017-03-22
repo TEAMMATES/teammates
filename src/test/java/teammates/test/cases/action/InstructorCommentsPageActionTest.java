@@ -13,6 +13,9 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCommentsPageData;
 import teammates.ui.template.CoursePagination;
 
+/**
+ * SUT: {@link InstructorCommentsPageAction}.
+ */
 @Priority(-1)
 public class InstructorCommentsPageActionTest extends BaseActionTest {
 

@@ -25,6 +25,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link CommentsDb}.
+ */
 public class CommentsDbTest extends BaseComponentTestCase {
 
     private String courseId = "CDT.courseId";
