@@ -254,6 +254,14 @@ function collapse(panels) {
     }
 }
 
+function replaceHTMLString(element, from, to) {
+    var htmlString = $(element).html();
+    htmlString = htmlString.replace(from, to);
+    $(element).html(htmlString);
+    var tooltipString = $(element).attr('data-original-title').replace(from, to);
+    $(element).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+}
+
 function toggleCollapse(e, pans) {
     var EXPAND = 'Expand';
     var COLLAPSE = 'Collapse';
@@ -266,18 +274,10 @@ function toggleCollapse(e, pans) {
         // clicking on collapse panels button.
         var mightNeedAjaxLoading = isElementCollapsePanelsButton;
         expand(panels, mightNeedAjaxLoading);
-        var htmlString = $(e).html();
-        htmlString = htmlString.replace(EXPAND, COLLAPSE);
-        $(e).html(htmlString);
-        var tooltipString = $(e).attr('data-original-title').replace(EXPAND, COLLAPSE);
-        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+        replaceHTMLString(e, EXPAND, COLLAPSE);
     } else {
         collapse(panels);
-        var htmlStr = $(e).html();
-        htmlStr = htmlStr.replace(COLLAPSE, EXPAND);
-        $(e).html(htmlStr);
-        var tooltipStr = $(e).attr('data-original-title').replace(COLLAPSE, EXPAND);
-        $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
+        replaceHTMLString(e, COLLAPSE, EXPAND);
     }
 }
 
