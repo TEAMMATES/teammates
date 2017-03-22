@@ -39,9 +39,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
     protected boolean isSendSubmissionEmail;
-    List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
-    List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
-    List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
+    protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
+    protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
+    protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
