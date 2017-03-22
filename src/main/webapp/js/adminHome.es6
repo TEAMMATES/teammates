@@ -1,4 +1,7 @@
-'use strict';
+/* global encodeHtmlString:false */
+/**
+ * Functions defined and used in `/adminHome`
+ */
 
 /**
  * Generates HTML text for a row containing instructor's information
@@ -14,56 +17,49 @@
  * @returns {String} a HTML row of action result table
  */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
-    var result = '<td>' + encodeHtmlString(shortName) + '</td>';
-    result += '<td>' + encodeHtmlString(name) + '</td>';
-    result += '<td>' + encodeHtmlString(email) + '</td>';
-    result += '<td>' + encodeHtmlString(institution) + '</td>';
-    if (isSuccess) {
-        result += '<td>Success</td>';
-    } else {
-        result += '<td>Fail</td>';
-    }
-    result += '<td>' + status + '</td>';
-    if (isSuccess) {
-        result = '<tr class="success">' + result + '</tr>';
-    } else {
-        result = '<tr class="danger">' + result + '</tr>';
-    }
-    return result;
+    return `
+    <tr class="${isSuccess ? 'success' : 'danger'}">
+        <td>${encodeHtmlString(shortName)}</td>
+        <td>${encodeHtmlString(name)}</td>
+        <td>${encodeHtmlString(email)}</td>
+        <td>${encodeHtmlString(institution)}</td>
+        <td>${isSuccess ? 'Success' : 'Fail'}</td>
+        <td>${status}</td>
+    </tr>
+    `;
 }
 
-var paramsCounter = 0;
-var paramsList = [];    // list of parameter strings that will be sent via ajax
-var instructorDetailsList = [];
-var isInputFromFirstPanel = false;
+let paramsCounter = 0;
+let paramsList = [];    // list of parameter strings that will be sent via ajax
+let instructorDetailsList = [];
+let isInputFromFirstPanel = false;
 
 /**
  * Disables the Add Instructor form.
  */
 function disableAddInstructorForm() {
-    $('.addInstructorBtn').each(function() {
+    $('.addInstructorBtn').each(function () {
         $(this).html("<img src='/images/ajax-loader.gif'/>");
     });
-    $('.addInstructorFormControl').each(function() {
+    $('.addInstructorFormControl').each(function () {
         $(this).prop('disabled', true);
     });
-
 }
 
 /**
  * Enables the Add Instructor form.
  */
 function enableAddInstructorForm() {
-    $('.addInstructorBtn').each(function() {
+    $('.addInstructorBtn').each(function () {
         $(this).html('Add Instructor');
     });
-    $('.addInstructorFormControl').each(function() {
+    $('.addInstructorFormControl').each(function () {
         $(this).prop('disabled', false);
     });
 }
 
 function addInstructorAjax(isError, data) {
-    var rowText;
+    let rowText;
     if (isError) {
         rowText = createRowForResultTable('-', '-', '-', '-', false, 'Cannot send Ajax Request!');
     } else {
@@ -73,18 +69,18 @@ function addInstructorAjax(isError, data) {
             data.instructorEmail,
             data.instructorInstitution,
             data.instructorAddingResultForAjax,
-            data.statusForAjax
+            data.statusForAjax,
         );
     }
     $('#addInstructorResultTable tbody').append(rowText);
-    var isNotAddingResultForAjax = !(data && data.instructorAddingResultForAjax);
+    const isNotAddingResultForAjax = !(data && data.instructorAddingResultForAjax);
     if (isInputFromFirstPanel && isNotAddingResultForAjax) {
-        var instructorsToBeRetried = $('#addInstructorDetailsSingleLine').val()
-                                        + instructorDetailsList[paramsCounter] + '\n';
+        const instructorsToBeRetried = `${$('#addInstructorDetailsSingleLine').val()
+                                        + instructorDetailsList[paramsCounter]}\n`;
         $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
     }
-    paramsCounter++;
-    var panelHeader = '<strong>Result (' + paramsCounter + '/' + paramsList.length + ')</strong>';
+    paramsCounter += 1;
+    const panelHeader = `<strong>Result (${paramsCounter}/${paramsList.length})</strong>`;
     $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
     if (paramsCounter < paramsList.length) {
         addInstructorByAjaxRecursively();
@@ -100,14 +96,14 @@ function addInstructorAjax(isError, data) {
 function addInstructorByAjaxRecursively() {
     $.ajax({
         type: 'POST',
-        url: '/admin/adminInstructorAccountAdd?' + paramsList[paramsCounter],
+        url: `/admin/adminInstructorAccountAdd?${paramsList[paramsCounter]}`,
         beforeSend: disableAddInstructorForm,
-        error: function() {
+        error() {
             addInstructorAjax(true, null);
         },
-        success: function(data) {
+        success(data) {
             addInstructorAjax(false, data);
-        }
+        },
     });
 }
 
@@ -118,14 +114,14 @@ function addInstructorFromFirstFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = true;
 
-    var multipleLineText = $('#addInstructorDetailsSingleLine').val();    // get input from the first panel
+    let multipleLineText = $('#addInstructorDetailsSingleLine').val();    // get input from the first panel
     multipleLineText = multipleLineText.trim();
     if (multipleLineText.length > 0) {
         instructorDetailsList = multipleLineText.split('\n');
         paramsList = [];
-        for (var i = 0; i < instructorDetailsList.length; i++) {
+        for (let i = 0; i < instructorDetailsList.length; i += 1) {
             instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, '|');
-            paramsList[i] = 'instructordetailssingleline=' + encodeURIComponent(instructorDetailsList[i]);
+            paramsList[i] = `instructordetailssingleline=${encodeURIComponent(instructorDetailsList[i])}`;
         }
     }
     paramsCounter = 0;
@@ -144,14 +140,14 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel').show();    // show the hidden panel
     isInputFromFirstPanel = false;
 
-    var instructorDetails = encodeURIComponent($('#instructorName').val() + '|' + $('#instructorEmail').val()
-                            + '|' + $('#instructorInstitution').val());
+    const instructorDetails = encodeURIComponent(`${$('#instructorName').val()}|${$('#instructorEmail').val()
+                             }|${$('#instructorInstitution').val()}`);
     instructorDetailsList = [instructorDetails];
-    var params = $.param({
+    const params = $.param({
         instructorshortname: $('#instructorShortName').val(),
         instructorname: $('#instructorName').val(),
         instructoremail: $('#instructorEmail').val(),
-        instructorinstitution: $('#instructorInstitution').val()
+        instructorinstitution: $('#instructorInstitution').val(),
     });
     paramsList = [params];
 
@@ -160,3 +156,11 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>');    // clear panel header
     addInstructorByAjaxRecursively();
 }
+
+/*
+export default {
+    addInstructorFromFirstFormByAjax,
+    addInstructorFromSecondFormByAjax,
+};
+*/
+/* exported addInstructorFromFirstFormByAjax, addInstructorFromSecondFormByAjax */

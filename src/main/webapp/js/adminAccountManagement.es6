@@ -1,15 +1,15 @@
-'use strict';
+/* global BootboxWrapper:false StatusType:false toggleSort:false bindBackToTopButtons:false */
 
-var entryPerPage = 200;
+const entryPerPage = 200;
 
-var begin = 0;
-var end = 0;
-var total = 0;
+let begin = 0;
+let end = 0;
+let total = 0;
 
-var currentPage = 1;
-var totalPages;
+let currentPage = 1;
+let totalPages;
 
-$(document).ready(function() {
+$(document).ready(() => {
     toggleSort($('#button_sort_createat').parent());
     reLabelOrderedAccountEntries();
     caculateTotalPages();
@@ -17,33 +17,32 @@ $(document).ready(function() {
     showFirstPage();
     updateEntriesCount();
     bindDeleteAccountAction();
-    AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
 
 function updatePagination() {
-
     if (totalPages > 5) {
         if (currentPage >= 3 && currentPage + 1 < totalPages) {
-            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
-                var newPageNumber = currentPage - 2 + index;
+            $('div#pagination_top ul.pagination li a.pageNumber').each(function (index) {
+                const newPageNumber = (currentPage - 2) + index;
                 $(this).text(newPageNumber);
             });
         }
 
         if (currentPage >= 3 && currentPage + 1 === totalPages) {
-            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
-                var newPageNumber = currentPage - 3 + index;
+            $('div#pagination_top ul.pagination li a.pageNumber').each(function (index) {
+                const newPageNumber = (currentPage - 3) + index;
                 $(this).text(newPageNumber);
             });
         }
 
         if (currentPage < 3) {
-            $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
+            $('div#pagination_top ul.pagination li a.pageNumber').each(function (index) {
                 $(this).text(index + 1);
             });
         }
     } else {
-        $('div#pagination_top ul.pagination li a.pageNumber').each(function(index) {
+        $('div#pagination_top ul.pagination li a.pageNumber').each(function (index) {
             $(this).text(index + 1);
 
             if (index + 1 > totalPages) {
@@ -52,8 +51,8 @@ function updatePagination() {
         });
     }
 
-    $('div#pagination_top ul.pagination li a.pageNumber').each(function() {
-        var pageNum = parseInt($(this).text());
+    $('div#pagination_top ul.pagination li a.pageNumber').each(function () {
+        const pageNum = parseInt($(this).text(), 10);
         if (pageNum === currentPage) {
             $(this).parent().attr('class', 'active');
         } else {
@@ -65,13 +64,13 @@ function updatePagination() {
 }
 
 function caculateTotalPages() {
-    var a = parseInt(total / entryPerPage);
-    var b = total % entryPerPage;
+    const a = parseInt(total / entryPerPage, 10);
+    const b = total % entryPerPage;
     totalPages = b === 0 ? a : a + 1;
 }
 
 function updateEntriesCount() {
-    var newText = begin + '~' + Math.min(end, total);
+    const newText = `${begin}~${Math.min(end, total)}`;
 
     $('span#currentPageEntryCount').text(newText);
     $('span#totalEntryCount').text(total);
@@ -89,18 +88,18 @@ function showFirstPage() {
     showEntryInInterval(begin, end);
 }
 
-function showEntryInInterval(start, end) {
+function showEntryInInterval(startIndex, endIndex) {
     hideAllEntries();
-    for (var i = start; i <= end; i++) {
-        $('#accountEntry_' + i).show();
+    for (let i = startIndex; i <= endIndex; i += 1) {
+        $(`#accountEntry_${i}`).show();
     }
 }
 
 function reLabelOrderedAccountEntries() {
     total = 0;
-    $('tr.accountEntry').each(function(index) {
-        $(this).attr('id', 'accountEntry_' + (index + 1));
-        total++;
+    $('tr.accountEntry').each(function (index) {
+        $(this).attr('id', `accountEntry_${index + 1}`);
+        total += 1;
     });
 
     showFirstPage();
@@ -109,24 +108,23 @@ function reLabelOrderedAccountEntries() {
 }
 
 function showEntriesForSelectedPage() {
-    begin = (currentPage - 1) * entryPerPage + 1;
-    end = begin + entryPerPage - 1;
+    begin = ((currentPage - 1) * entryPerPage) + 1;
+    end = begin + (entryPerPage - 1);
     showEntryInInterval(begin, end);
-
 }
 
-$(document).on('click', 'ul.pagination li.previous', function() {
+$(document).on('click', 'ul.pagination li.previous', () => {
     goToPreviousPage();
 });
 
-$(document).on('click', 'ul.pagination li a.pageNumber', function() {
-    currentPage = parseInt($(this).text());
+$(document).on('click', 'ul.pagination li a.pageNumber', function () {
+    currentPage = parseInt($(this).text(), 10);
     showEntriesForSelectedPage();
     updateEntriesCount();
     updatePagination();
 });
 
-$(document).on('click', 'ul.pagination li.next', function() {
+$(document).on('click', 'ul.pagination li.next', () => {
     goToNextPage();
 });
 
@@ -145,18 +143,18 @@ function goToNextPage() {
 }
 
 function bindDeleteAccountAction() {
-    $('.admin-delete-account-link').on('click', function(event) {
+    $('.admin-delete-account-link').on('click', (event) => {
         event.preventDefault();
 
-        var $clickedLink = $(event.target);
-        var googleId = $clickedLink.data('googleId');
-        var existingCourses = document.getElementById('courses_' + googleId).innerHTML;
+        const $clickedLink = $(event.target);
+        const googleId = $clickedLink.data('googleId');
+        const existingCourses = document.getElementById(`courses_${googleId}`).innerHTML;
 
-        var messageText = 'Are you sure you want to delete the account ' + googleId + '?'
-                          + '<br><br>' + existingCourses
-                          + '<br><br>This operation will delete ALL information about this account from the system.';
+        const messageText = `Are you sure you want to delete the account ${googleId}?`
+                          + `<br><br>${existingCourses
+                           }<br><br>This operation will delete ALL information about this account from the system.`;
 
-        var okCallback = function() {
+        const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
 
@@ -165,7 +163,7 @@ function bindDeleteAccountAction() {
     });
 }
 
-$(document).keydown(function(e) {
+$(document).keydown((e) => {
     if (e.keyCode === 37) { // LEFT
         goToPreviousPage();
     }

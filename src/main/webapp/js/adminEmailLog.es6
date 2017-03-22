@@ -1,9 +1,11 @@
-'use strict';
+/* global StatusType:false setStatusMessage:false addLoadingIndicator:false removeLoadingIndicator:false */
+/**
+ * Contains functions to be used to display email logs in `/adminEmailLog`
+ */
 
-var retryTimes = 0;
-var numOfEntriesPerPage = 50;
+const numOfEntriesPerPage = 50;
 
-$(document).ready(function() {
+$(document).ready(() => {
     bindClickAction();
     highlightKeywordsInEmailLogMessages();
     $('#filterReference').toggle();
@@ -12,7 +14,7 @@ $(document).ready(function() {
 function toggleReference() {
     $('#filterReference').toggle('slow');
 
-    var button = $('#detailButton').attr('class');
+    const button = $('#detailButton').attr('class');
 
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
@@ -27,40 +29,40 @@ function bindClickAction() {
     $('body').unbind('click', handler).on('click', '.email-log-header', handler);
 }
 
-var handler = function() {
+function handler() {
     $(this).nextAll('.email-log-content-sanitized').first().toggle();
     $(this).nextAll('.email-log-content-unsanitized').first().toggle();
-};
+}
 
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
-    var formObject = $('#ajaxLoaderDataForm');
-    var formData = formObject.serialize();
-    var $button = $('#button_older');
-    var $logsTable = $('#email-logs-table > tbody');
+    const formObject = $('#ajaxLoaderDataForm');
+    const formData = formObject.serialize();
+    const $button = $('#button_older');
+    const $logsTable = $('#email-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
-        url: '/admin/adminEmailLogPage?' + formData,
-        beforeSend: function() {
+        url: `/admin/adminEmailLogPage?${formData}`,
+        beforeSend() {
             addLoadingIndicator($button, '');
         },
-        error: function() {
+        error() {
             setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
             removeLoadingIndicator($button, 'Retry');
         },
-        success: function(data) {
-            var $data = $(data);
+        success(data) {
+            const $data = $(data);
             $logsTable.append($data.find('#email-logs-table > tbody').html());
             bindClickAction();
             highlightKeywordsInEmailLogMessages();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
-        }
+        },
     });
 }
 
 function setFormErrorMessage(button, msg) {
-    button.after('&nbsp;&nbsp;&nbsp;' + msg);
+    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
 }
 
 /**
@@ -72,3 +74,10 @@ function highlightKeywordsInEmailLogMessages() {
     $('.email-content').highlight($('#query-keywords-for-content').val().split(','));
 }
 
+/*
+export default {
+    toggleReference,
+    submitFormAjax,
+};
+*/
+/* exported toggleReference, submitFormAjax */
