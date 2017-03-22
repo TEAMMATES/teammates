@@ -228,7 +228,7 @@ function expandOrCollapsePanels(element, panels) {
 
 /**
  * Expands all panels.
- * @param {DOM} element - The element that invoked {@code #expandOrCollapsePanels}
+ * @param {DOM} element - The element that was clicked to invoke {@code #expandOrCollapsePanels}
  */
 function expandPanels(panels, element) {
     // Expand/collapse buttons on AJAX-loaded panels have a collapse-panels-button class
@@ -265,8 +265,8 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
             $ajaxResponseAuto.click();
         }
 
-        var elementHasAjaxAndIsClicked = hasAjaxAutoLoading || hasAjaxResponseAutoLoading;
-        if (elementHasAjaxAndIsClicked) {
+        var isElementClickedToLoadAjax = hasAjaxAutoLoading || hasAjaxResponseAutoLoading;
+        if (isElementClickedToLoadAjax) {
             // When the element has Ajax class, its panel is in collapsed state. Clicking will expand
             // its panels.
             return;
