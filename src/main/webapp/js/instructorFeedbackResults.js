@@ -251,38 +251,33 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
     }
 
     if (isAjaxLoadedPanel) {
-        var isElementClickedToLoadAjax = checkAndLoadPanelByAjax(panel);
-        if (isElementClickedToLoadAjax) {
-            // When the element has Ajax class, its panel is in collapsed state. Clicking already expands
-            // its panel.
+        // Might need to load the panel data by Ajax.
+        var $elementToClickForAjaxLoading = getElementToClickForAjaxLoading(panel);
+        var needToLoadThePanelDataByClickingOnElement = $elementToClickForAjaxLoading.length !== 0;
+        if (needToLoadThePanelDataByClickingOnElement) {
+            // When clicked, the panel data is loaded, and ajax_auto or ajax-response-auto class will
+            // be removed from the element.
+            $elementToClickForAjaxLoading.click();
+
+            // Panel is already expanded as a result of clicking.
             return;
         }
     }
+
     // expand this panel
     setTimeout(showSingleCollapse, timeOut, panel);
 }
 
 /**
- * Checks whether the panel data is loaded. If not, load panel data by Ajax.
- * @return true if Ajax loading happened
+ * @return {DOM} the element that has class ajax_auto or ajax-response-auto(not both). The element can be
+ *         clicked to load the {@param panel} content by Ajax.
  */
-function checkAndLoadPanelByAjax(panel) {
-    // When the panel's parent element has class ajax_auto or ajax-response-auto(not both), the panel data
-    // has not been loaded yet. We need to load the panel data by Ajax.
-    // ajax_auto class is for loading normal panel data while ajax-response-auto is for loading users
-    // who have not responded.
+function getElementToClickForAjaxLoading(panel) {
     var $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
     if ($elementWithAjaxClass.length === 0) {
         $elementWithAjaxClass = $(panel).parent().children('.ajax-response-auto');
     }
-
-    var hasAjaxElement = $elementWithAjaxClass.length !== 0;
-    if (hasAjaxElement) {
-        // Trigger Ajax loading by clicking on the element. When clicked, the panel data is loaded,
-        // and ajax_auto or ajax-response-auto class will be removed from the element.
-        $elementWithAjaxClass.click();
-    }
-    return hasAjaxElement;
+    return $elementWithAjaxClass;
 }
 
 function collapsePanels(panels) {
