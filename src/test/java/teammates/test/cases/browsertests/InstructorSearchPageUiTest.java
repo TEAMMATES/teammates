@@ -12,6 +12,9 @@ import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorSearchPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_SEARCH_PAGE}.
+ */
 public class InstructorSearchPageUiTest extends BaseUiTestCase {
     private InstructorSearchPage searchPage;
 

@@ -34,6 +34,9 @@ public abstract class SearchDocument {
     protected static final InstructorsDb instructorsDb = new InstructorsDb();
     protected static final StudentsDb studentsDb = new StudentsDb();
 
+    /**
+     * Builds the search document.
+     */
     public Document build() {
         prepareData();
         return toDocument();

@@ -10,6 +10,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditInstructorFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorEditInstructorFeedbackPageAction}.
+ */
 public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTest {
 
     @Override

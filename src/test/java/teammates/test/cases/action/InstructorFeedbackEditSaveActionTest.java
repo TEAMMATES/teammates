@@ -11,6 +11,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackEditSaveAction}.
+ */
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
     @Override

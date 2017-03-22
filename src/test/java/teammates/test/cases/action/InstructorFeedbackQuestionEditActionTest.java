@@ -24,6 +24,9 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorFeedbackQuestionEditAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorFeedbackQuestionEditAction}.
+ */
 public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
     @Override

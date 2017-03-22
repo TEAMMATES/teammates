@@ -18,6 +18,9 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+/**
+ * Provides access control mechanisms.
+ */
 public class GateKeeper {
 
     private static UserService userService = UserServiceFactory.getUserService();

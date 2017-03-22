@@ -7,12 +7,15 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.template.EnrollResultPanel;
 
 /**
  * PageData: page data for the 'Result' page after enrollment for a course.
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
+
+    private static final Logger log = Logger.getLogger();
 
     private String courseId;
     private List<StudentAttributes>[] students;

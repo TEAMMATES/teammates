@@ -14,6 +14,9 @@ import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FieldValidator}.
+ */
 public class FieldValidatorTest extends BaseTestCase {
 
     private FieldValidator validator = new FieldValidator();

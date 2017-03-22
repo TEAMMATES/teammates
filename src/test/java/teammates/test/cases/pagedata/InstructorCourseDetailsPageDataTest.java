@@ -14,6 +14,9 @@ import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseDetailsPageData;
 
+/**
+ * SUT: {@link InstructorCourseDetailsPageData}.
+ */
 public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 

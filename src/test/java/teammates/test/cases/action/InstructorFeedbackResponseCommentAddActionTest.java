@@ -16,6 +16,9 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackResponseCommentAddAction}.
+ */
 public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTest {
 
     @Override
