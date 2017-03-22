@@ -300,7 +300,7 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
 
     // Replace tooltip text of the {@code button}
     var tooltipString = $(button).attr('data-original-title').replace(from, to);
-    $(element).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+    $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
 }
 
 function getNextId(e) {
