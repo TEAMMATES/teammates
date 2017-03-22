@@ -15,7 +15,7 @@ $(document).ready(function() {
                             .children('.panel-collapse')
                             .find(childPanelType)
                             .children('.panel-collapse');
-        toggleCollapse(this, panels);
+        expandOrCollapsePanels(this, panels);
     });
 
     $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', function() {
@@ -23,7 +23,7 @@ $(document).ready(function() {
                             .children('.panel-collapse')
                             .find(participantPanelType)
                             .children('.panel-collapse');
-        toggleCollapse(this, panels);
+        expandOrCollapsePanels(this, panels);
     });
 
     $('#results-search-box').keyup(function() {
@@ -205,71 +205,87 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
-function toggleCollapse(element, panels) {
-    var EXPAND = 'Expand';
-    var COLLAPSE = 'Collapse';
+/**
+ * Expand or collapse all panels when collapse/expand panels button is clicked
+ * @param {DOM} element - The element that invoked {@code #expandOrCollapsePanels}
+ * @param {DOM} panels - The panels element to be changed.
+ */
+function expandOrCollapsePanels(element, panels) {
+    var STRING_EXPAND = 'Expand';
+    var STRING_COLLAPSE = 'Collapse';
     // {@code panels} is undefined when the method is called by clicking on collapse panels button.
     var panelsDefined = panels || $('div.panel-collapse');
-    var isElementAnExpandButton = $(element).html().trim().startsWith(EXPAND);
+    var isElementAnExpandButton = $(element).html().trim().startsWith(STRING_EXPAND);
 
     if (isElementAnExpandButton) {
-        expand(panelsDefined, element);
-        replaceInHtml(element, EXPAND, COLLAPSE);
+        expandPanels(panelsDefined, element);
+        replaceInHtml(element, STRING_EXPAND, STRING_COLLAPSE);
     } else {
-        collapse(panelsDefined);
-        replaceInHtml(element, COLLAPSE, EXPAND);
+        collapsePanels(panelsDefined);
+        replaceInHtml(element, STRING_COLLAPSE, STRING_EXPAND);
     }
 }
+
 /**
- * Expand each panel. If the panel data is not loaded, load it by Ajax first before expansion.
+ * Expands all panels.
+ * @param {DOM} element - The element that invoked {@code #expandOrCollapsePanels}
  */
-function expand(panels, element) {
-    var isElementCollapsePanelsButton = $(element).is($('#collapse-panels-button'));
-    // Ajax class is only found in {@code panels} if the element is collapse panels button.
-    var mightNeedAjaxLoading = isElementCollapsePanelsButton;
+function expandPanels(panels, element) {
+    // Expand/collapse buttons on AJAX-loaded panels have a collapse-panels-button class
+    var isAjaxLoadedPanel = $(element).is($('#collapse-panels-button'));
     var i = 0;
     for (var idx = 0; idx < panels.length; idx++) {
-        if (mightNeedAjaxLoading) {
-            // When the panel's parent element has class ajax_auto or ajax-response-auto, the panel data has
-            // not been loaded yet. We will need to load the panel data by Ajax.
-            var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
-            var $ajaxResponseAuto = $(panels[idx]).parent().children('.ajax-response-auto');
-            var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
-            var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
-
-            // Trigger Ajax loading by clicking on the element. When clicked, the panel data is loaded,
-            // and ajax_auto or ajax-response-auto class will be removed from the element.
-            if (hasAjaxAutoLoading) {
-                $ajaxAuto.click();
-            }
-            if (hasAjaxResponseAutoLoading) {
-                $ajaxResponseAuto.click();
-            }
-
-            var elementHasAjaxAndIsClicked = hasAjaxAutoLoading || hasAjaxResponseAutoLoading;
-            if (elementHasAjaxAndIsClicked) {
-                // When the element has Ajax class, its panel is in collapsed state. Clicking will expand
-                // its panels.
-                continue;
-            }
-        }
-
-        if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-            // Expand the panel if the panel is collapsed at the moment
-            setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-            i++;
-        }
+        expandPanel(panels[idx], 50 * i, isAjaxLoadedPanel);
+        i++;
     }
 }
 
-function collapse(panels) {
-    var i = 0;
-    for (var inx = 0; inx < panels.length; inx++) {
-        if ($(panels[inx]).attr('class').indexOf('in') !== -1) {
-            // Collapse the panel if the panel is expanded at the moment
-            setTimeout(hideSingleCollapse, 100 * i, panels[inx]);
-            i++;
+/**
+ * Expands {@code panel}. If the panel data is not loaded, load it by Ajax first before expansion.
+ */
+function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
+    var isPanelAlreadyExpanded = $(panel).hasClass('in');
+    if (isPanelAlreadyExpanded) {
+        return;
+    }
+    if (isAjaxLoadedPanel) {
+        // When the panel's parent element has class ajax_auto or ajax-response-auto, the panel data has
+        // not been loaded yet. We will need to load the panel data by Ajax.
+        var $ajaxAuto = $(panel).parent().children('.ajax_auto');
+        var $ajaxResponseAuto = $(panel).parent().children('.ajax-response-auto');
+        var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
+        var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
+
+        // Trigger Ajax loading by clicking on the element. When clicked, the panel data is loaded,
+        // and ajax_auto or ajax-response-auto class will be removed from the element.
+        if (hasAjaxAutoLoading) {
+            $ajaxAuto.click();
         }
+        if (hasAjaxResponseAutoLoading) {
+            $ajaxResponseAuto.click();
+        }
+
+        var elementHasAjaxAndIsClicked = hasAjaxAutoLoading || hasAjaxResponseAutoLoading;
+        if (elementHasAjaxAndIsClicked) {
+            // When the element has Ajax class, its panel is in collapsed state. Clicking will expand
+            // its panels.
+            return;
+        }
+    }
+    // expand this panel
+    setTimeout(showSingleCollapse, timeOut, panel);
+}
+
+function collapsePanels(panels) {
+    var i = 0;
+    for (var idx = 0; idx < panels.length; idx++) {
+        var isPanelAlreadyCollapsed = !$(panels[idx]).hasClass('in');
+        if (isPanelAlreadyCollapsed) {
+            continue;
+        }
+        // collapse this panel
+        setTimeout(hideSingleCollapse, 100 * i, panels[idx]);
+        i++;
     }
 }
 
