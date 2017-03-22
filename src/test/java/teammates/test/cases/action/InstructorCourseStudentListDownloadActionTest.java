@@ -10,6 +10,9 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorCourseStudentListDownloadAction;
 
+/**
+ * SUT: {@link InstructorCourseStudentListDownloadAction}.
+ */
 public class InstructorCourseStudentListDownloadActionTest extends BaseActionTest {
 
     @Override

@@ -28,6 +28,9 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link CoursesLogic}.
+ */
 public class CoursesLogicTest extends BaseLogicTest {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();

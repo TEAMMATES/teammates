@@ -9,6 +9,9 @@ import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackQuestionCopyPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorFeedbackQuestionCopyPageAction}.
+ */
 public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest {
 
     @Override

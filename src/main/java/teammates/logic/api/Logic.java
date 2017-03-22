@@ -59,11 +59,9 @@ import teammates.logic.core.StudentsLogic;
 import com.google.appengine.api.blobstore.BlobKey;
 
 /**
- * This class represents the API to the business logic of the system. Please
- * refer to DevMan for general policies followed by Logic. As those policies
- * cover most of the behavior of the API, we use very short comments to describe
- * operations here.
- * Logic class is a Facade class. It simply forwards the method to internal classes.
+ * Provides the business logic for production usage of the system.
+ *
+ * <p>This is a Facade class which simply forwards the method to internal classes.
  */
 public class Logic {
 

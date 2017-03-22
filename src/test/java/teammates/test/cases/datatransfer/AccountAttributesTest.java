@@ -13,6 +13,9 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link AccountAttributes}.
+ */
 public class AccountAttributesTest extends BaseTestCase {
 
     //TODO: test toString() method

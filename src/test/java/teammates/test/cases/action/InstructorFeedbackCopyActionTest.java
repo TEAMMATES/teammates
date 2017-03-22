@@ -11,6 +11,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorFeedbackCopyAction}.
+ */
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
     @Override

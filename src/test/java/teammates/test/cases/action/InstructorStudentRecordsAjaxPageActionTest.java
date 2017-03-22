@@ -9,6 +9,9 @@ import teammates.ui.controller.InstructorStudentRecordsAjaxPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorStudentRecordsAjaxPageData;
 
+/**
+ * SUT: {@link InstructorStudentRecordsAjaxPageAction}.
+ */
 public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
     @Override

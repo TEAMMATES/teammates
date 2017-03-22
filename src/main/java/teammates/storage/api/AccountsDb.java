@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
@@ -31,6 +32,8 @@ import com.google.appengine.api.datastore.KeyFactory;
  * @see AccountAttributes
  */
 public class AccountsDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * Preconditions:

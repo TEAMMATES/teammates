@@ -18,6 +18,9 @@ import teammates.test.driver.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link BackDoor}.
+ */
 @Priority(2)
 public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 

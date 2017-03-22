@@ -11,6 +11,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -18,6 +19,8 @@ import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.logic.api.EmailGenerator;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

@@ -8,6 +8,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseArchiveAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseArchiveAction}.
+ */
 public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
     @Override
