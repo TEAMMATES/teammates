@@ -219,11 +219,9 @@ function toggleCollapse(e, pans) {
     const panels = pans || $('div.panel-collapse');
 
     if ($(e).html().trim().startsWith(expand)) {
-        let i = 0;
         for (let idx = 0; idx < panels.length; idx += 1) {
             if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                setTimeout(showSingleCollapse, 50 * i, panels[idx]);
-                i += 1;
+                setTimeout(showSingleCollapse, 50 * idx, panels[idx]);
             }
         }
         const htmlString = $(e).html().replace(expand, collapse);
