@@ -6,6 +6,7 @@ import java.util.Map;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.pagedata.FileUploadPageData;
 
 import com.google.appengine.api.blobstore.BlobInfo;
@@ -17,6 +18,8 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
  * Action: uploads an image to Google Cloud Storage.
  */
 public class ImageUploadAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     private FileUploadPageData data;
 

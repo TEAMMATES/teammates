@@ -19,6 +19,9 @@ import teammates.ui.controller.StudentCourseDetailsPageAction;
 import teammates.ui.controller.StudentProfileEditSaveAction;
 import teammates.ui.pagedata.StudentCourseDetailsPageData;
 
+/**
+ * SUT: {@link StudentCourseDetailsPageAction}.
+ */
 public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
     @Override

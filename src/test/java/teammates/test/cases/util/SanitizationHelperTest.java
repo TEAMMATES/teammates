@@ -10,6 +10,9 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link SanitizationHelper}.
+ */
 public class SanitizationHelperTest extends BaseTestCase {
 
     @Test

@@ -20,6 +20,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link CommentsLogic}.
+ */
 public class CommentsLogicTest extends BaseLogicTest {
 
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();

@@ -46,10 +46,9 @@ public abstract class EntitiesDb {
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
             "Trying to make an non-existent account an Instructor :";
 
-    protected static final Logger log = Logger.getLogger();
-
     private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
     private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
+    private static final Logger log = Logger.getLogger();
 
     /**
      * Preconditions:

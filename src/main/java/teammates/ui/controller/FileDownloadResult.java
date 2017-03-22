@@ -14,8 +14,8 @@ import teammates.common.util.StringHelper;
 
 public class FileDownloadResult extends ActionResult {
 
-    String fileContent = "";
-    String fileName = "";
+    private String fileContent = "";
+    private String fileName = "";
 
     public FileDownloadResult(String destination, AccountAttributes account,
             List<StatusMessage> status) {

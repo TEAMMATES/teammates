@@ -15,8 +15,8 @@ import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailComposeSaveAction extends Action {
 
-    List<String> addressReceiver = new ArrayList<String>();
-    List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<String>();
+    private List<String> groupReceiver = new ArrayList<String>();
 
     @Override
     protected ActionResult execute() {

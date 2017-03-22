@@ -23,6 +23,9 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link FeedbackResponsesDb}.
+ */
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();

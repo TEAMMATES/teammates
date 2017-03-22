@@ -13,6 +13,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link FeedbackSessionAttributes}.
+ */
 public class FeedbackSessionAttributesTest extends BaseTestCase {
     private Date startTime;
     private Date endTime;

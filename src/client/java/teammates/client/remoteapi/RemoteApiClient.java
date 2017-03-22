@@ -16,8 +16,6 @@ public abstract class RemoteApiClient {
 
     protected static final PersistenceManager PM = getPm();
 
-    private static final String LOCALHOST = "localhost";
-
     private static PersistenceManager getPm() {
         try {
             // use reflection to bypass the visibility level of the method
@@ -33,16 +31,16 @@ public abstract class RemoteApiClient {
 
     protected void doOperationRemotely() throws IOException {
 
-        String appDomain = TestProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN;
-        int appPort = TestProperties.TEAMMATES_REMOTEAPI_APP_PORT;
+        String appUrl = TestProperties.TEAMMATES_URL.replaceAll("^https?://", "");
+        String appDomain = appUrl.split(":")[0];
+        int appPort = appUrl.contains(":") ? Integer.parseInt(appUrl.split(":")[1]) : 443;
 
         System.out.println("--- Starting remote operation ---");
         System.out.println("Going to connect to:" + appDomain + ":" + appPort);
 
         RemoteApiOptions options = new RemoteApiOptions().server(appDomain, appPort);
 
-        boolean isDevServer = appDomain.equals(LOCALHOST);
-        if (isDevServer) {
+        if (TestProperties.isDevServer()) {
             // Dev Server doesn't require credential.
             options.useDevelopmentServerCredential();
         } else {

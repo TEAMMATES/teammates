@@ -14,6 +14,9 @@ import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.pagedata.AdminHomePageData;
 
+/**
+ * SUT: {@link AdminInstructorAccountAddAction}.
+ */
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
     @Override

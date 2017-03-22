@@ -12,6 +12,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.pagedata.InstructorFeedbackEditCopyData;
 
+/**
+ * SUT: {@link InstructorFeedbackEditCopyAction}.
+ */
 public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
     @Override
