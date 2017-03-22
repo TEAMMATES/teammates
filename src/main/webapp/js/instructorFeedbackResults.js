@@ -233,10 +233,10 @@ function expandOrCollapsePanels(element, panels) {
 function expandPanels(element, panels) {
     // The expand/collapse button on AJAX-loaded panels is of id collapse-panels-button
     var areAjaxLoadedPanels = $(element).is($('#collapse-panels-button'));
-    var TWENTIETH_SECOND_TO_MILLI_SECOND = 50;
+    var BASE_TIME_OUT_UNIT_IN_MILLI_SECOND = 50;
 
     for (var idx = 0; idx < panels.length; idx++) {
-        expandPanel(panels[idx], idx * TWENTIETH_SECOND_TO_MILLI_SECOND, areAjaxLoadedPanels);
+        expandPanel(panels[idx], idx * BASE_TIME_OUT_UNIT_IN_MILLI_SECOND, areAjaxLoadedPanels);
     }
 }
 
@@ -286,14 +286,14 @@ function checkAndLoadPanelByAjax(panel) {
 }
 
 function collapsePanels(panels) {
-    var TENTH_SECOND_TO_MILLI_SECOND = 100;
+    var BASE_TIME_OUT_UNIT_IN_MILLI_SECOND = 100;
     for (var idx = 0; idx < panels.length; idx++) {
         var isPanelAlreadyCollapsed = !$(panels[idx]).hasClass('in');
         if (isPanelAlreadyCollapsed) {
             continue;
         }
         // collapse this panel
-        setTimeout(hideSingleCollapse, idx * TENTH_SECOND_TO_MILLI_SECOND, panels[idx]);
+        setTimeout(hideSingleCollapse, idx * BASE_TIME_OUT_UNIT_IN_MILLI_SECOND, panels[idx]);
     }
 }
 
