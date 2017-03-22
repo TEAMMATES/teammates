@@ -46,7 +46,7 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
 
         for (String emailAddress : addressList) {
             taskQueuer.scheduleAdminEmailForSending(emailId, emailAddress, adminEmail.getSubject(),
-                                                    adminEmail.getContent().getValue());
+                                                    adminEmail.getContentValue());
         }
     }
 
