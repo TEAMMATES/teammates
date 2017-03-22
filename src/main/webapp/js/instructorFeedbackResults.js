@@ -254,7 +254,7 @@ function collapse(panels) {
     }
 }
 
-function replaceHTMLString(element, from, to) {
+function updateHTMLContent(element, from, to) {
     var htmlString = $(element).html();
     htmlString = htmlString.replace(from, to);
     $(element).html(htmlString);
@@ -274,10 +274,10 @@ function toggleCollapse(e, pans) {
         // clicking on collapse panels button.
         var mightNeedAjaxLoading = isElementCollapsePanelsButton;
         expand(panels, mightNeedAjaxLoading);
-        replaceHTMLString(e, EXPAND, COLLAPSE);
+        updateHTMLContent(e, EXPAND, COLLAPSE);
     } else {
         collapse(panels);
-        replaceHTMLString(e, COLLAPSE, EXPAND);
+        updateHTMLContent(e, COLLAPSE, EXPAND);
     }
 }
 
