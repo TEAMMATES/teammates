@@ -219,19 +219,19 @@ function expandOrCollapsePanels(element, panels) {
 
     if (isElementAnExpandButton) {
         expandPanels(element, targetPanels);
-        replaceInHtml(element, STRING_EXPAND, STRING_COLLAPSE);
+        replaceButtonHtmlAndTooltipText(element, STRING_EXPAND, STRING_COLLAPSE);
     } else {
         collapsePanels(targetPanels);
-        replaceInHtml(element, STRING_COLLAPSE, STRING_EXPAND);
+        replaceButtonHtmlAndTooltipText(element, STRING_COLLAPSE, STRING_EXPAND);
     }
 }
 
 /**
- * Expands all panels.
+ * Expands all panels. Loads panel data if missing.
  * @param {DOM} element - The element that was clicked to invoke {@code #expandOrCollapsePanels}
  */
 function expandPanels(element, panels) {
-    // Expand/collapse buttons on AJAX-loaded panels have a collapse-panels-button class
+    // The expand/collapse button on AJAX-loaded panels is of id collapse-panels-button
     var areAjaxLoadedPanels = $(element).is($('#collapse-panels-button'));
     var TWENTIETH_SECOND_TO_MILLI_SECOND = 50;
 
@@ -241,7 +241,7 @@ function expandPanels(element, panels) {
 }
 
 /**
- * Expands {@code panel}. If the panel data is not loaded, load it by Ajax first before expansion.
+ * Expands {@param panel}. If the panel data is not loaded, load it by Ajax.
  * @param {int} timeOut - is in milliseconds
  */
 function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
@@ -253,8 +253,8 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
     if (isAjaxLoadedPanel) {
         var isElementClickedToLoadAjax = checkAndLoadPanelByAjax(panel);
         if (isElementClickedToLoadAjax) {
-            // When the element has Ajax class, its panel is in collapsed state. Clicking will expand
-            // its panels.
+            // When the element has Ajax class, its panel is in collapsed state. Clicking already expands
+            // its panel.
             return;
         }
     }
@@ -271,16 +271,16 @@ function checkAndLoadPanelByAjax(panel) {
     // has not been loaded yet. We need to load the panel data by Ajax.
     // ajax_auto class is for loading normal panel data while ajax-response-auto is for loading users
     // who have not responded.
-    var $ajaxElement = $(panel).parent().children('.ajax_auto');
-    if ($ajaxElement.length === 0) {
-        $ajaxElement = $(panel).parent().children('.ajax-response-auto');
+    var $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
+    if ($elementWithAjaxClass.length === 0) {
+        $elementWithAjaxClass = $(panel).parent().children('.ajax-response-auto');
     }
 
-    var hasAjaxElement = $ajaxElement.length !== 0;
+    var hasAjaxElement = $elementWithAjaxClass.length !== 0;
     if (hasAjaxElement) {
         // Trigger Ajax loading by clicking on the element. When clicked, the panel data is loaded,
         // and ajax_auto or ajax-response-auto class will be removed from the element.
-        $ajaxElement.click();
+        $elementWithAjaxClass.click();
     }
     return hasAjaxElement;
 }
@@ -297,15 +297,14 @@ function collapsePanels(panels) {
     }
 }
 
-/**
- * Replace the Html content after the panel expands/collapses.
- * @param {DOM} element - The element whose Html needs to be updated
- */
-function replaceInHtml(element, from, to) {
-    var htmlString = $(element).html();
+function replaceButtonHtmlAndTooltipText(button, from, to) {
+    // Replace html text of the {@code button}
+    var htmlString = $(button).html();
     htmlString = htmlString.replace(from, to);
-    $(element).html(htmlString);
-    var tooltipString = $(element).attr('data-original-title').replace(from, to);
+    $(button).html(htmlString);
+
+    // Replace tooltip text of the {@code button}
+    var tooltipString = $(button).attr('data-original-title').replace(from, to);
     $(element).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
 }
 
