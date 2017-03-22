@@ -20,6 +20,9 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
 
+/**
+ * SUT: {@link FeedbackSubmissionEditPageData}.
+ */
 public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private FeedbackSubmissionEditPageData pageData;

@@ -14,6 +14,9 @@ import teammates.ui.controller.InstructorCourseJoinAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorCourseJoinAction}.
+ */
 public class InstructorCourseJoinActionTest extends BaseActionTest {
 
     @Override

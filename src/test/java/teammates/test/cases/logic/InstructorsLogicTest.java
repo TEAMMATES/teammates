@@ -18,6 +18,9 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link InstructorsLogic}.
+ */
 public class InstructorsLogicTest extends BaseLogicTest {
 
     private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();

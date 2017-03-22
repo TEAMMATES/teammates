@@ -9,6 +9,9 @@ import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseJoinConfirmationPageData;
 
+/**
+ * SUT: {@link InstructorCourseJoinConfirmationPageData}.
+ */
 public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 

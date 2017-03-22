@@ -10,6 +10,9 @@ import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageAct
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackRemindParticularStudentsPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackRemindParticularStudentsPageAction}.
+ */
 public class InstructorFeedbackRemindParticularStudentsPageActionTest extends BaseActionTest {
 
     @Override

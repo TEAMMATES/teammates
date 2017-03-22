@@ -40,6 +40,9 @@ import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * Provides additional business logic for non-production usage (e.g. testing, client scripts).
+ */
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();

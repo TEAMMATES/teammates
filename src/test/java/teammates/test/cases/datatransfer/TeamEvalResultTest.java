@@ -12,6 +12,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link TeamEvalResult}.
+ */
 public class TeamEvalResultTest extends BaseTestCase {
 
     // CHECKSTYLE.OFF:SingleSpaceSeparator vertical alignment of values for readability

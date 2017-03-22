@@ -11,6 +11,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorEditStudentFeedbackPageAction}.
+ */
 public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
 
     @Override

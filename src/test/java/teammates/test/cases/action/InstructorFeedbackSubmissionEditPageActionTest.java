@@ -11,6 +11,9 @@ import teammates.ui.controller.InstructorFeedbackSubmissionEditPageAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorFeedbackSubmissionEditPageAction}.
+ */
 public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTest {
 
     @Override
