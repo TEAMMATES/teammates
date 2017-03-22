@@ -205,13 +205,31 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
+function toggleCollapse(element, panels) {
+    var EXPAND = 'Expand';
+    var COLLAPSE = 'Collapse';
+    // {@code panels} is undefined when the method is called by clicking on collapse panels button.
+    var panelsDefined = panels || $('div.panel-collapse');
+    var isElementAnExpandButton = $(element).html().trim().startsWith(EXPAND);
+
+    if (isElementAnExpandButton) {
+        expand(panelsDefined, element);
+        replaceInHtml(element, EXPAND, COLLAPSE);
+    } else {
+        collapse(panelsDefined);
+        replaceInHtml(element, COLLAPSE, EXPAND);
+    }
+}
 /**
  * Expand each panel. If the panel data is not loaded, load it by Ajax first before expansion.
  */
-function expand(panels, needToCheckForAjaxLoading) {
+function expand(panels, element) {
+    var isElementCollapsePanelsButton = $(element).is($('#collapse-panels-button'));
+    // Ajax class is only found in {@code panels} if the element is collapse panels button.
+    var mightNeedAjaxLoading = isElementCollapsePanelsButton;
     var i = 0;
     for (var idx = 0; idx < panels.length; idx++) {
-        if (needToCheckForAjaxLoading) {
+        if (mightNeedAjaxLoading) {
             // When the panel's parent element has class ajax_auto or ajax-response-auto, the panel data has
             // not been loaded yet. We will need to load the panel data by Ajax.
             var $ajaxAuto = $(panels[idx]).parent().children('.ajax_auto');
@@ -219,7 +237,7 @@ function expand(panels, needToCheckForAjaxLoading) {
             var hasAjaxAutoLoading = $ajaxAuto.length !== 0;
             var hasAjaxResponseAutoLoading = $ajaxResponseAuto.length !== 0;
 
-            // Ajax loading is triggered by clicking on the element. When clicked, the panel data is loaded,
+            // Trigger Ajax loading by clicking on the element. When clicked, the panel data is loaded,
             // and ajax_auto or ajax-response-auto class will be removed from the element.
             if (hasAjaxAutoLoading) {
                 $ajaxAuto.click();
@@ -227,10 +245,11 @@ function expand(panels, needToCheckForAjaxLoading) {
             if (hasAjaxResponseAutoLoading) {
                 $ajaxResponseAuto.click();
             }
-            if (hasAjaxAutoLoading || hasAjaxResponseAutoLoading) {
-                // When the element needs Ajax loading, it must be collapsed because all expanded panels are
-                // already loaded. As Ajax is triggered by clicking, clicking will expand the collapsed
-                // panel.
+
+            var elementHasAjaxAndIsClicked = hasAjaxAutoLoading || hasAjaxResponseAutoLoading;
+            if (elementHasAjaxAndIsClicked) {
+                // When the element has Ajax class, its panel is in collapsed state. Clicking will expand
+                // its panels.
                 continue;
             }
         }
@@ -254,31 +273,12 @@ function collapse(panels) {
     }
 }
 
-function updateHTMLContent(element, from, to) {
+function replaceInHtml(element, from, to) {
     var htmlString = $(element).html();
     htmlString = htmlString.replace(from, to);
     $(element).html(htmlString);
     var tooltipString = $(element).attr('data-original-title').replace(from, to);
     $(element).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
-}
-
-function toggleCollapse(e, pans) {
-    var EXPAND = 'Expand';
-    var COLLAPSE = 'Collapse';
-    var panels = pans || $('div.panel-collapse');
-    var isElementAnExpandButton = $(e).html().trim().startsWith(EXPAND);
-
-    if (isElementAnExpandButton) {
-        var isElementCollapsePanelsButton = $(e).is($('#collapse-panels-button'));
-        // We might need to load {@code panels} data by Ajax if {@link #toggleCollapse} is invoked by
-        // clicking on collapse panels button.
-        var mightNeedAjaxLoading = isElementCollapsePanelsButton;
-        expand(panels, mightNeedAjaxLoading);
-        updateHTMLContent(e, EXPAND, COLLAPSE);
-    } else {
-        collapse(panels);
-        updateHTMLContent(e, COLLAPSE, EXPAND);
-    }
 }
 
 function getNextId(e) {
