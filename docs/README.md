@@ -1,6 +1,6 @@
 # Documentation For Developers
 
-Welcome to the documentation of the TEAMMATES project.
+Welcome to the documentation for the TEAMMATES project.
 
 Although there may be quite a lot of materials, reading through them will make contributing to TEAMMATES that much more enjoyable!
 
@@ -9,10 +9,10 @@ Although there may be quite a lot of materials, reading through them will make c
  Want to contribute but don't know where to start? Look no further:
 
 1. [**Get Started**](contributors-guide.md): Step-by-step guide on how to get started.
-2. [**Setting Up**](setting-up.md): How to set up a local development environment
+1. [**Setting Up**](setting-up.md): How to set up a local development environment
     * Stuck and need help? Check out the [trouble shooting guide](troubleshooting-guide.md).
-3. [**Development**](development.md): Now that everything is set up, learn how to work on it!
-4. [**Contributing Process**](process.md): We have a simple work flow that we expect contributors to follow.
+1. [**Development**](development.md): How to work with your own local copy of TEAMMATES
+1. [**Contributing Process**](process.md): We have a simple work flow that we expect contributors to follow.
 
 ## Main documents
 
