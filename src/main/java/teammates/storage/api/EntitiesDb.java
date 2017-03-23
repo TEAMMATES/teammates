@@ -216,6 +216,7 @@ public abstract class EntitiesDb {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         for (EntityAttributes entityToDelete : entitiesToDelete) {
+            log.info(entityToDelete.getBackupIdentifier());
             getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
         }
 

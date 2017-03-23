@@ -428,10 +428,11 @@ public class StudentsDb extends EntitiesDb {
             newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
         }
 
+        StudentAttributes newCourseStudentAttributes = new StudentAttributes(newCourseStudent);
         try {
-            createStudent(new StudentAttributes(newCourseStudent), hasDocument);
+            createStudent(newCourseStudentAttributes, hasDocument);
         } catch (EntityAlreadyExistsException e) {
-            CourseStudent existingStudent = (CourseStudent) getEntity(new StudentAttributes(newCourseStudent));
+            CourseStudent existingStudent = (CourseStudent) getEntity(newCourseStudentAttributes);
             String error = ERROR_UPDATE_EMAIL_ALREADY_USED + existingStudent.getName() + "/" + existingStudent.getEmail();
             throw new InvalidParametersException(error);
         }
