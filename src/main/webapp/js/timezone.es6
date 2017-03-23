@@ -1,31 +1,32 @@
-'use strict';
+/* global moment:false
+ */
 
-var TimeZone = {
+const TimeZone = {
     /**
      * Generate time zone <option>s using time zone IDs from Moment-Timezone library
      * and appends it under the specified element.
      */
-    prepareTimeZoneInput: function($selectElement) {
+    prepareTimeZoneInput($selectElement) {
         function displayUtcOffset(offset) {
             if (offset === 0) {
                 return 'UTC';
             }
-            var hr = Math.floor(Math.abs(offset / 60));
-            var min = Math.abs(offset) % 60;
+            const hr = Math.floor(Math.abs(offset / 60));
+            const min = Math.abs(offset) % 60;
             // offset is calculated as the number of minutes needed to get to UTC
             // thus the +/- sign needs to be swapped
-            return 'UTC ' + (offset < 0 ? '+' : '-') + addLeadingZeroes(hr) + ':' + addLeadingZeroes(min);
+            return `UTC ${offset < 0 ? '+' : '-'}${addLeadingZeroes(hr)}:${addLeadingZeroes(min)}`;
         }
 
         function addLeadingZeroes(num) {
             return (num > 9 ? '' : '0') + num;
         }
 
-        moment.tz.names().forEach(function(name) {
-            var o = document.createElement('option');
-            var date = new Date();
-            var offset = moment.tz.zone(name).offset(date);
-            o.text = name + ' (' + displayUtcOffset(offset) + ')';
+        moment.tz.names().forEach((name) => {
+            const o = document.createElement('option');
+            const date = new Date();
+            const offset = moment.tz.zone(name).offset(date);
+            o.text = `${name} (${displayUtcOffset(offset)})`;
             o.value = name;
             $selectElement.append(o);
         });
@@ -35,17 +36,17 @@ var TimeZone = {
      * Automatically detects the user's time zone based on the local settings
      * and updates the specified <select> field.
      */
-    autoDetectAndUpdateTimeZone: function($selectElement) {
-        var detectedTimeZone = moment.tz.guess();
+    autoDetectAndUpdateTimeZone($selectElement) {
+        const detectedTimeZone = moment.tz.guess();
         TimeZone.updateTimeZone($selectElement, detectedTimeZone);
     },
 
     /**
      * Updates the specified <select> field with the chosen time zone.
      */
-    updateTimeZone: function($selectElement, timeZone) {
+    updateTimeZone($selectElement, timeZone) {
         if (moment.tz.names().indexOf(timeZone) !== -1) {
             $selectElement.val(timeZone);
         }
-    }
+    },
 };

@@ -1,93 +1,101 @@
-'use strict';
+/* global richTextEditorBuilder:false,
+          addLoadingIndicator:false,
+          disallowNonNumericEntries:false,
+          scrollToElement:false,
+          setStatusMessage:false,
+          StatusType:false,
+          sanitizeForJs:false,
+          tinymce:false,
+          BootboxWrapper:false,
+          isNumber:false
+ */
 
-var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
-var FEEDBACK_RESPONSE_TEXT = 'responsetext';
-var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
-var WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
+const FEEDBACK_RESPONSE_TEXT = 'responsetext';
+const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
+const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 
 // text displayed to user
-var SESSION_NOT_OPEN = 'Feedback Session Not Open';
+const SESSION_NOT_OPEN = 'Feedback Session Not Open';
 
-$(document).ready(function() {
-
-    var textFields = $('div[id^="responsetext-"]');
+$(document).ready(() => {
+    const textFields = $('div[id^="responsetext-"]');
 
     if (typeof richTextEditorBuilder !== 'undefined') {
-        $.each(textFields, function(i, textField) {
-            var id = $(textField).attr('id');
-            var idSuffix = id.match(/^responsetext(.*)$/)[1];
+        $.each(textFields, (i, textField) => {
+            const id = $(textField).attr('id');
+            const idSuffix = id.match(/^responsetext(.*)$/)[1];
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-            richTextEditorBuilder.initEditor('#' + id, {
+            richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
-                fixed_toolbar_container: '#rich-text-toolbar-response-text-container' + idSuffix,
-                setup: function(ed) {
-                    ed.on('keyup', function() {
+                fixed_toolbar_container: `#rich-text-toolbar-response-text-container${idSuffix}`,
+                setup(ed) {
+                    ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                    ed.on('keydown', function() {
+                    ed.on('keydown', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                    ed.on('init', function() {
+                    ed.on('init', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                    ed.on('change', function() {
+                    ed.on('change', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
                     });
-                }
+                },
             });
             /* eslint-enable camelcase */
         });
     }
 
-    $('form[name="form_submit_response"]').submit(function() {
+    $('form[name="form_submit_response"]').submit((e) => {
         formatRubricQuestions();
 
-        var validationStatus = true;
-
-        validationStatus &= validateConstSumQuestions();
-        validationStatus &= validateRankQuestions();
-        validationStatus &= validateAllAnswersHaveRecipient();
+        const validationStatus = validateConstSumQuestions()
+                                 && validateRankQuestions()
+                                 && validateAllAnswersHaveRecipient();
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
 
         if (!validationStatus) {
-            return false;
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
+
+            // disable button to prevent user from clicking submission button again
+            const $submissionButton = $('#response_submit_button');
+            addLoadingIndicator($submissionButton, '');
         }
-
-        reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
-
-        // disable button to prevent user from clicking submission button again
-        var $submissionButton = $('#response_submit_button');
-        addLoadingIndicator($submissionButton, '');
     });
 
     formatRecipientLists();
 
     // Replace hidden dropdowns with text
-    $('select.participantSelect:hidden').each(function() {
-        $(this).after('<span>' + $(this).find('option:selected').html() + '</span>');
+    $('select.participantSelect:hidden').each(function () {
+        $(this).after(`<span>${$(this).find('option:selected').html()}</span>`);
     });
 
-    $("input[type='radio']").change(function() {
-        var idOfOtherOptionText = 'otherOptionText' + $(this).attr('name').substr($(this).attr('name').search('-'));
-        var idOfOtherOptionFlag = 'otherOptionFlag' + $(this).attr('name').substr($(this).attr('name').search('-'));
+    $("input[type='radio']").change(function () {
+        const idOfOtherOptionText = `otherOptionText${$(this).attr('name').substr($(this).attr('name').search('-'))}`;
+        const idOfOtherOptionFlag = `otherOptionFlag${$(this).attr('name').substr($(this).attr('name').search('-'))}`;
 
         if ($(this).data('text') === 'otherOptionText') {
             // Other option is selected by the student
-            $('#' + idOfOtherOptionText).prop('disabled', false);
-            $('#' + idOfOtherOptionFlag).val('1');
+            $(`#${idOfOtherOptionText}`).prop('disabled', false);
+            $(`#${idOfOtherOptionFlag}`).val('1');
         } else {
             // Any option except the other option is selected
-            $('#' + idOfOtherOptionText).prop('disabled', true);
-            $('#' + idOfOtherOptionFlag).val('0');
+            $(`#${idOfOtherOptionText}`).prop('disabled', true);
+            $(`#${idOfOtherOptionFlag}`).val('0');
         }
     });
 
-    $("input[id^='otherOptionText']").keyup(function() {
-        var idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
-        $('#' + idOfOtherOptionRadioButton).val($(this).val());
+    $("input[id^='otherOptionText']").keyup(function () {
+        const idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+        $(`#${idOfOtherOptionRadioButton}`).val($(this).val());
     });
 
     disallowNonNumericEntries($('input[type=number]'), true, true);
@@ -130,14 +138,14 @@ function bindModerationHintButton() {
         return;
     }
 
-    var expandText = '[More]';
-    var closeText = '[Less]';
-    var $moderationHintButton = $('#moderationHintButton');
-    var $moderationHint = $('#moderationHint');
+    const expandText = '[More]';
+    const closeText = '[Less]';
+    const $moderationHintButton = $('#moderationHintButton');
+    const $moderationHint = $('#moderationHint');
 
     $moderationHintButton.text(expandText);
 
-    $moderationHintButton.click(function(event) {
+    $moderationHintButton.click((event) => {
         event.preventDefault();
 
         if ($moderationHint.hasClass('hidden')) {
@@ -152,30 +160,30 @@ function bindModerationHintButton() {
 
 // Saves the value in the other option textbox for MCQ questions
 function updateMcqOtherOptionField() {
-    var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+    const mcqQuestionNums = getQuestionTypeNumbers('MCQ');
 
-    for (var i = 0; i < mcqQuestionNums.length; i++) {
-        var qnNum = mcqQuestionNums[i];
-        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+    for (let i = 0; i < mcqQuestionNums.length; i += 1) {
+        const qnNum = mcqQuestionNums[i];
+        const numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
 
-        for (var j = 0; j < numResponses; j++) {
-            $('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
-                 .val($('#otherOptionText-' + qnNum + '-' + j).val());
+        for (let j = 0; j < numResponses; j += 1) {
+            $(`[data-text="otherOptionText"][name="responsetext-${qnNum}-${j}"]`)
+                 .val($(`#otherOptionText-${qnNum}-${j}`).val());
         }
     }
 }
 
 // Saves the value in the other option textbox for MSQ questions
 function updateMsqOtherOptionField() {
-    var msqQuestionNums = getQuestionTypeNumbers('MSQ');
+    const msqQuestionNums = getQuestionTypeNumbers('MSQ');
 
-    for (var i = 0; i < msqQuestionNums.length; i++) {
-        var qnNum = msqQuestionNums[i];
-        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+    for (let i = 0; i < msqQuestionNums.length; i += 1) {
+        const qnNum = msqQuestionNums[i];
+        const numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
 
-        for (var j = 0; j < numResponses; j++) {
-            $('[data-text="msqOtherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
-                 .val($('#msqOtherOptionText-' + qnNum + '-' + j).val());
+        for (let j = 0; j < numResponses; j += 1) {
+            $(`[data-text="msqOtherOptionText"][name="responsetext-${qnNum}-${j}"]`)
+                 .val($(`#msqOtherOptionText-${qnNum}-${j}`).val());
         }
     }
 }
@@ -188,29 +196,29 @@ function focusModeratedQuestion() {
 }
 
 function prepareMCQQuestions() {
-    var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+    const mcqQuestionNums = getQuestionTypeNumbers('MCQ');
 
-    var radioButtons = {};
-    var radioStates = {};
+    const radioButtons = {};
+    const radioStates = {};
 
-    $.each(mcqQuestionNums, function(i) {
-        var qnNum = mcqQuestionNums[i];
-        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+    $.each(mcqQuestionNums, (i) => {
+        const qnNum = mcqQuestionNums[i];
+        const numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
 
-        for (var j = 0; j < numResponses; j++) {
-            var id = 'responsetext-' + qnNum + '-' + j;
-            radioButtons[id] = $('[name=' + id + ']');
+        for (let j = 0; j < numResponses; j += 1) {
+            const id = `responsetext-${qnNum}-${j}`;
+            radioButtons[id] = $(`[name=${id}]`);
             radioStates[id] = {};
 
             // initialize radio buttons' states
-            $.each(radioButtons[id], function(index, radio) {
+            $.each(radioButtons[id], (index, radio) => {
                 radioStates[id][radio.value] = $(radio).is(':checked');
             });
 
-            radioButtons[id].click(function(event) {
-                var val = $(this).val();
-                var name = $(this).attr('name');
-                var indexSuffix = name.substring(name.indexOf('-'));
+            radioButtons[id].click(function (event) {
+                const val = $(this).val();
+                const name = $(this).attr('name');
+                const indexSuffix = name.substring(name.indexOf('-'));
 
                 // toggle the radio button checked state
                 $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
@@ -218,19 +226,19 @@ function prepareMCQQuestions() {
                 // If the radio button corresponding to 'Other' is clicked
                 if ($(this).data('text') === 'otherOptionText') {
                     if ($(this).is(':checked')) {
-                        $('#otherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val('1');
+                        $(`#otherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
+                        $(`#mcqIsOtherOptionAnswer${indexSuffix}`).val('1');
                     } else {
-                        $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                        $('#mcqIsOtherOptionAnswer' + indexSuffix).val('0');
+                        $(`#otherOptionText${indexSuffix}`).prop('disabled', true); // disable textbox
+                        $(`#mcqIsOtherOptionAnswer${indexSuffix}`).val('0');
                     }
-                } else if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
+                } else if ($(`#mcqIsOtherOptionAnswer${indexSuffix}`).length > 0) {
                     // If other option is enabled for the question
-                    $('#otherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-                    $('#mcqIsOtherOptionAnswer' + indexSuffix).val('0');
+                    $(`#otherOptionText${indexSuffix}`).prop('disabled', true); // disable textbox
+                    $(`#mcqIsOtherOptionAnswer${indexSuffix}`).val('0');
                 }
 
-                $.each(radioButtons[name], function(index, radio) {
+                $.each(radioButtons[name], (index, radio) => {
                     if (radio.value !== val) {
                         radioStates[name][radio.value] = false;
                     }
@@ -243,21 +251,21 @@ function prepareMCQQuestions() {
 }
 
 function prepareContribQuestions() {
-    var contribQuestionNums = getQuestionTypeNumbers('CONTRIB');
+    const contribQuestionNums = getQuestionTypeNumbers('CONTRIB');
 
-    $.each(contribQuestionNums, function(i) {
-        var qnNum = contribQuestionNums[i];
+    $.each(contribQuestionNums, (i) => {
+        const qnNum = contribQuestionNums[i];
 
         // Get options for the specified question number of contribution question type
-        var options = $('[name^="responsetext-' + qnNum + '-"]');
+        const options = $(`[name^="responsetext-${qnNum}-"]`);
 
-        $.each(options, function(k) {
-            var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
+        $.each(options, (k) => {
+            const $dropdown = $(`[name="responsetext-${qnNum}-${k}"]`);
 
             // Set initial color
             $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
 
-            $dropdown.on('change', function() {
+            $dropdown.on('change', function () {
                 $(this).removeClass('color_neutral');
                 $(this).removeClass('color-positive');
                 $(this).removeClass('color-negative');
@@ -269,33 +277,33 @@ function prepareContribQuestions() {
 
 function prepareMSQQuestions() {
     // Get index of MSQ questions
-    var msqQuestionNums = getQuestionTypeNumbers('MSQ');
+    const msqQuestionNums = getQuestionTypeNumbers('MSQ');
 
-    $.each(msqQuestionNums, function(i) {
-        var qnNum = msqQuestionNums[i];
+    $.each(msqQuestionNums, (i) => {
+        const qnNum = msqQuestionNums[i];
 
-        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '-"][value=""]:not([data-text])');
-        var otherOption = $('input[name^="responsetext-' + qnNum + '-"][data-text="msqOtherOptionText"]');
+        let noneOfTheAboveOption = $(`input[name^="responsetext-${qnNum}-"][value=""]:not([data-text])`);
+        const otherOption = $(`input[name^="responsetext-${qnNum}-"][data-text="msqOtherOptionText"]`);
 
         // If 'other' is enabled for the question
         if (otherOption.length > 0) {
             // checkbox corresponding to 'other' is clicked
-            otherOption.click(function() {
-                var name = $(this).attr('name');
-                var indexSuffix = name.substring(name.indexOf('-'));
+            otherOption.click(function () {
+                const name = $(this).attr('name');
+                const indexSuffix = name.substring(name.indexOf('-'));
                 updateOtherOptionAttributes($(this), indexSuffix);
             });
         }
 
         // reset other options when "none of the above" is clicked
-        noneOfTheAboveOption.click(function() {
-            var $options = $(this).closest('table')
+        noneOfTheAboveOption.click(function () {
+            const $options = $(this).closest('table')
                                   .find('input[name^="responsetext-"][value!=""], '
                                         + 'input[name^="responsetext-"][data-text]'); // includes 'other'
-            var name = $(this).attr('name');
-            var indexSuffix = name.substring(name.indexOf('-'));
+            const name = $(this).attr('name');
+            const indexSuffix = name.substring(name.indexOf('-'));
 
-            $options.each(function() {
+            $options.each(function () {
                 $(this).prop('checked', false);
 
                 // 'other' option is clicked
@@ -303,18 +311,17 @@ function prepareMSQQuestions() {
                     updateOtherOptionAttributes($(this), indexSuffix);
                 }
             });
-
         });
 
         // reset "none of the above" if any option is clicked
-        var $options = $('input[name^="responsetext-' + qnNum + '-"][value!=""], '
-                        + 'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
+        const $options = $(`input[name^="responsetext-${qnNum}-"][value!=""], `
+                        + `input[name^="responsetext-${qnNum}-"][data-text]`); // includes 'other'
 
-        $options.click(function() {
-            var noneOfTheAboveOption = $(this).closest('table').find(
+        $options.click(function () {
+            noneOfTheAboveOption = $(this).closest('table').find(
                                            'input[name^="responsetext-"][value=""]:not([data-text])');
-            var name = $(this).attr('name');
-            var indexSuffix = name.substring(name.indexOf('-'));
+            const name = $(this).attr('name');
+            const indexSuffix = name.substring(name.indexOf('-'));
 
             noneOfTheAboveOption.prop('checked', false);
 
@@ -323,17 +330,16 @@ function prepareMSQQuestions() {
                 updateOtherOptionAttributes($(this), indexSuffix);
             }
         });
-
     });
 }
 
 function updateOtherOptionAttributes(otherOption, indexSuffix) {
     if (otherOption.is(':checked')) {
-        $('#msqOtherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val('1');
+        $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
+        $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('1');
     } else {
-        $('#msqOtherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
-        $('#msqIsOtherOptionAnswer' + indexSuffix).val('0');
+        $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', true); // disable textbox
+        $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('0');
     }
 }
 
@@ -347,19 +353,19 @@ function prepareRubricQuestions() {
  * and bind the cells click to click radio buttons
  */
 function prepareDesktopRubricQuestions() {
-    var $rubricRadioInputs = $('[name^="rubricChoice-"]');
+    const $rubricRadioInputs = $('[name^="rubricChoice-"]');
 
-    $.each($rubricRadioInputs, function(i) {
-        var $parentCell = $($rubricRadioInputs[i]).parent();
+    $.each($rubricRadioInputs, (i) => {
+        const $parentCell = $($rubricRadioInputs[i]).parent();
 
-        $parentCell.hover(function() {
+        $parentCell.hover(function () {
             $(this).addClass('cell-hover');
-        }, function() {
+        }, function () {
             $(this).removeClass('cell-hover');
         });
 
-        $parentCell.click(function(event) {
-            var $radioInput = $(this).find('[name^="rubricChoice-"]');
+        $parentCell.click(function (event) {
+            const $radioInput = $(this).find('[name^="rubricChoice-"]');
 
             if ($radioInput.prop('disabled')) {
                 return;
@@ -372,16 +378,16 @@ function prepareDesktopRubricQuestions() {
         });
 
         // Bind refresh highlights on check
-        $($rubricRadioInputs[i]).on('change', function(event, isSync) {
+        $($rubricRadioInputs[i]).on('change', function (event, isSync) {
             // Update all radio inputs in the same row.
-            var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
-            var tableRow = $(this).closest('tr');
+            const $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
+            const tableRow = $(this).closest('tr');
 
             if (tableRow.hasClass('row-answered')) {
                 tableRow.removeClass('row-answered');
             }
 
-            for (var j = 0; j < $rowRadioInputs.length; j++) {
+            for (let j = 0; j < $rowRadioInputs.length; j += 1) {
                 updateRubricCellSelectedColor($rowRadioInputs[j]);
             }
 
@@ -392,7 +398,7 @@ function prepareDesktopRubricQuestions() {
         });
 
         // First time update of checked cells
-        for (var j = 0; j < $rubricRadioInputs.length; j++) {
+        for (let j = 0; j < $rubricRadioInputs.length; j += 1) {
             updateRubricCellSelectedColor($rubricRadioInputs[j]);
         }
     });
@@ -403,16 +409,16 @@ function prepareDesktopRubricQuestions() {
  * to change color on clicking the radio buttons and uncheck logic
  */
 function prepareMobileRubricQuestions() {
-    var $rubricRadioInputs = $('[name^="mobile-rubricChoice-"]');
+    const $rubricRadioInputs = $('[name^="mobile-rubricChoice-"]');
 
     // setup initial panel colors
-    var $filledInPanels = $rubricRadioInputs.filter(':checked').closest('.panel');
+    const $filledInPanels = $rubricRadioInputs.filter(':checked').closest('.panel');
     $filledInPanels.removeClass('panel-default').addClass('panel-success');
 
     // setup panel highlighting when changing an option
-    $rubricRadioInputs.on('change', function(event, isSync) {
-        var $self = $(this);
-        var $parentPanel = $self.closest('.panel');
+    $rubricRadioInputs.on('change', function (event, isSync) {
+        const $self = $(this);
+        const $parentPanel = $self.closest('.panel');
         if ($self.is(':checked')) {
             $parentPanel.removeClass('panel-default').addClass('panel-success');
         } else {
@@ -425,20 +431,20 @@ function prepareMobileRubricQuestions() {
 
     // setup unchecking when clicking on selected radio button
     // reference: http://stackoverflow.com/a/6246260
-    $rubricRadioInputs.closest('label').mousedown(function() {
-        var $self = $(this);
-        var $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
+    $rubricRadioInputs.closest('label').mousedown(function () {
+        const $self = $(this);
+        const $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
         if ($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
-            var uncheck = function() {
-                setTimeout(function() {
+            const uncheck = function () {
+                setTimeout(() => {
                     $radioInput.prop('checked', false);
                     $radioInput.trigger('change');
                 }, 0);
             };
-            var unbind = function() {
+            const unbind = function () {
                 $self.unbind('mouseup', up);
             };
-            var up = function() {
+            const up = function () {
                 uncheck();
                 unbind();
             };
@@ -452,9 +458,9 @@ function prepareMobileRubricQuestions() {
  * Syncs the mobile ui for rubrics on changes to the desktop ui
  */
 function syncRubricsMobileUi(changedInput) {
-    var $changedInput = $(changedInput);
-    var mobileInputId = '#mobile-' + changedInput.id;
-    var mobileInputName = '[name^="mobile-' + changedInput.name + '"]';
+    const $changedInput = $(changedInput);
+    const mobileInputId = `#mobile-${changedInput.id}`;
+    const mobileInputName = `[name^="mobile-${changedInput.name}"]`;
     if ($changedInput.is(':checked')) {
         $(mobileInputId).click();
     } else {
@@ -467,9 +473,9 @@ function syncRubricsMobileUi(changedInput) {
  * Syncs the desktop ui for rubrics on changes to the mobile ui
  */
 function syncRubricsDesktopUi(changedInput) {
-    var $changedInput = $(changedInput);
-    var desktopInputId = '#' + changedInput.id.replace('mobile-', '');
-    var desktopInputName = '[name^="' + changedInput.name.replace('mobile-', '') + '"]';
+    const $changedInput = $(changedInput);
+    const desktopInputId = `#${changedInput.id.replace('mobile-', '')}`;
+    const desktopInputName = `[name^="${changedInput.name.replace('mobile-', '')}"]`;
     if ($changedInput.is(':checked')) {
         $(desktopInputId).click();
     } else {
@@ -482,9 +488,8 @@ function syncRubricsDesktopUi(changedInput) {
  *  Updates the colour of a rubric cell if it is checked.
  */
 function updateRubricCellSelectedColor(radioInput) {
-
-    var cell = $(radioInput).parent();
-    var tableRow = cell.parent();
+    const cell = $(radioInput).parent();
+    const tableRow = cell.parent();
 
     if ($(radioInput).prop('checked')) {
         cell.addClass('cell-selected');
@@ -495,54 +500,54 @@ function updateRubricCellSelectedColor(radioInput) {
 }
 
 function formatRubricQuestions() {
-    var rubricQuestionNums = getQuestionTypeNumbers('RUBRIC');
-    for (var i = 0; i < rubricQuestionNums.length; i++) {
-        var qnNum = rubricQuestionNums[i];
-        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
-        numResponses = parseInt(numResponses);
+    const rubricQuestionNums = getQuestionTypeNumbers('RUBRIC');
+    for (let i = 0; i < rubricQuestionNums.length; i += 1) {
+        const qnNum = rubricQuestionNums[i];
+        let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
+        numResponses = parseInt(numResponses, 10);
 
-        for (var j = 0; j < numResponses; j++) {
-            var responsetext = [];
+        for (let j = 0; j < numResponses; j += 1) {
+            const responsetext = [];
 
-            var $responses = $('[name^="rubricChoice-' + qnNum + '-' + j + '-"]:checked');
+            const $responses = $(`[name^="rubricChoice-${qnNum}-${j}-"]:checked`);
 
-            for (var k = 0; k < $responses.length; k++) {
+            for (let k = 0; k < $responses.length; k += 1) {
                 responsetext.push($($responses[k]).val());
             }
 
-            $('[name="responsetext-' + qnNum + '-' + j + '"]').val(responsetext);
+            $(`[name="responsetext-${qnNum}-${j}"]`).val(responsetext);
         }
     }
 }
 
 function prepareConstSumQuestions() {
-    var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
+    const constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
 
-    for (var i = 0; i < constSumQuestionNums.length; i++) {
-        var qnNum = constSumQuestionNums[i];
+    for (let i = 0; i < constSumQuestionNums.length; i += 1) {
+        const qnNum = constSumQuestionNums[i];
 
         if (!$('#response_submit_button').is(':disabled')
             || isPreview()) {
-            if ($('#constSumToRecipients-' + qnNum).val() === 'true') {
-                var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
-                numResponses = parseInt(numResponses);
+            if ($(`#constSumToRecipients-${qnNum}`).val() === 'true') {
+                let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
+                numResponses = parseInt(numResponses, 10);
 
-                $('#constSumInfo-' + qnNum + '-' + (numResponses - 1)).show();
+                $(`#constSumInfo-${qnNum}-${numResponses - 1}`).show();
             }
         } else {
-            $('[id^="constSumInfo-' + qnNum + '-"]').hide();
+            $(`[id^="constSumInfo-${qnNum}-"]`).hide();
         }
     }
 }
 
 function getQuestionTypeNumbers(qnType) {
-    var questions = $('input[name^="questiontype-"]').filter(function() {
+    const questions = $('input[name^="questiontype-"]').filter(function () {
         return $(this).val() === qnType;
     });
 
-    var questionNums = [];
+    const questionNums = [];
 
-    for (var i = 0; i < questions.length; i++) {
+    for (let i = 0; i < questions.length; i += 1) {
         questionNums[i] = questions[i].name.substring('questiontype-'.length, questions[i].name.length);
     }
 
@@ -550,44 +555,44 @@ function getQuestionTypeNumbers(qnType) {
 }
 
 function updateConstSumMessages() {
-    var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
+    const constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
 
-    for (var i = 0; i < constSumQuestionNums.length; i++) {
-        var qnNum = constSumQuestionNums[i];
+    for (let i = 0; i < constSumQuestionNums.length; i += 1) {
+        const qnNum = constSumQuestionNums[i];
         updateConstSumMessageQn(qnNum);
     }
 }
 
 function updateConstSumMessageQn(qnNum) {
-    var numOptions = 0;
-    var points = parseInt($('#constSumPoints-' + qnNum).val());
-    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
-    var distributeToRecipients = $('#constSumToRecipients-' + qnNum).val() === 'true';
-    var pointsPerOption = $('#constSumPointsPerOption-' + qnNum).val() === 'true';
-    var forceUnevenDistribution = $('#constSumUnevenDistribution-' + qnNum).val() === 'true';
+    let numOptions = 0;
+    let points = parseInt($(`#constSumPoints-${qnNum}`).val(), 10);
+    const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
+    const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
+    const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
+    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
     if (distributeToRecipients) {
         numOptions = numRecipients;
     } else {
-        numOptions = parseInt($('#constSumNumOption-' + qnNum).val());
+        numOptions = parseInt($(`#constSumNumOption-${qnNum}`).val(), 10);
     }
 
     if (pointsPerOption) {
         points *= numOptions;
     }
 
-    var sum = 0;
-    var remainingPoints = points;
-    var allUnique = true;
-    var allNotNumbers = true;
-    var answerSet = {};
+    let sum = 0;
+    let remainingPoints = points;
+    let allUnique = true;
+    let allNotNumbers = true;
+    let answerSet = {};
 
     function checkAndDisplayMessage(messageElement) {
-        var message = '';
+        let message = '';
 
         if (allNotNumbers) {
-            message = 'Please distribute ' + points + ' points among the above '
-                      + (distributeToRecipients ? 'recipients.' : 'options.');
+            message = `Please distribute ${points} points among the above ${
+                       distributeToRecipients ? 'recipients.' : 'options.'}`;
             messageElement.addClass('text-color-blue');
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
@@ -599,12 +604,12 @@ function updateConstSumMessageQn(qnNum) {
                 messageElement.removeClass('text-color-blue');
             }
         } else if (remainingPoints > 0) {
-            message = remainingPoints + ' points left to distribute.';
+            message = `${remainingPoints} points left to distribute.`;
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
         } else {
-            message = 'Over allocated ' + -remainingPoints + ' points.';
+            message = `Over allocated ${-remainingPoints} points.`;
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
@@ -620,7 +625,7 @@ function updateConstSumMessageQn(qnNum) {
     }
 
     function updateSumBasedOn(ptsAllocatedParam) {
-        var pointsAllocated = ptsAllocatedParam;
+        let pointsAllocated = ptsAllocatedParam;
         if (isNumber(pointsAllocated)) {
             allNotNumbers = false;
         } else {
@@ -637,10 +642,10 @@ function updateConstSumMessageQn(qnNum) {
     }
 
     if (distributeToRecipients) {
-        var $constSumMessageElement = $('#constSumMessage-' + qnNum + '-' + (numOptions - 1));
+        const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${numOptions - 1}`);
 
-        for (var i = 0; i < numOptions; i++) {
-            var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val());
+        for (let i = 0; i < numOptions; i += 1) {
+            const pointsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10);
 
             updateSumBasedOn(pointsAllocated);
         }
@@ -649,17 +654,17 @@ function updateConstSumMessageQn(qnNum) {
 
         checkAndDisplayMessage($constSumMessageElement);
     } else {
-        for (var j = 0; j < numRecipients; j++) {
+        for (let j = 0; j < numRecipients; j += 1) {
             sum = 0;
             allNotNumbers = true;
             answerSet = {};
             allUnique = true;
             remainingPoints = points;
 
-            var $constSumMsgElement = $('#constSumMessage-' + qnNum + '-' + j);
+            const $constSumMsgElement = $(`#constSumMessage-${qnNum}-${j}`);
 
-            for (var k = 0; k < numOptions; k++) {
-                var ptsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + j + '-' + k).val());
+            for (let k = 0; k < numOptions; k += 1) {
+                const ptsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${j}-${k}`).val(), 10);
 
                 updateSumBasedOn(ptsAllocated);
             }
@@ -676,19 +681,19 @@ function validateConstSumQuestions() {
 
     // When any of the const sum questions has an error.
     if ($('p[id^="constSumMessage-"].text-color-red').length > 0) {
-        var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
-        var statusMessage = 'Please fix the error(s) for distribution question(s)';
-        var errorCount = 0;
+        const constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
+        let statusMessage = 'Please fix the error(s) for distribution question(s)';
+        let errorCount = 0;
 
-        for (var i = 0; i < constSumQuestionNums.length; i++) {
-            var qnNum = constSumQuestionNums[i];
+        for (let i = 0; i < constSumQuestionNums.length; i += 1) {
+            const qnNum = constSumQuestionNums[i];
 
             // indicate the question number where the errors are located at
-            if ($('p[id^="constSumMessage-' + qnNum + '-"].text-color-red').length > 0) {
+            if ($(`p[id^="constSumMessage-${qnNum}-"].text-color-red`).length > 0) {
                 statusMessage += errorCount === 0 ? '' : ',';
                 statusMessage += ' ';
                 statusMessage += qnNum;
-                errorCount++;
+                errorCount += 1;
             }
         }
 
@@ -707,43 +712,43 @@ function validateConstSumQuestions() {
  * Binds further changes to show/hide options such that duplicates cannot be selected.
  */
 function formatRecipientLists() {
-    $('select.participantSelect').each(function() {
+    $('select.participantSelect').each(function () {
         if (!$(this).hasClass('.newResponse')) {
             // Remove options from existing responses
-            var questionNumber = $(this).attr('name').split('-')[1];
-            var selectedOption = $(this).find('option:selected').val();
+            const questionNumber = $(this).attr('name').split('-')[1];
+            let selectedOption = $(this).find('option:selected').val();
 
             if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
-                $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
+                $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
                     .not(this)
                     // leave this in double quotes and single within, will fail otherwise
-                    .find("option[value='" + selectedOption + "']")
+                    .find(`option[value='${selectedOption}']`)
                         .hide();
             }
         }
 
         // Save initial data.
         $(this).data('previouslySelected', $(this).val());
-    }).change(function() {
-        var questionNumber = $(this).attr('name').split('-')[1];
-        var lastSelectedOption = $(this).data('previouslySelected');
-        var curSelectedOption = $(this).find('option:selected').val();
+    }).change(function () {
+        const questionNumber = $(this).attr('name').split('-')[1];
+        const lastSelectedOption = $(this).data('previouslySelected');
+        let curSelectedOption = $(this).find('option:selected').val();
 
         if (lastSelectedOption !== '') {
-            $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
+            $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
                 .not(this)
                 // leave this in double quotes and single within, will fail otherwise
-                .find("option[value='" + lastSelectedOption + "']")
+                .find(`option[value='${lastSelectedOption}']`)
                     .show();
         }
 
         if (curSelectedOption !== '') {
             curSelectedOption = sanitizeForJs(curSelectedOption);
-            $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
+            $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
                 .not(this)
                 // leave this in double quotes and single within, will fail otherwise
-                .find("option[value='" + curSelectedOption + "']")
+                .find(`option[value='${curSelectedOption}']`)
                     .hide();
         }
 
@@ -752,13 +757,13 @@ function formatRecipientLists() {
     });
 
     // Auto-select first valid option.
-    $('select.participantSelect.newResponse').each(function() {
-        var firstUnhidden = '';
+    $('select.participantSelect.newResponse').each(function () {
+        let firstUnhidden = '';
 
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
-            $($(this).children().get().reverse()).each(function() {
+            $($(this).children().get().reverse()).each(function () {
                 if (this.style.display !== 'none' && $(this).val() !== '') {
                     firstUnhidden = this;
                 }
@@ -774,10 +779,10 @@ function reenableFieldsForSubmission() {
 }
 
 function validateNumScaleAnswer(qnIdx, responseIdx) {
-    var $answerBox = $('[name=responsetext-' + qnIdx + '-' + responseIdx + ']');
-    var min = parseInt($answerBox.attr('min'));
-    var max = parseInt($answerBox.attr('max'));
-    var answer = parseInt($answerBox.val());
+    const $answerBox = $(`[name=responsetext-${qnIdx}-${responseIdx}]`);
+    const min = parseInt($answerBox.attr('min'), 10);
+    const max = parseInt($answerBox.attr('max'), 10);
+    const answer = parseInt($answerBox.val(), 10);
 
     if (answer < min) {
         $answerBox.val($answerBox.attr('min'));
@@ -787,7 +792,7 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
 }
 
 function isAnswerBlank(question, response) {
-    var $answer = $('[name=responsetext-' + question + '-' + response + ']');
+    const $answer = $(`[name=responsetext-${question}-${response}]`);
 
     if ($answer.attr('type') === 'radio' || $answer.attr('type') === 'checkbox') {
         // for question types that involve checking boxes such as MSQ, MCQ
@@ -798,68 +803,66 @@ function isAnswerBlank(question, response) {
 
 // Checks that there are no responses written to an unspecified recipient
 function validateAllAnswersHaveRecipient() {
-    var blankRecipients = $('select[name^="responserecipient-"]').filter(function() {
+    const blankRecipients = $('select[name^="responserecipient-"]').filter(function () {
         return $(this).val() === '';
     });
 
-    var isAllAnswersToMissingRecipientEmpty = true;
-    var statusMessage = FEEDBACK_MISSING_RECIPIENT;
-    var errorCount = 0;
+    let isAllAnswersToMissingRecipientEmpty = true;
+    let statusMessage = FEEDBACK_MISSING_RECIPIENT;
+    let errorCount = 0;
 
     // for every response without a recipient, check that the response is empty
-    for (var i = 0; i < blankRecipients.length; i++) {
-        var recipient = blankRecipients[i];
+    for (let i = 0; i < blankRecipients.length; i += 1) {
+        const recipient = blankRecipients[i];
 
-        var question = $(recipient).attr('name').split('-')[1];
-        var response = $(recipient).attr('name').split('-')[2];
+        const question = $(recipient).attr('name').split('-')[1];
+        const response = $(recipient).attr('name').split('-')[2];
 
         if (!isAnswerBlank(question, response)) {
             statusMessage += errorCount === 0 ? '' : ',';
             statusMessage += ' ';
             statusMessage += question;
-            errorCount++;
+            errorCount += 1;
 
             isAllAnswersToMissingRecipientEmpty = false;
         }
     }
 
     if (!isAllAnswersToMissingRecipientEmpty) {
-        setStatusMessage(statusMessage + '.', StatusType.DANGER);
+        setStatusMessage(`${statusMessage}.`, StatusType.DANGER);
     }
 
     return isAllAnswersToMissingRecipientEmpty;
 }
 
 function prepareRankQuestions() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
+    const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
-    for (var i = 0; i < rankQuestionNums.length; i++) {
-        var qnNum = rankQuestionNums[i];
+    for (let i = 0; i < rankQuestionNums.length; i += 1) {
+        const qnNum = rankQuestionNums[i];
 
-        var isRankingRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
+        const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
 
         if (!$('#response_submit_button').is(':disabled')
             || isPreview()) {
-
             if (isRankingRecipients) {
-                var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
-                numResponses = parseInt(numResponses);
+                let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
+                numResponses = parseInt(numResponses, 10);
 
-                $('#rankInfo-' + qnNum + '-' + (numResponses - 1)).show();
+                $(`#rankInfo-${qnNum}-${numResponses - 1}`).show();
             }
         } else {
-            $('[id^="rankInfo-' + qnNum + '-"]').hide();
+            $(`[id^="rankInfo-${qnNum}-"]`).hide();
         }
-
     }
     updateRankMessages();
 }
 
 function updateRankMessages() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
+    const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
-    for (var i = 0; i < rankQuestionNums.length; i++) {
-        var qnNum = rankQuestionNums[i];
+    for (let i = 0; i < rankQuestionNums.length; i += 1) {
+        const qnNum = rankQuestionNums[i];
         updateRankMessageQn(qnNum);
     }
 }
@@ -869,19 +872,19 @@ function validateRankQuestions() {
 
     // if any of the rank questions has an error.
     if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
-        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
-        var statusMessage = 'Please fix the error(s) for rank question(s)';
-        var errorCount = 0;
+        const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
+        let statusMessage = 'Please fix the error(s) for rank question(s)';
+        let errorCount = 0;
 
-        for (var i = 0; i < rankQuestionNums.length; i++) {
-            var qnNum = rankQuestionNums[i];
+        for (let i = 0; i < rankQuestionNums.length; i += 1) {
+            const qnNum = rankQuestionNums[i];
 
             // indicate the question number where the errors are located at
-            if ($('p[id^="rankMessage-' + qnNum + '-"].text-color-red').length > 0) {
+            if ($(`p[id^="rankMessage-${qnNum}-"].text-color-red`).length > 0) {
                 statusMessage += errorCount === 0 ? '' : ',';
                 statusMessage += ' ';
                 statusMessage += qnNum;
-                errorCount++;
+                errorCount += 1;
             }
         }
 
@@ -896,16 +899,16 @@ function validateRankQuestions() {
 }
 
 function updateRankMessageQn(qnNum) {
-    var isDistributingToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
-    var areDuplicateRanksAllowed = $('#rankAreDuplicatesAllowed-' + qnNum).val() === 'true';
-    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val(), 10);
+    const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
+    const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+    const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
 
-    var numOptions = isDistributingToRecipients ? numRecipients
-                                                : parseInt($('#rankNumOptions-' + qnNum).val(), 10);
+    const numOptions = isDistributingToRecipients ? numRecipients
+                                                : parseInt($(`#rankNumOptions-${qnNum}`).val(), 10);
 
-    var areAllAnswersUnique;
-    var allocatedRanks;
-    var isAllOptionsRanked;
+    let areAllAnswersUnique;
+    let allocatedRanks;
+    let isAllOptionsRanked;
 
     function resetState() {
         allocatedRanks = {};
@@ -913,17 +916,17 @@ function updateRankMessageQn(qnNum) {
         isAllOptionsRanked = true;
     }
 
-    function updateRankMessages($messageElement) {
+    function updateRankMessagesInUpdatingRankMessageQn($messageElement) {
         $messageElement.removeClass('text-color-red text-color-green text-color-blue');
 
-        var message = '';
+        let message = '';
 
         if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
             message += ' The same rank should not be given multiple times. ';
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked) {
-            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. '
-                                                                             : 'options. ');
+            message = `Please rank the above ${isDistributingToRecipients ? 'recipients. '
+                                                                             : 'options. '}`;
             $messageElement.addClass('text-color-blue');
         }
 
@@ -947,11 +950,11 @@ function updateRankMessageQn(qnNum) {
         allocatedRanks[rankAllocated] = true;
     }
 
-    function updateDropdownOptions(qnNum, recipientIndex) {
-        var dropdownSelect = $('select[id^="responsetext-' + qnNum + '-' + recipientIndex + '-"]');
+    function updateDropdownOptions(questionNumber, recipientIndex) {
+        const dropdownSelect = $(`select[id^="responsetext-${questionNumber}-${recipientIndex}-"]`);
 
-        dropdownSelect.find('option').each(function() {
-            if (allocatedRanks.hasOwnProperty($(this).val())) {
+        dropdownSelect.find('option').each(function () {
+            if ($(this).val() in allocatedRanks) {
                 $(this).addClass('color_neutral');
             } else {
                 $(this).removeClass('color_neutral');
@@ -963,31 +966,31 @@ function updateRankMessageQn(qnNum) {
         // for Rank Recipients question
         resetState();
 
-        var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + (numOptions - 1));
+        const $rankMessageElement = $(`#rankMessage-${qnNum}-${numOptions - 1}`);
 
-        for (var i = 0; i < numOptions; i++) {
-            var rankAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val(), 10);
+        for (let i = 0; i < numOptions; i += 1) {
+            const rankAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10);
             updateAllocatedRanks(rankAllocated);
         }
-        for (var j = 0; j < numOptions; j++) {
+        for (let j = 0; j < numOptions; j += 1) {
             updateDropdownOptions(qnNum, j);
         }
 
-        updateRankMessages($rankMessageElement);
+        updateRankMessagesInUpdatingRankMessageQn($rankMessageElement);
     } else {
         // for Rank options question
-        for (var i1 = 0; i1 < numRecipients; i1++) {
+        for (let i1 = 0; i1 < numRecipients; i1 += 1) {
             resetState();
 
-            var $rankMsgElement = $('#rankMessage-' + qnNum + '-' + i1);
+            const $rankMsgElement = $(`#rankMessage-${qnNum}-${i1}`);
 
-            for (var j1 = 0; j1 < numOptions; j1++) {
-                var rankAlloc = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i1 + '-' + j1).val(), 10);
+            for (let j1 = 0; j1 < numOptions; j1 += 1) {
+                const rankAlloc = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i1}-${j1}`).val(), 10);
                 updateAllocatedRanks(rankAlloc);
             }
 
             updateDropdownOptions(qnNum, i1);
-            updateRankMessages($rankMsgElement);
+            updateRankMessagesInUpdatingRankMessageQn($rankMsgElement);
         }
     }
 }
@@ -1013,22 +1016,20 @@ function getWarningMessage() {
  * @param wordsCountId - Id of Label to display length of text area
  */
 function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLength) {
-    var editor = tinymce.get(textAreaId);
+    const editor = tinymce.get(textAreaId);
     if (!editor) {
         return;
     }
 
-    var response = $(editor.getContent()).text();
-    var $wordsCountElement = $('#' + wordsCountId);
+    const response = $(editor.getContent()).text();
+    const $wordsCountElement = $(`#${wordsCountId}`);
 
-    var wordsCount = response.split(/\s/g).filter(function(item) {
-        return item.match(/\w/);
-    }).length;
+    const wordsCount = response.split(/\s/g).filter(item => item.match(/\w/)).length;
 
     $wordsCountElement.text(wordsCount);
 
-    var upperLimit = recommendedLength + recommendedLength * 0.1;
-    var lowerLimit = recommendedLength - recommendedLength * 0.1;
+    const upperLimit = recommendedLength + recommendedLength * 0.1;
+    const lowerLimit = recommendedLength - recommendedLength * 0.1;
 
     if (wordsCount > lowerLimit && wordsCount < upperLimit) {
         $wordsCountElement.css('color', 'green');
