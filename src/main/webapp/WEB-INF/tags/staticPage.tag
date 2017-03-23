@@ -52,9 +52,9 @@
         </div>
     </div>
     <footer id="footerComponent">
-        <div class="container">
+        <div class="container text-nowrap">
             <div class="row">
-                <div class="col-xs-12 col-md-2 col-md-offset-10">
+                <div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
                     Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
                 </div>
             </div>
