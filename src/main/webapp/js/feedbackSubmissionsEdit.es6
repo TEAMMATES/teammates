@@ -52,8 +52,9 @@ $(document).ready(() => {
     $('form[name="form_submit_response"]').submit((e) => {
         formatRubricQuestions();
 
-        const validationChecks = [validateConstSumQuestions, validateRankQuestions, validateAllAnswersHaveRecipient];
-        const validationStatus = validationChecks.reduce((acc, f) => acc && f(), true);
+        const validationStatus = validateConstSumQuestions()
+                                 && validateRankQuestions()
+                                 && validateAllAnswersHaveRecipient();
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
