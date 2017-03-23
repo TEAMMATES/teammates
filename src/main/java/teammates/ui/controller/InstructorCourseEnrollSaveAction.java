@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -26,6 +27,8 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
  * Action: saving the list of enrolled students for a course of an instructor.
  */
 public class InstructorCourseEnrollSaveAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {

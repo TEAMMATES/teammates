@@ -11,6 +11,9 @@ import teammates.ui.pagedata.StudentProfilePageData;
 import teammates.ui.template.StudentProfileEditBox;
 import teammates.ui.template.StudentProfileUploadPhotoModal;
 
+/**
+ * SUT: {@link StudentProfilePageData}.
+ */
 public class StudentProfilePageDataTest extends BaseTestCase {
 
     private StudentProfileAttributes spa;

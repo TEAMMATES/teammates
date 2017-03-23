@@ -9,6 +9,9 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.exception.EnrollException;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link StudentAttributesFactory}.
+ */
 public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @Test

@@ -18,6 +18,9 @@ import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link CommentAttributes}.
+ */
 public class CommentAttributesTest extends BaseTestCase {
     private String courseId;
     private String giverEmail;

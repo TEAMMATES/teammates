@@ -17,6 +17,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
+/**
+ * Provides mechanism for HTML comparison during testing.
+ * GodMode is also configured here.
+ */
 public final class HtmlHelper {
 
     private static final String INDENTATION_STEP = "  ";

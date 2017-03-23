@@ -12,6 +12,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -20,6 +21,12 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 
+/**
+ * Base class for all browser tests.
+ *
+ * <p>This type of test has no knowledge of the workings of the application,
+ * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
+ */
 public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
 
     /** Indicates if the test-run is to use GodMode. */

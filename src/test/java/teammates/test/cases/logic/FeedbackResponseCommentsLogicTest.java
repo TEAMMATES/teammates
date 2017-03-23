@@ -17,6 +17,9 @@ import teammates.logic.core.FeedbackResponsesLogic;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackResponseCommentsLogic}.
+ */
 public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();

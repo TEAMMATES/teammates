@@ -13,8 +13,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * Tests 'Submit Feedback' view of instructors.
- * SUT: {@link FeedbackSubmitPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
  */
 public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;

@@ -12,6 +12,9 @@ import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
+/**
+ * SUT: {@link InstructorCourseEnrollResultPageData}.
+ */
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
