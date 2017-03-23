@@ -207,20 +207,20 @@ function updateStatsCheckBox() {
 
 /**
  * Expands or collapses all panels when collapse/expand panels button is clicked.
- * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}
- * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@param expandCollapseButton}
+ * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
+ * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@code expandCollapseButton}
  *         is collapse panels button.
  */
 function expandOrCollapsePanels(expandCollapseButton, panels) {
     var STRING_EXPAND = 'Expand';
     var STRING_COLLAPSE = 'Collapse';
-    // {@param panels} is not defined when @param expandCollapseButton} is collapse panels button. We
+    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
     // need to define corresponding {@code targetPanels}.
     var targetPanels = panels || $('div.panel-collapse');
 
     var isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
     if (isButtonInExapandMode) {
-        // The expand/collapse button on AJAX-loaded panels is of id collapse-panels-button
+        // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         var areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
         expandPanels(targetPanels, areAjaxLoadedPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
@@ -242,7 +242,7 @@ function expandPanels(panels, areAjaxLoadedPanels) {
 }
 
 /**
- * Expands {@param panel}. If the panel data is not loaded, load it by Ajax.
+ * Expands {@code panel}. If the panel data is not loaded, load it by Ajax.
  * @param {int} timeOut - is in milliseconds
  */
 function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
@@ -251,8 +251,7 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
         return;
     }
 
-    if (isAjaxLoadedPanel) {
-        // Might need to load the panel data by Ajax.
+    if (isAjaxLoadedPanel) { // Might need to load the panel data by Ajax.
         var $elementToClickForAjaxLoading = getElementToClickForAjaxLoading(panel);
         var needToLoadThePanelDataByClickingOnElement = $elementToClickForAjaxLoading.length !== 0;
         if (needToLoadThePanelDataByClickingOnElement) {
@@ -265,7 +264,7 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
         }
     }
 
-    // expand this panel
+    // Expands this panel.
     setTimeout(showSingleCollapse, timeOut, panel);
 }
 
@@ -290,18 +289,18 @@ function collapsePanels(panels) {
         if (isPanelAlreadyCollapsed) {
             continue;
         }
-        // collapse this panel
+        // Collapses this panel.
         setTimeout(hideSingleCollapse, idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, panels[idx]);
     }
 }
 
 function replaceButtonHtmlAndTooltipText(button, from, to) {
-    // Replace html text of the {@param button}
+    // Replaces html text of the {@code button}.
     var htmlString = $(button).html();
     htmlString = htmlString.replace(from, to);
     $(button).html(htmlString);
 
-    // Replace tooltip text of the {@param button}
+    // Replaces tooltip text of the {@code button}.
     var tooltipString = $(button).attr('data-original-title').replace(from, to);
     $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
 }
