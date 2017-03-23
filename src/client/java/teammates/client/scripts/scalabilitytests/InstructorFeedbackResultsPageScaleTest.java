@@ -11,7 +11,8 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 
 /**
- * Tests 'Feedback Results' view of instructors.
+ * Tests 'Feedback Results' view of instructors. Run 'InstructorFeedbackResultsPageScaleTestDataGenerator.py' before
+ * running the tests.
  * SUT: {@link InstructorFeedbackResultsPage}.
  */
 @Priority(-1)

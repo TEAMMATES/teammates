@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Covers 'enroll' view for instructors.
+ * Covers 'enroll' view for instructors. Run 'instructorCourseEnrollPageScaleTestDataGenerator.py' before running the tests.
  * SUT: {@link InstructorCourseEnrollPage}.
  */
 public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
