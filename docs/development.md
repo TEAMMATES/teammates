@@ -40,7 +40,6 @@ Click the "Terminate" icon on the Eclipse console.
 
 1. Go to `File → Project Structure...`.
 1. Under `Artifacts → Gradle : <your-project-name>.war (exploded)`, check `Include in project build`.
-1. Modify `Output Directory` : `{Project Home dir}/build/libs/exploded/teammates.war` to `{Project Home dir}/build/exploded-app`.
 1. Click `OK`.
 1. Got to `Run → Edit Configurations...`.
 1. Click `+ → Google AppEngine Dev Server`.

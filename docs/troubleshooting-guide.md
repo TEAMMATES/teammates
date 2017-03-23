@@ -183,8 +183,21 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
 1. **ERROR (on Linux)**: `java.io.IOException: Directory "/tmpfiles" could not be created`.
 
-   **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
+  **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 
+  1. **ERROR**: Error message that running dev server :
+             `Cannot start process, the working directory '{project home directory}/build/libs/exploded/teammates.war' does not exist`.
+             Or Error in console with
+             `Could not locate /.../appengine-web.xml`.
+             
+
+  **SOLUTION**: 
+  When follow setting guideline `File → Project Structure...` and 
+                `Under Artifacts → Gradle : <your-project-name>.war (exploded)`
+                In Development Guideline Documents,
+  Fix the default Output directory path and pointed it to another path that include `appengine-web.xml` file.
+  (e.g `/{project home directory}/build/exploded-app`)
+   
 ## Submitting help request
 
 If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to request for help.
