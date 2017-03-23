@@ -390,7 +390,6 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
         getCommentsForGiverQuery(courseId, email).deletePersistentAll();
-        getPm().flush();
     }
 
     /*
@@ -403,7 +402,6 @@ public class CommentsDb extends EntitiesDb {
 
         // student right now cannot be giver, so no need to&should not check for giver
         getCommentsForRecipientsQuery(courseId, CommentParticipantType.PERSON, email).deletePersistentAll();
-        getPm().flush();
     }
 
     /*
@@ -416,7 +414,6 @@ public class CommentsDb extends EntitiesDb {
 
         // student right now cannot be giver, so no need to&should not check for giver
         getCommentsForRecipientsQuery(courseId, CommentParticipantType.TEAM, teamName).deletePersistentAll();
-        getPm().flush();
     }
 
     /*
@@ -429,7 +426,6 @@ public class CommentsDb extends EntitiesDb {
 
         // student right now cannot be giver, so no need to&should not check for giver
         getCommentsForRecipientsQuery(courseId, CommentParticipantType.SECTION, sectionName).deletePersistentAll();
-        getPm().flush();
     }
 
     /*
@@ -440,7 +436,6 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         getCommentsForCourseQuery(courseId).deletePersistentAll();
-        getPm().flush();
     }
 
     /*
@@ -451,7 +446,6 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         getCommentsForCoursesQuery(courseIds).deletePersistentAll();
-        getPm().flush();
     }
 
     /*

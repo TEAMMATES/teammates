@@ -513,7 +513,6 @@ public class FeedbackSessionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         getFeedbackSessionsForCoursesQuery(courseIds).deletePersistentAll();
-        getPm().flush();
     }
 
     private QueryWithParams getFeedbackSessionsForCoursesQuery(List<String> courseIds) {

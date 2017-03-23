@@ -484,11 +484,11 @@ public class StudentsDb extends EntitiesDb {
             if (courseStudentToDelete != null) {
                 deleteDocument(new StudentAttributes(courseStudentToDelete));
                 getPm().deletePersistent(courseStudentToDelete);
+                getPm().flush();
             }
         } else {
             getCourseStudentForEmailQuery(courseId, email).deletePersistentAll();
         }
-        getPm().flush();
 
         // Check delete operation persisted
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -533,10 +533,10 @@ public class StudentsDb extends EntitiesDb {
                 deleteDocument(new StudentAttributes(student));
             }
             getPm().deletePersistentAll(courseStudents);
+            getPm().flush();
         } else {
             getCourseStudentsForGoogleIdQuery(googleId).deletePersistentAll();
         }
-        getPm().flush();
     }
 
     /**
@@ -563,10 +563,10 @@ public class StudentsDb extends EntitiesDb {
                 deleteDocument(new StudentAttributes(student));
             }
             getPm().deletePersistentAll(courseStudentList);
+            getPm().flush();
         } else {
             getCourseStudentsForCourseQuery(courseId).deletePersistentAll();
         }
-        getPm().flush();
     }
 
     public void deleteStudentsForCourses(List<String> courseIds) {
@@ -574,7 +574,6 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         getCourseStudentsForCoursesQuery(courseIds).deletePersistentAll();
-        getPm().flush();
     }
 
     /**

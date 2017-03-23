@@ -664,7 +664,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         getFeedbackResponsesForCoursesQuery(courseIds).deletePersistentAll();
-        getPm().flush();
     }
 
     private QueryWithParams getFeedbackResponsesForCoursesQuery(List<String> courseIds) {

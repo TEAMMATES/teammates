@@ -187,7 +187,6 @@ public abstract class EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
         getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
-        getPm().flush();
 
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -219,8 +218,6 @@ public abstract class EntitiesDb {
             log.info(entityToDelete.getBackupIdentifier());
             getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
         }
-
-        getPm().flush();
     }
 
     public void commitOutstandingChanges() {
