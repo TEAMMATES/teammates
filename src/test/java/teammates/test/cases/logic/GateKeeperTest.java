@@ -9,6 +9,9 @@ import teammates.common.datatransfer.UserType;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
+/**
+ * SUT: {@link GateKeeper}.
+ */
 public class GateKeeperTest extends BaseLogicTest {
 
     private static GateKeeper gateKeeper = new GateKeeper();

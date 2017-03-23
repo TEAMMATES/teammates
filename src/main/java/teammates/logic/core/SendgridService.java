@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 import com.sendgrid.SendGrid;
 import com.sendgrid.SendGrid.Email;
@@ -17,6 +18,8 @@ import com.sendgrid.SendGridException;
  * @see SendGrid
  */
 public class SendgridService extends EmailSenderService {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * {@inheritDoc}

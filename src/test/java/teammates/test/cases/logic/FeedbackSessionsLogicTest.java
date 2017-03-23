@@ -39,6 +39,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackSessionsLogic}.
+ */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();

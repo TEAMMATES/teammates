@@ -6,6 +6,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.StudentCommentsPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#STUDENT_COMMENTS_PAGE}.
+ */
 public class StudentCommentsPageUiTest extends BaseUiTestCase {
 
     @Override

@@ -14,6 +14,9 @@ import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
+/**
+ * SUT: {@link StudentCourseJoinAuthenticatedAction}.
+ */
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     private DataBundle dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
 

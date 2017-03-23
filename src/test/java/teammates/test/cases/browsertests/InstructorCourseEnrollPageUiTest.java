@@ -12,8 +12,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollResultPage;
 import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 
 /**
- * Covers 'enroll' view for instructors.
- * SUT: {@link InstructorCourseEnrollPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
  */
 public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private InstructorCourseEnrollPage enrollPage;

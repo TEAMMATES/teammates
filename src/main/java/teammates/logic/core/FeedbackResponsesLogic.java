@@ -63,6 +63,11 @@ public final class FeedbackResponsesLogic {
         }
     }
 
+    public void createFeedbackResponses(List<FeedbackResponseAttributes> fra)
+            throws InvalidParametersException {
+        frDb.createEntities(fra);
+    }
+
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackResponseId) {
         return frDb.getFeedbackResponse(feedbackResponseId);

@@ -16,6 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -27,6 +28,8 @@ import com.google.appengine.api.blobstore.BlobKey;
  * @see AdminEmailAttributes
  */
 public class AdminEmailsDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {

@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
@@ -23,6 +24,8 @@ import com.mailjet.client.resource.Email;
  * @see MailjetResponse
  */
 public class MailjetService extends EmailSenderService {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * {@inheritDoc}

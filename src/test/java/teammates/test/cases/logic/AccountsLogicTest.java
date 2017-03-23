@@ -23,6 +23,9 @@ import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 
+/**
+ * SUT: {@link AccountsLogic}.
+ */
 public class AccountsLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();

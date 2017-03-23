@@ -14,37 +14,64 @@ import teammates.common.util.Url;
  */
 public final class TestProperties {
 
+    /** The directory where HTML files for testing pages are stored. */
     public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
+
+    /** The directory where HTML files for testing email contents are stored. */
     public static final String TEST_EMAILS_FOLDER = "src/test/resources/emails";
+
+    /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
-    public static final String TEAMMATES_REMOTEAPI_APP_DOMAIN;
-    public static final int TEAMMATES_REMOTEAPI_APP_PORT;
-
+    /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
+
+    /** The version number of the application under test. */
     public static final String TEAMMATES_VERSION;
 
+    /** The value of "test.instructor.account" in test.properties file. */
     public static final String TEST_INSTRUCTOR_ACCOUNT;
+
+    /** The value of "test.instructor.password" in test.properties file. */
     public static final String TEST_INSTRUCTOR_PASSWORD;
 
+    /** The value of "test.student1.account" in test.properties file. */
     public static final String TEST_STUDENT1_ACCOUNT;
+
+    /** The value of "test.student1.password" in test.properties file. */
     public static final String TEST_STUDENT1_PASSWORD;
 
+    /** The value of "test.student2.account" in test.properties file. */
     public static final String TEST_STUDENT2_ACCOUNT;
+
+    /** The value of "test.student2.password" in test.properties file. */
     public static final String TEST_STUDENT2_PASSWORD;
 
+    /** The value of "test.admin.account" in test.properties file. */
     public static final String TEST_ADMIN_ACCOUNT;
+
+    /** The value of "test.admin.password" in test.properties file. */
     public static final String TEST_ADMIN_PASSWORD;
 
+    /** The value of "test.unreg.account" in test.properties file. */
     public static final String TEST_UNREG_ACCOUNT;
+
+    /** The value of "test.unreg.password" in test.properties file. */
     public static final String TEST_UNREG_PASSWORD;
 
+    /** The value of "test.backdoor" in test.properties file. */
     public static final String BACKDOOR_KEY;
 
+    /** The value of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER;
+
+    /** The value of "test.firefox.path" in test.properties file. */
     public static final String FIREFOX_PATH;
+
+    /** The value of "test.chromedriver.path" in test.properties file. */
     public static final String CHROMEDRIVER_PATH;
 
+    /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
     static {
@@ -53,12 +80,6 @@ public final class TestProperties {
             prop.load(new FileInputStream("src/test/resources/test.properties"));
 
             TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
-
-            // remove "http\://" and "https\://"
-            String remoteApiDomain = TEAMMATES_URL.substring(TEAMMATES_URL.indexOf("://") + 3);
-            TEAMMATES_REMOTEAPI_APP_DOMAIN = remoteApiDomain.split(":")[0];
-            TEAMMATES_REMOTEAPI_APP_PORT =
-                    remoteApiDomain.contains(":") ? Integer.parseInt(remoteApiDomain.split(":")[1]) : 443;
 
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
@@ -98,7 +119,7 @@ public final class TestProperties {
         return TEAMMATES_URL.contains("localhost");
     }
 
-    public static String extractVersionNumber(String inputString) {
+    private static String extractVersionNumber(String inputString) {
         String startTag = "<version>";
         String endTag = "</version>";
         int startPos = inputString.indexOf(startTag) + startTag.length();

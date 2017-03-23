@@ -18,6 +18,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Instructor;
@@ -34,6 +35,8 @@ import com.google.appengine.api.search.ScoredDocument;
  * @see InstructorAttributes
  */
 public class InstructorsDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     /* =========================================================================
      * Methods related to Google Search API

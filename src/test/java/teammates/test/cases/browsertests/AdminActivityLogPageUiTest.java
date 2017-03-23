@@ -10,6 +10,9 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.pageobjects.AdminActivityLogPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_ACTIVITY_LOG_PAGE}.
+ */
 public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
     private AdminActivityLogPage logPage;
