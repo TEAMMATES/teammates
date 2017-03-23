@@ -207,36 +207,37 @@ function updateStatsCheckBox() {
 
 /**
  * Expands or collapses all panels when collapse/expand panels button is clicked.
- * @param {DOM} element - The element that was clicked to invoke {@code #expandOrCollapsePanels}
- * @param {DOM} panels - The panels to be expanded/collapsed. not defined if {@param element} is
- *         collapse panels button.
+ * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}
+ * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@param expandCollapseButton}
+ *         is collapse panels button.
  */
-function expandOrCollapsePanels(element, panels) {
+function expandOrCollapsePanels(expandCollapseButton, panels) {
     var STRING_EXPAND = 'Expand';
     var STRING_COLLAPSE = 'Collapse';
+    // {@param panels} is not defined when @param expandCollapseButton} is collapse panels button. We
+    // need to define corresponding {@code targetPanels}.
     var targetPanels = panels || $('div.panel-collapse');
-    var isElementAnExpandButton = $(element).html().trim().startsWith(STRING_EXPAND);
 
-    if (isElementAnExpandButton) {
-        expandPanels(element, targetPanels);
-        replaceButtonHtmlAndTooltipText(element, STRING_EXPAND, STRING_COLLAPSE);
+    var isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+    if (isButtonInExapandMode) {
+        // The expand/collapse button on AJAX-loaded panels is of id collapse-panels-button
+        var areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
+        expandPanels(targetPanels, areAjaxLoadedPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
     } else {
         collapsePanels(targetPanels);
-        replaceButtonHtmlAndTooltipText(element, STRING_COLLAPSE, STRING_EXPAND);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
     }
 }
 
 /**
  * Expands all panels. Loads panel data if missing.
- * @param {DOM} element - The element that was clicked to invoke {@code #expandOrCollapsePanels}
  */
-function expandPanels(element, panels) {
-    // The expand/collapse button on AJAX-loaded panels is of id collapse-panels-button
-    var areAjaxLoadedPanels = $(element).is($('#collapse-panels-button'));
-    var BASE_TIME_OUT_UNIT_IN_MILLI_SECOND = 50;
+function expandPanels(panels, areAjaxLoadedPanels) {
+    var BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 50;
 
     for (var idx = 0; idx < panels.length; idx++) {
-        expandPanel(panels[idx], idx * BASE_TIME_OUT_UNIT_IN_MILLI_SECOND, areAjaxLoadedPanels);
+        expandPanel(panels[idx], idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, areAjaxLoadedPanels);
     }
 }
 
@@ -269,8 +270,9 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
 }
 
 /**
- * @return {DOM} the element that has class ajax_auto or ajax-response-auto(not both). The element can be
- *         clicked to load the {@param panel} content by Ajax.
+ * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
+ *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
+ *         element.
  */
 function getElementToClickForAjaxLoading(panel) {
     var $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
@@ -281,24 +283,25 @@ function getElementToClickForAjaxLoading(panel) {
 }
 
 function collapsePanels(panels) {
-    var BASE_TIME_OUT_UNIT_IN_MILLI_SECOND = 100;
+    var BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 100;
+
     for (var idx = 0; idx < panels.length; idx++) {
         var isPanelAlreadyCollapsed = !$(panels[idx]).hasClass('in');
         if (isPanelAlreadyCollapsed) {
             continue;
         }
         // collapse this panel
-        setTimeout(hideSingleCollapse, idx * BASE_TIME_OUT_UNIT_IN_MILLI_SECOND, panels[idx]);
+        setTimeout(hideSingleCollapse, idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, panels[idx]);
     }
 }
 
 function replaceButtonHtmlAndTooltipText(button, from, to) {
-    // Replace html text of the {@code button}
+    // Replace html text of the {@param button}
     var htmlString = $(button).html();
     htmlString = htmlString.replace(from, to);
     $(button).html(htmlString);
 
-    // Replace tooltip text of the {@code button}
+    // Replace tooltip text of the {@param button}
     var tooltipString = $(button).attr('data-original-title').replace(from, to);
     $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
 }
