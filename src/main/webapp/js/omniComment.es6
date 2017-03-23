@@ -1,16 +1,25 @@
-'use strict';
+/* global tinyMCE:false,
+          BootboxWrapper:false,
+          StatusType:false,
+          richTextEditorBuilder:false,
+          tinymce:false,
+          isBlank:false,
+          setStatusMessage:false,
+          StatusType:false,
+          scrollToTop:false
+ */
 
-$(document).ready(function() {
+$(document).ready(() => {
     function isRedirectToSpecificComment() {
         return window.location.href.includes('#');
     }
 
     function getRedirectSpecificCommentRow() {
-        var url = window.location.href;
-        var start = url.indexOf('#');
-        var end = url.length;
-        var rowId = url.substring(start, end);
-        var row = $(rowId);
+        const url = window.location.href;
+        const start = url.indexOf('#');
+        const end = url.length;
+        const rowId = url.substring(start, end);
+        const row = $(rowId);
         return row;
     }
 
@@ -27,36 +36,36 @@ $(document).ready(function() {
     }
 
     // re-display the hidden header
-    var scrollEventCounter = 0;
-    $(window).scroll(function() {
+    let scrollEventCounter = 0;
+    $(window).scroll(() => {
         if (isRedirectToSpecificComment() && scrollEventCounter > 0) {
             $('.navbar').fadeIn('fast');
         }
-        scrollEventCounter++;
+        scrollEventCounter += 1;
     });
 
     // show on hover for comment
-    $('.comments > .list-group-item').hover(function() {
+    $('.comments > .list-group-item').hover(function () {
         $("a[type='button']", this).show();
-    }, function() {
+    }, function () {
         $("a[type='button']", this).hide();
     });
 
     // check submit text before submit
-    $('form.form_comment').submit(function() {
-        if ($(this).find('[id^=commentedittype]').val() !== 'delete') {
-            var commentTextInput = $(this).find('.mce-content-body');
-            var commentTextId = commentTextInput.attr('id');
-            var content = tinyMCE.get(commentTextId).getContent();
-            $(this).find('input[name=' + commentTextId + ']').prop('disabled', true);
-            $(this).find('input[name=commenttext]').val(content);
+    $('form.form_comment').submit((e) => {
+        if ($(e.currentTarget).find('[id^=commentedittype]').val() !== 'delete') {
+            const commentTextInput = $(e.currentTarget).find('.mce-content-body');
+            const commentTextId = commentTextInput.attr('id');
+            const content = tinyMCE.get(commentTextId).getContent();
+            $(e.currentTarget).find(`input[name=${commentTextId}]`).prop('disabled', true);
+            $(e.currentTarget).find('input[name=commenttext]').val(content);
         }
 
-        return checkComment(this);
+        return checkComment(e.currentTarget, e);
     });
 
     // open or close show more options
-    $('#option-check').click(function() {
+    $('#option-check').click(() => {
         if ($('#option-check').is(':checked')) {
             $('#more-options').show();
         } else {
@@ -65,7 +74,7 @@ $(document).ready(function() {
     });
 
     // Binding for "Display All" panel option
-    $('#panel_all').click(function() {
+    $('#panel_all').click(() => {
         // use panel_all checkbox to control its children checkboxes.
         if ($('#panel_all').is(':checked')) {
             $('input[id^=panel_check]').prop('checked', true);
@@ -77,7 +86,7 @@ $(document).ready(function() {
     });
 
     // Binding for changes in the panel check boxes
-    $('input[id^=panel_check]').change(function() {
+    $('input[id^=panel_check]').change(() => {
         // based on the selected panel_check check boxes, check/uncheck panel_all check box
         if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
             $('#panel_all').prop('checked', true);
@@ -107,18 +116,18 @@ $(document).ready(function() {
         }
 
         // hide the panel accordingly based on panel_check checkbox
-        $("input[id^='panel_check']").each(function() {
-            var panelIdx = $(this).attr('id').split('-')[1];
+        $("input[id^='panel_check']").each(function () {
+            const panelIdx = $(this).attr('id').split('-')[1];
             if (this.checked) {
-                $('#panel_display-' + panelIdx).show();
+                $(`#panel_display-${panelIdx}`).show();
             } else {
-                $('#panel_display-' + panelIdx).hide();
+                $(`#panel_display-${panelIdx}`).hide();
             }
         });
     }
 
     // Binding for "Display All" giver option
-    $('#giver_all').click(function() {
+    $('#giver_all').click(() => {
         // use giver_all checkbox to control its children checkboxes.
         if ($('#giver_all').is(':checked')) {
             $('input[id^=giver_check]').prop('checked', true);
@@ -134,7 +143,7 @@ $(document).ready(function() {
     });
 
     // Binding for changes in the giver checkboxes.
-    $('input[id^=giver_check]').change(function() {
+    $('input[id^=giver_check]').change(() => {
         // based on the selected checkboxes, check/uncheck giver_all checkbox
         if ($("input[id^='giver_check']:checked").length === $("input[id^='giver_check']").length) {
             $('#giver_all').prop('checked', true);
@@ -155,17 +164,17 @@ $(document).ready(function() {
     }
 
     function filterGiverCheckbox(checkboxBy) {
-        $('input[id=giver_check-by-' + checkboxBy + ']').each(function() {
+        $(`input[id=giver_check-by-${checkboxBy}]`).each(function () {
             if (this.checked) {
-                showCommentOfPanelIndex('.giver_display-by-' + checkboxBy);
+                showCommentOfPanelIndex(`.giver_display-by-${checkboxBy}`);
             } else {
-                hideCommentOfPanelIndex('.giver_display-by-' + checkboxBy);
+                hideCommentOfPanelIndex(`.giver_display-by-${checkboxBy}`);
             }
         });
     }
     //
     // Binding for "Display All" status option
-    $('#status_all').click(function() {
+    $('#status_all').click(() => {
         // use status_all checkbox to control its children checkboxes.
         if ($('#status_all').is(':checked')) {
             $('input[id^=status_check]').prop('checked', true);
@@ -181,7 +190,7 @@ $(document).ready(function() {
     });
 
     // Binding for changes in the status checkboxes.
-    $('input[id^=status_check]').change(function() {
+    $('input[id^=status_check]').change(() => {
         // based on the selected checkboxes, check/uncheck status_all checkbox
         if ($("input[id^='status_check']:checked").length === $("input[id^='status_check']").length) {
             $('#status_all').prop('checked', true);
@@ -202,51 +211,51 @@ $(document).ready(function() {
     }
 
     function filterStatusCheckbox(checkboxBy) {
-        $('input[id=status_check-' + checkboxBy + ']').each(function() {
+        $(`input[id=status_check-${checkboxBy}]`).each(function () {
             if (this.checked) {
-                showCommentOfPanelIndex('.status_display-' + checkboxBy);
+                showCommentOfPanelIndex(`.status_display-${checkboxBy}`);
             } else {
-                hideCommentOfPanelIndex('.status_display-' + checkboxBy);
+                hideCommentOfPanelIndex(`.status_display-${checkboxBy}`);
             }
         });
     }
     //
 
     function showCommentOfPanelIndex(className) {
-        $(className).each(function() {
+        $(className).each(function () {
             showCommentAndItsPanel(this);
         });
     }
 
     function hideCommentOfPanelIndex(className) {
-        $(className).each(function() {
+        $(className).each(function () {
             hideCommentAndItsPanel(this);
         });
     }
 
     function showCommentAndItsPanel(comment) {
-        var commentToShow = $(comment);
+        const commentToShow = $(comment);
         commentToShow.show();
 
         // to show student comments (only works for Giver filter)
         if (commentToShow.hasClass('student-record-comments')) {
-            var studentCommentPanelBody = commentToShow.closest('.panel-body');
+            const studentCommentPanelBody = commentToShow.closest('.panel-body');
             studentCommentPanelBody.show();
         } else { // to show feedback question + feedback session panel
-            var commentListRegionForFeedbackResponse = commentToShow.closest('tr');
-            var rowsToShowClassName = commentListRegionForFeedbackResponse.attr('class');
-            $('.' + rowsToShowClassName).show();
+            const commentListRegionForFeedbackResponse = commentToShow.closest('tr');
+            const rowsToShowClassName = commentListRegionForFeedbackResponse.attr('class');
+            $(`.${rowsToShowClassName}`).show();
 
-            var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
+            const feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
             feedbackQuestion.show();
 
-            var feedbackSessionPanelBody = feedbackQuestion.parent();
+            const feedbackSessionPanelBody = feedbackQuestion.parent();
             feedbackSessionPanelBody.show();
         }
     }
 
     function hideCommentAndItsPanel(comment) {
-        var commentToHide = $(comment);
+        const commentToHide = $(comment);
         commentToHide.hide();
 
         // hide comment's add form in commentListRegionForFeedbackResponse
@@ -254,34 +263,34 @@ $(document).ready(function() {
 
         // to hide student comments
         if (commentToHide.hasClass('student-record-comments')) {
-            var studentCommentPanel = commentToHide.closest('.student-comments-panel');
-            var studentCommentPanelBody = commentToHide.closest('.panel-body');
+            const studentCommentPanel = commentToHide.closest('.student-comments-panel');
+            const studentCommentPanelBody = commentToHide.closest('.panel-body');
             // if all student comments are hidden, then hide the student comments panel
-            var allStudentCommentsAreHidden =
+            const allStudentCommentsAreHidden =
                     studentCommentPanel.find('div[class*="giver_display-by"][style*="display: none"]').length
                     === studentCommentPanel.find('div[class*="giver_display-by"]').length;
             if (allStudentCommentsAreHidden) {
                 studentCommentPanelBody.hide();
             }
         } else { // to hide feedback question + feedback session panel
-            var allCommentsForFeedbackResponseAreHidden =
+            const allCommentsForFeedbackResponseAreHidden =
                     commentToHide.parent().find('li[style*="display: none"]').length
                     === commentToHide.parent().find('li').length;
             if (allCommentsForFeedbackResponseAreHidden) {
-                var commentListRegionForFeedbackResponse = commentToHide.closest('tr');
-                var rowsToHideClassName = commentListRegionForFeedbackResponse.attr('class');
-                $('.' + rowsToHideClassName).hide();
+                const commentListRegionForFeedbackResponse = commentToHide.closest('tr');
+                const rowsToHideClassName = commentListRegionForFeedbackResponse.attr('class');
+                $(`.${rowsToHideClassName}`).hide();
 
-                var feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
-                var allFeedbackResponsesForFeedbackQuestionAreHidden =
+                const feedbackQuestion = commentListRegionForFeedbackResponse.closest('.feedback-question-panel');
+                const allFeedbackResponsesForFeedbackQuestionAreHidden =
                         feedbackQuestion.find('tr[style*="display: none"]').length
                         === feedbackQuestion.find('tr[class*="table-row"]').length;
                 if (allFeedbackResponsesForFeedbackQuestionAreHidden) {
                     feedbackQuestion.hide();
 
-                    var feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
-                    var feedbackSessionPanelBody = feedbackQuestion.parent();
-                    var allFeedbackQuestionsForFeedbackSessionAreHidden =
+                    const feedbackSessionPanel = feedbackQuestion.closest('.feedback-session-panel');
+                    const feedbackSessionPanelBody = feedbackQuestion.parent();
+                    const allFeedbackQuestionsForFeedbackSessionAreHidden =
                             feedbackSessionPanel.find('div[class="panel panel-info"][style*="display: none"]').length
                             === feedbackSessionPanel.find('div[class="panel panel-info"]').length;
                     if (allFeedbackQuestionsForFeedbackSessionAreHidden) {
@@ -293,8 +302,8 @@ $(document).ready(function() {
     }
 
     // Binding for "Display Archived Courses" check box.
-    $('#displayArchivedCourses_check').change(function() {
-        var urlToGo = $('#displayArchivedCourses_link > a').attr('href');
+    $('#displayArchivedCourses_check').change(function () {
+        const urlToGo = $('#displayArchivedCourses_link > a').attr('href');
         if (this.checked) {
             gotoUrlWithParam(urlToGo, 'displayarchive', 'true');
         } else {
@@ -306,15 +315,15 @@ $(document).ready(function() {
      * Go to the url with appended param and value pair
      */
     function gotoUrlWithParam(url, param, value) {
-        var paramValuePair = param + '=' + value;
+        const paramValuePair = `${param}=${value}`;
         if (!url.includes('?')) {
-            window.location.href = url + '?' + paramValuePair;
+            window.location.href = `${url}?${paramValuePair}`;
         } else if (!url.includes(param)) {
-            window.location.href = url + '&' + paramValuePair;
+            window.location.href = `${url}&${paramValuePair}`;
         } else if (url.includes(paramValuePair)) {
             window.location.href = url;
         } else {
-            var urlWithoutParam = removeParamInUrl(url, param);
+            const urlWithoutParam = removeParamInUrl(url, param);
             gotoUrlWithParam(urlWithoutParam, param, value);
         }
     }
@@ -324,16 +333,16 @@ $(document).ready(function() {
      * Return the url withour param and value pair
      */
     function removeParamInUrl(url, param) {
-        var indexOfParam = url.indexOf('?' + param);
-        indexOfParam = indexOfParam === -1 ? url.indexOf('&' + param) : indexOfParam;
-        var indexOfAndSign = url.indexOf('&', indexOfParam + 1);
-        var urlBeforeParam = url.substr(0, indexOfParam);
-        var urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
+        let indexOfParam = url.indexOf(`?${param}`);
+        indexOfParam = indexOfParam === -1 ? url.indexOf(`&${param}`) : indexOfParam;
+        const indexOfAndSign = url.indexOf('&', indexOfParam + 1);
+        const urlBeforeParam = url.substr(0, indexOfParam);
+        const urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
         return urlBeforeParam + urlAfterParamValue;
     }
 
-    $('a[id^="visibility-options-trigger"]').click(function() {
-        var visibilityOptions = $(this).parent().next();
+    $('a[id^="visibility-options-trigger"]').click(function () {
+        const visibilityOptions = $(this).parent().next();
         if (visibilityOptions.is(':visible')) {
             visibilityOptions.hide();
             $(this).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
@@ -343,12 +352,12 @@ $(document).ready(function() {
         }
     });
 
-    $('input[type=checkbox]').click(function(e) {
-        var table = $(this).closest('table');
-        var form = table.closest('form');
-        var visibilityOptions = [];
-        var target = $(e.target);
-        var visibilityOptionsRow = target.closest('tr');
+    $('input[type=checkbox]').click((e) => {
+        const table = $(e.currentTarget).closest('table');
+        const form = table.closest('form');
+        let visibilityOptions = [];
+        const target = $(e.target);
+        const visibilityOptionsRow = target.closest('tr');
 
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
@@ -359,19 +368,19 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
 
-        table.find('.answerCheckbox:checked').each(function() {
+        table.find('.answerCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showcommentsto']").val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function() {
+        table.find('.giverCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showgiverto']").val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function() {
+        table.find('.recipientCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
         form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
@@ -381,23 +390,23 @@ $(document).ready(function() {
 // public functions:
 
 function showAddCommentBox(id) {
-    $('#comment_box_' + id).show();
-    $('#commentText_' + id).focus();
+    $(`#comment_box_${id}`).show();
+    $(`#commentText_${id}`).focus();
 }
 
 function hideAddCommentBox(id) {
-    $('#comment_box_' + id).hide();
+    $(`#comment_box_${id}`).hide();
 }
 
 function submitCommentForm(commentIdx) {
-    $('#form_commentedit-' + commentIdx).submit();
+    $(`#form_commentedit-${commentIdx}`).submit();
     return false;
 }
 
 function deleteComment(commentIdx) {
-    var messageText = 'Are you sure you want to delete this comment?';
-    var okCallback = function() {
-        document.getElementById('commentedittype-' + commentIdx).value = 'delete';
+    const messageText = 'Are you sure you want to delete this comment?';
+    const okCallback = function () {
+        document.getElementById(`commentedittype-${commentIdx}`).value = 'delete';
         return submitCommentForm(commentIdx);
     };
     BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
@@ -412,38 +421,38 @@ function enableEdit(commentIdx) {
 }
 
 function enableComment(commentIdx) {
-    $('#commentBar-' + commentIdx).hide();
-    $('#plainCommentText' + commentIdx).hide();
-    $("div[id='commentTextEdit" + commentIdx + "']").show();
-    $("textarea[id='commentText" + commentIdx + "']").val($('#plainCommentText' + commentIdx).text());
+    $(`#commentBar-${commentIdx}`).hide();
+    $(`#plainCommentText${commentIdx}`).hide();
+    $(`div[id='commentTextEdit${commentIdx}']`).show();
+    $(`textarea[id='commentText${commentIdx}']`).val($(`#plainCommentText${commentIdx}`).text());
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#commentText' + commentIdx, {
+        richTextEditorBuilder.initEditor(`#commentText${commentIdx}`, {
             inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container-' + commentIdx
+            fixed_toolbar_container: `#rich-text-toolbar-comment-container-${commentIdx}`,
         });
         /* eslint-enable camelcase */
     }
 
-    $("textarea[id='commentText" + commentIdx + "']").focus();
+    $(`textarea[id='commentText${commentIdx}']`).focus();
 }
 
 function disableComment(commentIdx) {
-    $('#commentBar-' + commentIdx).show();
-    $('#plainCommentText' + commentIdx).show();
-    $("div[id='commentTextEdit" + commentIdx + "']").hide();
+    $(`#commentBar-${commentIdx}`).show();
+    $(`#plainCommentText${commentIdx}`).show();
+    $(`div[id='commentTextEdit${commentIdx}']`).hide();
 }
 
-function checkComment(form) {
-    if ($(form).find('[id^=commentedittype]').val() === 'delete') {
-        return true;
-    }
-    var formTextField = $(form).find('.mce-content-body');
-    var editor = tinymce.get(formTextField.attr('id'));
-    if (isBlank($(editor.getContent()).text())) {
-        setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
-        scrollToTop();
-        return false;
+function checkComment(form, event) {
+    if ($(form).find('[id^=commentedittype]').val() !== 'delete') {
+        const formTextField = $(form).find('.mce-content-body');
+        const editor = tinymce.get(formTextField.attr('id'));
+        if (isBlank($(editor.getContent()).text())) {
+            setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
+            scrollToTop();
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 }

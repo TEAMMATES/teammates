@@ -1,10 +1,8 @@
-'use strict';
-
-$(document).ready(function() {
-    var today = new Date();
-    var yesterday = new Date();
+$(document).ready(() => {
+    const today = new Date();
+    const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    var tomorrow = new Date();
+    const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     $('#startdate').datepicker({
@@ -12,21 +10,21 @@ $(document).ready(function() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: today,
-        onSelect: function() {
-            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
+        onSelect() {
+            const newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
                     $('#publishdate').datepicker('getDate'));
             $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
 
-            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
+            const newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
-        }
+        },
     });
 
     $('#enddate').datepicker({
         dateFormat: 'dd/mm/yy',
         showOtherMonths: true,
         gotoCurrent: true,
-        defaultDate: tomorrow
+        defaultDate: tomorrow,
     });
 
     $('#visibledate').datepicker({
@@ -35,10 +33,10 @@ $(document).ready(function() {
         gotoCurrent: true,
         defaultDate: yesterday,
         maxDate: today,
-        onSelect: function() {
-            var newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
+        onSelect() {
+            const newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
-        }
+        },
     });
 
     $('#publishdate').datepicker({
@@ -46,15 +44,14 @@ $(document).ready(function() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,
-        onSelect: function() {
-            var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
+        onSelect() {
+            const newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker('getDate'),
                     $('#publishdate').datepicker('getDate'));
             $('#visibledate').datepicker('option', 'maxDate', newVisibleDate);
-        }
+        },
     });
 
     triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
-
 });
 
 /**
@@ -62,8 +59,8 @@ $(document).ready(function() {
  * @assumption: all passed in divs are valid datepicker divs
  */
 function triggerDatepickerOnClick(datepickerDivs) {
-    $.each(datepickerDivs, function(i, datepickerDiv) {
-        datepickerDiv.on('click', function() {
+    $.each(datepickerDivs, (i, datepickerDiv) => {
+        datepickerDiv.on('click', () => {
             if (!datepickerDiv.prop('disabled')) {
                 datepickerDiv.datepicker('show');
             }
@@ -76,7 +73,7 @@ function triggerDatepickerOnClick(datepickerDivs) {
  * @returns {Date} publishDate if it is valid and smaller than startDate, else startDate
  */
 function getMaxDateForVisibleDate(startDate, publishDate) {
-    var minDate = 0;
+    let minDate = 0;
 
     if (publishDate === null || publishDate === undefined) {
         minDate = startDate;

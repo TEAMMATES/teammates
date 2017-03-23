@@ -1,7 +1,8 @@
-'use strict';
+/* global d3:false, getCountryCode:false, Datamap:false, geoDataUrl:false
+ */
 
 function handleError() {
-    var contentHolder = d3.select('.container');
+    const contentHolder = d3.select('.container');
     contentHolder.html('');
     contentHolder.append('p')
         .text('An error has occured in getting data, please try reloading.');
@@ -14,14 +15,14 @@ function initializeMap(err, countryCoordinates, userData) {
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     if (err) {
         handleError();
-        return;
+        return null;
     }
-    var userCountries = Object.keys(userData.institutes);
-    var countriesArr = [];
-    var total = 0;
-    var date = userData.lastUpdated;
-    userCountries.forEach(function(countryName) {
-        var countryTotal = userData.institutes[countryName].length;
+    const userCountries = Object.keys(userData.institutes);
+    const countriesArr = [];
+    let total = 0;
+    const date = userData.lastUpdated;
+    userCountries.forEach((countryName) => {
+        const countryTotal = userData.institutes[countryName].length;
 
         countriesArr.push([countryName, countryTotal]);
         total += countryTotal;
@@ -38,49 +39,47 @@ function initializeMap(err, countryCoordinates, userData) {
     // var series = [
     //     ['United States', 1], ['Bulgaria', 1], ['Russia', 1], ['France', 1], ['Singapore', 1]
 
-    var dataset = {};
-    var pins = [];
-    var onlyValues = countriesArr.map(function(obj) {
-        return obj[1];
-    });
-    var minValue = Math.min.apply(null, onlyValues);
-    var maxValue = Math.max.apply(null, onlyValues);
-    var paletteScale = d3.scale.linear()
+    const dataset = {};
+    const pins = [];
+    const onlyValues = countriesArr.map(obj => obj[1]);
+    const minValue = Math.min.apply(null, onlyValues);
+    const maxValue = Math.max.apply(null, onlyValues);
+    const paletteScale = d3.scale.linear()
             .domain([minValue, maxValue])
             .range(['#428bca', '#428bca']); // Choropleth effect: .range(['#C1F0F6","#4895AE"]);
-    countriesArr.forEach(function(item) {
-        var countryName = item[0];
-        var iso = getCountryCode(countryName);
-        var value = item[1];
-        var coordinates = countryCoordinates[iso];
+    countriesArr.forEach((item) => {
+        const countryName = item[0];
+        const iso = getCountryCode(countryName);
+        const value = item[1];
+        const coordinates = countryCoordinates[iso];
         dataset[iso] = {
             numOfInstitutions: value,
-            fillColor: paletteScale(value)
+            fillColor: paletteScale(value),
         };
         pins.push({
             name: countryName,
             numOfInstitutions: value,
             latitude: coordinates.lat,
-            longitude: coordinates.lon
+            longitude: coordinates.lon,
         });
     });
 
     // World-map
-    var map = new Datamap({
+    const map = new Datamap({
         scope: 'world',
         element: document.getElementById('world-map'),
         responsive: true,
-        setProjection: function(element) {
-            var projection = d3.geo.mercator()
+        setProjection(element) {
+            const projection = d3.geo.mercator()
             .center([0, 20])
             .rotate([-5, 0])
             .scale(130)
             .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-            var path = d3.geo.path()
+            const path = d3.geo.path()
                 .projection(projection);
             return {
-                path: path,
-                projection: projection
+                path,
+                projection,
             };
         },
         // countries don't listed in dataset will be painted with this color
@@ -90,7 +89,7 @@ function initializeMap(err, countryCoordinates, userData) {
             borderColor: '#DEDEDE',
             borderWidth: 0.7,
             // don't change color on mouse hover
-            highlightFillColor: function(geo) {
+            highlightFillColor(geo) {
                 return geo.fillColor || '#F5F5F5';
             },
             dataUrl: geoDataUrl,
@@ -99,29 +98,29 @@ function initializeMap(err, countryCoordinates, userData) {
             highlightBorderWidth: 1,
             highlightBorderOpacity: 1,
             // show desired information in tooltip
-            popupTemplate: function(geo, data) {
-                // don't show tooltip if country don't present in dataset
-                if (!data) {
-                    return;
+            popupTemplate(geo, data) {
+                if (data) {
+                    return getTooltipContent({
+                        name: geo.properties.name,
+                        numOfInstitutions: data.numOfInstitutions,
+                    });
                 }
-                return getTooltipContent({
-                    name: geo.properties.name,
-                    numOfInstitutions: data.numOfInstitutions
-                });
-            }
-        }
+                // don't show tooltip if country is not present in dataset
+                return null;
+            },
+        },
     });
 
-    map.addPlugin('pins', function(layer, data, options) {
-        var self = this;
-        var svg = this.svg;
+    map.addPlugin('pins', function (layer, data, options) {
+        const self = this;
+        const svg = this.svg;
 
         if (!data || data && !data.slice) {
             handleError();
             return;
         }
 
-        var markers = layer.selectAll('image.datamaps-pins').data(data, JSON.stringify);
+        const markers = layer.selectAll('image.datamaps-pins').data(data, JSON.stringify);
 
         markers
         .enter()
@@ -132,19 +131,19 @@ function initializeMap(err, countryCoordinates, userData) {
         .attr('width', 20)
         .attr('x', getX)
         .attr('y', getY)
-        .on('mouseover', function(datum) {
-            var $this = d3.select(this);
+        .on('mouseover', function (datum) {
+            const $this = d3.select(this);
 
             if (options.popupOnHover) {
                 self.updatePopup($this, datum, options, svg);
             }
         })
-        .on('mouseout', function() {
-            var $this = d3.select(this);
+        .on('mouseout', function () {
+            const $this = d3.select(this);
 
             if (options.highlightOnHover) {
-                var previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
-                $.each(previousAttributes, function(i, attr) {
+                const previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
+                $.each(previousAttributes, (i, attr) => {
                     $this.style(i, attr);
                 });
             }
@@ -159,7 +158,7 @@ function initializeMap(err, countryCoordinates, userData) {
 
         function getCoordinates(datum) {
             return datumHasCoords(datum) ? self.latLngToXY(datum.latitude, datum.longitude)
-                                         : self.path.centroid(svg.select('path.' + datum.centered).data()[0]);
+                                         : self.path.centroid(svg.select(`path.${datum.centered}`).data()[0]);
         }
 
         function getX(datum) {
@@ -177,35 +176,30 @@ function initializeMap(err, countryCoordinates, userData) {
 
     map.pins(pins, {
         popupOnHover: true,
-        popupTemplate: getTooltipContent
+        popupTemplate: getTooltipContent,
     });
 
     return map;
 }
 
 function getTooltipContent(data) {
-    return '<div class="hoverinfo">'
-            + '<p>'
-                + '<b>'
-                + data.name
-                + '</b>'
-                + '<br>'
-                + 'Institutions: '
-                + data.numOfInstitutions
-            + '</p>'
-         + '</div>';
+    return `<div class="hoverinfo">
+                <p>
+                    <b>${data.name}</b>
+                    <br>Institutions: ${data.numOfInstitutions}
+                </p>
+            </div>`;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var map;
-    d3.json('/js/countryCoordinates.json', function(countryCoordinates) {
-        d3.json('/js/userMapData.json', function(err, userData) {
+document.addEventListener('DOMContentLoaded', () => {
+    let map;
+    d3.json('/js/countryCoordinates.json', (countryCoordinates) => {
+        d3.json('/js/userMapData.json', (err, userData) => {
             map = initializeMap(err, countryCoordinates, userData);
-
         });
     });
 
-    d3.select(window).on('resize', function() {
+    d3.select(window).on('resize', () => {
         map.resize();
     });
 });

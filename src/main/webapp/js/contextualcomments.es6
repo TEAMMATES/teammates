@@ -1,7 +1,15 @@
-'use strict';
+/* globals richTextEditorBuilder:false,
+           tinymce:false,
+           isBlank:false,
+           setStatusMessage:false,
+           StatusType:false,
+           scrollToTop:false,
+           isShowCommentBox:false,
+           commentRecipient:false
+ */
 
-$(document).ready(function() {
-    $('#button_add_comment').click(function() {
+$(document).ready(() => {
+    $('#button_add_comment').click(() => {
         if ($('#commentArea').is(':visible')) {
             $('#commentArea').hide();
         } else {
@@ -13,26 +21,26 @@ $(document).ready(function() {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#commenttext', {
             inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-comment-container'
+            fixed_toolbar_container: '#rich-text-toolbar-comment-container',
         });
         /* eslint-enable camelcase */
     }
 
-    $('form[name="form_commentadd"]').submit(function() {
+    $('form[name="form_commentadd"]').submit((e) => {
         tinymce.get('commenttext').save();
-        return checkComment(this);
+        return checkComment(e);
     });
 
-    function checkComment() {
-        var formTextField = tinymce.get('commenttext').getContent();
+    function checkComment(e) {
+        const formTextField = tinymce.get('commenttext').getContent();
         if (isBlank(formTextField)) {
             setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
             scrollToTop();
-            return false;
+            e.preventDefault();
         }
     }
 
-    $('#visibility-options-trigger').click(function() {
+    $('#visibility-options-trigger').click(() => {
         if ($('#visibility-options').is(':visible')) {
             $('#visibility-options').hide();
             $('#visibility-options-trigger').html('<span class="glyphicon glyphicon-eye-close"></span> '
@@ -44,7 +52,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#button_cancel_comment').click(function() {
+    $('#button_cancel_comment').click(() => {
         $('#commentArea').hide();
     });
 
@@ -52,7 +60,7 @@ $(document).ready(function() {
 
     function commentRecipientSelectChangeHandler() {
         // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
-        var selectedValue = $('#comment_recipient_select option:selected').val();
+        const selectedValue = $('#comment_recipient_select option:selected').val();
         if (selectedValue === 'PERSON') {
             $('input[name="recipienttype"]').val('PERSON');
             $('input[name="recipients"]').val($('#studentemail > p').text());
@@ -81,9 +89,9 @@ $(document).ready(function() {
     $('input[type=checkbox]').on('click', visibilityOptionsHandler);
 
     function visibilityOptionsHandler(e) {
-        var visibilityOptions = [];
-        var target = $(e.target);
-        var visibilityOptionsRow = target.closest('tr');
+        let visibilityOptions = [];
+        const target = $(e.target);
+        const visibilityOptionsRow = target.closest('tr');
 
         if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
             visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
@@ -94,19 +102,19 @@ $(document).ready(function() {
             visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
         }
 
-        $('.answerCheckbox:checked').each(function() {
+        $('.answerCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showcommentsto']").val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
-        $('.giverCheckbox:checked').each(function() {
+        $('.giverCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showgiverto']").val(visibilityOptions.join(', '));
 
         visibilityOptions = [];
-        $('.recipientCheckbox:checked').each(function() {
+        $('.recipientCheckbox:checked').each(function () {
             visibilityOptions.push($(this).val());
         });
         $("input[name='showrecipientto']").val(visibilityOptions.join(', '));
