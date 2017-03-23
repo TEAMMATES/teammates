@@ -533,6 +533,10 @@ public final class StudentsLogic {
     public void putDocument(StudentAttributes student) {
         studentsDb.putDocument(student);
     }
+    
+    public void putDocuments(List<StudentAttributes> students) {
+        studentsDb.putDocuments(students);
+    }
 
     private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {

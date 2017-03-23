@@ -209,10 +209,8 @@ public class AdminInstructorAccountAddAction extends Action {
 
         logic.batchPutCommentDocuments(comments);
         logic.batchPutFeedbackResponseCommentDocuments(frComments);
+        logic.batchPutStudentDocuments(students);
 
-        for (StudentAttributes student : students) {
-            logic.putDocument(student);
-        }
         for (InstructorAttributes instructor : instructors) {
             logic.putDocument(instructor);
         }

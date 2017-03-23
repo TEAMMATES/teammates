@@ -1083,6 +1083,10 @@ public class Logic {
     public void putDocument(StudentAttributes student) {
         studentsLogic.putDocument(student);
     }
+    
+    public void batchPutStudentDocuments(List<StudentAttributes> students) {
+        studentsLogic.putDocuments(students);
+    }
 
     /**
      * Generates students list of a course in CSV format. <br>
