@@ -299,6 +299,15 @@ public class Logic {
     public void putDocument(InstructorAttributes instructor) {
         instructorsLogic.putDocument(instructor);
     }
+    
+    /**
+     * Batch creates or updates documents for the given Instructors.
+     *
+     * @see InstructorsLogic#putDocuments(List<InstructorAttributes>)
+     */
+    public void batchPutInstructorDocuments(List<InstructorAttributes> instructors) {
+        instructorsLogic.putDocuments(instructors);
+    }
 
     /**
      * Removes document for the given Instructor.
