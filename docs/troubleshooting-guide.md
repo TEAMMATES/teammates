@@ -185,18 +185,9 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 
-  1. **ERROR**: Error message that running dev server :
-             `Cannot start process, the working directory '{project home directory}/build/libs/exploded/teammates.war' does not exist`.
-             Or Error in console with
-             `Could not locate /.../appengine-web.xml`.
-             
-
-  **SOLUTION**: 
-  When follow setting guideline `File → Project Structure...` and 
-                `Under Artifacts → Gradle : <your-project-name>.war (exploded)`
-                In Development Guideline Documents,
-  Fix the default Output directory path and pointed it to another path that include `appengine-web.xml` file.
-  (e.g `/{project home directory}/build/exploded-app`)
+1. **ERROR (on IntelliJ)**: error message in console when running dev server : `Cannot start process, the working directory '{project home directory}/build/libs/exploded/teammates.war' does not exist`. or `Could not locate /.../appengine-web.xml`.
+                                           
+  **SOLUTION**: The path to the exploded application may be configured wrongly. Go to `File → Project Structure...`. Under `Under Artifacts → Gradle : <your-project-name>.war (exploded)`, Change the Output directory to `{path to repo}/build/exploded-app` that include `appengine-web.xml` file.
    
 ## Submitting help request
 
