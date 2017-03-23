@@ -54,7 +54,7 @@ public final class InstructorsLogic {
     public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
     }
-    
+
     /**
      * Batch creates or updates documents for the given Instructors.
      * @param list of instructors to be put into documents

@@ -288,7 +288,7 @@ public abstract class EntitiesDb {
             log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
         }
     }
-    
+
     protected void putDocuments(String indexName, List<SearchDocument> documents) {
         List<Document> searchDocuments = new ArrayList<Document>();
         for (SearchDocument document : documents) {

@@ -54,7 +54,7 @@ public class InstructorsDb extends EntitiesDb {
             putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
         }
     }
-    
+
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<SearchDocument>();
         for (InstructorAttributes instructor : instructorParams) {

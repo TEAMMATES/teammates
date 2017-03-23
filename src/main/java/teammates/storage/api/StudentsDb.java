@@ -47,7 +47,7 @@ public class StudentsDb extends EntitiesDb {
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
-    
+
     public void putDocuments(List<StudentAttributes> students) {
         List<SearchDocument> studentDocuments = new ArrayList<SearchDocument>();
         for (StudentAttributes student : students) {

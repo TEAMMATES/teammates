@@ -426,7 +426,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
     }
-    
+
     /*
      * Batch create or update search documents for the given comments
      */

@@ -232,7 +232,7 @@ public final class CommentsLogic {
     public void putDocument(CommentAttributes comment) {
         commentsDb.putDocument(comment);
     }
-    
+
     /**
      * Batch creates or updates documents for comments.
      */

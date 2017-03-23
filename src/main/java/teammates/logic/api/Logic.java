@@ -299,11 +299,11 @@ public class Logic {
     public void putDocument(InstructorAttributes instructor) {
         instructorsLogic.putDocument(instructor);
     }
-    
+
     /**
      * Batch creates or updates documents for the given Instructors.
      *
-     * @see InstructorsLogic#putDocuments(List<InstructorAttributes>)
+     * @see InstructorsLogic#putDocuments(List)
      */
     public void batchPutInstructorDocuments(List<InstructorAttributes> instructors) {
         instructorsLogic.putDocuments(instructors);
@@ -1092,7 +1092,7 @@ public class Logic {
     public void putDocument(StudentAttributes student) {
         studentsLogic.putDocument(student);
     }
-    
+
     public void batchPutStudentDocuments(List<StudentAttributes> students) {
         studentsLogic.putDocuments(students);
     }
@@ -1997,11 +1997,11 @@ public class Logic {
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.putDocument(comment);
     }
-    
+
     /**
-     * Batch creates or updates document for the given comment.
+     * Batch creates or updates documents for the given comments.
      *
-     * @see FeedbackResponseCommentsLogic#putDocuments(List<FeedbackResponseCommentAttributes>)
+     * @see FeedbackResponseCommentsLogic#putDocuments(List)
      */
     public void batchPutFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
         feedbackResponseCommentsLogic.putDocuments(comments);
@@ -2097,11 +2097,11 @@ public class Logic {
     public void putDocument(CommentAttributes comment) {
         commentsLogic.putDocument(comment);
     }
-    
+
     /**
      * Batch creates or updates documents for comments.
      *
-     * @see CommentsLogic#putDocuments(List<CommentAttributes>)
+     * @see CommentsLogic#putDocuments(List)
      */
     public void batchPutCommentDocuments(List<CommentAttributes> comments) {
         commentsLogic.putDocuments(comments);

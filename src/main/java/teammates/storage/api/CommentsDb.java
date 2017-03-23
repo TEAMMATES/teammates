@@ -478,7 +478,7 @@ public class CommentsDb extends EntitiesDb {
     public void putDocument(CommentAttributes comment) {
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
     }
-    
+
     /*
      * Batch create or update search documents for the given comments
      */
