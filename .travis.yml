@@ -37,7 +37,7 @@ before_script:
   - export PATH="./node_modules/.bin":$PATH
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools
-  - npm install --only=dev
+  - npm install
   - ./gradlew staticAnalysis --continue
 
 install: true
