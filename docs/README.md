@@ -2,11 +2,11 @@
 
 Welcome to the documentation of the TEAMMATES project.
 
-Although it may look intimidating, the documentation will make working on the project much easier. Read through them well and it'll make contributing to TEAMMATES that much more enjoyable!
+Although there may be quite a lot of materials, reading through them will make contributing to TEAMMATES that much more enjoyable!
 
 ## Contributing
 
- If you are new and want to contribute but don't know where to start, this is the right place:
+ Want to contribute but don't know where to start? Look no further:
 
 1. [**Get Started**](contributors-guide.md): Step-by-step guide on how to get started.
 2. [**Setting Up**](setting-up.md): How to set up a local development environment

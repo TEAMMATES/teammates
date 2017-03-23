@@ -5,7 +5,7 @@ TEAMMATES is a community that lives on its volunteers, most of whom are [student
 ## Advice for new contributors
 Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resources (Google, StackOverflow, [troubleshooting guide](troubleshooting-guide.md), [issue tracker](https://github.com/TEAMMATES/teammates/issues), etc.). To become a TEAMMATES contributor, you need to start honing those skills.
 
-To help you with that, we have created a series of easy tasks you can should start off with.
+To help you with that, we have created a series of easy tasks for you start off with.
 
 **Table of Contents**
 
@@ -80,7 +80,7 @@ Take your time to learn and follow the workflow to the letter. Do not skip any s
 
 ## Roles
 
-Note that these role are not fixed or formally assigned; it is simply for guidance only.
+Note that these role are not fixed or formally assigned; they are merely guides.
 
 * **Tester**: Tests the App manually and reports bugs or suggestions for enhancements in the issue tracker.
 * **Copy editor**: Helps in improving documentation.
