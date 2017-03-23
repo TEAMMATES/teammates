@@ -1984,6 +1984,15 @@ public class Logic {
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.putDocument(comment);
     }
+    
+    /**
+     * Batch creates or updates document for the given comment.
+     *
+     * @see FeedbackResponseCommentsLogic#putDocuments(List<FeedbackResponseCommentAttributes>)
+     */
+    public void batchPutFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
+        feedbackResponseCommentsLogic.putDocuments(comments);
+    }
 
     /**
      * Removes document for the given comment.
@@ -2079,9 +2088,9 @@ public class Logic {
     /**
      * Batch creates or updates documents for comments.
      *
-     * @see CommentsLogic#putDocuments(CommentAttributes)
+     * @see CommentsLogic#putDocuments(List<CommentAttributes>)
      */
-    public void putDocuments(List<CommentAttributes> comments) {
+    public void batchPutCommentDocuments(List<CommentAttributes> comments) {
         commentsLogic.putDocuments(comments);
     }
 
