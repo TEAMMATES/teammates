@@ -17,11 +17,11 @@ To help you with that, we have created a series of easy tasks for you start off 
 
 ## Learning the basics
 
-Although TEAMMATES uses many tools and technologies, you need not know all of them. The diagram below shows which technologies you need to learn to contribute in different [roles](#roles).
+Although TEAMMATES uses many tools and technologies, you don't need to know all of them. The diagram below shows which technologies you need to learn to contribute in different [roles](#roles).
 
 ![RolesAndTechnologies.png](images/RolesAndTechnologies.png)
 
-As you may notice, Git is essential to all roles. A good place to learn git is [here](https://try.github.io/levels/1/challenges/1).
+Notice that Git is essential for all roles. A good place to learn git is [here](https://try.github.io/levels/1/challenges/1).
 
 ## Getting started
 
