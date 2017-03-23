@@ -1,6 +1,7 @@
 package teammates.storage.search;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.exception.TeammatesException;
@@ -77,6 +78,52 @@ public final class SearchManager {
                     continue;
                 } else {
                     log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
+                            + TeammatesException.toStringWithStackTrace(e));
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Batch creates or updates the search documents for the given documents and index.
+     */
+    public static void putDocuments(String indexName, List<Document> documents) {
+        Index index = getIndex(indexName);
+
+        int delay = 2;
+        for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
+            try {
+                PutResponse result = index.put(documents);
+
+                if (Config.PERSISTENCE_CHECK_DURATION == 0) {
+                    continue;
+                }
+
+                int elapsedTime = 0;
+                boolean isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                    ThreadHelper.waitBriefly();
+                    // retry putting the document
+                    result = index.put(documents);
+                    isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                    // check before incrementing to avoid boundary case problem
+                    if (!isSuccessful) {
+                        elapsedTime += ThreadHelper.WAIT_DURATION;
+                    }
+                }
+                if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                    log.info(String.format(ERROR_EXCEED_DURATION, documents, indexName));
+                }
+
+            } catch (PutException e) {
+                if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
+                    // if it's a transient error in the server, it can be retried
+                    ThreadHelper.waitFor(delay * 1000);
+                    delay *= 2; // use exponential backoff
+                    continue;
+                } else {
+                    log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
                             + TeammatesException.toStringWithStackTrace(e));
                     break;
                 }

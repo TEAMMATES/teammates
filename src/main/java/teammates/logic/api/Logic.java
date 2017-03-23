@@ -2075,6 +2075,15 @@ public class Logic {
     public void putDocument(CommentAttributes comment) {
         commentsLogic.putDocument(comment);
     }
+    
+    /**
+     * Batch creates or updates documents for comments.
+     *
+     * @see CommentsLogic#putDocuments(CommentAttributes)
+     */
+    public void putDocuments(List<CommentAttributes> comments) {
+        commentsLogic.putDocuments(comments);
+    }
 
     /**
      * Removes document for the given comment.
