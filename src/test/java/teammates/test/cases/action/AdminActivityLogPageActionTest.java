@@ -28,7 +28,7 @@ import teammates.ui.template.AdminActivityLogTableRow;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Action test for AdminActivityLogPageAction.
+ * SUT: {@link AdminActivityLogPageAction}.
  *
  * <p>The test will inject predefined GAE logs using {@link teammates.test.driver.GaeSimulation} and
  * then test the correct execution of the action.
@@ -441,8 +441,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
      * Verifies actualLogs contains expectedLogs.
      *
      * <p>expectedLogs is a 2D array, the outer indices correspond to {@link #LOG_MESSAGE_INDEX_TODAY}
-     * {@link #LOG_MESSAGE_YESTDAY_INDEX} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
-     * every {@code LOG_MESSAGE_*_INDEX} correspond to the orders in the test data.
+     * {@link #LOG_MESSAGE_INDEX_YESTERDAY} and {@link #LOG_MESSAGE_INDEX_TWO_DAYS_AGO}, the inner indices for
+     * every {@code LOG_MESSAGE_INDEX_*} correspond to the orders in the test data.
      */
     private void verifyLogs(int[][] expectedLogs, List<ActivityLogEntry> actualLogs) {
         List<String> expectedMsgs = generateExpectedMsgFrom(expectedLogs);

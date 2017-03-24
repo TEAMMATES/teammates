@@ -20,6 +20,9 @@ import teammates.ui.template.StudentListSectionData;
 import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
 
+/**
+ * SUT: {@link InstructorStudentListAjaxPageData}.
+ */
 public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
 
     private AccountAttributes acct;

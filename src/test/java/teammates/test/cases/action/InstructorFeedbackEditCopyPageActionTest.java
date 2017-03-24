@@ -12,6 +12,9 @@ import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackEditCopyPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackEditCopyPageAction}.
+ */
 public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
 
     @Override

@@ -12,6 +12,9 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link InstructorAttributes}.
+ */
 public class InstructorAttributesTest extends BaseTestCase {
 
     @Test

@@ -17,6 +17,9 @@ import teammates.common.util.Const;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Represents a feedback question.
+ */
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.

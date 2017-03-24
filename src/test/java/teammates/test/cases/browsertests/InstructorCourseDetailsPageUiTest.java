@@ -16,9 +16,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * Tests 'Course Details' view for Instructors.
- * SUT {@link InstructorCourseDetailsPage}. <br>
- * This class uses real user accounts for students.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_DETAILS_PAGE}.
  */
 public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private InstructorCourseDetailsPage detailsPage;

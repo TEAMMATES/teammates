@@ -9,6 +9,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseStudentDeleteAction}.
+ */
 public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
 
     @Override

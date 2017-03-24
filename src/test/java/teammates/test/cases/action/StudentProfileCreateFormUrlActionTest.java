@@ -9,6 +9,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.StudentProfileCreateFormUrlAction;
 import teammates.ui.pagedata.StudentProfileCreateFormUrlAjaxPageData;
 
+/**
+ * SUT: {@link StudentProfileCreateFormUrlAction}.
+ */
 public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
     @Override

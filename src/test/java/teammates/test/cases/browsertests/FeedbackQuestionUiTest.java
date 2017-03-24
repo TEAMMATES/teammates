@@ -4,6 +4,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
+/**
+ * Base class for all Feedback*QuestionUiTest.
+ */
 public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
 
     protected abstract void testNewQuestionFrame();
