@@ -14,6 +14,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 1. Install Git, and (optional but recommended) a Git GUI client such as GitHub for Windows/Mac.
 1. Install JDK 1.7.
+1. Install Node.js (minimum version 4.x).
 
 ## Step 2: Obtain your own repository copy
 
@@ -48,6 +49,11 @@ More information can be found at [this documentation](https://help.github.com/ar
    
  **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named `appengine-sdk` should be present.
  
+1. Run this command to download the necessary tools for JavaScript development:
+   ```sh
+   npm install
+   ```
+
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
    ./gradlew setup
