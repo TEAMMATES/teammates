@@ -36,6 +36,9 @@ import teammates.ui.controller.Action;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Tests the access control mechanism for all *Action classes.
+ */
 public class AllActionsAccessControlTest extends BaseActionTest {
 
     private static String invalidEncryptedKey = StringHelper.encrypt("invalidKey");

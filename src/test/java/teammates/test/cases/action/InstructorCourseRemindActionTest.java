@@ -17,6 +17,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseRemindAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseRemindAction}.
+ */
 public class InstructorCourseRemindActionTest extends BaseActionTest {
 
     @Override

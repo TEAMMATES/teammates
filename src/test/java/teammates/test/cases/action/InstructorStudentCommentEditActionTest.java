@@ -15,6 +15,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorStudentCommentEditAction}.
+ */
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
     @Override

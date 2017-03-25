@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -20,7 +19,6 @@ import teammates.common.util.Url;
  * The result of executing an {@link Action}.
  */
 public abstract class ActionResult {
-    protected static final Logger log = Logger.getLogger();
 
     /** The URI that represents the result.
      * e.g., "/page/instructorHome" "/jsp/instructorHome.jsp"

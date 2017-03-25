@@ -24,6 +24,9 @@ import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 
+/**
+ * SUT: {@link InstructorFeedbacksPageData}.
+ */
 public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
     private static DataBundle dataBundle = getTypicalDataBundle();

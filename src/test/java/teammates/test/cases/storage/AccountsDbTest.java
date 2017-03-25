@@ -20,6 +20,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * SUT: {@link AccountsDb}.
+ */
 public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountsDb accountsDb = new AccountsDb();

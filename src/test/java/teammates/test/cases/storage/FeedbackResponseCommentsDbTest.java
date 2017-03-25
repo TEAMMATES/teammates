@@ -22,6 +22,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackResponseCommentsDb}.
+ */
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();

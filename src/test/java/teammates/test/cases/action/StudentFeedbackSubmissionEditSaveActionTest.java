@@ -26,6 +26,9 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
+/**
+ * SUT: {@link StudentFeedbackSubmissionEditSaveAction}.
+ */
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
 

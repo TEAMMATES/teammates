@@ -23,11 +23,9 @@ import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * Tests 'Submit Feedback' view of students.
+ * SUT: {@link Const.ActionURIs#STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE}.
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
- *
- * <p>SUT: {@link FeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;

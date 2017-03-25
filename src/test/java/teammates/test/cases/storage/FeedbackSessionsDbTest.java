@@ -27,6 +27,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackSessionsDb}.
+ */
 public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();

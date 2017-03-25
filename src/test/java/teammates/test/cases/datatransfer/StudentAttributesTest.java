@@ -15,6 +15,9 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link StudentAttributes}.
+ */
 public class StudentAttributesTest extends BaseTestCase {
 
     private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {

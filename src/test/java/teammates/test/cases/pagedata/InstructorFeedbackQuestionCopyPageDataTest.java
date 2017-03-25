@@ -11,6 +11,9 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorFeedbackQuestionCopyPageData;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 
+/**
+ * SUT: {@link InstructorFeedbackQuestionCopyPageData}.
+ */
 public class InstructorFeedbackQuestionCopyPageDataTest extends BaseTestCase {
 
     private static DataBundle dataBundle = getTypicalDataBundle();
