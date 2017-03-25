@@ -293,19 +293,8 @@ war.dependsOn enhancerRun
 
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
-task eslint(type: Exec) {
-    def command = ["eslint"]
-    def jsDirs = ["src/main/webapp/js/*.js", "src/main/webapp/dev/*.js"]
-    def jsonDirs = ["src/main/webapp/js/*.json", "src/main/resources/*.json", "src/test/resources/data/*.json"]
-    def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + jsonDirs + configFile
-}
-
-task stylelint(type: Exec) {
-    def command = ["stylelint"]
-    def cssDirs = ["src/main/webapp/stylesheets/*.css"]
-    def configFile = ["--config", "static-analysis/teammates-stylelint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + cssDirs + configFile
+task lint(type: Exec) {
+    commandLine "npm", "run", "lint"
 }
 
 checkstyle {
@@ -367,7 +356,7 @@ macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
 task staticAnalysis {
     description "Runs the entire static analysis tasks."
     group "Static analysis"
-    dependsOn eslint, stylelint, staticAnalysisMain, staticAnalysisTest, macker
+    dependsOn lint, staticAnalysisMain, staticAnalysisTest, macker
 }
 
 // TEST TASKS
