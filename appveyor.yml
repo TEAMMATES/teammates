@@ -21,11 +21,13 @@ skip_commits:
 
 install:
   - choco install firefox -version 46.0
+  - npm install
 
 build_script:
   - gradlew.bat createConfigs testClasses 
 
 test_script:
+  - npm run build
   - gradlew.bat appengineRun ciTests
 
 on_finish:
