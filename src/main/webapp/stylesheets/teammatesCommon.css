@@ -599,7 +599,7 @@ Apply to thead to make headers not bold.
     .btn-login {
         width: 100%;
         text-align: left;
-        padding: 6px 0px !important;
+        padding: 6px 0px;
     }
 }
 
