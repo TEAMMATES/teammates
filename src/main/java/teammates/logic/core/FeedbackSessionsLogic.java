@@ -839,7 +839,7 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
-        long indicatedRange = section == null ? 2000 : -1;
+        long indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
 
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
