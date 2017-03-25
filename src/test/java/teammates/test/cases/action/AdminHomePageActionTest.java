@@ -7,6 +7,9 @@ import teammates.ui.controller.AdminHomePageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminHomePageData;
 
+/**
+ * SUT: {@link AdminHomePageAction}.
+ */
 public class AdminHomePageActionTest extends BaseActionTest {
 
     @Override

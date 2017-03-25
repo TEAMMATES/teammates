@@ -9,6 +9,9 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentProfilePageAction;
 import teammates.ui.pagedata.PageData;
 
+/**
+ * SUT: {@link StudentProfilePageAction}.
+ */
 public class StudentProfilePageActionTest extends BaseActionTest {
 
     @Override

@@ -8,6 +8,7 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
+import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.api.GateKeeper;
 import teammates.common.util.JsonUtils;
@@ -19,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
  * change in student enrollment details of a course.
  */
 public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {

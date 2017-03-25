@@ -1,6 +1,7 @@
 <%@ tag description="Generic TEAMMATES Static Page" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="currentPage" %>
 <!DOCTYPE html>
@@ -29,9 +30,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">
-                        <img height="100%" src="images/teammateslogo.jpg" alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects">
-                    </a>
+                    <t:teammatesLogo/>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav">
@@ -53,9 +52,9 @@
         </div>
     </div>
     <footer id="footerComponent">
-        <div class="container">
+        <div class="container text-nowrap">
             <div class="row">
-                <div class="col-xs-12 col-md-2 col-md-offset-10">
+                <div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
                     Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
                 </div>
             </div>

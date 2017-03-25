@@ -11,13 +11,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
 
-    StudentAttributes moderatedStudent;
+    private static final Logger log = Logger.getLogger();
+
+    private StudentAttributes moderatedStudent;
 
     @Override
     protected void verifyAccesibleForSpecificUser() {

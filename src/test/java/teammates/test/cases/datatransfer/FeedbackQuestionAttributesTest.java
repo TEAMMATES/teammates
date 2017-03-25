@@ -20,6 +20,9 @@ import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackQuestionAttributes}.
+ */
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     private DataBundle typicalBundle = getTypicalDataBundle();

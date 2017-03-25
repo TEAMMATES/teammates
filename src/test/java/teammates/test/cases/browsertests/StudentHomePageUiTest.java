@@ -8,14 +8,11 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
- * Covers Homepage and Login page for students. Some part of it is using a
- * real Google account alice.tmms. <br>
- * SUT: {@link StudentHelpPage} and {@link LoginPage} for students.
+ * SUT: {@link Const.ActionURIs#STUDENT_HOME_PAGE}.
  */
 public class StudentHomePageUiTest extends BaseUiTestCase {
     private StudentHomePage studentHome;

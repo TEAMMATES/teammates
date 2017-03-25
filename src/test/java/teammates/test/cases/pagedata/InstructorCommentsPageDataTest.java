@@ -23,6 +23,9 @@ import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 
+/**
+ * SUT: {@link InstructorCommentsPageData}.
+ */
 public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     private DataBundle dataBundle = getTypicalDataBundle();

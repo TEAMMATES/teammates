@@ -10,6 +10,9 @@ import teammates.ui.controller.InstructorStudentListPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorStudentListPageData;
 
+/**
+ * SUT: {@link InstructorStudentListPageAction}.
+ */
 // Priority added due to conflict between InstructorStudentListPageActionTest,
 // StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-3)

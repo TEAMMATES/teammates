@@ -9,6 +9,9 @@ import teammates.logic.core.CoursesLogic;
 import teammates.ui.controller.InstructorCourseEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseEditSaveAction}.
+ */
 public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 
     @Override
