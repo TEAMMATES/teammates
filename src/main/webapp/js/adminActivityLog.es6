@@ -12,7 +12,7 @@ $(document).ready(() => {
         getOlderLogEntriesByAjax(nextEndTime);
     });
 
-    $('#activity-logs-table logEntryTimestamp').on('click', function (e) {
+    $('#activity-logs-table .logEntryTimestamp').on('click', function (e) {
         e.preventDefault();
         const data = $(e.target).data();
         convertLogTimestampToAdminTimezone(data.time, data.googleId, data.role, this);
