@@ -1,4 +1,4 @@
-/* global toggleReference:false getOlderLogEntriesByAjax:false convertLogTimestampToAdminTimezone:false */
+/* global toggleReference:false convertLogTimestampToAdminTimezone:false */
 
 QUnit.module('AdminActivityLog.js');
 
@@ -48,41 +48,9 @@ function restoreAjaxImplementation() {
     $.ajax = $ajaxImplementation;
 }
 
-QUnit.test('getOlderLogEntriesByAjax correctly modifies page when receiving new log entries', (assert) => {
-    const requiredElements = '<form id="ajaxLoaderDataForm"> <input type="hidden" name="searchTimeOffset" value=""> </form> '
-        + '<table id="logsTable"> <tbody> </tbody> </table>'
-        + '<button id="button_older">Search More</button>';
-    createRequiredElements(requiredElements);
-    const selector = '#logsTable tbody';
-    const logContainer = $(selector);
-
-    const responseWithNoLogs = {
-        isError: false,
-        logs: [],
-    };
-    replaceAjaxWithStub(responseWithNoLogs);
-    const sampleTimestamp = 1489130289711;
-    getOlderLogEntriesByAjax(sampleTimestamp);
-    assert.equal(logContainer.children().length, 0, 'no entries should be added if ajax response contains no entries');
-
-    const responseWithLogs = {
-        isError: false,
-        logs: [
-            { logInfoAsHtml: '<tr><td>entry 1</td></tr>' },
-            { logInfoAsHtml: '<tr><td>entry 2</td></tr>' },
-        ],
-    };
-    replaceAjaxWithStub(responseWithLogs);
-    getOlderLogEntriesByAjax(sampleTimestamp);
-    assert.equal(logContainer.children().length, 2, 'Log entries should be added');
-    assert.equal(logContainer.children().eq(0).html(), '<td>entry 1</td>');
-    assert.equal(logContainer.children().eq(1).html(), '<td>entry 2</td>');
-
-    restoreAjaxImplementation();
-});
-
 QUnit.test('convertLogTimestampToAdminTimezone', (assert) => {
-    const requiredElements = '<table id="logsTable"><tbody><tr><td><a>10-03-2017 15:18:09</a>'
+    const requiredElements = '<table id="activity-logs-table"><tbody><tr>'
+        + '<td><a class="logEntryTimestamp">10-03-2017 15:18:09</a>'
         + '<p class="localTime"></p></tr></tbody></table>';
     createRequiredElements(requiredElements);
     const response = {
@@ -90,7 +58,7 @@ QUnit.test('convertLogTimestampToAdminTimezone', (assert) => {
         logLocalTime: '10-03-2017 07:18:09',
     };
     replaceAjaxWithStub(response);
-    const $logEntry = $('#logsTable tbody tr a');
+    const $logEntry = $('#activity-logs-table .logEntryTimestamp');
     const $logTimestampCell = $logEntry.parent();
     const sampleTimestamp = 1489130289711;
     convertLogTimestampToAdminTimezone(sampleTimestamp, 'teammates.admin.id', 'Admin', $logEntry);

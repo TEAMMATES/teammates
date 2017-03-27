@@ -82,6 +82,7 @@ function convertLogTimestampToAdminTimezone(time, googleId, role, entry) {
  * Updates the page with older log entries matching the query via ajax.
  *
  * @param {int} searchTimeOffset
+ * @param {bool} shouldNewEntriesHaveKeywordsHighlighted whether older log entries should have keywords highlighted
  */
 function getOlderLogEntriesByAjax(searchTimeOffset) {
     $('input[name=searchTimeOffset]').val(searchTimeOffset);
@@ -106,6 +107,7 @@ function getOlderLogEntriesByAjax(searchTimeOffset) {
             $logsTable.append($data.find('#activity-logs-table > tbody').html());
             updateInfoForRecentActionButton();
             highlightKeywordsInLogMessages();
+
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         },
     });
