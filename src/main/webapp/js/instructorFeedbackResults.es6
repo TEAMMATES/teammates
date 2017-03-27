@@ -25,7 +25,7 @@ $(document).ready(() => {
                             .children('.panel-collapse')
                             .find(childPanelType)
                             .children('.panel-collapse');
-        toggleCollapse(e.currentTarget, panels);
+        expandOrCollapsePanels(e.currentTarget, panels);
     });
 
     $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
@@ -33,7 +33,7 @@ $(document).ready(() => {
                             .children('.panel-collapse')
                             .find(participantPanelType)
                             .children('.panel-collapse');
-        toggleCollapse(e.currentTarget, panels);
+        expandOrCollapsePanels(e.currentTarget, panels);
     });
 
     $('#results-search-box').keyup(updateResultsFilter);
@@ -213,34 +213,104 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
-function toggleCollapse(e, pans) {
-    const expand = 'Expand';
-    const collapse = 'Collapse';
-    const panels = pans || $('div.panel-collapse');
+/**
+ * Expands or collapses all panels when collapse/expand panels button is clicked.
+ * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
+ * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@code expandCollapseButton}
+ *         is collapse panels button.
+ */
+function expandOrCollapsePanels(expandCollapseButton, panels) {
+    const STRING_EXPAND = 'Expand';
+    const STRING_COLLAPSE = 'Collapse';
+    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
+    // need to define corresponding {@code targetPanels}.
+    const targetPanels = panels || $('div.panel-collapse');
 
-    if ($(e).html().trim().startsWith(expand)) {
-        for (let idx = 0; idx < panels.length; idx += 1) {
-            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                setTimeout(showSingleCollapse, 50 * idx, panels[idx]);
-            }
-        }
-        const htmlString = $(e).html().replace(expand, collapse);
-        $(e).html(htmlString);
-        const tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
-        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+    const isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+    if (isButtonInExapandMode) {
+        // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
+        const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
+        expandPanels(targetPanels, areAjaxLoadedPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
     } else {
-        let j = 0;
-        for (let k = 0; k < panels.length; k += 1) {
-            if ($(panels[k]).attr('class').indexOf('in') !== -1) {
-                setTimeout(hideSingleCollapse, 100 * j, panels[k]);
-                j += 1;
-            }
-        }
-        const htmlStr = $(e).html().replace(collapse, expand);
-        $(e).html(htmlStr);
-        const tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
-        $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
+        collapsePanels(targetPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
     }
+}
+
+/**
+ * Expands all panels. Loads panel data if missing.
+ */
+function expandPanels(panels, areAjaxLoadedPanels) {
+    const BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 50;
+
+    for (let idx = 0; idx < panels.length; idx += 1) {
+        expandPanel(panels[idx], idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, areAjaxLoadedPanels);
+    }
+}
+
+/**
+ * Expands {@code panel}. If the panel data is not loaded, load it by Ajax.
+ * @param {int} timeOut - is in milliseconds
+ */
+function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
+    const isPanelAlreadyExpanded = $(panel).hasClass('in');
+    if (isPanelAlreadyExpanded) {
+        return;
+    }
+
+    if (isAjaxLoadedPanel) { // Might need to load the panel data by Ajax.
+        const $elementToClickForAjaxLoading = getElementToClickForAjaxLoading(panel);
+        const needToLoadThePanelDataByClickingOnElement = $elementToClickForAjaxLoading.length !== 0;
+        if (needToLoadThePanelDataByClickingOnElement) {
+            // When clicked, the panel data is loaded, and ajax_auto or ajax-response-auto class will
+            // be removed from the element.
+            $elementToClickForAjaxLoading.click();
+
+            // Panel is already expanded as a result of clicking.
+            return;
+        }
+    }
+
+    // Expands this panel.
+    setTimeout(showSingleCollapse, timeOut, panel);
+}
+
+/**
+ * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
+ *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
+ *         element.
+ */
+function getElementToClickForAjaxLoading(panel) {
+    let $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
+    if ($elementWithAjaxClass.length === 0) {
+        $elementWithAjaxClass = $(panel).parent().children('.ajax-response-auto');
+    }
+    return $elementWithAjaxClass;
+}
+
+function collapsePanels(panels) {
+    const BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 100;
+
+    for (let idx = 0; idx < panels.length; idx += 1) {
+        const isPanelAlreadyCollapsed = !$(panels[idx]).hasClass('in');
+        if (isPanelAlreadyCollapsed) {
+            continue;
+        }
+        // Collapses this panel.
+        setTimeout(hideSingleCollapse, idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, panels[idx]);
+    }
+}
+
+function replaceButtonHtmlAndTooltipText(button, from, to) {
+    // Replaces html text of the {@code button}.
+    let htmlString = $(button).html();
+    htmlString = htmlString.replace(from, to);
+    $(button).html(htmlString);
+
+    // Replaces tooltip text of the {@code button}.
+    const tooltipString = $(button).attr('data-original-title').replace(from, to);
+    $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
 }
 
 function getNextId(e) {
