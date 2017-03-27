@@ -6,11 +6,12 @@ $(document).ready(() => {
     $('#filterReference').toggle();
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
     highlightKeywordsInLogMessages();
-    
+
     $('#toggleReferenceLink').on('click', (e) => {
+        e.preventDefault();
         toggleReference();
     });
-    
+
     $('#button_older').on('click', (e) => {
         e.preventDefault();
         const nextEndTime = $(e.target).data('nextEndTime');
