@@ -97,25 +97,11 @@ function getOlderLogEntriesByAjax(searchTimeOffset) {
         },
         success(data) {
             const $data = $(data);
-            // updatePageWithNewLogsFromAjax(data, '#logsTable tbody');
             $logsTable.append($data.find('#activity-logs-table > tbody').html());
             updateInfoForRecentActionButton();
             highlightKeywordsInLogMessages();
             setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
         },
-    });
-}
-
-/**
- * Appends new log entries from ajax as children of the node specified by the selector
- *
- * @param {Object} response from the Ajax request
- * @param {String} selector the selector for the DOM node that log entries should be placed in
- */
-function updatePageWithNewLogsFromAjax(response, selector) {
-    const $logContainer = $(selector);
-    response.logs.forEach((value) => {
-        $logContainer.append(value.logInfoAsHtml);
     });
 }
 
