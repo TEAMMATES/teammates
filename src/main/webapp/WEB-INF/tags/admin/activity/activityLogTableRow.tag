@@ -6,7 +6,7 @@
 <tr>
     <td class="${log.isActionTimeTakenModerate ? "warning" 
                                                : log.isActionTimeTakenSlow ? "danger" : "" }">
-        <a data-time="${log.logTime}" data-google-id="${log.userGoogleId}" data-role="${log.displayedRole}">
+        <a class="logEntryTimestamp" data-time="${log.logTime}" data-google-id="${log.userGoogleId}" data-role="${log.displayedRole}">
             ${log.displayedLogTime}
         </a>
         <p class="localTime"></p>
