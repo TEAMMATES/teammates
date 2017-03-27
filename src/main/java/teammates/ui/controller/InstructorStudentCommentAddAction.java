@@ -62,8 +62,9 @@ public class InstructorStudentCommentAddAction extends Action {
 
         try {
             CommentAttributes createdComment = logic.createComment(comment);
-            //TODO: move putDocument to Task Queue
-            logic.putDocument(createdComment);
+            //in case document production requires many retries
+            taskQueuer.scheduleSearchableDocumentsProductionForComments(
+                    Long.toString(createdComment.getCommentId()));
             String commentPlainText = Jsoup.clean(createdComment.getCommentText(), Whitelist.none());
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COMMENT_ADDED, commentPlainText),
                                                StatusMessageColor.SUCCESS));
