@@ -240,8 +240,8 @@
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
             <div class="pull-right" data-original-title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below." data-toggle="tooltip" style="display:inline-block;" title="">
-              <a class="btn btn-default btn-xs pull-right" disabled="" id="collapse-panels-button" onclick="toggleCollapse(this)">
-                Expand Questions
+              <a class="btn btn-default btn-xs pull-right" disabled="" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)">
+                Collapse Questions
               </a>
             </div>
           </div>
@@ -323,7 +323,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -346,7 +346,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-2">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-1">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -370,7 +370,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -393,7 +393,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-3">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-3" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-2">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -417,7 +417,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -440,7 +440,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-4">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-3">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -464,7 +464,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -487,7 +487,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-5">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-5" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-4">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -511,7 +511,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -534,7 +534,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-6">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-6" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-5">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -558,7 +558,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -604,7 +604,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-7">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-7" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-6">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -628,7 +628,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -674,7 +674,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-8">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-8" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-7">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -698,7 +698,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -732,7 +732,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-9">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-9" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-8">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -756,7 +756,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -790,7 +790,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-10">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-10" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-9">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -814,7 +814,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -837,7 +837,7 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-11">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-11" style="height: auto;">
       <div class="panel-body padding-0" id="questionBody-10">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
@@ -856,12 +856,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-down pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-12">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
     </div>
   </div>
 </div>

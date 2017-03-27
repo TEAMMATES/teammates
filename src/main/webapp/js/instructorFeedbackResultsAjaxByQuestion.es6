@@ -83,5 +83,4 @@ $(document).ready(() => {
 
     const $questionPanelHeadings = $('.ajax_submit,.ajax_auto');
     $questionPanelHeadings.click(seeMoreRequest);
-    $('.ajax_auto').click();
 });
