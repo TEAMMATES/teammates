@@ -36,6 +36,9 @@ import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
 
+/**
+ * SUT: {@link StudentCommentsPageData}.
+ */
 public class StudentCommentsPageDataTest extends BaseTestCase {
     private DataBundle dataBundle = getTypicalDataBundle();
     private StudentCommentsPageData data;
@@ -107,9 +110,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
             commentRows.add(new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails));
         }
-        CommentsForStudentsTable commentsForStudentsTable =
-                new CommentsForStudentsTable(unsanitizedGiverDetails, commentRows);
-        return commentsForStudentsTable;
+        return new CommentsForStudentsTable(unsanitizedGiverDetails, commentRows);
     }
 
     private FeedbackSessionRow getFeedbackSessionRow(FeedbackSessionResultsBundle bundle) {
@@ -154,14 +155,13 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             questionTables.add(questionTable);
         }
 
-        FeedbackSessionRow sessionRow =
-                new FeedbackSessionRow(session.getFeedbackSessionName(), session.getCourseId(), questionTables);
-
-        return sessionRow;
+        return new FeedbackSessionRow(session.getFeedbackSessionName(), session.getCourseId(), questionTables);
     }
 
-    /** Creates a single FeedbackSessionResultsBundle object which comprises
-      * a single feedback session, a single question, a single response and a single response comment */
+    /**
+     * Creates a single FeedbackSessionResultsBundle object which comprises
+     * a single feedback session, a single question, a single response and a single response comment.
+     */
     private FeedbackSessionResultsBundle getSingleFeedbackSessionResultsBundle(CourseRoster roster) {
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
@@ -284,9 +284,12 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         }
     }
 
-    /** The methods below check if the data structures are equal
-     *  Only asserts the attributes that are used in the respective comment tags
-     *  when accessing from StudentComments page*/
+    /**
+     * The methods below check if the data structures are equal.
+     *
+     * <p>Only asserts the attributes that are used in the respective comment tags
+     * when accessing from StudentComments page.
+     */
     private static void checkCommentRowsEqual(CommentRow expected, CommentRow actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());

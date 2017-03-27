@@ -18,6 +18,9 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+/**
+ * Provides access control mechanisms.
+ */
 public class GateKeeper {
 
     private static UserService userService = UserServiceFactory.getUserService();
@@ -71,7 +74,9 @@ public class GateKeeper {
      * These methods ensures the logged in user is of a particular type.
      */
 
-    /** Verifies the user is logged in */
+    /**
+     * Verifies the user is logged in.
+     */
     public void verifyLoggedInUserPrivileges() {
         if (isUserLoggedOn()) {
             return;
@@ -161,13 +166,9 @@ public class GateKeeper {
     }
 
     /**
-     * verify the instructor and course are not null, the instructor belongs to
+     * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
-     * privilegeName
-     *
-     * @param instructor
-     * @param course
-     * @param privilegeName
+     * privilegeName.
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
         verifyNotNull(instructor, "instructor");
@@ -187,14 +188,9 @@ public class GateKeeper {
     }
 
     /**
-     * verify the instructor and course are not null, the instructor belongs to
+     * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
-     * privilegeName for sectionName
-     *
-     * @param instructor
-     * @param course
-     * @param sectionName
-     * @param privilegeName
+     * privilegeName for sectionName.
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName,
                                  String privilegeName) {
@@ -236,14 +232,9 @@ public class GateKeeper {
     }
 
     /**
-     * verify the instructor and course are not null, the instructor belongs to
+     * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
-     * privilegeName for feedbackSession
-     *
-     * @param instructor
-     * @param feedbacksession
-     * @param creatorOnly
-     * @param privilegeName
+     * privilegeName for feedbackSession.
      */
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
                                  boolean creatorOnly, String privilegeName) {

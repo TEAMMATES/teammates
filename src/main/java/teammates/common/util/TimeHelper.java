@@ -99,9 +99,9 @@ public final class TimeHelper {
     /**
      * Convert a date string and time string into a Date object. Returns null on error.
      *
-     * @param date
+     * @param inputDate
      *            The date in format dd/MM/yyyy
-     * @param time
+     * @param inputTimeHours
      *            The time as number of hours
      */
     public static Date combineDateTime(String inputDate, String inputTimeHours) {
@@ -119,7 +119,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object with specified offset in number of hours from now
+     * Returns the date object with specified offset in number of hours from now.
      */
     public static Date getHoursOffsetToCurrentTime(int offsetHours) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -129,7 +129,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object with specified offset in number of days from now
+     * Returns the date object with specified offset in number of days from now.
      */
     public static Date getDateOffsetToCurrentTime(int offsetDays) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -178,8 +178,8 @@ public final class TimeHelper {
     }
 
     /**
-     * @return one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
-     * Note the last one is different from the others.
+     * Returns one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
+     *         Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
         int optionValue = convertToOptionValueInTimeDropDown(date);
@@ -195,7 +195,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd/MM/yyyy
+     * Formats a date in the format dd/MM/yyyy.
      */
     public static String formatDate(Date date) {
         if (date == null) {
@@ -267,7 +267,9 @@ public final class TimeHelper {
     }
 
     /**
-     * @param dateInStringFormat should be in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
+     * Converts the date string to a Date object.
+     *
+     * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
      */
     public static Date convertToDate(String dateInStringFormat) {
         try {
@@ -415,9 +417,9 @@ public final class TimeHelper {
     }
 
     /**
-     * @param type: Long value: time in milliseconds
-     * @return Duration in format m:s:ms
-     * Example: 1200 milliseconds ---> 0:1:200
+     * Returns Duration in format m:s:ms.
+     *
+     * <p>Example: 1200 milliseconds ---> 0:1:200.
      */
 
     public static String convertToStandardDuration(Long timeInMilliseconds) {
@@ -431,15 +433,14 @@ public final class TimeHelper {
     }
 
     /**
-     * All parameters not null
-     * Combine separated date, hour and minute string into standard format
-     * required parameter format:
+     * Combines separated date, hour and minute string into standard format.
+     *
+     * <p>required parameter format:
      * date: dd/MM/yyyy  hour: hh   min:mm
-     * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
-     * Example: If date is 01/04/2014, hour is 23, min is 59
-     *          result will be  2014-04-01 11:59 PM UTC
+     *
+     * @return Date String in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.<br>
+     *         Example: If date is 01/04/2014, hour is 23, min is 59, result will be  2014-04-01 11:59 PM UTC.
      */
-
     public static String convertToRequiredFormat(String date, String hour, String min) {
 
         if (date == null || hour == null || min == null) {

@@ -40,6 +40,9 @@ import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * Provides additional business logic for non-production usage (e.g. testing, client scripts).
+ */
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
@@ -165,7 +168,7 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-     * Checks if the role of {@code instructor} matches its privileges
+     * Checks if the role of {@code instructor} matches its privileges.
      *
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
@@ -207,8 +210,7 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-     * create document for entities that have document--searchable
-     * @param dataBundle
+     * Creates document for entities that have document, i.e. searchable.
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."

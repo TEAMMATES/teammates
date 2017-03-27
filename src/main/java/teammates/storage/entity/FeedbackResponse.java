@@ -13,6 +13,9 @@ import teammates.common.util.Const;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Represents a feedback response.
+ */
 @PersistenceCapable
 public class FeedbackResponse implements StoreCallback {
 

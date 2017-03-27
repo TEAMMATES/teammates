@@ -8,15 +8,18 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link FeedbackResponseAttributes}.
+ */
 public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     private static class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
 
-        private void setCreatedAt(Date createdAt) {
+        void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
         }
 
-        private void setUpdatedAt(Date updatedAt) {
+        void setUpdatedAt(Date updatedAt) {
             this.updatedAt = updatedAt;
         }
 

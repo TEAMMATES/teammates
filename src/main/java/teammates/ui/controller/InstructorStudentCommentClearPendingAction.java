@@ -7,6 +7,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.ThreadHelper;
@@ -14,9 +15,11 @@ import teammates.ui.pagedata.PageData;
 
 /**
  * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
- * and set up notification emails in the EmailsQueue
+ * and set up notification emails in the EmailsQueue.
  */
 public class InstructorStudentCommentClearPendingAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

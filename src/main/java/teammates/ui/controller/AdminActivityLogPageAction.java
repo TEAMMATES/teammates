@@ -38,7 +38,6 @@ public class AdminActivityLogPageAction extends Action {
     private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
 
     private int totalLogsSearched;
-    private boolean isFirstRow = true;
     private Long nextEndTimeToSearch;
 
     @Override
@@ -111,7 +110,7 @@ public class AdminActivityLogPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
         }
 
-        return createAjaxResult(data);
+        return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG_AJAX, data);
     }
 
     /**
@@ -238,11 +237,10 @@ public class AdminActivityLogPageAction extends Action {
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminLogQuery query, AdminActivityLogPageData data) {
         GaeLogApi logApi = new GaeLogApi();
         List<AppLogLine> searchResult = logApi.fetchLogs(query);
-        List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
 
         nextEndTimeToSearch = data.getFromDate() - 1;
         totalLogsSearched = searchResult.size();
-        return filteredLogs;
+        return filterLogsForActivityLogPage(searchResult, data);
     }
 
     /**
@@ -260,16 +258,13 @@ public class AdminActivityLogPageAction extends Action {
             }
 
             ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
-            activityLogEntry = data.filterLogs(activityLogEntry);
+            boolean isToShow = data.filterLog(activityLogEntry)
+                    && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
 
-            boolean isToShow = activityLogEntry.toShow() && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
             if (!isToShow) {
                 continue;
             }
-            if (isFirstRow) {
-                activityLogEntry.setFirstRow();
-                isFirstRow = false;
-            }
+
             appLogs.add(activityLogEntry);
         }
         return appLogs;

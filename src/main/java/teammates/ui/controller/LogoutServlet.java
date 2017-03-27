@@ -11,7 +11,7 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
- * Servlet to handle Logout
+ * Servlet to handle Logout.
  */
 @SuppressWarnings("serial")
 public class LogoutServlet extends HttpServlet {

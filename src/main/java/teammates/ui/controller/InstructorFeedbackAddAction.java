@@ -19,6 +19,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -31,6 +32,8 @@ import com.google.appengine.api.datastore.Text;
 import com.google.gson.reflect.TypeToken;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() {
@@ -127,7 +130,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
     }
 
     /**
-     * Get the list of questions for the specified feedback session template
+     * Gets the list of questions for the specified feedback session template.
      */
     private static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
             String templateType, String courseId, String feedbackSessionName, String creatorEmail) {

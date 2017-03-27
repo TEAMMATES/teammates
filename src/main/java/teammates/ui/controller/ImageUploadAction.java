@@ -6,6 +6,7 @@ import java.util.Map;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.pagedata.FileUploadPageData;
 
 import com.google.appengine.api.blobstore.BlobInfo;
@@ -14,9 +15,11 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 /**
- * Action: uploads an image to Google Cloud Storage
+ * Action: uploads an image to Google Cloud Storage.
  */
 public class ImageUploadAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     private FileUploadPageData data;
 
@@ -61,7 +64,7 @@ public class ImageUploadAction extends Action {
     }
 
     /**
-     * Extracts the image metadata by the passed image key parameter
+     * Extracts the image metadata by the passed image key parameter.
      */
     protected BlobInfo extractImageKey(String param) {
         try {
@@ -82,7 +85,7 @@ public class ImageUploadAction extends Action {
     }
 
     /**
-     * Validates the image by size and content type
+     * Validates the image by size and content type.
      */
     protected BlobInfo validateImage(BlobInfo image) {
         if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
@@ -101,7 +104,7 @@ public class ImageUploadAction extends Action {
     }
 
     /**
-     * Deletes the uploaded image
+     * Deletes the uploaded image.
      */
     protected void deleteImage(BlobKey blobKey) {
         if (blobKey.equals(new BlobKey(""))) {
@@ -120,7 +123,7 @@ public class ImageUploadAction extends Action {
     }
 
     /**
-     * Deletes the uploaded file from Google Cloud Storage
+     * Deletes the uploaded file from Google Cloud Storage.
      */
     protected void deleteUploadedFile(BlobKey blobKey) {
         logic.deleteUploadedFile(blobKey);

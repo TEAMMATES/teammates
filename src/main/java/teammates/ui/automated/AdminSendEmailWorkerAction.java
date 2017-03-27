@@ -5,13 +5,15 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.SanitizationHelper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends queued admin email.
  */
 public class AdminSendEmailWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {
@@ -39,7 +41,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
             AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
             Assumption.assertNotNull(adminEmail);
 
-            emailContent = adminEmail.getContent().getValue();
+            emailContent = adminEmail.getContentValue();
             emailSubject = adminEmail.getSubject();
         }
 
@@ -48,8 +50,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
 
         try {
             EmailWrapper email =
-                    new EmailGenerator().generateAdminEmail(SanitizationHelper.desanitizeFromHtml(emailContent),
-                                                            emailSubject, receiverEmail);
+                    new EmailGenerator().generateAdminEmail(emailContent, emailSubject, receiverEmail);
             emailSender.sendEmail(email);
             log.info("Email sent to " + receiverEmail);
         } catch (Exception e) {

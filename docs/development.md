@@ -2,6 +2,7 @@
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
+* [Building JavaScript files](#building-javascript-files)
 * [Managing the dev server](#managing-the-dev-server)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
 * [Testing](#testing)
@@ -15,6 +16,16 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 - It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
+
+## Building JavaScript files
+
+Our JavaScript code is written in ECMAScript 6 (ES6) syntax, however many of the existing Web browsers today still have limited support for ES6.<br>
+To resolve this, we need to *transpile* ("build" afterwards) these JavaScript files into ECMAScript 5 syntax which is supported by (almost) all browsers.
+
+Run the following command to build the JavaScript files for the application's use:
+```sh
+npm run build
+```
 
 ## Managing the dev server
 
@@ -45,19 +56,19 @@ Click the "Terminate" icon on the Eclipse console.
 1. Click `+ → Google AppEngine Dev Server`.
 1. Name it `Dev Server`.
 1. Click `Configure` next to `Application server`.
-1. Click `+ → ...`. Select the App Engine SDK you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+1. Click `+ → ...`. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
 1. Under `Open browser`, uncheck `After launch`.
 1. Set the `JRE` to `1.7`.
 1. Set the `Port` to `8888`.
 1. Under `Before launch`, click `+ → Run Gradle task`.
-1. Select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
+1. Click the folder icon, select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
 1. Click `OK`.
-1. Move the item you just created above "Build".
+1. Remove "Build" by selecting it and clicking `-`.
 1. Click `OK`.
 
 #### Starting the dev server
 
-Go to `Run → Play` and select `Dev Server` in the pop-up box.
+Go to `Run → Run...` and select `Dev Server` in the pop-up box.
 
 #### Stopping the dev server
 
@@ -131,9 +142,13 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
 * Stop the dev server if it is running.
 * Specify timezone as a VM argument:
-  * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
-  * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-  * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
+  * Eclipse
+    * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
+    * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+    * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
+  * IntelliJ
+    * Go to `Run → Edit Configurations...` and select `Dev Server`.
+    * Add `-Duser.timezone=UTC` to the `VM options` text box. Click `OK`.
 * Start the server again using the run configuration you created in the previous step.
 
 ### Using Firefox

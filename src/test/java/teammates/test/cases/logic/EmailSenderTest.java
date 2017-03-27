@@ -21,11 +21,11 @@ import com.sendgrid.SendGrid;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 /**
- * SUT: {@link EmailSender}
- *      {@link JavamailService}
- *      {@link SendgridService}
- *      {@link MailgunService}
- *      {@link MailjetService}
+ * SUT: {@link EmailSender},
+ *      {@link JavamailService},
+ *      {@link SendgridService},
+ *      {@link MailgunService},
+ *      {@link MailjetService}.
  */
 public class EmailSenderTest extends BaseLogicTest {
 

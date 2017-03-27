@@ -18,6 +18,9 @@ import teammates.test.driver.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link BackDoor}.
+ */
 @Priority(2)
 public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 
@@ -117,18 +120,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         verifyAbsentInDatastore(newAccount);
     }
 
-    public void testGetAccount() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    public void testDeleteAccount() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    public void testDeleteInstructors() {
-        // already tested by testPersistenceAndDeletion
-    }
-
     @Test
     public void testCreateInstructor() {
         // only minimal testing because this is a wrapper method for
@@ -155,14 +146,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         verifyAbsentInDatastore(instructor);
     }
 
-    public void testGetInstructorAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    public void testDeleteInstructor() {
-        // already tested by testPersistenceAndDeletion
-    }
-
     @Test
     public void testCreateCourse() {
         // only minimal testing because this is a wrapper method for
@@ -183,14 +166,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         // Clean up
         BackDoor.deleteCourse(courseId);
         verifyAbsentInDatastore(course);
-    }
-
-    public void testGetCourseAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    public void testDeleteCourse() {
-        // already tested by testPersistenceAndDeletion
     }
 
     @Test
@@ -243,10 +218,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 
     }
 
-    public void testGetStudentAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-
     @Test
     public void testEditStudent() {
 
@@ -276,10 +247,6 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         status = BackDoor.editStudent(originalEmail, student);
         assertTrue(status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE));
         verifyAbsentInDatastore(student);
-    }
-
-    public void testDeleteStudent() {
-        // already tested by testPersistenceAndDeletion
     }
 
     @Test

@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * File-related helper methods used for testing. There is another FileHelper on
- * the server side.
+ * File-related helper methods used for testing.
  */
 public final class FileHelper {
 
@@ -22,10 +21,14 @@ public final class FileHelper {
      * Reads the file with the specified path as a String.
      */
     public static String readFile(String filePath) throws IOException {
-        Scanner sc = new Scanner(new BufferedReader(new FileReader(filePath)));
-        String result = sc.useDelimiter("\\Z").next();
-        sc.close();
-        return result;
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        Scanner sc = new Scanner(br);
+        try {
+            return sc.useDelimiter("\\Z").next();
+        } finally {
+            sc.close();
+            br.close();
+        }
     }
 
     /**

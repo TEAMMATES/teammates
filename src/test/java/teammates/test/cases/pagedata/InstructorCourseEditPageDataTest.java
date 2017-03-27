@@ -15,6 +15,9 @@ import teammates.ui.pagedata.InstructorCourseEditPageData;
 import teammates.ui.template.CourseEditInstructorPanel;
 import teammates.ui.template.CourseEditSectionRow;
 
+/**
+ * SUT: {@link InstructorCourseEditPageData}.
+ */
 public class InstructorCourseEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 

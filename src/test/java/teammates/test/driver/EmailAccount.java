@@ -1,8 +1,6 @@
 package teammates.test.driver;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
 import javax.mail.Flags;
@@ -16,6 +14,11 @@ import javax.mail.search.FlagTerm;
 
 import teammates.common.util.EmailType;
 
+/**
+ * Provides an access to real Gmail inbox used for testing.
+ *
+ * <p>Authentication via a real username (Google ID) and password is required.
+ */
 public final class EmailAccount {
 
     private EmailAccount() {
@@ -25,13 +28,8 @@ public final class EmailAccount {
     /**
      * Retrieve registration key sent to Gmail inbox. After retrieving, marks
      * the email as read.
-     *      * Can be easily modified to support other mail providers
      *
-     * @param username
-     * @param password
      * @return registration key (null if cannot be found).
-     * @throws MessagingException
-     * @throws IOException
      */
     public static String getRegistrationKeyFromGmail(String username, String password, String courseName, String courseId)
             throws IOException, MessagingException {
@@ -45,11 +43,9 @@ public final class EmailAccount {
 
             if (isRegistrationEmail(message, courseName, courseId)) {
                 String body = getEmailBody(message);
-                String key = getKey(body);
                 message.setFlag(Flags.Flag.SEEN, true);
-
                 inbox.close(true);
-                return key;
+                return getKey(body);
             }
         }
 
@@ -70,48 +66,6 @@ public final class EmailAccount {
         return key.trim();
     }
 
-    /**
-     * Helper function - Mark all emails of an account as read.
-     *
-     */
-    public static void markAllEmailsSeen(String username, String password)
-            throws Exception {
-        Folder inbox = getGmailInbox(username, password);
-        Message[] messages = getMessages(inbox);
-
-        for (Message message : messages) {
-            message.setFlag(Flags.Flag.SEEN, true);
-        }
-
-        inbox.close(true);
-    }
-
-    /**
-     * Count the number of stress test emails
-     *
-     */
-    public static int mailStressTestCount(String username, String password)
-            throws Exception {
-        Folder inbox = getGmailInbox(username, password);
-        Message[] messages = getMessages(inbox);
-
-        int count = 0;
-        Pattern pattern = Pattern.compile("^Teammates Mail Stree Testing ");
-        for (Message message : messages) {
-            System.out.println(message.getSubject());
-            Matcher m = pattern.matcher(message.getSubject());
-
-            if (!m.find()) {
-                continue;
-            }
-            count++;
-
-        }
-
-        inbox.close(true);
-        return count;
-    }
-
     private static Folder getGmailInbox(String username, String password)
             throws MessagingException {
         Session session =
@@ -125,9 +79,7 @@ public final class EmailAccount {
         // Reading the Email Index in Read / Write Mode
         inbox.open(Folder.READ_WRITE);
         FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message[] messages = inbox.search(ft);
-
-        return messages;
+        return inbox.search(ft);
     }
 
     private static String getEmailBody(Message message) throws IOException, MessagingException {

@@ -1,18 +1,20 @@
-'use strict';
+/* global
+setStatusMessage:false StatusType:false bindBackToTopButtons:false addLoadingIndicator:false removeLoadingIndicator:false
+*/
 
-$(document).ready(function() {
+$(document).ready(() => {
     $('#filterReference').toggle();
-    AdminCommon.bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
-
-    $('#button_older').on('click', function(e) {
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    highlightKeywordsInLogMessages();
+    $('#button_older').on('click', (e) => {
         e.preventDefault();
-        var nextEndTime = $(e.target).data('nextEndTime');
+        const nextEndTime = $(e.target).data('nextEndTime');
         getOlderLogEntriesByAjax(nextEndTime);
     });
 
-    $('#logsTable tbody tr a').on('click', function(e) {
+    $('#logsTable tbody tr a').on('click', function (e) {
         e.preventDefault();
-        var data = $(e.target).data();
+        const data = $(e.target).data();
         convertLogTimestampToAdminTimezone(data.time, data.googleId, data.role, this);
     });
 });
@@ -20,7 +22,7 @@ $(document).ready(function() {
 function toggleReference() {
     $('#filterReference').toggle('slow');
 
-    var button = $('#detailButton').attr('class');
+    const button = $('#detailButton').attr('class');
 
     if (button === 'glyphicon glyphicon-chevron-down') {
         $('#detailButton').attr('class', 'glyphicon glyphicon-chevron-up');
@@ -40,32 +42,33 @@ function toggleReference() {
  * @param {JQuery} entry link the user clicks to perform the timezone conversion
  */
 function convertLogTimestampToAdminTimezone(time, googleId, role, entry) {
-    var params = 'logTimeInAdminTimeZone=' + time
-                 + '&logRole=' + role
-                 + '&logGoogleId=' + googleId;
-    var $link = $(entry);
-    var localTimeDisplay = $(entry).parent().children()[1];
+    const params = `logTimeInAdminTimeZone=${time
+                  }&logRole=${role
+                  }&logGoogleId=${googleId}`;
 
-    var originalTime = $link.html();
+    const link = $(entry);
+    const localTimeDisplay = $(entry).parent().children()[1];
+
+    const originalTime = $(link).html();
 
     $.ajax({
         type: 'POST',
-        url: '/admin/adminActivityLogPage?' + params,
-        beforeSend: function() {
+        url: `/admin/adminActivityLogPage?${params}`,
+        beforeSend() {
             $(localTimeDisplay).html("<img src='/images/ajax-loader.gif'/>");
         },
-        error: function() {
+        error() {
             $(localTimeDisplay).html('Loading error, please retry');
         },
-        success: function(data) {
+        success(data) {
             if (data.isError) {
                 $(localTimeDisplay).html('Loading error, please retry');
             } else {
-                $link.parent().html(originalTime + '<mark><br>' + data.logLocalTime + '</mark>');
+                $(link).parent().html(`${originalTime}<mark><br>${data.logLocalTime}</mark>`);
             }
 
             setStatusMessage(data.statusForAjax, StatusType.INFO);
-        }
+        },
     });
 }
 
@@ -77,31 +80,29 @@ function convertLogTimestampToAdminTimezone(time, googleId, role, entry) {
 function getOlderLogEntriesByAjax(searchTimeOffset) {
     $('input[name=searchTimeOffset]').val(searchTimeOffset);
 
-    var formObject = $('#ajaxLoaderDataForm');
-    var formData = formObject.serialize();
-    var button = $('#button_older');
+    const formObject = $('#ajaxLoaderDataForm');
+    const formData = formObject.serialize();
+    const $button = $('#button_older');
+    const $logsTable = $('#activity-logs-table > tbody');
 
     $.ajax({
         type: 'POST',
-        url: '/admin/adminActivityLogPage?' + formData,
-        beforeSend: function() {
-            button.html("<img src='/images/ajax-loader.gif'/>");
+        url: `/admin/adminActivityLogPage?${formData}`,
+        beforeSend() {
+            addLoadingIndicator($button, '');
         },
-        error: function() {
-            setFormErrorMessage(button, 'Failed to load older logs. Please try again.');
-            button.html('Retry');
+        error() {
+            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
+            removeLoadingIndicator($button, 'Retry');
         },
-        success: function(data) {
-            if (data.isError) {
-                setFormErrorMessage(button, data.errorMessage);
-            } else {
-                // update log table with new entries
-                updatePageWithNewLogsFromAjax(data, '#logsTable tbody');
-                updateInfoForRecentActionButton();
-            }
-
-            setStatusMessage(data.statusForAjax, StatusType.INFO);
-        }
+        success(data) {
+            const $data = $(data);
+            // updatePageWithNewLogsFromAjax(data, '#logsTable tbody');
+            $logsTable.append($data.find('#activity-logs-table > tbody').html());
+            updateInfoForRecentActionButton();
+            highlightKeywordsInLogMessages();
+            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
+        },
     });
 }
 
@@ -112,20 +113,47 @@ function getOlderLogEntriesByAjax(searchTimeOffset) {
  * @param {String} selector the selector for the DOM node that log entries should be placed in
  */
 function updatePageWithNewLogsFromAjax(response, selector) {
-    var $logContainer = $(selector);
-    response.logs.forEach(function(value) {
+    const $logContainer = $(selector);
+    response.logs.forEach((value) => {
         $logContainer.append(value.logInfoAsHtml);
     });
 }
 
 function setFormErrorMessage(button, msg) {
-    button.after('&nbsp;&nbsp;&nbsp;' + msg);
+    button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
 }
 
 function updateInfoForRecentActionButton() {
-    var isShowAll = $('#ifShowAll').val();
+    const isShowAll = $('#ifShowAll').val();
     $('.ifShowAll_for_person').val(isShowAll);
 
-    var isShowTestData = $('#ifShowTestData').val();
+    const isShowTestData = $('#ifShowTestData').val();
     $('.ifShowTestData_for_person').val(isShowTestData);
 }
+
+/**
+ * Highlights default/search keywords in log messages.
+ */
+function highlightKeywordsInLogMessages() {
+    const allLogMessages = $('.log-message');
+    // highlight search keywords
+    const searchKeywords = $('#query-keywords-for-info').val();
+    const searchKeywordsList = searchKeywords.split(',');
+    allLogMessages.highlight(searchKeywordsList);
+
+    // highlight default keywords
+    const defaultKeywords = $('#query-keywords-default-for-info').val();
+    const defaultKeywordsList = defaultKeywords.split(',');
+    allLogMessages.highlight(defaultKeywordsList, {
+        element: 'b',
+        className: ' ',
+    });
+}
+
+/*
+export default {
+    toggleReference,
+    submitLocalTimeAjaxRequest,
+    submitFormAjax,
+};
+*/

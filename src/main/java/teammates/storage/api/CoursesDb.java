@@ -13,13 +13,14 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 
 /**
  * Handles CRUD operations for courses.
  *
- * @see {@link Course}
- * @see {@link CourseAttributes}
+ * @see Course
+ * @see CourseAttributes
  */
 public class CoursesDb extends EntitiesDb {
 
@@ -29,6 +30,8 @@ public class CoursesDb extends EntitiesDb {
      */
 
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException {
 
@@ -77,6 +80,8 @@ public class CoursesDb extends EntitiesDb {
     }
 
     /**
+     * Gets all courses in the Datastore.
+     *
      * @deprecated Not scalable. Use only in admin features.
      */
     @Deprecated

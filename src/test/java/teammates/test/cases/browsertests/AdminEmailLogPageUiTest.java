@@ -11,6 +11,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailLogPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_EMAIL_LOG_PAGE}.
+ */
 public class AdminEmailLogPageUiTest extends BaseUiTestCase {
 
     private static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
@@ -33,7 +36,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         assertTrue(emailLogPage.isFilterReferenceVisible());
     }
 
-    public void testContent() {
+    private void testContent() {
 
         ______TS("content: typical page");
 
@@ -45,8 +48,8 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email log data table are displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailLogDataDisplayCorrect() {
         return emailLogPage.isElementPresent(By.className("table")) && isEmailLogTableHeaderCorrect();

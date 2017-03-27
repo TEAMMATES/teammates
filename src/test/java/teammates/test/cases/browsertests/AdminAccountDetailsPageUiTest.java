@@ -10,8 +10,7 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 
 /**
- * Covers the 'accounts management' view for admins.
- * SUT: {@link AdminAccountDetailsPage}
+ * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_DETAILS_PAGE}.
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
@@ -30,7 +29,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         testRemoveFromCourseAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("content: typical page");
 
@@ -42,7 +41,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
 
-    public void testRemoveFromCourseAction() throws Exception {
+    private void testRemoveFromCourseAction() throws Exception {
 
         ______TS("action: remove instructor from course");
 

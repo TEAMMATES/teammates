@@ -14,6 +14,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseInstructorAddAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseInstructorAddAction}.
+ */
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 

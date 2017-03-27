@@ -18,6 +18,9 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link InstructorsLogic}.
+ */
 public class InstructorsLogicTest extends BaseLogicTest {
 
     private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -51,7 +54,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testDeleteInstructorsForCourse();
     }
 
-    public void testAddInstructor() throws Exception {
+    private void testAddInstructor() throws Exception {
 
         ______TS("success: add an instructor");
 
@@ -106,7 +109,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetInstructorForEmail() {
+    private void testGetInstructorForEmail() {
 
         ______TS("failure: instructor doesn't exist");
 
@@ -142,7 +145,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetInstructorForGoogleId() {
+    private void testGetInstructorForGoogleId() {
 
         ______TS("failure: instructor doesn't exist");
 
@@ -178,7 +181,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testGetInstructorForRegistrationKey() {
+    private void testGetInstructorForRegistrationKey() {
 
         ______TS("failure: instructor doesn't exist");
         String key = "non-existing-key";
@@ -207,7 +210,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetInstructorsForCourse() throws Exception {
+    private void testGetInstructorsForCourse() throws Exception {
 
         ______TS("success: get all instructors for a course");
 
@@ -249,7 +252,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetInstructorsForGoogleId() {
+    private void testGetInstructorsForGoogleId() {
 
         ______TS("success: get all instructors for a google id");
 
@@ -281,7 +284,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetInstructorsForEmail() {
+    private void testGetInstructorsForEmail() {
 
         ______TS("success: get all instructors for a google id");
 
@@ -310,7 +313,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testGetKeyForInstructor() throws Exception {
+    private void testGetKeyForInstructor() throws Exception {
 
         ______TS("success: get encrypted key for instructor");
 
@@ -351,7 +354,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testIsGoogleIdOfInstructorOfCourse() {
+    private void testIsGoogleIdOfInstructorOfCourse() {
 
         ______TS("success: is an instructor of a given course");
 
@@ -387,7 +390,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testIsEmailOfInstructorOfCourse() {
+    private void testIsEmailOfInstructorOfCourse() {
 
         ______TS("success: is an instructor of a given course");
 
@@ -424,7 +427,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testVerifyInstructorExists() throws Exception {
+    private void testVerifyInstructorExists() throws Exception {
 
         ______TS("success: instructor does exist");
 
@@ -452,7 +455,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testVerifyIsEmailOfInstructorOfCourse() throws Exception {
+    private void testVerifyIsEmailOfInstructorOfCourse() throws Exception {
 
         ______TS("success: instructor belongs to course");
 
@@ -487,7 +490,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testIsNewInstructor() {
+    private void testIsNewInstructor() {
 
         ______TS("success: instructor with only 1 sample course");
 
@@ -520,7 +523,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testUpdateInstructorByGoogleId() throws Exception {
+    private void testUpdateInstructorByGoogleId() throws Exception {
 
         ______TS("typical case: update an instructor");
 
@@ -570,7 +573,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testUpdateInstructorByEmail() throws Exception {
+    private void testUpdateInstructorByEmail() throws Exception {
 
         ______TS("typical case: update an instructor");
 
@@ -623,7 +626,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    public void testDeleteInstructor() throws Exception {
+    private void testDeleteInstructor() throws Exception {
 
         ______TS("typical case: delete an instructor for specific course");
 
@@ -661,8 +664,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instructorsLogic.createInstructor(instructorDeleted);
     }
 
-    public void testDeleteInstructorsForGoogleId() throws Exception {
-
+    private void testDeleteInstructorsForGoogleId() throws Exception {
         ______TS("typical case: delete all instructors for a given googleId");
 
         String googleId = "idOfInstructor1";
@@ -695,7 +697,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testDeleteInstructorsForCourse() {
+    private void testDeleteInstructorsForCourse() {
 
         ______TS("typical case: delete all instructors of a given course");
 

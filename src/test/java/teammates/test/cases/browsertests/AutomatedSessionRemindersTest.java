@@ -10,7 +10,12 @@ import teammates.common.util.TimeHelper;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.GenericAppPage;
 
-/** This is considered a UI test case because it uses a Browser */
+/**
+ * SUT: {@link Const.ActionURIs#AUTOMATED_FEEDBACK_OPENING_REMINDERS},
+ *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_CLOSING_REMINDERS},
+ *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
+ *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
+ */
 @Priority(5)
 public class AutomatedSessionRemindersTest extends BaseUiTestCase {
 

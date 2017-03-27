@@ -16,8 +16,7 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * Tests 'Edit Course Details' functionality for Instructors.
- * SUT {@link InstructorCourseEditPage}. <br>
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
  */
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private InstructorCourseEditPage courseEditPage;
@@ -55,7 +54,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("page load: Helper privileges (custom)");
 

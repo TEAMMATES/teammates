@@ -12,6 +12,12 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.pageobjects.AdminEmailPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_EMAIL_COMPOSE_PAGE},
+ *      {@link Const.ActionURIs#ADMIN_EMAIL_SENT_PAGE},
+ *      {@link Const.ActionURIs#ADMIN_EMAIL_DRAFT_PAGE},
+ *      {@link Const.ActionURIs#ADMIN_EMAIL_TRASH_PAGE}.
+ */
 public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
@@ -120,8 +126,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email sent data table is displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailSentDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
@@ -129,8 +135,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email draft data table is displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailDraftDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
@@ -138,8 +144,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     /**
      * This method only checks if the email trash data table is displayed correctly
-     * i.e, table headers are correct
-     * It does not test for the table content
+     * i.e, table headers are correct.
+     * It does not test for the table content.
      */
     private boolean isEmailTrashDataDisplayCorrect() {
         return emailPage.isElementPresent(By.className("table"))

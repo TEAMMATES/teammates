@@ -9,6 +9,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link CourseAttributes}.
+ */
 public class CourseAttributesTest extends BaseTestCase {
 
     //TODO: add test for constructor
@@ -57,7 +60,7 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
 
-    public static CourseAttributes generateValidCourseAttributesObject() {
+    private static CourseAttributes generateValidCourseAttributesObject() {
         return new CourseAttributes("valid-id-$_abc", "valid-name", "UTC");
     }
 

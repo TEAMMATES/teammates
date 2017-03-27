@@ -25,6 +25,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -34,11 +35,17 @@ import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 import com.google.appengine.api.datastore.Text;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
+
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
     protected boolean isSendSubmissionEmail;
+    protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
+    protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
+    protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -72,6 +79,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String userSectionForCourse = getUserSectionForCourse();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
+
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String totalResponsesForQuestion = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
@@ -130,7 +138,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
                 if (response.responseMetaData.getValue().isEmpty()) {
                     // deletes the response since answer is empty
-                    saveResponse(response);
+                    addToPendingResponses(response);
                 } else {
                     response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
@@ -150,7 +158,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
-                    saveResponse(response);
+                    addToPendingResponses(response);
                 }
             } else {
                 List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
@@ -162,8 +170,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 statusToUser.addAll(errorMessages);
                 isError = true;
             }
-
         }
+
+        saveNewReponses(responsesToSave);
+        deleteResponses(responsesToDelete);
+        updateResponses(responsesToUpdate);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -216,7 +227,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     /**
      * If the {@code response} is an existing response, check that
      * the questionId and responseId that it has
-     * is in {@code data.bundle.questionResponseBundle}
+     * is in {@code data.bundle.questionResponseBundle}.
      * @param response  a response which has non-null id
      */
     private boolean isExistingResponseValid(FeedbackResponseAttributes response) {
@@ -239,27 +250,44 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return existingResponsesId.contains(response.getId());
     }
 
-    private void saveResponse(FeedbackResponseAttributes response)
-            throws EntityDoesNotExistException {
+    private void addToPendingResponses(FeedbackResponseAttributes response) {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() || response.recipient.isEmpty()) {
-                logic.deleteFeedbackResponse(response);
+                responsesToDelete.add(response);
                 return;
             }
+            responsesToUpdate.add(response);
+        } else if (!response.responseMetaData.getValue().isEmpty()
+                   && !response.recipient.isEmpty()) {
+            responsesToSave.add(response);
+        }
+    }
+
+    private void saveNewReponses(List<FeedbackResponseAttributes> responsesToSave)
+            throws EntityDoesNotExistException {
+        try {
+            logic.createFeedbackResponses(responsesToSave);
+            hasValidResponse = true;
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+        }
+    }
+
+    private void deleteResponses(List<FeedbackResponseAttributes> responsesToDelete) {
+        for (FeedbackResponseAttributes response : responsesToDelete) {
+            logic.deleteFeedbackResponse(response);
+        }
+    }
+
+    private void updateResponses(List<FeedbackResponseAttributes> responsesToUpdate)
+            throws EntityDoesNotExistException {
+        for (FeedbackResponseAttributes response : responsesToUpdate) {
             try {
                 logic.updateFeedbackResponse(response);
                 hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
-                setStatusForException(e);
-            }
-        } else if (!response.responseMetaData.getValue().isEmpty()
-                   && !response.recipient.isEmpty()) {
-            try {
-                logic.createFeedbackResponse(response);
-                hasValidResponse = true;
-            } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
         }
@@ -328,7 +356,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     /**
      * To be used to set any extra parameters or attributes that
-     * a class inheriting FeedbackSubmissionEditSaveAction requires
+     * a class inheriting FeedbackSubmissionEditSaveAction requires.
      */
     protected abstract void setAdditionalParameters() throws EntityDoesNotExistException;
 
@@ -337,14 +365,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * needs. For example, this is used in moderations that check that instructors did not
      * respond to any question that they did not have access to during moderation.
      *
-     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
+     * <p>Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters
      */
     protected abstract void checkAdditionalConstraints();
 
     /**
      * Note that when overriding this method, this should not use {@code respondingStudentList}
      * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method
-     * is used to update {@code respondingStudentList} and {@code respondingInstructorList}
+     * is used to update {@code respondingStudentList} and {@code respondingInstructorList}.
      *
      * @return true if user has responses in the feedback session
      */

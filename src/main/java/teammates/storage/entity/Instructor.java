@@ -44,7 +44,7 @@ public class Instructor {
     @Persistent
     private String email;
 
-    /** The instructor's registration key used for joining */
+    /** The instructor's registration key used for joining. */
     @Persistent
     private String registrationKey;
 
@@ -101,13 +101,15 @@ public class Instructor {
     }
 
     /**
-     * @return The unique ID of the entity (format: googleId%courseId).
+     * Returns the unique ID of the entity (format: googleId%courseId).
      */
     public String getUniqueId() {
         return id;
     }
 
     /**
+     * Sets the unique ID for the instructor entity.
+     *
      * @param uniqueId
      *          The unique ID of the entity (format: googleId%courseId).
      */
@@ -172,15 +174,12 @@ public class Instructor {
     /**
      * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
-     * @return
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
 
-        String key = uniqueId + prng.nextInt();
-
-        return key;
+        return uniqueId + prng.nextInt();
     }
 
     public String getRole() {

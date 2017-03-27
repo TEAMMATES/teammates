@@ -7,6 +7,10 @@ import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
+ *      specifically for numerical scale questions.
+ */
 public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 

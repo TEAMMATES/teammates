@@ -19,8 +19,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
- * Tests 'Feedback Results' view of instructors.
- * SUT: {@link InstructorFeedbackResultsPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE}.
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
@@ -61,7 +60,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testDownloadAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         ______TS("Typical case: large session with no sections");
 
@@ -144,7 +143,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
-    public void testModerateResponsesButton() {
+    private void testModerateResponsesButton() {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
@@ -170,7 +169,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testSortAction() throws Exception {
+    private void testSortAction() throws Exception {
 
         ______TS("Typical case: test sort by giver > recipient > question");
 
@@ -453,7 +452,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
     }
 
-    public void testFilterAction() throws Exception {
+    private void testFilterAction() throws Exception {
 
         ______TS("Typical case: filter by section A");
 
@@ -480,7 +479,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testPanelsCollapseExpand() {
+    private void testPanelsCollapseExpand() {
 
         ______TS("Test that 'Collapse Student' button is working");
         resultsPage.clickGroupByTeam();
@@ -522,7 +521,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testShowStats() {
+    private void testShowStats() {
 
         ______TS("Typical case: show stats");
 
@@ -559,7 +558,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testSearchScript() throws Exception {
+    private void testSearchScript() throws Exception {
 
         ______TS("Typical case: test search/filter script");
 
@@ -582,7 +581,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
     }
 
-    public void testDefaultSort() throws Exception {
+    private void testDefaultSort() throws Exception {
 
         ______TS("Typical case: test default sort Team Name-->Giver display name");
 
@@ -591,7 +590,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
-    public void testFeedbackResponseCommentActions() throws Exception {
+    private void testFeedbackResponseCommentActions() throws Exception {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
@@ -665,6 +664,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
                                                   .withSessionName("First Session");
+
+        resultsPage.verifyDownloadLink(reportUrl);
+
+        ______TS("Typical case: download report for one question");
+
+        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                                                  .withUserId("CFResultsUiT.instr")
+                                                  .withCourseId("CFResultsUiT.CS2104")
+                                                  .withSessionName("First Session")
+                                                  .withQuestionNumber("2");
 
         resultsPage.verifyDownloadLink(reportUrl);
 

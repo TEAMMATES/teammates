@@ -22,6 +22,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackResponseCommentsDb}.
+ */
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -74,7 +77,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     }
 
-    public void testEntityCreationAndDeletion() throws Exception {
+    private void testEntityCreationAndDeletion() throws Exception {
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         frcaTemp.createdAt = new Date();
@@ -91,7 +94,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(frcaTemp);
     }
 
-    public void testGetFeedbackResponseCommentFromId() {
+    private void testGetFeedbackResponseCommentFromId() {
 
         ______TS("null parameter");
 
@@ -117,7 +120,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertNull(frcDb.getFeedbackResponseComment(-1L));
     }
 
-    public void testGetFeedbackResponseCommentFromCommentDetails() {
+    private void testGetFeedbackResponseCommentFromCommentDetails() {
 
         ______TS("null parameter");
 
@@ -165,7 +168,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertNull(frcDb.getFeedbackResponseComment(frcaData.courseId, frcaData.createdAt, "nonExistentGiverEmail"));
     }
 
-    public void testGetFeedbackResponseCommentForGiver() {
+    private void testGetFeedbackResponseCommentForGiver() {
         List<FeedbackResponseCommentAttributes> frcasExpected = frcasData;
 
         ______TS("null parameter");
@@ -202,7 +205,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertTrue(frcas.isEmpty());
     }
 
-    public void testGetFeedbackResponseCommentForResponse() {
+    private void testGetFeedbackResponseCommentForResponse() {
         String responseId = "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt";
         ArrayList<FeedbackResponseCommentAttributes> frcasExpected =
                 new ArrayList<FeedbackResponseCommentAttributes>();
@@ -216,7 +219,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 new ArrayList<FeedbackResponseCommentAttributes>(frcasExpected), frcas);
     }
 
-    public void testUpdateFeedbackResponseComment() throws Exception {
+    private void testUpdateFeedbackResponseComment() throws Exception {
 
         ______TS("null parameter");
 
@@ -281,7 +284,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetFeedbackResponseCommentsForSession() {
+    private void testGetFeedbackResponseCommentsForSession() {
 
         ______TS("null parameter");
 
@@ -310,7 +313,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyListsContainSameResponseCommentAttributes(expectedFrcas, actualFrcas);
     }
 
-    public void testUpdateFeedbackResponseCommentsGiverEmail()
+    private void testUpdateFeedbackResponseCommentsGiverEmail()
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackResponseCommentAttributes frcaDataOfNewGiver =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q3S1C1");
@@ -367,7 +370,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         }
     }
 
-    public void testDeleteFeedbackResponseCommentsForResponse()
+    private void testDeleteFeedbackResponseCommentsForResponse()
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         ______TS("typical success case");
@@ -397,7 +400,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         }
     }
 
-    public void testGetFeedbackResponseCommentsForCourse() {
+    private void testGetFeedbackResponseCommentsForCourse() {
         String courseId = "idOfTypicalCourse1";
         List<FeedbackResponseCommentAttributes> expectedFrcs =
                 new ArrayList<FeedbackResponseCommentAttributes>();
@@ -411,7 +414,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyListsContainSameResponseCommentAttributes(expectedFrcs, actualFrcs);
     }
 
-    public void testGetAndDeleteFeedbackResponseCommentsForCourses() {
+    private void testGetAndDeleteFeedbackResponseCommentsForCourses() {
         List<String> courseIds = new ArrayList<String>();
         courseIds.add("idOfTypicalCourse1");
         List<FeedbackResponseCommentAttributes> expectedFrcas =

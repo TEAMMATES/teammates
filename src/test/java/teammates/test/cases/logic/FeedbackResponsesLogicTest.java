@@ -33,6 +33,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackResponsesLogic}.
+ */
 public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -63,7 +66,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         testDeleteFeedbackResponsesForCourse();
     }
 
-    public void testSpecialCharactersInTeamName() {
+    private void testSpecialCharactersInTeamName() {
         ______TS("test special characters");
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
@@ -106,7 +109,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     }
 
-    public void testUpdateFeedbackResponse() throws Exception {
+    private void testUpdateFeedbackResponse() throws Exception {
 
         ______TS("success: standard update with carried params ");
 
@@ -216,7 +219,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
+    private void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
 
         ______TS("standard update team case");
 
@@ -288,7 +291,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
     }
 
-    public void testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate()
+    private void testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate()
             throws Exception {
         FeedbackResponseAttributes responseToBeDeleted =
                 getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
@@ -314,7 +317,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         restoreStudentFeedbackResponseToDatastore(responseToBeDeleted);
     }
 
-    public void testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate()
+    private void testUpdateFeedbackResponsesForChangingTeam_deleteNotLastResponse_sameResponseRate()
             throws Exception {
         FeedbackResponseAttributes responseToBeDeleted =
                 getResponseFromDatastore(questionTypeBundle, "response1ForQ1S5C1");
@@ -363,7 +366,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fsLogic.addStudentRespondent(response.giver, response.feedbackSessionName, response.courseId);
     }
 
-    public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
+    private void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
 
         // Student 1 currently has 2 responses to him and 2 from himself.
@@ -422,7 +425,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
     }
 
-    public void testGetViewableResponsesForQuestionInSection() throws Exception {
+    private void testGetViewableResponsesForQuestionInSection() throws Exception {
 
         ______TS("success: GetViewableResponsesForQuestion - instructor");
 
@@ -506,7 +509,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         }
     }
 
-    public void testIsNameVisibleTo() {
+    private void testIsNameVisibleTo() {
 
         ______TS("testIsNameVisibleTo");
 
@@ -574,7 +577,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     }
 
-    public void testDeleteFeedbackResponsesForStudent() throws Exception {
+    private void testDeleteFeedbackResponsesForStudent() throws Exception {
 
         ______TS("standard delete");
 
@@ -634,7 +637,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(remainingResponses.size(), 0);
     }
 
-    public void testDeleteFeedbackResponsesForCourse() {
+    private void testDeleteFeedbackResponsesForCourse() {
         ______TS("standard delete");
 
         // test that responses are deleted

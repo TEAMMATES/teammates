@@ -9,15 +9,16 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Instructor;
@@ -30,10 +31,12 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for instructors.
  *
- * @see {@link Instructor}
- * @see {@link InstructorAttributes}
+ * @see Instructor
+ * @see InstructorAttributes
  */
 public class InstructorsDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     /* =========================================================================
      * Methods related to Google Search API
@@ -69,7 +72,6 @@ public class InstructorsDb extends EntitiesDb {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
-     * @param queryString
      * @return null if no result found
      */
 
@@ -104,8 +106,8 @@ public class InstructorsDb extends EntitiesDb {
             try {
                 updateInstructorByEmail(instructor);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
             putDocument(instructor);
@@ -139,7 +141,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching objects.
+     * Returns null if no matching objects.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
 
@@ -157,7 +159,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching objects.
+     * Returns null if no matching objects.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 
@@ -175,13 +177,17 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * @return null if no matching instructor.
+     * Returns null if no matching instructor.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
 
-        String decryptedKey = StringHelper.decrypt(encryptedKey.trim());
+        String decryptedKey;
+        try {
+            decryptedKey = StringHelper.decrypt(encryptedKey.trim());
+        } catch (InvalidParametersException e) {
+            return null;
+        }
 
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
         if (instructor == null || JDOHelper.isDeleted(instructor)) {
@@ -257,8 +263,7 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Not scalable. Don't use unless for admin features.
-     * @return {@code InstructorAttributes} objects for all instructor
-     * roles in the system.
+     * @return {@code InstructorAttributes} objects for all instructor roles in the system
      */
     @Deprecated
     public List<InstructorAttributes> getAllInstructors() {
@@ -278,8 +283,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -317,8 +320,6 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * Updates the instructor. Cannot modify Course ID or email.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -353,9 +354,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * delete the instructor specified by courseId and email
-     * @param courseId
-     * @param email
+     * Deletes the instructor specified by courseId and email.
      */
     public void deleteInstructor(String courseId, String email) {
 
@@ -413,8 +412,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * delete all instructors with the given googleId
-     * @param googleId
+     * Deletes all instructors with the given googleId.
      */
     public void deleteInstructorsForGoogleId(String googleId) {
 
@@ -432,8 +430,7 @@ public class InstructorsDb extends EntitiesDb {
     }
 
     /**
-     * delete all instructors for the course specified by courseId
-     * @param courseId
+     * Deletes all instructors for the course specified by courseId.
      */
     public void deleteInstructorsForCourse(String courseId) {
 

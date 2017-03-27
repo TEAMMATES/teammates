@@ -14,9 +14,12 @@ import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FieldValidator}.
+ */
 public class FieldValidatorTest extends BaseTestCase {
 
-    public FieldValidator validator = new FieldValidator();
+    private FieldValidator validator = new FieldValidator();
 
     @Test
     public void testGetValidityInfoForSizeCappedNonEmptyString() {

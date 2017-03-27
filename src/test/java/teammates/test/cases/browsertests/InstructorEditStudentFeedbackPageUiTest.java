@@ -10,8 +10,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
- * Tests Edit(Moderate) Student's Feedback Page of instructors.
- *
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE}.
  */
 public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
@@ -48,7 +47,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("[More]", submitPage.getModerationHintButtonText());
     }
 
-    public void testEditResponse() throws Exception {
+    private void testEditResponse() throws Exception {
         ______TS("edit responses");
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);

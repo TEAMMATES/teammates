@@ -20,17 +20,20 @@ import teammates.test.cases.BaseTestCase;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * SUT: {@link FeedbackQuestionAttributes}.
+ */
 public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     private DataBundle typicalBundle = getTypicalDataBundle();
 
     private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
 
-        private void setCreatedAt(Date createdAt) {
+        void setCreatedAt(Date createdAt) {
             this.createdAt = createdAt;
         }
 
-        private void setUpdatedAt(Date updatedAt) {
+        void setUpdatedAt(Date updatedAt) {
             this.updatedAt = updatedAt;
         }
 

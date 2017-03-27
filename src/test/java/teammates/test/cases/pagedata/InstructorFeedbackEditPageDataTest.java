@@ -29,6 +29,9 @@ import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
+/**
+ * SUT: {@link InstructorFeedbackEditPageData}.
+ */
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
     private static final int DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO = 1;
@@ -265,11 +268,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                      newQuestionForm.getDoneEditingLink());
     }
 
-    public InstructorAttributes getInstructorFromBundle(String instructor) {
+    private InstructorAttributes getInstructorFromBundle(String instructor) {
         return dataBundle.instructors.get(instructor);
     }
 
-    public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {
+    private void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {
         for (FeedbackParticipantType participant : list) {
             assertTrue(map.get(participant.name()));
         }

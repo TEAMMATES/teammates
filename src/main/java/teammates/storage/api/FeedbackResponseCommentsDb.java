@@ -20,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -30,16 +31,13 @@ import com.google.appengine.api.search.ScoredDocument;
 /**
  * Handles CRUD operations for feedback response comments.
  *
- * @see {@link FeedbackResponseComment}
- * @see {@link FeedbackResponseCommentAttributes}
+ * @see FeedbackResponseComment
+ * @see FeedbackResponseCommentAttributes
  */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
-    /**
-     * This method is for testing only
-     * @param commentsToAdd
-     * @throws InvalidParametersException
-     */
+    private static final Logger log = Logger.getLogger();
+
     public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd)
             throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
@@ -48,8 +46,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             try {
                 updateFeedbackResponseComment(comment);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -298,8 +296,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
                                                      FeedbackResponseCommentAttributes newAttributes)
@@ -431,7 +427,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
-     * Search for response comments
+     * Searches for response comments.
      * @return {@link FeedbackResponseCommentSearchResultBundle}
      */
     public FeedbackResponseCommentSearchResultBundle search(String queryString,
@@ -447,6 +443,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
+     * Returns all feedback response comments in the Datastore.
+     *
      * @deprecated Not scalable. Don't use unless in admin features.
      */
     @Deprecated

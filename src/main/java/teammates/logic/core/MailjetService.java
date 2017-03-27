@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
@@ -18,11 +19,13 @@ import com.mailjet.client.resource.Email;
  * Email sender service provided by Mailjet.
  *
  * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailjet">https://cloud.google.com/appengine/docs/java/mail/mailjet</a>
- * @see {@link MailjetClient}
- * @see {@link MailjetRequest}
- * @see {@link MailjetResponse}
+ * @see MailjetClient
+ * @see MailjetRequest
+ * @see MailjetResponse
  */
 public class MailjetService extends EmailSenderService {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * {@inheritDoc}

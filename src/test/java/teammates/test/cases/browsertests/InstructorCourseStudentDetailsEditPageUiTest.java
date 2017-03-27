@@ -12,8 +12,7 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 
 /**
- * Covers the 'edit student details' functionality for instructors.
- * SUT: {@link InstructorCourseStudentDetailsEditPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT}.
  */
 public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase {
     private InstructorCourseStudentDetailsEditPage editPage;
@@ -28,11 +27,11 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     public void testAll() throws Exception {
         testContent();
         testInputValidation();
-//        no links to check
+        // no links to check
         testEditAction();
     }
 
-    public void testContent() throws Exception {
+    private void testContent() throws Exception {
 
         String instructorId = testData.instructors.get("CCSDEditUiT.instr").googleId;
         String courseId = testData.courses.get("CCSDEditUiT.CS2104").getId();
@@ -60,7 +59,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         editPage.verifyHtml("/instructorCourseStudentEditPage.html");
     }
 
-    public void testInputValidation() throws Exception {
+    private void testInputValidation() throws Exception {
 
         ______TS("input validation");
 
@@ -102,7 +101,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                                   FieldValidator.EMAIL_MAX_LENGTH));
     }
 
-    public void testEditAction() {
+    private void testEditAction() {
 
         ______TS("Error case, invalid email parameter (email already taken by others)");
 

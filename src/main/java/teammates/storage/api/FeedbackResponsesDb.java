@@ -15,15 +15,18 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles CRUD operations for feedback responses.
  *
- * @see {@link FeedbackResponse}
- * @see {@link FeedbackResponseAttributes}
+ * @see FeedbackResponse
+ * @see FeedbackResponseAttributes
  */
 public class FeedbackResponsesDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd)
             throws InvalidParametersException {
@@ -33,8 +36,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
             try {
                 updateFeedbackResponse(response);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -171,9 +174,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.This function will find the responses for a
-     * specified question within a given range
+     * Finds the responses for a specified question within a given range.
      *
      * @return An empty list if no such responses are found.
      */
@@ -578,8 +579,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
      *   if the parameter is null (due to 'keep existing' policy).<br>
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -703,8 +702,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
-     * @param courseId
-     * @return true if there are existing responses in any feedback session in the course
+     * Returns true if there are existing responses in any feedback session in the course.
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);

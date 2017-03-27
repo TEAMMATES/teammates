@@ -14,16 +14,19 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Handles CRUD operations for feedback questions.
  *
- * @see {@link FeedbackQuestion}
- * @see {@link FeedbackQuestionAttributes}
+ * @see FeedbackQuestion
+ * @see FeedbackQuestionAttributes
  */
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {
@@ -102,9 +105,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForSession(
                 feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
-
-        return fqList;
+        return getListOfQuestionAttributes(questions);
     }
 
     /**
@@ -120,9 +121,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForGiverType(
                 feedbackSessionName, courseId, giverType);
-        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
-
-        return fqList;
+        return getListOfQuestionAttributes(questions);
     }
 
     /**
@@ -134,9 +133,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForCourse(courseId);
-        List<FeedbackQuestionAttributes> fqList = getListOfQuestionAttributes(questions);
-
-        return fqList;
+        return getListOfQuestionAttributes(questions);
     }
 
     private List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {
@@ -157,9 +154,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * For the remaining parameters, the existing value is preserved
      *   if the parameter is null (due to 'keep existing' policy).<br>
      *
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and
-     *  correspond to an existing feedback question. <br>
+     * <p>Preconditions:
+     * {@code newAttributes.getId()} is non-null and correspond to an existing feedback question.
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {

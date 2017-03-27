@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -23,9 +24,11 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 /**
- * Action: saving the list of enrolled students for a course of an instructor
+ * Action: saving the list of enrolled students for a course of an instructor.
  */
 public class InstructorCourseEnrollSaveAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -116,7 +119,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
      * on their updateStatus. Each category is put into a separate list.<br>
      *
      * @return An array of lists of StudentData objects in which each list contains
-     * student with the same updateStatus
+     *         student with the same updateStatus
      */
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {

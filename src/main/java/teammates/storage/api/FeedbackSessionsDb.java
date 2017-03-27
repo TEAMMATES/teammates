@@ -18,18 +18,21 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
 /**
  * Handles CRUD operations for feedback sessions.
  *
- * @see {@link FeedbackSession}
- * @see {@link FeedbackSessionAttributes}
+ * @see FeedbackSession
+ * @see FeedbackSessionAttributes
  */
 public class FeedbackSessionsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
             throws InvalidParametersException {
@@ -39,8 +42,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
             try {
                 updateFeedbackSession(session);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -137,7 +140,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return empty list if none found.
+     * Returns empty list if none found.
      * @deprecated Not scalable. Created for data migration purposes.
      */
     @Deprecated
@@ -174,7 +177,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent open emails.
+     * Returns An empty list if no sessions are found that have unsent open emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
 
@@ -190,7 +193,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent closing emails.
+     * Returns An empty list if no sessions are found that have unsent closing emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
 
@@ -206,7 +209,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent closed emails.
+     * Returns An empty list if no sessions are found that have unsent closed emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
 
@@ -222,7 +225,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
-     * @return An empty list if no sessions are found that have unsent published emails.
+     * Returns An empty list if no sessions are found that have unsent published emails.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
 

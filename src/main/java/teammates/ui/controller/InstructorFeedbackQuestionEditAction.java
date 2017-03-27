@@ -15,6 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
@@ -22,6 +23,8 @@ import teammates.ui.pagedata.PageData;
 import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackQuestionEditAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -110,7 +113,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
      * Validates that the giver and recipient for the given FeedbackQuestionAttributes is valid for its question type.
      * Validates that the visibility for the given FeedbackQuestionAttributes is valid for its question type.
      *
-     * @param feedbackQuestionAttributes
      * @return error message detailing the error, or an empty string if valid.
      */
     public static String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {

@@ -18,6 +18,9 @@ import teammates.test.driver.AssertHelper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+/**
+ * SUT: {@link ProfilesDb}.
+ */
 public class ProfilesDbTest extends BaseComponentTestCase {
 
     private ProfilesDb profilesDb = new ProfilesDb();

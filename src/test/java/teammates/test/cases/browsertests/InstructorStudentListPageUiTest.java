@@ -24,7 +24,7 @@ import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * Covers the 'student list' view for instructors.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
@@ -181,7 +181,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
 
-    public void testLinks() {
+    private void testLinks() {
 
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);

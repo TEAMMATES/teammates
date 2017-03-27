@@ -16,6 +16,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ImageResult;
 import teammates.ui.controller.StudentProfilePictureAction;
 
+/**
+ * SUT: {@link StudentProfilePictureAction}.
+ */
 public class StudentProfilePictureActionTest extends BaseActionTest {
 
     private AccountAttributes account;
@@ -40,7 +43,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourse();
     }
 
-    public void testActionWithNoParams() {
+    private void testActionWithNoParams() {
 
         ______TS("Failure case: no parameters given");
         gaeSimulation.loginAsStudent(account.googleId);
@@ -61,15 +64,13 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * Tests the branch of the Action handling a request from the Student
      * directly, where the parameters are simply the blobKey of the picture
      * itself.
-     *
-     * @throws Exception
      */
     public void testActionWithBlobKey() {
         testActionWithBlobKeySuccess();
         testActionWithBlobKeySuccessMasquerade();
     }
 
-    protected void testActionWithBlobKeySuccess() {
+    private void testActionWithBlobKeySuccess() {
         ______TS("Typical case: using blobkey");
         gaeSimulation.loginAsStudent(account.googleId);
 
@@ -85,7 +86,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         verifyLogMessageForActionWithBlobKey(false, action.getLogMessage());
     }
 
-    protected void testActionWithBlobKeySuccessMasquerade() {
+    private void testActionWithBlobKeySuccessMasquerade() {
         ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
 
@@ -103,11 +104,9 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
     /**
      * Tests the branch of the Action handling a request from an Instructor,
-     * where the parameters are the student's course and email
-     *
-     * @throws Exception
+     * where the parameters are the student's course and email.
      */
-    public void testActionWithEmailAndCourse() throws Exception {
+    private void testActionWithEmailAndCourse() throws Exception {
         AccountAttributes instructor = dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
 
@@ -118,7 +117,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade();
     }
 
-    protected void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor) {
+    private void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor) {
 
         ______TS("Typical case: using email and course");
 
@@ -136,7 +135,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         verifyLogMessageForActionWithEmailAndCourse(instructor, false, action.getLogMessage());
     }
 
-    protected void testActionWithEmailAndCourseNoStudent() {
+    private void testActionWithEmailAndCourseNoStudent() {
         ______TS("Failure case: student does not exist");
 
         String[] submissionParams = new String[] {
@@ -153,7 +152,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         }
     }
 
-    protected void testActionWithEmailAndCourseForUnregStudent() throws Exception {
+    private void testActionWithEmailAndCourseForUnregStudent() throws Exception {
         InstructorAttributes unregCourseInstructor = createNewInstructorForUnregCourse();
         gaeSimulation.loginAsInstructor(unregCourseInstructor.googleId);
 
@@ -191,7 +190,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         assertEquals("", result.blobKey);
     }
 
-    protected void testActionWithEmailAndCourseUnauthorisedInstructorOrStudent() {
+    private void testActionWithEmailAndCourseUnauthorisedInstructorOrStudent() {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
@@ -247,7 +246,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         }
     }
 
-    protected void testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade() {
+    private void testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade() {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
                 Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
