@@ -23,6 +23,7 @@ $(document).ready(() => {
             success(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
                 $(panelHeading).removeClass('ajax-response-submit');
+                $(panelHeading).removeClass('ajax-response-auto');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
                 $(panelHeading).click(toggleSingleCollapse);
@@ -35,7 +36,6 @@ $(document).ready(() => {
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
-    $('.ajax-response-auto').click();
 });
 
 function getAppendedResponseRateData(data) {
