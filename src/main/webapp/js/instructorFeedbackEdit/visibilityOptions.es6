@@ -10,106 +10,6 @@ const ROW_OTHER_STUDENTS = 4;
 const ROW_INSTRUCTORS = 5;
 
 // ////////////// //
-// EVENT HANDLERS //
-// ////////////// //
-
-function matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption) {
-    const $containingForm = $(selectedFeedbackPathOption).closest('form');
-    updateVisibilityCheckboxesDiv($containingForm);
-}
-
-function toggleVisibilityEditTab(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    const $editTab = $containingForm.find('.visibilityOptions');
-    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
-
-    // enable edit
-    $containingForm.find('[id|="questionedittext"]').click();
-
-    if ($editTab.is(':hidden')) {
-        $editTab.show();
-        $visibilityMessageDiv.hide();
-        updateVisibilityCheckboxesDiv($containingForm);
-    } else {
-        $editTab.hide();
-        $visibilityMessageDiv.show();
-    }
-}
-
-function toggleVisibilityPreviewTab(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    const $editTab = $containingForm.find('.visibilityOptions');
-
-    $editTab.hide();
-    const $disabledInputs = $containingForm.find('input:disabled, select:disabled');
-    $disabledInputs.prop('disabled', false);
-
-    updateVisibilityCheckboxesDiv($containingForm);
-
-    updateVisibilityMessageDiv($containingForm);
-    $disabledInputs.prop('disabled', true);
-}
-
-function getVisibilityMessage(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    updateVisibilityMessageDiv($containingForm);
-}
-
-/**
- * binds events to the visibility dropdown menu to
- *  - show/hide visibility checkboxes div
- *  - update dropdown button text to reflected selected option
- *  - update visibility message div
- */
-function attachVisibilityDropdownEvent() {
-    $('body').on('click', '.visibility-options-dropdown-option', function () {
-        const $clickedElem = $(this);
-        const selectedOption = $clickedElem.data('optionName');
-        const $containingForm = $clickedElem.closest('form');
-
-        checkAndMarkDestructiveChange($clickedElem.text(), $containingForm);
-        setVisibilityDropdownMenuText($clickedElem.text(), $containingForm);
-
-        const $editTab = $containingForm.find('.visibilityOptions');
-        if (selectedOption === 'OTHER') {
-            $editTab.show();
-            updateVisibilityCheckboxesDiv($containingForm);
-        } else {
-            // only uncheck all checkboxes and update accordingly if a common option is selected
-            uncheckAllVisibilityOptionCheckboxes($containingForm);
-            checkCorrespondingCheckboxes(selectedOption, $containingForm);
-            $editTab.hide();
-        }
-
-        updateVisibilityMessageDiv($containingForm);
-    });
-}
-
-function checkAndMarkDestructiveChange(selectedOption, $containingForm) {
-    if (selectedOption === 'Custom visibility options...') {
-        return;
-    }
-
-    const currentOption = $containingForm.find('.visibility-options-dropdown button').text();
-    const isSelectionChanged = selectedOption !== currentOption;
-    const hasResponses = $containingForm.attr('editStatus') === 'hasResponses';
-
-    if (isSelectionChanged && hasResponses) {
-        $containingForm.attr('editStatus', 'mustDeleteResponses');
-    }
-}
-
-/**
- * binds click event of each visibility checkbox to update visibility message div
- */
-function attachVisibilityCheckboxEvent() {
-    $('body').on('change', '.visibilityCheckbox', function () {
-        const $containingForm = $(this).closest('form');
-        updateVisibilityMessageDiv($containingForm);
-    });
-}
-
-// ////////////// //
 // HELPER METHODS //
 // ////////////// //
 
@@ -123,21 +23,42 @@ function setVisibilityDropdownMenuText(text, $containingForm) {
     }
 }
 
-function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
-    const selectedOption = $containingForm.find('.visibility-options-dropdown > button').text().trim();
-    const $visibilityCheckboxes = $containingForm.find('.visibilityOptions');
-    if (selectedOption === 'Custom visibility option:') {
-        updateVisibilityCheckboxesDiv($containingForm);
-        $visibilityCheckboxes.show();
-    } else {
-        $visibilityCheckboxes.hide();
-    }
-}
-
 function uncheckAllVisibilityOptionCheckboxes($containingForm) {
     $containingForm.find('input.visibilityCheckbox').each((index, checkbox) => {
         checkbox.checked = false;
     });
+}
+
+/**
+ * Checks the checkboxes for recipient
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowRecipientToSee(checkboxClass, $containingForm) {
+    $containingForm.find(`input[type="checkbox"][value="RECEIVER"]${checkboxClass}`).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for giver's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowGiversTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find(`input[type="checkbox"][value="OWN_TEAM_MEMBERS"]${checkboxClass}`).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for recipient's team members
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowRecipientsTeamToSee(checkboxClass, $containingForm) {
+    $containingForm.find(`input[type="checkbox"][value="RECEIVER_TEAM_MEMBERS"]${checkboxClass}`).prop('checked', true);
+}
+
+/**
+ * Checks the checkboxes for instructors
+ * @param checkboxClass - the CSS class of the checkbox to be checked
+ */
+function allowInstructorToSee(checkboxClass, $containingForm) {
+    $containingForm.find(`input[type="checkbox"][value="INSTRUCTORS"]${checkboxClass}`).prop('checked', true);
 }
 
 /**
@@ -196,55 +117,6 @@ function checkCorrespondingCheckboxes(selectedOption, $containingForm) {
     default:
         throw new Error('Unexpected common visibility option type');
     }
-}
-
-/**
- * Checks the checkboxes for recipient
- * @param checkboxClass - the CSS class of the checkbox to be checked
- */
-function allowRecipientToSee(checkboxClass, $containingForm) {
-    $containingForm.find(`input[type="checkbox"][value="RECEIVER"]${checkboxClass}`).prop('checked', true);
-}
-
-/**
- * Checks the checkboxes for giver's team members
- * @param checkboxClass - the CSS class of the checkbox to be checked
- */
-function allowGiversTeamToSee(checkboxClass, $containingForm) {
-    $containingForm.find(`input[type="checkbox"][value="OWN_TEAM_MEMBERS"]${checkboxClass}`).prop('checked', true);
-}
-
-/**
- * Checks the checkboxes for recipient's team members
- * @param checkboxClass - the CSS class of the checkbox to be checked
- */
-function allowRecipientsTeamToSee(checkboxClass, $containingForm) {
-    $containingForm.find(`input[type="checkbox"][value="RECEIVER_TEAM_MEMBERS"]${checkboxClass}`).prop('checked', true);
-}
-
-/**
- * Checks the checkboxes for instructors
- * @param checkboxClass - the CSS class of the checkbox to be checked
- */
-function allowInstructorToSee(checkboxClass, $containingForm) {
-    $containingForm.find(`input[type="checkbox"][value="INSTRUCTORS"]${checkboxClass}`).prop('checked', true);
-}
-
-/**
- * Updates the visibility checkboxes div to show/hide visibility option rows
- * according to the feedback path
- */
-function updateVisibilityCheckboxesDiv($containingForm) {
-    enableAllRows($containingForm);
-
-    disableRowsAccordingToGiver($containingForm);
-    disableRowsAccordingToRecipient($containingForm);
-    disableRowsForSpecificGiverRecipientCombinations($containingForm);
-
-    // handles edge case for Team Contribution Question:
-    // normal behavior is that all hidden checkboxes are unchecked, but Team Contribution Question expect even the hidden
-    // Recipient's Team Members can see answer checkbox to be checked
-    fixCheckboxValuesForTeamContribQuestion($containingForm);
 }
 
 /**
@@ -316,13 +188,6 @@ function formatCheckBoxes() {
     });
 }
 
-function enableAllRows($containingForm) {
-    const allRows = [ROW_RECIPIENT, ROW_GIVER_TEAM, ROW_RECIPIENT_TEAM, ROW_OTHER_STUDENTS, ROW_INSTRUCTORS];
-    allRows.forEach((row) => {
-        enableRow($containingForm, row);
-    });
-}
-
 function enableRow($containingForm, row) {
     const $table = $containingForm.find('.visibilityOptions').find('table');
     $($table.children().children()[row]).show();
@@ -335,6 +200,13 @@ function disableRow($containingForm, row) {
         checkbox.checked = false;
     });
     $row.hide();
+}
+
+function enableAllRows($containingForm) {
+    const allRows = [ROW_RECIPIENT, ROW_GIVER_TEAM, ROW_RECIPIENT_TEAM, ROW_OTHER_STUDENTS, ROW_INSTRUCTORS];
+    allRows.forEach((row) => {
+        enableRow($containingForm, row);
+    });
 }
 
 function disableRowsAccordingToRecipient($containingForm) {
@@ -415,6 +287,65 @@ function disableRowsForSpecificGiverRecipientCombinations($containingForm) {
 const previousFormDataMap = {};
 
 /**
+ * Updates the visibility checkboxes div to show/hide visibility option rows
+ * according to the feedback path
+ */
+function updateVisibilityCheckboxesDiv($containingForm) {
+    enableAllRows($containingForm);
+
+    disableRowsAccordingToGiver($containingForm);
+    disableRowsAccordingToRecipient($containingForm);
+    disableRowsForSpecificGiverRecipientCombinations($containingForm);
+
+    // handles edge case for Team Contribution Question:
+    // normal behavior is that all hidden checkboxes are unchecked, but Team Contribution Question expect even the hidden
+    // Recipient's Team Members can see answer checkbox to be checked
+    fixCheckboxValuesForTeamContribQuestion($containingForm);
+}
+
+function showVisibilityCheckboxesIfCustomOptionSelected($containingForm) {
+    const selectedOption = $containingForm.find('.visibility-options-dropdown > button').text().trim();
+    const $visibilityCheckboxes = $containingForm.find('.visibilityOptions');
+    if (selectedOption === 'Custom visibility option:') {
+        updateVisibilityCheckboxesDiv($containingForm);
+        $visibilityCheckboxes.show();
+    } else {
+        $visibilityCheckboxes.hide();
+    }
+}
+
+function formatVisibilityMessageDivHtml(visibilityMessage) {
+    let htmlString = 'This is the visibility hint as seen by the feedback giver:';
+    htmlString += '<ul class="text-muted background-color-warning">';
+    for (let i = 0; i < visibilityMessage.length; i += 1) {
+        htmlString += `<li>${visibilityMessage[i]}</li>`;
+    }
+    htmlString += '</ul>';
+    return htmlString;
+}
+
+// TODO: remove cyclic dependency
+/* eslint-disable no-use-before-define */
+
+/**
+ * Updates visibility message div with error message and add onclick event for re-loading the visibility message
+ */
+function showAjaxErrorMessage($containingForm) {
+    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
+
+    let htmlString = 'This is the visibility hint as seen by the feedback giver:';
+    htmlString += '<ul class="text-muted background-color-warning">';
+    htmlString += '<li><a>Error loading visibility hint. Click here to retry.</a></li>';
+    htmlString += '</ul>';
+
+    $visibilityMessageDiv.html(htmlString);
+    $visibilityMessageDiv.find('ul').on('click', () => {
+        $visibilityMessageDiv.html('');
+        updateVisibilityMessageDiv($containingForm);
+    });
+}
+
+/**
  * Updates the visibility message div according to configurations in the
  * visibility checkboxes div (using AJAX)
  * @param $containingForm
@@ -456,30 +387,104 @@ function updateVisibilityMessageDiv($containingForm) {
     });
 }
 
-function formatVisibilityMessageDivHtml(visibilityMessage) {
-    let htmlString = 'This is the visibility hint as seen by the feedback giver:';
-    htmlString += '<ul class="text-muted background-color-warning">';
-    for (let i = 0; i < visibilityMessage.length; i += 1) {
-        htmlString += `<li>${visibilityMessage[i]}</li>`;
+/* eslint-enable no-use-before-define */
+
+// ////////////// //
+// EVENT HANDLERS //
+// ////////////// //
+
+function matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption) {
+    const $containingForm = $(selectedFeedbackPathOption).closest('form');
+    updateVisibilityCheckboxesDiv($containingForm);
+}
+
+function toggleVisibilityEditTab(clickedButton) {
+    const $containingForm = $(clickedButton).closest('form');
+    const $editTab = $containingForm.find('.visibilityOptions');
+    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
+
+    // enable edit
+    $containingForm.find('[id|="questionedittext"]').click();
+
+    if ($editTab.is(':hidden')) {
+        $editTab.show();
+        $visibilityMessageDiv.hide();
+        updateVisibilityCheckboxesDiv($containingForm);
+    } else {
+        $editTab.hide();
+        $visibilityMessageDiv.show();
     }
-    htmlString += '</ul>';
-    return htmlString;
+}
+
+function toggleVisibilityPreviewTab(clickedButton) {
+    const $containingForm = $(clickedButton).closest('form');
+    const $editTab = $containingForm.find('.visibilityOptions');
+
+    $editTab.hide();
+    const $disabledInputs = $containingForm.find('input:disabled, select:disabled');
+    $disabledInputs.prop('disabled', false);
+
+    updateVisibilityCheckboxesDiv($containingForm);
+
+    updateVisibilityMessageDiv($containingForm);
+    $disabledInputs.prop('disabled', true);
+}
+
+function getVisibilityMessage(clickedButton) {
+    const $containingForm = $(clickedButton).closest('form');
+    updateVisibilityMessageDiv($containingForm);
+}
+
+function checkAndMarkDestructiveChange(selectedOption, $containingForm) {
+    if (selectedOption === 'Custom visibility options...') {
+        return;
+    }
+
+    const currentOption = $containingForm.find('.visibility-options-dropdown button').text();
+    const isSelectionChanged = selectedOption !== currentOption;
+    const hasResponses = $containingForm.attr('editStatus') === 'hasResponses';
+
+    if (isSelectionChanged && hasResponses) {
+        $containingForm.attr('editStatus', 'mustDeleteResponses');
+    }
 }
 
 /**
- * Updates visibility message div with error message and add onclick event for re-loading the visibility message
+ * binds events to the visibility dropdown menu to
+ *  - show/hide visibility checkboxes div
+ *  - update dropdown button text to reflected selected option
+ *  - update visibility message div
  */
-function showAjaxErrorMessage($containingForm) {
-    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
+function attachVisibilityDropdownEvent() {
+    $('body').on('click', '.visibility-options-dropdown-option', function () {
+        const $clickedElem = $(this);
+        const selectedOption = $clickedElem.data('optionName');
+        const $containingForm = $clickedElem.closest('form');
 
-    let htmlString = 'This is the visibility hint as seen by the feedback giver:';
-    htmlString += '<ul class="text-muted background-color-warning">';
-    htmlString += '<li><a>Error loading visibility hint. Click here to retry.</a></li>';
-    htmlString += '</ul>';
+        checkAndMarkDestructiveChange($clickedElem.text(), $containingForm);
+        setVisibilityDropdownMenuText($clickedElem.text(), $containingForm);
 
-    $visibilityMessageDiv.html(htmlString);
-    $visibilityMessageDiv.find('ul').on('click', () => {
-        $visibilityMessageDiv.html('');
+        const $editTab = $containingForm.find('.visibilityOptions');
+        if (selectedOption === 'OTHER') {
+            $editTab.show();
+            updateVisibilityCheckboxesDiv($containingForm);
+        } else {
+            // only uncheck all checkboxes and update accordingly if a common option is selected
+            uncheckAllVisibilityOptionCheckboxes($containingForm);
+            checkCorrespondingCheckboxes(selectedOption, $containingForm);
+            $editTab.hide();
+        }
+
+        updateVisibilityMessageDiv($containingForm);
+    });
+}
+
+/**
+ * binds click event of each visibility checkbox to update visibility message div
+ */
+function attachVisibilityCheckboxEvent() {
+    $('body').on('change', '.visibilityCheckbox', function () {
+        const $containingForm = $(this).closest('form');
         updateVisibilityMessageDiv($containingForm);
     });
 }
