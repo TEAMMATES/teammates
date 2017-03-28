@@ -24,40 +24,6 @@ $(document).ready(() => {
 
 // -----------------------------------------------------------------------------
 
-/**
- * Checks whether a team's name is valid
- * Used in instructorCourseEnroll page (through instructorCourseEnroll.js)
- * @param teamName
- * @returns {Boolean}
- */
-function isStudentTeamNameValid(teamName) {
-    return teamName.length <= TEAMNAME_MAX_LENGTH;
-}
-
-/**
- * To check whether a student's name and team name are valid
- * @param editName
- * @param editTeamName
- * @returns {Boolean}
- */
-function isStudentInputValid(editName, editTeamName, editEmail) {
-    if (editName === '' || editTeamName === '' || editEmail === '') {
-        setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
-        return false;
-    } else if (!isNameValid(editName)) {
-        setStatusMessage(DISPLAY_NAME_INVALID, StatusType.DANGER);
-        return false;
-    } else if (!isStudentTeamNameValid(editTeamName)) {
-        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, StatusType.DANGER);
-        return false;
-    } else if (!isEmailValid(editEmail)) {
-        setStatusMessage(DISPLAY_EMAIL_INVALID, StatusType.DANGER);
-        return false;
-    }
-
-    return true;
-}
-
 function setupFsCopyModal() {
     $('#fsCopyModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal

@@ -3,8 +3,6 @@ isWithinView:false, isNumber:false, isDate:false, setStatusMessage:false, clearS
 roundToThreeDp:false, sanitizeForJs:false, isBlank:false, StatusType:false
 addLoadingIndicator:false, removeLoadingIndicator:false
 sortBase:false, sortNum:false, sortDate:false, getPointValue:false, sortByPoint:false
-sanitizeGoogleId:false, isValidGoogleId:false, isEmailValid:false, isNameValid:false
-generateRandomString:false, NAME_MAX_LENGTH:false
 */
 
 QUnit.module('common.js');
@@ -265,53 +263,6 @@ QUnit.test('removeLoadingIndicator()', (assert) => {
     assert.equal($button.text(), buttonText, `Button text changes to ${buttonText}`);
     assert.equal($button.find('img').length, 0, 'Loading gif removed');
     assert.notOk($button.is(':disabled'), 'Button enabled');
-});
-
-QUnit.test('sanitizeGoogleId(googleId)', (assert) => {
-    assert.equal(sanitizeGoogleId('test  @Gmail.COM  '), 'test', 'test - valid');
-    assert.equal(sanitizeGoogleId('  user@hotmail.com  '), 'user@hotmail.com',
-        'user@hotmail.com - valid');
-});
-
-QUnit.test('isValidGoogleId(googleId)', (assert) => {
-    assert.equal(isValidGoogleId('  test  \t\n'), true, 'test - valid');
-    assert.equal(isValidGoogleId('  charile.brown  \t\n'), true, 'charile.brown - valid');
-    assert.equal(isValidGoogleId('  big-small_mini  \t\n'), true, 'big-small_mini - valid');
-
-    assert.equal(isValidGoogleId(' hello@GMail.COm \t\n '), false, 'hello@gmail.com - invalid');
-    assert.equal(isValidGoogleId('wrong!'), false, 'wrong! - invalid');
-    assert.equal(isValidGoogleId('not*correct'), false, 'not*correct - invalid');
-    assert.equal(isValidGoogleId('is/not\\correct'), false, 'is/not\\correct - invalid');
-});
-
-QUnit.test('isEmailValid(email)', (assert) => {
-    assert.equal(isEmailValid('test@gmail.com'), true, 'test@gmail.com - valid');
-    assert.equal(isEmailValid('email'), false, 'email - invalid');
-    assert.equal(isEmailValid('email@email'), false, 'email@email - invalid');
-    assert.equal(isEmailValid('@yahoo.com'), false, '@yahoo.com - invalid');
-    assert.equal(isEmailValid('email.com'), false, 'email.com - invalid');
-});
-
-QUnit.test('isNameValid(name)', (assert) => {
-    assert.equal(isNameValid('\tTom Jacobs,.\t\'()-/ \\  '), true,
-        'alphanumerics, fullstop, comma, round brackets, slashes, apostrophe, hyphen - valid');
-    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH)), true,
-        'Maximum characters - valid');
-
-    assert.equal(isNameValid(''), false, 'Empty name - invalid');
-    assert.equal(isNameValid(generateRandomString(NAME_MAX_LENGTH + 1)), false,
-        'Exceed number of maximum characters - invalid');
-    assert.equal(isNameValid('Tom! Jacobs'), false, '! character - invalid');
-    assert.equal(isNameValid('Tom ^Jacobs'), false, '^ character - invalid');
-    assert.equal(isNameValid('Tom#'), false, '# character - invalid');
-    assert.equal(isNameValid('&Tom'), false, '& character - invalid');
-    assert.equal(isNameValid('J%cobs '), false, '% character - invalid');
-    assert.equal(isNameValid('Jacobs*'), false, '* character - invalid');
-    assert.equal(isNameValid('\t+123\t '), false, '+ character - invalid');
-    assert.equal(isNameValid('a b c $ 1 2 3 4'), false, '$ character - invalid');
-    assert.equal(isNameValid('1@2@3  456'), false, '@ character - invalid');
-    assert.equal(isNameValid('Tom = Tom'), false, '= character - invalid');
-    assert.equal(isNameValid('Tom||Jacobs'), false, '| character - invalid');
 });
 
 QUnit.test('roundToThreeDp(num)', (assert) => {

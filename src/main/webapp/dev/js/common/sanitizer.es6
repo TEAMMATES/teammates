@@ -10,22 +10,6 @@ function replaceAll(string, find, replace) {
 }
 
 /**
- * Sanitize GoogleID by trimming space and '@gmail.com'
- * Used in instructorCourse, instructorCourseEdit, adminHome
- *
- * @param rawGoogleId
- * @returns sanitizedGoolgeId
- */
-function sanitizeGoogleId(rawGoogleId) {
-    let googleId = rawGoogleId.trim();
-    const loc = googleId.toLowerCase().indexOf('@gmail.com');
-    if (loc > -1) {
-        googleId = googleId.substring(0, loc);
-    }
-    return googleId.trim();
-}
-
-/**
  * Sanitizes special characters such as ' and \ to \' and \\ respectively
  */
 function sanitizeForJs(rawString) {
@@ -36,12 +20,10 @@ function sanitizeForJs(rawString) {
 }
 /*
 export default {
-    sanitizeGoogleId,
     sanitizeForJs,
 };
 */
 /*
 exported
-    sanitizeGoogleId,
     sanitizeForJs
 */
