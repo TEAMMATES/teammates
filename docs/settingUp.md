@@ -12,7 +12,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Step 1: Install necessary tools and languages
 
-1. Install Git, and (optional but recommended) a Git GUI client such as GitHub for Windows/Mac.
+1. Install Source Tree or other similar Git Client, or at least Git.
 1. Install JDK 1.7.
 1. Install Node.js (minimum version 4.x).
 
