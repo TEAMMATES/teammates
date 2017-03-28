@@ -57,6 +57,7 @@ public final class Const {
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
 
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
     // for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";

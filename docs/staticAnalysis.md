@@ -116,19 +116,12 @@ The plugin for Eclipse can be found [here](http://eclemma.org).
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
-ESLint is a node.js package, currently not supported for Eclipse Java EE project.
-To set it up, [install node.js](https://nodejs.org/en/download/) if necessary (version 4 or later required) and then install the ESLint packages:
-```sh
-npm install eslint eslint-plugin-json
-
-# Alternatively, if you want to install the ESLint modules globally, use the '-g' flag and the correct tool version
-npm install -g eslint@{version} eslint-plugin-json@{version}
-```
+ESLint is a Node.js package, currently not supported for Eclipse Java EE project.
 
 #### Installing ESLint from within IntelliJ
 
 1. Ensure the [NodeJS Plugin](https://plugins.jetbrains.com/idea/plugin/6098-nodejs) is installed.
-1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint. Refer to `src/main/resources/package.json` for the appropriate version to install.
+1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint. Refer to `package.json` for the appropriate version to install.
 1. Follow the same steps outlined in the guide above to install `eslint-plugin-json`.
 
 #### Configuring ESLint for IntelliJ
@@ -156,14 +149,7 @@ An example to suppress the `camelcase` rule is as follows:
 
 [Stylelint](http://stylelint.io) functions both to enforce coding standard and also to find potential bugs and sub-optimal practices in stylesheets (CSS, SCSS).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-stylelint.yml).
-Stylelint is a node.js package, currently not supported for Eclipse Java EE project.
-To set it up, [install node.js](https://nodejs.org/en/download/) if necessary and then install the Stylelint package:
-```sh
-npm install stylelint
-
-# Alternatively, if you want to install the Stylelint module globally, use the '-g' flag and the correct tool version
-npm install -g stylelint@{version}
-```
+Stylelint is a Node.js package, currently not supported for Eclipse Java EE project or IntelliJ.
 
 ### blanket.js
 
@@ -191,30 +177,21 @@ To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle 
 
 To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`.
 
-Alternatively, run the tools via Gradle:
+Alternatively, run the tools via Gradle or NPM. The violations caught, if any, will be printed to the console itself.
 ```
 ./gradlew {toolType}{sourceCodeType}
 ```
 where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
-The reports can be found in the `build/reports/{toolType}/` directory.
 
 To run Macker analysis on all Java source files, run the following command:
 ```
 ./gradlew macker
 ```
-The violations caught, if any, will be printed to the console itself.
 
-To run ESLint analysis on all JavaScript source files, run the following command:
+To run ESLint and Stylelint analysis on all JavaScript, JSON, and CSS source files, run the following command:
 ```
-./gradlew eslint
+npm run lint
 ```
-The violations caught, if any, will be printed to the console itself.
-
-To run Stylelint analysis on all CSS source files, run the following command:
-```
-./gradlew stylelint
-```
-The violations caught, if any, will be printed to the console itself.
 
 To run all static analysis tasks in one sitting, run the following command:
 ```
