@@ -24,13 +24,11 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
    ```sh
    git remote add upstream https://github.com/TEAMMATES/teammates.git
    ```
-  
- **Verification:** Use the command `git remote -v` and the following lines should be part of the output:
-
-  ```
+   **Verification:** Use the command `git remote -v` and the following lines should be part of the output:
+   ```
     upstream        https://github.com/TEAMMATES/teammates.git (fetch)
     upstream        https://github.com/TEAMMATES/teammates.git (push)
-  ```
+    ```
 
 1. Set your `master` branch to track the original repo's `master` branch.
    ```sh
@@ -45,9 +43,8 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Run this command to download the correct version Google App Engine SDK as used in the project:
    ```sh
    ./gradlew appengineDownloadSdk
-   ```
-   
- **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named `appengine-sdk` should be present.
+   ```  
+   **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named appengine-sdk` should be present.
  
 1. Run this command to download the necessary tools for JavaScript development:
    ```sh
@@ -58,8 +55,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    ```sh
    ./gradlew setup
    ```
-
- **Verification:** The file named `.project` should be added to the project root directory.
+   **Verification:** The file named `.project` should be added to the project root directory.
 
 1. Modify the following config files:
    * `gradle.properties`<br>
