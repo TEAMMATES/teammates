@@ -305,7 +305,7 @@ public class Logic {
      *
      * @see InstructorsLogic#putDocuments(List)
      */
-    public void batchPutInstructorDocuments(List<InstructorAttributes> instructors) {
+    public void putInstructorDocuments(List<InstructorAttributes> instructors) {
         instructorsLogic.putDocuments(instructors);
     }
 
@@ -1093,7 +1093,7 @@ public class Logic {
         studentsLogic.putDocument(student);
     }
 
-    public void batchPutStudentDocuments(List<StudentAttributes> students) {
+    public void putStudentDocuments(List<StudentAttributes> students) {
         studentsLogic.putDocuments(students);
     }
 
@@ -2003,7 +2003,7 @@ public class Logic {
      *
      * @see FeedbackResponseCommentsLogic#putDocuments(List)
      */
-    public void batchPutFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
+    public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
         feedbackResponseCommentsLogic.putDocuments(comments);
     }
 
@@ -2103,7 +2103,7 @@ public class Logic {
      *
      * @see CommentsLogic#putDocuments(List)
      */
-    public void batchPutCommentDocuments(List<CommentAttributes> comments) {
+    public void putCommentDocuments(List<CommentAttributes> comments) {
         commentsLogic.putDocuments(comments);
     }
 

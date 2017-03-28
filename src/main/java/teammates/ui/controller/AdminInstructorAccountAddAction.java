@@ -207,10 +207,10 @@ public class AdminInstructorAccountAddAction extends Action {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.batchPutCommentDocuments(comments);
-        logic.batchPutFeedbackResponseCommentDocuments(frComments);
-        logic.batchPutStudentDocuments(students);
-        logic.batchPutInstructorDocuments(instructors);
+        logic.putCommentDocuments(comments);
+        logic.putFeedbackResponseCommentDocuments(frComments);
+        logic.putStudentDocuments(students);
+        logic.putInstructorDocuments(instructors);
 
         return courseId;
     }
