@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,13 +101,28 @@ public final class SearchManager {
                     continue;
                 }
 
+                boolean isSuccessful;
+                List<Document> documentsToRetry = new ArrayList<Document>();
+                for (int i = 0; i < documents.size(); i++) {
+                    isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
+                    if (!isSuccessful) {
+                        documentsToRetry.add(documents.get(i));
+                    }
+                }
+
                 int elapsedTime = 0;
-                boolean isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                isSuccessful = documentsToRetry.isEmpty();
                 while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
                     // retry putting the document
-                    result = index.put(documents);
-                    isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
+                    result = index.put(documentsToRetry);
+                    // check if retry was successful
+                    for (int i = 0; i < documentsToRetry.size(); i++) {
+                        isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
+                        if (!isSuccessful) {
+                            break;
+                        }
+                    }
                     // check before incrementing to avoid boundary case problem
                     if (!isSuccessful) {
                         elapsedTime += ThreadHelper.WAIT_DURATION;
