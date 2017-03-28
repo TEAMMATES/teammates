@@ -56,7 +56,8 @@ dependencies {
                     "com.sun.jersey.contribs:jersey-multipart:1.19.3",
                     "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.10.2"
+                    "org.jsoup:jsoup:1.10.2",
+                    "org.kohsuke:wordnet-random-name:1.3"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",

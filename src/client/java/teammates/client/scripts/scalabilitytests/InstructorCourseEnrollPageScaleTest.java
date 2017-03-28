@@ -19,7 +19,7 @@ import java.nio.file.Paths;
  */
 public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
 
-    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
+    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/";
     private InstructorCourseEnrollPage enrollPage;
     private Logger logger = Logger.getLogger();
 
@@ -49,7 +49,7 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
         // This is the full HTML verification for Instructor Course Enroll Page, the rest can all be verifyMainHtml
-        enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
+        //enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
     }
 
     private void testSampleLink() {
