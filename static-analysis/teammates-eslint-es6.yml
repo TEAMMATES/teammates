@@ -1,0 +1,19 @@
+env:
+    browser: true
+    jquery: true
+    qunit: true
+    es6: true
+
+extends:
+    - airbnb-base
+
+rules:
+    func-names: "off"
+    indent: ["error", 4]
+    linebreak-style: "off"
+    max-len: ["error", 125]
+    no-continue: "off"
+    no-mixed-operators: "off"
+    no-param-reassign: ["error", { "props": false }]
+    no-use-before-define: "off"
+    import/prefer-default-export: "off"
