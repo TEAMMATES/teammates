@@ -195,8 +195,7 @@ task createEclipseLaunches << {
         ".templates/eclipseLaunches/Failed tests.launch.xml",
         ".templates/eclipseLaunches/Failed tests (GodMode).launch.xml",
         ".templates/eclipseLaunches/Local tests.launch.xml",
-        ".templates/eclipseLaunches/Local tests (GodMode).launch.xml",
-        ".templates/eclipseLaunches/Staging tests.launch.xml"
+        ".templates/eclipseLaunches/Local tests (GodMode).launch.xml"
     ]
     templatesToCopy.findAll {
         !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
@@ -222,8 +221,7 @@ task createIntellijRunConfigs << {
         ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
         ".templates/intellijRunConfigs/Failed_Tests.xml",
         ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
-        ".templates/intellijRunConfigs/Local_Tests.xml",
-        ".templates/intellijRunConfigs/Staging_Tests.xml"
+        ".templates/intellijRunConfigs/Local_Tests.xml"
     ]
     templatesToCopy.findAll {
         !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
@@ -443,6 +441,67 @@ def checkConfigFailureClosure = { descriptor, result ->
     }
 }
 
+test {
+    useTestNG()
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (project.hasProperty("godmode")) {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+    } else {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+    dependsOn enhancerRun
+}
+
+task localTests(type: Test) {
+    useTestNG()
+    options.suites "src/test/testng-local.xml"
+    options.outputDirectory = file("build/reports/test-local")
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (project.hasProperty("godmode")) {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+    } else {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+    dependsOn enhancerRun
+}
+
+task failedTests(type: Test) {
+    useTestNG()
+    options.suites "test-output/testng-failed.xml"
+    options.outputDirectory = file("build/reports/test-failed")
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (project.hasProperty("godmode")) {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+    } else {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+    dependsOn enhancerRun
+}
+
 task ciTests {
     description "Runs the full test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"
@@ -462,6 +521,8 @@ task ciTests {
         reports.junitXml.enabled = false
         if (isTravis) {
             jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        } else if (project.hasProperty("godmode")) {
+            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
         } else {
             jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
         }
@@ -509,7 +570,9 @@ task generateFailedCmd(type: Exec) {
         println "Run failed tests locally by downloading the XML file containing the failed tests using the command:"
         println "Windows: gradlew.bat -Pgist=${gistHash} downloadFailedXml"
         println "Linux/OS X: ./gradlew -Pgist=${gistHash} downloadFailedXml"
-        println "followed by running \"Failed tests\" in Eclipse."
+        println "followed by running \"Failed tests\" in Eclipse/IntelliJ or using the following command:"
+        println "Windows: gradlew.bat failedTests"
+        println "Linux/OS X: ./gradlew failedTests"
     }
 }
 
@@ -532,7 +595,7 @@ task downloadFailedXml {
     }
     doLast {
         println "The XML file containing the failed tests has been downloaded successfully."
-        println "You can now run the failed tests from Eclipse."
+        println "You can now run the failed tests locally."
     }
     dependsOn cleanTestOutputDir
 }
