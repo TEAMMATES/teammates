@@ -95,8 +95,8 @@ public final class SearchManager {
         int delay = 2;
         for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
             try {
-                List<Document> documentsToRetry = putDocuments(index, documents);
-                boolean isSuccessful = documentsToRetry.isEmpty();
+                List<Document> failedDocuments = putDocuments(index, documents);
+                boolean isSuccessful = failedDocuments.isEmpty();
 
                 if (Config.PERSISTENCE_CHECK_DURATION == 0) {
                     continue;
@@ -105,7 +105,7 @@ public final class SearchManager {
                 int elapsedTime = 0;
                 while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
-                    isSuccessful = putDocuments(index, documentsToRetry).isEmpty();
+                    isSuccessful = putDocuments(index, failedDocuments).isEmpty();
 
                     // check before incrementing to avoid boundary case problem
                     if (!isSuccessful) {
