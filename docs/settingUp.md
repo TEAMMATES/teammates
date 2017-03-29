@@ -133,7 +133,7 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Click `Next`.
    * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
    * Click `Finish`.
-1. During your import, the run configurations for the project have been deleted locally. In order to restore these, open git shell and run the command
+1. During your import, the run configurations for the project were deleted locally. In order to restore these, open git shell and run the command
   ```sh
      git checkout -- .idea/runConfigurations
   ```
