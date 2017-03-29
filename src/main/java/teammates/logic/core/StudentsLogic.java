@@ -534,6 +534,9 @@ public final class StudentsLogic {
         studentsDb.putDocument(student);
     }
 
+    /**
+     * Batch creates or updates documents for the given students.
+     */
     public void putDocuments(List<StudentAttributes> students) {
         studentsDb.putDocuments(students);
     }

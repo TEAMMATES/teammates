@@ -48,6 +48,9 @@ public class StudentsDb extends EntitiesDb {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
 
+    /**
+     * Batch creates or updates search documents for the given students.
+     */
     public void putDocuments(List<StudentAttributes> students) {
         List<SearchDocument> studentDocuments = new ArrayList<SearchDocument>();
         for (StudentAttributes student : students) {

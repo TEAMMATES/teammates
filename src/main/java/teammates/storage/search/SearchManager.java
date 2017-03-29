@@ -138,14 +138,14 @@ public final class SearchManager {
      */
     private static List<Document> putDocuments(Index index, List<Document> documents) {
         PutResponse result = index.put(documents);
-        List<Document> documentsToRetry = new ArrayList<Document>();
+        List<Document> failedDocuments = new ArrayList<Document>();
         for (int i = 0; i < documents.size(); i++) {
             boolean isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
             if (!isSuccessful) {
-                documentsToRetry.add(documents.get(i));
+                failedDocuments.add(documents.get(i));
             }
         }
-        return documentsToRetry;
+        return failedDocuments;
     }
 
     /**

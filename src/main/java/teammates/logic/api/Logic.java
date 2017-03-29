@@ -1093,6 +1093,9 @@ public class Logic {
         studentsLogic.putDocument(student);
     }
 
+    /**
+     * Batch creates or updates search documents for the given students.
+     */
     public void putStudentDocuments(List<StudentAttributes> students) {
         studentsLogic.putDocuments(students);
     }

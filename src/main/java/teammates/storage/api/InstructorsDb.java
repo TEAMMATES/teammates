@@ -55,6 +55,9 @@ public class InstructorsDb extends EntitiesDb {
         }
     }
 
+    /**
+     * Batch creates or updates documents for the given instructors.
+     */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<SearchDocument>();
         for (InstructorAttributes instructor : instructorParams) {
