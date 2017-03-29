@@ -39,7 +39,7 @@ public class AllJsTests extends BaseUiTestCase {
         Document pageSource = Jsoup.parse(page.getPageSource());
         String testScripts = pageSource.getElementById("test-scripts").html();
 
-        File folder = new File("./src/main/webapp/dev");
+        File folder = new File("./src/main/webapp/test");
         File[] listOfFiles = folder.listFiles();
         for (File f : listOfFiles) {
             String fileName = f.getName();
@@ -51,7 +51,7 @@ public class AllJsTests extends BaseUiTestCase {
     }
 
     private String getSrcStringForJsTestFile(String fileName) {
-        return "src=\"/dev/" + fileName + "\"";
+        return "src=\"/test/" + fileName + "\"";
     }
 
     @Test
