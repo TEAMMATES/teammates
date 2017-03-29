@@ -213,6 +213,28 @@ task createEclipseLaunches << {
     }
 }
 
+task createIntellijRunConfigs << {
+    def templatesToCopy = [
+        ".templates/intellijRunConfigs/All_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/All_Tests.xml",
+        ".templates/intellijRunConfigs/CI_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/CI_Tests.xml",
+        ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/Failed_Tests.xml",
+        ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/Local_Tests.xml",
+        ".templates/intellijRunConfigs/Staging_Tests.xml"
+    ]
+    templatesToCopy.findAll {
+        !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
+    }.each {
+        filename -> copy {
+            from filename
+            into ".idea/runConfigurations"
+        }
+    }
+}
+
 task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
@@ -240,6 +262,12 @@ task setupEclipse {
     description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
     dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
+}
+
+task setupIntellij {
+    description "Sets up the IntelliJ-specific configurations for the project."
+    group "Setup"
+    dependsOn createIntellijRunConfigs
 }
 
 // RUN SERVER TASKS
