@@ -13,7 +13,6 @@ import teammates.common.util.ThreadHelper;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.OperationResult;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;
 import com.google.appengine.api.search.Query;
@@ -96,18 +95,17 @@ public final class SearchManager {
         int delay = 2;
         for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
             try {
-                PutResponse result = index.put(documents);
+                List<Document> documentsToRetry = tryPuttingDocuments(index, documents);
+                boolean isSuccessful = documentsToRetry.isEmpty();
 
                 if (Config.PERSISTENCE_CHECK_DURATION == 0) {
                     continue;
                 }
 
-                List<Document> documentsToRetry = new ArrayList<Document>();
-                boolean isSuccessful = isPutAllDocumentsSuccessful(documents, result, documentsToRetry);
                 int elapsedTime = 0;
                 while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
-                    isSuccessful = retryPuttingDocuments(index, documentsToRetry);
+                    isSuccessful = tryPuttingDocuments(index, documentsToRetry).isEmpty();
 
                     // check before incrementing to avoid boundary case problem
                     if (!isSuccessful) {
@@ -133,28 +131,22 @@ public final class SearchManager {
         }
     }
 
-    private static boolean isPutAllDocumentsSuccessful(List<Document> documents, PutResponse result,
-            List<Document> documentsToRetry) {
+    /**
+     * Puts documents in index.
+     *
+     * @return list of documents have not been put successfully
+     */
+    private static List<Document> tryPuttingDocuments(Index index, List<Document> documents) {
         boolean isSuccessful;
+        PutResponse result = index.put(documents);
+        List<Document> documentsToRetry = new ArrayList<Document>();
         for (int i = 0; i < documents.size(); i++) {
             isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
             if (!isSuccessful) {
                 documentsToRetry.add(documents.get(i));
             }
         }
-        isSuccessful = documentsToRetry.isEmpty();
-        return isSuccessful;
-    }
-
-    private static boolean retryPuttingDocuments(Index index, List<Document> documentsToRetry) {
-        List<OperationResult> operationResults = index.put(documentsToRetry).getResults();
-        // check if retry was successful
-        for (OperationResult result : operationResults) {
-            if (result.getCode() != StatusCode.OK) {
-                return false;
-            }
-        }
-        return true;
+        return documentsToRetry;
     }
 
     /**
