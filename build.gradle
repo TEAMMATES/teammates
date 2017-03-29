@@ -132,7 +132,7 @@ eclipse {
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
     classpath {
-        containers "com.google.appengine.eclipse.core.GAE_CONTAINER"
+        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.27"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
         minusConfigurations = [configurations.exclude, configurations.testExclude]
