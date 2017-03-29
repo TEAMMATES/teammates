@@ -1,5 +1,7 @@
+/* globals _gaq
+ */
 /* eslint-disable no-underscore-dangle */ // The variable name is determined by external library (googleAnalytics)
-const _gaq = _gaq || []; // eslint-disable-line no-use-before-define
+const _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-37652587-1']);
 _gaq.push(['_trackPageview']);
 
