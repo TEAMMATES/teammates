@@ -166,7 +166,9 @@ eclipseClasspath {
     }
 }
 
-task createConfigs << {
+task createConfigs {
+    description "Sets up the project by obtaining necessary files and configurations points."
+    group "Setup"
     def templatesToCopy = [
         "gradle.template.properties",
         "src/main/resources/build.template.properties",

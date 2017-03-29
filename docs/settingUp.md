@@ -50,12 +50,13 @@ More information can be found at [this documentation](https://help.github.com/ar
    ```sh
    npm install
    ```
+   **Verification:** A folder named `node_modules` should be added to the project root directory.
 
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
-   ./gradlew setup
+   ./gradlew createConfigs
    ```
-   **Verification:** The file named `.project` should be added to the project root directory.
+   **Verification:** The file named `gradle.properties` should be added to the project root directory.
 
 1. Modify the following config files:
    * `gradle.properties`<br>
