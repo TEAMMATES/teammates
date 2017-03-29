@@ -186,25 +186,27 @@ task createConfigs {
     }
 }
 
-task createLaunches << {
+task createEclipseLaunches << {
     def templatesToCopy = [
-        ".launches/All tests.launch.xml",
-        ".launches/All tests (GodMode).launch.xml",
-        ".launches/Failed tests.launch.xml",
-        ".launches/Failed tests (GodMode).launch.xml",
-        ".launches/Local tests.launch.xml",
-        ".launches/CI tests.launch.xml",
-        ".launches/Staging tests.launch.xml"
+        ".templates/eclipseLaunches/All tests.launch.xml",
+        ".templates/eclipseLaunches/All tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/CI tests.launch.xml",
+        ".templates/eclipseLaunches/CI tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/Failed tests.launch.xml",
+        ".templates/eclipseLaunches/Failed tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/Local tests.launch.xml",
+        ".templates/eclipseLaunches/Local tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/Staging tests.launch.xml"
     ]
     templatesToCopy.findAll {
-        !(new File(it.replace(".xml", ""))).exists()
+        !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
     }.each {
         filename -> copy {
             from filename
-            into new File(filename).getParent()
+            into ".launches"
             rename '(.*).xml', '$1'
         }
-        filename = filename.replace(".xml", "")
+        filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
         def fileContents = new File(filename).getText("UTF-8")
         def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
         new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
@@ -234,10 +236,10 @@ task printUserHomeDir << {
     println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
 }
 
-task setup {
-    description "Sets up the project by obtaining necessary files and configurations points."
+task setupEclipse {
+    description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
-    dependsOn eclipseProject, createConfigs, createLaunches
+    dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
 }
 
 // RUN SERVER TASKS

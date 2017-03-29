@@ -13,15 +13,13 @@ The following plugins are needed:
 
 ![setupguide-1.png](images/setupguide-1.png)
 
-1. Run this command to download the dependencies required by TEAMMATES and configure them to be used by Eclipse:
+1. Run this command to get necessary configuration files for Eclipse:
 
    ```sh
-   ./gradlew resetEclipseDeps
+   ./gradlew setupEclipse
    ```
 
-   This command needs to be run again whenever the dependencies are updated.
-
-   **Verification:** The file named `.classpath` should be added to the project root directory.
+   **Verification:** The files `.project` and `.classpath` should be added to the project root directory.
 
 1. Start Eclipse and do the following works before importing the project:
    * Google App Engine: Go to `Eclipse → Preferences → Google → App Engine`, click the `Add` button, and point it to where Gradle keeps the downloaded SDK.<br>

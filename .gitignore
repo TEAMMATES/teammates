@@ -23,7 +23,7 @@ libs/
 node_modules/
 npm-debug.log
 
-*.launch
+.launches
 test-output/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes
