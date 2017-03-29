@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
@@ -24,8 +23,7 @@ public class AdminEmailComposePageAction extends Action {
             statusToAdmin =
                     data.emailToEdit == null
                     ? "adminEmailComposePage Page Load : " + Const.StatusMessages.EMAIL_NOT_FOUND
-                    : "adminEmailComposePage Page Load : Edit Email "
-                      + "[" + SanitizationHelper.sanitizeForHtml(data.emailToEdit.getSubject()) + "]";
+                    : "adminEmailComposePage Page Load : Edit Email " + "[" + data.emailToEdit.getSubject() + "]";
 
             if (data.emailToEdit == null) {
                 isError = true;

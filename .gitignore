@@ -17,9 +17,7 @@ chromedriver*
 *.db
 *.md.html
 libs/
-*.js
 node_modules/
-npm-debug.log
 
 *.launch
 test-output/*
