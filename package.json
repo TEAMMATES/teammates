@@ -19,14 +19,15 @@
     ]
   },
   "scripts": {
-    "build:test": "babel src/main/webapp/dev/ -x \".es6\" -d src/main/webapp/dev/",
+    "build:test": "babel src/main/webapp/test/ -x \".es6\" -d src/main/webapp/test/",
     "build:src": "babel src/main/webapp/js/ -x \".es6\" -d src/main/webapp/js/",
     "build": "npm run build:src && npm run build:test",
     "lint:src": "eslint src/main/webapp/js -c static-analysis/teammates-eslint.yml --ext .es6",
-    "lint:test": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint.yml --ext .es6",
+    "lint:test": "eslint src/main/webapp/test -c static-analysis/teammates-eslint.yml --ext .es6",
+    "lint:js": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint-es6.yml --ext es6",
     "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/**/*.es6\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
-    "lint": "npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css && npm run lint:spaces"
+    "lint": "npm run lint:src && npm run lint:test && npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
   }
 }
