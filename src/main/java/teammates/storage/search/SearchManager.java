@@ -95,7 +95,7 @@ public final class SearchManager {
         int delay = 2;
         for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
             try {
-                List<Document> documentsToRetry = tryPuttingDocuments(index, documents);
+                List<Document> documentsToRetry = putDocuments(index, documents);
                 boolean isSuccessful = documentsToRetry.isEmpty();
 
                 if (Config.PERSISTENCE_CHECK_DURATION == 0) {
@@ -105,7 +105,7 @@ public final class SearchManager {
                 int elapsedTime = 0;
                 while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
-                    isSuccessful = tryPuttingDocuments(index, documentsToRetry).isEmpty();
+                    isSuccessful = putDocuments(index, documentsToRetry).isEmpty();
 
                     // check before incrementing to avoid boundary case problem
                     if (!isSuccessful) {
@@ -132,16 +132,15 @@ public final class SearchManager {
     }
 
     /**
-     * Puts documents in index.
+     * Puts {@code documents} in {@code index}.
      *
      * @return list of documents have not been put successfully
      */
-    private static List<Document> tryPuttingDocuments(Index index, List<Document> documents) {
-        boolean isSuccessful;
+    private static List<Document> putDocuments(Index index, List<Document> documents) {
         PutResponse result = index.put(documents);
         List<Document> documentsToRetry = new ArrayList<Document>();
         for (int i = 0; i < documents.size(); i++) {
-            isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
+            boolean isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
             if (!isSuccessful) {
                 documentsToRetry.add(documents.get(i));
             }
