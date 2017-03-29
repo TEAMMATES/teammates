@@ -243,6 +243,13 @@ This instruction set assumes that the app identifier is `teammates-john`.
      * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
    * In IntelliJ
      * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
+   * Outside Eclipse and IntelliJ
+     * Run the following command:
+
+       ```sh
+       ./gradlew appengineUpdate
+       ```
+     * Follow the steps and wait until the command ends with a `BUILD SUCCESSFUL`.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
