@@ -221,6 +221,49 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
     }
 
+    private String expectedArrayCourse(FeedbackSessionAttributes session) {
+        return "Course,\"" + session.getCourseId() + "\"";
+    }
+    private String expectedArraySessionName(FeedbackSessionAttributes session) {
+        return "Session Name,\"" + session.getFeedbackSessionName() + "\"";
+    }
+    private String expectedArrayQuestion1() {
+        return "Question 1,\"What is the best selling point of your product?\"";
+    }
+    private String expectedArrayQuestion2() {
+        return "Question 2,\"Rate 1 other student's product\"";
+    }
+    private String expectedArrayQuestion3() {
+        return "Question 3,\"My comments on the class\"";
+    }
+    private String expectedArrayHeaders() {
+        return "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback";
+    }
+    private String expectedArrayInstructor() {
+        return "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"";
+    }
+    private String expectedArrayStudent1() {
+        return "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
+    }
+    private String expectedArrayStudent1NewName() {
+        return "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
+    }
+    private String expectedArrayStudent2() {
+        return "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"";
+    }
+    private String expectedArrayStudent3() {
+        return "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"";
+    }
+    private String expectedArrayStudent4() {
+        return "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"";
+    }
+    private String expectedArrayStudent5() {
+        return "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"";
+    }
+    private String expectedArraySection1() {
+        return "Section Name,\"Section 1\"";
+    }
+
     private void verifyFileContentForDownloadWithFilterText(String fileContent,
             FeedbackSessionAttributes session) {
         /*
@@ -230,14 +273,14 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
                 "",
                 "",
-                "Question 3,\"My comments on the class\"",
+                expectedArrayQuestion3(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                expectedArrayHeaders(),
+                expectedArrayInstructor(),
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -254,18 +297,18 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
                 "",
                 "",
-                "Question 1,\"What is the best selling point of your product?\"",
+                expectedArrayQuestion1(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
-                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\""
+                expectedArrayHeaders(),
+                expectedArrayStudent1(),
+                expectedArrayStudent2(),
+                expectedArrayStudent3(),
+                expectedArrayStudent4(),
+                expectedArrayStudent5(),
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -282,15 +325,15 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
                 "",
                 "",
-                "Question 1,\"What is the best selling point of your product?\"",
+                expectedArrayQuestion1(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
+                expectedArrayHeaders(),
+                expectedArrayStudent1(),
+                expectedArrayStudent2(),
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -307,15 +350,15 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
                 "",
                 "",
-                "Question 1,\"What is the best selling point of your product?\"",
+                expectedArrayQuestion1(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                expectedArrayHeaders(),
+                expectedArrayStudent1(),
+                expectedArrayStudent2(),
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -332,15 +375,15 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
                 "",
                 "",
-                "Question 1,\"What is the best selling point of your product?\"",
+                expectedArrayQuestion1(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                expectedArrayHeaders(),
+                expectedArrayStudent1NewName(),
+                expectedArrayStudent2(),
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -357,16 +400,16 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "Section Name,\"Section 1\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
+                expectedArraySection1(),
                 "",
                 "",
-                "Question 1,\"What is the best selling point of your product?\"",
+                expectedArrayQuestion1(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                expectedArrayHeaders(),
+                expectedArrayStudent1(),
+                expectedArrayStudent2(),
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -383,19 +426,19 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
                 "",
                 "",
-                "Question 2,\"Rate 1 other student's product\"",
+                expectedArrayQuestion2(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
+                expectedArrayHeaders(),
+                expectedArrayStudent1(),
+                expectedArrayStudent2(),
+                expectedArrayStudent3(),
                 "",
                 "",
-                ""
+                "",
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -411,16 +454,16 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "Section Name,\"Section 1\"",
+                expectedArrayCourse(session),
+                expectedArraySessionName(session),
+                expectedArraySection1(),
                 "",
                 "",
-                "Question 1,\"What is the best selling point of your product?\"",
+                expectedArrayQuestion1(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                expectedArrayHeaders(),
+                expectedArrayStudent1(),
+                expectedArrayStudent2(),
                 "",
                 "",
                 ""
