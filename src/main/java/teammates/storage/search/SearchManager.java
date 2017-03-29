@@ -100,33 +100,13 @@ public final class SearchManager {
                 if (Config.PERSISTENCE_CHECK_DURATION == 0) {
                     continue;
                 }
-
-                boolean isSuccessful;
+                
                 List<Document> documentsToRetry = new ArrayList<Document>();
-                for (int i = 0; i < documents.size(); i++) {
-                    isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
-                    if (!isSuccessful) {
-                        documentsToRetry.add(documents.get(i));
-                    }
-                }
-
+                boolean isSuccessful = isPutAllDocumentsSuccessful(documents, result, documentsToRetry);
                 int elapsedTime = 0;
-                isSuccessful = documentsToRetry.isEmpty();
                 while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                     ThreadHelper.waitBriefly();
-                    // retry putting the document
-                    result = index.put(documentsToRetry);
-                    // check if retry was successful
-                    for (int i = 0; i < documentsToRetry.size(); i++) {
-                        isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
-                        if (!isSuccessful) {
-                            break;
-                        }
-                    }
-                    // check before incrementing to avoid boundary case problem
-                    if (!isSuccessful) {
-                        elapsedTime += ThreadHelper.WAIT_DURATION;
-                    }
+                    elapsedTime = retryPuttingDocuments(index, documentsToRetry, elapsedTime);
                 }
                 if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
                     log.info(String.format(ERROR_EXCEED_DURATION, documents, indexName));
@@ -145,6 +125,39 @@ public final class SearchManager {
                 }
             }
         }
+    }
+
+    private static boolean isPutAllDocumentsSuccessful(List<Document> documents, PutResponse result,
+            List<Document> documentsToRetry) {
+        boolean isSuccessful;
+        for (int i = 0; i < documents.size(); i++) {
+            isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
+            if (!isSuccessful) {
+                documentsToRetry.add(documents.get(i));
+            }
+        }
+
+        
+        isSuccessful = documentsToRetry.isEmpty();
+        return isSuccessful;
+    }
+
+    private static int retryPuttingDocuments(Index index, List<Document> documentsToRetry, int elapsedTime) {
+        // was previously unsuccessful
+        boolean isSuccessful = false;
+        PutResponse result = index.put(documentsToRetry);
+        // check if retry was successful
+        for (int i = 0; i < documentsToRetry.size(); i++) {
+            isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
+            if (!isSuccessful) {
+                break;
+            }
+        }
+        // check before incrementing to avoid boundary case problem
+        if (!isSuccessful) {
+            elapsedTime += ThreadHelper.WAIT_DURATION;
+        }
+        return elapsedTime;
     }
 
     /**

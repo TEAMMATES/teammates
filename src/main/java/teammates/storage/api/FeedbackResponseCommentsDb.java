@@ -428,7 +428,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /*
-     * Batch create or update search documents for the given comments
+     * Batch creates or updates search documents for the given comments
      */
     public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
         List<SearchDocument> frcSearchDocuments = new ArrayList<SearchDocument>();
