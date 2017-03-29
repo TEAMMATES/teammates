@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
@@ -29,6 +30,7 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.AdminEmailsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -53,6 +55,7 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
+    private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
@@ -159,6 +162,11 @@ public class BackDoorLogic extends Logic {
 
         Map<String, CommentAttributes> comments = dataBundle.comments;
         commentsDb.createComments(comments.values());
+
+        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
+        for (AdminEmailAttributes email : adminEmails.values()) {
+            adminEmailsDb.creatAdminEmail(email);
+        }
 
         // any Db can be used to commit the changes.
         // accountsDb is used as it is already used in the file
@@ -430,6 +438,9 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
+
+        // Delete all admin emails
+        adminEmailsDb.deleteEntities(adminEmailsDb.getAllAdminEmails());
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
