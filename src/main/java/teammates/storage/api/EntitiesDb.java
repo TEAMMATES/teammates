@@ -285,7 +285,7 @@ public abstract class EntitiesDb {
         try {
             SearchManager.putDocument(indexName, document.build());
         } catch (Exception e) {
-            log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
+            log.severe("Failed to put searchable document in " + indexName + " for " + document.toString());
         }
     }
 
@@ -297,7 +297,7 @@ public abstract class EntitiesDb {
         try {
             SearchManager.putDocuments(indexName, searchDocuments);
         } catch (Exception e) {
-            log.info("Failed to batch put searchable documents in " + indexName + " for " + documents.toString());
+            log.severe("Failed to batch put searchable documents in " + indexName + " for " + documents.toString());
         }
     }
 
