@@ -31,6 +31,29 @@ npm run build
 
 > `Dev server` is the server run in your local machine.
 
+### With command line
+
+* Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
+
+#### Starting the dev server
+
+Run the following command:
+
+```sh
+./gradlew appengineRun
+```
+
+Wait until the task exits with a `BUILD SUCCESSFUL`.
+The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
+
+#### Stopping the dev server
+
+Run the following command:
+
+```sh
+./gradlew appengineStop
+```
+
 ### With Eclipse
 
 #### Starting the dev server
@@ -73,26 +96,6 @@ Go to `Run → Run...` and select `Dev Server` in the pop-up box.
 #### Stopping the dev server
 
 Go to `Run → Stop` or hit `Ctrl + F2` (Windows).
-
-### Outside Eclipse and IntelliJ
-
-* Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
-
-#### Starting the dev server
-
-Run the following command:
-  ```sh
-  ./gradlew appengineRun
-  ```
-  Wait until the task exits with a `BUILD SUCCESSFUL`.
-  The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
-
-#### Stopping the dev server
-
-Run the following command:
-  ```sh
-  ./gradlew appengineStop
-  ```
 
 ## Logging in to a TEAMMATES instance
 
@@ -238,18 +241,18 @@ This instruction set assumes that the app identifier is `teammates-john`.
      Modify to match app name and app id of your own app, and the version number if you need to. Do not modify anything else.
 
 1. Deploy the application to your staging server.
-   * In Eclipse
-     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
-     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
-   * In IntelliJ
-     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
-   * Outside Eclipse and IntelliJ
+   * With command line
      * Run the following command:
 
        ```sh
        ./gradlew appengineUpdate
        ```
      * Follow the steps and wait until the command ends with a `BUILD SUCCESSFUL`.
+   * With Eclipse
+     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
+     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+   * With IntelliJ
+     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
