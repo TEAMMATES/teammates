@@ -5,11 +5,6 @@ setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bi
 let isSessionsAjaxSending = false;
 let oldStatus = null;
 
-$(document).ready(() => {
-    oldStatus = $('.statusMessage').clone();
-    $('#ajaxForSessions').submit(ajaxRequest);
-});
-
 const ajaxRequest = function (e) {
     e.preventDefault();
 
@@ -53,3 +48,8 @@ const ajaxRequest = function (e) {
         },
     });
 };
+
+$(document).ready(() => {
+    oldStatus = $('.statusMessage').clone();
+    $('#ajaxForSessions').submit(ajaxRequest);
+});
