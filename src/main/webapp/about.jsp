@@ -1352,6 +1352,8 @@
             </table>
         </section>
         <p>
-            Would you like to join the TEAMMATES team as a contributor? <a href="contact.jsp">Contact Us</a>.
+        </p>
+        <p>
+            <b>Would you like to join the TEAMMATES team as a contributor?</b> <a href="contact.jsp">Contact Us</a>.
         </p>
 </t:staticPage>
