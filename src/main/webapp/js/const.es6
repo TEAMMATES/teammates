@@ -24,53 +24,9 @@ const Const = {
 
     ParamNames: {
 
-    },
-
-    StatusMessages: {
-        
-    },
-
-    ModalDialog: {
-
-        UNREGISTERED_STUDENT: {
-            header: 'Register for TEAMMATES',
-            text: 'You have to register using a google account in order to access this page. '
-                  + 'Would you like to proceed and register?',
-        },
-
-    },
-
-    // Used in instructorFeedback.js
-    InstructorFeedback: {
-
-        FEEDBACK_SESSION_NAME: 'fsname', // also used in feedbackResponseComments.js
-        FEEDBACK_SESSION_STARTDATE: 'startdate',
-        FEEDBACK_SESSION_STARTTIME: 'starttime',
-        FEEDBACK_SESSION_TIMEZONE: 'timezone',
-        FEEDBACK_SESSION_VISIBLEDATE: 'visibledate',
-        FEEDBACK_SESSION_VISIBLETIME: 'visibletime',
-        FEEDBACK_SESSION_PUBLISHDATE: 'publishdate',
-        FEEDBACK_SESSION_PUBLISHTIME: 'publishtime',
-        FEEDBACK_SESSION_SESSIONVISIBLEBUTTON: 'sessionVisibleFromButton',
-        FEEDBACK_SESSION_RESULTSVISIBLEBUTTON: 'resultsVisibleFromButton',
-        FEEDBACK_SESSION_COPY_INVALID: 'There is no feedback session to be copied.',
-        FEEDBACK_QUESTION_COPY_INVALID: 'There are no questions to be copied.',
-        DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE: 'This feedback session name already existed in this course. ' +
-                                                 'Please use another name.',
-        DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID: 'Please enter the maximum number of recipients each ' +
-                                                           'respondents should give feedback to.',
-        DISPLAY_FEEDBACK_QUESTION_TEXTINVALID: 'Please enter a valid question. The question text cannot be empty.',
-        DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID: 'Please enter valid options. The min/max/step cannot be empty.',
-        DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID: 'Please enter valid options. The interval is not divisible ' +
-                                                            'by the specified increment.',
-        DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID: 'Feedback session visible date must not be empty',
-        DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID: 'Feedback session publish date must not be empty',
-
-    },
-
-    // Used in instructorFeedbackEdit.js
-    InstructorFeedbackEdit: {
-
+        COURSE_ID: 'courseid',
+        COURSE_NAME: 'coursename',
+        COURSE_TIME_ZONE: 'coursetimezone',
         FEEDBACK_QUESTION_RECIPIENTTYPE: 'recipienttype',
         FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE: 'numofrecipientstype',
         FEEDBACK_QUESTION_TYPE: 'questiontype',
@@ -95,6 +51,36 @@ const Const = {
         FEEDBACK_QUESTION_SHOWRESPONSESTO: 'showresponsesto',
         FEEDBACK_QUESTION_SHOWGIVERTO: 'showgiverto',
         FEEDBACK_QUESTION_SHOWRECIPIENTTO: 'showrecipientto',
+        FEEDBACK_QUESTION_RANKOPTION: 'rankOption',
+        FEEDBACK_QUESTION_RANKOPTIONTABLE: 'rankOptionTable',
+        FEEDBACK_QUESTION_RANKTORECIPIENTS: 'rankToRecipients',
+        FEEDBACK_SESSION_NAME: 'fsname',
+        FEEDBACK_SESSION_STARTDATE: 'startdate',
+        FEEDBACK_SESSION_STARTTIME: 'starttime',
+        FEEDBACK_SESSION_TIMEZONE: 'timezone',
+        FEEDBACK_SESSION_VISIBLEDATE: 'visibledate',
+        FEEDBACK_SESSION_VISIBLETIME: 'visibletime',
+        FEEDBACK_SESSION_PUBLISHDATE: 'publishdate',
+        FEEDBACK_SESSION_PUBLISHTIME: 'publishtime',
+        FEEDBACK_SESSION_SESSIONVISIBLEBUTTON: 'sessionVisibleFromButton',
+        FEEDBACK_SESSION_RESULTSVISIBLEBUTTON: 'resultsVisibleFromButton',
+
+    },
+
+    StatusMessages: {
+        
+        FEEDBACK_SESSION_COPY_INVALID: 'There is no feedback session to be copied.',
+        FEEDBACK_QUESTION_COPY_INVALID: 'There are no questions to be copied.',
+        DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE: 'This feedback session name already existed in this course. ' +
+                                                 'Please use another name.',
+        DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID: 'Please enter the maximum number of recipients each ' +
+                                                           'respondents should give feedback to.',
+        DISPLAY_FEEDBACK_QUESTION_TEXTINVALID: 'Please enter a valid question. The question text cannot be empty.',
+        DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID: 'Please enter valid options. The min/max/step cannot be empty.',
+        DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID: 'Please enter valid options. The interval is not divisible ' +
+                                                            'by the specified increment.',
+        DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID: 'Feedback session visible date must not be empty',
+        DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID: 'Feedback session publish date must not be empty',
         FEEDBACK_QUESTION_TYPENAME_TEXT: 'Essay question',
         FEEDBACK_QUESTION_TYPENAME_MCQ: 'Multiple-choice (single answer)',
         FEEDBACK_QUESTION_TYPENAME_MSQ: 'Multiple-choice (multiple answers)',
@@ -105,17 +91,16 @@ const Const = {
         FEEDBACK_QUESTION_TYPENAME_RUBRIC: 'Rubric question',
         FEEDBACK_QUESTION_TYPENAME_RANK_OPTION: 'Rank options question',
         FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT: 'Rank recipients question',
-        FEEDBACK_QUESTION_RANKOPTION: 'rankOption',
-        FEEDBACK_QUESTION_RANKOPTIONTABLE: 'rankOptionTable',
-        FEEDBACK_QUESTION_RANKTORECIPIENTS: 'rankToRecipients',
 
     },
 
-    InstructorCourse: {
+    ModalDialog: {
 
-        COURSE_ID: 'courseid',
-        COURSE_NAME: 'coursename',
-        COURSE_TIME_ZONE: 'coursetimezone',
+        UNREGISTERED_STUDENT: {
+            header: 'Register for TEAMMATES',
+            text: 'You have to register using a google account in order to access this page. '
+                  + 'Would you like to proceed and register?',
+        },
 
     },
 
