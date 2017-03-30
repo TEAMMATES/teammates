@@ -1029,7 +1029,7 @@ public final class Const {
                 "/worker/pendingCommentClearedEmail";
 
         public static final String SEARCHABLE_DOCUMENTS_PRODUCTION_FOR_COMMENTS_QUEUE_NAME =
-                "put-comment_document-queue";
+                "put-comment-document-queue";
         public static final String SEARCHABLE_DOCUMENTS_PRODUCTION_FOR_COMMENTS_WORKER_URL =
                 "/worker/putCommentDocument";
 
