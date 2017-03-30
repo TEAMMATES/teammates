@@ -59,6 +59,7 @@ public class BackDoorLogic extends Logic {
 
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
+     * Persisting {@link AdminEmailAttributes} should not be performed in production environment.
      *  //Any existing copies of the data in the datastore will be overwritten.
      *      - edit: use removeDataBundle to remove.
      *              made this change for speed when deletion is not necessary.
