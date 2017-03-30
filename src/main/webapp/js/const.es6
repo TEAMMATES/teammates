@@ -22,16 +22,21 @@ const Const = {
 
     },
 
-    ModalDialogText: {
-
-        UNREGISTERED_STUDENT: 'You have to register using a google account in order to access this page. '
-                              + 'Would you like to proceed and register?',
+    ParamNames: {
 
     },
 
-    ModalDialogHeader: {
+    StatusMessages: {
+        
+    },
 
-        UNREGISTERED_STUDENT: 'Register for TEAMMATES',
+    ModalDialog: {
+
+        UNREGISTERED_STUDENT: {
+            header: 'Register for TEAMMATES',
+            text: 'You have to register using a google account in order to access this page. '
+                  + 'Would you like to proceed and register?',
+        },
 
     },
 
@@ -106,15 +111,13 @@ const Const = {
 
     },
 
-};
+    InstructorCourse: {
 
-// Needs instantiate Const first to process string interpolation
-// Used in instructorCourse.js only
-Const.InstructorCourse = {
+        COURSE_ID: 'courseid',
+        COURSE_NAME: 'coursename',
+        COURSE_TIME_ZONE: 'coursetimezone',
 
-    COURSE_ID: 'courseid',
-    COURSE_NAME: 'coursename',
-    COURSE_TIME_ZONE: 'coursetimezone',
+    },
 
 };
 
