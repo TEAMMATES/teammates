@@ -168,7 +168,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
@@ -179,7 +179,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by recipient > giver > question");
 
         resultsPage.displayByRecipientGiverQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
 
         additionalInfoId = "section-1-giver-1-recipient-0";
@@ -190,13 +190,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by giver > question > recipient");
 
         resultsPage.displayByGiverQuestionRecipient();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
 
         ______TS("test sort by recipient > question > giver");
 
         resultsPage.displayByRecipientQuestionGiver();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
 
         // Do not sort by team
@@ -205,32 +205,32 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > recipient > question team");
 
         resultsPage.displayByGiverRecipientQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team");
 
         resultsPage.displayByRecipientGiverQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         ______TS("test order in giver > question > recipient team");
 
         resultsPage.displayByGiverQuestionRecipient();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
 
         ______TS("test order in recipient > question > giver team");
 
         resultsPage.displayByRecipientQuestionGiver();
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
 
         ______TS("test sort by question");
 
         // By question
         resultsPage.displayByQuestion();
-        clickAndWaitForOnePanel("panelHeading-1");
+        clickOnePanelAndWait("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionTeam.html");
 
         additionalInfoId = "";
@@ -479,6 +479,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Test that 'Collapse Student' button is working");
         resultsPage.clickGroupByTeam();
         resultsPage.displayByGiverRecipientQuestion();
+        clickOnePanelAndWait("panelHeading-section-0-1");
+        resultsPage.waitForElementPresence(By.id("collapse-panels-button-team-0"));
         assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         resultsPage.clickInstructorPanelCollapseStudentsButton();
         resultsPage.waitForInstructorPanelStudentPanelsToCollapse();
@@ -488,6 +490,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickGroupByTeam();
 
         resultsPage.displayByGiverRecipientQuestion();
+        clickOnePanelAndWait("panelHeading-section-0-1");
         resultsPage.clickSectionCollapseStudentsButton();
         resultsPage.waitForSectionStudentPanelsToCollapse();
 
@@ -495,13 +498,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: panels expand/collapse");
 
-        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
-        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
-                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
-        resultsPage.verifyResultsVisible();
-
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToCollapse();
         assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
@@ -513,6 +509,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsVisible();
+
+        resultsPage.clickCollapseExpandButton();
+        resultsPage.waitForPanelsToCollapse();
+        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
+        resultsPage.verifyResultsHidden();
 
     }
 
@@ -592,7 +595,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
-        clickAndWaitForOnePanel("panelHeading-section-0-1");
+        clickOnePanelAndWait("panelHeading-section-0-1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
@@ -610,11 +613,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-0-1");
+        clickOnePanelAndWait("panelHeading-section-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
-        clickAndWaitForOnePanel("panelHeading-section-1-2");
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
         resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
 
@@ -630,7 +633,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-0-1");
+        clickOnePanelAndWait("panelHeading-section-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: add edit and delete successively");
@@ -649,7 +652,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        clickAndWaitForOnePanel("panelHeading-section-0-1");
+        clickOnePanelAndWait("panelHeading-section-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
@@ -787,7 +790,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
     
-    private void clickAndWaitForOnePanel(String panelId) {
+    private void clickOnePanelAndWait(String panelId) {
         resultsPage.clickPanelById(panelId);
         resultsPage.waitForPanelToExpand(panelId);
     }
