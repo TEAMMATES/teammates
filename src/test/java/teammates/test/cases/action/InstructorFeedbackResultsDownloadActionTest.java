@@ -282,14 +282,14 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                CourseID(session),
+                sessionName(session),
                 "",
                 "",
-                "Question 3,\"My comments on the class\"",
+                question3(),
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+                contentHeader(),
+                instructor1Course1(),
                 // CHECKSTYLE.ON:LineLength
         };
 
