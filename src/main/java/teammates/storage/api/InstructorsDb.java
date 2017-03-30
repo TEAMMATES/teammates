@@ -24,6 +24,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
+import teammates.storage.search.SearchDocument;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -52,6 +53,23 @@ public class InstructorsDb extends EntitiesDb {
         if (instructor.key != null) {
             putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
         }
+    }
+
+    /**
+     * Batch creates or updates documents for the given instructors.
+     */
+    public void putDocuments(List<InstructorAttributes> instructorParams) {
+        List<SearchDocument> instructorDocuments = new ArrayList<SearchDocument>();
+        for (InstructorAttributes instructor : instructorParams) {
+            if (instructor.key == null) {
+                instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
+            }
+            // defensive coding for legacy data
+            if (instructor.key != null) {
+                instructorDocuments.add(new InstructorSearchDocument(instructor));
+            }
+        }
+        putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
     }
 
     public void deleteDocument(InstructorAttributes instructorToDelete) {
