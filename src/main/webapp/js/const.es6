@@ -3,13 +3,6 @@
  */
 const Const = {
 
-    Selectors: {
-
-        // Selector for status message div tag (to be used in jQuery)
-        DIV_STATUS_MESSAGE: '#statusMessagesToUser',
-
-    },
-
     // Status message type
     StatusType: {
         DEFAULT: 'info',

@@ -1,8 +1,11 @@
 /* global StatusType:false Selectors:false scrollToElement:false */
 /*
-import { StatusType, Selectors } from '../const.es6';
+import { StatusType } from '../const.es6';
 import { scrollToElement } from './scrollTo.es6';
 */
+
+const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
+
 /**
  * Populates the status div with the message and the message status.
  * Default message type is info.
@@ -12,7 +15,7 @@ import { scrollToElement } from './scrollTo.es6';
  * @return created status message div
  */
 function populateStatusMessageDiv(message, status) {
-    const $statusMessageDivToUser = $(Selectors.DIV_STATUS_MESSAGE);
+    const $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
     const $statusMessageDivContent = $('<div></div>');
 
     $statusMessageDivContent.addClass('overflow-auto');
@@ -57,7 +60,7 @@ function setStatusMessageToForm(message, status, form) {
     }
     // Copy the statusMessage and prepend to form
     const $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
-    $(Selectors.DIV_STATUS_MESSAGE).remove();
+    $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
     const opts = {
         offset: -window.innerHeight / 8,
@@ -72,7 +75,7 @@ function setStatusMessageToForm(message, status, form) {
  *
  */
 function appendStatusMessage(messages) {
-    const $statusMessagesToUser = $(Selectors.DIV_STATUS_MESSAGE);
+    const $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
 
     $statusMessagesToUser.append($(messages));
     $statusMessagesToUser.show();
@@ -82,7 +85,7 @@ function appendStatusMessage(messages) {
  * Clears the status message div tag and hides it
  */
 function clearStatusMessages() {
-    const $statusMessagesToUser = $(Selectors.DIV_STATUS_MESSAGE);
+    const $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
 
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
