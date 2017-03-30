@@ -28,4 +28,7 @@ Here are some documents important for TEAMMATES developers.
 ## How-to documents
 
 * [Compressing images](compressing-images.md): How to compress images for use in TEAMMATES.
-
+* [Managing dependencies](dependencies.md)
+* [Static analysis](staticAnalysis.md): Performing code quality check.
+* [Setting up third-party email providers](emails.md).
+* ["GodMode"](godmode.md)
