@@ -438,9 +438,6 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
-
-        // Delete all admin emails
-        adminEmailsDb.deleteEntities(adminEmailsDb.getAllAdminEmails());
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
