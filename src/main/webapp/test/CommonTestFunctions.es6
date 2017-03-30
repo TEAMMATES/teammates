@@ -1,17 +1,5 @@
 /* global bootbox:true */
 
-function generateRandomString(len) {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
-    let data = '';
-
-    for (let i = 0; i < len; i += 1) {
-        const rnum = Math.floor(Math.random() * chars.length);
-        data += chars.substring(rnum, rnum + 1);
-    }
-
-    return data;
-}
-
 /**
  * Ensures that a modal dialog is "opened" when clicking the selector.
  * It will not be actually opened, but rather will sent the contents of
