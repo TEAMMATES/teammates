@@ -114,7 +114,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         BackDoor.editFeedbackQuestion(secondQuestionFromDatastore);
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
-        resultsPage.waitForPanelsToExpand();
 
         // compare html for each question panel
         // to verify that the right responses are showing for each question
@@ -169,7 +168,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-
+        resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
@@ -180,6 +180,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by recipient > giver > question");
 
         resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
 
         additionalInfoId = "section-1-giver-1-recipient-0";
@@ -190,11 +192,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by giver > question > recipient");
 
         resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
 
         ______TS("test sort by recipient > question > giver");
 
         resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
 
         // Do not sort by team
@@ -203,11 +209,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > recipient > question team");
 
         resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team");
 
         resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         ______TS("test order in giver > question > recipient team");
@@ -585,6 +595,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
+        clickAndWaitForOnePanel("-0-1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
@@ -594,17 +605,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
         resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-0-1-1\"");
+        resultsPage.verifyContainElement(By.id("frComment-visibility-options-trigger-0-1-0-1-1"));
         resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContains("id=\"visibility-options-0-1-0-1-2\"");
+        resultsPage.verifyContainElement(By.id("visibility-options-0-1-0-1-2"));
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
+        clickAndWaitForOnePanel("-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
+        clickAndWaitForOnePanel("-1-2");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
         resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
 
@@ -620,6 +633,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
+        clickAndWaitForOnePanel("-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: add edit and delete successively");
@@ -638,10 +652,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
+        clickAndWaitForOnePanel("-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
-
     }
 
     private void testDownloadAction() {
@@ -707,7 +721,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         InstructorFeedbackResultsPage resultsPage =
                 loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
-        resultsPage.expandPanels();
         return resultsPage;
     }
 
@@ -730,7 +743,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         InstructorFeedbackResultsPage resultsPage =
                 loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
-        resultsPage.expandPanels();
 
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();
@@ -777,5 +789,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
-
+    
+    private void clickAndWaitForOnePanel(String panelIdSuffix) {
+        resultsPage.clickPanel(panelIdSuffix);
+        resultsPage.waitForPanelToExpand(panelIdSuffix);        
+    }
 }

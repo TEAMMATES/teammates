@@ -429,7 +429,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         }
 
         InstructorFeedbackResultsPage resultPage = loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
-        resultPage.expandPanels();
 
         return resultPage;
     }

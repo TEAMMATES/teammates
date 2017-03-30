@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -913,6 +914,10 @@ public abstract class AppPage {
         return this;
     }
 
+    public void verifyContainElement(By by) {
+        List<WebElement> elements = browser.driver.findElements(by);
+        assertTrue(elements.size() != 0);
+    }
     /**
      * Verifies the status message in the page is same as the one specified.
      * @return The page (for chaining method calls).
