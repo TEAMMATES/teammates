@@ -258,9 +258,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     }
 
     private String expectedArrayStudent1NewName() {
-        return "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\"," +
-                "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\"," +
-                "\"Student 1 self feedback.\"";
+        return "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\"," +
+                "\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\"," +
+                "\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
     }
 
     private String expectedArrayStudent2() {
