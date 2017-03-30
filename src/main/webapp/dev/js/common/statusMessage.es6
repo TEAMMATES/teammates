@@ -1,8 +1,5 @@
-/* global StatusType:false Selectors:false scrollToElement:false */
-/*
-import { StatusType } from '../const.es6';
+import { StatusType } from './const.es6';
 import { scrollToElement } from './scrollTo.es6';
-*/
 
 const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
@@ -90,18 +87,10 @@ function clearStatusMessages() {
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
 }
-/*
+
 export default {
     setStatusMessage,
     setStatusMessageToForm,
     appendStatusMessage,
     clearStatusMessages,
 };
-*/
-/*
-exported
-    setStatusMessage,
-    setStatusMessageToForm,
-    appendStatusMessage,
-    clearStatusMessages,
-*/

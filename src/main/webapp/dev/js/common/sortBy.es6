@@ -1,5 +1,4 @@
-/* global isDate:false, isNumber:false */
-// import { isDate, isNumber } from './helper.es6';
+import { isDate, isNumber } from './helper.es6';
 
 /**
  * The base comparator (ascending)
@@ -236,16 +235,9 @@ function sortByDiff(a, b) {
     }
     return sortBase(a0, b0);
 }
-/*
+
 export default {
     toggleSort,
     sortByPoint,
     sortByDiff,
 };
-*/
-/*
-exported
-    toggleSort,
-    sortByPoint,
-    sortByDiff
-*/

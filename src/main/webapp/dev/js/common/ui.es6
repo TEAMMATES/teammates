@@ -160,14 +160,10 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
         }
     });
 }
-/*
+
 export default {
     toggleChevron,
-    setChevronToUp,
-    setChevronToDown,
     toggleSingleCollapse,
-    showSingleCollapse,
-    hideSingleCollapse,
     bindDefaultImageIfMissing,
     addLoadingIndicator,
     removeLoadingIndicator,
@@ -175,19 +171,3 @@ export default {
     toggleAdditionalQuestionInfo,
     disallowNonNumericEntries,
 };
-*/
-/*
-exported
-    toggleChevron,
-    setChevronToUp,
-    setChevronToDown,
-    toggleSingleCollapse,
-    showSingleCollapse,
-    hideSingleCollapse,
-    bindDefaultImageIfMissing,
-    addLoadingIndicator,
-    removeLoadingIndicator,
-    highlightSearchResult,
-    toggleAdditionalQuestionInfo,
-    disallowNonNumericEntries
-*/

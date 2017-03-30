@@ -1,8 +1,7 @@
-/* global bootbox:false Bootbox:false StatusType:false */
-/*
-import bootbox from 'bootbox';
-import { Bootbox, StatusType } from '../const.es6';
-*/
+/* global bootbox:false */
+// import bootbox from 'bootbox';
+import { Bootbox, StatusType } from './const.es6';
+
 /**
  * Wrapper for Bootbox.js (available at http://bootboxjs.com/)
  * "Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using
@@ -96,16 +95,9 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
     // applies bootstrap color to title background
     .find('.modal-header').addClass(`alert-${color}` || StatusType.DEFAULT);
 }
-/*
+
 export default {
     showModalAlert,
     showModalConfirmation,
     showModalConfirmationWithCancel,
 };
-*/
-/*
-exported
-    showModalAlert,
-    showModalConfirmation,
-    showModalConfirmationWithCancel
-*/

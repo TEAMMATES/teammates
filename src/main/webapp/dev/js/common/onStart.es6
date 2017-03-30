@@ -1,5 +1,4 @@
-/* global bindDefaultImageIfMissing:false */
-// import { bindDefaultImageIfMissing } from './ui.es6';
+import { bindDefaultImageIfMissing } from './ui.es6';
 
 /**
  * Checks if the current device is touch based device

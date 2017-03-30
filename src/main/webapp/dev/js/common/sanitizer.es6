@@ -27,13 +27,8 @@ function sanitizeForJs(rawString) {
     string = replaceAll(string, '\'', '\\\'');
     return string;
 }
-/*
+
 export default {
     encodeHtmlString,
     sanitizeForJs,
 };
-*/
-/*
-exported
-    sanitizeForJs
-*/

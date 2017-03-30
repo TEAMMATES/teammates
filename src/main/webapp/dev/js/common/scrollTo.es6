@@ -1,5 +1,4 @@
-/* global isWithinView:false */
-// import { isWithinView } from './helper.es6';
+import { isWithinView } from './helper.es6';
 
 /**
  * Scrolls the screen to a certain position.
@@ -82,16 +81,8 @@ function scrollToElement(element, opts) {
 function scrollToTop(duration) {
     scrollToPosition(0, duration);
 }
-/*
+
 export default {
     scrollToElement,
-    scrollToPosition,
     scrollToTop,
 };
-*/
-/*
-exported
-    scrollToElement,
-    scrollToPosition,
-    scrollToTop
-*/

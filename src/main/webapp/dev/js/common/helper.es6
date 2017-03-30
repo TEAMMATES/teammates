@@ -56,18 +56,10 @@ function isBlank(str) {
     }
     return str.trim() === '';
 }
-/*
+
 export default {
     isDate,
     isNumber,
     isWithinView,
     isBlank,
 };
-*/
-/*
-exported
-    isDate,
-    isNumber,
-    isWithinView,
-    isBlank
-*/
