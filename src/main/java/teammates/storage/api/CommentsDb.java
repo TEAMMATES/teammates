@@ -26,6 +26,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.CommentSearchQuery;
+import teammates.storage.search.SearchDocument;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -476,6 +477,17 @@ public class CommentsDb extends EntitiesDb {
      */
     public void putDocument(CommentAttributes comment) {
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
+    }
+
+    /*
+     * Batch create or update search documents for the given comments
+     */
+    public void putDocuments(List<CommentAttributes> comments) {
+        List<SearchDocument> commentSearchDocuments = new ArrayList<SearchDocument>();
+        for (CommentAttributes comment : comments) {
+            commentSearchDocuments.add(new CommentSearchDocument(comment));
+        }
+        putDocuments(Const.SearchIndex.COMMENT, commentSearchDocuments);
     }
 
     /**
