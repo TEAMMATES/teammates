@@ -83,7 +83,7 @@ function addInstructorAjax(isError, data) {
     const panelHeader = `<strong>Result (${paramsCounter}/${paramsList.length})</strong>`;
     $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
     if (paramsCounter < paramsList.length) {
-        addInstructorByAjaxRecursively();
+        addInstructorByAjaxRecursively(); // eslint-disable-line no-use-before-define
     } else {
         enableAddInstructorForm();
     }

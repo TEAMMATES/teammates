@@ -1,3 +1,43 @@
+/**
+ * Adds an event handler on all passed in divs to open datepicker on 'click'.
+ * @assumption: all passed in divs are valid datepicker divs
+ */
+function triggerDatepickerOnClick(datepickerDivs) {
+    $.each(datepickerDivs, (i, datepickerDiv) => {
+        datepickerDiv.on('click', () => {
+            if (!datepickerDiv.prop('disabled')) {
+                datepickerDiv.datepicker('show');
+            }
+        });
+    });
+}
+
+/**
+ * @assumption: startDate has a valid value
+ * @returns {Date} publishDate if it is valid and smaller than startDate, else startDate
+ */
+function getMaxDateForVisibleDate(startDate, publishDate) {
+    let minDate = 0;
+
+    if (publishDate === null || publishDate === undefined) {
+        minDate = startDate;
+    } else if (startDate > publishDate) {
+        minDate = publishDate;
+    } else {
+        minDate = startDate;
+    }
+
+    return minDate;
+}
+
+/**
+ * @assumption: visibleDate has a valid value
+ * @returns {Date} visibleDate
+ */
+function getMinDateForPublishDate(visibleDate) {
+    return visibleDate;
+}
+
 $(document).ready(() => {
     const today = new Date();
     const yesterday = new Date();
@@ -53,43 +93,3 @@ $(document).ready(() => {
 
     triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
 });
-
-/**
- * Adds an event handler on all passed in divs to open datepicker on 'click'.
- * @assumption: all passed in divs are valid datepicker divs
- */
-function triggerDatepickerOnClick(datepickerDivs) {
-    $.each(datepickerDivs, (i, datepickerDiv) => {
-        datepickerDiv.on('click', () => {
-            if (!datepickerDiv.prop('disabled')) {
-                datepickerDiv.datepicker('show');
-            }
-        });
-    });
-}
-
-/**
- * @assumption: startDate has a valid value
- * @returns {Date} publishDate if it is valid and smaller than startDate, else startDate
- */
-function getMaxDateForVisibleDate(startDate, publishDate) {
-    let minDate = 0;
-
-    if (publishDate === null || publishDate === undefined) {
-        minDate = startDate;
-    } else if (startDate > publishDate) {
-        minDate = publishDate;
-    } else {
-        minDate = startDate;
-    }
-
-    return minDate;
-}
-
-/**
- * @assumption: visibleDate has a valid value
- * @returns {Date} visibleDate
- */
-function getMinDateForPublishDate(visibleDate) {
-    return visibleDate;
-}

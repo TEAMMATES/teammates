@@ -2,6 +2,12 @@
           toggleSingleCollapse:false
 */
 
+function getAppendedResponseRateData(data) {
+    const appendedResponseStatus = $(data).find('#responseStatus').html();
+    $(data).remove();
+    return appendedResponseStatus;
+}
+
 $(document).ready(() => {
     const responseRateRequest = function (e) {
         const panelHeading = $(this);
@@ -37,9 +43,3 @@ $(document).ready(() => {
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
 });
-
-function getAppendedResponseRateData(data) {
-    const appendedResponseStatus = $(data).find('#responseStatus').html();
-    $(data).remove();
-    return appendedResponseStatus;
-}
