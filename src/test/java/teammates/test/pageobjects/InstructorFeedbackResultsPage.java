@@ -112,7 +112,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(button);
     }
 
-    public void clickCollapseExpand() {
+    public void clickCollapseExpandButton() {
         click(collapseExpandButton);
     }
 
@@ -124,8 +124,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(indicateMissingResponsesCheckbox);
     }
     
-    public void clickPanel(String panelIdSuffix) {
-        WebElement panelElement = browser.driver.findElement(By.id("panelHeading-section" + panelIdSuffix));
+    public void clickPanelById(String panelId) {
+        WebElement panelElement = browser.driver.findElement(By.id(panelId));
         click(panelElement);
     }
 
@@ -252,8 +252,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void waitForPanelToExpand(String panelIdSuffic) {
-        WebElement element = browser.driver.findElement(By.id("panelHeading-section" + panelIdSuffic));
+    public void waitForPanelToExpand(String panelId) {
+        WebElement element = browser.driver.findElement(By.id(panelId));
         waitForElementVisibility(element);
     }
 
