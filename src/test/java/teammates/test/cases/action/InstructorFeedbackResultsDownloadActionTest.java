@@ -221,6 +221,14 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
     }
 
+    private String CourseID (FeedbackSessionAttributes session) {
+        return "Course,\"" + session.getCourseId() + "\"";
+    }
+
+    private String sessionName (FeedbackSessionAttributes session) {
+        return "Session Name,\"" + session.getFeedbackSessionName() + "\"";
+    }
+
     private void verifyFileContentForDownloadWithFilterText(String fileContent,
             FeedbackSessionAttributes session) {
         /*
