@@ -221,7 +221,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
     }
 
-    private String CourseID (FeedbackSessionAttributes session) {
+    private String courseId (FeedbackSessionAttributes session) {
         return "Course,\"" + session.getCourseId() + "\"";
     }
 
@@ -298,7 +298,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 "",
                 "",
@@ -322,7 +322,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 "",
                 "",
@@ -350,7 +350,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 "",
                 "",
@@ -375,7 +375,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 "",
                 "",
@@ -400,7 +400,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 "",
                 "",
@@ -425,7 +425,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 sectionName1(),
                 "",
@@ -451,7 +451,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 "",
                 "",
@@ -479,7 +479,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                CourseID(session),
+                courseId(session),
                 sessionName(session),
                 sectionName1(),
                 "",
