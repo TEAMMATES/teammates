@@ -298,6 +298,15 @@ public class Logic {
     }
 
     /**
+     * Batch creates or updates documents for the given Instructors.
+     *
+     * @see InstructorsLogic#putDocuments(List)
+     */
+    public void putInstructorDocuments(List<InstructorAttributes> instructors) {
+        instructorsLogic.putDocuments(instructors);
+    }
+
+    /**
      * Removes document for the given Instructor.
      *
      * @see InstructorsLogic#deleteDocument(InstructorAttributes)
@@ -1079,6 +1088,13 @@ public class Logic {
 
     public void putDocument(StudentAttributes student) {
         studentsLogic.putDocument(student);
+    }
+
+    /**
+     * Batch creates or updates search documents for the given students.
+     */
+    public void putStudentDocuments(List<StudentAttributes> students) {
+        studentsLogic.putDocuments(students);
     }
 
     /**
@@ -1983,6 +1999,15 @@ public class Logic {
     }
 
     /**
+     * Batch creates or updates documents for the given comments.
+     *
+     * @see FeedbackResponseCommentsLogic#putDocuments(List)
+     */
+    public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
+        feedbackResponseCommentsLogic.putDocuments(comments);
+    }
+
+    /**
      * Removes document for the given comment.
      *
      * @see FeedbackResponseCommentsLogic#deleteDocument(FeedbackResponseCommentAttributes)
@@ -2071,6 +2096,15 @@ public class Logic {
      */
     public void putDocument(CommentAttributes comment) {
         commentsLogic.putDocument(comment);
+    }
+
+    /**
+     * Batch creates or updates documents for comments.
+     *
+     * @see CommentsLogic#putDocuments(List)
+     */
+    public void putCommentDocuments(List<CommentAttributes> comments) {
+        commentsLogic.putDocuments(comments);
     }
 
     /**
