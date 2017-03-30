@@ -1,27 +1,10 @@
 /* globals bootbox:false
  */
 
-const COURSE_ID_MAX_LENGTH = 40;
-const COURSE_NAME_MAX_LENGTH = 64;
-const EVAL_NAME_MAX_LENGTH = 38;
-const FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
-const FEEDBACK_SESSION_INSTRUCTIONS_MAX_LENGTH = 500;
-
-// Field names
-const USER_ID = 'user';
-
 // Used in instructorCourse.js
 const COURSE_ID = 'courseid';
 const COURSE_NAME = 'coursename';
 const COURSE_TIME_ZONE = 'coursetimezone';
-const COURSE_INSTRUCTOR_NAME = 'instructorname';
-const COURSE_INSTRUCTOR_EMAIL = 'instructoremail';
-const COURSE_INSTRUCTOR_ID = 'instructorid';
-
-// Used in instructorEval.js
-const EVALUATION_START = 'start';
-const EVALUATION_STARTTIME = 'starttime';
-const EVALUATION_TIMEZONE = 'timezone';
 
 // Used in instructorFeedback.js
 // TODO: Check if we can move most of these into instructorFeedback.js
@@ -29,7 +12,6 @@ const FEEDBACK_SESSION_NAME = 'fsname'; // also used in feedbackResponseComments
 const FEEDBACK_SESSION_STARTDATE = 'startdate';
 const FEEDBACK_SESSION_STARTTIME = 'starttime';
 const FEEDBACK_SESSION_TIMEZONE = 'timezone';
-const FEEDBACK_SESSION_CHANGETYPE = 'feedbackchangetype';
 const FEEDBACK_SESSION_VISIBLEDATE = 'visibledate';
 const FEEDBACK_SESSION_VISIBLETIME = 'visibletime';
 const FEEDBACK_SESSION_PUBLISHDATE = 'publishdate';
@@ -39,17 +21,11 @@ const FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = 'resultsVisibleFromButton';
 
 // Used in instructorFeedbackEdit.js
 // TODO: Check if we can move most of these into instructorFeedbackEdit.js
-const FEEDBACK_QUESTION_GIVERTYPE = 'givertype';
 const FEEDBACK_QUESTION_RECIPIENTTYPE = 'recipienttype';
-const FEEDBACK_QUESTION_NUMBEROFENTITIES = 'numofrecipients';
 const FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = 'numofrecipientstype';
 const FEEDBACK_QUESTION_TYPE = 'questiontype';
 const FEEDBACK_QUESTION_MCQCHOICE = 'mcqOption';
-const FEEDBACK_QUESTION_MCQOTHEROPTION = 'mcqOtherOption';
-const FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = 'mcqOtherOptionFlag';
 const FEEDBACK_QUESTION_MSQCHOICE = 'msqOption';
-const FEEDBACK_QUESTION_MSQOTHEROPTION = 'msqOtherOption';
-const FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = 'msqOtherOptionFlag';
 const FEEDBACK_QUESTION_CONSTSUMOPTION = 'constSumOption';
 const FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = 'constSumOptionTable';
 const FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = 'constSumToRecipients';
@@ -60,7 +36,6 @@ const FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = 'noofchoicecreated';
 const FEEDBACK_QUESTION_NUMSCALE_MIN = 'numscalemin';
 const FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
 const FEEDBACK_QUESTION_NUMSCALE_STEP = 'numscalestep';
-const FEEDBACK_QUESTION_NUMBER = 'questionnum';
 const FEEDBACK_QUESTION_TEXT = 'questiontext';
 const FEEDBACK_QUESTION_DESCRIPTION = 'questiondescription';
 const FEEDBACK_QUESTION_EDITTEXT = 'questionedittext';
@@ -84,11 +59,6 @@ const FEEDBACK_QUESTION_RANKOPTION = 'rankOption';
 const FEEDBACK_QUESTION_RANKOPTIONTABLE = 'rankOptionTable';
 const FEEDBACK_QUESTION_RANKTORECIPIENTS = 'rankToRecipients';
 
-// Used in feedbackResponseComments.js
-const FEEDBACK_RESPONSE_ID = 'responseid';
-const FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
-const FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
-
 // Status message type
 const StatusType = {
     SUCCESS: 'success',
@@ -103,43 +73,11 @@ const StatusType = {
 };
 StatusType.DEFAULT = StatusType.INFO;
 
-// Display messages
-// Used for validating input
-const DISPLAY_INPUT_FIELDS_EXTRA = 'There are too many fields.';
-const DISPLAY_INPUT_FIELDS_MISSING = 'There are missing fields.';
-const DISPLAY_GOOGLEID_INVALID = 'GoogleID should only consist of alphanumerics, fullstops, dashes or underscores.';
-const DISPLAY_EMAIL_INVALID = 'The e-mail address is invalid.';
-const DISPLAY_NAME_INVALID = 'Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, '
-                           + 'commas, slashes, round brackets<br> and not more than 40 characters.';
-const DISPLAY_STUDENT_TEAMNAME_INVALID = 'Team name should contain less than 60 characters.';
-
-// Used in instructorCourse.js only
-const DISPLAY_COURSE_LONG_ID = `Course ID should not exceed ${COURSE_ID_MAX_LENGTH} characters.`;
-const DISPLAY_COURSE_LONG_NAME = `Course name should not exceed ${COURSE_NAME_MAX_LENGTH} characters.`;
-const DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs '
-                                + 'in course ID. Spaces are not allowed for course ID.';
-const DISPLAY_COURSE_INVALID_TIME_ZONE = 'Please select a valid course time zone from the provided options.';
-const DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
-const DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
-
-// Used in instructorCourseEdit.js
-const DISPLAY_INSTRUCTOR_ID_EMPTY = 'Instructor ID cannot be empty.';
-const DISPLAY_INSTRUCTOR_NAME_EMPTY = 'Instructor name cannot be empty.';
-const DISPLAY_INSTRUCTOR_EMAIL_EMPTY = 'Instructor email cannot be empty.';
-const DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = 'There is only ONE instructor left in the course. '
-                                            + 'You are not allowed to delete this instructor.';
-
-// Used in instructorCourseEnroll.js only
-const DISPLAY_ENROLLMENT_INPUT_EMPTY = 'Please input at least one student detail.';
-
-const DISPLAY_FIELDS_EMPTY = 'Please fill in all the relevant fields.';
-
 // Used in instructorFeedback.js only
 const FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
 const FEEDBACK_QUESTION_COPY_INVALID = 'There are no questions to be copied.';
 const DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
-const DISPLAY_FEEDBACK_SESSION_NAME_EMPTY = 'Feedback session name must not be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
         'Please enter the maximum number of recipients each respondents should give feedback to.';
 
@@ -150,11 +88,6 @@ const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
 
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
-
-// Max length for input
-const TEAMNAME_MAX_LENGTH = 60;
-const NAME_MAX_LENGTH = 40;
-const INSTITUTION_MAX_LENGTH = 64;
 
 /**
  * Wrapper for Bootbox.js (available at http://bootboxjs.com/)
@@ -828,110 +761,6 @@ function removeLoadingIndicator(button, displayText) {
 }
 
 /**
- * Checks whether an e-mail is valid.
- * (Used in instructorCourseEdit.js)
- *
- * @param email
- * @returns {Boolean}
- */
-function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
-}
-
-/**
- * Sanitize GoogleID by trimming space and '@gmail.com'
- * Used in instructorCourse, instructorCourseEdit, adminHome
- *
- * @param rawGoogleId
- * @returns sanitizedGoolgeId
- */
-function sanitizeGoogleId(rawGoogleId) {
-    let googleId = rawGoogleId.trim();
-    const loc = googleId.toLowerCase().indexOf('@gmail.com');
-    if (loc > -1) {
-        googleId = googleId.substring(0, loc);
-    }
-    return googleId.trim();
-}
-
-/**
- * Check if the GoogleID is valid
- * GoogleID allow only alphanumeric, full stops, dashes, underscores or valid email
- *
- * @param rawGoogleId
- * @return {Boolean}
- */
-function isValidGoogleId(rawGoogleId) {
-    let isValidNonEmailGoogleId = false;
-    const googleId = rawGoogleId.trim();
-
-    // match() retrieve the matches when matching a string against a regular expression.
-    const matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
-
-    isValidNonEmailGoogleId = matches !== null && matches[0] === googleId;
-
-    let isValidEmailGoogleId = isEmailValid(googleId);
-
-    if (googleId.toLowerCase().indexOf('@gmail.com') > -1) {
-        isValidEmailGoogleId = false;
-    }
-
-    // email addresses are valid google IDs too
-    return isValidNonEmailGoogleId || isValidEmailGoogleId;
-}
-
-/**
- * Checks whether a person's name is valid.
- * (Used in instructorCourseEdit.js)
- *
- * @param rawName
- * @returns {Boolean}
- */
-function isNameValid(rawName) {
-    const name = rawName.trim();
-
-    if (name === '') {
-        return false;
-    }
-
-    if (name.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
-        // Returns true if a character NOT belonging to the following set
-        // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
-        // apostrophe('), hyphen(-), round brackets(()), alpha numeric
-        // characters, space, tab
-        return false;
-    } else if (name.length > NAME_MAX_LENGTH) {
-        return false;
-    }
-    return true;
-}
-
-/**
- * Checks whether an institution name is valid
- * Used in adminHome page (through administrator.js)
- * @param rawInstitution
- * @returns {Boolean}
- */
-function isInstitutionValid(rawInstitution) {
-    const institution = rawInstitution.trim();
-
-    if (institution === '') {
-        return false;
-    }
-
-    if (institution.match(/[^/\\,.'\-()0-9a-zA-Z \t]/)) {
-        // Returns true if a character NOT belonging to the following set
-        // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
-        // apostrophe('), hyphen(-), round brackets(()), alpha numeric
-        // characters, space, tab
-        return false;
-    } else if (institution.length > NAME_MAX_LENGTH) {
-        return false;
-    }
-    return true;
-}
-
-/**
  * Disallow non-numeric entries
  * [Source: http://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery]
  */
@@ -1017,19 +846,6 @@ if (!String.prototype.includes) {
     };
 }
 /* eslint-enable no-extend-native */
-
-/**
- * Checks if the input value is a blank string
- *
- * @param str
- * @returns true if the input is a blank string, false otherwise
- */
-function isBlank(str) {
-    if (typeof str !== 'string' && !(str instanceof String)) {
-        return false;
-    }
-    return str.trim() === '';
-}
 
 /**
  * Sets the chevron to point upwards.
@@ -1144,24 +960,3 @@ $(document).on('ajaxComplete ready', () => {
         }
     });
 });
-
-/**
- * Returns the value of a cookie given its name.
- * Returns null if the cookie is not set.
- */
-function getCookie(cookieNameToFind) {
-    const cookies = document.cookie.split('; ').map(s => s.split('='));
-
-    for (let i = 0; i < cookies.length; i += 1) {
-        const cookieName = cookies[i][0];
-        const cookieValue = cookies[i][1];
-
-        // the cookie was found in the ith iteration
-        if (cookieName === cookieNameToFind) {
-            return cookieValue;
-        }
-    }
-
-    // the cookie was not found
-    return null;
-}

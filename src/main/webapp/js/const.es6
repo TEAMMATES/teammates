@@ -3,16 +3,13 @@
  */
 const Const = {
 
-    ModalDialogText: {
+    ModalDialog: {
 
-        UNREGISTERED_STUDENT: 'You have to register using a google account in order to access this page. '
-                              + 'Would you like to proceed and register?',
-
-    },
-
-    ModalDialogHeader: {
-
-        UNREGISTERED_STUDENT: 'Register for TEAMMATES',
+        UNREGISTERED_STUDENT: {
+            header: 'Register for TEAMMATES',
+            text: 'You have to register using a google account in order to access this page. '
+                  + 'Would you like to proceed and register?',
+        },
 
     },
 
