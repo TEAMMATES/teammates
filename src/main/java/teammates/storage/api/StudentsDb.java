@@ -25,6 +25,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.search.SearchDocument;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
 
@@ -45,6 +46,17 @@ public class StudentsDb extends EntitiesDb {
 
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
+    }
+
+    /**
+     * Batch creates or updates search documents for the given students.
+     */
+    public void putDocuments(List<StudentAttributes> students) {
+        List<SearchDocument> studentDocuments = new ArrayList<SearchDocument>();
+        for (StudentAttributes student : students) {
+            studentDocuments.add(new StudentSearchDocument(student));
+        }
+        putDocuments(Const.SearchIndex.STUDENT, studentDocuments);
     }
 
     /**
