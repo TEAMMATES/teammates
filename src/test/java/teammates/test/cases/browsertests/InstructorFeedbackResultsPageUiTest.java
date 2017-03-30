@@ -114,7 +114,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         BackDoor.editFeedbackQuestion(secondQuestionFromDatastore);
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
-
+        clickOnePanelAndWait("panelHeading-1");
+        clickOnePanelAndWait("panelHeading-2");
         // compare html for each question panel
         // to verify that the right responses are showing for each question
         By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
@@ -133,7 +134,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr",
                                                            "Session with sanitized data");
-
+        clickOnePanelAndWait("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
@@ -471,7 +472,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.displayByQuestion();
         resultsPage.filterResponsesForAllSections();
-
     }
 
     private void testPanelsCollapseExpand() {
@@ -517,6 +517,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
+        resultsPage.clickCollapseExpandButton();
+        resultsPage.waitForPanelsToExpand();
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
+        resultsPage.verifyResultsVisible();
     }
 
     private void testShowStats() {
@@ -567,6 +573,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Verify that search works on RGQ view");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.clickGroupByTeam();
+        resultsPage.clickCollapseExpandButton();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
 
