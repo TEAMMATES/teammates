@@ -26,11 +26,6 @@ $(document).ready(() => {
         /* eslint-enable camelcase */
     }
 
-    $('form[name="form_commentadd"]').submit((e) => {
-        tinymce.get('commenttext').save();
-        return checkComment(e);
-    });
-
     function checkComment(e) {
         const formTextField = tinymce.get('commenttext').getContent();
         if (isBlank(formTextField)) {
@@ -39,6 +34,11 @@ $(document).ready(() => {
             e.preventDefault();
         }
     }
+
+    $('form[name="form_commentadd"]').submit((e) => {
+        tinymce.get('commenttext').save();
+        return checkComment(e);
+    });
 
     $('#visibility-options-trigger').click(() => {
         if ($('#visibility-options').is(':visible')) {
@@ -55,8 +55,6 @@ $(document).ready(() => {
     $('#button_cancel_comment').click(() => {
         $('#commentArea').hide();
     });
-
-    $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
 
     function commentRecipientSelectChangeHandler() {
         // TODO: replace PERSON/TEAM/SECTION etc with constants in common.js
@@ -86,7 +84,7 @@ $(document).ready(() => {
         }
     }
 
-    $('input[type=checkbox]').on('click', visibilityOptionsHandler);
+    $('#comment_recipient_select').change(commentRecipientSelectChangeHandler);
 
     function visibilityOptionsHandler(e) {
         let visibilityOptions = [];
@@ -119,6 +117,8 @@ $(document).ready(() => {
         });
         $("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     }
+
+    $('input[type=checkbox]').on('click', visibilityOptionsHandler);
 
     if (isShowCommentBox) {
         $('#button_add_comment').click();
