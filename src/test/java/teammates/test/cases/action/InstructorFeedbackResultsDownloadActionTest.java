@@ -229,6 +229,18 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         return "Session Name,\"" + session.getFeedbackSessionName() + "\"";
     }
 
+    private String question1() {
+        return "Question 1,\"What is the best selling point of your product?\"";
+    }
+
+    private String question2() {
+        return "Question 2,\"Rate 1 other student's product\"";
+    }
+
+    private String question3() {
+        return "Question 3,\"My comments on the class\"";
+    }
+
     private void verifyFileContentForDownloadWithFilterText(String fileContent,
             FeedbackSessionAttributes session) {
         /*
