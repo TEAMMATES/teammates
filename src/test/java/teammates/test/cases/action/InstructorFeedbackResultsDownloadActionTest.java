@@ -224,42 +224,55 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     private String expectedArrayCourse(FeedbackSessionAttributes session) {
         return "Course,\"" + session.getCourseId() + "\"";
     }
+
     private String expectedArraySessionName(FeedbackSessionAttributes session) {
         return "Session Name,\"" + session.getFeedbackSessionName() + "\"";
     }
+
     private String expectedArrayQuestion1() {
         return "Question 1,\"What is the best selling point of your product?\"";
     }
+
     private String expectedArrayQuestion2() {
         return "Question 2,\"Rate 1 other student's product\"";
     }
+
     private String expectedArrayQuestion3() {
         return "Question 3,\"My comments on the class\"";
     }
+
     private String expectedArrayHeaders() {
         return "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback";
     }
+
     private String expectedArrayInstructor() {
         return "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"";
     }
+
     private String expectedArrayStudent1() {
         return "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
     }
+
     private String expectedArrayStudent1NewName() {
         return "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
     }
+
     private String expectedArrayStudent2() {
         return "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"";
     }
+
     private String expectedArrayStudent3() {
         return "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"";
     }
+
     private String expectedArrayStudent4() {
         return "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"";
     }
+
     private String expectedArrayStudent5() {
         return "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"";
     }
+
     private String expectedArraySection1() {
         return "Section Name,\"Section 1\"";
     }
