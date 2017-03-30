@@ -31,7 +31,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
 
     <!-- This contains helper functions for test -->
-    <script type="text/javascript" src="/dev/CommonTestFunctions.js"></script>
+    <script type="text/javascript" src="/test/CommonTestFunctions.js"></script>
 
     <!-- Own scripts; they should be equipped with data-cover attribute -->
     <script type="text/javascript" src="/js/const.js" data-cover></script>
@@ -58,14 +58,14 @@
     <script type="text/javascript" src="/js/student.js" data-cover></script>
 
     <div id="test-scripts">
-        <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
-        <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
-        <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
-        <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
-        <script type="text/javascript" src="/dev/InstructorFeedbacksJsTest.js"></script>
-        <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
-        <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
-        <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
+        <script type="text/javascript" src="/test/CommonJsTest.js"></script>
+        <script type="text/javascript" src="/test/AdminHomeJsTest.js"></script>
+        <script type="text/javascript" src="/test/InstructorCourseDetailsJsTest.js"></script>
+        <script type="text/javascript" src="/test/InstructorEnrolmentJsTest.js"></script>
+        <script type="text/javascript" src="/test/InstructorFeedbacksJsTest.js"></script>
+        <script type="text/javascript" src="/test/InstructorJsTest.js"></script>
+        <script type="text/javascript" src="/test/StudentJsTest.js"></script>
+        <script type="text/javascript" src="/test/SubmissionCountJsTest.js"></script>
     </div>
 </body>
 </html>
