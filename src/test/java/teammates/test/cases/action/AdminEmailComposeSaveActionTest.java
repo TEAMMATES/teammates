@@ -3,7 +3,7 @@ package teammates.test.cases.action;
 import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.AdminEmailsLogic;
+import teammates.storage.api.AdminEmailsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AdminEmailComposeSaveAction;
 import teammates.ui.controller.ShowPageResult;
@@ -14,7 +14,7 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
  */
 public class AdminEmailComposeSaveActionTest extends BaseActionTest {
 
-    private AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    private AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     @Override
     protected void prepareTestData() {
@@ -100,7 +100,9 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(subject, data.emailToEdit.subject);
 
         ______TS("save existing email : typical values given : success");
-        AdminEmailAttributes email = adminEmailsLogic.getAdminEmailDrafts().get(0);
+        AdminEmailAttributes emailData = dataBundle.adminEmails.get("adminEmail1");
+        AdminEmailAttributes email = adminEmailsDb.getAdminEmailBySubject(emailData.getSubject());
+        String emailId = email.emailId;
         content = "valid content";
         subject = "valid subject <b>To check sanitization</b>";
         receiver = "test@example.tmt";
@@ -108,7 +110,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
                 Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
                 Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
-                Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
+                Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
                 Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user", pageResult.getDestinationWithParams());
@@ -123,7 +125,6 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertNull(data.emailToEdit);
 
         ______TS("save existing email : invalid subject : failure");
-        email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         content = "valid content";
         subject = " ";
         receiver = "test@example.tmt";
@@ -131,7 +132,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
                 Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
                 Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
-                Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
+                Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
                 Const.ViewURIs.ADMIN_EMAIL + "?error=true&user=admin.user", pageResult.getDestinationWithParams());
@@ -148,7 +149,6 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(email.emailId, data.emailToEdit.emailId);
 
         ______TS("save existing email : invalid content : failure");
-        email = adminEmailsLogic.getAdminEmailDrafts().get(0);
         content = "";
         subject = "valid subject";
         receiver = "test@example.tmt";
@@ -156,7 +156,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
                 Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
                 Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
-                Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
+                Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
                 Const.ViewURIs.ADMIN_EMAIL + "?error=true&user=admin.user", pageResult.getDestinationWithParams());
@@ -172,7 +172,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(email.emailId, data.emailToEdit.emailId);
 
         ______TS("save non-existing email : typical values given : success");
-        String emailId = "nonExisitingId";
+        emailId = "nonExisitingId";
         content = "valid content";
         subject = "valid subject <b>To check sanitization</b>";
         receiver = "test@example.tmt";

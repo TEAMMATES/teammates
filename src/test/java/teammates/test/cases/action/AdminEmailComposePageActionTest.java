@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.AdminEmailsLogic;
+import teammates.storage.api.AdminEmailsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AdminEmailComposePageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -15,7 +15,7 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
  */
 public class AdminEmailComposePageActionTest extends BaseActionTest {
 
-    private AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    private AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     @Override
     protected void prepareTestData() {
@@ -56,7 +56,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
 
         ______TS("edit existing email : typical values given : success");
         // retrieve email id from logic
-        AdminEmailAttributes email = adminEmailsLogic.getAdminEmailDrafts().get(0);
+        AdminEmailAttributes emailData = dataBundle.adminEmails.get("adminEmail1");
+        AdminEmailAttributes email = adminEmailsDb.getAdminEmailBySubject(emailData.subject);
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
