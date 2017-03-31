@@ -176,7 +176,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "question");
-        instructorResultsPage.waitForPanelsToExpand();
 
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankQuestionView.html");
 
@@ -184,28 +183,24 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "giver-recipient-question");
-        instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
 
         ______TS("Rank instructor results : Giver > Question > Recipient");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "giver-question-recipient");
-        instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
 
         ______TS("Rank instructor results : Recipient > Question > Giver ");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-question-giver");
-        instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
 
         ______TS("Rank instructor results : Recipient > Giver > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-giver-question");
-        instructorResultsPage.waitForPanelsToExpand();
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
 
