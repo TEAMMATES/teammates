@@ -26,6 +26,8 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class Comment {
 
+    public static String PRIMARY_KEY_NAME = "commentId";
+
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long commentId;

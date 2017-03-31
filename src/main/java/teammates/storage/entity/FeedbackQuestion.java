@@ -22,6 +22,9 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {
+
+    public static String PRIMARY_KEY_NAME = "feedbackQuestionId";
+
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
 
     /**

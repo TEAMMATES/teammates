@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackSession {
 
+    public static String PRIMARY_KEY_NAME = "feedbackSessionId";
+
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
     // as feedbackSessionId is persisted to the database

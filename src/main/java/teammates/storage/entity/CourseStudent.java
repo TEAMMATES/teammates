@@ -21,6 +21,9 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class CourseStudent implements StoreCallback {
+
+    public static String PRIMARY_KEY_NAME = "id";
+
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to

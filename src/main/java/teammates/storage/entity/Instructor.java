@@ -15,6 +15,9 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class Instructor {
+
+    public static String PRIMARY_KEY_NAME = "id";
+
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
