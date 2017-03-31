@@ -7,9 +7,12 @@
            bindCollapseEvents:false,
            toggleSingleCollapse:false,
            showHideStats:false
+           prepareInstructorPages:false
+           prepareInstructorFeedbackResultsPage:false
 */
 
 $(document).ready(() => {
+    prepareInstructorPages();
     prepareInstructorFeedbackResultsPage();
 
     const seeMoreRequest = function (e) {

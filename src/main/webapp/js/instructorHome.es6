@@ -1,11 +1,12 @@
 /* global bindDeleteButtons:false bindRemindButtons:false bindPublishButtons:false */
 /* global bindUnpublishButtons:false setupFsCopyModal:false BootboxWrapper:false */
-/* global StatusType:false global linkAjaxForResponseRate:false prepareRemindModal:false */
+/* global StatusType:false global linkAjaxForResponseRate:false prepareRemindModal:false prepareInstructorPages:false */
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 const CURRENT_YEAR = (new Date()).getFullYear();
 
 $(document).ready(() => {
+    prepareInstructorPages();
     bindDeleteButtons();
     bindRemindButtons();
     bindPublishButtons();

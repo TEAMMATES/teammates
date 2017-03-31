@@ -4,9 +4,12 @@
            bindStudentPhotoHoverLink:false,
            toggleSingleCollapse:false,
            showHideStats:false
+           prepareInstructorPages:false
+           prepareInstructorFeedbackResultsPage:false
 */
 
 $(document).ready(() => {
+    prepareInstructorPages();
     prepareInstructorFeedbackResultsPage();
 
     const isPanelSetAsEmptyByBackend = function ($panelBody) {

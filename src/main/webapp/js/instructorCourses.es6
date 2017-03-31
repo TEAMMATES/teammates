@@ -1,6 +1,6 @@
 /* global COURSE_TIME_ZONE:false TimeZone:false */
 /* global setStatusMessage:false StatusType:false clearStatusMessages:false */
-/* global appendStatusMessage:false toggleSort:false */
+/* global appendStatusMessage:false toggleSort:false prepareInstructorPages:false */
 
 let isFetchingCourses = false;
 let needsRetrying = false;
@@ -43,6 +43,8 @@ function linkAjaxForCourseStats() {
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     const ajaxRequest = function (e) {
         if (isFetchingCourses) {
             return;

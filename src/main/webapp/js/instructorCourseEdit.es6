@@ -1,4 +1,4 @@
-/* global scrollToElement:false BootboxWrapper:false StatusType:false */
+/* global scrollToElement:false BootboxWrapper:false StatusType:false prepareInstructorPages:false */
 /* global COURSE_NAME:false COURSE_TIME_ZONE:false TimeZone:false courseTimeZone:false */
 
 // global parameter to remember settings for custom access level
@@ -513,6 +513,8 @@ function editFormRequest(e) {
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     for (let i = 0; i < numOfInstr; i += 1) {
         const instrNum = i + 1;

@@ -1,5 +1,5 @@
 /* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
-/* global toggleSort:false match:false */
+/* global toggleSort:false match:false prepareInstructorPages:false */
 /* global bindDefaultImageIfMissing:false bindStudentPhotoLink:false setStatusMessage:false */
 /* global StatusType:false clearStatusMessages:false checkCourseBinding:false */
 
@@ -326,6 +326,7 @@ const seeMoreRequest = function (e) {
 };
 
 $(document).ready(() => {
+    prepareInstructorPages();
     attachEventToDeleteStudentLink();
 
     $('a[id^="enroll-"]').on('click', function (e) {

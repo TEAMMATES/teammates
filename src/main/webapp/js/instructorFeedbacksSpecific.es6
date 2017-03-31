@@ -1,6 +1,6 @@
 /* global prepareDatepickers:false linkAjaxForResponseRate:false readyFeedbackPage:false richTextEditorBuilder:false
 setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false
-prepareRemindModal:false
+prepareRemindModal:false prepareInstructorPages:false
 */
 
 let isSessionsAjaxSending = false;
@@ -51,6 +51,8 @@ const ajaxRequest = function (e) {
 };
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     oldStatus = $('.statusMessage').clone();
     $('#ajaxForSessions').submit(ajaxRequest);
 

@@ -1,4 +1,4 @@
-/* global BootboxWrapper:false StatusType:false */
+/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false */
 
 const loadUpFunction = function () {
     const typingErrMsg = 'Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.';
@@ -31,3 +31,7 @@ if (window.addEventListener) {
 } else {
     window.attachEvent('load', loadUpFunction);
 }
+
+$(document).ready(() => {
+    prepareInstructorPages();
+});

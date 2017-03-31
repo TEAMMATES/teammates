@@ -8,7 +8,7 @@ setupFsCopyModal:false, bindAssignWeightsCheckboxes:false, tinyMCE:false, moveAs
 setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:false, setContribQnVisibilityFormat:false
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
-hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false
+hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -945,6 +945,8 @@ function readyFeedbackEditPage() {
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     prepareDatepickers();
 
     if (typeof richTextEditorBuilder !== 'undefined') {
