@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class Course {
 
-    public static String PRIMARY_KEY_NAME = "id";
+    public static String PRIMARY_KEY_NAME = "ID";
 
     @PrimaryKey
     @Persistent
