@@ -431,7 +431,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private void clickOnePanelAndWait(InstructorFeedbackResultsPage resultsPage, String panelId) {
-        resultsPage.clickPanelById(panelId);
+        resultsPage.clickElementById(panelId);
         resultsPage.waitForPanelToExpand(panelId);
     }
 }

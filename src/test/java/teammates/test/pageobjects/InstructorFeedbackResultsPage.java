@@ -124,9 +124,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(indicateMissingResponsesCheckbox);
     }
 
-    public void clickPanelById(String panelId) {
-        WebElement panelElement = browser.driver.findElement(By.id(panelId));
-        click(panelElement);
+    public void clickElementById(String elementId) {
+        WebElement element = browser.driver.findElement(By.id(elementId));
+        click(element);
     }
 
     public void fillSearchBox(String s) {
@@ -300,16 +300,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
             // row expected to be missing
             return;
         }
-    }
-
-    public void clickAjaxLoadResponsesPanel(int index) {
-        List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
-        click(ajaxPanels.get(index));
-    }
-
-    public void clickAjaxNoResponsePanel() {
-        WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax-response-submit"));
-        click(ajaxPanels);
     }
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {

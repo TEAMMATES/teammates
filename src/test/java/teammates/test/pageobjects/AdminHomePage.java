@@ -4,7 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.ThreadHelper;
 
 public class AdminHomePage extends AppPage {
     @FindBy (id = "addInstructorDetailsSingleLine")

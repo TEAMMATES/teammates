@@ -356,18 +356,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                                                                        "Open Session", true, "question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.clickElementById("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
 
         ______TS("Failure case: Ajax error");
 
         // Change fs name so that the ajax request will fail
         resultsPage.changeFsNameInAjaxLoadResponsesForm(1, "invalidFsName");
-        resultsPage.clickAjaxLoadResponsesPanel(1);
+        resultsPage.clickElementById("panelHeading-3");
         resultsPage.waitForAjaxError(1);
 
         resultsPage.changeFsNameInNoResponsePanelForm("InvalidFsName");
-        resultsPage.clickAjaxNoResponsePanel();
+        resultsPage.clickElementById("panelHeading-12");
         resultsPage.waitForAjaxErrorOnNoResponsePanel();
 
         ______TS("Typical case: test view photo for view by questions");
@@ -382,7 +382,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper1",
                                                                        "Open Session", true, "question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.clickElementById("panelHeading-1");
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
 
@@ -390,7 +390,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
                                         "Open Session", true, "question");
 
-        resultsPage.clickAjaxLoadResponsesPanel(0);
+        resultsPage.clickElementById("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
 
         ______TS("Typical case: ajax for view by giver > recipient > question");
@@ -802,7 +802,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private void clickAjaxPanelAndWaitForExpansion(String panelId) {
-        resultsPage.clickPanelById(panelId);
+        resultsPage.clickElementById(panelId);
         resultsPage.waitForPanelToExpand(panelId);
     }
 
