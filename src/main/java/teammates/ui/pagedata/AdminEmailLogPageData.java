@@ -58,6 +58,30 @@ public class AdminEmailLogPageData extends PageData {
         return statusForAjax;
     }
 
+    /**
+     * Returns now if toDate is not present in the query.
+     */
+    public long getToDate() {
+        if (this.q == null || !this.q.isToDateInQuery) {
+            return TimeHelper.now(0.0).getTimeInMillis();
+        }
+        return this.q.toDateValue;
+    }
+
+    public boolean isFromDateInQuery() {
+        return this.q != null && this.q.isFromDateInQuery;
+    }
+
+    /**
+     * Returns 0 if fromDate is not present in the query.
+     */
+    public long getFromDate() {
+        if (this.q == null) {
+            return 0;
+        }
+        return this.q.fromDateValue;
+    }
+
     public String getQueryKeywordsForReceiver() {
         if (q == null || !q.isReceiverInQuery) {
             return "";
@@ -108,6 +132,14 @@ public class AdminEmailLogPageData extends PageData {
         this.statusForAjax = statusForAjax;
     }
 
+    public void setToDate(long date) {
+        if (this.q == null) {
+            return;
+        }
+        this.q.isToDateInQuery = true;
+        this.q.toDateValue = date;
+    }
+
     /**
      * Creates a QueryParameters object used for filtering.
      */
@@ -144,7 +176,8 @@ public class AdminEmailLogPageData extends PageData {
             }
 
             String[] values = pair[1].split(",", -1);
-            String label = pair[0];
+            values = StringHelper.trim(values);
+            String label = pair[0].trim();
 
             if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
@@ -168,21 +201,17 @@ public class AdminEmailLogPageData extends PageData {
      * @return false if the logEntry fails the filtering process
      */
     public boolean shouldShowLog(EmailLogEntry logEntry) {
+        // Skip test data if the request is not showing all logs
+        boolean isShowTestData = !logEntry.isTestData() || shouldShowAll;
 
         if (q == null) {
             if (this.queryMessage == null) {
                 this.queryMessage = "Error parsing the query. QueryParameters not created.";
             }
-            return true;
+            return isShowTestData;
         }
 
         // filter based on what is in the query
-        if (q.isToDateInQuery && logEntry.getTime() > q.toDateValue) {
-            return false;
-        }
-        if (q.isFromDateInQuery && logEntry.getTime() < q.fromDateValue) {
-            return false;
-        }
         if (q.isReceiverInQuery) {
 
             for (String keyString : q.receiverValues) {
@@ -208,8 +237,7 @@ public class AdminEmailLogPageData extends PageData {
             }
         }
 
-        // Skip test data if the request is not showing all logs
-        return !logEntry.isTestData() || shouldShowAll;
+        return isShowTestData;
     }
 
     /**

@@ -24,10 +24,7 @@
                                    class="form-control"
                                    id="filterQuery"
                                    name="filterQuery"
-                                   value="${filterQuery}">
-                        
-                            <input type="text" name="pageChange" value="true" style="display:none;">
-                                    
+                                   value="${filterQuery}">                           
                         </div>
                     </div>
                 </div>

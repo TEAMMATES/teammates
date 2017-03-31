@@ -16,6 +16,10 @@ public class AdminEmailTableRow {
         emailEntry = entry;
     }
 
+    public EmailLogEntry getLogEntry() {
+        return emailEntry;
+    }
+
     // -------- Enhancement to fields in EmailLogEntry --------
 
     public String getTimeForDisplay() {
