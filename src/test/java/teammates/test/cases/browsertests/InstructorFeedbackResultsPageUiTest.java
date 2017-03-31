@@ -71,20 +71,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
 
     }
@@ -142,7 +146,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-
+        clickOnePanelAndWait("PanelHeading-2");
+        clickOnePanelAndWait("PanelHeading-4");
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
@@ -156,6 +161,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
         resultsPage.displayByQuestion();
+        clickOnePanelAndWait("PanelHeading-1");
 
         ______TS("Typical case: test moderate responses button for instructors as givers");
         verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
@@ -503,22 +509,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToExpand();
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsVisible();
 
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToCollapse();
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(false);
         assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToExpand();
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
@@ -573,8 +576,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Verify that search works on RGQ view");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.clickGroupByTeam();
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToExpand();
+        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
 
@@ -797,9 +799,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
-    
+
     private void clickOnePanelAndWait(String panelId) {
         resultsPage.clickPanelById(panelId);
         resultsPage.waitForPanelToExpand(panelId);
+    }
+    
+    private void clickCollapseExpandButtonAndWaitForPanelsToLoad(boolean isExpandingPanels) {
+        resultsPage.clickCollapseExpandButton();
+        if (isExpandingPanels) {
+            resultsPage.waitForPanelsToExpand();
+        } else {
+            resultsPage.waitForPanelsToCollapse();
+        }
     }
 }

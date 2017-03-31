@@ -123,7 +123,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickIndicateMissingResponses() {
         click(indicateMissingResponsesCheckbox);
     }
-    
+
     public void clickPanelById(String panelId) {
         WebElement panelElement = browser.driver.findElement(By.id(panelId));
         click(panelElement);
