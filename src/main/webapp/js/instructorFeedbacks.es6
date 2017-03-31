@@ -19,20 +19,6 @@ FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false
 // TODO: Move constants from Common.js into appropriate files if not shared.
 const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
-$(document).ready(() => {
-    const isEdit = typeof readyFeedbackEditPage === 'function';
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: isEdit,
-            fixed_toolbar_container: '#richtext-toolbar-container',
-        });
-        /* eslint-enable camelcase */
-    }
-});
-
 function extractQuestionNumFromEditFormId(id) {
     return parseInt(id.substring('form_editquestion-'.length, id.length), 10);
 }
