@@ -86,6 +86,8 @@ $(document).ready(() => {
 
     // Automatically load top few course panels
     $coursePanels.slice(0, COURSE_PANELS_TO_AUTO_LOAD_COUNT).click();
+
+    linkAjaxForResponseRate();
 });
 
 /**
