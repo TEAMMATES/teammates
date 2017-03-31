@@ -14,7 +14,6 @@
         var courseTimeZone = '${data.course.timeZone}';
     </script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
-    <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
