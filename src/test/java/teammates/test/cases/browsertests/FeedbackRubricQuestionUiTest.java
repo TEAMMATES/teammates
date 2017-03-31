@@ -68,36 +68,35 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
                                                                  false, "question");
-        instructorResultsPage.waitForPanelsToExpand();
-
+        clickOnePanelAndWait(instructorResultsPage, "panelHeading-1");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
 
         // Giver Recipient Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "giver-recipient-question");
-        instructorResultsPage.waitForPanelsToExpand();
+        clickOnePanelAndWait(instructorResultsPage, "panelHeading-section-0-1");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
 
         // Giver Question Recipient View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "giver-question-recipient");
-        instructorResultsPage.waitForPanelsToExpand();
+        clickOnePanelAndWait(instructorResultsPage, "panelHeading-section-0-1");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
 
         // Recipient Question Giver View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-question-giver");
-        instructorResultsPage.waitForPanelsToExpand();
+        clickOnePanelAndWait(instructorResultsPage, "panelHeading-section-0-1");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
 
         // Recipient Giver Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-giver-question");
-        instructorResultsPage.waitForPanelsToExpand();
+        clickOnePanelAndWait(instructorResultsPage, "panelHeading-section-0-1");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
 
     }
@@ -431,4 +430,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
     }
 
+    private void clickOnePanelAndWait(InstructorFeedbackResultsPage resultsPage, String panelId) {
+        resultsPage.clickPanelById(panelId);
+        resultsPage.waitForPanelToExpand(panelId);
+    }
 }
