@@ -506,7 +506,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackResponseComment.class;
-        String primaryKeyName = "feedbackResponseCommentId";
+        String primaryKeyName = FeedbackResponseComment.PRIMARY_KEY_NAME;
         FeedbackResponseCommentAttributes frca = (FeedbackResponseCommentAttributes) attributes;
         Long id = frca.getId();
 

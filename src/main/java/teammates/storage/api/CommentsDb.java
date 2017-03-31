@@ -641,7 +641,7 @@ public class CommentsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Comment.class;
-        String primaryKeyName = "commentId";
+        String primaryKeyName = Comment.PRIMARY_KEY_NAME;
         CommentAttributes ca = (CommentAttributes) attributes;
         Long id = ca.getCommentId();
 

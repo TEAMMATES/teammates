@@ -326,7 +326,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackQuestion.class;
-        String primaryKeyName = "feedbackQuestionId";
+        String primaryKeyName = FeedbackQuestion.PRIMARY_KEY_NAME;
         FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) attributes;
         String id = fqa.getId();
 

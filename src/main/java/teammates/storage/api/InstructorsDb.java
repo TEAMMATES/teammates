@@ -601,7 +601,7 @@ public class InstructorsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Instructor.class;
-        String primaryKeyName = "id";
+        String primaryKeyName = Instructor.PRIMARY_KEY_NAME;
         InstructorAttributes ia = (InstructorAttributes) attributes;
 
         Query q = getPm().newQuery(entityClass);

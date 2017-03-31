@@ -320,7 +320,7 @@ public class AdminEmailsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = AdminEmail.class;
-        String primaryKeyName = "emailId";
+        String primaryKeyName = AdminEmail.PRIMARY_KEY_NAME;
         AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
         String id = aea.emailId;
 

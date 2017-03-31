@@ -157,7 +157,7 @@ public class CoursesDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Course.class;
-        String primaryKeyName = "ID";
+        String primaryKeyName = Course.PRIMARY_KEY_NAME;
         CourseAttributes ca = (CourseAttributes) attributes;
         String id = ca.getId();
 

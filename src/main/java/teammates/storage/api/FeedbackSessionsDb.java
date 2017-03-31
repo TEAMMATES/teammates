@@ -610,7 +610,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = FeedbackSession.class;
-        String primaryKeyName = "feedbackSessionId";
+        String primaryKeyName = FeedbackSession.PRIMARY_KEY_NAME;
         FeedbackSessionAttributes fsa = (FeedbackSessionAttributes) attributes;
 
         Query q = getPm().newQuery(entityClass);

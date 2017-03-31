@@ -223,7 +223,7 @@ public class ProfilesDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = StudentProfile.class;
-        String primaryKeyName = "profileId";
+        String primaryKeyName = StudentProfile.PRIMARY_KEY_NAME;
         StudentProfileAttributes spa = (StudentProfileAttributes) attributes;
         String id = spa.googleId;
 

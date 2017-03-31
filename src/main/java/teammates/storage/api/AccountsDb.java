@@ -242,7 +242,7 @@ public class AccountsDb extends EntitiesDb {
     @Override
     protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
         Class<?> entityClass = Account.class;
-        String primaryKeyName = "googleId";
+        String primaryKeyName = Account.PRIMARY_KEY_NAME;
         AccountAttributes aa = (AccountAttributes) attributes;
         String id = aa.googleId;
 
