@@ -7,6 +7,8 @@
 */
 
 $(document).ready(() => {
+    prepareInstructorFeedbackResultsPage();
+
     const isPanelSetAsEmptyByBackend = function ($panelBody) {
         return $panelBody.find('.no-response').length !== 0;
     };

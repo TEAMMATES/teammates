@@ -329,7 +329,7 @@ function getAppendedResponseRateData(data) {
     return appendedResponseStatus;
 }
 
-$(document).ready(() => {
+function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
     $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
@@ -428,4 +428,4 @@ $(document).ready(() => {
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
-});
+}

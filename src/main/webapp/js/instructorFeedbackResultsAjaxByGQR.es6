@@ -10,6 +10,8 @@
 */
 
 $(document).ready(() => {
+    prepareInstructorFeedbackResultsPage();
+
     const seeMoreRequest = function (e) {
         const panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
