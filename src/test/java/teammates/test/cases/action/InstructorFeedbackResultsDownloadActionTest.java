@@ -362,8 +362,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 expectedArrayCourse(session), expectedArraySessionName(session), expectedArraySection1,
-                "", "", expectedArrayQuestion1, "",
-                expectedArrayHeaders, expectedArrayStudent1, expectedArrayStudent2
+                "", "", expectedArrayQuestion1, "", expectedArrayHeaders, expectedArrayStudent1, expectedArrayStudent2
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -393,8 +392,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 expectedArrayCourse(session), expectedArraySessionName(session),
                 "", "", expectedArrayQuestion2, "",
-                expectedArrayHeaders, expectedArrayStudent1Question2,
-                expectedArrayStudent2Question2, expectedArrayStudent3Question2, "", "", ""
+                expectedArrayHeaders, expectedArrayStudent1Question2, expectedArrayStudent2Question2,
+                expectedArrayStudent3Question2, "", "", ""
                 // CHECKSTYLE.ON:LineLength
         };
 
