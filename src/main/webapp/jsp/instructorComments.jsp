@@ -13,7 +13,6 @@
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
-    <script type="text/javascript" src="/js/omniComment.js"></script>
     <script type="text/javascript" src="/js/instructorComments.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
