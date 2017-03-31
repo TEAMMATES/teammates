@@ -732,9 +732,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
-        return resultsPage;
+        return loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
     }
 
     private InstructorFeedbackResultsPage

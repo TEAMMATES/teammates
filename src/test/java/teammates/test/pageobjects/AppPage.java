@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -916,7 +915,7 @@ public abstract class AppPage {
 
     public void verifyContainElement(By by) {
         List<WebElement> elements = browser.driver.findElements(by);
-        assertTrue(elements.size() != 0);
+        assertFalse(elements.isEmpty());
     }
 
     /**
