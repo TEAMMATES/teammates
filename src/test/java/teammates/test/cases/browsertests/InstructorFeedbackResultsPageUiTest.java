@@ -41,7 +41,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testHtmlContent() throws Exception {
         testContent();
-        //testModerateResponsesButton();
+        testModerateResponsesButton();
     }
 
     @Test
@@ -145,10 +145,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        clickOnePanelAndWait("PanelHeading-2");
-        clickOnePanelAndWait("PanelHeading-4");
+        clickOnePanelAndWait("panelHeading-2");
+        clickOnePanelAndWait("panelHeading-4");
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
+        ThreadHelper.waitFor(1000);
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
                 "CFResultsUiT.fred.g@gmail.tmt", "CFResultsUiT.charlie.d@gmail.tmt",
                 "CFResultsUiT.danny.e@gmail.tmt", "drop.out@gmail.tmt",
@@ -160,7 +161,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
         resultsPage.displayByQuestion();
-        clickOnePanelAndWait("PanelHeading-1");
+        clickOnePanelAndWait("panelHeading-1");
 
         ______TS("Typical case: test moderate responses button for instructors as givers");
         verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
