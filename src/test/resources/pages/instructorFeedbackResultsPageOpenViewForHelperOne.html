@@ -151,21 +151,21 @@
     There are no responses for this feedback session yet or you do not have access to the responses collected so far.
   </div>
   <br>
-  <div class="panel panel-info">
-    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+  <div class="panel panel-default">
+    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
         <input name="user" type="hidden" value="CFResultsUiT.helper1">
         <input name="frgroupbyteam" type="hidden" value="on">
         <input name="frsorttype" type="hidden" value="question">
-        <input id="showStats-1" name="frshowstats" type="hidden" value="on">
+        <input id="showStats-1" name="frshowstats" type="hidden" value="off">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -188,8 +188,8 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-1">
-      <div class="panel-body padding-0" id="questionBody-0">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
+      <div class="panel-body" id="questionBody-0">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
