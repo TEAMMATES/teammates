@@ -276,7 +276,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 + "\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\","
                 + "\"student4InCourse1@gmail.tmt\",\"No Response\"";
         String expectedArrayStudent5 = "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\","
-                +"\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"";
+                + "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"";
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
