@@ -4,7 +4,10 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <c:set var="logoutUrl" value="<%= Const.ActionURIs.LOGOUT %>" />
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="">
+<c:set var="jsIncludes">
+    <script type="text/javascript" src="/js/instructorCourseJoinConfirmation.js"></script>
+</c:set>
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="" jsIncludes="${jsIncludes}">
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>

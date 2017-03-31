@@ -5,6 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/student.js"></script>
+    <script type="text/javascript" src="/js/studentCourseJoinConfirmation.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student" bodyTitle="" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

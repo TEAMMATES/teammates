@@ -7,6 +7,7 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorCourseEnrollResult.js"></script>
 </c:set>
 
 <c:set var="COURSE_ID">
