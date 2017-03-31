@@ -64,7 +64,6 @@ public class AdminHomePage extends AppPage {
         if (instructorDetails != null) {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
-        ThreadHelper.waitFor(1000);
         click(submitButtonDetailsSingleLineForm);
         waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
     }

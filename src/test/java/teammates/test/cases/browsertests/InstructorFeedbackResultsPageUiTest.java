@@ -78,16 +78,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
-        clickOnePanelAndWait("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
-        clickOnePanelAndWait("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
-        clickOnePanelAndWait("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
 
     }
@@ -117,8 +117,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         BackDoor.editFeedbackQuestion(secondQuestionFromDatastore);
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
-        clickOnePanelAndWait("panelHeading-1");
-        clickOnePanelAndWait("panelHeading-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-2");
         // compare html for each question panel
         // to verify that the right responses are showing for each question
         By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
@@ -137,7 +137,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr",
                                                            "Session with sanitized data");
-        clickOnePanelAndWait("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
@@ -145,8 +145,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        clickOnePanelAndWait("panelHeading-2");
-        clickOnePanelAndWait("panelHeading-4");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-4");
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         ThreadHelper.waitFor(1000);
@@ -161,7 +161,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
         resultsPage.displayByQuestion();
-        clickOnePanelAndWait("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
 
         ______TS("Typical case: test moderate responses button for instructors as givers");
         verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
@@ -175,7 +175,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
@@ -186,7 +186,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by recipient > giver > question");
 
         resultsPage.displayByRecipientGiverQuestion();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
 
         additionalInfoId = "section-1-giver-1-recipient-0";
@@ -197,13 +197,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by giver > question > recipient");
 
         resultsPage.displayByGiverQuestionRecipient();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
 
         ______TS("test sort by recipient > question > giver");
 
         resultsPage.displayByRecipientQuestionGiver();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
 
         // Do not sort by team
@@ -212,32 +212,32 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > recipient > question team");
 
         resultsPage.displayByGiverRecipientQuestion();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team");
 
         resultsPage.displayByRecipientGiverQuestion();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
         ______TS("test order in giver > question > recipient team");
 
         resultsPage.displayByGiverQuestionRecipient();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
 
         ______TS("test order in recipient > question > giver team");
 
         resultsPage.displayByRecipientQuestionGiver();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
 
         ______TS("test sort by question");
 
         // By question
         resultsPage.displayByQuestion();
-        clickOnePanelAndWait("panelHeading-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-1");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionTeam.html");
 
         additionalInfoId = "";
@@ -403,7 +403,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
@@ -420,7 +420,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > question > recipient");
 
         resultsPage.removeNavBar();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink("1-2", "profile_picture_default.png");
@@ -435,7 +435,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
         resultsPage.removeNavBar();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink("1-2", "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
@@ -450,7 +450,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
@@ -489,7 +489,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Test that 'Collapse Student' button is working");
         resultsPage.clickGroupByTeam();
         resultsPage.displayByGiverRecipientQuestion();
-        clickOnePanelAndWait("panelHeading-section-0-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-0-1");
         resultsPage.waitForElementPresence(By.id("collapse-panels-button-team-0"));
         assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         resultsPage.clickInstructorPanelCollapseStudentsButton();
@@ -500,7 +500,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickGroupByTeam();
 
         resultsPage.displayByGiverRecipientQuestion();
-        clickOnePanelAndWait("panelHeading-section-0-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-0-1");
         resultsPage.clickSectionCollapseStudentsButton();
         resultsPage.waitForSectionStudentPanelsToCollapse();
 
@@ -608,7 +608,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
-        clickOnePanelAndWait("panelHeading-section-0-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-0-1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
@@ -626,11 +626,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        clickOnePanelAndWait("panelHeading-section-0-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
-        clickOnePanelAndWait("panelHeading-section-1-2");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-1-2");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
         resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
 
@@ -646,7 +646,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        clickOnePanelAndWait("panelHeading-section-0-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
 
         ______TS("Typical case: add edit and delete successively");
@@ -665,7 +665,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        clickOnePanelAndWait("panelHeading-section-0-1");
+        clickAjaxPanelAndWaitForExpansion("panelHeading-section-0-1");
         resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
@@ -801,7 +801,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
 
-    private void clickOnePanelAndWait(String panelId) {
+    private void clickAjaxPanelAndWaitForExpansion(String panelId) {
         resultsPage.clickPanelById(panelId);
         resultsPage.waitForPanelToExpand(panelId);
     }
