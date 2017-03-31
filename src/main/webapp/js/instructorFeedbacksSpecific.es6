@@ -1,5 +1,6 @@
 /* global prepareDatepickers:false linkAjaxForResponseRate:false readyFeedbackPage:false richTextEditorBuilder:false
 setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false
+prepareRemindModal:false
 */
 
 let isSessionsAjaxSending = false;
@@ -55,6 +56,8 @@ $(document).ready(() => {
 
     prepareDatepickers();
     linkAjaxForResponseRate();
+
+    prepareRemindModal();
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
