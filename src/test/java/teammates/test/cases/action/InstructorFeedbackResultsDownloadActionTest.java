@@ -25,8 +25,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             + "</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td>"
             + "</div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
     private String expectedArrayStudent2 = "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\","
-            + "\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\","
-            + "\"student2InCourse1@gmail.tmt\",\"I'm cool'\"";
+            + "\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\","
+            + "\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"";
     private String expectedArraySection1 = "Section Name,\"Section 1\"";
 
     @Override
@@ -253,8 +253,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 expectedArrayCourse(session), expectedArraySessionName(session),
-                "", "", expectedArrayQuestion3, "",
-                expectedArrayHeaders, expectedArrayInstructor
+                "", "", expectedArrayQuestion3, "", expectedArrayHeaders, expectedArrayInstructor
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -276,7 +275,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 + "\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\","
                 + "\"student4InCourse1@gmail.tmt\",\"No Response\"";
         String expectedArrayStudent5 = "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\","
-                +"\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"";
+                + "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"";
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
