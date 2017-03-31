@@ -403,6 +403,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
@@ -419,6 +420,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > question > recipient");
 
         resultsPage.removeNavBar();
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink("1-2", "profile_picture_default.png");
@@ -433,6 +435,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
         resultsPage.removeNavBar();
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink("1-2", "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
@@ -447,6 +450,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
+        clickOnePanelAndWait("panelHeading-section-1-2");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
