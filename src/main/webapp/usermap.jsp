@@ -5,14 +5,13 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.D3 %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TOPOJSON %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.DATAMAPS %>"></script>
-    <script>
-        var geoDataUrl = '<%= FrontEndLibrary.WORLDMAP %>';
-    </script>
     <script type="text/javascript" src="/js/countryCodes.js"></script>
     <script type="text/javascript" src="/js/userMap.js"></script>
 </c:set>
+<c:set var="geoDataUrl" value="<%= FrontEndLibrary.WORLDMAP %>" />
 <t:staticPage jsIncludes="${jsIncludes}">
     <main>
+        <input type="hidden" id="geo-data-url" value="${geoDataUrl}">
         <h1 class="color_orange">Who is using TEAMMATES?</h1>
         <div id="world-map"></div>
         <p class="text-right">Last updated: <span id="lastUpdate" ></span></p>

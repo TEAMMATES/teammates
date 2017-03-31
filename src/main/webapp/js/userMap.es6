@@ -1,4 +1,4 @@
-/* global d3:false, getCountryCode:false, Datamap:false, geoDataUrl:false
+/* global d3:false, getCountryCode:false, Datamap:false
  */
 
 function getTooltipContent(data) {
@@ -101,7 +101,7 @@ function initializeMap(err, countryCoordinates, userData) {
             highlightFillColor(geo) {
                 return geo.fillColor || '#F5F5F5';
             },
-            dataUrl: geoDataUrl,
+            dataUrl: $('#geo-data-url').val(),
             // only change border
             highlightBorderColor: '#a4a4a4',
             highlightBorderWidth: 1,
