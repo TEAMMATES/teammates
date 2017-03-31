@@ -4,9 +4,7 @@
 <c:set var="motdUrl" value="<%= Config.STUDENT_MOTD_URL %>" />
 <c:if test="${not empty motdUrl}">
     <div id="student-motd-wrapper">
-        <script>
-            var motdUrl = window.location.origin + '/<c:out value="${motdUrl}" />';
-        </script>
+        <input type="hidden" id="motd-url" value="<c:out value="${motdUrl}" />">
         <script type="text/javascript" src="/js/studentMotd.js" defer></script>
         <div class="container theme-showcase" id="student-motd-container">
             <div class="row">
