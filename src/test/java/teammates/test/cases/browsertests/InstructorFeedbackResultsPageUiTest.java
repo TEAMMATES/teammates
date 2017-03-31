@@ -71,7 +71,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
@@ -513,19 +513,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
-        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsVisible();
 
-        clickCollapseExpandButtonAndWaitForPanelsToLoad(false);
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(false);
         assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
-        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
@@ -553,20 +553,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testIndicateMissingResponses() {
 
         ______TS("Typical case: Hide Missing Responses");
-
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
 
         resultsPage.clickIndicateMissingResponses();
-        resultsPage.waitForPageToLoad();
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         assertFalse(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertTrue(resultsPage.verifyMissingResponsesVisibility());
 
         resultsPage.clickIndicateMissingResponses();
-        resultsPage.waitForPageToLoad();
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
-
     }
 
     private void testSearchScript() throws Exception {
@@ -580,7 +579,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Verify that search works on RGQ view");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.clickGroupByTeam();
-        clickCollapseExpandButtonAndWaitForPanelsToLoad(true);
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         resultsPage.fillSearchBox("team 2");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
 
@@ -808,8 +807,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickPanelById(panelId);
         resultsPage.waitForPanelToExpand(panelId);
     }
-    
-    private void clickCollapseExpandButtonAndWaitForPanelsToLoad(boolean isExpandingPanels) {
+
+    private void clickCollapseExpandButtonAndWaitForPanelsToRespond(boolean isExpandingPanels) {
         resultsPage.clickCollapseExpandButton();
         if (isExpandingPanels) {
             resultsPage.waitForPanelsToExpand();

@@ -918,6 +918,7 @@ public abstract class AppPage {
         List<WebElement> elements = browser.driver.findElements(by);
         assertTrue(elements.size() != 0);
     }
+
     /**
      * Verifies the status message in the page is same as the one specified.
      * @return The page (for chaining method calls).
