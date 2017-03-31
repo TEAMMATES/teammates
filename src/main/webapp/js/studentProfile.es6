@@ -1,4 +1,4 @@
-/* global setStatusMessage:false StatusType:false scrollToTop:false */
+/* global setStatusMessage:false StatusType:false scrollToTop:false bindLinksInUnregisteredPage:false */
 
 function finaliseEditPictureForm() {
     const picture = $('#editableProfilePicture');
@@ -49,6 +49,8 @@ function finaliseUploadPictureForm() {
 }
 
 $(document).ready(() => {
+    bindLinksInUnregisteredPage('[data-unreg].navLinks');
+
     $('.form-control').on('click', function () {
         if ($(this).val() === $(this).attr('data-actual-value')) {
             $(this).select();

@@ -8,6 +8,7 @@
           tinymce:false,
           BootboxWrapper:false,
           isNumber:false
+          bindLinksInUnregisteredPage:false
  */
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
@@ -1036,4 +1037,6 @@ $(document).ready(() => {
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
+
+    bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
