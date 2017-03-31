@@ -38,7 +38,7 @@ function getMinDateForPublishDate(visibleDate) {
     return visibleDate;
 }
 
-$(document).ready(() => {
+function prepareDatepickers() {
     const today = new Date();
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -92,4 +92,4 @@ $(document).ready(() => {
     });
 
     triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
-});
+}
