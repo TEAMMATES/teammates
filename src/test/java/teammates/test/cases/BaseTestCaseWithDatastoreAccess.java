@@ -270,10 +270,11 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     }
 
     /**
-     * Removes existing entities of {@code testData} in database,
-     * then persists entities of {@code testData} in database.
-     * Adding {@link AdminEmailAttributes} should only be performed in {@link GaeSimulation},
-     * and not in production environment.
+     * Removes existing entities of {@code testData} in datastore,
+     * then persists entities of {@code testData} in datastore.
+     * Removing or persisting {@link AdminEmailAttributes} should only be performed in {@link GaeSimulation}
+     * and avoided in production environment, as non-testing data may be removed
+     * and new entities created may affect normal usage of the Admin Email functions
      */
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

@@ -58,8 +58,9 @@ public class BackDoorLogic extends Logic {
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     /**
-     * Persists given data in the datastore Works ONLY if the data is correct.
-     * Persisting {@link AdminEmailAttributes} should not be performed in production environment.
+     * Persists given data in the datastore, works ONLY if the data is correct.
+     * Persisting {@link AdminEmailAttributes} should be avoided in production environment,
+     * as the entities created can affect usage of the Admin Email functions.
      *  //Any existing copies of the data in the datastore will be overwritten.
      *      - edit: use removeDataBundle to remove.
      *              made this change for speed when deletion is not necessary.
@@ -426,6 +427,11 @@ public class BackDoorLogic extends Logic {
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
     }
 
+    /**
+     * Removes existing entities of {@code dataBundle} in datastore.
+     * Removing {@link AdminEmailAttributes} should be avoided in production environment,
+     * as non-testing data may be removed.
+     */
     public void removeDataBundle(DataBundle dataBundle) {
 
         // Questions and responses will be deleted automatically.
