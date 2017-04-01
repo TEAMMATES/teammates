@@ -56,6 +56,14 @@ public final class InstructorsLogic {
     }
 
     /**
+     * Batch creates or updates documents for the given Instructors.
+     * @param instructors a list of instructors to be put into documents
+     */
+    public void putDocuments(List<InstructorAttributes> instructors) {
+        instructorsDb.putDocuments(instructors);
+    }
+
+    /**
      * Removes document for the given Instructor.
      * @param instructor to be removed from documents
      */

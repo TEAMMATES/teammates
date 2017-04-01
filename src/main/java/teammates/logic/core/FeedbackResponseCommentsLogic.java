@@ -174,6 +174,13 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.putDocument(comment);
     }
 
+    /**
+     * Creates or updates documents for the given comments.
+     */
+    public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
+        frcDb.putDocuments(comments);
+    }
+
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
                                                                                        String giverEmail) {
         return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
