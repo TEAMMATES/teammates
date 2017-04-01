@@ -1365,7 +1365,7 @@
                 </tr>
             </table>
         </section>
-        <h3 class="center">
+        <h3 class="color_orange align-center">
             Would you like to join the TEAMMATES team as a contributor? <a href="contact.jsp">Contact Us</a>.
         </h3>
 </t:staticPage>
