@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class AdminEmail {
 
-    public static String PRIMARY_KEY_NAME = "emailId";
+    public static final String PRIMARY_KEY_NAME = "emailId";
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

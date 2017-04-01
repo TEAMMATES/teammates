@@ -22,7 +22,7 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class CourseStudent implements StoreCallback {
 
-    public static String PRIMARY_KEY_NAME = "id";
+    public static final String PRIMARY_KEY_NAME = "id";
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.

@@ -19,7 +19,7 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackResponse implements StoreCallback {
 
-    public static String PRIMARY_KEY_NAME = "feedbackResponseId";
+    public static final String PRIMARY_KEY_NAME = "feedbackResponseId";
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set

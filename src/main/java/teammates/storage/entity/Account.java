@@ -13,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Account {
 
-    public static String PRIMARY_KEY_NAME = "googleId";
+    public static final String PRIMARY_KEY_NAME = "googleId";
 
     @PrimaryKey
     @Persistent
