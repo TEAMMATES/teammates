@@ -3,7 +3,7 @@ package teammates.test.cases.action;
 import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
-import teammates.storage.api.AdminEmailsDb;
+import teammates.logic.core.AdminEmailsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AdminEmailComposeSaveAction;
 import teammates.ui.controller.ShowPageResult;
@@ -14,7 +14,7 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
  */
 public class AdminEmailComposeSaveActionTest extends BaseActionTest {
 
-    private AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
+    private AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -101,7 +101,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
 
         ______TS("save existing email : typical values given : success");
         AdminEmailAttributes emailData = dataBundle.adminEmails.get("adminEmail1");
-        AdminEmailAttributes email = adminEmailsDb.getAdminEmailBySubject(emailData.getSubject());
+        AdminEmailAttributes email = adminEmailsLogic.getAdminEmailBySubject(emailData.getSubject());
         String emailId = email.emailId;
         content = "valid content";
         subject = "valid subject <b>To check sanitization</b>";

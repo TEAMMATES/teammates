@@ -177,17 +177,17 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
-     * Gets an admin email by subject.
+     * Gets an admin email based on subject.
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailBySubject(String subject) {
-        AdminEmail matched = getAdminEmailEntityBySubject(subject);
+        AdminEmail matchedEmail = getAdminEmailEntityBySubject(subject);
 
-        if (matched == null) {
+        if (matchedEmail == null) {
             return null;
         }
 
-        return new AdminEmailAttributes(matched);
+        return new AdminEmailAttributes(matchedEmail);
     }
 
     /**
