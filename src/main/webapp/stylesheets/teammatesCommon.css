@@ -1056,6 +1056,7 @@ Prevent Long URL From Breaking Out of Container
     .mobile-margin-top-10px {
         margin-top: 10px;
     }
+    
 }
 
 @media (max-width: 991px) {
@@ -1120,12 +1121,14 @@ Prevent Long URL From Breaking Out of Container
     float: left;
     margin-right: 5px;
 }
+
 section.team-members .row {
     border-bottom: 2px solid #e3e3e3;
     padding: 20px 10px;
     border-top: 2px solid #efefef;
     box-sizing: border-box;
 }
+
 section.past-team ol li {
     display: inline;
     width: 30%;
@@ -1135,6 +1138,15 @@ section.past-team ol li {
     text-align: left;
     padding: 10px;
     margin: 5px;
+    min-width:300px;
+}
+
+.team-members .row > div {
+    overflow: auto;
+}
+
+table.contributions-table {
+    width: 100%;
 }
 
 table.contributions-table th {
@@ -1142,15 +1154,8 @@ table.contributions-table th {
     text-align: center;
 }
 
-table.contributions-table {
-}
-
 table.contributions-table td {
     padding: 10px;
-}
-
-table.contributions-table {
-    width: 100%;
 }
 
 table.contributions-table tr {
