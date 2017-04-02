@@ -36,7 +36,7 @@ before_script:
   - export PATH="./node_modules/.bin":$PATH
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools
-  - ./gradlew staticAnalysis --continue
+  - ./gradlew lint --continue
   - npm install
   - npm run lint
 

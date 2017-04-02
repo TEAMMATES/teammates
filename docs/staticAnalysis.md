@@ -195,7 +195,7 @@ npm run lint
 
 To run all static analysis tasks in one sitting, run the following two commands:
 ```
-./gradlew staticAnalysis --continue
+./gradlew lint --continue
 npm run lint
 ```
 

@@ -327,11 +327,11 @@ task downloadStaticAnalysisTools {
     }
 }
 
-task staticAnalysisMain {
+task lintMain {
     dependsOn checkstyleMain, pmdMain, findbugsMain
 }
 
-task staticAnalysisTest {
+task lintTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
@@ -347,12 +347,12 @@ task macker << {
 }
 
 macker.dependsOn testClasses
-macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
+macker.shouldRunAfter lintMain, lintTest
 
-task staticAnalysis {
+task lint {
     description "Runs the entire static analysis tasks for back-end."
     group "Static analysis"
-    dependsOn staticAnalysisMain, staticAnalysisTest, macker
+    dependsOn lintMain, lintTest, macker
 }
 
 // TEST TASKS
