@@ -293,10 +293,6 @@ war.dependsOn enhancerRun
 
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
-task lint(type: Exec) {
-    commandLine "npm", "run", "lint"
-}
-
 checkstyle {
     toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
@@ -354,9 +350,9 @@ macker.dependsOn testClasses
 macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
 
 task staticAnalysis {
-    description "Runs the entire static analysis tasks."
+    description "Runs the entire static analysis tasks for back-end."
     group "Static analysis"
-    dependsOn lint, staticAnalysisMain, staticAnalysisTest, macker
+    dependsOn staticAnalysisMain, staticAnalysisTest, macker
 }
 
 // TEST TASKS
