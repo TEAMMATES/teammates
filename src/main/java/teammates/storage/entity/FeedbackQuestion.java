@@ -25,6 +25,11 @@ public class FeedbackQuestion implements StoreCallback {
 
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
 
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = "feedbackQuestionId";
+    // CHECKSTYLE.ON:JavadocVariable
+
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
@@ -32,11 +37,6 @@ public class FeedbackQuestion implements StoreCallback {
      **/
     @NotPersistent
     public boolean keepUpdateTimestamp;
-
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "feedbackQuestionId";
-    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
