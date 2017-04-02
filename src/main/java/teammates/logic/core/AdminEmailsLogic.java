@@ -117,7 +117,7 @@ public final class AdminEmailsLogic {
     }
 
     public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
-        return adminEmailsDb.creatAdminEmail(newAdminEmail);
+        return adminEmailsDb.createAdminEmail(newAdminEmail);
     }
 
     /**
