@@ -23,8 +23,6 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {
 
-    public static final String PRIMARY_KEY_NAME = "feedbackQuestionId";
-
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
 
     /**
@@ -34,6 +32,11 @@ public class FeedbackQuestion implements StoreCallback {
      **/
     @NotPersistent
     public boolean keepUpdateTimestamp;
+
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = "feedbackQuestionId";
+    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

@@ -3,6 +3,7 @@ package teammates.storage.entity;
 import java.util.Date;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -13,7 +14,10 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Account {
 
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
     public static final String PRIMARY_KEY_NAME = "googleId";
+    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent

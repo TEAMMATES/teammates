@@ -19,8 +19,6 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackResponse implements StoreCallback {
 
-    public static final String PRIMARY_KEY_NAME = "feedbackResponseId";
-
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
@@ -28,6 +26,11 @@ public class FeedbackResponse implements StoreCallback {
      **/
     @NotPersistent
     public boolean keepUpdateTimestamp;
+
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = "feedbackResponseId";
+    // CHECKSTYLE.ON:JavadocVariable
 
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1

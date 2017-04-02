@@ -2,6 +2,7 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -16,7 +17,10 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class Course {
 
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
     public static final String PRIMARY_KEY_NAME = "ID";
+    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent

@@ -3,6 +3,7 @@ package teammates.storage.entity;
 import java.security.SecureRandom;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -16,7 +17,10 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class Instructor {
 
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
     public static final String PRIMARY_KEY_NAME = "id";
+    // CHECKSTYLE.ON:JavadocVariable
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101

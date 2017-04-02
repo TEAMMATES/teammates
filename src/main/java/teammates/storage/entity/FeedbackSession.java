@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -20,7 +21,10 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackSession {
 
+    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    @NotPersistent
     public static final String PRIMARY_KEY_NAME = "feedbackSessionId";
+    // CHECKSTYLE.ON:JavadocVariable
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
