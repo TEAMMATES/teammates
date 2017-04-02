@@ -257,9 +257,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     private String team1Student1Course1() {
         return "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\","
-            + "\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\"," 
-            + "\"student1 In Course1</td></div>'\"\"\","
-            + "\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
+            + "\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\","
+            + "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\","
+            + "\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"";
     }
 
     private String team1Student2Course1() {
