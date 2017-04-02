@@ -247,11 +247,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     private String contentHeader() {
         return "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,"
-        + "Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback";
+            + "Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback";
     }
 
     private String instructor1Course1() {
-        return "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"";
+        return "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\","
+            + "\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"";
     }
 
     private String team1Student1Course1() {
