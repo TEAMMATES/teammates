@@ -36,7 +36,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         InstructorCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(checkingOfPageResultDestination("idOfInstructor1OfCourse1"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -67,7 +67,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageAction = getAction(addUserIdToParams(instructor4.googleId, submissionParams));
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4",
+        assertEquals(checkingOfPageResultDestination("idOfInstructor4"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
