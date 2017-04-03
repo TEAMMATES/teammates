@@ -1,7 +1,3 @@
-$(document).ready(() => {
-    linkAjaxForResponseRate();
-});
-
 function linkAjaxForResponseRate() {
     const responseRateClickHandler = function (e) {
         const hyperlinkObject = $(e.currentTarget).clone();
@@ -49,3 +45,7 @@ function linkAjaxForResponseRate() {
     // recent class will only be appended to 'td' element with class 't_session_response'
     $('.table .recent a').click();
 }
+
+$(document).ready(() => {
+    linkAjaxForResponseRate();
+});

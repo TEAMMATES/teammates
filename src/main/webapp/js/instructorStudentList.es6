@@ -1,6 +1,194 @@
 /* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
 /* global toggleSort:false match:false */
 
+// Trigger ajax request for a course through clicking the heading
+function triggerAjax(e) {
+    $(e).trigger('click');
+}
+
+/**
+ * Check if all available sections are selected
+ */
+function checkAllSectionsSelected() {
+    if ($('input[id^="section_check"]:visible:checked').length === $('input[id^="section_check"]:visible').length) {
+        $('#section_all').prop('checked', true);
+    } else {
+        $('#section_all').prop('checked', false);
+    }
+}
+
+/**
+ * Check if all available teams are selected
+ */
+function checkAllTeamsSelected() {
+    if ($('input[id^="team_check"]:visible:checked').length === $('input[id^="team_check"]:visible').length) {
+        $('#team_all').prop('checked', true);
+    } else {
+        $('#team_all').prop('checked', false);
+    }
+}
+
+/**
+ * Remove param and its value pair in the given url
+ * Return the url withour param and value pair
+ */
+function removeParamInUrl(url, param) {
+    let indexOfParam = url.indexOf(`?${param}`);
+    indexOfParam = indexOfParam === -1 ? url.indexOf(`&${param}`) : indexOfParam;
+    const indexOfAndSign = url.indexOf('&', indexOfParam + 1);
+    const urlBeforeParam = url.substr(0, indexOfParam);
+    const urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
+    return urlBeforeParam + urlAfterParamValue;
+}
+
+/**
+ * Go to the url with appended param and value pair
+ */
+function gotoUrlWithParam(url, param, value) {
+    const paramValuePair = `${param}=${value}`;
+    if (!url.includes('?')) {
+        window.location.href = `${url}?${paramValuePair}`;
+    } else if (!url.includes(param)) {
+        window.location.href = `${url}&${paramValuePair}`;
+    } else if (url.includes(paramValuePair)) {
+        window.location.href = url;
+    } else {
+        const urlWithoutParam = removeParamInUrl(url, param);
+        gotoUrlWithParam(urlWithoutParam, param, value);
+    }
+}
+
+/**
+ * Hide sections that are not selected
+ */
+function filterSection() {
+    $('input[id^="section_check"]').each(function () {
+        const courseIdx = $(this).attr('id').split('-')[1];
+        const sectionIdx = $(this).attr('id').split('-')[2];
+        if (this.checked) {
+            $(`#studentsection-c${courseIdx}\\.${sectionIdx}`).show();
+        } else {
+            $(`#studentsection-c${courseIdx}\\.${sectionIdx}`).hide();
+        }
+    });
+}
+
+/**
+ * Hide teams that are not selected
+ */
+function filterTeam() {
+    $('input[id^="team_check"]').each(function () {
+        const courseIdx = $(this).attr('id').split('-')[1];
+        const sectionIdx = $(this).attr('id').split('-')[2];
+        const teamIdx = $(this).attr('id').split('-')[3];
+        if (this.checked) {
+            $(`#studentteam-c${courseIdx}\\.${sectionIdx}\\.${teamIdx}`).parent().show();
+        } else {
+            $(`#studentteam-c${courseIdx}\\.${sectionIdx}\\.${teamIdx}`).parent().hide();
+        }
+    });
+}
+
+/**
+ * Hide student email view based on search key
+ * Uses the hidden attributes of the student_row inside dataTable
+ */
+function filterEmails() {
+    const uniqueEmails = {};
+    $('tr[id^="student-c"]').each(function () {
+        const elementId = $(this).attr('id');
+        const studentId = elementId.split('-')[1];
+        const emailElement = $(`#student_email-${studentId.replace('.', '\\.')}`);
+        const emailText = emailElement.text();
+        if ($(this).is(':hidden') || uniqueEmails[emailText]) {
+            emailElement.hide();
+        } else {
+            uniqueEmails[emailText] = true;
+            emailElement.show();
+        }
+    });
+}
+
+/**
+ * Apply search filters for course followed by sections, then by teams, lastly by name
+ * Apply display filter for email
+ */
+function applyFilters() {
+    $('tr[id^="student-c"]').show();
+    filterSection();
+    filterTeam();
+    filterEmails();
+}
+
+// Binding check for course selection
+function checkCourseBinding(e) {
+    const courseIdx = $(e).attr('id').split('-')[1];
+
+    // Check/hide all section that is in this course
+    if ($(e).prop('checked')) {
+        $(`input[id^="section_check-${courseIdx}-"]`).prop('checked', true);
+        $(`input[id^="section_check-${courseIdx}-"]`).parent().show();
+        $(`input[id^="team_check-${courseIdx}-"]`).prop('checked', true);
+        $(`input[id^="team_check-${courseIdx}-"]`).parent().show();
+    } else {
+        $(`input[id^="section_check-${courseIdx}-"]`).prop('checked', false);
+        $(`input[id^="section_check-${courseIdx}-"]`).parent().remove();
+        $(`input[id^="team_check-${courseIdx}-"]`).prop('checked', false);
+        $(`input[id^="team_check-${courseIdx}-"]`).parent().remove();
+        $(`div[id^="student_email-c${courseIdx}"]`).remove();
+    }
+
+    // If all the courses are selected, check the 'Select All' option
+    if ($('input[id^="course_check"]:checked').length === $('input[id^="course_check"]').length) {
+        $('#course_all').prop('checked', true);
+    } else {
+        $('#course_all').prop('checked', false);
+    }
+
+    // If none of of the courses are selected, hide the section"s 'Select All' option
+    if ($('input[id^="course_check"]:checked').length === 0) {
+        $('#section_all').parent().hide();
+        $('#team_all').parent().hide();
+        $('#show_email').parent().hide();
+    } else {
+        $('#section_all').parent().show();
+        $('#team_all').parent().show();
+        $('#show_email').parent().show();
+    }
+
+    // If all the currently visible sections are selected, check the 'Select All' option
+    // This is necessary here because we show/hide the section's 'Select All' previously
+    checkAllSectionsSelected();
+    checkAllTeamsSelected();
+
+    applyFilters();
+}
+
+/**
+ * Custom function containsIN, for case insensitive matching
+ * TODO: expand to fuzzy search
+ */
+$.extend($.expr[':'], {
+    containsIN(elem) {
+        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
+    },
+});
+
+function bindCollapseEvents(panels) {
+    let numPanels = -1;
+    for (let i = 0; i < panels.length; i += 1) {
+        const heading = $(panels[i]).children('.panel-heading');
+        const bodyCollapse = $(panels[i]).children('.panel-collapse');
+        if (heading.length !== 0 && bodyCollapse.length !== 0) {
+            numPanels += 1;
+            $(heading[0]).attr('data-target', `#panelBodyCollapse-${numPanels}`);
+            $(heading[0]).attr('id', `panelHeading-${numPanels}`);
+            $(heading[0]).css('cursor', 'pointer');
+            $(bodyCollapse[0]).attr('id', `panelBodyCollapse-${numPanels}`);
+        }
+    }
+}
+
 $(document).ready(() => {
     attachEventToDeleteStudentLink();
 
@@ -201,191 +389,3 @@ $(document).ready(() => {
         }
     });
 });
-
-// Trigger ajax request for a course through clicking the heading
-function triggerAjax(e) {
-    $(e).trigger('click');
-}
-
-// Binding check for course selection
-function checkCourseBinding(e) {
-    const courseIdx = $(e).attr('id').split('-')[1];
-
-    // Check/hide all section that is in this course
-    if ($(e).prop('checked')) {
-        $(`input[id^="section_check-${courseIdx}-"]`).prop('checked', true);
-        $(`input[id^="section_check-${courseIdx}-"]`).parent().show();
-        $(`input[id^="team_check-${courseIdx}-"]`).prop('checked', true);
-        $(`input[id^="team_check-${courseIdx}-"]`).parent().show();
-    } else {
-        $(`input[id^="section_check-${courseIdx}-"]`).prop('checked', false);
-        $(`input[id^="section_check-${courseIdx}-"]`).parent().remove();
-        $(`input[id^="team_check-${courseIdx}-"]`).prop('checked', false);
-        $(`input[id^="team_check-${courseIdx}-"]`).parent().remove();
-        $(`div[id^="student_email-c${courseIdx}"]`).remove();
-    }
-
-    // If all the courses are selected, check the 'Select All' option
-    if ($('input[id^="course_check"]:checked').length === $('input[id^="course_check"]').length) {
-        $('#course_all').prop('checked', true);
-    } else {
-        $('#course_all').prop('checked', false);
-    }
-
-    // If none of of the courses are selected, hide the section"s 'Select All' option
-    if ($('input[id^="course_check"]:checked').length === 0) {
-        $('#section_all').parent().hide();
-        $('#team_all').parent().hide();
-        $('#show_email').parent().hide();
-    } else {
-        $('#section_all').parent().show();
-        $('#team_all').parent().show();
-        $('#show_email').parent().show();
-    }
-
-    // If all the currently visible sections are selected, check the 'Select All' option
-    // This is necessary here because we show/hide the section's 'Select All' previously
-    checkAllSectionsSelected();
-    checkAllTeamsSelected();
-
-    applyFilters();
-}
-
-/**
- * Check if all available sections are selected
- */
-function checkAllSectionsSelected() {
-    if ($('input[id^="section_check"]:visible:checked').length === $('input[id^="section_check"]:visible').length) {
-        $('#section_all').prop('checked', true);
-    } else {
-        $('#section_all').prop('checked', false);
-    }
-}
-
-/**
- * Check if all available teams are selected
- */
-function checkAllTeamsSelected() {
-    if ($('input[id^="team_check"]:visible:checked').length === $('input[id^="team_check"]:visible').length) {
-        $('#team_all').prop('checked', true);
-    } else {
-        $('#team_all').prop('checked', false);
-    }
-}
-
-/**
- * Go to the url with appended param and value pair
- */
-function gotoUrlWithParam(url, param, value) {
-    const paramValuePair = `${param}=${value}`;
-    if (!url.includes('?')) {
-        window.location.href = `${url}?${paramValuePair}`;
-    } else if (!url.includes(param)) {
-        window.location.href = `${url}&${paramValuePair}`;
-    } else if (url.includes(paramValuePair)) {
-        window.location.href = url;
-    } else {
-        const urlWithoutParam = removeParamInUrl(url, param);
-        gotoUrlWithParam(urlWithoutParam, param, value);
-    }
-}
-
-/**
- * Remove param and its value pair in the given url
- * Return the url withour param and value pair
- */
-function removeParamInUrl(url, param) {
-    let indexOfParam = url.indexOf(`?${param}`);
-    indexOfParam = indexOfParam === -1 ? url.indexOf(`&${param}`) : indexOfParam;
-    const indexOfAndSign = url.indexOf('&', indexOfParam + 1);
-    const urlBeforeParam = url.substr(0, indexOfParam);
-    const urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
-    return urlBeforeParam + urlAfterParamValue;
-}
-
-/**
- * Apply search filters for course followed by sections, then by teams, lastly by name
- * Apply display filter for email
- */
-function applyFilters() {
-    $('tr[id^="student-c"]').show();
-    filterSection();
-    filterTeam();
-    filterEmails();
-}
-
-/**
- * Hide sections that are not selected
- */
-function filterSection() {
-    $('input[id^="section_check"]').each(function () {
-        const courseIdx = $(this).attr('id').split('-')[1];
-        const sectionIdx = $(this).attr('id').split('-')[2];
-        if (this.checked) {
-            $(`#studentsection-c${courseIdx}\\.${sectionIdx}`).show();
-        } else {
-            $(`#studentsection-c${courseIdx}\\.${sectionIdx}`).hide();
-        }
-    });
-}
-
-/**
- * Hide teams that are not selected
- */
-function filterTeam() {
-    $('input[id^="team_check"]').each(function () {
-        const courseIdx = $(this).attr('id').split('-')[1];
-        const sectionIdx = $(this).attr('id').split('-')[2];
-        const teamIdx = $(this).attr('id').split('-')[3];
-        if (this.checked) {
-            $(`#studentteam-c${courseIdx}\\.${sectionIdx}\\.${teamIdx}`).parent().show();
-        } else {
-            $(`#studentteam-c${courseIdx}\\.${sectionIdx}\\.${teamIdx}`).parent().hide();
-        }
-    });
-}
-
-/**
- * Hide student email view based on search key
- * Uses the hidden attributes of the student_row inside dataTable
- */
-function filterEmails() {
-    const uniqueEmails = {};
-    $('tr[id^="student-c"]').each(function () {
-        const elementId = $(this).attr('id');
-        const studentId = elementId.split('-')[1];
-        const emailElement = $(`#student_email-${studentId.replace('.', '\\.')}`);
-        const emailText = emailElement.text();
-        if ($(this).is(':hidden') || uniqueEmails[emailText]) {
-            emailElement.hide();
-        } else {
-            uniqueEmails[emailText] = true;
-            emailElement.show();
-        }
-    });
-}
-
-/**
- * Custom function containsIN, for case insensitive matching
- * TODO: expand to fuzzy search
- */
-$.extend($.expr[':'], {
-    containsIN(elem) {
-        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
-    },
-});
-
-function bindCollapseEvents(panels) {
-    let numPanels = -1;
-    for (let i = 0; i < panels.length; i += 1) {
-        const heading = $(panels[i]).children('.panel-heading');
-        const bodyCollapse = $(panels[i]).children('.panel-collapse');
-        if (heading.length !== 0 && bodyCollapse.length !== 0) {
-            numPanels += 1;
-            $(heading[0]).attr('data-target', `#panelBodyCollapse-${numPanels}`);
-            $(heading[0]).attr('id', `panelHeading-${numPanels}`);
-            $(heading[0]).css('cursor', 'pointer');
-            $(bodyCollapse[0]).attr('id', `panelBodyCollapse-${numPanels}`);
-        }
-    }
-}

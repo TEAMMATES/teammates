@@ -1,5 +1,4 @@
 /* global selectElementContents:false,
-          bindCollapseEvents:false,
           bindPublishButtons:false,
           bindUnpublishButtons:false,
           setStatusMessage:false,
@@ -14,73 +13,6 @@
                 isEmptySection,
                 removeSection
 */
-
-$(document).ready(() => {
-    const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
-
-    $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
-        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
-        const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
-        const panels = $(e.currentTarget).closest('.panel-success')
-                            .children('.panel-collapse')
-                            .find(childPanelType)
-                            .children('.panel-collapse');
-        expandOrCollapsePanels(e.currentTarget, panels);
-    });
-
-    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
-        const panels = $(e.currentTarget).closest('.panel-warning')
-                            .children('.panel-collapse')
-                            .find(participantPanelType)
-                            .children('.panel-collapse');
-        expandOrCollapsePanels(e.currentTarget, panels);
-    });
-
-    $('#results-search-box').keyup(updateResultsFilter);
-
-    // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress((e) => {
-        if (e.which === 13) {
-            e.preventDefault();
-        }
-    });
-
-    if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
-        $('#collapse-panels-button').show();
-    } else {
-        $('#collapse-panels-button').hide();
-    }
-
-    // Show/Hide statistics
-    showHideStats();
-    $('#show-stats-checkbox').change(showHideStats);
-
-    // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('fsModalTable'));
-    });
-
-    const panels = $('div.panel');
-    bindCollapseEvents(panels, 0);
-
-    bindPublishButtons();
-    bindUnpublishButtons();
-
-    $('#button-print').on('click', () => {
-        // Fix to hide the filter placeholder when it is empty.
-        if ($('#results-search-box').val()) {
-            $('#filter-box-parent-div').removeClass('hide-for-print');
-        } else {
-            $('#filter-box-parent-div').addClass('hide-for-print');
-        }
-
-        $('#mainContent').printThis({
-            importCSS: true,
-            importStyle: true,
-            loadCSS: '/stylesheets/printview.css',
-        });
-    });
-});
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -214,39 +146,16 @@ function updateStatsCheckBox() {
 }
 
 /**
- * Expands or collapses all panels when collapse/expand panels button is clicked.
- * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
- * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@code expandCollapseButton}
- *         is collapse panels button.
+ * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
+ *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
+ *         element.
  */
-function expandOrCollapsePanels(expandCollapseButton, panels) {
-    const STRING_EXPAND = 'Expand';
-    const STRING_COLLAPSE = 'Collapse';
-    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
-    // need to define corresponding {@code targetPanels}.
-    const targetPanels = panels || $('div.panel-collapse');
-
-    const isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
-    if (isButtonInExapandMode) {
-        // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
-        const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
-        expandPanels(targetPanels, areAjaxLoadedPanels);
-        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
-    } else {
-        collapsePanels(targetPanels);
-        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
+function getElementToClickForAjaxLoading(panel) {
+    let $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
+    if ($elementWithAjaxClass.length === 0) {
+        $elementWithAjaxClass = $(panel).parent().children('.ajax-response-auto');
     }
-}
-
-/**
- * Expands all panels. Loads panel data if missing.
- */
-function expandPanels(panels, areAjaxLoadedPanels) {
-    const BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 50;
-
-    for (let idx = 0; idx < panels.length; idx += 1) {
-        expandPanel(panels[idx], idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, areAjaxLoadedPanels);
-    }
+    return $elementWithAjaxClass;
 }
 
 /**
@@ -277,16 +186,14 @@ function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
 }
 
 /**
- * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
- *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
- *         element.
+ * Expands all panels. Loads panel data if missing.
  */
-function getElementToClickForAjaxLoading(panel) {
-    let $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
-    if ($elementWithAjaxClass.length === 0) {
-        $elementWithAjaxClass = $(panel).parent().children('.ajax-response-auto');
+function expandPanels(panels, areAjaxLoadedPanels) {
+    const BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 50;
+
+    for (let idx = 0; idx < panels.length; idx += 1) {
+        expandPanel(panels[idx], idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, areAjaxLoadedPanels);
     }
-    return $elementWithAjaxClass;
 }
 
 function collapsePanels(panels) {
@@ -311,6 +218,31 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
     // Replaces tooltip text of the {@code button}.
     const tooltipString = $(button).attr('data-original-title').replace(from, to);
     $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+}
+
+/**
+ * Expands or collapses all panels when collapse/expand panels button is clicked.
+ * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
+ * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@code expandCollapseButton}
+ *         is collapse panels button.
+ */
+function expandOrCollapsePanels(expandCollapseButton, panels) {
+    const STRING_EXPAND = 'Expand';
+    const STRING_COLLAPSE = 'Collapse';
+    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
+    // need to define corresponding {@code targetPanels}.
+    const targetPanels = panels || $('div.panel-collapse');
+
+    const isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+    if (isButtonInExapandMode) {
+        // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
+        const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
+        expandPanels(targetPanels, areAjaxLoadedPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
+    } else {
+        collapsePanels(targetPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
+    }
 }
 
 function getNextId(e) {
@@ -390,3 +322,70 @@ function removeSection(id) {
 
     $heading.parent().remove();
 }
+
+$(document).ready(() => {
+    const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
+
+    $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
+        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
+        const panels = $(e.currentTarget).closest('.panel-success')
+                            .children('.panel-collapse')
+                            .find(childPanelType)
+                            .children('.panel-collapse');
+        expandOrCollapsePanels(e.currentTarget, panels);
+    });
+
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
+        const panels = $(e.currentTarget).closest('.panel-warning')
+                            .children('.panel-collapse')
+                            .find(participantPanelType)
+                            .children('.panel-collapse');
+        expandOrCollapsePanels(e.currentTarget, panels);
+    });
+
+    $('#results-search-box').keyup(updateResultsFilter);
+
+    // prevent submitting form when enter is pressed.
+    $('#results-search-box').keypress((e) => {
+        if (e.which === 13) {
+            e.preventDefault();
+        }
+    });
+
+    if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
+        $('#collapse-panels-button').show();
+    } else {
+        $('#collapse-panels-button').hide();
+    }
+
+    // Show/Hide statistics
+    showHideStats();
+    $('#show-stats-checkbox').change(showHideStats);
+
+    // auto select the html table when modal is shown
+    $('#fsResultsTableWindow').on('shown.bs.modal', () => {
+        selectElementContents(document.getElementById('fsModalTable'));
+    });
+
+    const panels = $('div.panel');
+    bindCollapseEvents(panels, 0);
+
+    bindPublishButtons();
+    bindUnpublishButtons();
+
+    $('#button-print').on('click', () => {
+        // Fix to hide the filter placeholder when it is empty.
+        if ($('#results-search-box').val()) {
+            $('#filter-box-parent-div').removeClass('hide-for-print');
+        } else {
+            $('#filter-box-parent-div').addClass('hide-for-print');
+        }
+
+        $('#mainContent').printThis({
+            importCSS: true,
+            importStyle: true,
+            loadCSS: '/stylesheets/printview.css',
+        });
+    });
+});

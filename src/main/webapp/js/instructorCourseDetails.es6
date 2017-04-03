@@ -1,23 +1,6 @@
 /* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
 /* global BootboxWrapper:false StatusType:false */
 
-$(document).ready(() => {
-    if ($('#button_sortstudentsection').length) {
-        toggleSort($('#button_sortstudentsection'));
-    } else {
-        toggleSort($('#button_sortstudentteam'));
-    }
-
-    // auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('detailsTable'));
-    });
-
-    attachEventToRemindStudentsButton();
-    attachEventToSendInviteLink();
-    attachEventToDeleteStudentLink();
-});
-
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
     const formData = formObject.serialize();
@@ -84,6 +67,23 @@ function attachEventToSendInviteLink() {
                 BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
 }
+
+$(document).ready(() => {
+    if ($('#button_sortstudentsection').length) {
+        toggleSort($('#button_sortstudentsection'));
+    } else {
+        toggleSort($('#button_sortstudentteam'));
+    }
+
+    // auto select the html table when modal is shown
+    $('#studentTableWindow').on('shown.bs.modal', () => {
+        selectElementContents(document.getElementById('detailsTable'));
+    });
+
+    attachEventToRemindStudentsButton();
+    attachEventToSendInviteLink();
+    attachEventToDeleteStudentLink();
+});
 
 const isShowCommentBox = false;
 
