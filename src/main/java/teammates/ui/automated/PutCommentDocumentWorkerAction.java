@@ -25,6 +25,7 @@ public class PutCommentDocumentWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(commentId);
 
         CommentAttributes comment = logic.getComment(Long.valueOf(commentId));
+        Assumption.assertNotNull(comment);
         logic.putDocument(comment);
     }
 }
