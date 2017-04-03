@@ -131,7 +131,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        verifySpecifiedTasksAdded(a, TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_FOR_COMMENTS_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(a, TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME, 1);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
                 + "?courseid=idOfTypicalCourse1&"

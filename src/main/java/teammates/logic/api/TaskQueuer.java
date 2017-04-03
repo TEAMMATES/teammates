@@ -285,8 +285,8 @@ public class TaskQueuer {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.COMMENT_ID, commentId);
 
-        addTask(TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_FOR_COMMENTS_QUEUE_NAME,
-                TaskQueue.SEARCHABLE_DOCUMENTS_PRODUCTION_FOR_COMMENTS_WORKER_URL, paramMap);
+        addTask(TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME,
+                TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL, paramMap);
     }
 
     /**
