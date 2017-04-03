@@ -3,12 +3,18 @@
            bindStudentPhotoLink:false,
            bindStudentPhotoHoverLink:false,
            toggleSingleCollapse:false,
-           isPanelSetAsEmptyByBackend:false,
-           displayAsEmptyPanel:false,
            showHideStats:false
 */
 
 $(document).ready(() => {
+    const isPanelSetAsEmptyByBackend = function ($panelBody) {
+        return $panelBody.find('.no-response').length !== 0;
+    };
+
+    const displayAsEmptyPanel = function ($panelBody) {
+        $panelBody.parents('.panel.panel-info').removeClass('panel-info').addClass('panel-default');
+    };
+
     const seeMoreRequest = function (e) {
         const panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
@@ -71,14 +77,6 @@ $(document).ready(() => {
                 showHideStats();
             },
         });
-    };
-
-    const isPanelSetAsEmptyByBackend = function ($panelBody) {
-        return $panelBody.find('.no-response').length !== 0;
-    };
-
-    const displayAsEmptyPanel = function ($panelBody) {
-        $panelBody.parents('.panel.panel-info').removeClass('panel-info').addClass('panel-default');
     };
 
     const $questionPanelHeadings = $('.ajax_submit,.ajax_auto');

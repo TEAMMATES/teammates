@@ -7,6 +7,10 @@ const TimeZone = {
      * and appends it under the specified element.
      */
     prepareTimeZoneInput($selectElement) {
+        function addLeadingZeroes(num) {
+            return (num > 9 ? '' : '0') + num;
+        }
+
         function displayUtcOffset(offset) {
             if (offset === 0) {
                 return 'UTC';
@@ -16,10 +20,6 @@ const TimeZone = {
             // offset is calculated as the number of minutes needed to get to UTC
             // thus the +/- sign needs to be swapped
             return `UTC ${offset < 0 ? '+' : '-'}${addLeadingZeroes(hr)}:${addLeadingZeroes(min)}`;
-        }
-
-        function addLeadingZeroes(num) {
-            return (num > 9 ? '' : '0') + num;
         }
 
         moment.tz.names().forEach((name) => {

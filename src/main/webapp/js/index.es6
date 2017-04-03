@@ -14,6 +14,16 @@ const TESTIMONIALS = [
 const LOOP_INTERVAL = '5000'; // in milliseconds
 let CURRENT_TESTIMONIAL = 0;
 
+// Format large number with commas
+function formatNumber(n) {
+    let number = String(n);
+    const expression = /(\d+)(\d{3})/;
+    while (expression.test(number)) {
+        number = number.replace(expression, '$1,$2');
+    }
+    return number;
+}
+
 function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) {
     const errorMsg = 'Thousands of';
     if (!currentDate || !baseDate) {
@@ -30,6 +40,19 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
     return formatNumber(numberOfSubmissions);
 }
 
+// looping through all the testimonials
+function loopTestimonials() {
+    const tc = $('#testimonialContainer');
+
+    // intended null checking and early return, to prevent constant failures in JavaScript tests
+    if (tc.length === 0) {
+        return;
+    }
+
+    tc.html(TESTIMONIALS[CURRENT_TESTIMONIAL]);
+    CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
+}
+
 // Setting submission count at page load
 $('document').ready(() => {
     // Parameters for the estimation calculation
@@ -43,26 +66,3 @@ $('document').ready(() => {
 
     window.setInterval(loopTestimonials, LOOP_INTERVAL);
 });
-
-// Format large number with commas
-function formatNumber(n) {
-    let number = String(n);
-    const expression = /(\d+)(\d{3})/;
-    while (expression.test(number)) {
-        number = number.replace(expression, '$1,$2');
-    }
-    return number;
-}
-
-// looping through all the testimonials
-function loopTestimonials() {
-    const tc = $('#testimonialContainer');
-
-    // intended null checking and early return, to prevent constant failures in JavaScript tests
-    if (tc.length === 0) {
-        return;
-    }
-
-    tc.html(TESTIMONIALS[CURRENT_TESTIMONIAL]);
-    CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
-}

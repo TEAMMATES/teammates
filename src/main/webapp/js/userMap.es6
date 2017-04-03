@@ -1,6 +1,15 @@
 /* global d3:false, getCountryCode:false, Datamap:false, geoDataUrl:false
  */
 
+function getTooltipContent(data) {
+    return `<div class="hoverinfo">
+                <p>
+                    <b>${data.name}</b>
+                    <br>Institutions: ${data.numOfInstitutions}
+                </p>
+            </div>`;
+}
+
 function handleError() {
     const contentHolder = d3.select('.container');
     contentHolder.html('');
@@ -115,6 +124,23 @@ function initializeMap(err, countryCoordinates, userData) {
         const self = this;
         const svg = this.svg;
 
+        function datumHasCoords(datum) {
+            return datum && datum.latitude && datum.longitude;
+        }
+
+        function getCoordinates(datum) {
+            return datumHasCoords(datum) ? self.latLngToXY(datum.latitude, datum.longitude)
+                                         : self.path.centroid(svg.select(`path.${datum.centered}`).data()[0]);
+        }
+
+        function getX(datum) {
+            return getCoordinates(datum)[0];
+        }
+
+        function getY(datum) {
+            return getCoordinates(datum)[1];
+        }
+
         if (!data || data && !data.slice) {
             handleError();
             return;
@@ -155,23 +181,6 @@ function initializeMap(err, countryCoordinates, userData) {
         .delay(options.exitDelay)
         .attr('height', 0)
         .remove();
-
-        function getCoordinates(datum) {
-            return datumHasCoords(datum) ? self.latLngToXY(datum.latitude, datum.longitude)
-                                         : self.path.centroid(svg.select(`path.${datum.centered}`).data()[0]);
-        }
-
-        function getX(datum) {
-            return getCoordinates(datum)[0];
-        }
-
-        function getY(datum) {
-            return getCoordinates(datum)[1];
-        }
-
-        function datumHasCoords(datum) {
-            return datum && datum.latitude && datum.longitude;
-        }
     });
 
     map.pins(pins, {
@@ -180,15 +189,6 @@ function initializeMap(err, countryCoordinates, userData) {
     });
 
     return map;
-}
-
-function getTooltipContent(data) {
-    return `<div class="hoverinfo">
-                <p>
-                    <b>${data.name}</b>
-                    <br>Institutions: ${data.numOfInstitutions}
-                </p>
-            </div>`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
