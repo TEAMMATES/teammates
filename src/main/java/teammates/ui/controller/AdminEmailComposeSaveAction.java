@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
@@ -69,7 +68,7 @@ public class AdminEmailComposeSaveAction extends Action {
             data.emailToEdit.emailId = emailId;
         } else {
             statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
-                    + "Subject: " + SanitizationHelper.sanitizeForHtml(subject);
+                    + "Subject: " + subject;
             statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS));
         }
 

@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -34,5 +33,4 @@ public class DataBundle {
             new LinkedHashMap<String, FeedbackResponseCommentAttributes>();
     public Map<String, CommentAttributes> comments = new LinkedHashMap<String, CommentAttributes>();
     public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<String, StudentProfileAttributes>();
-    public Map<String, AdminEmailAttributes> adminEmails = new LinkedHashMap<>();
 }

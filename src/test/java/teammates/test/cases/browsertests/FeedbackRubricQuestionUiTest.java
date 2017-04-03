@@ -428,10 +428,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        InstructorFeedbackResultsPage resultPage = loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
-        resultPage.expandPanels();
-
-        return resultPage;
+        return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
     }
 
 }
