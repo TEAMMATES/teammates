@@ -12,7 +12,7 @@ Ensure that you have:
 - [ ] Gone through all the changes in this PR and ensured that:
   - [ ] They addressed one (and only one) issue
   - [ ] No unintended changes were made
-- [ ] Run and passed static analysis: `./gradlew staticAnalysis`
+- [ ] Run and passed static analysis: `./gradlew lint` and `npm run lint`
 - [ ] Added/updated tests, if changes in functionality were involved
 - [ ] Added/updated documentation to public APIs (classes, methods, variables), if applicable
 
