@@ -448,9 +448,10 @@ public class BackDoorLogic extends Logic {
 
         for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
             AdminEmailAttributes emailInDb = adminEmailsDb.getAdminEmailBySubject(email.subject);
-            if (emailInDb != null) {
-                adminEmailsDb.deleteEntity(emailInDb);
+            if (emailInDb == null) {
+                continue;
             }
+            adminEmailsDb.deleteEntity(emailInDb);
         }
     }
 
