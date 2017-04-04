@@ -180,7 +180,7 @@
 
         <section class="past-team row">
             <h3>Past Team Members:</h3>
-            <ol>
+            <ol class="grids">
                 <li>
                     <img src="images/teammembers/weilin.png" width="80px"><br> 
                     Low WeiLin<br>
@@ -294,14 +294,15 @@
                     <img src="images/teammembers/james.png" width="80px"> 
                     <div>Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)</div>
                 </li>
-                <br>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Aldrian Obaja (Area Lead, Snr Developer)</div></li>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Kalpit Jain (Area Lead, Snr Developer)</div></li>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Shakthi Priya Kathirvelu (Area Lead, Snr Developer)</div></li>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Zhang Xialin (Area Lead, Snr Developer</div>)</li>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Huy Nguyen (Area Lead, Snr Developer)</div></li>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Gerald Goh (Project Lead, Snr Developer)</div></li>
-                <li><img src="images/teammembers/user-image.png" width="80px"> <div>Lai Xiaoni (Project Lead, Snr Developer)</div></li>
+            </ol>
+            <ol>
+                <li>Aldrian Obaja (Area Lead, Snr Developer)</li>
+                <li>Kalpit Jain (Area Lead, Snr Developer)</li>
+                <li>Shakthi Priya Kathirvelu (Area Lead, Snr Developer)</li>
+                <li>Zhang Xialin (Area Lead, Snr Developer)</li>
+                <li>Huy Nguyen (Area Lead, Snr Developer)</li>
+                <li>Gerald Goh (Project Lead, Snr Developer)</li>
+                <li>Lai Xiaoni (Project Lead, Snr Developer)</li>
             </ol>
         </section>
 

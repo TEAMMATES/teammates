@@ -1122,14 +1122,18 @@ Prevent Long URL From Breaking Out of Container
     margin-right: 5px;
 }
 
-section.team-members .row {
+.team-members .row {
     border-bottom: 2px solid #e3e3e3;
     padding: 20px 10px;
     border-top: 2px solid #efefef;
     box-sizing: border-box;
 }
 
-section.past-team ol li {
+.past-team ol {
+    clear: both;
+}
+
+ol.grids li {
     display: inline;
     width: 30%;
     float: left;
@@ -1141,24 +1145,29 @@ section.past-team ol li {
     min-width:300px;
 }
 
+.past-team ol{
+	list-style-type:none;
+}
+
 .team-members .row > div {
     overflow: auto;
 }
 
-table.contributions-table {
+.contributions-table {
     width: 100%;
 }
 
-table.contributions-table th {
+.contributions-table th {
     padding: 10px;
     text-align: center;
 }
 
-table.contributions-table td {
+.contributions-table td {
     padding: 10px;
 }
 
-table.contributions-table tr {
+.contributions-table tr {
     border: 1px solid #333;
     padding: 10px;
 }
+
