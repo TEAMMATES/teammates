@@ -14,8 +14,14 @@ parserOptions:
 
 rules:
 
+    # enforce named function expressions
+    func-names: "off"
+
     # enforce consistent indentation
     indent: ["error", 4]
+
+    # enforce consistent linebreak style
+    linebreak-style: "off"
 
     # enforce a maximum line length
     max-len: ["error", 125]
