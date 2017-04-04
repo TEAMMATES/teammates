@@ -233,6 +233,13 @@ public final class CommentsLogic {
         commentsDb.putDocument(comment);
     }
 
+    /**
+     * Batch creates or updates documents for comments.
+     */
+    public void putDocuments(List<CommentAttributes> comments) {
+        commentsDb.putDocuments(comments);
+    }
+
     public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors) {
         return commentsDb.search(queryString, instructors);
     }

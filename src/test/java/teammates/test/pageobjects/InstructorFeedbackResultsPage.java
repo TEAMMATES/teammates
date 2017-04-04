@@ -81,51 +81,51 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void displayByGiverRecipientQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Recipient > Question");
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void displayByRecipientGiverQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Giver > Question");
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void displayByGiverQuestionRecipient() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Question > Recipient");
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void displayByRecipientQuestionGiver() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Question > Giver");
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void filterResponsesForSection(String section) {
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText(section);
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void filterResponsesForAllSections() {
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText("All");
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void displayByQuestion() {
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Question");
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void clickGroupByTeam() {
         WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
         click(button);
-        waitForPageToLoad();
+        expandPanels();
     }
 
     public void clickCollapseExpand() {
@@ -138,6 +138,27 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickIndicateMissingResponses() {
         click(indicateMissingResponsesCheckbox);
+        expandPanels();
+    }
+
+    public void expandPanels() {
+        try {
+            // in case the panels are already expanded
+            if (!collapseExpandButton.getText().contains("Expand")) {
+                return;
+            }
+
+            clickCollapseExpand();
+            waitForPageToLoad();
+        } catch (NoSuchElementException e) {
+            // Pages with no feedback response do not have button element
+            // We need to click on each of the panels to expand them
+            List<WebElement> panels = browser.driver.findElements(By.className("panel-heading"));
+            for (WebElement panel : panels) {
+                click(panel);
+            }
+            waitForPanelsToExpand();
+        }
     }
 
     public void fillSearchBox(String s) {

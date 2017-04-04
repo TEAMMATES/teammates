@@ -417,7 +417,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultPage = loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
+        resultPage.expandPanels();
+
+        return resultPage;
     }
 
 }

@@ -428,7 +428,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultPage = loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+        resultPage.expandPanels();
+
+        return resultPage;
     }
 
 }
