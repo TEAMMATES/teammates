@@ -523,12 +523,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
-
-        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
-        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
-        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
-                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
-        resultsPage.verifyResultsVisible();
     }
 
     private void testShowStats() {
