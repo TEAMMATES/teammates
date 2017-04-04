@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -20,7 +19,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.GaeSimulation;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -269,13 +267,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         expected.lastName = StringHelper.splitName(expected.name)[1];
     }
 
-    /**
-     * Removes existing entities of {@code testData} in datastore,
-     * then persists entities of {@code testData} in datastore.
-     * Removing or persisting {@link AdminEmailAttributes} should only be performed in {@link GaeSimulation}
-     * and avoided in production environment, as non-testing data may be removed
-     * and new entities created may affect normal usage of the Admin Email functions
-     */
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         String backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
