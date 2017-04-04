@@ -96,7 +96,7 @@
     
     <queue>
         <name>put-comment-document-queue</name>
-        <!-- Configuration allows for 10 documents to be queued when the bucket is not full -->
+        <!-- Configuration allows for 5 documents to be queued when the bucket is not full -->
         <rate>5/s</rate>
         <bucket-size>10</bucket-size>
     </queue>
