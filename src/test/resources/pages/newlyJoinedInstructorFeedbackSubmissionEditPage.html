@@ -9,8 +9,16 @@
     <input name="fsname" type="hidden" value="Second team feedback session">
     <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
     <input name="user" type="hidden" value="${test.instructor}">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-warning statusMessage">
+        <strong>
+          The feedback session is currently not open for submissions.
+        </strong>
+        You can view the questions and any submitted responses for this feedback session but cannot submit new responses.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">

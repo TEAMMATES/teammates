@@ -779,9 +779,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
         feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "Private Session #");
-
-        ______TS("test response rate already displayed");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Open Session #"));
     }
 
     private void testViewResultsLink() {
