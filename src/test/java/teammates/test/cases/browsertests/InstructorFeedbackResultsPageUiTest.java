@@ -149,7 +149,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-4", "ajax_auto");
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
-        ThreadHelper.waitFor(1000);
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
                 "CFResultsUiT.fred.g@gmail.tmt", "CFResultsUiT.charlie.d@gmail.tmt",
                 "CFResultsUiT.danny.e@gmail.tmt", "drop.out@gmail.tmt",
