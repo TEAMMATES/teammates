@@ -123,7 +123,7 @@ Represented by these classes:
 - `TaskQueuer`: Adds tasks to the task queue. It connects to GAE's task queue API.
 - `BackDoorLogic`: For the use of `Test Driver` only. White-box tests are allowed to access this component directly, while black-box tests can access this via `BackDoorServlet`.
 
-###Policies
+### Policies
 
 General: 
 + Null values should **not** be used as parameters to this API, except when following the KeepExisting policy (explained later).
@@ -185,7 +185,7 @@ This is because we want to keep the data schema flexible so that new entity type
 
 Represented by the `*Db` classes. These classes act as the bridge to the GAE Datastore.
 
-###Policies
+### Policies
 
 Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server. 
 Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while. 
