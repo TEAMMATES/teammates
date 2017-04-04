@@ -57,6 +57,7 @@ public final class Const {
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
 
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
     // for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";
@@ -1128,7 +1129,7 @@ public final class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
 
-        public static final String JS_UNIT_TEST = "/dev/allJsUnitTests.jsp?coverage";
+        public static final String JS_UNIT_TEST = "/dev/allJsUnitTests.jsp";
         public static final String MASHUP = "/dev/mashup.jsp";
         public static final String TABLE_SORT = "/dev/tableSort.jsp";
         public static final String TIMEZONE = "/dev/timezone.jsp";

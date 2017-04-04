@@ -1,6 +1,8 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.exception.TeammatesException;
@@ -82,6 +84,68 @@ public final class SearchManager {
                 }
             }
         }
+    }
+
+    /**
+     * Batch creates or updates the search documents for the given documents and index.
+     */
+    public static void putDocuments(String indexName, List<Document> documents) {
+        Index index = getIndex(indexName);
+
+        int delay = 2;
+        for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
+            try {
+                List<Document> failedDocuments = putDocuments(index, documents);
+                boolean isSuccessful = failedDocuments.isEmpty();
+
+                if (Config.PERSISTENCE_CHECK_DURATION == 0) {
+                    continue;
+                }
+
+                int elapsedTime = 0;
+                while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                    ThreadHelper.waitBriefly();
+                    isSuccessful = putDocuments(index, failedDocuments).isEmpty();
+
+                    // check before incrementing to avoid boundary case problem
+                    if (!isSuccessful) {
+                        elapsedTime += ThreadHelper.WAIT_DURATION;
+                    }
+                }
+                if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                    log.info(String.format(ERROR_EXCEED_DURATION, documents, indexName));
+                }
+
+            } catch (PutException e) {
+                if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
+                    // if it's a transient error in the server, it can be retried
+                    ThreadHelper.waitFor(delay * 1000);
+                    delay *= 2; // use exponential backoff
+                    continue;
+                } else {
+                    log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
+                            + TeammatesException.toStringWithStackTrace(e));
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Puts {@code documents} in {@code index}.
+     *
+     * @return list of documents have not been put successfully
+     */
+    private static List<Document> putDocuments(Index index, List<Document> documents) {
+        PutResponse result = index.put(documents);
+        List<Document> failedDocuments = new ArrayList<Document>();
+        for (int i = 0; i < documents.size(); i++) {
+            boolean isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
+            if (!isSuccessful) {
+                failedDocuments.add(documents.get(i));
+            }
+        }
+        return failedDocuments;
     }
 
     /**

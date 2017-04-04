@@ -18,7 +18,7 @@
             <span id= "submissionsNumber" class="color_orange">5,000,000+</span> feedback entries submitted so far ...
         </h2>
         <div class="row">
-            <div class="col-xs-10 col-sm-5 col-xs-offset-1 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
+            <div class="margin-bottom-10px col-xs-10 col-sm-5 col-xs-offset-1 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
                 <a class="btn btn-default btn-block" href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank">
                     <span class="glyphicon glyphicon-film" aria-hidden="true"></span> Video Tour
                 </a>

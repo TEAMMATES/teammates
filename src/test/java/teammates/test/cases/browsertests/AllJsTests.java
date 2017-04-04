@@ -29,8 +29,8 @@ public class AllJsTests extends BaseUiTestCase {
     public void classSetup() {
         loginAdmin();
         page = AppPage.getNewPageInstance(browser)
-                      .navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST))
-                      .changePageType(QUnitPage.class);
+                .navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST + (TestProperties.isDevServer() ? "?coverage" : "")))
+                .changePageType(QUnitPage.class);
         page.waitForPageToLoad();
     }
 
@@ -67,6 +67,10 @@ public class AllJsTests extends BaseUiTestCase {
         assertTrue(totalCases != 0);
 
         print("As expected, " + expectedFailedCases + " failed tests out of " + totalCases + " tests.");
+
+        if (!TestProperties.isDevServer()) {
+            return;
+        }
 
         float coverage = page.getCoverage();
 
