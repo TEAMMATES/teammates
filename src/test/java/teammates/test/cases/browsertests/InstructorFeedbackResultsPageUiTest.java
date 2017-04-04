@@ -527,6 +527,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private void testShowStats() {
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
 
         ______TS("Typical case: show stats");
 
