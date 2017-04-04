@@ -3,11 +3,14 @@ package teammates.ui.automated;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: Puts searchable document for comment.
  */
 public class PutCommentDocumentWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {
@@ -25,7 +28,10 @@ public class PutCommentDocumentWorkerAction extends AutomatedAction {
         Assumption.assertNotNull(commentId);
 
         CommentAttributes comment = logic.getComment(Long.valueOf(commentId));
-        Assumption.assertNotNull(comment);
+        if (comment == null) {
+            log.severe("Comment " + commentId + "was not found");
+            return;
+        }
         logic.putDocument(comment);
     }
 }
