@@ -1056,7 +1056,6 @@ Prevent Long URL From Breaking Out of Container
     .mobile-margin-top-10px {
         margin-top: 10px;
     }
-    
 }
 
 @media (max-width: 991px) {
@@ -1129,10 +1128,6 @@ Prevent Long URL From Breaking Out of Container
     box-sizing: border-box;
 }
 
-.past-team ol {
-    clear: both;
-}
-
 ol.grids li {
     display: inline;
     width: 30%;
@@ -1142,11 +1137,12 @@ ol.grids li {
     text-align: left;
     padding: 10px;
     margin: 5px;
-    min-width:300px;
+    min-width: 300px;
 }
 
-.past-team ol{
-	list-style-type:none;
+.past-team ol {
+    list-style-type: none;
+    clear: both;
 }
 
 .team-members .row > div {
@@ -1170,4 +1166,3 @@ ol.grids li {
     border: 1px solid #333;
     padding: 10px;
 }
-
