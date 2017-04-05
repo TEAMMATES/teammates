@@ -730,5 +730,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     protected void verifyNumberOfEmailsSent(Action action, int emailCount) {
         assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
     }
-
+    
+    protected String getPageResultDestination(String userId){
+        return Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user="+userId;
+    }
 }
