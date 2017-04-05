@@ -70,35 +70,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                                                                  false, "question");
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-1", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
-
-        // Giver Recipient Question View
-        instructorResultsPage =
-                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
-                                                                 "giver-recipient-question");
-        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-0-1", "ajax_auto");
-        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
-
-        // Giver Question Recipient View
-        instructorResultsPage =
-                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
-                                                                 "giver-question-recipient");
-        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-0-1", "ajax_auto");
-        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
-
-        // Recipient Question Giver View
-        instructorResultsPage =
-                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
-                                                                 "recipient-question-giver");
-        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-0-1", "ajax_auto");
-        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
-
-        // Recipient Giver Question View
-        instructorResultsPage =
-                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
-                                                                 "recipient-giver-question");
-        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-0-1", "ajax_auto");
-        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
-
     }
 
     private void testInstructorSubmitPage() {

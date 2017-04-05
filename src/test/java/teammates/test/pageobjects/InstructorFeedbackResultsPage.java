@@ -161,7 +161,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
-        waitForElementPresence(By.id(addResponseCommentId));
         WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
