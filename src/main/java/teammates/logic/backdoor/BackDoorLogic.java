@@ -58,7 +58,7 @@ public class BackDoorLogic extends Logic {
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     /**
-     * Persists given data in the datastore, works ONLY if the data is correct.
+     * Persists given data in the datastore Works ONLY if the data is correct.
      *  //Any existing copies of the data in the datastore will be overwritten.
      *      - edit: use removeDataBundle to remove.
      *              made this change for speed when deletion is not necessary.
