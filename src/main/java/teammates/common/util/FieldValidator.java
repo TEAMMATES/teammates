@@ -625,8 +625,8 @@ public class FieldValidator {
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
-    private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(Date earlierTime, Date laterTime,
-                                                                   String earlierTimeFieldName, String laterTimeFieldName) {
+    private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
+            Date earlierTime, Date laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         Assumption.assertTrue("Non-null value expected", earlierTime != null);
         Assumption.assertTrue("Non-null value expected", laterTime != null);
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
