@@ -177,6 +177,20 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
+     * Gets an admin email based on subject.
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailBySubject(String subject) {
+        AdminEmail matchedEmail = getAdminEmailEntityBySubject(subject);
+
+        if (matchedEmail == null) {
+            return null;
+        }
+
+        return new AdminEmailAttributes(matchedEmail);
+    }
+
+    /**
      * Gets all admin email drafts that have NOT been sent and NOT in trash bin.
      * @return empty list if no email found
      */
@@ -299,6 +313,22 @@ public class AdminEmailsDb extends EntitiesDb {
 
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject, createDate);
+
+        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+            return null;
+        }
+        return adminEmailList.get(0);
+    }
+
+    private AdminEmail getAdminEmailEntityBySubject(String subject) {
+
+        Query q = getPm().newQuery(AdminEmail.class);
+        q.declareParameters("String subjectParam");
+        q.setFilter("subject == subjectParam");
+        q.setRange(0, 1);
+
+        @SuppressWarnings("unchecked")
+        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject);
 
         if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
             return null;
