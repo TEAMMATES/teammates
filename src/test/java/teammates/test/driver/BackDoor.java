@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -45,6 +46,7 @@ public final class BackDoor {
      * <p>If given entities already exist in the data store, they will be overwritten.
      */
     public static String restoreDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_PERSIST_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
@@ -57,6 +59,7 @@ public final class BackDoor {
      * <p>If given entities have already been deleted, it fails silently.
      */
     public static String removeDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
@@ -67,6 +70,7 @@ public final class BackDoor {
      * Removes and restores given data into the datastore.
      */
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
@@ -456,6 +460,15 @@ public final class BackDoor {
             dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue()) + "&");
         }
         return dataStringBuilder.toString();
+    }
+
+    /**
+     * Replaces {@link DataBundle#adminEmails} from {@code dataBundle} with an empty map.
+     * Using {@link BackDoor} to remove and persist {@link AdminEmailAttributes}
+     * may affect normal functioning of Admin Emails and remove non-testing data.
+     */
+    private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {
+        dataBundle.adminEmails = new HashMap<>();
     }
 
 }
