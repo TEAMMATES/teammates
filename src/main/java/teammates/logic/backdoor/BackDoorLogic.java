@@ -440,7 +440,9 @@ public class BackDoorLogic extends Logic {
         accountsDb.deleteAccounts(dataBundle.accounts.values());
 
         for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
+            // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.
             AdminEmailAttributes emailInDb = adminEmailsDb.getAdminEmailBySubject(email.subject);
+            // It is expected that email may not be in datastore yet, should fail silently.
             if (emailInDb == null) {
                 continue;
             }
