@@ -84,5 +84,4 @@ $(document).ready(() => {
     };
     const $sectionPanelHeadings = $('.ajax_auto');
     $sectionPanelHeadings.click(seeMoreRequest);
-    $('.ajax_auto').click();
 });

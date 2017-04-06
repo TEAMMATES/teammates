@@ -255,92 +255,6 @@ const BootboxWrapper = {
     },
 };
 
-$(document).on('ajaxComplete ready', () => {
-    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function () {
-        bindDefaultImageIfMissing(this);
-    });
-
-    /**
-     * Initializing then disabling is better than simply
-     * not initializing for mobile due to some tooltips-specific
-     * code that throws errors.
-    */
-    const $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({
-        html: true,
-        container: 'body',
-    });
-    if (isTouchDevice()) {
-        $tooltips.tooltip('disable');
-    }
-
-    /**
-     * Underlines all span elements with tool-tips except for
-     * the ones without a text value. This is to exclude elements
-     * such as 'icons' from underlining.
-    */
-    $('span[data-toggle="tooltip"]').each(function () {
-        const textValue = $(this).text().replace(/\s/g, '');
-        if (textValue) {
-            $(this).addClass('tool-tip-decorate');
-        }
-    });
-});
-
-/**
- * Binds a default image if the image is missing.
- * @param element Image element.
- */
-function bindDefaultImageIfMissing(element) {
-    $(element).on('error', function () {
-        if ($(this).attr('src') !== '') {
-            $(this).attr('src', '/images/profile_picture_default.png');
-        }
-    });
-}
-
-/**
- * Checks if the current device is touch based device
- * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
- */
-function isTouchDevice() {
-    return 'ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch;
-}
-
-/**
- * Sorts a table
- * @param divElement
- *     The sort button
- * @param comparator
- *     The function to compare 2 elements
- */
-function toggleSort(divElement, comparator) {
-    // The column index (1-based) as key for the sort
-    const colIdx = $(divElement).parent().children().index($(divElement)) + 1;
-
-    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
-    const row = 1;
-
-    const $selectedDivElement = $(divElement);
-
-    if ($selectedDivElement.attr('class') === 'button-sort-none') {
-        sortTable(divElement, colIdx, comparator, true, row);
-        $selectedDivElement.parent().find('.button-sort-ascending').attr('class', 'button-sort-none');
-        $selectedDivElement.parent().find('.button-sort-descending').attr('class', 'button-sort-none');
-        $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
-        $selectedDivElement.attr('class', 'button-sort-ascending');
-        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
-    } else if ($selectedDivElement.attr('class') === 'button-sort-ascending') {
-        sortTable(divElement, colIdx, comparator, false, row);
-        $selectedDivElement.attr('class', 'button-sort-descending');
-        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
-    } else {
-        sortTable(divElement, colIdx, comparator, true, row);
-        $selectedDivElement.attr('class', 'button-sort-ascending');
-        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
-    }
-}
-
 /**
 * Encodes a string for displaying in a HTML document.
 * Uses an in-memory element created with jQuery.
@@ -348,6 +262,155 @@ function toggleSort(divElement, comparator) {
 */
 function encodeHtmlString(stringToEncode) {
     return $('<div>').text(stringToEncode).html();
+}
+
+/**
+ * The base comparator (ascending)
+ *
+ * @param x
+ * @param y
+ * @returns
+ */
+function sortBase(x, y) {
+    // Text sorting
+    if (x < y) {
+        return -1;
+    }
+    return x > y ? 1 : 0;
+}
+
+/**
+ * Comparator for numbers (integer, double) (ascending)
+ *
+ * @param x
+ * @param y
+ * @returns
+ */
+function sortNum(x, y) {
+    return x - y;
+}
+
+/**
+ * Comparator for date. Allows for the same format as isDate()
+ *
+ * @param x
+ * @param y
+ * @returns 1 if Date x is after y, 0 if same and -1 if before
+ */
+function sortDate(x, y) {
+    const x0 = Date.parse(x);
+    const y0 = Date.parse(y);
+    if (x0 > y0) {
+        return 1;
+    }
+    return x0 < y0 ? -1 : 0;
+}
+
+/**
+* Function that returns the pattern of DayMonthYearFormat (dd/mm/yyyy)
+*
+* @returns pattern string
+*/
+function getDayMonthYearFormat() {
+    return /^\s*(\d{2})[/\- ](\d{2})[/\- ](\d{4}|\d{2})\s*$/;
+}
+
+/**
+ * Tests whether the passed object is an actual date
+ * with an accepted format
+ *
+ * Allowed formats : http://dygraphs.com/date-formats.html
+ *
+ * TEAMMATES currently follows the RFC2822 / IETF date syntax
+ * e.g. 02 Apr 2012, 23:59
+ *
+ * @param date
+ * @returns boolean
+ */
+function isDate(date) {
+    return !isNaN(Date.parse(date));
+}
+
+/**
+* Function to test if param is a numerical value
+* @param num
+* @returns boolean
+*/
+function isNumber(num) {
+    return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
+}
+
+/**
+ * To get point value from a formatted string
+ *
+ * @param s
+ *     A table cell (td tag) that contains the formatted string
+ * @param ditchZero
+ *     Whether 0% should be treated as lower than -90 or not
+ * @returns
+ */
+function getPointValue(s, ditchZero) {
+    let s0 = s;
+    const baseValue = 100;
+
+    if (s0.indexOf('/') !== -1) {
+        // magic expressions below as these cases will only be compared with
+        // case E +(-)X% (0 <= X <= 100)
+        if (s0.indexOf('S') !== -1) {
+            return 2 * baseValue + 1; // Case N/S (feedback contribution not sure)
+        }
+
+        return 2 * baseValue + 2; // Case N/A
+    }
+
+    if (s0 === '0%') { // Case 0%
+        if (ditchZero) {
+            return 0;
+        }
+        return baseValue;
+    }
+
+    s0 = s0.replace('E', '').replace('%', ''); // Case E +(-)X%
+
+    if (s0 === '') {
+        return baseValue; // Case E
+    }
+
+    return baseValue + parseFloat(s0); // Other typical cases
+}
+
+/**
+ * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
+ * possibly a tag that surrounds it.
+ *
+ * @param a
+ * @param b
+ */
+function sortByPoint(a, b) {
+    const a0 = getPointValue(a, true);
+    const b0 = getPointValue(b, true);
+
+    if (isNumber(a0) && isNumber(b0)) {
+        return sortNum(a0, b0);
+    }
+    return sortBase(a0, b0);
+}
+
+/**
+ * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
+ * surrounds it.
+ *
+ * @param a
+ * @param b
+ */
+function sortByDiff(a, b) {
+    const a0 = getPointValue(a, false);
+    const b0 = getPointValue(b, false);
+
+    if (isNumber(a0) && isNumber(b0)) {
+        return sortNum(a0, b0);
+    }
+    return sortBase(a0, b0);
 }
 
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
@@ -440,152 +503,57 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
 }
 
 /**
- * The base comparator (ascending)
- *
- * @param x
- * @param y
- * @returns
+ * Binds a default image if the image is missing.
+ * @param element Image element.
  */
-function sortBase(x, y) {
-    // Text sorting
-    if (x < y) {
-        return -1;
-    }
-    return x > y ? 1 : 0;
-}
-
-/**
- * Comparator for numbers (integer, double) (ascending)
- *
- * @param x
- * @param y
- * @returns
- */
-function sortNum(x, y) {
-    return x - y;
-}
-
-/**
- * Comparator for date. Allows for the same format as isDate()
- *
- * @param x
- * @param y
- * @returns 1 if Date x is after y, 0 if same and -1 if before
- */
-function sortDate(x, y) {
-    const x0 = Date.parse(x);
-    const y0 = Date.parse(y);
-    if (x0 > y0) {
-        return 1;
-    }
-    return x0 < y0 ? -1 : 0;
-}
-
-/**
-* Function that returns the pattern of DayMonthYearFormat (dd/mm/yyyy)
-*
-* @returns pattern string
-*/
-function getDayMonthYearFormat() {
-    return /^\s*(\d{2})[/\- ](\d{2})[/\- ](\d{4}|\d{2})\s*$/;
-}
-
-/**
- * Tests whether the passed object is an actual date
- * with an accepted format
- *
- * Allowed formats : http://dygraphs.com/date-formats.html
- *
- * TEAMMATES currently follows the RFC2822 / IETF date syntax
- * e.g. 02 Apr 2012, 23:59
- *
- * @param date
- * @returns boolean
- */
-function isDate(date) {
-    return !isNaN(Date.parse(date));
-}
-
-/**
-* Function to test if param is a numerical value
-* @param num
-* @returns boolean
-*/
-function isNumber(num) {
-    return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
-}
-
-/**
- * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
- * possibly a tag that surrounds it.
- *
- * @param a
- * @param b
- */
-function sortByPoint(a, b) {
-    const a0 = getPointValue(a, true);
-    const b0 = getPointValue(b, true);
-
-    if (isNumber(a0) && isNumber(b0)) {
-        return sortNum(a0, b0);
-    }
-    return sortBase(a0, b0);
-}
-
-/**
- * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
- * surrounds it.
- *
- * @param a
- * @param b
- */
-function sortByDiff(a, b) {
-    const a0 = getPointValue(a, false);
-    const b0 = getPointValue(b, false);
-
-    if (isNumber(a0) && isNumber(b0)) {
-        return sortNum(a0, b0);
-    }
-    return sortBase(a0, b0);
-}
-
-/**
- * To get point value from a formatted string
- *
- * @param s
- *     A table cell (td tag) that contains the formatted string
- * @param ditchZero
- *     Whether 0% should be treated as lower than -90 or not
- * @returns
- */
-function getPointValue(s, ditchZero) {
-    let s0 = s;
-    const baseValue = 100;
-
-    if (s0.indexOf('/') !== -1) {
-        // magic expressions below as these cases will only be compared with
-        // case E +(-)X% (0 <= X <= 100)
-        if (s0.indexOf('S') !== -1) {
-            return 2 * baseValue + 1; // Case N/S (feedback contribution not sure)
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function () {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
         }
+    });
+}
 
-        return 2 * baseValue + 2; // Case N/A
+/**
+ * Checks if the current device is touch based device
+ * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
+ */
+function isTouchDevice() {
+    return 'ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch;
+}
+
+/**
+ * Sorts a table
+ * @param divElement
+ *     The sort button
+ * @param comparator
+ *     The function to compare 2 elements
+ */
+function toggleSort(divElement, comparator) {
+    // The column index (1-based) as key for the sort
+    const colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+
+    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
+    const row = 1;
+
+    const $selectedDivElement = $(divElement);
+
+    if ($selectedDivElement.attr('class') === 'button-sort-none') {
+        sortTable(divElement, colIdx, comparator, true, row);
+        $selectedDivElement.parent().find('.button-sort-ascending').attr('class', 'button-sort-none');
+        $selectedDivElement.parent().find('.button-sort-descending').attr('class', 'button-sort-none');
+        $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
+        $selectedDivElement.attr('class', 'button-sort-ascending');
+        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
+    } else if ($selectedDivElement.attr('class') === 'button-sort-ascending') {
+        sortTable(divElement, colIdx, comparator, false, row);
+        $selectedDivElement.attr('class', 'button-sort-descending');
+        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
+    } else {
+        sortTable(divElement, colIdx, comparator, true, row);
+        $selectedDivElement.attr('class', 'button-sort-ascending');
+        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     }
-
-    if (s0 === '0%') { // Case 0%
-        if (ditchZero) {
-            return 0;
-        }
-        return baseValue;
-    }
-
-    s0 = s0.replace('E', '').replace('%', ''); // Case E +(-)X%
-
-    if (s0 === '') {
-        return baseValue; // Case E
-    }
-
-    return baseValue + parseFloat(s0); // Other typical cases
 }
 
 /** -----------------------UI Related Helper Functions-----------------------* */
@@ -794,6 +762,17 @@ function removeLoadingIndicator(button, displayText) {
 }
 
 /**
+ * Checks whether an e-mail is valid.
+ * (Used in instructorCourseEdit.js)
+ *
+ * @param email
+ * @returns {Boolean}
+ */
+function isEmailValid(email) {
+    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
+}
+
+/**
  * Sanitize GoogleID by trimming space and '@gmail.com'
  * Used in instructorCourse, instructorCourseEdit, adminHome
  *
@@ -833,17 +812,6 @@ function isValidGoogleId(rawGoogleId) {
 
     // email addresses are valid google IDs too
     return isValidNonEmailGoogleId || isValidEmailGoogleId;
-}
-
-/**
- * Checks whether an e-mail is valid.
- * (Used in instructorCourseEdit.js)
- *
- * @param email
- * @returns {Boolean}
- */
-function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
 }
 
 /**
@@ -924,15 +892,15 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
     });
 }
 
+function escapeRegExp(string) {
+    return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
+}
+
 /**
  * Helper function to replace all occurrences of a sub-string in a string.
  */
 function replaceAll(string, find, replace) {
     return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
-function escapeRegExp(string) {
-    return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
 }
 
 /**
@@ -969,6 +937,22 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
 }
 
 /**
+ * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support the function.
+ */
+/* eslint-disable no-extend-native */ // necessary for polyfills
+if (!String.prototype.includes) {
+    String.prototype.includes = function (search, startParam) {
+        const start = typeof startParam === 'number' ? startParam : 0;
+
+        if (start + search.length > this.length) {
+            return false;
+        }
+        return this.indexOf(search, start) !== -1;
+    };
+}
+/* eslint-enable no-extend-native */
+
+/**
  * Checks if the input value is a blank string
  *
  * @param str
@@ -979,25 +963,6 @@ function isBlank(str) {
         return false;
     }
     return str.trim() === '';
-}
-
-/**
- * Sets the chevron of a panel from up to down or from down to up depending on its current state.
- * clickedElement must be at least the parent of the chevron.
- */
-function toggleChevron(clickedElement) {
-    const $clickedElement = $(clickedElement);
-    const isChevronDown = $clickedElement.find('.glyphicon-chevron-down').length > 0;
-    const $chevronContainer = $clickedElement.find('.glyphicon');
-
-    // clearQueue to clear the animation queue to prevent animation build up
-    $chevronContainer.clearQueue();
-
-    if (isChevronDown) {
-        setChevronToUp($chevronContainer);
-    } else {
-        setChevronToDown($chevronContainer);
-    }
 }
 
 /**
@@ -1017,18 +982,21 @@ function setChevronToDown(chevronContainer) {
 }
 
 /**
- * Changes the state of the panel (collapsed/expanded).
+ * Sets the chevron of a panel from up to down or from down to up depending on its current state.
+ * clickedElement must be at least the parent of the chevron.
  */
-function toggleSingleCollapse(e) {
-    if ($(e.target).is('a') || $(e.target).is('input')) {
-        return;
-    }
-    const glyphIcon = $(this).find('.glyphicon');
-    const className = $(glyphIcon[0]).attr('class');
-    if (className.indexOf('glyphicon-chevron-up') === -1) {
-        showSingleCollapse($(e.currentTarget).attr('data-target'));
+function toggleChevron(clickedElement) {
+    const $clickedElement = $(clickedElement);
+    const isChevronDown = $clickedElement.find('.glyphicon-chevron-down').length > 0;
+    const $chevronContainer = $clickedElement.find('.glyphicon');
+
+    // clearQueue to clear the animation queue to prevent animation build up
+    $chevronContainer.clearQueue();
+
+    if (isChevronDown) {
+        setChevronToUp($chevronContainer);
     } else {
-        hideSingleCollapse($(e.currentTarget).attr('data-target'));
+        setChevronToDown($chevronContainer);
     }
 }
 
@@ -1054,6 +1022,22 @@ function hideSingleCollapse(e) {
     $(heading).find('a.btn').hide();
 }
 
+/**
+ * Changes the state of the panel (collapsed/expanded).
+ */
+function toggleSingleCollapse(e) {
+    if ($(e.target).is('a') || $(e.target).is('input')) {
+        return;
+    }
+    const glyphIcon = $(this).find('.glyphicon');
+    const className = $(glyphIcon[0]).attr('class');
+    if (className.indexOf('glyphicon-chevron-up') === -1) {
+        showSingleCollapse($(e.currentTarget).attr('data-target'));
+    } else {
+        hideSingleCollapse($(e.currentTarget).attr('data-target'));
+    }
+}
+
 
 // Toggle the visibility of additional question information for the specified question.
 function toggleAdditionalQuestionInfo(identifier) {
@@ -1067,3 +1051,35 @@ function toggleAdditionalQuestionInfo(identifier) {
 
     $(`#questionAdditionalInfo-${identifier}`).toggle();
 }
+
+$(document).on('ajaxComplete ready', () => {
+    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function () {
+        bindDefaultImageIfMissing(this);
+    });
+
+    /**
+     * Initializing then disabling is better than simply
+     * not initializing for mobile due to some tooltips-specific
+     * code that throws errors.
+    */
+    const $tooltips = $('[data-toggle="tooltip"]');
+    $tooltips.tooltip({
+        html: true,
+        container: 'body',
+    });
+    if (isTouchDevice()) {
+        $tooltips.tooltip('disable');
+    }
+
+    /**
+     * Underlines all span elements with tool-tips except for
+     * the ones without a text value. This is to exclude elements
+     * such as 'icons' from underlining.
+    */
+    $('span[data-toggle="tooltip"]').each(function () {
+        const textValue = $(this).text().replace(/\s/g, '');
+        if (textValue) {
+            $(this).addClass('tool-tip-decorate');
+        }
+    });
+});

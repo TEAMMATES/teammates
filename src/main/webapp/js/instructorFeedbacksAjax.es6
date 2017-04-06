@@ -1,14 +1,10 @@
 /* global
-setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false
+setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false,
+loadSessionsByAjax: false
 */
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
-
-$(document).ready(() => {
-    oldStatus = $('.statusMessage').clone();
-    $('#ajaxForSessions').submit(ajaxRequest);
-});
 
 const ajaxRequest = function (e) {
     e.preventDefault();
@@ -30,8 +26,9 @@ const ajaxRequest = function (e) {
         error() {
             isSessionsAjaxSending = false;
             $('#sessionList').html('');
+            $('#loadSessionsFailErrorMsg').on('click', loadSessionsByAjax);
             const msg = 'Failed to load sessions. '
-                    + 'Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
+                    + 'Please <a href="#" id="loadSessionsFailErrorMsg">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {
@@ -53,3 +50,8 @@ const ajaxRequest = function (e) {
         },
     });
 };
+
+$(document).ready(() => {
+    oldStatus = $('.statusMessage').clone();
+    $('#ajaxForSessions').submit(ajaxRequest);
+});

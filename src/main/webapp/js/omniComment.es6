@@ -9,6 +9,74 @@
           scrollToTop:false
  */
 
+function showAddCommentBox(id) {
+    $(`#comment_box_${id}`).show();
+    $(`#commentText_${id}`).focus();
+}
+
+function hideAddCommentBox(id) {
+    $(`#comment_box_${id}`).hide();
+}
+
+function submitCommentForm(commentIdx) {
+    $(`#form_commentedit-${commentIdx}`).submit();
+    return false;
+}
+
+function deleteComment(commentIdx) {
+    const messageText = 'Are you sure you want to delete this comment?';
+    const okCallback = function () {
+        document.getElementById(`commentedittype-${commentIdx}`).value = 'delete';
+        return submitCommentForm(commentIdx);
+    };
+    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
+                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                                         StatusType.WARNING);
+    return false;
+}
+
+function enableComment(commentIdx) {
+    $(`#commentBar-${commentIdx}`).hide();
+    $(`#plainCommentText${commentIdx}`).hide();
+    $(`div[id='commentTextEdit${commentIdx}']`).show();
+    $(`textarea[id='commentText${commentIdx}']`).val($(`#plainCommentText${commentIdx}`).text());
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor(`#commentText${commentIdx}`, {
+            inline: true,
+            fixed_toolbar_container: `#rich-text-toolbar-comment-container-${commentIdx}`,
+        });
+        /* eslint-enable camelcase */
+    }
+
+    $(`textarea[id='commentText${commentIdx}']`).focus();
+}
+
+function disableComment(commentIdx) {
+    $(`#commentBar-${commentIdx}`).show();
+    $(`#plainCommentText${commentIdx}`).show();
+    $(`div[id='commentTextEdit${commentIdx}']`).hide();
+}
+
+function checkComment(form, event) {
+    if ($(form).find('[id^=commentedittype]').val() !== 'delete') {
+        const formTextField = $(form).find('.mce-content-body');
+        const editor = tinymce.get(formTextField.attr('id'));
+        if (isBlank($(editor.getContent()).text())) {
+            setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
+            scrollToTop();
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+}
+
+function enableEdit(commentIdx) {
+    enableComment(commentIdx);
+    return false;
+}
+
 $(document).ready(() => {
     function isRedirectToSpecificComment() {
         return window.location.href.includes('#');
@@ -72,166 +140,6 @@ $(document).ready(() => {
             $('#more-options').hide();
         }
     });
-
-    // Binding for "Display All" panel option
-    $('#panel_all').click(() => {
-        // use panel_all checkbox to control its children checkboxes.
-        if ($('#panel_all').is(':checked')) {
-            $('input[id^=panel_check]').prop('checked', true);
-        } else {
-            $('input[id^=panel_check]').prop('checked', false);
-        }
-
-        filterPanel();
-    });
-
-    // Binding for changes in the panel check boxes
-    $('input[id^=panel_check]').change(() => {
-        // based on the selected panel_check check boxes, check/uncheck panel_all check box
-        if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
-            $('#panel_all').prop('checked', true);
-        } else {
-            $('#panel_all').prop('checked', false);
-        }
-
-        filterPanel();
-    });
-
-    function filterPanel() {
-        // if no panel_check checkboxes are checked, show the no-comment box to user
-        if ($("input[id^='panel_check']:checked").length === 0) {
-            $('#no-comment-panel').show();
-            // if all is checked, show giver and status for better user experience
-            if ($('#panel_all').prop('checked')) {
-                $('#giver_all').closest('.filter-options').show();
-                $('#status_all').closest('.filter-options').show();
-            } else {
-                $('#giver_all').closest('.filter-options').hide();
-                $('#status_all').closest('.filter-options').hide();
-            }
-        } else {
-            $('#no-comment-panel').hide();
-            $('#giver_all').closest('.filter-options').show();
-            $('#status_all').closest('.filter-options').show();
-        }
-
-        // hide the panel accordingly based on panel_check checkbox
-        $("input[id^='panel_check']").each(function () {
-            const panelIdx = $(this).attr('id').split('-')[1];
-            if (this.checked) {
-                $(`#panel_display-${panelIdx}`).show();
-            } else {
-                $(`#panel_display-${panelIdx}`).hide();
-            }
-        });
-    }
-
-    // Binding for "Display All" giver option
-    $('#giver_all').click(() => {
-        // use giver_all checkbox to control its children checkboxes.
-        if ($('#giver_all').is(':checked')) {
-            $('input[id^=giver_check]').prop('checked', true);
-            $('#status_all').prop('disabled', false);
-            $('input[id^=status_check]').prop('disabled', false);
-        } else {
-            $('input[id^=giver_check]').prop('checked', false);
-            $('#status_all').prop('disabled', true);
-            $('input[id^=status_check]').prop('disabled', true);
-        }
-
-        filterGiver();
-    });
-
-    // Binding for changes in the giver checkboxes.
-    $('input[id^=giver_check]').change(() => {
-        // based on the selected checkboxes, check/uncheck giver_all checkbox
-        if ($("input[id^='giver_check']:checked").length === $("input[id^='giver_check']").length) {
-            $('#giver_all').prop('checked', true);
-            $('#status_all').prop('disabled', false);
-            $('input[id^=status_check]').prop('disabled', false);
-        } else {
-            $('#giver_all').prop('checked', false);
-            $('#status_all').prop('disabled', true);
-            $('input[id^=status_check]').prop('disabled', true);
-        }
-
-        filterGiver();
-    });
-
-    function filterGiver() {
-        filterGiverCheckbox('you');
-        filterGiverCheckbox('others');
-    }
-
-    function filterGiverCheckbox(checkboxBy) {
-        $(`input[id=giver_check-by-${checkboxBy}]`).each(function () {
-            if (this.checked) {
-                showCommentOfPanelIndex(`.giver_display-by-${checkboxBy}`);
-            } else {
-                hideCommentOfPanelIndex(`.giver_display-by-${checkboxBy}`);
-            }
-        });
-    }
-    //
-    // Binding for "Display All" status option
-    $('#status_all').click(() => {
-        // use status_all checkbox to control its children checkboxes.
-        if ($('#status_all').is(':checked')) {
-            $('input[id^=status_check]').prop('checked', true);
-            $('#giver_all').prop('disabled', false);
-            $('input[id^=giver_check]').prop('disabled', false);
-        } else {
-            $('input[id^=status_check]').prop('checked', false);
-            $('#giver_all').prop('disabled', true);
-            $('input[id^=giver_check]').prop('disabled', true);
-        }
-
-        filterStatus();
-    });
-
-    // Binding for changes in the status checkboxes.
-    $('input[id^=status_check]').change(() => {
-        // based on the selected checkboxes, check/uncheck status_all checkbox
-        if ($("input[id^='status_check']:checked").length === $("input[id^='status_check']").length) {
-            $('#status_all').prop('checked', true);
-            $('#giver_all').prop('disabled', false);
-            $('input[id^=giver_check]').prop('disabled', false);
-        } else {
-            $('#status_all').prop('checked', false);
-            $('#giver_all').prop('disabled', true);
-            $('input[id^=giver_check]').prop('disabled', true);
-        }
-
-        filterStatus();
-    });
-
-    function filterStatus() {
-        filterStatusCheckbox('public');
-        filterStatusCheckbox('private');
-    }
-
-    function filterStatusCheckbox(checkboxBy) {
-        $(`input[id=status_check-${checkboxBy}]`).each(function () {
-            if (this.checked) {
-                showCommentOfPanelIndex(`.status_display-${checkboxBy}`);
-            } else {
-                hideCommentOfPanelIndex(`.status_display-${checkboxBy}`);
-            }
-        });
-    }
-    //
-
-    function showCommentOfPanelIndex(className) {
-        $(className).each(function () {
-            showCommentAndItsPanel(this);
-        });
-    }
-
-    function hideCommentOfPanelIndex(className) {
-        $(className).each(function () {
-            hideCommentAndItsPanel(this);
-        });
-    }
 
     function showCommentAndItsPanel(comment) {
         const commentToShow = $(comment);
@@ -301,15 +209,177 @@ $(document).ready(() => {
         }
     }
 
-    // Binding for "Display Archived Courses" check box.
-    $('#displayArchivedCourses_check').change(function () {
-        const urlToGo = $('#displayArchivedCourses_link > a').attr('href');
-        if (this.checked) {
-            gotoUrlWithParam(urlToGo, 'displayarchive', 'true');
+    function showCommentOfPanelIndex(className) {
+        $(className).each(function () {
+            showCommentAndItsPanel(this);
+        });
+    }
+
+    function hideCommentOfPanelIndex(className) {
+        $(className).each(function () {
+            hideCommentAndItsPanel(this);
+        });
+    }
+
+    function filterPanel() {
+        // if no panel_check checkboxes are checked, show the no-comment box to user
+        if ($("input[id^='panel_check']:checked").length === 0) {
+            $('#no-comment-panel').show();
+            // if all is checked, show giver and status for better user experience
+            if ($('#panel_all').prop('checked')) {
+                $('#giver_all').closest('.filter-options').show();
+                $('#status_all').closest('.filter-options').show();
+            } else {
+                $('#giver_all').closest('.filter-options').hide();
+                $('#status_all').closest('.filter-options').hide();
+            }
         } else {
-            gotoUrlWithParam(urlToGo, 'displayarchive', 'false');
+            $('#no-comment-panel').hide();
+            $('#giver_all').closest('.filter-options').show();
+            $('#status_all').closest('.filter-options').show();
         }
+
+        // hide the panel accordingly based on panel_check checkbox
+        $("input[id^='panel_check']").each(function () {
+            const panelIdx = $(this).attr('id').split('-')[1];
+            if (this.checked) {
+                $(`#panel_display-${panelIdx}`).show();
+            } else {
+                $(`#panel_display-${panelIdx}`).hide();
+            }
+        });
+    }
+
+    // Binding for "Display All" panel option
+    $('#panel_all').click(() => {
+        // use panel_all checkbox to control its children checkboxes.
+        if ($('#panel_all').is(':checked')) {
+            $('input[id^=panel_check]').prop('checked', true);
+        } else {
+            $('input[id^=panel_check]').prop('checked', false);
+        }
+
+        filterPanel();
     });
+
+    // Binding for changes in the panel check boxes
+    $('input[id^=panel_check]').change(() => {
+        // based on the selected panel_check check boxes, check/uncheck panel_all check box
+        if ($("input[id^='panel_check']:checked").length === $("input[id^='panel_check']").length) {
+            $('#panel_all').prop('checked', true);
+        } else {
+            $('#panel_all').prop('checked', false);
+        }
+
+        filterPanel();
+    });
+
+    function filterGiverCheckbox(checkboxBy) {
+        $(`input[id=giver_check-by-${checkboxBy}]`).each(function () {
+            if (this.checked) {
+                showCommentOfPanelIndex(`.giver_display-by-${checkboxBy}`);
+            } else {
+                hideCommentOfPanelIndex(`.giver_display-by-${checkboxBy}`);
+            }
+        });
+    }
+
+    function filterGiver() {
+        filterGiverCheckbox('you');
+        filterGiverCheckbox('others');
+    }
+
+    // Binding for "Display All" giver option
+    $('#giver_all').click(() => {
+        // use giver_all checkbox to control its children checkboxes.
+        if ($('#giver_all').is(':checked')) {
+            $('input[id^=giver_check]').prop('checked', true);
+            $('#status_all').prop('disabled', false);
+            $('input[id^=status_check]').prop('disabled', false);
+        } else {
+            $('input[id^=giver_check]').prop('checked', false);
+            $('#status_all').prop('disabled', true);
+            $('input[id^=status_check]').prop('disabled', true);
+        }
+
+        filterGiver();
+    });
+
+    // Binding for changes in the giver checkboxes.
+    $('input[id^=giver_check]').change(() => {
+        // based on the selected checkboxes, check/uncheck giver_all checkbox
+        if ($("input[id^='giver_check']:checked").length === $("input[id^='giver_check']").length) {
+            $('#giver_all').prop('checked', true);
+            $('#status_all').prop('disabled', false);
+            $('input[id^=status_check]').prop('disabled', false);
+        } else {
+            $('#giver_all').prop('checked', false);
+            $('#status_all').prop('disabled', true);
+            $('input[id^=status_check]').prop('disabled', true);
+        }
+
+        filterGiver();
+    });
+
+    function filterStatusCheckbox(checkboxBy) {
+        $(`input[id=status_check-${checkboxBy}]`).each(function () {
+            if (this.checked) {
+                showCommentOfPanelIndex(`.status_display-${checkboxBy}`);
+            } else {
+                hideCommentOfPanelIndex(`.status_display-${checkboxBy}`);
+            }
+        });
+    }
+
+    function filterStatus() {
+        filterStatusCheckbox('public');
+        filterStatusCheckbox('private');
+    }
+
+    // Binding for "Display All" status option
+    $('#status_all').click(() => {
+        // use status_all checkbox to control its children checkboxes.
+        if ($('#status_all').is(':checked')) {
+            $('input[id^=status_check]').prop('checked', true);
+            $('#giver_all').prop('disabled', false);
+            $('input[id^=giver_check]').prop('disabled', false);
+        } else {
+            $('input[id^=status_check]').prop('checked', false);
+            $('#giver_all').prop('disabled', true);
+            $('input[id^=giver_check]').prop('disabled', true);
+        }
+
+        filterStatus();
+    });
+
+    // Binding for changes in the status checkboxes.
+    $('input[id^=status_check]').change(() => {
+        // based on the selected checkboxes, check/uncheck status_all checkbox
+        if ($("input[id^='status_check']:checked").length === $("input[id^='status_check']").length) {
+            $('#status_all').prop('checked', true);
+            $('#giver_all').prop('disabled', false);
+            $('input[id^=giver_check]').prop('disabled', false);
+        } else {
+            $('#status_all').prop('checked', false);
+            $('#giver_all').prop('disabled', true);
+            $('input[id^=giver_check]').prop('disabled', true);
+        }
+
+        filterStatus();
+    });
+
+    /**
+     * Remove param and its value pair in the given url
+     * Return the url without param and value pair
+     */
+    function removeParamInUrl(url, param) {
+        let indexOfParam = url.indexOf(`?${param}`);
+        indexOfParam = indexOfParam === -1 ? url.indexOf(`&${param}`) : indexOfParam;
+        const indexOfAndSign = url.indexOf('&', indexOfParam + 1);
+        const urlBeforeParam = url.substr(0, indexOfParam);
+        const urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
+        return urlBeforeParam + urlAfterParamValue;
+    }
 
     /**
      * Go to the url with appended param and value pair
@@ -328,18 +398,15 @@ $(document).ready(() => {
         }
     }
 
-    /**
-     * Remove param and its value pair in the given url
-     * Return the url withour param and value pair
-     */
-    function removeParamInUrl(url, param) {
-        let indexOfParam = url.indexOf(`?${param}`);
-        indexOfParam = indexOfParam === -1 ? url.indexOf(`&${param}`) : indexOfParam;
-        const indexOfAndSign = url.indexOf('&', indexOfParam + 1);
-        const urlBeforeParam = url.substr(0, indexOfParam);
-        const urlAfterParamValue = indexOfAndSign === -1 ? '' : url.substr(indexOfAndSign);
-        return urlBeforeParam + urlAfterParamValue;
-    }
+    // Binding for "Display Archived Courses" check box.
+    $('#displayArchivedCourses_check').change(function () {
+        const urlToGo = $('#displayArchivedCourses_link > a').attr('href');
+        if (this.checked) {
+            gotoUrlWithParam(urlToGo, 'displayarchive', 'true');
+        } else {
+            gotoUrlWithParam(urlToGo, 'displayarchive', 'false');
+        }
+    });
 
     $('a[id^="visibility-options-trigger"]').click(function () {
         const visibilityOptions = $(this).parent().next();
@@ -386,73 +453,3 @@ $(document).ready(() => {
         form.find("input[name='showrecipientto']").val(visibilityOptions.join(', '));
     });
 });
-
-// public functions:
-
-function showAddCommentBox(id) {
-    $(`#comment_box_${id}`).show();
-    $(`#commentText_${id}`).focus();
-}
-
-function hideAddCommentBox(id) {
-    $(`#comment_box_${id}`).hide();
-}
-
-function submitCommentForm(commentIdx) {
-    $(`#form_commentedit-${commentIdx}`).submit();
-    return false;
-}
-
-function deleteComment(commentIdx) {
-    const messageText = 'Are you sure you want to delete this comment?';
-    const okCallback = function () {
-        document.getElementById(`commentedittype-${commentIdx}`).value = 'delete';
-        return submitCommentForm(commentIdx);
-    };
-    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
-                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-                                         StatusType.WARNING);
-    return false;
-}
-
-function enableEdit(commentIdx) {
-    enableComment(commentIdx);
-    return false;
-}
-
-function enableComment(commentIdx) {
-    $(`#commentBar-${commentIdx}`).hide();
-    $(`#plainCommentText${commentIdx}`).hide();
-    $(`div[id='commentTextEdit${commentIdx}']`).show();
-    $(`textarea[id='commentText${commentIdx}']`).val($(`#plainCommentText${commentIdx}`).text());
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#commentText${commentIdx}`, {
-            inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-comment-container-${commentIdx}`,
-        });
-        /* eslint-enable camelcase */
-    }
-
-    $(`textarea[id='commentText${commentIdx}']`).focus();
-}
-
-function disableComment(commentIdx) {
-    $(`#commentBar-${commentIdx}`).show();
-    $(`#plainCommentText${commentIdx}`).show();
-    $(`div[id='commentTextEdit${commentIdx}']`).hide();
-}
-
-function checkComment(form, event) {
-    if ($(form).find('[id^=commentedittype]').val() !== 'delete') {
-        const formTextField = $(form).find('.mce-content-body');
-        const editor = tinymce.get(formTextField.attr('id'));
-        if (isBlank($(editor.getContent()).text())) {
-            setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
-            scrollToTop();
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    }
-}

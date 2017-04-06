@@ -1029,6 +1029,11 @@ public final class Const {
         public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
                 "/worker/pendingCommentClearedEmail";
 
+        public static final String PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME =
+                "put-comment-document-queue";
+        public static final String PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL =
+                "/worker/putCommentDocument";
+
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
 
@@ -1124,7 +1129,7 @@ public final class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
 
-        public static final String JS_UNIT_TEST = "/dev/allJsUnitTests.jsp?coverage";
+        public static final String JS_UNIT_TEST = "/dev/allJsUnitTests.jsp";
         public static final String MASHUP = "/dev/mashup.jsp";
         public static final String TABLE_SORT = "/dev/tableSort.jsp";
         public static final String TIMEZONE = "/dev/timezone.jsp";

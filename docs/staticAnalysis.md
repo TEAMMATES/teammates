@@ -193,9 +193,10 @@ To run ESLint and Stylelint analysis on all JavaScript, JSON, and CSS source fil
 npm run lint
 ```
 
-To run all static analysis tasks in one sitting, run the following command:
+To run all static analysis tasks in one sitting, run the following two commands:
 ```
-./gradlew staticAnalysis --continue
+./gradlew lint --continue
+npm run lint
 ```
 
 ## Running code coverage session

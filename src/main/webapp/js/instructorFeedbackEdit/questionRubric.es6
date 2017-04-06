@@ -200,21 +200,6 @@ function highlightRubricCol(index, questionNum, highlight) {
 }
 
 /**
- * Attaches event handlers to "weights" checkboxes to toggle the visibility of
- * the input boxes for rubric weights and move the "weights" checkbox to the
- * appropriate location
- */
-function bindAssignWeightsCheckboxes() {
-    $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
-        const $checkbox = $(this);
-
-        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
-
-        moveAssignWeightsCheckbox($checkbox);
-    });
-}
-
-/**
  * Moves the "weights" checkbox to the weight row if it is checked, otherwise
  * moves it to the choice row
  *
@@ -239,6 +224,21 @@ function moveAssignWeightsCheckbox(checkbox) {
         $choicesRowFirstCell.append($checkboxCellContent);
         $choicesRowFirstCell.find('.glyphicon-arrow-right').hide();
     }
+}
+
+/**
+ * Attaches event handlers to "weights" checkboxes to toggle the visibility of
+ * the input boxes for rubric weights and move the "weights" checkbox to the
+ * appropriate location
+ */
+function bindAssignWeightsCheckboxes() {
+    $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
+        const $checkbox = $(this);
+
+        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
+
+        moveAssignWeightsCheckbox($checkbox);
+    });
 }
 
 /**

@@ -6,10 +6,6 @@ const PERFORMANCE_ISSUE_MESSAGE = `Due to performance issue, it is not allowed t
                                  } students. Please deselect some courses to view student list of other courses.`;
 let numStudents = 0;
 
-$(document).ready(() => {
-    $('.ajax_submit').click(seeMoreRequest);
-});
-
 function transportSectionChoices() {
     const sectionChoices = $('.section-to-be-transported');
     sectionChoices.remove();
@@ -138,3 +134,7 @@ const seeMoreRequest = function (e) {
         showStudentLimitError(courseCheck, displayIcon);
     }
 };
+
+$(document).ready(() => {
+    $('.ajax_submit').click(seeMoreRequest);
+});

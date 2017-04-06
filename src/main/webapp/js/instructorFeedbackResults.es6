@@ -1,5 +1,4 @@
 /* global selectElementContents:false,
-          bindCollapseEvents:false,
           bindPublishButtons:false,
           bindUnpublishButtons:false,
           setStatusMessage:false,
@@ -15,78 +14,15 @@
                 removeSection
 */
 
-$(document).ready(() => {
-    const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
-
-    $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
-        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
-        const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
-        const panels = $(e.currentTarget).closest('.panel-success')
-                            .children('.panel-collapse')
-                            .find(childPanelType)
-                            .children('.panel-collapse');
-        toggleCollapse(e.currentTarget, panels);
-    });
-
-    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
-        const panels = $(e.currentTarget).closest('.panel-warning')
-                            .children('.panel-collapse')
-                            .find(participantPanelType)
-                            .children('.panel-collapse');
-        toggleCollapse(e.currentTarget, panels);
-    });
-
-    $('#results-search-box').keyup(updateResultsFilter);
-
-    // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress((e) => {
-        if (e.which === 13) {
-            e.preventDefault();
-        }
-    });
-
-    if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
-        $('#collapse-panels-button').show();
-    } else {
-        $('#collapse-panels-button').hide();
-    }
-
-    // Show/Hide statistics
-    showHideStats();
-    $('#show-stats-checkbox').change(showHideStats);
-
-    // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('fsModalTable'));
-    });
-
-    const panels = $('div.panel');
-    bindCollapseEvents(panels, 0);
-
-    bindPublishButtons();
-    bindUnpublishButtons();
-
-    $('#button-print').on('click', () => {
-        // Fix to hide the filter placeholder when it is empty.
-        if ($('#results-search-box').val()) {
-            $('#filter-box-parent-div').removeClass('hide-for-print');
-        } else {
-            $('#filter-box-parent-div').addClass('hide-for-print');
-        }
-
-        $('#mainContent').printThis({
-            importCSS: true,
-            importStyle: true,
-            loadCSS: '/stylesheets/printview.css',
-        });
-    });
-});
-
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
     const formData = formObject.serialize();
     const content = $('#fsModalTable');
     const ajaxStatus = $('#ajaxStatus');
+
+    const retryButtonHtml = '<button class="btn btn-info" id="instructorFeedbackResultsRetryButton"> retry</button>';
+    $('#instructorFeedbackResultsRetryButton').on('click', submitFormAjax);
+
     $.ajax({
         type: 'POST',
         url: `/page/instructorFeedbackResultsPage?${formData}`,
@@ -95,13 +31,13 @@ function submitFormAjax() {
         },
         error() {
             ajaxStatus.html('Failed to load results table. Please try again.');
-            content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+            content.html(retryButtonHtml);
         },
         success(data) {
             setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                    content.html(retryButtonHtml);
                 } else {
                     const table = data.sessionResultsHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
@@ -213,33 +149,103 @@ function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
 
-function toggleCollapse(e, pans) {
-    const expand = 'Expand';
-    const collapse = 'Collapse';
-    const panels = pans || $('div.panel-collapse');
+/**
+ * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
+ *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
+ *         element.
+ */
+function getElementToClickForAjaxLoading(panel) {
+    let $elementWithAjaxClass = $(panel).parent().children('.ajax_auto');
+    if ($elementWithAjaxClass.length === 0) {
+        $elementWithAjaxClass = $(panel).parent().children('.ajax-response-auto');
+    }
+    return $elementWithAjaxClass;
+}
 
-    if ($(e).html().trim().startsWith(expand)) {
-        for (let idx = 0; idx < panels.length; idx += 1) {
-            if ($(panels[idx]).attr('class').indexOf('in') === -1) {
-                setTimeout(showSingleCollapse, 50 * idx, panels[idx]);
-            }
+/**
+ * Expands {@code panel}. If the panel data is not loaded, load it by Ajax.
+ * @param {int} timeOut - is in milliseconds
+ */
+function expandPanel(panel, timeOut, isAjaxLoadedPanel) {
+    const isPanelAlreadyExpanded = $(panel).hasClass('in');
+    if (isPanelAlreadyExpanded) {
+        return;
+    }
+
+    if (isAjaxLoadedPanel) { // Might need to load the panel data by Ajax.
+        const $elementToClickForAjaxLoading = getElementToClickForAjaxLoading(panel);
+        const needToLoadThePanelDataByClickingOnElement = $elementToClickForAjaxLoading.length !== 0;
+        if (needToLoadThePanelDataByClickingOnElement) {
+            // When clicked, the panel data is loaded, and ajax_auto or ajax-response-auto class will
+            // be removed from the element.
+            $elementToClickForAjaxLoading.click();
+
+            // Panel is already expanded as a result of clicking.
+            return;
         }
-        const htmlString = $(e).html().replace(expand, collapse);
-        $(e).html(htmlString);
-        const tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
-        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+    }
+
+    // Expands this panel.
+    setTimeout(showSingleCollapse, timeOut, panel);
+}
+
+/**
+ * Expands all panels. Loads panel data if missing.
+ */
+function expandPanels(panels, areAjaxLoadedPanels) {
+    const BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 50;
+
+    for (let idx = 0; idx < panels.length; idx += 1) {
+        expandPanel(panels[idx], idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, areAjaxLoadedPanels);
+    }
+}
+
+function collapsePanels(panels) {
+    const BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS = 100;
+
+    for (let idx = 0; idx < panels.length; idx += 1) {
+        const isPanelAlreadyCollapsed = !$(panels[idx]).hasClass('in');
+        if (isPanelAlreadyCollapsed) {
+            continue;
+        }
+        // Collapses this panel.
+        setTimeout(hideSingleCollapse, idx * BASE_TIMEOUT_UNIT_IN_MILLI_SECONDS, panels[idx]);
+    }
+}
+
+function replaceButtonHtmlAndTooltipText(button, from, to) {
+    // Replaces html text of the {@code button}.
+    let htmlString = $(button).html();
+    htmlString = htmlString.replace(from, to);
+    $(button).html(htmlString);
+
+    // Replaces tooltip text of the {@code button}.
+    const tooltipString = $(button).attr('data-original-title').replace(from, to);
+    $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+}
+
+/**
+ * Expands or collapses all panels when collapse/expand panels button is clicked.
+ * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
+ * @param {DOM} panels - The panels to be expanded/collapsed. Not defined if {@code expandCollapseButton}
+ *         is collapse panels button.
+ */
+function expandOrCollapsePanels(expandCollapseButton, panels) {
+    const STRING_EXPAND = 'Expand';
+    const STRING_COLLAPSE = 'Collapse';
+    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
+    // need to define corresponding {@code targetPanels}.
+    const targetPanels = panels || $('div.panel-collapse');
+
+    const isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+    if (isButtonInExapandMode) {
+        // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
+        const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
+        expandPanels(targetPanels, areAjaxLoadedPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
     } else {
-        let j = 0;
-        for (let k = 0; k < panels.length; k += 1) {
-            if ($(panels[k]).attr('class').indexOf('in') !== -1) {
-                setTimeout(hideSingleCollapse, 100 * j, panels[k]);
-                j += 1;
-            }
-        }
-        const htmlStr = $(e).html().replace(collapse, expand);
-        $(e).html(htmlStr);
-        const tooltipStr = $(e).attr('data-original-title').replace(collapse, expand);
-        $(e).attr('title', tooltipStr).tooltip('fixTitle').tooltip('show');
+        collapsePanels(targetPanels);
+        replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
     }
 }
 
@@ -320,3 +326,70 @@ function removeSection(id) {
 
     $heading.parent().remove();
 }
+
+$(document).ready(() => {
+    const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
+
+    $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
+        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
+        const panels = $(e.currentTarget).closest('.panel-success')
+                            .children('.panel-collapse')
+                            .find(childPanelType)
+                            .children('.panel-collapse');
+        expandOrCollapsePanels(e.currentTarget, panels);
+    });
+
+    $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
+        const panels = $(e.currentTarget).closest('.panel-warning')
+                            .children('.panel-collapse')
+                            .find(participantPanelType)
+                            .children('.panel-collapse');
+        expandOrCollapsePanels(e.currentTarget, panels);
+    });
+
+    $('#results-search-box').keyup(updateResultsFilter);
+
+    // prevent submitting form when enter is pressed.
+    $('#results-search-box').keypress((e) => {
+        if (e.which === 13) {
+            e.preventDefault();
+        }
+    });
+
+    if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
+        $('#collapse-panels-button').show();
+    } else {
+        $('#collapse-panels-button').hide();
+    }
+
+    // Show/Hide statistics
+    showHideStats();
+    $('#show-stats-checkbox').change(showHideStats);
+
+    // auto select the html table when modal is shown
+    $('#fsResultsTableWindow').on('shown.bs.modal', () => {
+        selectElementContents(document.getElementById('fsModalTable'));
+    });
+
+    const panels = $('div.panel');
+    bindCollapseEvents(panels, 0);
+
+    bindPublishButtons();
+    bindUnpublishButtons();
+
+    $('#button-print').on('click', () => {
+        // Fix to hide the filter placeholder when it is empty.
+        if ($('#results-search-box').val()) {
+            $('#filter-box-parent-div').removeClass('hide-for-print');
+        } else {
+            $('#filter-box-parent-div').addClass('hide-for-print');
+        }
+
+        $('#mainContent').printThis({
+            importCSS: true,
+            importStyle: true,
+            loadCSS: '/stylesheets/printview.css',
+        });
+    });
+});
