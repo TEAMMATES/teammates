@@ -289,22 +289,25 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Unpublished Session");
         resultsPage.displayByGiverRecipientQuestion();
-
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestionTeam.html");
 
         ______TS("test sort by recipient > giver > question for second session");
 
         resultsPage.displayByRecipientGiverQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestionTeam.html");
 
         ______TS("test sort by giver > question > recipient for second session");
 
         resultsPage.displayByGiverQuestionRecipient();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipientTeam.html");
 
         ______TS("test sort by recipient > question > giver for second session");
 
         resultsPage.displayByRecipientQuestionGiver();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientQuestionGiverTeam.html");
 
         // Do not sort by team
@@ -313,32 +316,37 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > recipient > question team for second session");
 
         resultsPage.displayByGiverRecipientQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team for second session");
 
         resultsPage.displayByRecipientGiverQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestion.html");
 
         ______TS("test order in giver > question > recipient team for second session");
 
         resultsPage.displayByGiverQuestionRecipient();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipient.html");
 
         ______TS("test order in recipient > question > giver team for second session");
 
         resultsPage.displayByRecipientQuestionGiver();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientQuestionGiver.html");
 
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-2", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestionTeam.html");
 
         ______TS("filter by section A");
 
         resultsPage.filterResponsesForSection("Section A");
+        clickCollapseExpandButtonAndWaitForPanelsToRespond(true);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionFilteredBySectionATeam.html");
-
     }
 
     @Test
