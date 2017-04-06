@@ -103,7 +103,6 @@ public class AdminEmailComposeSendAction extends Action {
                                                         null);
             data.emailToEdit.emailId = emailId;
         }
-        
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
