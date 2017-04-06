@@ -131,9 +131,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: not a sample course");
 
-        CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course", "UTC");
+        CourseAttributes notSampleCourse = new CourseAttributes("course.id", "not sample course", "UTC");
 
-        assertFalse(coursesLogic.isSampleCourse(notSampleCousre.getId()));
+        assertFalse(coursesLogic.isSampleCourse(notSampleCourse.getId()));
 
         ______TS("typical case: is a sample course");
 
