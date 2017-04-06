@@ -48,8 +48,8 @@ $(document).ready(() => {
                                         + 'or you do not have access to the responses collected so far.');
                     }
 
-					$(data).remove();
-					
+                    $(data).remove();
+
                     if (typeof $appendedSection === 'undefined') {
                         $sectionBody.html('There are no responses for this section yet '
                                           + 'or you do not have access to the responses collected so far.');
