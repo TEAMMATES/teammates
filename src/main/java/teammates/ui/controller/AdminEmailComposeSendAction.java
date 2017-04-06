@@ -51,8 +51,6 @@ public class AdminEmailComposeSendAction extends Action {
             try {
                 groupReceiver.add(groupReceiverListFileKey);
                 GoogleCloudStorageHelper.getGroupReceiverList(new BlobKey(groupReceiverListFileKey));
-                statusToAdmin = "Email sent to " + groupReceiverListFileKey;
-                statusToUser.add(new StatusMessage("Email sent to " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
             } catch (Exception e) {
                 isError = true;
                 setStatusForException(e, "An error occurred when retrieving receiver list, please try again");
@@ -61,8 +59,6 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (addressModeOn) {
             addressReceiver.add(addressReceiverListString);
-            statusToAdmin = "Email sent to " + addressReceiverListString;
-            statusToUser.add(new StatusMessage("Email sent to " + addressReceiverListString, StatusMessageColor.SUCCESS));
             try {
                 checkAddressReceiverString(addressReceiverListString);
             } catch (InvalidParametersException e) {
@@ -102,6 +98,16 @@ public class AdminEmailComposeSendAction extends Action {
                                                         new Text(emailContent),
                                                         null);
             data.emailToEdit.emailId = emailId;
+        } else {
+            if (addressModeOn) {
+                statusToAdmin = "Email sent to " + addressReceiverListString;
+                statusToUser.add(new StatusMessage("Email sent to "
+                        + addressReceiverListString, StatusMessageColor.SUCCESS));
+            }
+            if (groupModeOn) {
+                statusToAdmin = "Email sent to " + groupReceiverListFileKey;
+                statusToUser.add(new StatusMessage("Email sent to " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
+            }
         }
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
