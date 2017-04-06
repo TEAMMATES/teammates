@@ -88,11 +88,8 @@ $(document).ready(() => {
     attachEventToDeleteStudentLink();
 });
 
-const isShowCommentBox = false;
-
 /*
 export default {
     submitFormAjax,
-    isShowCommentBox
 };
 */
