@@ -42,8 +42,14 @@ $(document).ready(() => {
                                       + 'Please choose to view the results by questions or download the results.');
                 } else {
                     const $appendedSection = $(data).find('#sectionBody-0');
-                    const sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
+
+                    if (isEmptySection($appendedSection)) {
+                        $sectionBody.html('There are no responses for this section yet '
+                                        + 'or you do not have access to the responses collected so far.');
+                    }
+
                     $(data).remove();
+
                     if (typeof $appendedSection === 'undefined') {
                         $sectionBody.html('There are no responses for this section yet '
                                           + 'or you do not have access to the responses collected so far.');
