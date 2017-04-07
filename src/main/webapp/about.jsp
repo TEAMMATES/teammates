@@ -154,7 +154,7 @@
             <h3>Committers:</h3>
             <ol>
                 <li>
-                    <img src="images/teammembers/shin.png" width="80px"><br>
+                    <img src="images/teammembers/mingshin.png" width="80px"><br>
                     Ch'ng Ming Shin (Jan 2017 - )
                 </li>
                 <li>
@@ -166,7 +166,7 @@
                     John Yong (Jan 2017 - )
                 </li>
                 <li>
-                    <img src="images/teammembers/min.png" width="80px"><br>
+                    <img src="images/teammembers/yimin.png" width="80px"><br>
                     Lee Yi Min (Jan 2017 - )
                 </li>
                 <li>
@@ -182,7 +182,7 @@
                     Thenaesh Elango (Jan 2017 - )
                 </li>
                 <li>
-                    <img src="images/teammembers/pu.png" width="80px"><br>
+                    <img src="images/teammembers/xiaopu.png" width="80px"><br>
                     Xiao Pu (Jan 2017 - )
                 </li>
                 <li>
