@@ -48,3 +48,4 @@ gradle-app.setting
 .idea/
 *.iml
 out/
+/bin/
