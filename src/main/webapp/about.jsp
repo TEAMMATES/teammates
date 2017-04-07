@@ -175,17 +175,101 @@
         </section>
 
         <section class="row">
-            <h3>Committers:</h3>
-            <ol>
-                <li>Ch'ng Ming Shin (Jan 2017 - )</li>
-                <li>Dickson Tan (Jan 2017 - )</li>
-                <li>John Yong (Jan 2017 - )</li>
-                <li>Lee Yi Min (Jan 2017 - )</li>
-                <li>Li Kai (Jan 2017 - )</li>
-                <li>Samson Tan (Jan 2017 - )</li>
-                <li>Thenaesh Elango (Jan 2017 - )</li>
-                <li>Xiao Pu (Jan 2017 - )</li>
-            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><strong><a class="about-us-header" data-toggle="collapse" href="#committersList">Committers:<span class="pull-right glyphicon glyphicon-chevron-down"></span></a></strong></h3>
+                </div>
+                <div class="panel-collapse collapse panel-body" id="committersList">
+                    <div class="col-sm-12">
+                        <div id="committersCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#committersCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#committersCarousel" data-slide-to="1"></li>
+                                <li data-target="#committersCarousel" data-slide-to="2"></li>
+                                <li data-target="#committersCarousel" data-slide-to="3"></li>
+                                <li data-target="#committersCarousel" data-slide-to="4"></li>
+                                <li data-target="#committersCarousel" data-slide-to="5"></li>
+                                <li data-target="#committersCarousel" data-slide-to="6"></li>
+                                <li data-target="#committersCarousel" data-slide-to="7"></li>
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+
+                                <div class="item active">
+                                    <center><img class="img-responsive" src="images/teammembers/mingshin.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Ch'ng Ming Shin</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/dickson.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Dickson Tan</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/john.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>John Yong</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/yimin.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Lee Yi Min</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/likai.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Li Kai</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/samson.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Samson Tan</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/thenaesh.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Thenaesh Elango</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/xiaopu.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Xiao Pu</h3>
+                                        <p>(Jan 2017 - )</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#committersCarousel" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#committersCarousel" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="row">
