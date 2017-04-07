@@ -228,7 +228,7 @@ To run individual tests, right-click on the test files on the project explorer a
 
 #### IntelliJ
 
-Run tests using the configurations available under `Run → Play`.
+Run tests using the configurations available under `Play → Run`.
 
 ## Deploying to a staging server
 

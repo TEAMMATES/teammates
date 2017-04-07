@@ -63,7 +63,7 @@ The following plugins are needed:
    * Validation: We do not validate HTML, JSP, and XML.<br>
      `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
 
-1. `Clean` the project for all changes to take effect. Ensure that there is no errors. Warnings are generally fine to be ignored.
+1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![setupguide-6.png](images/setupguide-6.png)
 
