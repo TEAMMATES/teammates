@@ -273,130 +273,146 @@
         </section>
 
         <section class="row">
-            <h3>Past Team Members:</h3>
-            <ol>
-                <li>
-                    <img src="images/teammembers/weilin.png" width="80px"><br> 
-                    Low WeiLin<br>
-                    Project Lead (Aug 2015 - May 2016)<br>
-                    Area Lead - Sessions (Aug 2014 - Jul 2015)<br>
-                    Snr Developer (June 2014 - Jul 2014)<br>
-                    Committer (Jan 2014 - Jul 2014)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/tania.png" width="80px"><br> 
-                    Tania Chattopadhyay<br>
-                    Area Lead - Access control, Search, Email (Jan 2016 - May 2016)<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Feb 2015 - May 2015)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/khanh.png" width="80px"><br> 
-                    Truong Ngoc Khanh<br>
-                    Area Lead - Admin, Scalability (Jan 2016 - May 2016)<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Jan 2015 - May 2015)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/youjun.png" width="80px"><br> 
-                    Soh You Jun<br>
-                    Area Lead - UI/UX, Submissions, Courses (Jan 2016 - May 2016)<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Apr 2015 - May 2015)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/ashray.png" width="80px"><br> 
-                    Ashray Jain<br>
-                    Snr Developer (Oct 2015 - May 2016)<br>
-                    Committer (Aug 2015 - Sep 2015)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/nimantha.png" width="80px"><br> 
-                    Nimantha Baranasuriya<br>
-                    Project Admin (2013 - 2016)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/bui.png" width="80px"><br> 
-                    Bui Trong Nhan<br>
-                    Area Lead - Scalability (Aug 2014 - Dec 2015)<br>
-                    Snr Developer (June 2014 - Jul 2014)<br>
-                    Committer (Apr 2014 - May 2014)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/kai.png" width="80px"><br> 
-                    Xie Kai<br>
-                    Area Lead - Comments (Aug 2014 - Dec 2015)<br>
-                    Snr Developer (June 2014 - Jul 2014)<br>
-                    Committer (Apr 2014 - May 2014)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/junchao.png" width="80px"><br> 
-                    Gu Junchao<br>
-                    Area Lead - Access Control (Aug 2014 - Dec 2015)<br>
-                    Snr Developer (June 2014 - Jul 2014)<br>
-                    Committer (Apr 2014 - May 2014)<br><br>
-                </li>
-                <li>
-                    <img src="images/teammembers/shawn.png" width="80px"> 
-                    <div>Shawn Lee (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/yangmo.png" width="80px"> 
-                    <div>Yang Mo (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/arnold.png" width="80px"> 
-                    <div>Arnold Koroa (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/ivan.png" width="80px"> 
-                    <div>Ivan Poon (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/jamesdjuhartono.png" width="80px"> 
-                    <div>James Djuhartono (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/ryan.png" width="80px"> 
-                    <div>Ryan Chang (Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/theongsiang.png" width="80px"> 
-                    <div>Oo Theong Siang (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/hunar.png" width="80px"> 
-                    <div>Hunar Khanna (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/qiaoliang.png" width="80px"> 
-                    <div>Qiao Liang (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/kenny.png" width="80px"> 
-                    <div>Tan How Cheng Kenny (Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/chunteck.png" width="80px"> 
-                    <div>Goh Chun Teck (Project Lead, Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/wangsha.png" width="80px"> 
-                    <div>Wang Sha (Project Lead, Area Lead, Snr Developer)</div>
-                </li>
-                <li>
-                    <img src="images/teammembers/james.png" width="80px"> 
-                    <div>Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)</div>
-                </li>
-                <br>
-                <li>Aldrian Obaja (Area Lead, Snr Developer)</li>
-                <li>Kalpit Jain (Area Lead, Snr Developer)</li>
-                <li>Shakthi Priya Kathirvelu (Area Lead, Snr Developer)</li>
-                <li>Zhang Xialin (Area Lead, Snr Developer)</li>
-                <li>Huy Nguyen (Area Lead, Snr Developer)</li>
-                <li>Gerald Goh (Project Lead, Snr Developer)</li>
-                <li>Lai Xiaoni (Project Lead, Snr Developer)</li>
-            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><strong><a class="about-us-header" data-toggle="collapse" href="#pastTeamMembersList">Past Team Members:<span class="pull-right glyphicon glyphicon-chevron-down"></span></a></strong></h3>
+                </div>
+                <div id="pastTeamMembersList" class="panel-body panel-collapse collapse">
+                    <div class="col-sm-4">
+                        <ol>
+                            <li>
+                                <img src="images/teammembers/weilin.png" width="80px"><br>
+                                Low WeiLin<br>
+                                Project Lead (Aug 2015 - May 2016)<br>
+                                Area Lead - Sessions (Aug 2014 - Jul 2015)<br>
+                                Snr Developer (June 2014 - Jul 2014)<br>
+                                Committer (Jan 2014 - Jul 2014)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/tania.png" width="80px"><br>
+                                Tania Chattopadhyay<br>
+                                Area Lead - Access control, Search, Email (Jan 2016 - May 2016)<br>
+                                Snr Developer (Aug 2015 - Dec 2015)<br>
+                                Committer (Feb 2015 - May 2015)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/khanh.png" width="80px"><br>
+                                Truong Ngoc Khanh<br>
+                                Area Lead - Admin, Scalability (Jan 2016 - May 2016)<br>
+                                Snr Developer (Aug 2015 - Dec 2015)<br>
+                                Committer (Jan 2015 - May 2015)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/youjun.png" width="80px"><br>
+                                Soh You Jun<br>
+                                Area Lead - UI/UX, Submissions, Courses (Jan 2016 - May 2016)<br>
+                                Snr Developer (Aug 2015 - Dec 2015)<br>
+                                Committer (Apr 2015 - May 2015)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/ashray.png" width="80px"><br>
+                                Ashray Jain<br>
+                                Snr Developer (Oct 2015 - May 2016)<br>
+                                Committer (Aug 2015 - Sep 2015)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/nimantha.png" width="80px"><br>
+                                Nimantha Baranasuriya<br>
+                                Project Admin (2013 - 2016)<br><br>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-4">
+                        <ol start="7">
+                            <li>
+                                <img src="images/teammembers/bui.png" width="80px"><br>
+                                Bui Trong Nhan<br>
+                                Area Lead - Scalability (Aug 2014 - Dec 2015)<br>
+                                Snr Developer (June 2014 - Jul 2014)<br>
+                                Committer (Apr 2014 - May 2014)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/kai.png" width="80px"><br>
+                                Xie Kai<br>
+                                Area Lead - Comments (Aug 2014 - Dec 2015)<br>
+                                Snr Developer (June 2014 - Jul 2014)<br>
+                                Committer (Apr 2014 - May 2014)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/junchao.png" width="80px"><br>
+                                Gu Junchao<br>
+                                Area Lead - Access Control (Aug 2014 - Dec 2015)<br>
+                                Snr Developer (June 2014 - Jul 2014)<br>
+                                Committer (Apr 2014 - May 2014)<br><br>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/shawn.png" width="80px">
+                                <div>Shawn Lee (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/yangmo.png" width="80px">
+                                <div>Yang Mo (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/arnold.png" width="80px">
+                                <div>Arnold Koroa (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/ivan.png" width="80px">
+                                <div>Ivan Poon (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/jamesdjuhartono.png" width="80px">
+                                <div>James Djuhartono (Area Lead, Snr Developer)</div>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-4">
+                        <ol start="15">
+                            <li>
+                                <img src="images/teammembers/ryan.png" width="80px">
+                                <div>Ryan Chang (Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/theongsiang.png" width="80px">
+                                <div>Oo Theong Siang (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/hunar.png" width="80px">
+                                <div>Hunar Khanna (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/qiaoliang.png" width="80px">
+                                <div>Qiao Liang (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/kenny.png" width="80px">
+                                <div>Tan How Cheng Kenny (Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/chunteck.png" width="80px">
+                                <div>Goh Chun Teck (Project Lead, Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/wangsha.png" width="80px">
+                                <div>Wang Sha (Project Lead, Area Lead, Snr Developer)</div>
+                            </li>
+                            <li>
+                                <img src="images/teammembers/james.png" width="80px">
+                                <div>Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)</div>
+                            </li>
+                            <br>
+                            <li>Aldrian Obaja (Area Lead, Snr Developer)</li>
+                            <li>Kalpit Jain (Area Lead, Snr Developer)</li>
+                            <li>Shakthi Priya Kathirvelu (Area Lead, Snr Developer)</li>
+                            <li>Zhang Xialin (Area Lead, Snr Developer)</li>
+                            <li>Huy Nguyen (Area Lead, Snr Developer)</li>
+                            <li>Gerald Goh (Project Lead, Snr Developer)</li>
+                            <li>Lai Xiaoni (Project Lead, Snr Developer)</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="row">
