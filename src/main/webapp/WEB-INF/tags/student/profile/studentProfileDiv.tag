@@ -5,6 +5,7 @@
 <c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
 <c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
 <c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
+
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
     <h3 id="studentName">
         <strong>${profile.name}</strong>

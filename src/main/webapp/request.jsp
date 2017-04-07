@@ -5,6 +5,8 @@
 
 <t:staticPage>
 
+<div id="requestAccountDiv" class="well well-plain well-narrow well-sm-wide">
+
     <h1 class="color_orange">
         Request for an Account
     </h1>
@@ -14,28 +16,28 @@
 	Please complete the form below and we will get back to you as soon as possible. 
 	</h5>
 	
-	<form action="${data.instructorRequestAccount}" method="post" class="form-horizontal" role="form">
+	<form action="${data.instructorRequestAccount}" method="post" class="form center-block" role="form">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="instructions" class="col-sm-1 control-label"></label>
                         <div class="col-sm-11">
                         	<label>Your Full Name*:</label>
-                            <textarea class="form-control" id="name" name="name" rows="1" cols="1" style="max-width:20%;" placeholder="full name" required></textarea>
+                            <textarea class="form-control" id="name" name="name" rows="1" cols="2" style="max-width:50%;" placeholder="full name" required></textarea>
                             <br>
                             <label>University/School/Institution*:</label>
-                            <textarea class="form-control" id="university" name="university" rows="1" cols="1" style="max-width:20%;" placeholder="university" required></textarea>
+                            <textarea class="form-control" id="university" name="university" rows="1" cols="2" style="max-width:50%;" placeholder="university" required></textarea>
                             <br>
                             <label>Country*:</label>
                             <textarea class="form-control" id="country" name="country" rows="1" cols="1" style="max-width:20%;" placeholder="country" required></textarea>
                             <br>
                             <label>URL of your home page (if any):</label>
-                            <textarea class="form-control" id="home_page" name="home_page" rows="2" cols="1" style="max-width:20%;" placeholder="url"></textarea>
+                            <textarea class="form-control" id="home_page" name="home_page" rows="1" cols="2" style="max-width:50%;" placeholder="url"></textarea>
                             <br>
                             <label>Official Email Address*:</label>
-                            <textarea class="form-control" id="email" name="email" rows="1" cols="1" style="max-width:20%;" placeholder="email" required></textarea>
+                            <textarea class="form-control" id="email" name="email" rows="1" cols="2" style="max-width:50%;" placeholder="email" required></textarea>
                             <br>
                             <label>Any other comments/queries:</label>
-                            <textarea class="form-control" id="comments" name="comments" rows="3" cols="1" style="max-width:20%;" placeholder="comments"></textarea>
+                            <textarea class="form-control" id="comments" name="comments" rows="3" cols="2" style="max-width:50%;" placeholder="comments"></textarea>
                             <br>
                             
                             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
@@ -48,10 +50,5 @@
                 </div>
 	</form>
 
-    <div id="contentHolder">
-        <iframe src="https://spreadsheets.google.com/embeddedform?formkey=dDNsQmU4QXVYTVRhMjA2dEJWYW82Umc6MQ"
-                width="760px" height="880px" frameborder="0" marginheight="0" marginwidth="0">
-            Loading...
-        </iframe>
-    </div>
+   </div>
 </t:staticPage>
