@@ -149,10 +149,10 @@
                 </div>
             </div>
         </section>
-
-        <section class="row">
+      
+         <section class="row" id="firstlist">
             <h3>Committers:</h3>
-            <ol>
+            <ol class="contributor">
                 <li>Ch'ng Ming Shin (Jan 2017 - )</li>
                 <li>Dickson Tan (Jan 2017 - )</li>
                 <li>John Yong (Jan 2017 - )</li>
@@ -163,10 +163,20 @@
                 <li>Xiao Pu (Jan 2017 - )</li>
             </ol>
         </section>
-
+      
+        <section class="row">
+            <h3>Past Committers:</h3>
+            <ol class="contributor">
+                <li>John Kevin Tjahjadi (Jan 2016 - May 2016)</li>
+                <li>Kenneth Ho Chee Chong (Jan 2016 - May 2016)</li>
+                <li>Su Sumei (Jan 2016 - May 2016)</li>
+                <li>Wong Yu Xuan (Jan 2016 - May 2016)</li>
+            </ol>
+        </section>
+       
         <section class="row">
             <h3>Past Team Members:</h3>
-            <ol>
+            <ol class="contributor">
                 <li>
                     <img src="images/teammembers/weilin.png" width="80px"><br> 
                     Low WeiLin<br>

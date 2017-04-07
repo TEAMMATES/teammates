@@ -8,6 +8,19 @@ body {
     padding: 60px 0 30px;
 }
 
+#firstlist {
+    counter-reset: contributors;
+}
+
+.contributor li {
+    list-style-type: none;
+    counter-increment: contributors;
+}
+
+.contributor li:before {
+    content: counter(contributors) ".";
+}
+
 .editUncommonSettingsButton:hover {
     cursor: pointer;
 }
@@ -119,16 +132,12 @@ body {
     max-width: 75%;
 }
 
-.ordered-table {
-    counter-reset: rownumber;
-}
-
 .ordered-table tr:not(.skip) {
-    counter-increment: rownumber;
+    counter-increment: contributors;
 }
 
 .ordered-table tr td:first-child::before {
-    content: counter(rownumber) ".";
+    content: counter(contributors) ".";
     min-width: 1em;
     margin-right: .5em;
 }
