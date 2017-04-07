@@ -153,6 +153,42 @@
         <section class="row">
             <h3>Committers:</h3>
             <ol>
+                <li>
+                    <img src="images/teammembers/shin.png" width="80px"><br>
+                    Ch'ng Ming Shin (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/dickson.png" width="80px"><br>
+                    Dickson Tan (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/john.png" width="80px"><br>
+                    John Yong (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/min.png" width="80px"><br>
+                    Lee Yi Min (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/likai.png" width="80px"><br>
+                    Li Kai (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/samson.png" width="80px"><br>
+                    Samson Tan (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/thenaesh.png" width="80px"><br>
+                    Thenaesh Elango (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/pu.png" width="80px"><br>
+                    Xiao Pu (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/boxin.png" width="80px"><br>
+                    Boxin (Jan 2017 - )
+                </li>
             </ol>
         </section>
 
