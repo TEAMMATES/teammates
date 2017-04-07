@@ -416,13 +416,19 @@
         </section>
 
         <section class="row">
-            <h3>Past Committers:</h3>
-            <ol>
-                <li>John Kevin Tjahjadi (Jan 2016 - May 2016)</li>
-                <li>Kenneth Ho Chee Chong (Jan 2016 - May 2016)</li>
-                <li>Su Sumei (Jan 2016 - May 2016)</li>
-                <li>Wong Yu Xuan (Jan 2016 - May 2016)</li>
-            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><strong><a class="about-us-header" data-toggle="collapse" href="#pastCommittersList">Past Committers:<span class="pull-right glyphicon glyphicon-chevron-down"></span></a></strong></h3>
+                </div>
+                <div id="pastCommittersList" class="panel-body panel-collapse collapse">
+                    <ol>
+                        <li>John Kevin Tjahjadi (Jan 2016 - May 2016)</li>
+                        <li>Kenneth Ho Chee Chong (Jan 2016 - May 2016)</li>
+                        <li>Su Sumei (Jan 2016 - May 2016)</li>
+                        <li>Wong Yu Xuan (Jan 2016 - May 2016)</li>
+                    </ol>
+                </div>
+            </div>
         </section>
 
         <section class="row">
