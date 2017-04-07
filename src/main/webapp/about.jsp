@@ -187,7 +187,7 @@
                 </li>
                 <li>
                     <img src="images/teammembers/boxin.png" width="80px"><br>
-                    Boxin (Jan 2017 - )
+                    Yang Boxin (Jan 2017 - )
                 </li>
             </ol>
         </section>
