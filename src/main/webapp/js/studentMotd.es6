@@ -1,11 +1,10 @@
-/* global motdUrl:false */
 /**
  * Contains functions related to student MOTD.
  */
 function fetchMotd(motdUrl, motdContentSelector, motdContainerSelector) {
     $.ajax({
         type: 'GET',
-        url: motdUrl,
+        url: `${window.location.origin}/${motdUrl}`,
         success(data) {
             $(motdContentSelector).html(data);
         },
@@ -22,6 +21,7 @@ function bindCloseMotdButton(btnSelector, motdContainerSelector) {
 }
 
 $(document).ready(() => {
+    const motdUrl = $('#motd-url').val();
     fetchMotd(motdUrl, '#student-motd', '#student-motd-container');
     bindCloseMotdButton('#btn-close-motd', '#student-motd-container');
 });
