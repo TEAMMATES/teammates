@@ -937,6 +937,22 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
 }
 
 /**
+ * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support the function.
+ */
+/* eslint-disable no-extend-native */ // necessary for polyfills
+if (!String.prototype.includes) {
+    String.prototype.includes = function (search, startParam) {
+        const start = typeof startParam === 'number' ? startParam : 0;
+
+        if (start + search.length > this.length) {
+            return false;
+        }
+        return this.indexOf(search, start) !== -1;
+    };
+}
+/* eslint-enable no-extend-native */
+
+/**
  * Checks if the input value is a blank string
  *
  * @param str
