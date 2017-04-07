@@ -7,6 +7,9 @@ function submitFormAjax() {
     const content = $('#detailsTable');
     const ajaxStatus = $('#ajaxStatus');
 
+    const retryButtonHtml = '<button class="btn btn-info" id="instructorCourseDetailsRetryButton"> retry</button>';
+    $('#instructorCourseDetailsRetryButton').on('click', submitFormAjax);
+
     $.ajax({
         type: 'POST',
         url: `/page/instructorCourseDetailsPage?${formData}`,
@@ -15,13 +18,13 @@ function submitFormAjax() {
         },
         error() {
             ajaxStatus.html('Failed to load student table. Please try again.');
-            content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+            content.html(retryButtonHtml);
         },
         success(data) {
             setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                    content.html(retryButtonHtml);
                 } else {
                     const table = data.studentListHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
@@ -88,11 +91,8 @@ $(document).ready(() => {
     attachEventToDeleteStudentLink();
 });
 
-const isShowCommentBox = false;
-
 /*
 export default {
     submitFormAjax,
-    isShowCommentBox
 };
 */

@@ -165,7 +165,7 @@ public class BackDoorLogic extends Logic {
 
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
         for (AdminEmailAttributes email : adminEmails.values()) {
-            adminEmailsDb.creatAdminEmail(email);
+            adminEmailsDb.createAdminEmail(email);
         }
 
         // any Db can be used to commit the changes.
@@ -439,8 +439,15 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
 
-        // Delete all admin emails
-        adminEmailsDb.deleteEntities(adminEmailsDb.getAllAdminEmails());
+        for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
+            // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.
+            AdminEmailAttributes emailInDb = adminEmailsDb.getAdminEmailBySubject(email.subject);
+            // It is expected that email may not be in datastore yet, should fail silently.
+            if (emailInDb == null) {
+                continue;
+            }
+            adminEmailsDb.deleteEntity(emailInDb);
+        }
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {

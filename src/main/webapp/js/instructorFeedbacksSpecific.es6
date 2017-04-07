@@ -1,6 +1,6 @@
 /* global prepareDatepickers:false linkAjaxForResponseRate:false readyFeedbackPage:false richTextEditorBuilder:false
 setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false
-prepareRemindModal:false prepareInstructorPages:false
+loadSessionsByAjax:false prepareRemindModal:false prepareInstructorPages:false
 */
 
 let isSessionsAjaxSending = false;
@@ -26,8 +26,9 @@ const ajaxRequest = function (e) {
         error() {
             isSessionsAjaxSending = false;
             $('#sessionList').html('');
+            $('#loadSessionsFailErrorMsg').on('click', loadSessionsByAjax);
             const msg = 'Failed to load sessions. '
-                    + 'Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
+                    + 'Please <a href="#" id="loadSessionsFailErrorMsg">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {

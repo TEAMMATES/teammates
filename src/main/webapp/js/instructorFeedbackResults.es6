@@ -19,6 +19,10 @@ function submitFormAjax() {
     const formData = formObject.serialize();
     const content = $('#fsModalTable');
     const ajaxStatus = $('#ajaxStatus');
+
+    const retryButtonHtml = '<button class="btn btn-info" id="instructorFeedbackResultsRetryButton"> retry</button>';
+    $('#instructorFeedbackResultsRetryButton').on('click', submitFormAjax);
+
     $.ajax({
         type: 'POST',
         url: `/page/instructorFeedbackResultsPage?${formData}`,
@@ -27,13 +31,13 @@ function submitFormAjax() {
         },
         error() {
             ajaxStatus.html('Failed to load results table. Please try again.');
-            content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+            content.html(retryButtonHtml);
         },
         success(data) {
             setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                    content.html(retryButtonHtml);
                 } else {
                     const table = data.sessionResultsHtmlTableAsString;
                     content.html(`<small>${table}</small>`);

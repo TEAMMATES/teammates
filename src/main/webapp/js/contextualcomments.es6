@@ -4,8 +4,6 @@
            setStatusMessage:false,
            StatusType:false,
            scrollToTop:false,
-           isShowCommentBox:false,
-           commentRecipient:false
  */
 
 function prepareComments() {
@@ -120,7 +118,8 @@ function prepareComments() {
 
     $('input[type=checkbox]').on('click', visibilityOptionsHandler);
 
-    if (isShowCommentBox) {
+    const commentRecipient = $('#comment-recipient').val();
+    if ($('#show-comment-box').val() === 'true') {
         $('#button_add_comment').click();
         if (commentRecipient === 'team') {
             $('#comment_recipient_select').val('TEAM');

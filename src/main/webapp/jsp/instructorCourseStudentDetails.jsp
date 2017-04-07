@@ -10,13 +10,11 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/contextualcomments.js"></script>
     <script type="text/javascript" src="/js/instructorCourseStudentDetails.js"></script>
-    <script>
-        var isShowCommentBox = ${data.commentBoxShown};
-        var commentRecipient = '${data.commentRecipient}';
-    </script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Student Details" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+    <input type="hidden" id="show-comment-box" value="${data.commentBoxShown}">
+    <input type="hidden" id="comment-recipient" value="${data.commentRecipient}">
     <c:if test="${not empty data.studentProfile}">
         <csd:studentProfile student="${data.studentProfile}"/>
     </c:if>

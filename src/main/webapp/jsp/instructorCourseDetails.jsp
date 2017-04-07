@@ -20,6 +20,7 @@
     <course:commentArea courseId="${data.courseDetails.course.id}"/>
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
+    <input type="hidden" id="show-comment-box" value="false">
     <br>
     <ti:studentList courseId="${data.courseDetails.course.id}" courseIndex="${0}" hasSection="${data.hasSection}" sections="${data.sections}"
                     fromCourseDetailsPage="${true}"/>

@@ -1,4 +1,4 @@
-/* global toggleSingleCollapse:false showCommentBox:false tinymce:false */
+/* global toggleSingleCollapse:false tinymce:false */
 /* global isBlank:false setStatusMessage:false StatusType:false prepareInstructorPages:false */
 /* global scrollToTop:false richTextEditorBuilder:false BootboxWrapper:false */
 
@@ -162,7 +162,7 @@ function readyStudentRecordsPage() {
     });
 
     // Open the comment box if so desired by the request
-    if (showCommentBox === 'yes') {
+    if ($('#show-comment-box').val() === 'yes') {
         $('#button_add_comment').click();
     }
 }
