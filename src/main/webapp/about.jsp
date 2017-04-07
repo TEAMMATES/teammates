@@ -31,121 +31,145 @@
         </section>
 
         <section class="row">
-            <h3>Core Team:</h3>
-            <div class="row margin-top-7px">
-                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
-                    <img class="img-responsive" src="images/teammembers/damith.png">
+            <p class="page-header h2">Meet the Developers:</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h3><strong><a class="about-us-header" data-toggle="collapse" href="#coreTeamList">Core Team:<span class="pull-right glyphicon glyphicon-chevron-down"></span></a></strong></h3>
                 </div>
-                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
-                    <a href="http://www.comp.nus.edu.sg/~damithch/" target="_blank" rel="noopener noreferrer">Damith C. Rajapakse</a><br><br>
-                    Founder (2010)<br>
-                    Project Mentor (2010 -)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
-                    <img class="img-responsive" src="images/teammembers/hongjin.png">
-                </div>
-                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
-                    Kang Hong Jin<br><br>
-                    Project Mentor (June 2016 - )<br>
-                    Project Lead (Aug 2015 - May 2016)<br>
-                    Snr Developer (May 2015 - Jul 2015)<br>
-                    Committer (Aug 2014 - Apr 2015)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
-                    <img class="img-responsive" src="images/teammembers/thyagesh.png">
-                </div>
-                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
-                    Thyagesh Manikandan<br><br>
-                    Project Mentor (June 2016 - )<br>
-                    Project Lead (Jan 2016 - May 2016)<br>
-                    Area Lead - Profiles (Aug 2014 - Dec 2015)<br>
-                    Snr Developer (June 2014 - Jul 2014)<br>
-                    Committer (Apr 2014 - May 2014)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
-                    <img class="img-responsive" src="images/teammembers/wilson.png">
-                </div>
-                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
-                    Wilson Kurniawan<br><br>
-                    Project Lead (June 2016 - )<br>
-                    Area Lead - DevOps, Results (Jan 2016 - May 2016)<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Apr 2015 - May 2015)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
-                    <img class="img-responsive" width="90%" src="images/teammembers/josephine.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-7 col-md-8 margin-top-7px">
-                    Josephine Kwa<br><br>
-                    Area Lead - UI/UX, Comments, Profiles, Courses (Jan 2016 - )<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Feb 2015 - May 2015)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
-                    <img class="img-responsive" width="90%" src="images/teammembers/junhao.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-7 col-md-8 margin-top-7px">
-                    Yap Jun Hao<br><br>
-                    Area Lead - DevOps, Submissions (Jan 2016 - )<br>
-                    Snr Developer (Aug 2015 - Dec 2015)<br>
-                    Committer (Apr 2015 - May 2015)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
-                    <img class="img-responsive" src="images/teammembers/yuanbin.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
-                    Chow Yuan Bin<br>
-                    Snr Developer (Aug 2016 - )<br>
-                    Committer (May 2016 - Jul 2016)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
-                    <img class="img-responsive" src="images/teammembers/yongjie.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
-                    Khoo Yong Jie<br>
-                    Snr Developer (Aug 2016 - )<br>
-                    Committer (May 2016 - Jul 2016)
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
-                    <img class="img-responsive" src="images/teammembers/lakmal.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
-                    Lakmal Padmakumara<br>
-                    Major contributor (May 2016 - )
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
-                    <img class="img-responsive" src="images/teammembers/serhii.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
-                    Serhii Beliablia<br>
-                    Major contributor (May 2016 - )
-                </div>
-            </div>
-            <div class="row margin-top-7px">
-                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
-                    <img class="img-responsive" src="images/teammembers/tarun.png">
-                </div>
-                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
-                    Tarun Kumar Yadav<br>
-                    Major contributor (May 2016 - )
+                <div id="coreTeamList" class="panel-body panel-collapse collapse in">
+                    <div class="col-sm-12">
+                        <div id="coreMembersCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#coreMembersCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="1"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="2"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="3"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="4"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="5"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="6"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="7"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="8"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="9"></li>
+                                <li data-target="#coreMembersCarousel" data-slide-to="10"></li>
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+
+                                <div class="item active">
+                                    <center><img class="img-responsive" src="images/teammembers/damith.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3><a href="http://www.comp.nus.edu.sg/~damithch/" target="_blank" rel="noopener noreferrer">Damith C. Rajapakse</a></h3>
+                                        <p>Founder (2010)<br>
+                                            Project Mentor (2010 - present)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/hongjin.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Kang Hong Jin</h3>
+                                        <p>Project Mentor (June 2016 - )<br>
+                                            Project Lead (Aug 2015 - May 2016)<br>
+                                            Snr Developer (May 2015 - Jul 2015)<br>
+                                            Committer (Aug 2014 - Apr 2015)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/thyagesh.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Thyagesh Manikandan</h3>
+                                        <p>Project Mentor (June 2016 - )<br>
+                                            Project Lead (Jan 2016 - May 2016)<br>
+                                            Area Lead - Profiles (Aug 2014 - Dec 2015)<br>
+                                            Snr Developer (June 2014 - Jul 2014)<br>
+                                            Committer (Apr 2014 - May 2014)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/wilson.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Wilson Kurniawan</h3>
+                                        <p>Project Lead (June 2016 - )<br>
+                                            Area Lead - DevOps, Results (Jan 2016 - May 2016)<br>
+                                            Snr Developer (Aug 2015 - Dec 2015)<br>
+                                            Committer (Apr 2015 - May 2015)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/josephine.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Josephine Kwa</h3>
+                                        <p>Project Lead (June 2016 - )<br>
+                                            Area Lead - UI/UX, Comments, Profiles, Courses (Jan 2016 - )<br>
+                                            Snr Developer (Aug 2015 - Dec 2015)<br>
+                                            Committer (Feb 2015 - May 2015)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/junhao.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Yap Jun Hao</h3>
+                                        <p>Area Lead - DevOps, Submissions (Jan 2016 - )<br>
+                                            Snr Developer (Aug 2015 - Dec 2015)<br>
+                                            Committer (Apr 2015 - May 2015)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/yuanbin.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Chow Yuan Bin</h3>
+                                        <p>Snr Developer (Aug 2016 - )<br>
+                                        Committer (May 2016 - Jul 2016)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/yongjie.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Khoo Yong Jie</h3>
+                                        <p>Snr Developer (Aug 2016 - )<br>
+                                        Committer (May 2016 - Jul 2016)</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/lakmal.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Lakmal Padmakumara</h3>
+                                        <p>Major contributor (May 2016 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/serhii.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Serhii Beliablia</h3>
+                                        <p>Major contributor (May 2016 - )</p>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <center><img class="img-responsive" src="images/teammembers/tarun.png" height="428" width="500"></center>
+                                    <div class="carousel-caption">
+                                        <h3>Tarun Kumar Yadav</h3>
+                                        <p>Major contributor (May 2016 - )</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#coreMembersCarousel" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#coreMembersCarousel" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
