@@ -3,10 +3,10 @@
     <div class="container">
         <section class="row">
             <h1 class="color_orange">About Us</h1>
-            <p class="h3">Acknowledgements:</p>
-            <h2>
+            <p class="h2 page-header">Acknowledgements:</p>
+            <h3>
                 <b>TEAMMATES</b> team wishes to thank the following invaluable contributions.
-            </h2>
+            </h3>
             <ul>
                 <li>
                     <a href="http://www.comp.nus.edu.sg/" target="_blank" rel="noopener noreferrer">School of Computing, National University of Singapore (NUS)</a>, for providing us with the infrastructure support to run the project.
