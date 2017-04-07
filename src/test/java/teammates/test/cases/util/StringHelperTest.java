@@ -3,11 +3,18 @@ package teammates.test.cases.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -15,6 +22,7 @@ import teammates.test.cases.BaseTestCase;
  * SUT: {@link StringHelper}.
  */
 public class StringHelperTest extends BaseTestCase {
+    private static final Logger log = Logger.getLogger();
 
     @Test
     public void testGenerateStringOfLength() {
@@ -125,6 +133,28 @@ public class StringHelperTest extends BaseTestCase {
 
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
+    }
+    
+    @Test
+    public void testAESDefaultModePadding() throws InvalidParametersException {
+       
+        String msg = "Test AES Default";
+        String decrptedMsg;
+        byte[] decrypted ;
+        decrptedMsg = StringHelper.encrypt(msg);
+        
+        try {
+            SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, sks);
+            decrypted = cipher.doFinal(StringHelper.hexStringToByteArray(decrptedMsg));
+        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + decrptedMsg);
+            throw new InvalidParametersException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(msg, new String(decrypted));    
     }
 
     @Test
