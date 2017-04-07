@@ -17,6 +17,7 @@ public class AdminEmailPage extends AppPage {
 
     public void inputRecipient(String recipient) {
         WebElement recipientBox = this.getRecipientBox();
+        recipientBox.clear();
         recipientBox.sendKeys(recipient);
     }
 
