@@ -1120,3 +1120,12 @@ Prevent Long URL From Breaking Out of Container
     float: left;
     margin-right: 5px;
 }
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none;
+    color: black;
+}
+
+a.about-us-header {
+  color: #3b3b3b;
+}
