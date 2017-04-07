@@ -806,7 +806,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private void clickAjaxLoadedPanelAndWaitForExpansion(String panelId, String ajaxClass) {
         resultsPage.clickElementById(panelId);
-        resultsPage.waitForPanelToExpand(panelId, ajaxClass);
+        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
     }
 
     private void clickCollapseExpandButtonAndWaitForPanelsToRespond(boolean isExpandingPanels) {

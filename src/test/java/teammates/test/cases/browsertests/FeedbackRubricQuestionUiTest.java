@@ -404,6 +404,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private void clickAjaxLoadedPanelAndWaitForExpansion(
             InstructorFeedbackResultsPage resultsPage, String panelId, String ajaxClass) {
         resultsPage.clickElementById(panelId);
-        resultsPage.waitForPanelToExpand(panelId, ajaxClass);
+        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
     }
 }

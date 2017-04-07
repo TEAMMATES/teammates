@@ -10,11 +10,10 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -255,15 +254,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void waitForPanelToExpand(final String panelId, final String ajaxClass) {
+    /**
+     * Wait for Ajax loaded panel to be expanded. The panel is expanded when Ajax loading finishes,
+     * which is identified by the removal of Ajax class in the element.
+     *
+     * @param panelId the Id of panel element
+     * @param ajaxClass the class removed from {@code panelElement} when Ajax loading finished
+     */
+    public void waitForAjaxLoadedPanelToExpand(String panelId, String ajaxClass) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver d) {
-                WebElement element = d.findElement(By.id(panelId));
-                return !element.getAttribute("class").contains(ajaxClass);
-            }
-        });
+        WebElement panelElement = browser.driver.findElement(By.id(panelId));
+        wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(
+                panelElement, "class", ajaxClass)));
     }
 
     public boolean verifyAllStatsVisibility() {
