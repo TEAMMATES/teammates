@@ -153,14 +153,6 @@
         <section class="row">
             <h3>Committers:</h3>
             <ol>
-                <li>Ch'ng Ming Shin (Jan 2017 - )</li>
-                <li>Dickson Tan (Jan 2017 - )</li>
-                <li>John Yong (Jan 2017 - )</li>
-                <li>Lee Yi Min (Jan 2017 - )</li>
-                <li>Li Kai (Jan 2017 - )</li>
-                <li>Samson Tan (Jan 2017 - )</li>
-                <li>Thenaesh Elango (Jan 2017 - )</li>
-                <li>Xiao Pu (Jan 2017 - )</li>
             </ol>
         </section>
 
