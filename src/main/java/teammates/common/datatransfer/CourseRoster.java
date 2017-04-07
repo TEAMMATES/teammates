@@ -19,7 +19,7 @@ public class CourseRoster {
     Map<String, InstructorAttributes> instructorListByEmail = new HashMap<String, InstructorAttributes>();
 
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
-        populateStuentListByEmail(students);
+        populateStudentListByEmail(students);
         populateInstructorListByEmail(instructors);
     }
 
@@ -64,7 +64,7 @@ public class CourseRoster {
         return instructorListByEmail.get(email);
     }
 
-    private void populateStuentListByEmail(List<StudentAttributes> students) {
+    private void populateStudentListByEmail(List<StudentAttributes> students) {
 
         if (students == null) {
             return;
