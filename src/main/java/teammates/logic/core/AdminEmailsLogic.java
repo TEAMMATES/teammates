@@ -61,6 +61,16 @@ public final class AdminEmailsLogic {
     }
 
     /**
+     * Gets an admin email based on subject.
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailBySubject(String subject) {
+        Assumption.assertNotNull(subject);
+
+        return adminEmailsDb.getAdminEmailBySubject(subject);
+    }
+
+    /**
      * Move an admin email to trash bin.<br>
      * After this the attribute isInTrashBin will be set to true
      */
@@ -117,7 +127,7 @@ public final class AdminEmailsLogic {
     }
 
     public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
-        return adminEmailsDb.creatAdminEmail(newAdminEmail);
+        return adminEmailsDb.createAdminEmail(newAdminEmail);
     }
 
     /**
