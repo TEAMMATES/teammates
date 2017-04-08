@@ -56,8 +56,7 @@ dependencies {
                     "com.sun.jersey.contribs:jersey-multipart:1.19.3",
                     "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.10.2",
-                    "org.kohsuke:wordnet-random-name:1.3"
+                    "org.jsoup:jsoup:1.10.2"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
@@ -87,7 +86,8 @@ dependencies {
                     "httpunit:httpunit:1.7",
                     "javax.mail:mail:1.4.7",
                     "org.seleniumhq.selenium:selenium-java:2.53.1",
-                    "org.testng:testng:6.9.4"
+                    "org.testng:testng:6.9.4",
+                    "org.kohsuke:wordnet-random-name:1.3"
 
     testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
 
