@@ -506,7 +506,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
                              + entry.getValue().toString() + ','
-                             + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
+                             + df.format(100 * divideOrReturnZero((double) entry.getValue() ,numChoicesSelected)) + Const.EOL);
         }
 
         return "Choice, Response Count, Percentage" + Const.EOL
