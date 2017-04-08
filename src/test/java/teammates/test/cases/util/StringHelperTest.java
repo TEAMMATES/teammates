@@ -128,34 +128,34 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(msg, decrptedMsg);
     }
 
-    private static String encryptWithoutSpecifyingAlgorithmParams(String value) {
-        try {
-            SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-            byte[] encrypted = cipher.doFinal(value.getBytes());
-            return StringHelper.byteArrayToHexString(encrypted);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @Test
+    public void testDefaultAesCipherParams() throws Exception {
+        //plaintext is less than 1 block long
+        String plaintextLength28 = StringHelper.generateStringOfLength(7, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength28);
 
+        //plaintext is equal to 1 block
+        String plaintextLength128 = StringHelper.generateStringOfLength(32, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength128);
+
+        //plaintext is more than 1 block long
+        String plaintextLength136 = plaintextLength128 + StringHelper.generateStringOfLength(2, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength136);
     }
 
-    @Test
-    public void testDefaultAesCipherParams() throws InvalidParametersException {
-        String msg1 = "AAAAAA";
-        //128 bits and more
-        String msg2 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCCC";
-        String msg3 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCCCAAAAAAAAAABBBBBBBBBBCCCCCCCCCCCC";
-        String expectedCiphertext;
-        String actualCiphertext;
-        String[] inputMsg = {msg1, msg2, msg3};
-        for (String msg : inputMsg) {
+    private static String encryptWithoutSpecifyingAlgorithmParams(String plaintext) throws Exception {
+        SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+        byte[] encrypted = cipher.doFinal(plaintext.getBytes());
+        return StringHelper.byteArrayToHexString(encrypted);
+    }
 
-            actualCiphertext = encryptWithoutSpecifyingAlgorithmParams(msg);
-            expectedCiphertext = StringHelper.encrypt(msg);
-            assertEquals(actualCiphertext, expectedCiphertext);
-        }
+    //verifying encryption string is same for default AlgorithmParams and with specified AlgorithmParams
+    private static void assertEncryptionUsesExpectedDefaultParams(String plaintext) throws Exception {
+        String actualCiphertext = encryptWithoutSpecifyingAlgorithmParams(plaintext);
+        String expectedCiphertext = StringHelper.encrypt(plaintext);
+        assertEquals(expectedCiphertext, actualCiphertext);
     }
 
     @Test
