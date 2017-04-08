@@ -59,6 +59,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         ______TS("send email - no subject");
 
+        emailPage.clearRecipientBox();
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();

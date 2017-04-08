@@ -17,7 +17,6 @@ public class AdminEmailPage extends AppPage {
 
     public void inputRecipient(String recipient) {
         WebElement recipientBox = this.getRecipientBox();
-        recipientBox.clear();
         recipientBox.sendKeys(recipient);
     }
 
@@ -41,6 +40,11 @@ public class AdminEmailPage extends AppPage {
     public void clickSaveButton() {
         click(getSaveButton());
         waitForPageToLoad();
+    }
+
+    public void clearRecipientBox() {
+        WebElement recipientBox = this.getRecipientBox();
+        recipientBox.clear();
     }
 
     public void clearSubjectBox() {
