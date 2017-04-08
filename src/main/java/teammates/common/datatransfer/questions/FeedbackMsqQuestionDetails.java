@@ -415,7 +415,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 Slots.MCQ_CHOICE_VALUE, entry.getKey(),
                                 Slots.COUNT, entry.getValue().toString(),
-                                Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / numChoicesSelected)));
+                                Slots.PERCENTAGE, df.format(100 *  divideOrReturnZero((double) entry.getValue(), numChoicesSelected))));
 
         }
         //Use same template as MCQ for now, until they need to be different.
