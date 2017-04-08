@@ -474,6 +474,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
 
+    private int getQuestionResultStatistics(
+            List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
+        
+    }
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
