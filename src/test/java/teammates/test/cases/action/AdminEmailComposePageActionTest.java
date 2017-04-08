@@ -56,7 +56,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
 
         ______TS("edit existing email : typical values given : success");
         // retrieve email id from logic
-        AdminEmailAttributes email = adminEmailsLogic.getAdminEmailDrafts().get(0);
+        AdminEmailAttributes emailData = dataBundle.adminEmails.get("adminEmail1");
+        AdminEmailAttributes email = adminEmailsLogic.getAdminEmailBySubject(emailData.subject);
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
