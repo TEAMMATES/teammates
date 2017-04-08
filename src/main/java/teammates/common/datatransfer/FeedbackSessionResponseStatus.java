@@ -94,7 +94,7 @@ public class FeedbackSessionResponseStatus {
         Collections.sort(noResponse, compareByTeamNameStudentName);
         return whoResponded;
     }
-    
+
     public List<String> getNoResponse() {
         return noResponse;
     }
@@ -102,7 +102,7 @@ public class FeedbackSessionResponseStatus {
     public List<String> getWhoResponded() {
         return whoResponded;
     }
-    
+
     public Map<String, String> getEmailNameTable() {
         return emailNameTable;
     }
