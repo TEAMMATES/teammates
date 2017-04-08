@@ -482,6 +482,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
+    private int checkContainsNonEmptyResponse(List<String> answerStrings, Map<String, Integer> answerFrequency) {
+        int numChoices = 0;
+        for (String answerString : answerStrings) {
+            if (answerString.isEmpty()) {
+                continue;
+            }
+
+            numChoices++;
+
+            if (!answerFrequency.containsKey(answerString)) {
+                answerFrequency.put(answerString, 0);
+            }
+            answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+        }
+        return numChoices;
+    }
+
     private double divideOrReturnZero(double entryValue, int numChoice) {
         return (numChoice == 0) ? 0 : entryValue / numChoice;
     }
