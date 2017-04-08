@@ -403,63 +403,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
-
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-
-        for (String option : msqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        int numChoicesSelected = 0;
-        for (FeedbackResponseAttributes response : responses) {
-            List<String> answerStrings =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-            String otherAnswer = "";
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-
-                numChoicesSelected++;
-                // remove other answer temporarily to calculate stats for other options
-                otherAnswer = answerStrings.get(answerStrings.size() - 1);
-                answerStrings.remove(otherAnswer);
-            }
-
-            for (String answerString : answerStrings) {
-                if (answerString.isEmpty()) {
-                    continue;
-                }
-
-                isContainsNonEmptyResponse = true;
-                numChoicesSelected++;
-
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-            }
-
-            // restore other answer if any
-            if (isOtherOptionAnswer) {
-                answerStrings.add(otherAnswer);
-            }
-        }
-
-        if (!isContainsNonEmptyResponse) {
+        int numChoicesSelected = getQuestionResultStatistics(responses, answerFrequency);
+        if (numChoicesSelected == -1) {
             return "";
         }
-
         DecimalFormat df = new DecimalFormat("#.##");
 
         StringBuilder fragments = new StringBuilder();
