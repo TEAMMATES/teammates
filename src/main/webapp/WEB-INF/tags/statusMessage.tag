@@ -11,7 +11,10 @@
         <div id="statusMessagesToUser">
             <c:forEach items="${statusMessagesToUser}" var="statusMessage">
                 <div class="overflow-auto alert alert-${statusMessage.color} statusMessage">
-                    ${statusMessage.text}
+                    <c:if test="${statusMessage.color == 'success'}">
+                        <span class="glyphicon glyphicon-ok-sign"></span>
+                    </c:if>
+                        ${statusMessage.text}
                 </div>
             </c:forEach>
         </div>
