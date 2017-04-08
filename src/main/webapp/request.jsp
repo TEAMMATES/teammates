@@ -12,7 +12,7 @@
     </h1>
     
 	<h5> Dear Instructor, <br>
-	We are glad that you are thinking of joining the TEAMMATES team.<br>
+	We are glad that you are thinking of joining the "TEAMMATES" team.<br>
 	Please complete the form below and we will get back to you as soon as possible. 
 	</h5>
 	
