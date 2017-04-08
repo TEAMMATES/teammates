@@ -455,18 +455,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 answerStrings.remove(otherAnswer);
             }
 
-            for (String answerString : answerStrings) {
-                if (answerString.isEmpty()) {
-                    continue;
-                }
-
+            int numChoices = checkContainsNonEmptyResponse(answerStrings, answerFrequency);
+            if (numChoices > 0) {
                 isContainsNonEmptyResponse = true;
-                numChoicesSelected++;
-
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                numChoicesSelected += numChoices;
             }
 
             // restore other answer if any
