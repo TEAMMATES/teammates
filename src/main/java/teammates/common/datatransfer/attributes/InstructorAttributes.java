@@ -201,6 +201,13 @@ public class InstructorAttributes extends EntityAttributes {
             errors.add(error);
         }
 
+        if (!isDisplayedToStudents) {
+            error = validator.getInvalidityInfoForisDisplayedToStudents(courseId, email);
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
+        }
+
         error = validator.getInvalidityInfoForPersonName(displayedName);
         if (!error.isEmpty()) {
             errors.add(error);

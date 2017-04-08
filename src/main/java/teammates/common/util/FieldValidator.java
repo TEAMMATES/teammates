@@ -12,6 +12,8 @@ import java.util.Set;
 import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.logic.api.Logic;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -185,6 +187,8 @@ public class FieldValidator {
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
 
+    public static final String IS_DISPLAYED_TO_STUDENTS_ERROR = "Atleast one instructor should display to students";
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -326,6 +330,23 @@ public class FieldValidator {
                                             REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
         }
         return "";
+    }
+
+    /**
+     * Checks if other instructors also set visibility false.
+     * @return An explanation of why instructor can't set visibility to false.
+     *         Returns an empty string if the instructor can set visibility to false.
+     */
+    public String getInvalidityInfoForisDisplayedToStudents(String courseId, String email) {
+
+        Logic logic = new Logic();
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isDisplayedToStudents && !instructor.email.equals(email)) {
+                return "";
+            }
+        }
+        return IS_DISPLAYED_TO_STUDENTS_ERROR;
     }
 
     /**
