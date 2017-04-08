@@ -482,6 +482,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
+    private double divideOrReturnZero(double entryValue, int numChoice) {
+        return (numChoice == 0) ? 0 : entryValue / numChoice;
+    }
+
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
