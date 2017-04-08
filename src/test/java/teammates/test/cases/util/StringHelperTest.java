@@ -2,19 +2,13 @@ package teammates.test.cases.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
-
 import org.testng.annotations.Test;
-
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -22,7 +16,6 @@ import teammates.test.cases.BaseTestCase;
  * SUT: {@link StringHelper}.
  */
 public class StringHelperTest extends BaseTestCase {
-    private static final Logger log = Logger.getLogger();
 
     @Test
     public void testGenerateStringOfLength() {
@@ -135,25 +128,34 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(msg, decrptedMsg);
     }
 
-    @Test
-    public void testAesdefaultmodepadding() throws InvalidParametersException {
-        String msg = "Test AES Default";
-        String decrptedMsg;
-        byte[] decrypted;
-        decrptedMsg = StringHelper.encrypt(msg);
-
+    private static String encryptWithoutSpecifyingAlgorithmParams(String value) {
         try {
             SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, sks);
-            decrypted = cipher.doFinal(StringHelper.hexStringToByteArray(decrptedMsg));
-        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
-            log.warning("Attempted to decrypt invalid ciphertext: " + decrptedMsg);
-            throw new InvalidParametersException(e);
+            cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+            byte[] encrypted = cipher.doFinal(value.getBytes());
+            return StringHelper.byteArrayToHexString(encrypted);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        assertEquals(msg, new String(decrypted));
+
+    }
+
+    @Test
+    public void testDefaultAesCipherParams() throws InvalidParametersException {
+        String msg1 = "AAAAAA";
+        //128 bits and more
+        String msg2 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCCC";
+        String msg3 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCCCAAAAAAAAAABBBBBBBBBBCCCCCCCCCCCC";
+        String expectedCiphertext;
+        String actualCiphertext;
+        String[] inputMsg = {msg1, msg2, msg3};
+        for (String msg : inputMsg) {
+
+            actualCiphertext = encryptWithoutSpecifyingAlgorithmParams(msg);
+            expectedCiphertext = StringHelper.encrypt(msg);
+            assertEquals(actualCiphertext, expectedCiphertext);
+        }
     }
 
     @Test

@@ -340,7 +340,7 @@ public final class StringHelper {
         return String.valueOf(charArray);
     }
 
-    private static String byteArrayToHexString(byte[] bytes) {
+    public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
             int v = b & 0xff;
