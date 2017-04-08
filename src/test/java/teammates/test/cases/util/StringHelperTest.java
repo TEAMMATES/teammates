@@ -134,15 +134,14 @@ public class StringHelperTest extends BaseTestCase {
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
     }
-    
+
     @Test
-    public void testAESDefaultModePadding() throws InvalidParametersException {
-       
+    public void testAesdefaultmodepadding() throws InvalidParametersException {
         String msg = "Test AES Default";
         String decrptedMsg;
-        byte[] decrypted ;
+        byte[] decrypted;
         decrptedMsg = StringHelper.encrypt(msg);
-        
+
         try {
             SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -154,7 +153,7 @@ public class StringHelperTest extends BaseTestCase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        assertEquals(msg, new String(decrypted));    
+        assertEquals(msg, new String(decrypted));
     }
 
     @Test
