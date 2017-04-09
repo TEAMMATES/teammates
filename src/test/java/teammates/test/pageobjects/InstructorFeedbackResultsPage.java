@@ -316,8 +316,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
-        WebElement errorMessageSpan = waitForElementPresence(
-                By.cssSelector("#responseCommentTable" + commentTableIdSuffix + " .col-sm-offset-5 #errorMessage"));
+        WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
         assertEquals(errorMessage, errorMessageSpan.getText());
     }
 
@@ -344,14 +343,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
         String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
-                                             .findElement(By.cssSelector(".profile-pic-icon-click"));
-        executeScript("document.getElementById('" + idOfPanelBody + "')"
-                      + ".getElementsByClassName('profile-pic-icon-click')[0]"
-                      + ".getElementsByTagName('a')[0].click();");
-        Actions actions = new Actions(browser.driver);
-
-        actions.moveToElement(photoCell).perform();
+        browser.driver.findElement(By.id(idOfPanelBody))
+                      .findElement(By.cssSelector(".profile-pic-icon-click"))
+                      .findElement(By.tagName("a")).click();
 
         AssertHelper.assertContainsRegex(urlRegex,
                 waitForElementPresence(By.cssSelector(".popover-content > img")).getAttribute("src"));
@@ -359,13 +353,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
-
-        /*
-         * Execute JavaScript instead of using Selenium selectors to bypass bug
-         * regarding unix systems and current testing version of Selenium and Firefox
-         */
-        executeScript("$(document.getElementById('" + idOfPanelHeading + "')"
-                      + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
+                                            .findElement(By.className("profile-pic-icon-hover"));
+        Actions actions = new Actions(browser.driver);
+        actions.moveToElement(photoDiv).perform();
 
         waitForElementPresence(By.cssSelector(".popover-content > a")).click();
 
