@@ -43,8 +43,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         assertTrue(bundle.comments.isEmpty());
 
         ______TS(
-                "success: search for feedbackresponsecomments; query string matches some feedbackresponsecomments; results restricted "
-                        + "based on instructor's privilege");
+                "success: search for feedbackresponsecomments; query string matches"
+                        + " some feedbackresponsecomments; results restricted based on instructor's privilege");
 
         bundle = feedbackResponseCommentsDb.search("self feedback Question 2", ins1OfCourse1);
         assertEquals(2, bundle.numberOfResults);
