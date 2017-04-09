@@ -228,7 +228,7 @@ To run individual tests, right-click on the test files on the project explorer a
 
 #### IntelliJ
 
-Run tests using the configurations available under `Play → Run`.
+Run tests using the configurations available under `Run → Run...`.
 
 To run individual tests, right-click on the test files on the project explorer and choose `Run`.
 
