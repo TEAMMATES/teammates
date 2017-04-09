@@ -167,7 +167,6 @@ public class StudentAttributes extends EntityAttributes {
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
         if (isRegistered()) {
             addError(validator.getInvalidityInfoForGoogleId(googleId), errors);
