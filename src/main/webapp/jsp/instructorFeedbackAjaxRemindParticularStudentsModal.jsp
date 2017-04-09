@@ -21,9 +21,13 @@
             Email
             <span class="icon-sort unsorted"></span>
         </th>
+        <th onclick="toggleSort(this);" class="button_sortemail button-sort-none">
+            Submitted?
+            <span class="icon-sort unsorted"></span>
+        </th>
     </tr>
     <c:forEach items="${data.responseStatus.noResponse}" var="userToRemindEmail">
-        <tr class="background-color-white">
+        <tr class="bg-warning">
             <td class="align-center">
                 <div class="checkbox">
                     <label>
@@ -42,11 +46,14 @@
             </td>
             <td>
                 ${userToRemindEmail}
+            </td>
+            <td>
+                No
             </td>
         </tr>
     </c:forEach>
     <c:forEach items="${data.responseStatus.whoResponded}" var="userToRemindEmail">
-        <tr class="background-color-medium-gray">
+        <tr class="bg-info">
             <td class="align-center">
                 <div class="checkbox">
                     <label>
@@ -65,6 +72,9 @@
             </td>
             <td>
                 ${userToRemindEmail}
+            </td>
+            <td>
+                Yes
             </td>
         </tr>
     </c:forEach>
