@@ -8,6 +8,10 @@ body {
     padding: 60px 0 30px;
 }
 
+a {
+    cursor: pointer;
+}
+
 .editUncommonSettingsButton:hover {
     cursor: pointer;
 }
@@ -131,6 +135,12 @@ body {
     content: counter(rownumber) ".";
     min-width: 1em;
     margin-right: .5em;
+}
+
+.makeLineGap {
+    width: 100%;
+    height: 75px;
+    padding-top: 15px;
 }
 
 /*
