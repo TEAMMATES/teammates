@@ -57,22 +57,22 @@ public abstract class EntityAttributes {
      * e.g. trim strings
      */
     public abstract void sanitizeForSaving();
-    
+
     /**
-     * Check for error and add it to array of errors, if it exists
+     * Check for error and add it to array of errors, if it exists.
      */
     public void addError(String error, List<String> errors) {
         if (!error.isEmpty()) {
             errors.add(error);
         }
-    };
-    
+    }
+
     /**
-     * Check for error and add it to array of errors with additional preceding text, if error exists
+     * Check for error and add it to array of errors with additional preceding text, if error exists.
      */
     public void addError(String error, List<String> errors, String precedingText) {
         if (!error.isEmpty()) {
             errors.add(precedingText + error);
         }
-    };
+    }
 }

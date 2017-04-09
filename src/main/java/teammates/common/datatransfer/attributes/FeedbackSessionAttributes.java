@@ -202,7 +202,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         addError(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
 
-        addError(validator.getValidityInfoForNonNullField("time for the session to become visible", sessionVisibleFromTime), errors);
+        addError(validator.getValidityInfoForNonNullField(
+                "time for the session to become visible", sessionVisibleFromTime), errors);
 
         addError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
@@ -228,7 +229,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         addError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
 
-        addError(validator.getValidityInfoForNonNullField("time for the responses to become visible", resultsVisibleFromTime), errors);
+        addError(validator.getValidityInfoForNonNullField(
+                "time for the responses to become visible", resultsVisibleFromTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
