@@ -153,14 +153,42 @@
         <section class="row">
             <h3>Committers:</h3>
             <ol>
-                <li>Ch'ng Ming Shin (Jan 2017 - )</li>
-                <li>Dickson Tan (Jan 2017 - )</li>
-                <li>John Yong (Jan 2017 - )</li>
-                <li>Lee Yi Min (Jan 2017 - )</li>
-                <li>Li Kai (Jan 2017 - )</li>
-                <li>Samson Tan (Jan 2017 - )</li>
-                <li>Thenaesh Elango (Jan 2017 - )</li>
-                <li>Xiao Pu (Jan 2017 - )</li>
+                <li>
+                    <img src="images/teammembers/mingshin.png" width="80px"><br>
+                    Ch'ng Ming Shin (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/dickson.png" width="80px"><br>
+                    Dickson Tan (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/john.png" width="80px"><br>
+                    John Yong (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/yimin.png" width="80px"><br>
+                    Lee Yi Min (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/likai.png" width="80px"><br>
+                    Li Kai (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/samson.png" width="80px"><br>
+                    Samson Tan (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/thenaesh.png" width="80px"><br>
+                    Thenaesh Elango (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/xiaopu.png" width="80px"><br>
+                    Xiao Pu (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/boxin.png" width="80px"><br>
+                    Yang Boxin (Jan 2017 - )
+                </li>
             </ol>
         </section>
 
