@@ -341,7 +341,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(ajaxPanels);
     }
 
-    // Build #3
+    // Build #4
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
         String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
