@@ -341,6 +341,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(ajaxPanels);
     }
 
+    // Build #2
+
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
         String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
         String popoverSelector = panelBodySelector + " .popover-content";
