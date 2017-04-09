@@ -124,7 +124,7 @@ public class StudentProfileAttributes extends EntityAttributes {
 
         return errors;
     }
-    
+
     // Helper method: checks if getInvalidityInfoFor* methods returns error and adds it to error list
     private void getInvalidityInfoErrorAdder(String error, List<String> errors) {
         if (!error.isEmpty()) {
