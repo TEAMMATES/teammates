@@ -103,8 +103,7 @@ public class AdminEmailComposeSendAction extends Action {
                 statusToAdmin = "Email sent to " + addressReceiverListString;
                 statusToUser.add(new StatusMessage("Email sent to "
                         + addressReceiverListString, StatusMessageColor.SUCCESS));
-            }
-            if (groupModeOn) {
+            } else {
                 statusToAdmin = "Email sent to " + groupReceiverListFileKey;
                 statusToUser.add(new StatusMessage("Email sent to " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
             }
