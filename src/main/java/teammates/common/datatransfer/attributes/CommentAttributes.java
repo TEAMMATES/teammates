@@ -106,50 +106,31 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForEmail(giverEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForEmail(giverEmail), errors);
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForEmail(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addError(validator.getInvalidityInfoForEmail(recipientId), errors);
                 }
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForTeamName(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addError(validator.getInvalidityInfoForTeamName(recipientId), errors);
                 }
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForSectionName(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addError(validator.getInvalidityInfoForSectionName(recipientId), errors);
                 }
                 break;
             case COURSE :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForCourseId(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addError(validator.getInvalidityInfoForCourseId(recipientId), errors);
                 }
                 break;
             default : // cases for NONE or null

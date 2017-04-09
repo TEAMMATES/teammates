@@ -193,95 +193,52 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
         // Check for null fields.
 
-        error = validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName), errors);
 
-        error = validator.getValidityInfoForNonNullField("course ID", courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("course ID", courseId), errors);
 
-        error = validator.getValidityInfoForNonNullField("instructions to students", instructions);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
 
-        error = validator.getValidityInfoForNonNullField("time for the session to become visible", sessionVisibleFromTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("time for the session to become visible", sessionVisibleFromTime), errors);
 
-        error = validator.getValidityInfoForNonNullField("creator's email", creatorEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
-        error = validator.getValidityInfoForNonNullField("session creation time", createdTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForEmail(creatorEmail);
-        if (!error.isEmpty()) {
-            errors.add("Invalid creator's email: " + error);
-        }
+        addError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
 
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) {
             return errors;
         }
 
-        error = validator.getValidityInfoForNonNullField("submission opening time", startTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
 
-        error = validator.getValidityInfoForNonNullField("submission closing time", endTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
 
-        error = validator.getValidityInfoForNonNullField("time for the responses to become visible", resultsVisibleFromTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getValidityInfoForNonNullField("time for the responses to become visible", resultsVisibleFromTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        error = validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
 
-        error = validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                              sessionVisibleFromTime, startTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                sessionVisibleFromTime, startTime), errors);
 
         Date actualSessionVisibleFromTime = sessionVisibleFromTime;
 
@@ -289,11 +246,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             actualSessionVisibleFromTime = startTime;
         }
 
-        error = validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                              actualSessionVisibleFromTime, resultsVisibleFromTime);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         return errors;
     }

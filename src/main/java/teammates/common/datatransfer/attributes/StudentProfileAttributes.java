@@ -95,27 +95,27 @@ public class StudentProfileAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        getInvalidityInfoErrorAdder(validator.getInvalidityInfoForGoogleId(googleId), errors);
+        addError(validator.getInvalidityInfoForGoogleId(googleId), errors);
 
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!shortName.isEmpty()) {
-            getInvalidityInfoErrorAdder(validator.getInvalidityInfoForPersonName(shortName), errors);
+            addError(validator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
         if (!email.isEmpty()) {
-            getInvalidityInfoErrorAdder(validator.getInvalidityInfoForEmail(email), errors);
+            addError(validator.getInvalidityInfoForEmail(email), errors);
         }
 
         if (!institute.isEmpty()) {
-            getInvalidityInfoErrorAdder(validator.getInvalidityInfoForInstituteName(institute), errors);
+            addError(validator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
         if (!nationality.isEmpty()) {
-            getInvalidityInfoErrorAdder(validator.getInvalidityInfoForNationality(nationality), errors);
+            addError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        getInvalidityInfoErrorAdder(validator.getInvalidityInfoForGender(gender), errors);
+        addError(validator.getInvalidityInfoForGender(gender), errors);
 
         Assumption.assertNotNull(this.pictureKey);
 
@@ -123,13 +123,6 @@ public class StudentProfileAttributes extends EntityAttributes {
         // No validation for More Info. It will properly sanitized.
 
         return errors;
-    }
-
-    // Helper method: checks if getInvalidityInfoFor* methods returns error and adds it to error list
-    private void getInvalidityInfoErrorAdder(String error, List<String> errors) {
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
     }
 
     @Override
