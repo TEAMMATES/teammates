@@ -3,6 +3,7 @@ filesCopiedToWebInfLib=appengine-api-1.0-sdk-1.9.27.jar|appengine-api-labs.jar|a
 gaeDatanucleusVersion=v1
 gaeDeployDialogSettings=
 gaeIsEclipseDefaultInstPath=true
+gaeLaunchAppInBrowser=true
 googleCloudSqlEnabled=false
 localDevMySqlEnabled=true
 ormEnhancementInclusions=src/main/java/teammates/storage/entity/*.java
