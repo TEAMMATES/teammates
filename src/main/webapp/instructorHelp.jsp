@@ -161,7 +161,7 @@
             </li>
         </ul>
     </div>
-    <div class="separate-contentHolder">
+    <div class="separate-content-holder">
         <hr>
     </div>
     <h4>
@@ -383,7 +383,7 @@
             <a href="#Top">Back to Top
             </a>
         </p>
-        <div class="separate-contentHolder">
+        <div class="separate-content-holder">
             <hr>
         </div>
     </div>
@@ -581,7 +581,7 @@
                 </a>
             </p>
         </div>
-        <div class="separate-contentHolder">
+        <div class="separate-content-holder">
             <hr>
         </div>
     </div>
@@ -659,7 +659,7 @@
         <p align="right">
             <a href="#Top">Back to Top</a>
         </p>
-        <div class="separate-contentHolder">
+        <div class="separate-content-holder">
             <hr>
         </div>
     </div>
@@ -1120,7 +1120,7 @@
         <p align="right">
             <a href="#Top">Back to Top</a>
         </p>
-        <div class="separate-contentHolder">
+        <div class="separate-content-holder">
             <hr>
         </div>
     </div>
@@ -8773,7 +8773,7 @@
         <p align="right">
             <a href="#Top">Back to Top</a>
         </p>
-        <div class="separate-contentHolder">
+        <div class="separate-content-holder">
             <hr>
         </div>
     </div>

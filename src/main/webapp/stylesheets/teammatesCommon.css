@@ -137,10 +137,10 @@ a {
     margin-right: .5em;
 }
 
-.separate-contentHolder {
-    width: 100%;
+.separate-content-holder {
     height: 75px;
     padding-top: 15px;
+    width: 100%;
 }
 
 /*
