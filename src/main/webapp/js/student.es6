@@ -18,10 +18,6 @@ function bindLinksInUnregisteredPage(selector) {
     });
 }
 
-$(document).ready(() => {
-    bindLinksInUnregisteredPage('[data-unreg].navLinks');
-});
-
 /*
 export default {
     bindLinksInUnregisteredPage,

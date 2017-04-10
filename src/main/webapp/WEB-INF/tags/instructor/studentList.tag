@@ -47,7 +47,7 @@
                     <c:set var="sectionIndex" value="${sectionIdx.index}" />
                     <c:if test="${fromStudentListPage}">
                         <%-- generated here but to be appended to #sectionChoices in instructorStudentList.jsp
-                             will be transported via JavaScript in instructorStudentListAjax.js --%>
+                             will be transported via JavaScript in instructorStudentList.js --%>
                         <div class="checkbox section-to-be-transported">
                             <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked class="section_check">
                             <label for="section_check-${courseIndex}-${sectionIndex}">
@@ -59,7 +59,7 @@
                         <c:set var="teamIndex" value="${teamIndex + 1}" />
                         <c:if test="${fromStudentListPage}">
                             <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
-                                 will be transported via JavaScript in instructorStudentListAjax.js --%>
+                                 will be transported via JavaScript in instructorStudentList.js --%>
                             <div class="checkbox team-to-be-transported">
                                 <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked class="team_check">
                                 <label for="team_check-${courseIndex}-${sectionIndex}-${teamIndex}">
@@ -71,7 +71,7 @@
                             <c:set var="studentIndex" value="${studentIndex + 1}" />
                             <c:if test="${fromStudentListPage}">
                                 <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
-                                     will be transported via JavaScript in instructorStudentListAjax.js --%>
+                                     will be transported via JavaScript in instructorStudentList.js --%>
                                 <div class="email-to-be-transported" id="student_email-c${courseIndex}.${studentIndex}">
                                     ${student.studentEmail}
                                 </div>

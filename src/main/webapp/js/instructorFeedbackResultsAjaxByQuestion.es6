@@ -4,9 +4,14 @@
            bindStudentPhotoHoverLink:false,
            toggleSingleCollapse:false,
            showHideStats:false
+           prepareInstructorPages:false
+           prepareInstructorFeedbackResultsPage:false
 */
 
 $(document).ready(() => {
+    prepareInstructorPages();
+    prepareInstructorFeedbackResultsPage();
+
     const isPanelSetAsEmptyByBackend = function ($panelBody) {
         return $panelBody.find('.no-response').length !== 0;
     };
