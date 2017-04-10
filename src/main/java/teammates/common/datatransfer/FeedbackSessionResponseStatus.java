@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class FeedbackSessionResponseStatus {
     public List<String> noResponse;
-    public List<String> whoResponded;
+    public List<String> studentsResponded;
     public Map<String, String> emailNameTable;
     public Map<String, String> emailSectionTable;
     public Map<String, String> emailTeamNameTable;
@@ -79,7 +79,7 @@ public class FeedbackSessionResponseStatus {
 
     public FeedbackSessionResponseStatus() {
         noResponse = new ArrayList<String>();
-        whoResponded = new ArrayList<String>();
+        studentsResponded = new ArrayList<String>();
         emailNameTable = new HashMap<String, String>();
         emailSectionTable = new HashMap<String, String>();
         emailTeamNameTable = new HashMap<String, String>();
@@ -91,8 +91,8 @@ public class FeedbackSessionResponseStatus {
     }
 
     public List<String> getStudentsWhoRespondToAnyQuestion() {
-        Collections.sort(noResponse, compareByTeamNameStudentName);
-        return whoResponded;
+        Collections.sort(studentsResponded, compareByTeamNameStudentName);
+        return studentsResponded;
     }
 
     public List<String> getNoResponse() {
@@ -100,7 +100,7 @@ public class FeedbackSessionResponseStatus {
     }
 
     public List<String> getWhoResponded() {
-        return whoResponded;
+        return studentsResponded;
     }
 
     public Map<String, String> getEmailNameTable() {

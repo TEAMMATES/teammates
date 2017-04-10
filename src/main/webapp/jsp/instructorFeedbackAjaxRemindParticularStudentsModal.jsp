@@ -27,7 +27,7 @@
         </th>
     </tr>
     <c:forEach items="${data.responseStatus.noResponse}" var="userToRemindEmail">
-        <tr class="bg-warning">
+        <tr class="btn-danger">
             <td class="align-center">
                 <div class="checkbox">
                     <label>

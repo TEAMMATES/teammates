@@ -2218,7 +2218,7 @@ public final class FeedbackSessionsLogic {
                 .getFeedbackQuestionsForStudents(questions);
 
         List<String> studentNoResponses = new ArrayList<String>();
-        List<String> studentWhoResponses = new ArrayList<String>();
+        List<String> studentResponded = new ArrayList<String>();
         List<String> instructorNoResponses = new ArrayList<String>();
 
         if (!studentQns.isEmpty()) {
@@ -2230,7 +2230,7 @@ public final class FeedbackSessionsLogic {
             }
         }
         studentNoResponses.removeAll(fsa.getRespondingStudentList());
-        studentWhoResponses.addAll(fsa.getRespondingStudentList());
+        studentResponded.addAll(fsa.getRespondingStudentList());
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -2244,7 +2244,7 @@ public final class FeedbackSessionsLogic {
         instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
 
         responseStatus.noResponse.addAll(studentNoResponses);
-        responseStatus.whoResponded.addAll(studentWhoResponses);
+        responseStatus.studentsResponded.addAll(studentResponded);
         responseStatus.noResponse.addAll(instructorNoResponses);
 
         return responseStatus;
