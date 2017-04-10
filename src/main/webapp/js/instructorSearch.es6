@@ -1,6 +1,8 @@
-/* global highlightSearchResult:false */
+/* global highlightSearchResult:false prepareInstructorPages:false */
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     $('.comments > .list-group-item').hover(function () {
         $("a[type='button']", this).show();
     }, function () {
