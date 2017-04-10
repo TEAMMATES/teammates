@@ -1,7 +1,3 @@
-$(document).ready(() => {
-    linkAjaxForResponseRate();
-});
-
 function linkAjaxForResponseRate() {
     const responseRateClickHandler = function (e) {
         const hyperlinkObject = $(e.currentTarget).clone();

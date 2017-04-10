@@ -1,90 +1,10 @@
-/* global toggleSingleCollapse:false showCommentBox:false tinymce:false */
-/* global isBlank:false setStatusMessage:false StatusType:false */
+/* global toggleSingleCollapse:false tinymce:false */
+/* global isBlank:false setStatusMessage:false StatusType:false prepareInstructorPages:false */
 /* global scrollToTop:false richTextEditorBuilder:false BootboxWrapper:false */
 
 const COMMENT_TEXT = 'commenttext';
 const COMMENT_EDITTYPE = 'commentedittype';
 const DISPLAY_COMMENT_BLANK = 'Please enter a valid comment. The comment can\'t be empty.';
-
-$(document).ready(() => {
-    // Auto-loading for feedback responses
-    $('div[id^="studentFeedback-"]').click();
-
-    $('a[id^="visibility-options-trigger"]').click(function () {
-        const visibilityOptions = $(this).parent().next();
-        if (visibilityOptions.is(':visible')) {
-            visibilityOptions.hide();
-            $(this).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
-        } else {
-            visibilityOptions.show();
-            $(this).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
-        }
-    });
-
-    $('.panel-heading.student_feedback').click(toggleSingleCollapse);
-
-    $('input[type=checkbox]').click(function (e) {
-        const table = $(this).closest('table');
-        const form = table.closest('form');
-        let visibilityOptions = [];
-        const target = $(e.target);
-        const visibilityOptionsRow = target.closest('tr');
-
-        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
-            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
-            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
-        }
-        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
-                && target.prop('checked')) {
-            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
-        }
-
-        table.find('.answerCheckbox:checked').each(function () {
-            visibilityOptions.push($(this).val());
-        });
-        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
-
-        visibilityOptions = [];
-        table.find('.giverCheckbox:checked').each(function () {
-            visibilityOptions.push($(this).val());
-        });
-        form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
-
-        visibilityOptions = [];
-        table.find('.recipientCheckbox:checked').each(function () {
-            visibilityOptions.push($(this).val());
-        });
-        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
-    });
-
-    readyStudentRecordsPage();
-});
-
-/**
- * To be loaded when instructorStudentRecords page is loaded
- * Contains key bindings, text area adjustment and auto-opening
- * of comment box if the request parameter asks for it
- */
-function readyStudentRecordsPage() {
-    // Bind form submission to check for blank comment field
-    $('form.form_comment').submit(function (e) {
-        if (!checkComment(this)) {
-            e.preventDefault();
-        }
-    });
-
-    // Adjust size of each text area, except the new comment area
-    $('textarea').each(function () {
-        if (!$(this).attr('placeholder')) {
-            textAreaAdjust(this);
-        }
-    });
-
-    // Open the comment box if so desired by the request
-    if (showCommentBox === 'yes') {
-        $('#button_add_comment').click();
-    }
-}
 
 /**
  * Do the comment edit form submission
@@ -146,23 +66,6 @@ function hideAddCommentBox() {
     $('#comment_box').hide();
 }
 
-/**
- * Enable the comment form indicated by index,
- * disables the others
- */
-function enableEdit(commentIdx, maxComments) {
-    let i = 1;
-    while (i <= maxComments) {
-        if (commentIdx === i) {
-            enableComment(i);
-        } else {
-            disableComment(i);
-        }
-        i += 1;
-    }
-    return false;
-}
-
 function enableComment(commentIdx) {
     $(`#commentBar-${commentIdx}`).hide();
     $(`#plainCommentText${commentIdx}`).hide();
@@ -182,6 +85,23 @@ function disableComment(commentIdx) {
     $(`#commentBar-${commentIdx}`).show();
     $(`#plainCommentText${commentIdx}`).show();
     $(`div[id="commentTextEdit${commentIdx}"]`).hide();
+}
+
+/**
+ * Enable the comment form indicated by index,
+ * disables the others
+ */
+function enableEdit(commentIdx, maxComments) {
+    let i = 1;
+    while (i <= maxComments) {
+        if (commentIdx === i) {
+            enableComment(i);
+        } else {
+            disableComment(i);
+        }
+        i += 1;
+    }
+    return false;
 }
 
 function textAreaAdjust(o) {
@@ -220,3 +140,85 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
         $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
 }
+
+/**
+ * To be loaded when instructorStudentRecords page is loaded
+ * Contains key bindings, text area adjustment and auto-opening
+ * of comment box if the request parameter asks for it
+ */
+function readyStudentRecordsPage() {
+    // Bind form submission to check for blank comment field
+    $('form.form_comment').submit(function (e) {
+        if (!checkComment(this)) {
+            e.preventDefault();
+        }
+    });
+
+    // Adjust size of each text area, except the new comment area
+    $('textarea').each(function () {
+        if (!$(this).attr('placeholder')) {
+            textAreaAdjust(this);
+        }
+    });
+
+    // Open the comment box if so desired by the request
+    if ($('#show-comment-box').val() === 'yes') {
+        $('#button_add_comment').click();
+    }
+}
+
+$(document).ready(() => {
+    prepareInstructorPages();
+
+    // Auto-loading for feedback responses
+    $('div[id^="studentFeedback-"]').click();
+
+    $('a[id^="visibility-options-trigger"]').click(function () {
+        const visibilityOptions = $(this).parent().next();
+        if (visibilityOptions.is(':visible')) {
+            visibilityOptions.hide();
+            $(this).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+        } else {
+            visibilityOptions.show();
+            $(this).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+        }
+    });
+
+    $('.panel-heading.student_feedback').click(toggleSingleCollapse);
+
+    $('input[type=checkbox]').click(function (e) {
+        const table = $(this).closest('table');
+        const form = table.closest('form');
+        let visibilityOptions = [];
+        const target = $(e.target);
+        const visibilityOptionsRow = target.closest('tr');
+
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
+        }
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+        }
+
+        table.find('.answerCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        form.find('input[name="showcommentsto"]').val(visibilityOptions.join(', '));
+
+        visibilityOptions = [];
+        table.find('.giverCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        form.find('input[name="showgiverto"]').val(visibilityOptions.join(', '));
+
+        visibilityOptions = [];
+        table.find('.recipientCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        form.find('input[name="showrecipientto"]').val(visibilityOptions.join(', '));
+    });
+
+    readyStudentRecordsPage();
+});

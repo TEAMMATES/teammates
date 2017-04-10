@@ -8,7 +8,7 @@ setupFsCopyModal:false, bindAssignWeightsCheckboxes:false, tinyMCE:false, moveAs
 setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:false, setContribQnVisibilityFormat:false
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
-hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false
+hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -39,102 +39,34 @@ const CONFIRM_EDIT_DELETE_RESPONSES =
 
 const questionsBeforeEdit = [];
 
-const updateVisibilityOfNumEntitiesBox = function () {
-    const questionNum = getQuestionNum($(this));
-    const participantType = $(this).val();
-    formatNumberBox(participantType, questionNum);
-};
-
-$(document).ready(() => {
-    readyFeedbackEditPage();
-    bindUncommonSettingsEvents();
-    bindParticipantSelectChangeEvents();
-    updateUncommonSettingsInfo();
-    showUncommonPanelsIfNotInDefaultValues();
-    FeedbackPath.attachEvents();
-    hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
-    attachVisibilityDropdownEvent();
-    attachVisibilityCheckboxEvent();
-});
-
-/**
- * This function is called on edit page load.
- */
-function readyFeedbackEditPage() {
-    // Disable all questions
-    disableAllQuestions();
-
-    // Bind submit text links
-    $('a[id|=questionsavechangestext]').click(function () {
-        const form = $(this).parents('form.form_question');
-        prepareDescription(form);
-
-        $(this).parents('form.form_question').submit();
-    });
-
-    // Bind submit actions
-    $('form[id|=form_editquestion]').submit(function (event) {
-        prepareDescription($(event.currentTarget));
-        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
-            event.preventDefault();
-            const okCallback = function () {
-                event.currentTarget.submit();
-            };
-            BootboxWrapper.showModalConfirmation(
-                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
-                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-                    StatusType.DANGER);
-        }
-    });
-
-    $('form.form_question').submit(function () {
-        addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        const formStatus = checkFeedbackQuestion(this);
-        if (!formStatus) {
-            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
-        }
-        return formStatus;
-    });
-
-    // Bind destructive changes
-    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function () {
-        const editStatus = $(this).parents('form').attr('editStatus');
-        if (editStatus === 'hasResponses') {
-            $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
-        }
-    });
-
-    $('#add-new-question-dropdown > li').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
-    });
-
-    // Copy Binding
-    bindCopyButton();
-    bindCopyEvents();
-    setupQuestionCopyModal();
-
-    // Additional formatting & bindings.
-    disableEditFS();
-    formatSessionVisibilityGroup();
-    formatResponsesVisibilityGroup();
-    formatNumberBoxes();
-    formatCheckBoxes();
-    formatQuestionNumbers();
-    collapseIfPrivateSession();
-
-    setupFsCopyModal();
-
-    bindAssignWeightsCheckboxes();
-
-    // Bind feedback session edit form submission
-    bindFeedbackSessionEditFormSubmission();
+function getCustomDateTimeFields() {
+    return $(`#${FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${FEEDBACK_SESSION_PUBLISHTIME}`)
+                                                .add(`#${FEEDBACK_SESSION_VISIBLEDATE}`)
+                                                .add(`#${FEEDBACK_SESSION_VISIBLETIME}`);
 }
 
-function prepareDescription(form) {
-    const questionNum = getQuestionNum(form);
-    const content = tinyMCE.get(`questiondescription-${questionNum}`).getContent();
-    form.find('input[name=questiondescription]').val(content);
-    form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
+/**
+ * Disables the editing of feedback session details.
+ */
+function disableEditFS() {
+    // Save then disable fields
+    getCustomDateTimeFields().each(function () {
+        $(this).data('last', $(this).prop('disabled'));
+    });
+    $('#form_feedbacksession').find('text,input,button,textarea,select')
+                                  .prop('disabled', true);
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        destroyEditor('instructions');
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true,
+        });
+    }
+
+    $('#fsEditLink').show();
+    $('#fsSaveLink').hide();
+    $('#button_submit').hide();
 }
 
 function bindFeedbackSessionEditFormSubmission() {
@@ -168,27 +100,55 @@ function bindFeedbackSessionEditFormSubmission() {
 }
 
 /**
- * Disables the editing of feedback session details.
+ * Disable question fields and "save changes" button for the given question number,
+ * and shows the edit link.
+ * @param questionNum
  */
-function disableEditFS() {
-    // Save then disable fields
-    getCustomDateTimeFields().each(function () {
-        $(this).data('last', $(this).prop('disabled'));
-    });
-    $('#form_feedbacksession').find('text,input,button,textarea,select')
-                                  .prop('disabled', true);
-
+function disableQuestion(questionNum) {
     if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor('instructions');
-        richTextEditorBuilder.initEditor('#instructions', {
+        destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
+            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
             readonly: true,
         });
+        /* eslint-enable camelcase */
+    }
+    $(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).addClass('well');
+
+    const $currentQuestionTable = $(`#questionTable-${questionNum}`);
+
+    $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
+
+    $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
+    $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
+    $currentQuestionTable.find('.removeOptionLink').hide();
+
+    /* Check whether generate options for students/instructors/teams is selected
+       If so, hide 'add Other option' */
+    if ($currentQuestionTable.find(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
+        $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+    } else {
+        $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
     }
 
-    $('#fsEditLink').show();
-    $('#fsSaveLink').hide();
-    $('#button_submit').hide();
+    $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
+    $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
+    $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).hide();
+    $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).hide();
+
+    moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
+
+    if (!hasAssignedWeights(questionNum)) {
+        $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
+    }
+
+    $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+    $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+    $(`#button_question_submit-${questionNum}`).hide();
 }
 
 /**
@@ -233,32 +193,6 @@ function enableEditFS() {
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
-}
-
-function getCustomDateTimeFields() {
-    return $(`#${FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${FEEDBACK_SESSION_PUBLISHTIME}`)
-                                                .add(`#${FEEDBACK_SESSION_VISIBLEDATE}`)
-                                                .add(`#${FEEDBACK_SESSION_VISIBLETIME}`);
-}
-
-/**
- * Enables editing of question fields and enables the "save changes" button for
- * the given question number, while hiding the edit link. Does the opposite for all other questions.
- * @param questionNum
- */
-function enableEdit(questionNum, maxQuestions) {
-    let i = maxQuestions;
-    while (i) {
-        if (questionNum === i) {
-            backupQuestion(i);
-            enableQuestion(i);
-        } else {
-            disableQuestion(i);
-        }
-        i -= 1;
-    }
-
-    return false;
 }
 
 /**
@@ -344,6 +278,26 @@ function enableQuestion(questionNum) {
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
 }
 
+/**
+* Enables editing of question fields and enables the "save changes" button for
+ * the given question number, while hiding the edit link. Does the opposite for all other questions.
+ * @param questionNum
+ */
+function enableEdit(questionNum, maxQuestions) {
+    let i = maxQuestions;
+    while (i) {
+        if (questionNum === i) {
+            backupQuestion(i);
+            enableQuestion(i);
+        } else {
+            disableQuestion(i);
+        }
+        i -= 1;
+    }
+
+    return false;
+}
+
 function enableNewQuestion() {
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
@@ -391,58 +345,6 @@ function enableNewQuestion() {
 }
 
 /**
- * Disable question fields and "save changes" button for the given question number,
- * and shows the edit link.
- * @param questionNum
- */
-function disableQuestion(questionNum) {
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
-            inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
-            readonly: true,
-        });
-        /* eslint-enable camelcase */
-    }
-    $(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).addClass('well');
-
-    const $currentQuestionTable = $(`#questionTable-${questionNum}`);
-
-    $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
-
-    $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
-    $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
-    $currentQuestionTable.find('.removeOptionLink').hide();
-
-    /* Check whether generate options for students/instructors/teams is selected
-       If so, hide 'add Other option' */
-    if ($currentQuestionTable.find(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-    } else {
-        $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-    }
-
-    $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
-    $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
-    $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).hide();
-    $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).hide();
-
-    moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
-
-    if (!hasAssignedWeights(questionNum)) {
-        $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
-    }
-
-    $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
-    $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
-    $(`#button_question_submit-${questionNum}`).hide();
-}
-
-/**
  * Pops up confirmation dialog whether to delete specified question
  * @param question questionNum
  * @returns
@@ -464,44 +366,6 @@ function deleteQuestion(questionNum) {
     return false;
 }
 
-/**
- * Allows users to discard unsaved edits to the question
- */
-function discardChanges(questionNum) {
-    const confirmationMsg = questionNum === NEW_QUESTION
-                          ? CONFIRM_DISCARD_NEW_QNS
-                          : CONFIRM_DISCARD_CHANGES;
-    const okCallback = function () {
-        restoreOriginal(questionNum);
-    };
-    BootboxWrapper.showModalConfirmation(
-            WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null,
-            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-            StatusType.WARNING);
-}
-
-/**
- * Discards new changes made and restores the original question
- * @param questionNum
- */
-function restoreOriginal(questionNum) {
-    if (questionNum === NEW_QUESTION) {
-        hideNewQuestionAndShowNewQuestionForm();
-    } else {
-        $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
-
-        $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
-        $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
-        $(`#${FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
-        $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
-        $(`#button_question_submit-${questionNum}`).hide();
-    }
-
-    // re-attach events for form elements
-    $(`#${FEEDBACK_QUESTION_RECIPIENTTYPE}-${questionNum}`).change(updateVisibilityOfNumEntitiesBox);
-    FeedbackPath.attachEvents();
-}
-
 function hideNewQuestionAndShowNewQuestionForm() {
     $(`#questionTable-${NEW_QUESTION}`).hide();
     $('#addNewQuestionTable').show();
@@ -514,43 +378,14 @@ function hideNewQuestionAndShowNewQuestionForm() {
     FeedbackPath.attachEvents();
 }
 
-/**
- * 1. Disallow non-numeric input to all inputs expecting numbers
- * 2. Initialize the visibility of 'Number of Recipients Box' according to the participant type (visible only
- * when participant type is STUDENTS OR TEAMS)
- * 3. Bind onChange of recipientType to modify numEntityBox visibility
- */
-function formatNumberBoxes() {
-    disallowNonNumericEntries($('input.numberOfEntitiesBox'), false, false);
-    disallowNonNumericEntries($('input.minScaleBox'), false, true);
-    disallowNonNumericEntries($('input.maxScaleBox'), false, true);
-    disallowNonNumericEntries($('input.stepBox'), true, false);
-    disallowNonNumericEntries($('input.pointsBox'), false, false);
-    disallowNonNumericEntries($('input[id^="rubricWeight"]'), true, true);
-
-    $(`select[name=${FEEDBACK_QUESTION_RECIPIENTTYPE}]`).each(updateVisibilityOfNumEntitiesBox)
-                                                             .change(updateVisibilityOfNumEntitiesBox);
-}
-
-/**
- * Hides/shows the "Number of Recipients Box" of the question
- * depending on the participant type and formats the label text for it.
- * @param participantType, questionNum
- */
-function formatNumberBox(participantType, questionNum) {
-    const $questionForm = $(`#form_editquestion-${questionNum}`);
-    const $numberOfEntitiesBox = $questionForm.find('.numberOfEntitiesElements');
-
-    if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
-        $numberOfEntitiesBox.show();
-
-        const $numberOfEntitiesLabel = $numberOfEntitiesBox.find('.number-of-entities-inner-text');
-        $numberOfEntitiesLabel.html(participantType === 'STUDENTS' ? 'students' : 'teams');
-    } else {
-        $numberOfEntitiesBox.hide();
+function getQuestionNum($elementInQuestionForm) {
+    const $questionForm = $elementInQuestionForm.closest('form');
+    const cssId = $questionForm.attr('id');
+    if (cssId.endsWith(`-${NEW_QUESTION}`)) {
+        return NEW_QUESTION;
     }
-
-    tallyCheckboxes(questionNum);
+    const splitCssId = cssId.split('-');
+    return splitCssId[splitCssId.length - 1];
 }
 
 /**
@@ -576,22 +411,86 @@ function tallyCheckboxes(questionNum) {
 }
 
 /**
- * Shows the new question div frame and scrolls to it
+ * Hides/shows the "Number of Recipients Box" of the question
+ * depending on the participant type and formats the label text for it.
+ * @param participantType, questionNum
  */
-function showNewQuestionFrame(type) {
-    $('#questiontype').val(type);
+function formatNumberBox(participantType, questionNum) {
+    const $questionForm = $(`#form_editquestion-${questionNum}`);
+    const $numberOfEntitiesBox = $questionForm.find('.numberOfEntitiesElements');
 
-    copyOptions(type);
-    prepareQuestionForm(type);
-    $(`#questionTable-${NEW_QUESTION}`).show();
-    hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
-    enableNewQuestion();
+    if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
+        $numberOfEntitiesBox.show();
 
-    $('#addNewQuestionTable').hide();
-    $('#empty_message').hide();
-    scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
+        const $numberOfEntitiesLabel = $numberOfEntitiesBox.find('.number-of-entities-inner-text');
+        $numberOfEntitiesLabel.html(participantType === 'STUDENTS' ? 'students' : 'teams');
+    } else {
+        $numberOfEntitiesBox.hide();
+    }
 
-    getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
+    tallyCheckboxes(questionNum);
+}
+
+const updateVisibilityOfNumEntitiesBox = function () {
+    const questionNum = getQuestionNum($(this));
+    const participantType = $(this).val();
+    formatNumberBox(participantType, questionNum);
+};
+
+/**
+ * Discards new changes made and restores the original question
+ * @param questionNum
+ */
+function restoreOriginal(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        hideNewQuestionAndShowNewQuestionForm();
+    } else {
+        $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
+
+        $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+        $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+        $(`#${FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
+        $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
+        $(`#button_question_submit-${questionNum}`).hide();
+    }
+
+    // re-attach events for form elements
+    $(`#${FEEDBACK_QUESTION_RECIPIENTTYPE}-${questionNum}`).change(updateVisibilityOfNumEntitiesBox);
+    FeedbackPath.attachEvents();
+}
+
+/**
+ * Allows users to discard unsaved edits to the question
+ */
+function discardChanges(questionNum) {
+    const confirmationMsg = questionNum === NEW_QUESTION
+                          ? CONFIRM_DISCARD_NEW_QNS
+                          : CONFIRM_DISCARD_CHANGES;
+    const okCallback = function () {
+        restoreOriginal(questionNum);
+    };
+    BootboxWrapper.showModalConfirmation(
+            WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null,
+            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+            StatusType.WARNING);
+}
+
+/**
+ * 1. Disallow non-numeric input to all inputs expecting numbers
+ * 2. Initialize the visibility of 'Number of Recipients Box' according to the participant type (visible only
+ * when participant type is STUDENTS OR TEAMS)
+ * 3. Bind onChange of recipientType to modify numEntityBox visibility
+ */
+function formatNumberBoxes() {
+    disallowNonNumericEntries($('input.numberOfEntitiesBox'), false, false);
+    disallowNonNumericEntries($('input.minScaleBox'), false, true);
+    disallowNonNumericEntries($('input.maxScaleBox'), false, true);
+    disallowNonNumericEntries($('input.stepBox'), true, false);
+    disallowNonNumericEntries($('input.pointsBox'), false, false);
+    disallowNonNumericEntries($('input[id^="rubricWeight"]'), true, true);
+
+    $(`select[name=${FEEDBACK_QUESTION_RECIPIENTTYPE}]`).each(updateVisibilityOfNumEntitiesBox)
+                                                             .change(updateVisibilityOfNumEntitiesBox);
 }
 
 function hideAllNewQuestionForms() {
@@ -886,32 +785,18 @@ function bindCopyEvents() {
     });
 }
 
-function getQuestionNum($elementInQuestionForm) {
-    const $questionForm = $elementInQuestionForm.closest('form');
-    const cssId = $questionForm.attr('id');
-    if (cssId.endsWith(`-${NEW_QUESTION}`)) {
-        return NEW_QUESTION;
-    }
-    const splitCssId = cssId.split('-');
-    return splitCssId[splitCssId.length - 1];
+function hideOption($containingSelect, value) {
+    $containingSelect.find(`option[value="${value}"]`).hide();
 }
 
-function bindParticipantSelectChangeEvents() {
-    $('body').on('change', 'select[name="givertype"]', function () {
-        const $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
-        $recipientSelect.find('option').show();
-        hideInvalidRecipientTypeOptions($(this));
+function setRecipientSelectToFirstVisibleOption($recipientSelect) {
+    $recipientSelect.find('option').each(function (e) {
+        const $recipientOption = $(this);
+        if ($recipientOption.css('display') !== 'none') {
+            $recipientSelect.val($recipientOption.val());
+            e.preventDefault();
+        }
     });
-}
-
-function hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions() {
-    $('.form_question').not('[name="form_addquestions"]').find('select[name="givertype"]').each(function () {
-        hideInvalidRecipientTypeOptions($(this));
-    });
-}
-
-function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
-    hideInvalidRecipientTypeOptions($('form[name="form_addquestions"]').find('select[name="givertype"]'));
 }
 
 function hideInvalidRecipientTypeOptions($giverSelect) {
@@ -942,19 +827,148 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     }
 }
 
-function hideOption($containingSelect, value) {
-    $containingSelect.find(`option[value="${value}"]`).hide();
-}
-
-function setRecipientSelectToFirstVisibleOption($recipientSelect) {
-    $recipientSelect.find('option').each(function (e) {
-        const $recipientOption = $(this);
-        if ($recipientOption.css('display') !== 'none') {
-            $recipientSelect.val($recipientOption.val());
-            e.preventDefault();
-        }
+function bindParticipantSelectChangeEvents() {
+    $('body').on('change', 'select[name="givertype"]', function () {
+        const $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
+        $recipientSelect.find('option').show();
+        hideInvalidRecipientTypeOptions($(this));
     });
 }
+
+function hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions() {
+    $('.form_question').not('[name="form_addquestions"]').find('select[name="givertype"]').each(function () {
+        hideInvalidRecipientTypeOptions($(this));
+    });
+}
+
+function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
+    hideInvalidRecipientTypeOptions($('form[name="form_addquestions"]').find('select[name="givertype"]'));
+}
+
+/**
+ * Shows the new question div frame and scrolls to it
+ */
+function showNewQuestionFrame(type) {
+    $('#questiontype').val(type);
+
+    copyOptions(type);
+    prepareQuestionForm(type);
+    $(`#questionTable-${NEW_QUESTION}`).show();
+    hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
+    enableNewQuestion();
+
+    $('#addNewQuestionTable').hide();
+    $('#empty_message').hide();
+    scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
+
+    getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
+}
+
+function prepareDescription(form) {
+    const questionNum = getQuestionNum(form);
+    const content = tinyMCE.get(`questiondescription-${questionNum}`).getContent();
+    form.find('input[name=questiondescription]').val(content);
+    form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
+}
+
+/**
+ * This function is called on edit page load.
+ */
+function readyFeedbackEditPage() {
+    // Disable all questions
+    disableAllQuestions();
+
+    // Bind submit text links
+    $('a[id|=questionsavechangestext]').click(function () {
+        const form = $(this).parents('form.form_question');
+        prepareDescription(form);
+
+        $(this).parents('form.form_question').submit();
+    });
+
+    // Bind submit actions
+    $('form[id|=form_editquestion]').submit(function (event) {
+        prepareDescription($(event.currentTarget));
+        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
+            event.preventDefault();
+            const okCallback = function () {
+                event.currentTarget.submit();
+            };
+            BootboxWrapper.showModalConfirmation(
+                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
+                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+                    StatusType.DANGER);
+        }
+    });
+
+    $('form.form_question').submit(function () {
+        addLoadingIndicator($('#button_submit_add'), 'Saving ');
+        const formStatus = checkFeedbackQuestion(this);
+        if (!formStatus) {
+            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
+        }
+        return formStatus;
+    });
+
+    // Bind destructive changes
+    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function () {
+        const editStatus = $(this).parents('form').attr('editStatus');
+        if (editStatus === 'hasResponses') {
+            $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
+        }
+    });
+
+    $('#add-new-question-dropdown > li').click(function () {
+        showNewQuestionFrame($(this).data('questiontype'));
+    });
+
+    // Copy Binding
+    bindCopyButton();
+    bindCopyEvents();
+    setupQuestionCopyModal();
+
+    // Additional formatting & bindings.
+    disableEditFS();
+    formatSessionVisibilityGroup();
+    formatResponsesVisibilityGroup();
+    formatNumberBoxes();
+    formatCheckBoxes();
+    formatQuestionNumbers();
+    collapseIfPrivateSession();
+
+    setupFsCopyModal();
+
+    bindAssignWeightsCheckboxes();
+
+    // Bind feedback session edit form submission
+    bindFeedbackSessionEditFormSubmission();
+}
+
+$(document).ready(() => {
+    prepareInstructorPages();
+
+    prepareDatepickers();
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor('#instructions', {
+            inline: true,
+            readonly: true,
+            fixed_toolbar_container: '#richtext-toolbar-container',
+        });
+        /* eslint-enable camelcase */
+    }
+
+    readyFeedbackEditPage();
+    bindUncommonSettingsEvents();
+    bindParticipantSelectChangeEvents();
+    updateUncommonSettingsInfo();
+    showUncommonPanelsIfNotInDefaultValues();
+    FeedbackPath.attachEvents();
+    hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
+    attachVisibilityDropdownEvent();
+    attachVisibilityCheckboxEvent();
+});
 
 /* exported
 enableEditFS, enableEdit, deleteQuestion, discardChanges

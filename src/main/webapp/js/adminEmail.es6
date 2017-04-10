@@ -5,45 +5,13 @@ const PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the imag
 
 let callbackFunction;
 
-$(document).ready(() => {
-    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-    richTextEditorBuilder.initEditor('textarea', {
-        document_base_url: $('#documentBaseUrl').text(),
-        file_picker_callback(callback, value, meta) {
-            // Provide image and alt text for the image dialog
-            if (meta.filetype === 'image') {
-                $('#adminEmailFile').click();
-                callbackFunction = callback;
-            }
-        },
-    });
-    /* eslint-enable camelcase */
+function setErrorMessage(message) {
+    setStatusMessage(message, StatusType.DANGER);
+}
 
-    $('#adminEmailFile').on('change paste keyup', () => {
-        createImageUploadUrl();
-    });
-
-    $('#adminEmailGroupReceiverList').on('change paste keyup', () => {
-        createGroupReceiverListUploadUrl();
-    });
-
-    $('#adminEmailGroupReceiverListUploadButton').on('click', () => {
-        $('#adminEmailGroupReceiverList').click();
-    });
-
-    $('#composeSaveButton').on('click', () => {
-        $('#adminEmailMainForm').attr('action', '/admin/adminEmailComposeSave');
-        $('#composeSubmitButton').click();
-    });
-
-    $('#addressReceiverEmails').on('change keyup', (e) => {
-        if (e.which === 13) {
-            $('#addressReceiverEmails').val(`${$('#addressReceiverEmails').val()},`);
-        }
-    });
-
-    toggleSort($('#button_sort_date').parent());
-});
+function showUploadingGif() {
+    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", StatusType.WARNING);
+}
 
 function createGroupReceiverListUploadUrl() {
     $.ajax({
@@ -62,10 +30,18 @@ function createGroupReceiverListUploadUrl() {
                 } else {
                     $('#adminEmailReceiverListForm').attr('action', data.nextUploadUrl);
                     setStatusMessage(data.ajaxStatus);
-                    submitGroupReceiverListUploadFormAjax();
+                    submitGroupReceiverListUploadFormAjax(); // eslint-disable-line no-use-before-define
                 }
             }, 500);
         },
+    });
+}
+
+function clearUploadGroupReceiverListInfo() {
+    $('#adminEmailGroupReceiverListInput').html('<input type="file" name="emailgroupreceiverlisttoupload" '
+                                                     + 'id="adminEmailGroupReceiverList">');
+    $('#adminEmailGroupReceiverList').on('change paste keyup', () => {
+        createGroupReceiverListUploadUrl();
     });
 }
 
@@ -108,28 +84,10 @@ function submitGroupReceiverListUploadFormAjax() {
     clearUploadGroupReceiverListInfo();
 }
 
-function createImageUploadUrl() {
-    $.ajax({
-        type: 'POST',
-        url: '/admin/adminEmailCreateImageUploadUrl',
-        beforeSend() {
-            showUploadingGif();
-        },
-        error() {
-            setErrorMessage('URL request failured, please try again.');
-        },
-        success(data) {
-            setTimeout(() => {
-                if (data.isError) {
-                    setErrorMessage(data.ajaxStatus);
-                } else {
-                    $('#adminEmailFileForm').attr('action', data.nextUploadUrl);
-                    setStatusMessage(data.ajaxStatus);
-                    submitImageUploadFormAjax();
-                }
-            }, 500);
-        },
-
+function clearUploadFileInfo() {
+    $('#adminEmailFileInput').html('<input type="file" name="emailimagetoupload" id="adminEmailFile">');
+    $('#adminEmailFile').on('change paste keyup', () => {
+        createImageUploadUrl(); // eslint-disable-line no-use-before-define
     });
 }
 
@@ -171,25 +129,67 @@ function submitImageUploadFormAjax() {
     clearUploadFileInfo();
 }
 
-function setErrorMessage(message) {
-    setStatusMessage(message, StatusType.DANGER);
+function createImageUploadUrl() {
+    $.ajax({
+        type: 'POST',
+        url: '/admin/adminEmailCreateImageUploadUrl',
+        beforeSend() {
+            showUploadingGif();
+        },
+        error() {
+            setErrorMessage('URL request failured, please try again.');
+        },
+        success(data) {
+            setTimeout(() => {
+                if (data.isError) {
+                    setErrorMessage(data.ajaxStatus);
+                } else {
+                    $('#adminEmailFileForm').attr('action', data.nextUploadUrl);
+                    setStatusMessage(data.ajaxStatus);
+                    submitImageUploadFormAjax();
+                }
+            }, 500);
+        },
+
+    });
 }
 
-function showUploadingGif() {
-    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", StatusType.WARNING);
-}
+$(document).ready(() => {
+    /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+    richTextEditorBuilder.initEditor('textarea', {
+        document_base_url: $('#documentBaseUrl').text(),
+        file_picker_callback(callback, value, meta) {
+            // Provide image and alt text for the image dialog
+            if (meta.filetype === 'image') {
+                $('#adminEmailFile').click();
+                callbackFunction = callback;
+            }
+        },
+    });
+    /* eslint-enable camelcase */
 
-function clearUploadFileInfo() {
-    $('#adminEmailFileInput').html('<input type="file" name="emailimagetoupload" id="adminEmailFile">');
     $('#adminEmailFile').on('change paste keyup', () => {
         createImageUploadUrl();
     });
-}
 
-function clearUploadGroupReceiverListInfo() {
-    $('#adminEmailGroupReceiverListInput').html('<input type="file" name="emailgroupreceiverlisttoupload" '
-                                                     + 'id="adminEmailGroupReceiverList">');
     $('#adminEmailGroupReceiverList').on('change paste keyup', () => {
         createGroupReceiverListUploadUrl();
     });
-}
+
+    $('#adminEmailGroupReceiverListUploadButton').on('click', () => {
+        $('#adminEmailGroupReceiverList').click();
+    });
+
+    $('#composeSaveButton').on('click', () => {
+        $('#adminEmailMainForm').attr('action', '/admin/adminEmailComposeSave');
+        $('#composeSubmitButton').click();
+    });
+
+    $('#addressReceiverEmails').on('change keyup', (e) => {
+        if (e.which === 13) {
+            $('#addressReceiverEmails').val(`${$('#addressReceiverEmails').val()},`);
+        }
+    });
+
+    toggleSort($('#button_sort_date').parent());
+});

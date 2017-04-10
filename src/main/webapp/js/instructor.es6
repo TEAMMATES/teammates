@@ -7,21 +7,6 @@
  * should be common to some/all instructor pages.
  */
 
-// Initial load-up
-// -----------------------------------------------------------------------------
-
-$(document).ready(() => {
-    // bind the show picture onclick events
-    bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
-
-    // bind the show picture onhover events
-    bindStudentPhotoHoverLink('.profile-pic-icon-hover');
-
-    // bind the event handler to show confirmation modal
-    bindCourseDeleteLinks();
-    bindSessionDeleteLinks();
-});
-
 // -----------------------------------------------------------------------------
 
 /**
@@ -136,6 +121,47 @@ function setupFsCopyModal() {
 // --------------------------------------------------------------------------
 
 /**
+ * updates all the student names that show profile picture
+ * on hover with the resolved link after one instance of the name
+ * has been loaded<br>
+ * Helps to avoid clicking view photo when hovering over names of
+ * students whose picture has already been loaded elsewhere in the page
+ * @param link
+ * @param resolvedLink
+ */
+function updateHoverShowPictureEvents(actualLink, resolvedLink) {
+    $(`.profile-pic-icon-hover[data-link="${actualLink}"]`)
+        .attr('data-link', '')
+        .off('mouseenter mouseleave')
+        .popover('destroy')
+        .popover({
+            html: true,
+            trigger: 'manual',
+            placement: 'top',
+            content() {
+                return `<img class="profile-pic" src="${resolvedLink}">`;
+            },
+        })
+        .mouseenter(function () {
+            $(this).popover('show');
+            $(this).siblings('.popover').on('mouseleave', function () {
+                $(this).siblings('.profile-pic-icon-hover').popover('hide');
+            });
+            $(this).mouseleave(function () {
+                // this is so that the user can hover over the
+                // pop-over photo without hiding the photo
+                setTimeout((obj) => {
+                    if ($(obj).siblings('.popover').find(':hover').length === 0) {
+                        $(obj).popover('hide');
+                    }
+                }, 200, this);
+            });
+        })
+        .children('img[src=""]')
+        .attr('src', resolvedLink);
+}
+
+/**
  * @param elements:
  * identifier that points to elements with
  * class: student-profile-pic-view-link
@@ -225,9 +251,11 @@ function bindStudentPhotoHoverLink(elements) {
         trigger: 'manual',
         placement: 'top',
         content() {
-            return '<a class="cursor-pointer" onclick="'
-                   + 'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
-                   + 'View Photo</a>';
+            $('body').on('click', '.cursor-pointer', (event) => {
+                const toLoad = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
+                loadProfilePictureForHoverEvent(toLoad);
+            });
+            return '<a class="cursor-pointer">View Photo</a>';
         },
     });
 }
@@ -394,47 +422,6 @@ function loadProfilePictureForHoverEvent(obj) {
     obj.popover('show');
 }
 
-/**
- * updates all the student names that show profile picture
- * on hover with the resolved link after one instance of the name
- * has been loaded<br>
- * Helps to avoid clicking view photo when hovering over names of
- * students whose picture has already been loaded elsewhere in the page
- * @param link
- * @param resolvedLink
- */
-function updateHoverShowPictureEvents(actualLink, resolvedLink) {
-    $(`.profile-pic-icon-hover[data-link="${actualLink}"]`)
-        .attr('data-link', '')
-        .off('mouseenter mouseleave')
-        .popover('destroy')
-        .popover({
-            html: true,
-            trigger: 'manual',
-            placement: 'top',
-            content() {
-                return `<img class="profile-pic" src="${resolvedLink}">`;
-            },
-        })
-        .mouseenter(function () {
-            $(this).popover('show');
-            $(this).siblings('.popover').on('mouseleave', function () {
-                $(this).siblings('.profile-pic-icon-hover').popover('hide');
-            });
-            $(this).mouseleave(function () {
-                // this is so that the user can hover over the
-                // pop-over photo without hiding the photo
-                setTimeout((obj) => {
-                    if ($(obj).siblings('.popover').find(':hover').length === 0) {
-                        $(obj).popover('hide');
-                    }
-                }, 200, this);
-            });
-        })
-        .children('img[src=""]')
-        .attr('src', resolvedLink);
-}
-
 // --------------------------------------------------------------------------
 
 /**
@@ -467,4 +454,19 @@ function selectElementContents(elementNode) {
  */
 function executeCopyCommand() {
     document.execCommand('copy');
+}
+
+// Initial load-up
+// -----------------------------------------------------------------------------
+
+function prepareInstructorPages() {
+    // bind the show picture onclick events
+    bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
+
+    // bind the show picture onhover events
+    bindStudentPhotoHoverLink('.profile-pic-icon-hover');
+
+    // bind the event handler to show confirmation modal
+    bindCourseDeleteLinks();
+    bindSessionDeleteLinks();
 }

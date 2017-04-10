@@ -19,19 +19,16 @@ FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false
 // TODO: Move constants from Common.js into appropriate files if not shared.
 const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
-$(document).ready(() => {
-    const isEdit = typeof readyFeedbackEditPage === 'function';
+function extractQuestionNumFromEditFormId(id) {
+    return parseInt(id.substring('form_editquestion-'.length, id.length), 10);
+}
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: isEdit,
-            fixed_toolbar_container: '#richtext-toolbar-container',
-        });
-        /* eslint-enable camelcase */
+function getQuestionNumFromEditForm(form) {
+    if ($(form).attr('name') === 'form_addquestions') {
+        return -1;
     }
-});
+    return extractQuestionNumFromEditFormId($(form).attr('id'));
+}
 
 /**
  * Check whether the feedback question input is valid
@@ -70,17 +67,6 @@ function checkFeedbackQuestion(form) {
     return true;
 }
 
-function getQuestionNumFromEditForm(form) {
-    if ($(form).attr('name') === 'form_addquestions') {
-        return -1;
-    }
-    return extractQuestionNumFromEditFormId($(form).attr('id'));
-}
-
-function extractQuestionNumFromEditFormId(id) {
-    return parseInt(id.substring('form_editquestion-'.length, id.length), 10);
-}
-
 function checkEditFeedbackSession(form) {
     if (form.visibledate.getAttribute('disabled')) {
         if (!form.visibledate.value) {
@@ -96,33 +82,6 @@ function checkEditFeedbackSession(form) {
     }
 
     return true;
-}
-
-/**
- * To be run on page finish loading, this will select the input: start date,
- * start time, and timezone based on client's time.
- *
- * The default values will not be set if the form was submitted previously and
- * failed validation.
- */
-function selectDefaultTimeOptions() {
-    const now = new Date();
-
-    const currentDate = convertDateToDDMMYYYY(now);
-    const hours = convertDateToHHMM(now).substring(0, 2);
-    const currentTime = parseInt(hours, 10) + 1;
-    const timeZone = -now.getTimezoneOffset() / 60;
-
-    if (!isTimeZoneIntialized()) {
-        $(`#${FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
-        $(`#${FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
-        $(`#${FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
-    }
-
-    const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
-    if (uninitializedTimeZone) {
-        uninitializedTimeZone.remove();
-    }
 }
 
 function isTimeZoneIntialized() {
@@ -152,6 +111,33 @@ function convertDateToDDMMYYYY(date) {
  */
 function convertDateToHHMM(date) {
     return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
+}
+
+/**
+ * To be run on page finish loading, this will select the input: start date,
+ * start time, and timezone based on client's time.
+ *
+ * The default values will not be set if the form was submitted previously and
+ * failed validation.
+ */
+function selectDefaultTimeOptions() {
+    const now = new Date();
+
+    const currentDate = convertDateToDDMMYYYY(now);
+    const hours = convertDateToHHMM(now).substring(0, 2);
+    const currentTime = parseInt(hours, 10) + 1;
+    const timeZone = -now.getTimezoneOffset() / 60;
+
+    if (!isTimeZoneIntialized()) {
+        $(`#${FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
+        $(`#${FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
+        $(`#${FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
+    }
+
+    const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
+    if (uninitializedTimeZone) {
+        uninitializedTimeZone.remove();
+    }
 }
 
 function bindCopyButton() {
@@ -244,24 +230,6 @@ function bindCopyEvents() {
     });
 }
 
-function readyFeedbackPage() {
-    formatSessionVisibilityGroup();
-    formatResponsesVisibilityGroup();
-    collapseIfPrivateSession();
-
-    selectDefaultTimeOptions();
-    loadSessionsByAjax();
-    bindUncommonSettingsEvents();
-
-    bindDeleteButtons();
-    bindRemindButtons();
-    bindPublishButtons();
-    bindUnpublishButtons();
-
-    updateUncommonSettingsInfo();
-    showUncommonPanelsIfNotInDefaultValues();
-}
-
 function loadSessionsByAjax() {
     $('#ajaxForSessions').trigger('submit');
 }
@@ -271,18 +239,6 @@ function bindEventsAfterAjax() {
     bindCopyEvents();
     linkAjaxForResponseRate();
     setupFsCopyModal();
-}
-
-function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsSessionResponsesVisibleButton')
-        .click(showUncommonPanelsForSessionResponsesVisible);
-    $('#editUncommonSettingsSendEmailsButton')
-        .click(showUncommonPanelsForSendEmails);
-}
-
-function updateUncommonSettingsInfo() {
-    updateUncommonSettingsSessionVisibilityInfo();
-    updateUncommonSettingsEmailSendingInfo();
 }
 
 function updateUncommonSettingsSessionVisibilityInfo() {
@@ -299,6 +255,11 @@ function updateUncommonSettingsEmailSendingInfo() {
     $('#uncommonSettingsSendEmailsInfoText').html(info);
 }
 
+function updateUncommonSettingsInfo() {
+    updateUncommonSettingsSessionVisibilityInfo();
+    updateUncommonSettingsEmailSendingInfo();
+}
+
 function isDefaultSessionResponsesVisibleSetting() {
     return $('#sessionVisibleFromButton_atopen').prop('checked')
            && $('#resultsVisibleFromButton_later').prop('checked');
@@ -308,11 +269,6 @@ function isDefaultSendEmailsSetting() {
     return $('#sendreminderemail_open').prop('checked')
            && $('#sendreminderemail_closing').prop('checked')
            && $('#sendreminderemail_published').prop('checked');
-}
-
-function showUncommonPanels() {
-    showUncommonPanelsForSessionResponsesVisible();
-    showUncommonPanelsForSendEmails();
 }
 
 function showUncommonPanelsForSessionResponsesVisible() {
@@ -331,6 +287,11 @@ function showUncommonPanelsForSendEmails() {
     $('#uncommonSettingsSendEmailsInfoText').parent().hide();
 }
 
+function showUncommonPanels() {
+    showUncommonPanelsForSessionResponsesVisible();
+    showUncommonPanelsForSendEmails();
+}
+
 function showUncommonPanelsIfNotInDefaultValues() {
     if (!isDefaultSessionResponsesVisibleSetting()) {
         showUncommonPanelsForSessionResponsesVisible();
@@ -339,6 +300,53 @@ function showUncommonPanelsIfNotInDefaultValues() {
     if (!isDefaultSendEmailsSetting()) {
         showUncommonPanelsForSendEmails();
     }
+}
+
+function bindUncommonSettingsEvents() {
+    $('#editUncommonSettingsSessionResponsesVisibleButton')
+        .click(showUncommonPanelsForSessionResponsesVisible);
+    $('#editUncommonSettingsSendEmailsButton')
+        .click(showUncommonPanelsForSendEmails);
+}
+
+/**
+ * Saves the (disabled) state of the element in attribute data-last.<br>
+ * Toggles whether the given element {@code id} is disabled or not based on
+ * {@code bool}.<br>
+ * Disabled if true, enabled if false.
+ */
+function toggleDisabledAndStoreLast(id, bool) {
+    $(`#${id}`).prop('disabled', bool);
+    $(`#${id}`).data('last', $(`#${id}`).prop('disabled'));
+}
+
+/**
+ * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
+ */
+function collapseIfPrivateSession() {
+    if ($(`[name=${FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`).filter(':checked').val() === 'never') {
+        $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
+    } else {
+        $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
+    }
+}
+
+/**
+ * Toggles whether custom fields are enabled or not for session visible time based
+ * on checkbox selection.
+ * @param $privateBtn
+ */
+function formatResponsesVisibilityGroup() {
+    const $responsesVisibilityBtnGroup = $(`[name=${FEEDBACK_SESSION_RESULTSVISIBLEBUTTON}]`);
+    $responsesVisibilityBtnGroup.change(() => {
+        if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
+            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
+            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
+        } else {
+            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, true);
+            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, true);
+        }
+    });
 }
 
 /**
@@ -362,44 +370,22 @@ function formatSessionVisibilityGroup() {
     });
 }
 
-/**
- * Toggles whether custom fields are enabled or not for session visible time based
- * on checkbox selection.
- * @param $privateBtn
- */
-function formatResponsesVisibilityGroup() {
-    const $responsesVisibilityBtnGroup = $(`[name=${FEEDBACK_SESSION_RESULTSVISIBLEBUTTON}]`);
-    $responsesVisibilityBtnGroup.change(() => {
-        if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
-        } else {
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, true);
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, true);
-        }
-    });
-}
+function readyFeedbackPage() {
+    formatSessionVisibilityGroup();
+    formatResponsesVisibilityGroup();
+    collapseIfPrivateSession();
 
-/**
- * Saves the (disabled) state of the element in attribute data-last.<br>
- * Toggles whether the given element {@code id} is disabled or not based on
- * {@code bool}.<br>
- * Disabled if true, enabled if false.
- */
-function toggleDisabledAndStoreLast(id, bool) {
-    $(`#${id}`).prop('disabled', bool);
-    $(`#${id}`).data('last', $(`#${id}`).prop('disabled'));
-}
+    selectDefaultTimeOptions();
+    loadSessionsByAjax();
+    bindUncommonSettingsEvents();
 
-/**
- * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
- */
-function collapseIfPrivateSession() {
-    if ($(`[name=${FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`).filter(':checked').val() === 'never') {
-        $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
-    } else {
-        $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
-    }
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
+
+    updateUncommonSettingsInfo();
+    showUncommonPanelsIfNotInDefaultValues();
 }
 
 /* exported

@@ -1,28 +1,14 @@
 /* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
-/* global BootboxWrapper:false StatusType:false */
-
-$(document).ready(() => {
-    if ($('#button_sortstudentsection').length) {
-        toggleSort($('#button_sortstudentsection'));
-    } else {
-        toggleSort($('#button_sortstudentteam'));
-    }
-
-    // auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('detailsTable'));
-    });
-
-    attachEventToRemindStudentsButton();
-    attachEventToSendInviteLink();
-    attachEventToDeleteStudentLink();
-});
+/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false prepareComments:false */
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
     const formData = formObject.serialize();
     const content = $('#detailsTable');
     const ajaxStatus = $('#ajaxStatus');
+
+    const retryButtonHtml = '<button class="btn btn-info" id="instructorCourseDetailsRetryButton"> retry</button>';
+    $('#instructorCourseDetailsRetryButton').on('click', submitFormAjax);
 
     $.ajax({
         type: 'POST',
@@ -32,13 +18,13 @@ function submitFormAjax() {
         },
         error() {
             ajaxStatus.html('Failed to load student table. Please try again.');
-            content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+            content.html(retryButtonHtml);
         },
         success(data) {
             setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                    content.html(retryButtonHtml);
                 } else {
                     const table = data.studentListHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
@@ -85,11 +71,28 @@ function attachEventToSendInviteLink() {
     });
 }
 
-const isShowCommentBox = false;
+$(document).ready(() => {
+    prepareInstructorPages();
+    prepareComments();
+
+    if ($('#button_sortstudentsection').length) {
+        toggleSort($('#button_sortstudentsection'));
+    } else {
+        toggleSort($('#button_sortstudentteam'));
+    }
+
+    // auto select the html table when modal is shown
+    $('#studentTableWindow').on('shown.bs.modal', () => {
+        selectElementContents(document.getElementById('detailsTable'));
+    });
+
+    attachEventToRemindStudentsButton();
+    attachEventToSendInviteLink();
+    attachEventToDeleteStudentLink();
+});
 
 /*
 export default {
     submitFormAjax,
-    isShowCommentBox
 };
 */

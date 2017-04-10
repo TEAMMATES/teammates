@@ -10,6 +10,7 @@
 </c:set>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/administrator.js"></script>
+    <script type="text/javascript" src="/js/adminAccountDetails.js"></script>
 </c:set>
 
 <ta:adminPage pageTitle="TEAMMATES - Administrator Account Details" bodyTitle="Instructor Account Details" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">

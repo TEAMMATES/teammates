@@ -8,6 +8,7 @@
           tinymce:false,
           BootboxWrapper:false,
           isNumber:false
+          bindLinksInUnregisteredPage:false
  */
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
@@ -18,119 +19,22 @@ const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 // text displayed to user
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
 
-$(document).ready(() => {
-    const textFields = $('div[id^="responsetext-"]');
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        $.each(textFields, (i, textField) => {
-            const id = $(textField).attr('id');
-            const idSuffix = id.match(/^responsetext(.*)$/)[1];
-
-            /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-            richTextEditorBuilder.initEditor(`#${id}`, {
-                inline: true,
-                fixed_toolbar_container: `#rich-text-toolbar-response-text-container${idSuffix}`,
-                setup(ed) {
-                    ed.on('keyup', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                    ed.on('keydown', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                    ed.on('init', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                    ed.on('change', function () {
-                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
-                    });
-                },
-            });
-            /* eslint-enable camelcase */
-        });
-    }
-
-    $('form[name="form_submit_response"]').submit((e) => {
-        formatRubricQuestions();
-
-        const validationStatus = validateConstSumQuestions()
-                                 && validateRankQuestions()
-                                 && validateAllAnswersHaveRecipient();
-
-        updateMcqOtherOptionField();
-        updateMsqOtherOptionField();
-
-        if (!validationStatus) {
-            e.preventDefault();
-            e.stopPropagation();
-        } else {
-            reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
-
-            // disable button to prevent user from clicking submission button again
-            const $submissionButton = $('#response_submit_button');
-            addLoadingIndicator($submissionButton, '');
-        }
-    });
-
-    formatRecipientLists();
-
-    // Replace hidden dropdowns with text
-    $('select.participantSelect:hidden').each(function () {
-        $(this).after(`<span>${$(this).find('option:selected').html()}</span>`);
-    });
-
-    $("input[type='radio']").change(function () {
-        const idOfOtherOptionText = `otherOptionText${$(this).attr('name').substr($(this).attr('name').search('-'))}`;
-        const idOfOtherOptionFlag = `otherOptionFlag${$(this).attr('name').substr($(this).attr('name').search('-'))}`;
-
-        if ($(this).data('text') === 'otherOptionText') {
-            // Other option is selected by the student
-            $(`#${idOfOtherOptionText}`).prop('disabled', false);
-            $(`#${idOfOtherOptionFlag}`).val('1');
-        } else {
-            // Any option except the other option is selected
-            $(`#${idOfOtherOptionText}`).prop('disabled', true);
-            $(`#${idOfOtherOptionFlag}`).val('0');
-        }
-    });
-
-    $("input[id^='otherOptionText']").keyup(function () {
-        const idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
-        $(`#${idOfOtherOptionRadioButton}`).val($(this).val());
-    });
-
-    disallowNonNumericEntries($('input[type=number]'), true, true);
-
-    $('input.pointsBox').off('keydown');
-
-    disallowNonNumericEntries($('input.pointsBox'), false, false);
-
-    prepareContribQuestions();
-
-    prepareMSQQuestions();
-
-    prepareConstSumQuestions();
-
-    updateConstSumMessages();
-
-    prepareRubricQuestions();
-
-    prepareMCQQuestions();
-
-    prepareRankQuestions();
-
-    focusModeratedQuestion();
-
-    bindModerationHintButton();
-
-    showModalWarningIfSessionClosed();
-});
-
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
 }
 
 function isModeration() {
     return $('#moderationHintButton').length !== 0;
+}
+
+function updateOtherOptionAttributes(otherOption, indexSuffix) {
+    if (otherOption.is(':checked')) {
+        $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
+        $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('1');
+    } else {
+        $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', true); // disable textbox
+        $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('0');
+    }
 }
 
 function bindModerationHintButton() {
@@ -156,6 +60,20 @@ function bindModerationHintButton() {
             $moderationHint.addClass('hidden');
         }
     });
+}
+
+function getQuestionTypeNumbers(qnType) {
+    const questions = $('input[name^="questiontype-"]').filter(function () {
+        return $(this).val() === qnType;
+    });
+
+    const questionNums = [];
+
+    for (let i = 0; i < questions.length; i += 1) {
+        questionNums[i] = questions[i].name.substring('questiontype-'.length, questions[i].name.length);
+    }
+
+    return questionNums;
 }
 
 // Saves the value in the other option textbox for MCQ questions
@@ -333,19 +251,49 @@ function prepareMSQQuestions() {
     });
 }
 
-function updateOtherOptionAttributes(otherOption, indexSuffix) {
-    if (otherOption.is(':checked')) {
-        $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
-        $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('1');
-    } else {
-        $(`#msqOtherOptionText${indexSuffix}`).prop('disabled', true); // disable textbox
-        $(`#msqIsOtherOptionAnswer${indexSuffix}`).val('0');
+/**
+ *  Updates the colour of a rubric cell if it is checked.
+ */
+function updateRubricCellSelectedColor(radioInput) {
+    const cell = $(radioInput).parent();
+    const tableRow = cell.parent();
+
+    if ($(radioInput).prop('checked')) {
+        cell.addClass('cell-selected');
+        tableRow.addClass('row-answered');
+    } else if (cell.hasClass('cell-selected')) {
+        cell.removeClass('cell-selected');
     }
 }
 
-function prepareRubricQuestions() {
-    prepareDesktopRubricQuestions();
-    prepareMobileRubricQuestions();
+/**
+ * Syncs the mobile ui for rubrics on changes to the desktop ui
+ */
+function syncRubricsMobileUi(changedInput) {
+    const $changedInput = $(changedInput);
+    const mobileInputId = `#mobile-${changedInput.id}`;
+    const mobileInputName = `[name^="mobile-${changedInput.name}"]`;
+    if ($changedInput.is(':checked')) {
+        $(mobileInputId).click();
+    } else {
+        $(mobileInputName).prop('checked', false);
+        $(mobileInputId).trigger('change', [true]);
+    }
+}
+
+/**
+ * Syncs the desktop ui for rubrics on changes to the mobile ui
+ */
+function syncRubricsDesktopUi(changedInput) {
+    const $changedInput = $(changedInput);
+    const desktopInputId = `#${changedInput.id.replace('mobile-', '')}`;
+    const desktopInputName = `[name^="${changedInput.name.replace('mobile-', '')}"]`;
+    if ($changedInput.is(':checked')) {
+        $(desktopInputId).click();
+    } else {
+        $(desktopInputName).prop('checked', false);
+        $(desktopInputId).trigger('change', [true]);
+    }
 }
 
 /**
@@ -442,7 +390,7 @@ function prepareMobileRubricQuestions() {
                 }, 0);
             };
             const unbind = function () {
-                $self.unbind('mouseup', up);
+                $self.unbind('mouseup', up); // eslint-disable-line no-use-before-define
             };
             const up = function () {
                 uncheck();
@@ -454,49 +402,9 @@ function prepareMobileRubricQuestions() {
     });
 }
 
-/**
- * Syncs the mobile ui for rubrics on changes to the desktop ui
- */
-function syncRubricsMobileUi(changedInput) {
-    const $changedInput = $(changedInput);
-    const mobileInputId = `#mobile-${changedInput.id}`;
-    const mobileInputName = `[name^="mobile-${changedInput.name}"]`;
-    if ($changedInput.is(':checked')) {
-        $(mobileInputId).click();
-    } else {
-        $(mobileInputName).prop('checked', false);
-        $(mobileInputId).trigger('change', [true]);
-    }
-}
-
-/**
- * Syncs the desktop ui for rubrics on changes to the mobile ui
- */
-function syncRubricsDesktopUi(changedInput) {
-    const $changedInput = $(changedInput);
-    const desktopInputId = `#${changedInput.id.replace('mobile-', '')}`;
-    const desktopInputName = `[name^="${changedInput.name.replace('mobile-', '')}"]`;
-    if ($changedInput.is(':checked')) {
-        $(desktopInputId).click();
-    } else {
-        $(desktopInputName).prop('checked', false);
-        $(desktopInputId).trigger('change', [true]);
-    }
-}
-
-/**
- *  Updates the colour of a rubric cell if it is checked.
- */
-function updateRubricCellSelectedColor(radioInput) {
-    const cell = $(radioInput).parent();
-    const tableRow = cell.parent();
-
-    if ($(radioInput).prop('checked')) {
-        cell.addClass('cell-selected');
-        tableRow.addClass('row-answered');
-    } else if (cell.hasClass('cell-selected')) {
-        cell.removeClass('cell-selected');
-    }
+function prepareRubricQuestions() {
+    prepareDesktopRubricQuestions();
+    prepareMobileRubricQuestions();
 }
 
 function formatRubricQuestions() {
@@ -537,29 +445,6 @@ function prepareConstSumQuestions() {
         } else {
             $(`[id^="constSumInfo-${qnNum}-"]`).hide();
         }
-    }
-}
-
-function getQuestionTypeNumbers(qnType) {
-    const questions = $('input[name^="questiontype-"]').filter(function () {
-        return $(this).val() === qnType;
-    });
-
-    const questionNums = [];
-
-    for (let i = 0; i < questions.length; i += 1) {
-        questionNums[i] = questions[i].name.substring('questiontype-'.length, questions[i].name.length);
-    }
-
-    return questionNums;
-}
-
-function updateConstSumMessages() {
-    const constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
-
-    for (let i = 0; i < constSumQuestionNums.length; i += 1) {
-        const qnNum = constSumQuestionNums[i];
-        updateConstSumMessageQn(qnNum);
     }
 }
 
@@ -673,6 +558,15 @@ function updateConstSumMessageQn(qnNum) {
 
             checkAndDisplayMessage($constSumMsgElement);
         }
+    }
+}
+
+function updateConstSumMessages() {
+    const constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
+
+    for (let i = 0; i < constSumQuestionNums.length; i += 1) {
+        const qnNum = constSumQuestionNums[i];
+        updateConstSumMessageQn(qnNum);
     }
 }
 
@@ -835,69 +729,6 @@ function validateAllAnswersHaveRecipient() {
     return isAllAnswersToMissingRecipientEmpty;
 }
 
-function prepareRankQuestions() {
-    const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
-
-    for (let i = 0; i < rankQuestionNums.length; i += 1) {
-        const qnNum = rankQuestionNums[i];
-
-        const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
-
-        if (!$('#response_submit_button').is(':disabled')
-            || isPreview()) {
-            if (isRankingRecipients) {
-                let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
-                numResponses = parseInt(numResponses, 10);
-
-                $(`#rankInfo-${qnNum}-${numResponses - 1}`).show();
-            }
-        } else {
-            $(`[id^="rankInfo-${qnNum}-"]`).hide();
-        }
-    }
-    updateRankMessages();
-}
-
-function updateRankMessages() {
-    const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
-
-    for (let i = 0; i < rankQuestionNums.length; i += 1) {
-        const qnNum = rankQuestionNums[i];
-        updateRankMessageQn(qnNum);
-    }
-}
-
-function validateRankQuestions() {
-    updateRankMessages();
-
-    // if any of the rank questions has an error.
-    if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
-        const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
-        let statusMessage = 'Please fix the error(s) for rank question(s)';
-        let errorCount = 0;
-
-        for (let i = 0; i < rankQuestionNums.length; i += 1) {
-            const qnNum = rankQuestionNums[i];
-
-            // indicate the question number where the errors are located at
-            if ($(`p[id^="rankMessage-${qnNum}-"].text-color-red`).length > 0) {
-                statusMessage += errorCount === 0 ? '' : ',';
-                statusMessage += ' ';
-                statusMessage += qnNum;
-                errorCount += 1;
-            }
-        }
-
-        statusMessage += '. ';
-        statusMessage += 'To skip a rank question, leave all the boxes blank.';
-
-        setStatusMessage(statusMessage, StatusType.DANGER);
-        return false;
-    }
-
-    return true;
-}
-
 function updateRankMessageQn(qnNum) {
     const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
     const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
@@ -995,11 +826,67 @@ function updateRankMessageQn(qnNum) {
     }
 }
 
-function showModalWarningIfSessionClosed() {
-    if (hasWarningMessage()) {
-        BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), BootboxWrapper.DEFAULT_OK_TEXT,
-                                      StatusType.WARNING);
+function updateRankMessages() {
+    const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
+
+    for (let i = 0; i < rankQuestionNums.length; i += 1) {
+        const qnNum = rankQuestionNums[i];
+        updateRankMessageQn(qnNum);
     }
+}
+
+function prepareRankQuestions() {
+    const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
+
+    for (let i = 0; i < rankQuestionNums.length; i += 1) {
+        const qnNum = rankQuestionNums[i];
+
+        const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
+
+        if (!$('#response_submit_button').is(':disabled')
+            || isPreview()) {
+            if (isRankingRecipients) {
+                let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
+                numResponses = parseInt(numResponses, 10);
+
+                $(`#rankInfo-${qnNum}-${numResponses - 1}`).show();
+            }
+        } else {
+            $(`[id^="rankInfo-${qnNum}-"]`).hide();
+        }
+    }
+    updateRankMessages();
+}
+
+function validateRankQuestions() {
+    updateRankMessages();
+
+    // if any of the rank questions has an error.
+    if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
+        const rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
+        let statusMessage = 'Please fix the error(s) for rank question(s)';
+        let errorCount = 0;
+
+        for (let i = 0; i < rankQuestionNums.length; i += 1) {
+            const qnNum = rankQuestionNums[i];
+
+            // indicate the question number where the errors are located at
+            if ($(`p[id^="rankMessage-${qnNum}-"].text-color-red`).length > 0) {
+                statusMessage += errorCount === 0 ? '' : ',';
+                statusMessage += ' ';
+                statusMessage += qnNum;
+                errorCount += 1;
+            }
+        }
+
+        statusMessage += '. ';
+        statusMessage += 'To skip a rank question, leave all the boxes blank.';
+
+        setStatusMessage(statusMessage, StatusType.DANGER);
+        return false;
+    }
+
+    return true;
 }
 
 function hasWarningMessage() {
@@ -1008,6 +895,13 @@ function hasWarningMessage() {
 
 function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
+}
+
+function showModalWarningIfSessionClosed() {
+    if (hasWarningMessage()) {
+        BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), BootboxWrapper.DEFAULT_OK_TEXT,
+                                      StatusType.WARNING);
+    }
 }
 
 /**
@@ -1037,3 +931,112 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
         $wordsCountElement.css('color', 'gray');
     }
 }
+
+$(document).ready(() => {
+    const textFields = $('div[id^="responsetext-"]');
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        $.each(textFields, (i, textField) => {
+            const id = $(textField).attr('id');
+            const idSuffix = id.match(/^responsetext(.*)$/)[1];
+
+            /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+            richTextEditorBuilder.initEditor(`#${id}`, {
+                inline: true,
+                fixed_toolbar_container: `#rich-text-toolbar-response-text-container${idSuffix}`,
+                setup(ed) {
+                    ed.on('keyup', function () {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('keydown', function () {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('init', function () {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                    ed.on('change', function () {
+                        updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                    });
+                },
+            });
+            /* eslint-enable camelcase */
+        });
+    }
+
+    $('form[name="form_submit_response"]').submit((e) => {
+        formatRubricQuestions();
+
+        const validationStatus = validateConstSumQuestions()
+                                 && validateRankQuestions()
+                                 && validateAllAnswersHaveRecipient();
+
+        updateMcqOtherOptionField();
+        updateMsqOtherOptionField();
+
+        if (!validationStatus) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
+
+            // disable button to prevent user from clicking submission button again
+            const $submissionButton = $('#response_submit_button');
+            addLoadingIndicator($submissionButton, '');
+        }
+    });
+
+    formatRecipientLists();
+
+    // Replace hidden dropdowns with text
+    $('select.participantSelect:hidden').each(function () {
+        $(this).after(`<span>${$(this).find('option:selected').html()}</span>`);
+    });
+
+    $("input[type='radio']").change(function () {
+        const idOfOtherOptionText = `otherOptionText${$(this).attr('name').substr($(this).attr('name').search('-'))}`;
+        const idOfOtherOptionFlag = `otherOptionFlag${$(this).attr('name').substr($(this).attr('name').search('-'))}`;
+
+        if ($(this).data('text') === 'otherOptionText') {
+            // Other option is selected by the student
+            $(`#${idOfOtherOptionText}`).prop('disabled', false);
+            $(`#${idOfOtherOptionFlag}`).val('1');
+        } else {
+            // Any option except the other option is selected
+            $(`#${idOfOtherOptionText}`).prop('disabled', true);
+            $(`#${idOfOtherOptionFlag}`).val('0');
+        }
+    });
+
+    $("input[id^='otherOptionText']").keyup(function () {
+        const idOfOtherOptionRadioButton = $(this).attr('id').replace('Text', '');
+        $(`#${idOfOtherOptionRadioButton}`).val($(this).val());
+    });
+
+    disallowNonNumericEntries($('input[type=number]'), true, true);
+
+    $('input.pointsBox').off('keydown');
+
+    disallowNonNumericEntries($('input.pointsBox'), false, false);
+
+    prepareContribQuestions();
+
+    prepareMSQQuestions();
+
+    prepareConstSumQuestions();
+
+    updateConstSumMessages();
+
+    prepareRubricQuestions();
+
+    prepareMCQQuestions();
+
+    prepareRankQuestions();
+
+    focusModeratedQuestion();
+
+    bindModerationHintButton();
+
+    showModalWarningIfSessionClosed();
+
+    bindLinksInUnregisteredPage('[data-unreg].navLinks');
+});
