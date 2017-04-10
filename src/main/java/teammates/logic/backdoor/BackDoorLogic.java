@@ -165,7 +165,7 @@ public class BackDoorLogic extends Logic {
 
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
         for (AdminEmailAttributes email : adminEmails.values()) {
-            adminEmailsDb.creatAdminEmail(email);
+            adminEmailsDb.createAdminEmail(email);
         }
 
         // any Db can be used to commit the changes.

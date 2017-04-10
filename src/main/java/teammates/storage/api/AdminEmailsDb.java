@@ -31,7 +31,7 @@ public class AdminEmailsDb extends EntitiesDb {
 
     private static final Logger log = Logger.getLogger();
 
-    public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
+    public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
             AdminEmail ae = (AdminEmail) createEntity(adminEmailToAdd);
             return ae.getCreateDate();

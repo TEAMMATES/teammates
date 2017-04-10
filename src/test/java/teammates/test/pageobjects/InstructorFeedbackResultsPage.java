@@ -309,19 +309,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
         By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
-        waitForElementPresence(commentRowSelector);
+        WebElement commentRow = waitForElementPresence(commentRowSelector);
         waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
-        WebElement commentRow = browser.driver.findElement(commentRowSelector);
         assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
                    || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentTable" + commentTableIdSuffix));
-        waitForElementPresence(
-                By.cssSelector("#responseCommentTable" + commentTableIdSuffix + " .col-sm-offset-5 #errorMessage"));
-        assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5"))
-                                             .findElement(By.tagName("span")).getText());
+        WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
+        assertEquals(errorMessage, errorMessageSpan.getText());
     }
 
     public void verifyRowMissing(String rowIdSuffix) {
@@ -346,90 +342,48 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
-        String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
-                                             .findElements(By.cssSelector(".profile-pic-icon-click"))
-                                             .get(0);
-        executeScript("document.getElementById('" + idOfPanelBody + "')"
-                      + ".getElementsByClassName('profile-pic-icon-click')[0]"
-                      + ".getElementsByTagName('a')[0].click();");
-        Actions actions = new Actions(browser.driver);
+        String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
+        String popoverSelector = panelBodySelector + " .popover-content";
 
-        actions.moveToElement(photoCell).perform();
-        waitForElementPresence(By.cssSelector(".popover-content > img"));
+        browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
 
-        List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
-        AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
-        String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
-        WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
-                                            .findElement(By.className("profile-pic-icon-hover"));
-        executeScript("arguments[0].scrollIntoView(true);", photoDiv);
-        Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoDiv).perform();
-        waitForElementPresence(By.cssSelector(".popover-content"));
+        String headingSelector = "#panelHeading-" + panelHeadingIndex;
+        String popoverSelector = headingSelector + " .popover-content";
 
-        executeScript("document.getElementsByClassName('popover-content')[0]"
-                      + ".getElementsByTagName('a')[0].click();");
+        moveToElement(By.cssSelector(headingSelector + " .profile-pic-icon-hover"));
+        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        waitForElementPresence(By.cssSelector(".popover-content > img"));
-
-        AssertHelper.assertContainsRegex(urlRegex,
-                                         browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                                                       .get(0)
-                                                       .getAttribute("src"));
-
-        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                      + "document.getElementsByClassName('popover')[0])");
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
-        String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        WebElement photoLink = browser.driver.findElements(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
-                                             .get(0)
-                                             .findElements(By.className("profile-pic-icon-hover"))
-                                             .get(0);
-        Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoLink).perform();
+        String bodyRowSelector = "#panelBodyCollapse-" + panelBodyIndex + " > .panel-body > .row";
+        String popoverSelector = bodyRowSelector + " .popover-content";
 
-        waitForElementPresence(By.cssSelector(".popover-content > img"));
+        moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
 
-        AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                                                                 .get(0)
-                                                                 .getAttribute("src"));
-
-        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                      + "document.getElementsByClassName('popover')[0])");
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                   int tableCol, String urlRegex) {
-        String idOfQuestionBody = "questionBody-" + questionBodyIndex;
+        String cellSelector = "#questionBody-" + questionBodyIndex + " .dataTable tbody"
+                              + " tr:nth-child(" + (tableRow + 1) + ")"
+                              + " td:nth-child(" + (tableCol + 1) + ")";
+        String popoverSelector = cellSelector + " .popover-content";
 
-        /*
-         * Execute JavaScript instead of using Selenium selectors to bypass bug
-         * regarding unix systems and current testing version of Selenium and Firefox
-         */
-        executeScript("$(document.getElementById('" + idOfQuestionBody + "')"
-                      + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
-                      + ".querySelectorAll('td')['" + tableCol + "']"
-                      + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        moveToElement(By.cssSelector(cellSelector + " .profile-pic-icon-hover"));
+        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        waitForElementPresence(By.cssSelector(".popover-content"));
-
-        executeScript("document.getElementsByClassName('popover-content')[0]"
-                      + ".getElementsByTagName('a')[0].click();");
-
-        waitForElementPresence(By.cssSelector(".popover-content > img"));
-
-        AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                                                                 .get(0)
-                                                                 .getAttribute("src"));
-
-        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                      + "document.getElementsByClassName('popover')[0])");
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -523,6 +477,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementPresence(ajaxErrorSelector);
 
         waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
+    }
+
+    private void moveToElement(By by) {
+        WebElement element = browser.driver.findElement(by);
+        new Actions(browser.driver).moveToElement(element).perform();
+    }
+
+    private String getElementSrcWithRetryAfterWaitForPresence(By by) {
+        try {
+            return waitForElementPresence(by).getAttribute("src");
+        } catch (StaleElementReferenceException e) {
+            // Element changed (e.g. loading gif changed to actual image)
+            return waitForElementPresence(by).getAttribute("src");
+        }
     }
 
 }
