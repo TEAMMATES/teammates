@@ -342,65 +342,48 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
-        String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        browser.driver.findElement(By.id(idOfPanelBody))
-                      .findElement(By.cssSelector(".profile-pic-icon-click"))
-                      .findElement(By.tagName("a")).click();
+        String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
+        String popoverSelector = panelBodySelector + " .popover-content";
 
-        AssertHelper.assertContainsRegex(urlRegex,
-                waitForElementPresence(By.cssSelector(".popover-content > img")).getAttribute("src"));
+        browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
+
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
-        String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
-        WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
-                                            .findElement(By.className("profile-pic-icon-hover"));
-        Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoDiv).perform();
+        String headingSelector = "#panelHeading-" + panelHeadingIndex;
+        String popoverSelector = headingSelector + " .popover-content";
 
-        waitForElementPresence(By.cssSelector(".popover-content > a")).click();
+        moveToElement(By.cssSelector(headingSelector + " .profile-pic-icon-hover"));
+        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        AssertHelper.assertContainsRegex(urlRegex, waitForElementPresence(By.cssSelector(".popover-content > img"))
-                                                  .getAttribute("src"));
-
-        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                      + "document.getElementsByClassName('popover')[0])");
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
-        String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
-        WebElement photoLink = browser.driver.findElement(By.cssSelector('#' + idOfPanelBody + "> .panel-body > .row"))
-                                             .findElement(By.className("profile-pic-icon-hover"));
-        Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoLink).perform();
+        String bodyRowSelector = "#panelBodyCollapse-" + panelBodyIndex + " > .panel-body > .row";
+        String popoverSelector = bodyRowSelector + " .popover-content";
 
-        AssertHelper.assertContainsRegex(urlRegex, waitForElementPresence(By.cssSelector(".popover-content > img"))
-                                                  .getAttribute("src"));
+        moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
 
-        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                      + "document.getElementsByClassName('popover')[0])");
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                   int tableCol, String urlRegex) {
-        String idOfQuestionBody = "questionBody-" + questionBodyIndex;
+        String cellSelector = "#questionBody-" + questionBodyIndex + " .dataTable tbody"
+                              + " tr:nth-child(" + (tableRow + 1) + ")"
+                              + " td:nth-child(" + (tableCol + 1) + ")";
+        String popoverSelector = cellSelector + " .popover-content";
 
-        /*
-         * Execute JavaScript instead of using Selenium selectors to bypass bug
-         * regarding unix systems and current testing version of Selenium and Firefox
-         */
-        executeScript("$(document.getElementById('" + idOfQuestionBody + "')"
-                      + ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']"
-                      + ".querySelectorAll('td')['" + tableCol + "']"
-                      + ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        moveToElement(By.cssSelector(cellSelector + " .profile-pic-icon-hover"));
+        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        waitForElementPresence(By.cssSelector(".popover-content > a")).click();
-
-        AssertHelper.assertContainsRegex(urlRegex, waitForElementPresence(By.cssSelector(".popover-content > img"))
-                                                  .getAttribute("src"));
-
-        executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild("
-                      + "document.getElementsByClassName('popover')[0])");
+        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
+        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -494,6 +477,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementPresence(ajaxErrorSelector);
 
         waitForTextContainedInElementPresence(ajaxErrorSelector, "[ Failed to load. Click here to retry. ]");
+    }
+
+    private void moveToElement(By by) {
+        WebElement element = browser.driver.findElement(by);
+        new Actions(browser.driver).moveToElement(element).perform();
+    }
+
+    private String getElementSrcWithRetryAfterWaitForPresence(By by) {
+        try {
+            return waitForElementPresence(by).getAttribute("src");
+        } catch (StaleElementReferenceException e) {
+            // Element changed (e.g. loading gif changed to actual image)
+            return waitForElementPresence(by).getAttribute("src");
+        }
     }
 
 }
