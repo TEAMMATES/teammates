@@ -98,8 +98,17 @@ public class AdminEmailComposeSendAction extends Action {
                                                         new Text(emailContent),
                                                         null);
             data.emailToEdit.emailId = emailId;
+        } else {
+            if (addressModeOn) {
+                statusToAdmin = "Email sent to " + addressReceiverListString;
+                statusToUser.add(new StatusMessage("Email sent to "
+                        + addressReceiverListString, StatusMessageColor.SUCCESS));
+            }
+            if (groupModeOn) {
+                statusToAdmin = "Email sent to " + groupReceiverListFileKey;
+                statusToUser.add(new StatusMessage("Email sent to " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
+            }
         }
-
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
