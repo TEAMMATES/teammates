@@ -1,4 +1,4 @@
-/* global BootboxWrapper:false StatusType:false */
+/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false */
 
 const INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 
@@ -56,5 +56,6 @@ function readyInstructorStudentEditPage() {
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
     readyInstructorStudentEditPage();
 });
