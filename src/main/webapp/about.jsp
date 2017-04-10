@@ -166,7 +166,7 @@
 
         <section class="row">
             <h3>Committers:</h3>
-            <ol>
+            <ol class="grids committers">
                 <li>
                     <img src="images/teammembers/mingshin.png" width="80px"><br>
                     Ch'ng Ming Shin (Jan 2017 - )
