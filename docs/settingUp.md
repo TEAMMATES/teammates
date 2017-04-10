@@ -133,6 +133,10 @@ More information can be found at [this documentation](https://help.github.com/ar
    * Click `Next`.
    * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
    * Click `Finish`.
+1. During your import, the run configurations for the project were deleted locally. In order to restore these, open git shell and run the command
+   ```sh
+      git checkout -- .idea/runConfigurations
+   ```
 1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
 
 If you followed every step correctly, you should have successfully set up the development environment.
