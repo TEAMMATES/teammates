@@ -71,7 +71,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clickSendButton();
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
-        emailPage.verifyStatus("Email sent to recipient@email.tmt");
+        emailPage.verifyStatus("Email will be sent within an hour to recipient@email.tmt");
 
         ______TS("save email - success");
 

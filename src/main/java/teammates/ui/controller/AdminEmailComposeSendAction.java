@@ -154,10 +154,22 @@ public class AdminEmailComposeSendAction extends Action {
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
 
-        statusToAdmin = "Email will be sent within an hour to " + addressReceiverListString + ", "
-                         + groupReceiverListFileKey;
-        statusToUser.add(new StatusMessage("Email will be sent within an hour to "
-                         + addressReceiverListString + ", " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
+        if (addressModeOn && groupModeOn) {
+            statusToAdmin = "Email will be sent within an hour to "
+                            + addressReceiverListString + "," + groupReceiverListFileKey;
+            statusToUser.add(new StatusMessage("Email will be sent within an hour to "
+                    + addressReceiverListString + ", " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
+
+        } else if (addressModeOn) {
+            statusToAdmin = "Email wll be sent within an hour to " + addressReceiverListString;
+            statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
+                         StatusMessageColor.SUCCESS));
+
+        } else {
+            statusToAdmin = "Email will be sent within an hour to " + groupReceiverListFileKey;
+            statusToUser.add(new StatusMessage("Email will be sent within an hour to "
+                        + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
+        }
     }
 
     private void updateDraftEmailToSent(String emailId,
