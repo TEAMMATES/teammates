@@ -98,15 +98,6 @@ public class AdminEmailComposeSendAction extends Action {
                                                         new Text(emailContent),
                                                         null);
             data.emailToEdit.emailId = emailId;
-        } else {
-            if (addressModeOn) {
-                statusToAdmin = "Email sent to " + addressReceiverListString;
-                statusToUser.add(new StatusMessage("Email sent to "
-                        + addressReceiverListString, StatusMessageColor.SUCCESS));
-            } else {
-                statusToAdmin = "Email sent to " + groupReceiverListFileKey;
-                statusToUser.add(new StatusMessage("Email sent to " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
-            }
         }
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
@@ -162,6 +153,10 @@ public class AdminEmailComposeSendAction extends Action {
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
+
+        statusToAdmin = "Email will be sent within an hour to " + groupReceiverListFileKey + addressReceiverListString;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to "
+                     + groupReceiverListFileKey + addressReceiverListString, StatusMessageColor.SUCCESS));
     }
 
     private void updateDraftEmailToSent(String emailId,
