@@ -127,11 +127,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(indicateMissingResponsesCheckbox);
     }
 
-    public void clickElementById(String elementId) {
-        WebElement element = browser.driver.findElement(By.id(elementId));
-        click(element);
-    }
-
     public void fillSearchBox(String s) {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
