@@ -8,10 +8,6 @@ body {
     padding: 60px 0 30px;
 }
 
-a {
-    cursor: pointer;
-}
-
 .editUncommonSettingsButton:hover {
     cursor: pointer;
 }
@@ -138,8 +134,8 @@ a {
 }
 
 .separate-content-holder {
-    height: 75px;
-    padding-top: 15px;
+    height: 5em;
+    padding-top: 1em;
     width: 100%;
 }
 
