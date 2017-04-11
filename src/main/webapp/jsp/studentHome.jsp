@@ -6,6 +6,7 @@
 <%@ page import="teammates.common.util.Const" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/student.js"></script>
+    <script type="text/javascript" src="/js/studentHome.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student" bodyTitle="Student Home" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

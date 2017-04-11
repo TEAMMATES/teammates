@@ -1,5 +1,5 @@
 /* global toggleSingleCollapse:false tinymce:false */
-/* global isBlank:false setStatusMessage:false StatusType:false */
+/* global isBlank:false setStatusMessage:false StatusType:false prepareInstructorPages:false */
 /* global scrollToTop:false richTextEditorBuilder:false BootboxWrapper:false */
 
 const COMMENT_TEXT = 'commenttext';
@@ -168,6 +168,8 @@ function readyStudentRecordsPage() {
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     // Auto-loading for feedback responses
     $('div[id^="studentFeedback-"]').click();
 

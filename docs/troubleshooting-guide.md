@@ -4,7 +4,6 @@ This document can help you to fix the common problems encountered while contribu
 Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
 
 * [Troubleshooting project setup](#troubleshooting-project-setup)
-    * [Setup checklist](#setup-checklist)
     * [Common setup errors and solutions](#common-setup-errors-and-solutions)
 * [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
@@ -13,51 +12,6 @@ Note that some of the screenshots might be outdated, but the instructions will r
 * [Submitting help request](#submitting-help-request)
 
 ## Troubleshooting project setup
-
-### Setup checklist
-
-Use this checklist to verify that your project setup is correct.
-
-1. **Undo any automatic setting changes done by Eclipse**
-
-    Make sure Eclipse has not modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from GitHub. If there are any changes, do a `git reset --hard` and restart Eclipse.
-
-1. **Check the version of the Google plugin for Eclipse**
-
-    In Eclipse, go to `Help → Install new software → What's already installed`.
-    
-    * Ensure that Google Plugin version is `4.4` (Luna), `4.5` (Mars), or `4.6` (Neon), not `4.3` as shown in the screenshot.
-    * Ensure that TestNG is installed.
-
-    ![setup-checklist-1.png](images/setup-checklist-1.png)
-
-1. **Check the text encoding settings**
-
-    `Window → Preferences → General → Workspace`
-
-    ![setup-checklist-2.png](images/setup-checklist-2.png)
-
-1. **Check the JDK compliance**
-
-    `Project → Properties → Java Compiler`
-
-    ![setup-checklist-3.png](images/setup-checklist-3.png)
-
-1. **Check the SDK version**
-
-   Note: We are using version `1.9.27` instead of `1.9.4`.
-
-    `Project → Properties → Google → App Engine`
-
-    ![setup-checklist-4.png](images/setup-checklist-4.png)
-
-1. **Check for compilation errors**
-
-    Markers tab should have 0 errors. Warnings are generally fine to be ignored.
-
-    ![setup-checklist-5.png](images/setup-checklist-5.png)
-
-    If it shows errors, try refreshing the project (right-click on the project in Project explorer) followed by a `Project → Clean`.
 
 ### Common setup errors and solutions
 
