@@ -20,9 +20,9 @@ Apply to alert to override Bootstrap's default 3d alerts
     box-shadow: none;
 }
 
-.alert-warning, 
-.alert-success, 
-.alert-info, 
+.alert-warning,
+.alert-success,
+.alert-info,
 .alert-danger {
     background-image: none;
 }
