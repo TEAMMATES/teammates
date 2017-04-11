@@ -68,6 +68,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
                                                                  false, "question");
+        // to test for ajax loaded panel
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-1", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
     }
