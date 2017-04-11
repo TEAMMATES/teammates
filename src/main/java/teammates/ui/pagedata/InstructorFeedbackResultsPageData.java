@@ -699,7 +699,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
                 Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
-        sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+
+        if (sections.isEmpty()) {
+            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        }
 
         for (String section : sections) {
             sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
