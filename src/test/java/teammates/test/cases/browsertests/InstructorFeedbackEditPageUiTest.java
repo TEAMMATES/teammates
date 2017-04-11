@@ -918,7 +918,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
         feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
-        assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+        feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
+        feedbacksPage.verifyResponseValue("1 / 1", courseId, feedbackSessionName);
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
@@ -933,7 +934,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbacksPage = navigateToInstructorFeedbacksPage();
         feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
-        assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+        feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
+        feedbacksPage.verifyResponseValue("0 / 1", courseId, feedbackSessionName);
 
         // Delete the question
         feedbackEditPage = getFeedbackEditPage();
