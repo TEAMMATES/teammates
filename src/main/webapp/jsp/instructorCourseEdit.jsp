@@ -10,14 +10,11 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
     <script type="text/javascript" src="/js/timezone.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
-    <script>
-        var courseTimeZone = '${data.course.timeZone}';
-    </script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
-    <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
+    <input type="hidden" id="course-time-zone" value="${data.course.timeZone}">
     <course:courseEditCourseInfo 
             editCourseButton="${data.editCourseButton}"
             deleteCourseButton="${data.deleteCourseButton}" 
