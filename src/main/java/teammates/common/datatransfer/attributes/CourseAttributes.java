@@ -74,13 +74,13 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addError(validator.getInvalidityInfoForCourseId(getId()), errors);
+        errors.add(validator.getInvalidityInfoForCourseId(getId()));
 
-        addError(validator.getInvalidityInfoForCourseName(getName()), errors);
+        errors.add(validator.getInvalidityInfoForCourseName(getName()));
 
-        addError(validator.getInvalidityInfoForCourseTimeZone(getTimeZone()), errors);
+        errors.add(validator.getInvalidityInfoForCourseTimeZone(getTimeZone()));
 
-        return errors;
+        return removeEmptyElements(errors);
     }
 
     @Override

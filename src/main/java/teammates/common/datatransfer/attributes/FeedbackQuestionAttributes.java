@@ -160,11 +160,16 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        errors.add(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName));
 
-        addError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        errors.add(validator.getInvalidityInfoForCourseId(courseId));
 
-        addError(validator.getInvalidityInfoForEmail(creatorEmail), errors, "Invalid creator's email: ");
+        // special case when additional text should be added to error text
+        String error = validator.getInvalidityInfoForEmail(creatorEmail);
+        if (!error.isEmpty()) {
+            error = "Invalid creator's email: " + error;
+        }
+        errors.add(error);
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
@@ -172,7 +177,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                                                                              showGiverNameTo,
                                                                              showRecipientNameTo));
 
-        return errors;
+        return removeEmptyElements(errors);
     }
 
     // TODO: move following methods to PageData?

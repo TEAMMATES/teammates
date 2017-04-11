@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -59,20 +60,16 @@ public abstract class EntityAttributes {
     public abstract void sanitizeForSaving();
 
     /**
-     * Check for error and add it to array of errors, if it exists.
+     * Check the list for empty nodes ("") and remove them if found.
+     * Return the list without empty nodes or empty list if all nodes are empty
      */
-    public void addError(String error, List<String> errors) {
-        if (!error.isEmpty()) {
-            errors.add(error);
+    public List<String> removeEmptyElements(List<String> errors) {
+        Iterator<String> iterator = errors.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().equals("")) {
+                iterator.remove();
+            }
         }
-    }
-
-    /**
-     * Check for error and add it to array of errors with additional preceding text, if error exists.
-     */
-    public void addError(String error, List<String> errors, String precedingText) {
-        if (!error.isEmpty()) {
-            errors.add(precedingText + error);
-        }
+        return errors;
     }
 }

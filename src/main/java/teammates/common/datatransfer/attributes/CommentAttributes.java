@@ -107,30 +107,30 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        errors.add(validator.getInvalidityInfoForCourseId(courseId));
 
-        addError(validator.getInvalidityInfoForEmail(giverEmail), errors);
+        errors.add(validator.getInvalidityInfoForEmail(giverEmail));
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    addError(validator.getInvalidityInfoForEmail(recipientId), errors);
+                    errors.add(validator.getInvalidityInfoForEmail(recipientId));
                 }
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    addError(validator.getInvalidityInfoForTeamName(recipientId), errors);
+                    errors.add(validator.getInvalidityInfoForTeamName(recipientId));
                 }
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    addError(validator.getInvalidityInfoForSectionName(recipientId), errors);
+                    errors.add(validator.getInvalidityInfoForSectionName(recipientId));
                 }
                 break;
             case COURSE :
                 for (String recipientId : recipients) {
-                    addError(validator.getInvalidityInfoForCourseId(recipientId), errors);
+                    errors.add(validator.getInvalidityInfoForCourseId(recipientId));
                 }
                 break;
             default : // cases for NONE or null
@@ -138,7 +138,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             }
         }
 
-        return errors;
+        return removeEmptyElements(errors);
     }
 
     @Override

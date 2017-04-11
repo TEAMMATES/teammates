@@ -111,13 +111,15 @@ public class AccountAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addError(validator.getInvalidityInfoForPersonName(name), errors);
+        errors.add(validator.getInvalidityInfoForPersonName(name));
 
-        addError(validator.getInvalidityInfoForGoogleId(googleId), errors);
+        errors.add(validator.getInvalidityInfoForGoogleId(googleId));
 
-        addError(validator.getInvalidityInfoForEmail(email), errors);
+        errors.add(validator.getInvalidityInfoForEmail(email));
 
-        addError(validator.getInvalidityInfoForInstituteName(institute), errors);
+        errors.add(validator.getInvalidityInfoForInstituteName(institute));
+
+        removeEmptyElements(errors);
 
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
         // only check profile if the account is proper

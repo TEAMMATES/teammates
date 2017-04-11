@@ -196,51 +196,54 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         // Check for null fields.
 
-        addError(validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName), errors);
+        errors.add(validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName));
 
-        addError(validator.getValidityInfoForNonNullField("course ID", courseId), errors);
+        errors.add(validator.getValidityInfoForNonNullField("course ID", courseId));
 
-        addError(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
+        errors.add(validator.getValidityInfoForNonNullField("instructions to students", instructions));
 
-        addError(validator.getValidityInfoForNonNullField(
-                "time for the session to become visible", sessionVisibleFromTime), errors);
+        errors.add(validator.getValidityInfoForNonNullField(
+                "time for the session to become visible", sessionVisibleFromTime));
 
-        addError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
+        errors.add(validator.getValidityInfoForNonNullField("creator's email", creatorEmail));
 
-        addError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
-
+        errors.add(validator.getValidityInfoForNonNullField("session creation time", createdTime));
+        
         // Early return if any null fields
+        removeEmptyElements(errors);
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        addError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        errors.add(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName));
 
-        addError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        errors.add(validator.getInvalidityInfoForCourseId(courseId));
 
-        addError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
+        errors.add(validator.getInvalidityInfoForEmail(creatorEmail));
 
         // Skip time frame checks if session type is private.
+        removeEmptyElements(errors);
         if (this.isPrivateSession()) {
             return errors;
         }
 
-        addError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
+        errors.add(validator.getValidityInfoForNonNullField("submission opening time", startTime));
 
-        addError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
+        errors.add(validator.getValidityInfoForNonNullField("submission closing time", endTime));
 
-        addError(validator.getValidityInfoForNonNullField(
-                "time for the responses to become visible", resultsVisibleFromTime), errors);
+        errors.add(validator.getValidityInfoForNonNullField(
+                "time for the responses to become visible", resultsVisibleFromTime));
 
         // Early return if any null fields
+        removeEmptyElements(errors);
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        addError(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
+        errors.add(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime));
 
-        addError(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                sessionVisibleFromTime, startTime), errors);
+        errors.add(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                sessionVisibleFromTime, startTime));
 
         Date actualSessionVisibleFromTime = sessionVisibleFromTime;
 
@@ -248,10 +251,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             actualSessionVisibleFromTime = startTime;
         }
 
-        addError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
+        errors.add(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                actualSessionVisibleFromTime, resultsVisibleFromTime));
 
-        return errors;
+        return removeEmptyElements(errors);
     }
 
     @Override

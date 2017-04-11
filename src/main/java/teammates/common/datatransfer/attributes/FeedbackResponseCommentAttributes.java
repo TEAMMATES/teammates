@@ -142,15 +142,15 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        errors.add(validator.getInvalidityInfoForCourseId(courseId));
 
-        addError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        errors.add(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName));
 
-        addError(validator.getInvalidityInfoForEmail(giverEmail), errors);
+        errors.add(validator.getInvalidityInfoForEmail(giverEmail));
 
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
-        return errors;
+        return removeEmptyElements(errors);
     }
 
     @Override
