@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
@@ -19,8 +18,6 @@ import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
 public class InstructorFeedbacksPageData extends PageData {
-
-    private static final int MAX_CLOSED_SESSION_STATS = 5;
 
     // Flag for deciding if loading the sessions table, or the new sessions form.
     // if true -> loads the sessions table, else load the form
@@ -176,7 +173,6 @@ public class InstructorFeedbacksPageData extends PageData {
                                          String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
-        int displayedStatsCount = 0;
 
         for (FeedbackSessionAttributes session : sessions) {
             String courseId = session.getCourseId();
@@ -184,15 +180,6 @@ public class InstructorFeedbacksPageData extends PageData {
             String tooltip = getInstructorHoverMessageForFeedbackSession(session);
             String status = getInstructorStatusForFeedbackSession(session);
             String href = getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName());
-
-            String recent = "";
-            if (session.isOpened() || session.isWaitingToOpen()) {
-                recent = " recent";
-            } else if (displayedStatsCount < InstructorFeedbacksPageData.MAX_CLOSED_SESSION_STATS
-                       && !TimeHelper.isOlderThanAYear(session.getCreatedTime())) {
-                recent = " recent";
-                ++displayedStatsCount;
-            }
 
             InstructorFeedbackSessionActions actions =
                     getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
@@ -207,7 +194,7 @@ public class InstructorFeedbacksPageData extends PageData {
             }
 
             rows.add(new FeedbackSessionsTableRow(courseId, name, tooltip, status, href,
-                                                  recent, actions, elementAttributes));
+                                                  actions, elementAttributes));
         }
 
         return rows;
