@@ -28,7 +28,20 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-
+        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+        if (!isDisplayedToStudents) {
+            try {
+                validateIsInstructorDisplaytoStudents(courseId, instructorId, instructorEmail);
+            } catch (InvalidParametersException e) {
+                isError = true;
+                setStatusForException(e);
+            }
+        }
+        if (isError) {
+            RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+            result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+            return result;
+        }
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
@@ -53,6 +66,29 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
+    }
+
+    /**
+     * Ensure at least one instructor display to students.
+     * If there are none, the instructor currently being edited will not hide his/her visibility.
+     * @param courseId         Id of the course.
+     * @throws InvalidParametersException when none of the instructor display to students.
+     */
+    private void validateIsInstructorDisplaytoStudents(String courseId, String instructorId, String instructorEmail)
+            throws InvalidParametersException {
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        InstructorAttributes instructortoEdit;
+        if (instructorId == null) {
+            instructortoEdit = logic.getInstructorForEmail(courseId, instructorEmail);
+        } else {
+            instructortoEdit = logic.getInstructorForGoogleId(courseId, instructorId);
+        }
+        String error = logic.validateIsInstructorDisplaytoStudents(instructors, instructortoEdit.email);
+        if (!error.isEmpty()) {
+            isError = true;
+            statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
+            throw new InvalidParametersException("<strong>Instructor Visibility Error</strong>");
+        }
     }
 
     /**

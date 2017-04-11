@@ -722,4 +722,13 @@ public final class CoursesLogic {
         return archivedCourseIds;
     }
 
+    public String validateIsInstructorDisplaytoStudents(List<InstructorAttributes> instructors, String email) {
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isDisplayedToStudents && !instructor.email.equals(email)) {
+                return "";
+            }
+        }
+        return FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR;
+    }
+
 }

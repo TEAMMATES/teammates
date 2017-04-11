@@ -1091,6 +1091,13 @@ public class Logic {
     }
 
     /**
+     * Return error message if no instructor display to students.
+     */
+    public String validateIsInstructorDisplaytoStudents(List<InstructorAttributes> instructors, String email) {
+        return coursesLogic.validateIsInstructorDisplaytoStudents(instructors, email);
+    }
+
+    /**
      * Batch creates or updates search documents for the given students.
      */
     public void putStudentDocuments(List<StudentAttributes> students) {
