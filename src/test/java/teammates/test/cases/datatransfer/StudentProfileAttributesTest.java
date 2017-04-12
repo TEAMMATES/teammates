@@ -75,7 +75,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfo() throws Exception {
         testGetInvalidityInfoForValidProfileWithValues();
-        testGetInvalidtyInfoForValidProfileWithEmptyValues();
+        testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
     }
 
@@ -87,7 +87,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    private void testGetInvalidtyInfoForValidProfileWithEmptyValues() {
+    private void testGetInvalidityInfoForValidProfileWithEmptyValues() {
         StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
 
         ______TS("Typical case: valid profile with empty attributes");
