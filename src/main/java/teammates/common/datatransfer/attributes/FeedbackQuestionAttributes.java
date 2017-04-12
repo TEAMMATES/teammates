@@ -167,7 +167,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         // special case when additional text should be added to error text
         String error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
-            error = "Invalid creator's email: " + error;
+            StringBuffer stringbuff = new StringBuffer().append("Invalid creator's email: ").append(error);
+            error = stringbuff.toString();
         }
         errors.add(error);
 
