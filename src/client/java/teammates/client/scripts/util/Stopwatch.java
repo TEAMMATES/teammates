@@ -15,7 +15,7 @@ public class Stopwatch {
         startTime = System.nanoTime();
     }
 
-    public double getTimeElapsedInSeconds() {
+    private double getTimeElapsedInSeconds() {
         return (System.nanoTime() - startTime) / 1000000000.0;
     }
 
