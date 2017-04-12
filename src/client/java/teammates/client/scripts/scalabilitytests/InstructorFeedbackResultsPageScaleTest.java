@@ -19,7 +19,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
-    private Logger logger = Logger.getLogger();
+    private Logger log = Logger.getLogger();
 
     @Override
     protected void prepareTestData() {
@@ -43,7 +43,7 @@ public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
 
         for (int studentLoad : studentLoads) {
             for (int questionLoad : questionLoads) {
-                logger.info("Testing with " + studentLoad + " students, " + questionLoad + " questions...");
+                log.info("Testing with " + studentLoad + " students, " + questionLoad + " questions...");
                 refreshTestData(studentLoad, questionLoad);
                 testContent();
             }
@@ -69,7 +69,7 @@ public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         resultsPage.waitForPageToLoad();
-        stopwatch.logTimeElapsedInSeconds(logger);
+        stopwatch.logTimeElapsedInSeconds(log);
 
         return resultsPage;
     }
