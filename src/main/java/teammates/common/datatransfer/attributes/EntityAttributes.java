@@ -64,11 +64,11 @@ public abstract class EntityAttributes {
      */
     public List<String> getNonEmptyErrors(List<String> errors) {
         List<String> result = new ArrayList<>();
-    	for (String error : errors) {
+        for (String error : errors) {
             if (!error.isEmpty()) {
                 result.add(error);
             }
-    	}
-    	return result;
+        }
+        return result;
     }
 }
