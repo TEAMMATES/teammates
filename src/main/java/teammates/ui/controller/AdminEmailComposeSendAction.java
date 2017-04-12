@@ -100,6 +100,16 @@ public class AdminEmailComposeSendAction extends Action {
             data.emailToEdit.emailId = emailId;
         }
 
+        if (addressModeOn && groupModeOn) {
+            statusToAdmin = "Email queued for sending." + "<br/>" + "Receipient: " + addressReceiverListString
+                            + "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
+            statusToUser.clear();
+
+            statusToUser.add(new StatusMessage("Email will be sent within an hour to "
+                        + addressReceiverListString + " and uploaded group receiver's list.", StatusMessageColor.SUCCESS));
+
+        }
+
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
@@ -123,6 +133,10 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
+
+        statusToAdmin = "Email queued for sending." + "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
+                     StatusMessageColor.SUCCESS));
     }
 
     private void moveJobToAddressModeTaskQueue() {
@@ -130,6 +144,10 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
+
+        statusToAdmin = "Email queued for sending." + "<br/>" + "Receipient: " + addressReceiverListString;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
+                     StatusMessageColor.SUCCESS));
     }
 
     private void recordNewSentEmail(String subject,
@@ -153,23 +171,6 @@ public class AdminEmailComposeSendAction extends Action {
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
-
-        if (addressModeOn && groupModeOn) {
-            statusToAdmin = "Email will be sent within an hour to "
-                            + addressReceiverListString + "," + groupReceiverListFileKey;
-            statusToUser.add(new StatusMessage("Email will be sent within an hour to "
-                    + addressReceiverListString + ", " + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
-
-        } else if (addressModeOn) {
-            statusToAdmin = "Email wll be sent within an hour to " + addressReceiverListString;
-            statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
-                         StatusMessageColor.SUCCESS));
-
-        } else {
-            statusToAdmin = "Email will be sent within an hour to " + groupReceiverListFileKey;
-            statusToUser.add(new StatusMessage("Email will be sent within an hour to "
-                        + groupReceiverListFileKey, StatusMessageColor.SUCCESS));
-        }
     }
 
     private void updateDraftEmailToSent(String emailId,
