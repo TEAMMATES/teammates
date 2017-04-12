@@ -24,10 +24,11 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackResponseComment {
 
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    /**
+     * The name of the primary key of this entity type.
+     */
     @NotPersistent
     public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(FeedbackResponseComment.class);
-    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

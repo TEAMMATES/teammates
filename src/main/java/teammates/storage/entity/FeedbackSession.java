@@ -21,10 +21,11 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class FeedbackSession {
 
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    /**
+     * The name of the primary key of this entity type.
+     */
     @NotPersistent
     public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(FeedbackSession.class);
-    // CHECKSTYLE.ON:JavadocVariable
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed

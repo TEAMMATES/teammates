@@ -17,10 +17,11 @@ import com.google.gson.annotations.SerializedName;
 @PersistenceCapable
 public class Course {
 
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    /**
+     * The name of the primary key of this entity type.
+     */
     @NotPersistent
     public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Course.class);
-    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent

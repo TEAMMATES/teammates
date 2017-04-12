@@ -17,10 +17,11 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable
 public class Instructor {
 
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    /**
+     * The name of the primary key of this entity type.
+     */
     @NotPersistent
     public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Instructor.class);
-    // CHECKSTYLE.ON:JavadocVariable
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101

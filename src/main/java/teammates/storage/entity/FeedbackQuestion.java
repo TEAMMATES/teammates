@@ -25,10 +25,11 @@ public class FeedbackQuestion implements StoreCallback {
 
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
 
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    /**
+     * The name of the primary key of this entity type.
+     */
     @NotPersistent
     public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(FeedbackQuestion.class);
-    // CHECKSTYLE.ON:JavadocVariable
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set

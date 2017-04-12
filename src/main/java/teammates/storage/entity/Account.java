@@ -14,10 +14,11 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable
 public class Account {
 
-    // CHECKSTYLE.OFF:JavadocVariable self-documenting
+    /**
+     * The name of the primary key of this entity type.
+     */
     @NotPersistent
     public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Account.class);
-    // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
     @Persistent
