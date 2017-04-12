@@ -21,7 +21,7 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/";
     private InstructorCourseEnrollPage enrollPage;
-    private Logger logger = Logger.getLogger();
+    private Logger log = Logger.getLogger();
 
     @Override
     protected void prepareTestData() {
@@ -54,11 +54,10 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
         String enrollString =
                 readData("InstructorCourseEnrollPageScaleTestData" + numStudents, Charset.defaultCharset());
 
-        logger.info("Testing with " + numStudents + " students...");
+        log.info("Testing with " + numStudents + " students...");
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         enrollPage.enroll(enrollString);
-        stopwatch.logTimeElapsedInSeconds(logger);
     }
 
     String readData(String filename, Charset encoding) throws IOException {
