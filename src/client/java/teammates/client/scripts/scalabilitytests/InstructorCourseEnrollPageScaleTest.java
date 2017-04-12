@@ -6,12 +6,10 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.client.scripts.util.Stopwatch;
 import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
@@ -52,17 +50,12 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
         InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
         String enrollString =
-                readData("InstructorCourseEnrollPageScaleTestData" + numStudents, Charset.defaultCharset());
+                FileHelper.readFile(DATA_FOLDER_PATH + "InstructorCourseEnrollPageScaleTestData" + numStudents);
 
         log.info("Testing with " + numStudents + " students...");
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         enrollPage.enroll(enrollString);
-    }
-
-    String readData(String filename, Charset encoding) throws IOException {
-        byte[] encoded =
-                Files.readAllBytes(Paths.get(DATA_FOLDER_PATH + filename));
-        return new String(encoded, encoding);
+        stopwatch.logTimeElapsedInSeconds(log);
     }
 }
