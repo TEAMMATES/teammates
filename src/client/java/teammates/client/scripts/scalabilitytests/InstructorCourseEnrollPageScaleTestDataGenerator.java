@@ -1,11 +1,11 @@
 package teammates.client.scripts.scalabilitytests;
 
 import org.kohsuke.randname.RandomNameGenerator;
+import teammates.test.driver.FileHelper;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Generates test data for InstructorCourseEnrollPageScaleTest.
@@ -40,11 +40,9 @@ public final class InstructorCourseEnrollPageScaleTestDataGenerator {
 
     public static void main(String[] args) throws IOException {
         for (int studentGroup : studentGroups) {
-            File file = new File("src/client/java/teammates/client/scripts/scalabilitytests/" + FILENAME + studentGroup);
-            try (PrintWriter out = new PrintWriter(file)) {
-                out.println(generateStudents(studentGroup));
-                out.close();
-            }
+            FileHelper.saveFile(
+                    "src/client/java/teammates/client/scripts/scalabilitytests/" + FILENAME + studentGroup,
+                    generateStudents(studentGroup));
         }
     }
 }
