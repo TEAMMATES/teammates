@@ -49,9 +49,8 @@ public class InstructorStudentCommentEditAction extends Action {
         try {
             if ("edit".equals(editType)) {
                 CommentAttributes updatedComment = logic.updateComment(comment);
-                //TODO: move putDocument to task queue
-                logic.putDocument(updatedComment);
-
+                taskQueuer.scheduleSearchableDocumentsProductionForComments(
+                        Long.toString(updatedComment.getCommentId()));
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_EDITED, StatusMessageColor.SUCCESS));
                 statusToAdmin = "Edited Comment for Student:<span class=\"bold\">("
                         + comment.recipients + ")</span> for Course <span class=\"bold\">["
