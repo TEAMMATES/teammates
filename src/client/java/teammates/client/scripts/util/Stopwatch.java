@@ -6,7 +6,7 @@ import teammates.common.util.Logger;
  * Helper class to measure event durations.
  */
 public class Stopwatch {
-    long startTime;
+    private long startTime;
 
     /**
      * Starts the Stopwatch.
