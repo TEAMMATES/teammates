@@ -208,7 +208,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         errors.add(validator.getValidityInfoForNonNullField("creator's email", creatorEmail));
 
         errors.add(validator.getValidityInfoForNonNullField("session creation time", createdTime));
-        
+
         // Early return if any null fields
         errors = getNonEmptyErrors(errors);
         if (!errors.isEmpty()) {
