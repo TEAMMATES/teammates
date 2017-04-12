@@ -19,7 +19,7 @@ public class Course {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "ID";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Course.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey

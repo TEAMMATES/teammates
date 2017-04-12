@@ -21,7 +21,7 @@ public class FeedbackResponse implements StoreCallback {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "feedbackResponseId";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(FeedbackResponse.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     /**

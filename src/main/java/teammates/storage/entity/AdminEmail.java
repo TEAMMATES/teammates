@@ -20,7 +20,7 @@ public class AdminEmail {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "emailId";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(AdminEmail.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey

@@ -29,7 +29,7 @@ public class Comment {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "commentId";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Comment.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey

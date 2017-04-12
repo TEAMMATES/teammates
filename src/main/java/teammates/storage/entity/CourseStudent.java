@@ -24,7 +24,7 @@ public class CourseStudent implements StoreCallback {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "id";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(CourseStudent.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     /**

@@ -26,7 +26,7 @@ public class FeedbackResponseComment {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "feedbackResponseCommentId";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(FeedbackResponseComment.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey

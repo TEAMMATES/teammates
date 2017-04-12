@@ -16,7 +16,7 @@ public class Account {
 
     // CHECKSTYLE.OFF:JavadocVariable self-documenting
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = "googleId";
+    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Account.class);
     // CHECKSTYLE.ON:JavadocVariable
 
     @PrimaryKey
