@@ -80,7 +80,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
         errors.add(validator.getInvalidityInfoForCourseTimeZone(getTimeZone()));
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override

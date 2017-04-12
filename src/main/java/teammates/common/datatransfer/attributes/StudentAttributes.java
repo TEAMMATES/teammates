@@ -184,7 +184,7 @@ public class StudentAttributes extends EntityAttributes {
 
         errors.add(validator.getInvalidityInfoForPersonName(name));
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     public static void sortBySectionName(List<StudentAttributes> students) {

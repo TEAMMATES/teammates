@@ -120,7 +120,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
         errors.add(validator.getInvalidityInfoForCourseId(courseId));
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override

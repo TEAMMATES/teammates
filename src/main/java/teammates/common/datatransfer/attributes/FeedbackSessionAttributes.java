@@ -210,7 +210,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         errors.add(validator.getValidityInfoForNonNullField("session creation time", createdTime));
         
         // Early return if any null fields
-        removeEmptyElements(errors);
+        errors = getNonEmptyErrors(errors);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -222,7 +222,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         errors.add(validator.getInvalidityInfoForEmail(creatorEmail));
 
         // Skip time frame checks if session type is private.
-        removeEmptyElements(errors);
+        errors = getNonEmptyErrors(errors);
         if (this.isPrivateSession()) {
             return errors;
         }
@@ -235,7 +235,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                 "time for the responses to become visible", resultsVisibleFromTime));
 
         // Early return if any null fields
-        removeEmptyElements(errors);
+        errors = getNonEmptyErrors(errors);
         if (!errors.isEmpty()) {
             return errors;
         }
@@ -254,7 +254,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         errors.add(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime));
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override

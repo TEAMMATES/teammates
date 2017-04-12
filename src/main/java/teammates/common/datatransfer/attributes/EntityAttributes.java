@@ -1,6 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,16 +60,15 @@ public abstract class EntityAttributes {
     public abstract void sanitizeForSaving();
 
     /**
-     * Check the list for empty nodes ("") and remove them if found.
-     * Return the list without empty nodes or empty list if all nodes are empty
+     * Return a copy of strings list, received in argument, with only non-empty string values remaining
      */
-    public List<String> removeEmptyElements(List<String> errors) {
-        Iterator<String> iterator = errors.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().equals("")) {
-                iterator.remove();
-            }
-        }
-        return errors;
+    public List<String> getNonEmptyErrors(List<String> errors) {
+    	List<String> result = new ArrayList<>();
+    	for (String error : errors) {
+    		if (!error.isEmpty()) {
+    			result.add(error);
+    		}
+    	}
+    	return result;
     }
 }

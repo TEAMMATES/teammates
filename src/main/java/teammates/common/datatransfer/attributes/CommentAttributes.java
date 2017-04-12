@@ -138,7 +138,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             }
         }
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override

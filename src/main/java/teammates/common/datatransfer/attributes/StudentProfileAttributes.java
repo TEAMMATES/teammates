@@ -122,7 +122,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         // No validation for modified date as it is determined by the system.
         // No validation for More Info. It will properly sanitized.
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override

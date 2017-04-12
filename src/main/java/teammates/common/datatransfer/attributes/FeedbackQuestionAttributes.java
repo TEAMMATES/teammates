@@ -177,7 +177,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                                                                              showGiverNameTo,
                                                                              showRecipientNameTo));
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     // TODO: move following methods to PageData?

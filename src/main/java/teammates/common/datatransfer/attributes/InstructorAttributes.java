@@ -190,7 +190,7 @@ public class InstructorAttributes extends EntityAttributes {
 
         errors.add(validator.getInvalidityInfoForPersonName(displayedName));
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override

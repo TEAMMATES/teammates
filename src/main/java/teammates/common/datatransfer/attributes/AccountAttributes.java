@@ -119,7 +119,7 @@ public class AccountAttributes extends EntityAttributes {
 
         errors.add(validator.getInvalidityInfoForInstituteName(institute));
 
-        removeEmptyElements(errors);
+        errors = getNonEmptyErrors(errors);
 
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
         // only check profile if the account is proper

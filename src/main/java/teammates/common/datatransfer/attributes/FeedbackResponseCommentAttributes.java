@@ -150,7 +150,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
-        return removeEmptyElements(errors);
+        return getNonEmptyErrors(errors);
     }
 
     @Override
