@@ -21,7 +21,6 @@ import java.nio.file.Paths;
 public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/";
-    private InstructorCourseEnrollPage enrollPage;
     private Logger log = Logger.getLogger();
 
     @Override
@@ -50,7 +49,7 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
                         .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
                         .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
 
-        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+        InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
         String enrollString =
                 readData("InstructorCourseEnrollPageScaleTestData" + numStudents, Charset.defaultCharset());
