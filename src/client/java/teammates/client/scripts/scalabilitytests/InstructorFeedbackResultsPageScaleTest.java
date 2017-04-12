@@ -11,9 +11,9 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 
 /**
- * Tests 'Feedback Results' view of instructors. Run 'InstructorFeedbackResultsPageScaleTestDataGenerator.py' before
- * running the tests.
- * SUT: {@link InstructorFeedbackResultsPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE}.
+ *
+ * <p>Run InstructorFeedbackResultsPageScaleTestDataGenerator.java before running the tests.
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
