@@ -23,7 +23,7 @@ public final class InstructorCourseEnrollPageScaleTestDataGenerator {
 
     private static String generateStudents(int num) {
         RandomNameGenerator generator = new RandomNameGenerator(num);
-        HashSet<String> studentNames = new HashSet<>();
+        Set<String> studentNames = new HashSet<>();
         StringBuffer students = new StringBuffer(HEADER);
         for (int i = 0; i < num; i++) {
             String curName = generator.next();
