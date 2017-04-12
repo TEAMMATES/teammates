@@ -31,33 +31,8 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
 
     @Test
     public void testInstructorCourseEnrollPage() throws Exception {
-        testContent();
-        testSampleLink();
-
         int[] loads = {10, 20, 50, 75, 100, 150};
         testEnrollActionWithIncreasingLoad(loads);
-    }
-
-    private void testContent() throws Exception {
-
-        ______TS("typical enroll page");
-
-        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-                .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
-
-        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
-
-        // This is the full HTML verification for Instructor Course Enroll Page, the rest can all be verifyMainHtml
-        //enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
-    }
-
-    private void testSampleLink() {
-
-        ______TS("link for the sample spreadsheet");
-        enrollPage.clickSpreadsheetLink();
-        String expectedTitle = "Course Enroll Sample Spreadsheet - Google Sheets";
-        enrollPage.verifyTitle(expectedTitle);
     }
 
     private void testEnrollActionWithIncreasingLoad(int[] loads) throws Exception {
