@@ -99,7 +99,7 @@ public class FeedbackSessionResponseStatus {
         return noResponse;
     }
 
-    public List<String> getWhoResponded() {
+    public List<String> getStudentsResponded() {
         return studentsResponded;
     }
 
