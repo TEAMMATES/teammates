@@ -60,15 +60,15 @@ public abstract class EntityAttributes {
     public abstract void sanitizeForSaving();
 
     /**
-     * Return a copy of strings list, received in argument, with only non-empty string values remaining.
+     * Retrieves a list with nonempty errors from a list of error messages.
      */
     public List<String> getNonEmptyErrors(List<String> errors) {
-        List<String> result = new ArrayList<>();
+        List<String> nonEmptyErrors = new ArrayList<>();
         for (String error : errors) {
             if (!error.isEmpty()) {
-                result.add(error);
+                nonEmptyErrors.add(error);
             }
         }
-        return result;
+        return nonEmptyErrors;
     }
 }
