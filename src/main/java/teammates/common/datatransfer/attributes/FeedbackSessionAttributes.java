@@ -196,9 +196,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         // Check for null fields.
 
-        errors.add(validator.getValidityInfoForNonNullField("feedback session name", feedbackSessionName));
+        errors.add(validator.getValidityInfoForNonNullField(
+                FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName));
 
-        errors.add(validator.getValidityInfoForNonNullField("course ID", courseId));
+        errors.add(validator.getValidityInfoForNonNullField(FieldValidator.COURSE_ID_FIELD_NAME, courseId));
 
         errors.add(validator.getValidityInfoForNonNullField("instructions to students", instructions));
 
