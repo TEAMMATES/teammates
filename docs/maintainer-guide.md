@@ -7,6 +7,9 @@ It is assumed that the team members are familiar with the [development workflow]
 * Issue tracker management
   * [Triaging an issue](#triaging-an-issue)
   * [Closing an issue](#closing-an-issue)
+* PR management
+  * [Choosing a reviewer](#choosing-a-reviewer)
+  * [Closing a PR](#closing-a-pr)
 
 ## Issue tracker management
 
@@ -43,3 +46,21 @@ An issue can be closed without a resolution if:
 * The team has decided that the issue is not suitable to be worked on, e.g. not in line with the project's interest.
 
 In any case, leave a comment to explain why the issue is closed without resolution.
+
+## PR management
+
+### Choosing a reviewer
+
+* When a new PR comes in, assign a reviewer for the PR based on the related issue's labels and team members' expertise. Try to load-balance when assigning reviewers.
+* If a reviewer does not show any activity in **2 days**, post a reminder. If the reviewer still does not show any activity for the next **1 day**, assign another reviewer.
+
+### Closing a PR
+
+A PR can be closed without merging if:
+* The PR addresses something that has been fixed.
+* The PR addresses something that needs not be fixed.
+* The PR addresses an issue labelled `d.FirstTimers` and is authored by a contributor who has committed code to the main repository before.
+* The author does not address the review comments after **7 days**.
+* The author is not acting in the project's best interest, e.g. resisting review comments, not following project guidelines.
+
+In any case, leave a comment to explain why the PR is closed without merging.
