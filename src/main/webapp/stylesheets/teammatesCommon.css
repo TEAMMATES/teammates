@@ -148,6 +148,27 @@ Apply to alert to override Bootstrap's default 3d alerts
     margin-right: .5em;
 }
 
+.enclosed-container {
+    padding-right: 20px;
+    width: 70%;
+}
+
+.side-navigation-helper {
+    background-color: #fff;
+    height: 100vh;
+    padding-top: 90px;
+    padding-right: 20px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 28%;
+}
+
+.side-navigation-helper > ul {
+    list-style-type: square;
+    line-height: 25px;
+}
+
 /*
 Allow only mouse hover events for the element.
 !important is required to override Bootstrap .disabled class matches
