@@ -185,7 +185,7 @@ function enableEditFS() {
         destroyEditor('instructions');
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
+            inline: false,
             fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
@@ -214,7 +214,7 @@ function enableQuestion(questionNum) {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
-            inline: true,
+            inline: false,
             fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
         });
         /* eslint-enable camelcase */
@@ -303,7 +303,7 @@ function enableNewQuestion() {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
-            inline: true,
+            inline: false,
             fixed_toolbar_container: '#rich-text-toolbar-q-descr-container',
         });
         /* eslint-enable camelcase */
