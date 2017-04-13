@@ -563,9 +563,3 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     }
     $(`#responseCommentEditForm-${addedIndex}`).show();
 }
-
-$(document).ready(() => {
-    registerResponseCommentsEvent();
-    registerResponseCommentCheckboxEvent();
-    enableHoverToDisplayEditOptions();
-});

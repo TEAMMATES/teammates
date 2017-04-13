@@ -251,9 +251,11 @@ function bindStudentPhotoHoverLink(elements) {
         trigger: 'manual',
         placement: 'top',
         content() {
-            return '<a class="cursor-pointer" onclick="'
-                   + 'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
-                   + 'View Photo</a>';
+            $('body').on('click', '.cursor-pointer', (event) => {
+                const toLoad = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
+                loadProfilePictureForHoverEvent(toLoad);
+            });
+            return '<a class="cursor-pointer">View Photo</a>';
         },
     });
 }
@@ -457,7 +459,7 @@ function executeCopyCommand() {
 // Initial load-up
 // -----------------------------------------------------------------------------
 
-$(document).ready(() => {
+function prepareInstructorPages() {
     // bind the show picture onclick events
     bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
 
@@ -467,4 +469,4 @@ $(document).ready(() => {
     // bind the event handler to show confirmation modal
     bindCourseDeleteLinks();
     bindSessionDeleteLinks();
-});
+}

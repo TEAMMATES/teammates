@@ -19,6 +19,10 @@ function submitFormAjax() {
     const formData = formObject.serialize();
     const content = $('#fsModalTable');
     const ajaxStatus = $('#ajaxStatus');
+
+    const retryButtonHtml = '<button class="btn btn-info" id="instructorFeedbackResultsRetryButton"> retry</button>';
+    $('#instructorFeedbackResultsRetryButton').on('click', submitFormAjax);
+
     $.ajax({
         type: 'POST',
         url: `/page/instructorFeedbackResultsPage?${formData}`,
@@ -27,13 +31,13 @@ function submitFormAjax() {
         },
         error() {
             ajaxStatus.html('Failed to load results table. Please try again.');
-            content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+            content.html(retryButtonHtml);
         },
         success(data) {
             setTimeout(() => {
                 if (data.isError) {
                     ajaxStatus.html(data.errorMessage);
-                    content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
+                    content.html(retryButtonHtml);
                 } else {
                     const table = data.sessionResultsHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
@@ -323,7 +327,13 @@ function removeSection(id) {
     $heading.parent().remove();
 }
 
-$(document).ready(() => {
+function getAppendedResponseRateData(data) {
+    const appendedResponseStatus = $(data).find('#responseStatus').html();
+    $(data).remove();
+    return appendedResponseStatus;
+}
+
+function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
     $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
@@ -388,4 +398,38 @@ $(document).ready(() => {
             loadCSS: '/stylesheets/printview.css',
         });
     });
-});
+
+    const responseRateRequest = function (e) {
+        const panelHeading = $(this);
+        const displayIcon = $(this).children('.display-icon');
+        const formObject = $(this).children('form');
+        const panelCollapse = $(this).parent().children('.panel-collapse');
+        const formData = formObject.serialize();
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: `${$(formObject[0]).attr('action')}?${formData}`,
+            beforeSend() {
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+                // submitButton.html('<img src="/images/ajax-loader.gif">');
+            },
+            error() {
+                displayAjaxRetryMessageForPanelHeading(displayIcon);
+            },
+            success(data) {
+                $(panelCollapse[0]).html(getAppendedResponseRateData(data));
+                $(panelHeading).removeClass('ajax-response-submit');
+                $(panelHeading).removeClass('ajax-response-auto');
+                $(panelHeading).off('click');
+                displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
+                $(panelHeading).click(toggleSingleCollapse);
+                $(panelHeading).trigger('click');
+            },
+        });
+    };
+
+    // ajax-response-submit requires the user to click on it to load the noResponsePanel,
+    // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
+    const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
+    $responseRatePanel.click(responseRateRequest);
+}
