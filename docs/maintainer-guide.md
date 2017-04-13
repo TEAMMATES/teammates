@@ -13,6 +13,8 @@ It is assumed that the team members are familiar with the [development workflow]
 * Release management
   * [Making a release](#making-a-release)
   * [Making a hot patch](#making-a-hot-patch)
+* Other tasks
+  * [Branch management](#branch-management)
 
 ## Issue tracker management
 
@@ -111,3 +113,14 @@ It is released on a necessity basis, typically few days after latest release.
 **Role: PM**
 
 The PM's actions are the same as when [making a release](#making-a-release), minus the "Closing the release issue" part.
+
+## Other tasks
+
+### Branch management
+
+Ideally, only two branches should exist in the main repository:
+
+* `master` to contain the latest stable code.
+* `release` to contain the copy of the code running on the live server.
+
+The usage of any other branch should be accounted for, and the branches should be deleted as soon as they are no longer needed.

@@ -53,7 +53,7 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
    git pull
    ```
 
-1. Create a new branch to push your commits into. If you have push access, name it `{IssueNumber}-{some-keywords}`,
+1. Create a new branch to push your commits into. If you have commit access and need to push into the committer repo for some reason, name it `{IssueNumber}-{some-keywords}`,
    where `some-keywords` are representative keywords taken from the issue title.
    ```sh
    git checkout -b 3942-remove-unnecessary-println
@@ -117,7 +117,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * All new public APIs (methods, classes) are **documented with header comments**.
    * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features.
 
-1. Push your branch to your fork, or to the committer repo if you have push access.
+1. Push your branch to your fork, or to the committer repo only if necessary.
    ```sh
    git push {remote-name} 3942-remove-unnecessary-println
    ```
@@ -125,6 +125,12 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    ```sh
    git push -f {remote-name} 3942-remove-unnecessary-println
    ```
+
+   > Anyone working on an issue, including core team members, should use branches in his/her own fork instead unless the branch needs to be in the committer repo.
+   > Such cases include:
+   >
+   > * The branch is being worked on by multiple people.
+   > * The branch contains changes that need to be trialled by other core team member.
 
 ### Step 4: Submit a PR
 
