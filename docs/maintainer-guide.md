@@ -16,6 +16,7 @@ It is assumed that the team members are familiar with the [development workflow]
 * Other tasks
   * [Branch management](#branch-management)
   * [Community membership](#community-membership)
+  * [Beginner-level issues](#beginner-level-issues)
 
 ## Issue tracker management
 
@@ -144,3 +145,19 @@ When someone's tenure as committer or team member has passed:
 
 * Do NOT revoke the team membership, unless voluntarily done by the past member him/herself.
 * Move the past member's name to the appropriate section in `about.jsp`.
+
+### Beginner-level issues
+
+Ensure that there is a healthy supply of `d.FirstTimers`-labelled issues and `d.Contributors`-labelled issues to last for at least **7 days** considering the activity level at that point of time.
+
+Possible `d.FirstTimers` issues:
+
+* Documentation-only changes
+* Fixing typo
+* Removing unused methods or classes
+
+Possible `d.Contributors` issues:
+
+* Minor refactoring
+* Adding missing tests
+* Adding minor new feature or enhancement
