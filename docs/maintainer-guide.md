@@ -10,6 +10,9 @@ It is assumed that the team members are familiar with the [development workflow]
 * PR management
   * [Choosing a reviewer](#choosing-a-reviewer)
   * [Closing a PR](#closing-a-pr)
+* Release management
+  * [Making a release](#making-a-release)
+  * [Making a hot patch](#making-a-hot-patch)
 
 ## Issue tracker management
 
@@ -64,3 +67,47 @@ A PR can be closed without merging if:
 * The author is not acting in the project's best interest, e.g. resisting review comments, not following project guidelines.
 
 In any case, leave a comment to explain why the PR is closed without merging.
+
+## Release management
+
+**Roles: Release Lead (RL), Project Manager (PM)**
+
+### Making a release
+
+**Role: RL**
+
+New releases are made every set period of time (typically every week), in which new set of features and bug fixes are deployed for the users.
+
+* Before release day:
+  * Create an issue for the release to announce the scheduled release time.
+  * Update `about.jsp` with the names of new contributors, if any.
+* Release day:
+  * Ensure all issues and PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `e.*` labels.
+  * Merge `release` branch with `master` branch and tag the release with format `V{major}.{minor}` (e.g. `V5.100`).
+  * Close the current milestone and create a new milestone for the next + 1 release.
+  * Announce the release via GitHub release feature as well as the release issue in the issue tracker. Be sure to credit all who contributed to the release in one way or another.
+  * Assign PM to the "Release" issue.
+
+**Role: PM**
+
+* Pull the latest `release` branch.
+* Deploy to the live server.
+* Get live green, or otherwise all test failures need to be accounted for.
+* Make the version default.
+* Close the "Release" issue.
+
+## Making a hot patch
+
+Hot patches are releases containing fix for critical issues that severely affect the application's functionality.
+It is released on a necessity basis, typically few days after latest release.
+
+**Role: RL**
+
+* Tag the release with format `V{major}.{minor}.{patch}` (e.g. `V5.100.1`).
+* Close the milestone for the patch release and announce via GitHub release feature only. Be sure to credit all who contributed in one way or another.
+* Inform PM the hot patch is ready for deployment.
+* After the last hot patch of the proper release, merge the `release` branch back to the current `master` branch.
+
+**Role: PM**
+
+The PM's actions are the same as when [making a release](#making-a-release), minus the "Closing the release issue" part.
