@@ -176,31 +176,35 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "question");
-
+        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-1", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankQuestionView.html");
 
         ______TS("Rank instructor results : Giver > Recipient > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "giver-recipient-question");
+        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-1-2", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
 
         ______TS("Rank instructor results : Giver > Question > Recipient");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "giver-question-recipient");
+        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-1-2", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
 
         ______TS("Rank instructor results : Recipient > Question > Giver ");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-question-giver");
+        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-1-2", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
 
         ______TS("Rank instructor results : Recipient > Giver > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-giver-question");
+        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-1-2", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
 
@@ -414,5 +418,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         return loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
     }
-
+    
+    private void clickAjaxLoadedPanelAndWaitForExpansion(
+            InstructorFeedbackResultsPage resultsPage, String panelId, String ajaxClass) {
+        resultsPage.clickElementById(panelId);
+        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
+    }
 }
