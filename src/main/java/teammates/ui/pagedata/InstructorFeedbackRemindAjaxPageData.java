@@ -11,4 +11,8 @@ public class InstructorFeedbackRemindAjaxPageData extends PageData {
     public InstructorFeedbackRemindAjaxPageData(AccountAttributes account) {
         super(account);
     }
+
+    public String getStatusForAjax() {
+        return ajaxStatus;
+    }
 }
