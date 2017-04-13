@@ -68,9 +68,33 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
                                                                  false, "question");
-        // to test for ajax loaded panel
-        clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-1", "ajax_auto");
+
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
+
+        // Giver Recipient Question View
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "giver-recipient-question");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
+
+        // Giver Question Recipient View
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "giver-question-recipient");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
+
+        // Recipient Question Giver View
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "recipient-question-giver");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
+
+        // Recipient Giver Question View
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
+                                                                 "recipient-giver-question");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
+
     }
 
     private void testInstructorSubmitPage() {
@@ -399,12 +423,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultPage = loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+        return resultPage;
     }
 
-    private void clickAjaxLoadedPanelAndWaitForExpansion(
-            InstructorFeedbackResultsPage resultsPage, String panelId, String ajaxClass) {
-        resultsPage.clickElementById(panelId);
-        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
-    }
 }
