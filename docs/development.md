@@ -31,6 +31,29 @@ npm run build
 
 > `Dev server` is the server run in your local machine.
 
+### With command line
+
+* Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
+
+#### Starting the dev server
+
+Run the following command:
+
+```sh
+./gradlew appengineRun
+```
+
+Wait until the task exits with a `BUILD SUCCESSFUL`.
+The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
+
+#### Stopping the dev server
+
+Run the following command:
+
+```sh
+./gradlew appengineStop
+```
+
 ### With Eclipse
 
 #### Starting the dev server
@@ -73,26 +96,6 @@ Go to `Run → Run...` and select `Dev Server` in the pop-up box.
 #### Stopping the dev server
 
 Go to `Run → Stop` or hit `Ctrl + F2` (Windows).
-
-### Outside Eclipse and IntelliJ
-
-* Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
-
-#### Starting the dev server
-
-Run the following command:
-  ```sh
-  ./gradlew appengineRun
-  ```
-  Wait until the task exits with a `BUILD SUCCESSFUL`.
-  The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
-
-#### Stopping the dev server
-
-Run the following command:
-  ```sh
-  ./gradlew appengineStop
-  ```
 
 ## Logging in to a TEAMMATES instance
 
@@ -185,18 +188,35 @@ Before running the test suite, both the server and the test environment should b
 #### Test Configurations
 
 Several configurations are provided by default:
-* `All tests` - Runs `CI tests` and `Local tests`.
 * `CI tests` - Runs `src/test/testng-ci.xml`, all the tests that are run by CI (Travis/AppVeyor).
 * `Local tests` - Runs `src/test/testng-local.xml`, all the tests that need to be run locally by developers. `Dev green` means passing all the tests in this configuration.
 * `Failed tests` - Runs `test-output/testng-failed.xml`, which is generated if a test run results in some failures. This will run only the failed tests.
-* `Staging tests` - Runs a subset of the tests in `src/test/testng-ci.xml`. This is run before deploying to a staging server.
 
-Additionally, configurations that run the tests with `GodMode` turned on are also provided.
-More info on this can be found [here](godmode.md).
+### Running the test suite with command line
 
-### Running the test suite in an IDE
+Before running any test suite, it is important to have the dev server running locally first if you are testing against it.
 
-When running the test cases, if a few cases fail (this can happen due to timing issues), rerun the failed cases using the `Run Failed Test` icon in the TestNG tab until they pass.
+Test suite | Command | Results can be viewed in
+---|---|---
+`CI tests` | `./gradlew ciTests` | `{project folder}/build/reports/test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
+`Local tests` | `./gradlew localTests` | `{project folder}/build/reports/test-local/index.html`
+`Failed tests` | `./gradlew failedTests` | `{project folder}/build/reports/test-failed/index.html`
+Any individual test | `./gradlew test -Dtest.single=TestClassName` | `{project folder}/build/reports/tests/index.html`
+
+`CI tests` will be run once and the failed tests will be re-run a few times.
+All other test suites will be run once and only once.
+
+To run any test suite or individual test with [GodMode turned on](godmode.md), append `-Pgodmode=true` to the command, e.g.:
+```sh
+./gradlew ciTests -Pgodmode=true
+./gradlew test -Dtest.single=InstructorFeedbackResultsPageUiTest -Pgodmode=true
+```
+
+### Running the test suite with an IDE
+
+* An additional configuration `All tests` is provided, which will run `CI tests` and `Local tests`.
+* Additionally, configurations that run the tests with `GodMode` turned on are also provided.
+* When running the test cases, if a few cases fail (this can happen due to timing issues), re-run the failed cases using the `Run Failed Test` icon in the TestNG tab until they pass.
 
 #### Eclipse
 
@@ -204,22 +224,13 @@ Run tests using the configurations available under the green `Run` button on the
 
 Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
 
+To run individual tests, right-click on the test files on the project explorer and choose `Run As → TestNG Test`.
+
 #### IntelliJ
 
-Run tests using the configurations available under `Run → Play`.
+Run tests using the configurations available under `Run → Run...`.
 
-### Running the test suite outside Eclipse and IntelliJ
-
-Typically, we run the test suite within an IDE, but core developers may prefer to run it outside the IDE so that they can continue to use their IDE while the test suite is running. If you wish to do such, given below is the procedure:
-
-1. Start the dev server.
-
-1. Run the following command to run the full test suite once and retry the failed tests several times:
-   ```sh
-   ./gradlew ciTests
-   ```
-
-1. The final result can be viewed by opening `{project folder}/build/reports/test-try-{n}/index.html`, where `{n}` is the sequence number of the test run.
+To run individual tests, right-click on the test files on the project explorer and choose `Run`.
 
 ## Deploying to a staging server
 
@@ -238,18 +249,18 @@ This instruction set assumes that the app identifier is `teammates-john`.
      Modify to match app name and app id of your own app, and the version number if you need to. Do not modify anything else.
 
 1. Deploy the application to your staging server.
-   * In Eclipse
-     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
-     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
-   * In IntelliJ
-     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
-   * Outside Eclipse and IntelliJ
+   * With command line
      * Run the following command:
 
        ```sh
        ./gradlew appengineUpdate
        ```
      * Follow the steps and wait until the command ends with a `BUILD SUCCESSFUL`.
+   * With Eclipse
+     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
+     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+   * With IntelliJ
+     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
