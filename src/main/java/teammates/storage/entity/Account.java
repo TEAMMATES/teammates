@@ -12,13 +12,13 @@ import javax.jdo.annotations.PrimaryKey;
  * Represents a unique user in the system.
  */
 @PersistenceCapable
-public class Account {
+public class Account extends Entity {
 
     /**
      * The name of the primary key of this entity type.
      */
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Account.class);
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Account.class);
 
     @PrimaryKey
     @Persistent

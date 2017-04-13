@@ -15,13 +15,13 @@ import com.google.appengine.api.datastore.Text;
  * --> [is an instructor for] --> Course.
  */
 @PersistenceCapable
-public class Instructor {
+public class Instructor extends Entity {
 
     /**
      * The name of the primary key of this entity type.
      */
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Instructor.class);
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Instructor.class);
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101

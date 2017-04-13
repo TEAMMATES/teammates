@@ -25,13 +25,13 @@ import com.google.appengine.api.datastore.Text;
  * receiver is restricted to Student.
  */
 @PersistenceCapable
-public class Comment {
+public class Comment extends Entity {
 
     /**
      * The name of the primary key of this entity type.
      */
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Comment.class);
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Comment.class);
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

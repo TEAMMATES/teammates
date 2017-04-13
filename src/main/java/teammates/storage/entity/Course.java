@@ -15,13 +15,13 @@ import com.google.gson.annotations.SerializedName;
  * Represents a course entity.
  */
 @PersistenceCapable
-public class Course {
+public class Course extends Entity {
 
     /**
      * The name of the primary key of this entity type.
      */
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(Course.class);
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Course.class);
 
     @PrimaryKey
     @Persistent

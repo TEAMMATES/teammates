@@ -19,13 +19,13 @@ import com.google.appengine.api.datastore.Text;
  * Represents an instructor-created Feedback Session.
  */
 @PersistenceCapable
-public class FeedbackSession {
+public class FeedbackSession extends Entity {
 
     /**
      * The name of the primary key of this entity type.
      */
     @NotPersistent
-    public static final String PRIMARY_KEY_NAME = Entity.getFieldWithPrimaryKeyAnnotation(FeedbackSession.class);
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackSession.class);
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
