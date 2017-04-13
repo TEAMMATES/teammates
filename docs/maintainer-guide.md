@@ -15,6 +15,7 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
   * [Branch management](#branch-management)
+  * [Community membership](#community-membership)
 
 ## Issue tracker management
 
@@ -124,3 +125,22 @@ Ideally, only two branches should exist in the main repository:
 * `release` to contain the copy of the code running on the live server.
 
 The usage of any other branch should be accounted for, and the branches should be deleted as soon as they are no longer needed.
+
+### Community membership
+
+To welcome a new committer:
+
+* Add the GitHub user to the `Committers` team.
+* Add the committer's name and photo to `about.jsp`.
+
+Subsequent promotions are done by moving the member's name to the appropriate section in `about.jsp`.
+
+To welcome a new project lead:
+
+* Add the GitHub user to the `Team-leads` team.
+* Set the GitHub user to have the "Owner" role for the TEAMMATES organization.
+
+When someone's tenure as committer or team member has passed:
+
+* Do NOT revoke the team membership, unless voluntarily done by the past member him/herself.
+* Move the past member's name to the appropriate section in `about.jsp`.
