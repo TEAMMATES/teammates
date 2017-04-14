@@ -6,16 +6,13 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.client.scripts.util.Stopwatch;
 import teammates.test.cases.browsertests.BaseUiTestCase;
-import teammates.test.driver.Priority;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE}.
  *
  * <p>Run InstructorFeedbackResultsPageScaleTestDataGenerator.java before running the tests.
  */
-@Priority(-1)
 public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
