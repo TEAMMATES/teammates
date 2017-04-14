@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
+import com.google.common.base.Joiner;
 
 /**
  * Provides additional assertion methods that are often used during testing.
