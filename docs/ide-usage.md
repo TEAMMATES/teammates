@@ -32,7 +32,7 @@ The following plugins are needed:
 
      ![setupguide-3.png](images/setupguide-3.png)
 
-     Note that none of the App Engine SDK or JDK to be used are required to be the `default`.
+    Note that none of the App Engine SDK or JDK to be used are required to be the `default`.
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
@@ -53,11 +53,18 @@ The following plugins are needed:
      * ORM Enhancement: `App Engine → ORM` → clear all the entries, and add the following entry: `src/main/java/teammates/storage/entity/*.java`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
-   * Java Compiler: Go to `Project → Properties → Java Compiler` and  tick `"Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" `.
+   * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
+
+       ![setupguide-8.png](images/setupguide-8.png)
+    
+     Also, one must ensure that `Java Build Path` is set to JDK 7. If everything is set properly, `Libraries` tab in `Java Build Path` should look like this -
+
+       ![setupguide-8.png](images/setupguide-8.png)
+   * Java Compiler: Go to `Java Compiler` and  tick `"Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" `.
 
        ![setupguide-7.png](images/setupguide-7.png)
     
-     Also, one must ensure that `Java Build Path` is set to JDK 7. If everything is set properly, `Libraries` tab in `Project → Properties → Java Build Path` should look like this -
+     Also, one must ensure that `Java Build Path` is set to JDK 7. If everything is set properly, `Libraries` tab in `Java Build Path` should look like this -
 
        ![setupguide-8.png](images/setupguide-8.png)
 
