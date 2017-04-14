@@ -5830,7 +5830,7 @@
                                                                             name="constSumUnevenDistribution" disabled
                                                                             id="constSum_UnevenDistribution-10">
                                                                     <span id="constSum_labelText-10">
-                                                                    Every Recipient to recieve a different number of points
+                                                                    Every Recipient to receive a different number of points
                                                                     </span>
                                                                 </label>
                                                             </div>
@@ -6157,7 +6157,7 @@
                             <h4>Team contribution question</h4>
                         </a>
                         Team contribution questions are a specialized question type designed for team contribution evaluations.
-                        <br> They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
+                        <br> They allow estimation of perceived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
                         <a href="#Top">here</a>.
                         <br>
                         <br> An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
@@ -7778,7 +7778,7 @@
                                 </div>
                             </form>
                         </div>
-                        <br> The statistics for rubric question show the frquency which a choice is selected for each sub-question.
+                        <br> The statistics for rubric question show the frequency which a choice is selected for each sub-question.
                         <br> If weights are assigned to the choices, they will be shown beside their corresponding choices.
                         <br>
                         <br>
