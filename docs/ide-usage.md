@@ -57,7 +57,7 @@ The following plugins are needed:
 
        ![setupguide-7.png](images/setupguide-7.png)
 
-   * Compiler compliance: `Java Compiler` → tick `"Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" `.
+   * Compiler compliance: `Java Compiler` → tick `Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'`.
 
        ![setupguide-8.png](images/setupguide-8.png)
 
