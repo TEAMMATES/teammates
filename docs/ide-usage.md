@@ -55,16 +55,9 @@ The following plugins are needed:
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
 
-       ![setupguide-8.png](images/setupguide-8.png)
-    
-     Also, one must ensure that `Java Build Path` is set to JDK 7. If everything is set properly, `Libraries` tab in `Java Build Path` should look like this -
-
-       ![setupguide-8.png](images/setupguide-8.png)
-   * Java Compiler: Go to `Java Compiler` and  tick `"Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" `.
-
        ![setupguide-7.png](images/setupguide-7.png)
-    
-     Also, one must ensure that `Java Build Path` is set to JDK 7. If everything is set properly, `Libraries` tab in `Java Build Path` should look like this -
+
+   * Compiler compliance: `Java Compiler` → tick `"Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" `.
 
        ![setupguide-8.png](images/setupguide-8.png)
 
