@@ -30,10 +30,6 @@ public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
     @Test
     public void testInstructorCourseEnrollPage() throws Exception {
         int[] loads = {10, 20, 50, 75, 100, 150};
-        testEnrollActionWithIncreasingLoad(loads);
-    }
-
-    private void testEnrollActionWithIncreasingLoad(int[] loads) throws Exception {
         for (int load : loads) {
             ______TS("enroll action: " + load + " students");
             testEnrollAction(load);
