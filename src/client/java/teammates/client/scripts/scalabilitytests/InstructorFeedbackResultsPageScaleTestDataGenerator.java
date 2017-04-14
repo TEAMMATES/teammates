@@ -129,7 +129,7 @@ public class InstructorFeedbackResultsPageScaleTestDataGenerator {
         }
     }
 
-    InstructorFeedbackResultsPageScaleTestDataGenerator(int numQuestions, int numStudents) {
+    private InstructorFeedbackResultsPageScaleTestDataGenerator(int numQuestions, int numStudents) {
         courses.put("CFResultsUiT.CS2104", new Course());
         accounts.put("CFResultsUiT.instr", new Account());
         feedbackSessions.put("Open Session", new Session());
