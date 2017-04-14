@@ -12,6 +12,21 @@ body {
     cursor: pointer;
 }
 
+/*
+Apply to alert to override Bootstrap's default 3d alerts
+*/
+.alert {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.alert-warning,
+.alert-success,
+.alert-info,
+.alert-danger {
+    background-image: none;
+}
+
 .align-center {
     text-align: center;
 }
@@ -128,9 +143,15 @@ body {
 }
 
 .ordered-table tr td:first-child::before {
-    content: counter(rownumber) ".";
+    content: counter(rownumber) '.';
     min-width: 1em;
     margin-right: .5em;
+}
+
+.separate-content-holder {
+    height: 5em;
+    padding-top: 1em;
+    width: 100%;
 }
 
 /*
@@ -645,7 +666,7 @@ input.inline {
 
 .bs-example:after {
     color: #bbb;
-    content: "Example";
+    content: 'Example';
     font-size: 12px;
     font-weight: 700;
     left: 15px;
@@ -767,7 +788,7 @@ input.inline {
     display: table;
 }
 
-.profile-pic-edit [class*="col-"] {
+.profile-pic-edit [class*='col-'] {
     float: none;
     display: table-cell;
     vertical-align: middle;
@@ -941,7 +962,7 @@ input.inline {
 
 .dropdown-submenu > a:after {
     display: block;
-    content: " ";
+    content: ' ';
     float: right;
     width: 0;
     height: 0;
