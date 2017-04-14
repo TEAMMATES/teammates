@@ -8,17 +8,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.resource.Email;
+import com.sendgrid.SendGrid;
+import com.sun.jersey.multipart.FormDataMultiPart;
+
 import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailSender;
 import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
-
-import com.mailjet.client.MailjetRequest;
-import com.mailjet.client.resource.Email;
-import com.sendgrid.SendGrid;
-import com.sun.jersey.multipart.FormDataMultiPart;
 
 /**
  * SUT: {@link EmailSender},

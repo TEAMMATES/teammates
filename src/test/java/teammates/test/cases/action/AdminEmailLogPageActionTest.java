@@ -12,6 +12,8 @@ import java.util.TimeZone;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.JsonUtils;
@@ -23,8 +25,6 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminEmailLogPageData;
 import teammates.ui.pagedata.PageData;
 import teammates.ui.template.AdminEmailTableRow;
-
-import com.google.gson.reflect.TypeToken;
 
 /**
  * SUT: {@link AdminEmailLogPageAction}.

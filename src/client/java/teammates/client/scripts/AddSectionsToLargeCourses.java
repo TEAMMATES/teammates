@@ -8,8 +8,8 @@ import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 import teammates.storage.entity.Course;

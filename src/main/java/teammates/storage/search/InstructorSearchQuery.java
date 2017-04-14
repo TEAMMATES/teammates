@@ -2,9 +2,9 @@ package teammates.storage.search;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-
 import com.google.appengine.api.search.Document;
+
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 
 /**
  * The {@link SearchQuery} object that defines how we query {@link Document} for instructors.

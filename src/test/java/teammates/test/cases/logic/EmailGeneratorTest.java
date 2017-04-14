@@ -9,6 +9,9 @@ import java.util.TimeZone;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.log.AppLogLine;
+import com.google.appengine.api.log.LogService.LogLevel;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -25,9 +28,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.EmailChecker;
-
-import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogService.LogLevel;
 
 /**
  * SUT: {@link EmailGenerator}.
