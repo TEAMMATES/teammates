@@ -2,13 +2,12 @@ package teammates.storage.search;
 
 import java.util.List;
 
-import com.google.appengine.api.search.Document;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 
 /**
- * The {@link SearchQuery} object that defines how we query {@link Document} for response comments.
+ * The {@link SearchQuery} object that defines how we query
+ * {@link com.google.appengine.api.search.Document} for response comments.
  */
 public class FeedbackResponseCommentSearchQuery extends SearchQuery {
 

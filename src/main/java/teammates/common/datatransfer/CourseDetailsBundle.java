@@ -7,7 +7,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
  * Represents details of a course, including its students and feedback sessions.
@@ -15,7 +14,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  * <br> * statistics of teams, enrollments, registrations
  * <br> * Details of its feedback sessions (as {@link FeedbackSessionDetailsBundle} objects)
  * <br> * Details of its teams (as {@link TeamDetailsBundle} objects)
- * <br> * Details of students without teams i.e. 'loners'  (as {@link StudentAttributes} objects)
  *
  */
 public class CourseDetailsBundle {

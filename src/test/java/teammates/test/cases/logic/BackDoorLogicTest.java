@@ -7,10 +7,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.logic.backdoor.BackDoorLogic;
 
 /**
- * SUT: {@link BackDoorLogic}.
+ * SUT: {@link teammates.logic.backdoor.BackDoorLogic}.
  */
 public class BackDoorLogicTest extends BaseLogicTest {
 

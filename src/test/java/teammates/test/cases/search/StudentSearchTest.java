@@ -9,14 +9,12 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.search.StudentSearchDocument;
-import teammates.storage.search.StudentSearchQuery;
 import teammates.test.driver.AssertHelper;
 
 /**
  * SUT: {@link StudentsDb},
- *      {@link StudentSearchDocument},
- *      {@link StudentSearchQuery}.
+ *      {@link teammates.storage.search.StudentSearchDocument},
+ *      {@link teammates.storage.search.StudentSearchQuery}.
  */
 public class StudentSearchTest extends BaseSearchTest {
 

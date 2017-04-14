@@ -14,15 +14,13 @@ import com.sendgrid.SendGrid;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.api.EmailSender;
 import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
 
 /**
- * SUT: {@link EmailSender},
- *      {@link JavamailService},
+ * SUT: {@link JavamailService},
  *      {@link SendgridService},
  *      {@link MailgunService},
  *      {@link MailjetService}.

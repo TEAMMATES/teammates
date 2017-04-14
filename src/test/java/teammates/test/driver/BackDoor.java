@@ -14,7 +14,6 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -464,7 +463,7 @@ public final class BackDoor {
 
     /**
      * Replaces {@link DataBundle#adminEmails} from {@code dataBundle} with an empty map.
-     * Using {@link BackDoor} to remove and persist {@link AdminEmailAttributes}
+     * Using {@link BackDoor} to remove and persist admin emails
      * may affect normal functioning of Admin Emails and remove non-testing data.
      */
     private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {
