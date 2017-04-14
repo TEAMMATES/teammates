@@ -60,12 +60,13 @@ public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
-
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
+
+        InstructorFeedbackResultsPage resultsPage =
+                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.waitForPageToLoad();
+
         stopwatch.logTimeElapsedInSeconds(log);
 
         return resultsPage;
