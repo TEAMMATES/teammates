@@ -32,7 +32,9 @@ The following plugins are needed:
 
      ![setupguide-3.png](images/setupguide-3.png)
 
-   Note that none of the App Engine SDK or JDK to be used are required to be the `default`.
+   * Set Java SE 7 as default JDK. To do this ``` Project properties → Java Compiler → Tick "Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" ```.
+
+     ![setupguide-7.png](images/setupguide-7.png)
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
