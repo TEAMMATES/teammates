@@ -32,7 +32,7 @@ The following plugins are needed:
 
      ![setupguide-3.png](images/setupguide-3.png)
 
-   * Set Java SE 7 as default JDK. To do this ``` Project properties → Java Compiler → Tick "Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" ```.
+   * Set Java SE 7 as default JDK. To do this, go to ``` Project properties → Java Compiler → Tick "Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'" ```.
 
      ![setupguide-7.png](images/setupguide-7.png)
 
