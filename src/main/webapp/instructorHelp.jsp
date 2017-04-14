@@ -160,17 +160,13 @@
                 </div>
             </li>
         </ul>
-
     </div>
-
-    <!-- Getting Started -->
-    <br>
-    <hr>
-    <br>
+    <div class="separate-content-holder">
+        <hr>
+    </div>
     <h4>
         <a name="gs">Getting Started</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <ol type="1">
@@ -387,22 +383,13 @@
             <a href="#Top">Back to Top
             </a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--FAQ -->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="faq">Frequently Asked Questions</a>
     </h4>
-
     <div id="contentHolder">
         <div class="bulletPointsIndent">
             <ul>
@@ -593,26 +580,14 @@
                 <a href="#Top">Back to Top
                 </a>
             </p>
-            <a href="#Top">
-            </a>
         </div>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--tips-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
-        <a name="tips">Tips for conducting 'team peer evaluation' sessions
-        </a>
+        <a name="tips">Tips for conducting 'team peer evaluation' sessions</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <p>Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your course while minimizing any negative effects. Here are some of the things you could do:</p>
@@ -682,22 +657,13 @@
             </ul>
         </div>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--editCourse-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="editCourse">Add/Edit instructors</a>
     </h4>
     <div id="contentHolder">
@@ -1152,25 +1118,15 @@
             <br>
         </ul>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--sessionTypes-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="sessionTypes">Sessions</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <ol style="list-style-type: none;">
@@ -8815,24 +8771,13 @@
             </li>
         </ol>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-    </a>
-    <a href="#Top">
-
-        <!--sessionTypes-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="editComments">Comments</a>
     </h4>
     <div id="contentHolder">
@@ -9545,8 +9490,7 @@
         </ol>
         <br>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
     </div>
 </t:helpPage>

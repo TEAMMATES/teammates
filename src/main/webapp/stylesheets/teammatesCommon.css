@@ -148,6 +148,12 @@ Apply to alert to override Bootstrap's default 3d alerts
     margin-right: .5em;
 }
 
+.separate-content-holder {
+    height: 5em;
+    padding-top: 1em;
+    width: 100%;
+}
+
 /*
 Allow only mouse hover events for the element.
 !important is required to override Bootstrap .disabled class matches
