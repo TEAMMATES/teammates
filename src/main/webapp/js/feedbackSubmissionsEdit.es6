@@ -942,7 +942,6 @@ $(document).ready(() => {
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
-                inline: false,
                 fixed_toolbar_container: `#rich-text-toolbar-response-text-container${idSuffix}`,
                 setup(ed) {
                     ed.on('keyup', function () {
