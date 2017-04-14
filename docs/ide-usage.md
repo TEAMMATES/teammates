@@ -41,14 +41,18 @@ The following plugins are needed:
    * Click `Finish`.
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`):
+   * Java Compiler: `Java Compiler` -> Tick `Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'`
+
+    ![setupguide-4.png](images/setupguide-4.png)
+
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
-     ![setupguide-4.png](images/setupguide-4.png)
+     ![setupguide-5.png](images/setupguide-5.png)
 
    * Google App Engine: set up the following by going to `Google → ...`:
      * Datanucleus version: `App Engine → Datastore → Datanucleus JDO/JPA Version` → select `v1`.
 
-       ![setupguide-5.png](images/setupguide-5.png)
+       ![setupguide-6.png](images/setupguide-6.png)
 
      * ORM Enhancement: `App Engine → ORM` → clear all the entries, and add the following entry: `src/main/java/teammates/storage/entity/*.java`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
@@ -65,7 +69,7 @@ The following plugins are needed:
 
 1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
-   ![setupguide-6.png](images/setupguide-6.png)
+   ![setupguide-7.png](images/setupguide-7.png)
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
 
