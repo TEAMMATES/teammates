@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,7 +59,7 @@ public abstract class EntityAttributes {
     public abstract void sanitizeForSaving();
 
     /**
-     * Adds non-empty error message to a List, ignores empty error messages
+     * Adds non-empty error message to a List, ignores empty error messages.
      */
     public void addToErrors(String error, List<String> errors) {
         if (!error.isEmpty()) {
