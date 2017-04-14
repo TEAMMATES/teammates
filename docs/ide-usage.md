@@ -32,7 +32,7 @@ The following plugins are needed:
 
      ![setupguide-3.png](images/setupguide-3.png)
 
-    Note that none of the App Engine SDK or JDK to be used are required to be the `default`.
+   Note that none of the App Engine SDK or JDK to be used are required to be the `default`.
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
