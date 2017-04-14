@@ -95,34 +95,34 @@ public class StudentProfileAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        errors.add(validator.getInvalidityInfoForGoogleId(googleId));
+        addToErrors(validator.getInvalidityInfoForGoogleId(googleId), errors);
 
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!shortName.isEmpty()) {
-            errors.add(validator.getInvalidityInfoForPersonName(shortName));
+            addToErrors(validator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
         if (!email.isEmpty()) {
-            errors.add(validator.getInvalidityInfoForEmail(email));
+            addToErrors(validator.getInvalidityInfoForEmail(email), errors);
         }
 
         if (!institute.isEmpty()) {
-            errors.add(validator.getInvalidityInfoForInstituteName(institute));
+            addToErrors(validator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
         if (!nationality.isEmpty()) {
-            errors.add(validator.getInvalidityInfoForNationality(nationality));
+            addToErrors(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        errors.add(validator.getInvalidityInfoForGender(gender));
+        addToErrors(validator.getInvalidityInfoForGender(gender), errors);
 
         Assumption.assertNotNull(this.pictureKey);
 
         // No validation for modified date as it is determined by the system.
         // No validation for More Info. It will properly sanitized.
 
-        return getNonEmptyErrors(errors);
+        return errors;
     }
 
     @Override

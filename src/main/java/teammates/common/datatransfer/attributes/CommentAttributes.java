@@ -107,30 +107,30 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        errors.add(validator.getInvalidityInfoForCourseId(courseId));
+        addToErrors(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        errors.add(validator.getInvalidityInfoForEmail(giverEmail));
+        addToErrors(validator.getInvalidityInfoForEmail(giverEmail), errors);
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    errors.add(validator.getInvalidityInfoForEmail(recipientId));
+                    addToErrors(validator.getInvalidityInfoForEmail(recipientId), errors);
                 }
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    errors.add(validator.getInvalidityInfoForTeamName(recipientId));
+                    addToErrors(validator.getInvalidityInfoForTeamName(recipientId), errors);
                 }
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    errors.add(validator.getInvalidityInfoForSectionName(recipientId));
+                    addToErrors(validator.getInvalidityInfoForSectionName(recipientId), errors);
                 }
                 break;
             case COURSE :
                 for (String recipientId : recipients) {
-                    errors.add(validator.getInvalidityInfoForCourseId(recipientId));
+                    addToErrors(validator.getInvalidityInfoForCourseId(recipientId), errors);
                 }
                 break;
             default : // cases for NONE or null
@@ -138,7 +138,7 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
             }
         }
 
-        return getNonEmptyErrors(errors);
+        return errors;
     }
 
     @Override

@@ -179,18 +179,18 @@ public class InstructorAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
 
         if (googleId != null) {
-            errors.add(validator.getInvalidityInfoForGoogleId(googleId));
+            addToErrors(validator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        errors.add(validator.getInvalidityInfoForCourseId(courseId));
+        addToErrors(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        errors.add(validator.getInvalidityInfoForPersonName(name));
+        addToErrors(validator.getInvalidityInfoForPersonName(name), errors);
 
-        errors.add(validator.getInvalidityInfoForEmail(email));
+        addToErrors(validator.getInvalidityInfoForEmail(email), errors);
 
-        errors.add(validator.getInvalidityInfoForPersonName(displayedName));
+        addToErrors(validator.getInvalidityInfoForPersonName(displayedName), errors);
 
-        return getNonEmptyErrors(errors);
+        return errors;
     }
 
     @Override

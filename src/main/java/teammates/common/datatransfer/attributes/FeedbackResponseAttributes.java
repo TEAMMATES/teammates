@@ -116,11 +116,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        errors.add(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName));
+        addToErrors(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        errors.add(validator.getInvalidityInfoForCourseId(courseId));
+        addToErrors(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        return getNonEmptyErrors(errors);
+        return errors;
     }
 
     @Override

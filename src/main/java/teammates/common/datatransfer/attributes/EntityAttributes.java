@@ -60,15 +60,11 @@ public abstract class EntityAttributes {
     public abstract void sanitizeForSaving();
 
     /**
-     * Retrieves a list with nonempty errors from a list of error messages.
+     * Adds non-empty error message to a List, ignores empty error messages
      */
-    public List<String> getNonEmptyErrors(List<String> errors) {
-        List<String> nonEmptyErrors = new ArrayList<>();
-        for (String error : errors) {
-            if (!error.isEmpty()) {
-                nonEmptyErrors.add(error);
-            }
+    public void addToErrors(String error, List<String> errors) {
+        if (!error.isEmpty()) {
+            errors.add(error);
         }
-        return nonEmptyErrors;
     }
 }

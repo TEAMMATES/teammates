@@ -169,22 +169,22 @@ public class StudentAttributes extends EntityAttributes {
         List<String> errors = new ArrayList<String>();
 
         if (isRegistered()) {
-            errors.add(validator.getInvalidityInfoForGoogleId(googleId));
+            addToErrors(validator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        errors.add(validator.getInvalidityInfoForCourseId(course));
+        addToErrors(validator.getInvalidityInfoForCourseId(course), errors);
 
-        errors.add(validator.getInvalidityInfoForEmail(email));
+        addToErrors(validator.getInvalidityInfoForEmail(email), errors);
 
-        errors.add(validator.getInvalidityInfoForTeamName(team));
+        addToErrors(validator.getInvalidityInfoForTeamName(team), errors);
 
-        errors.add(validator.getInvalidityInfoForSectionName(section));
+        addToErrors(validator.getInvalidityInfoForSectionName(section), errors);
 
-        errors.add(validator.getInvalidityInfoForStudentRoleComments(comments));
+        addToErrors(validator.getInvalidityInfoForStudentRoleComments(comments), errors);
 
-        errors.add(validator.getInvalidityInfoForPersonName(name));
+        addToErrors(validator.getInvalidityInfoForPersonName(name), errors);
 
-        return getNonEmptyErrors(errors);
+        return errors;
     }
 
     public static void sortBySectionName(List<StudentAttributes> students) {
