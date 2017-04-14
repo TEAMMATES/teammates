@@ -28,7 +28,7 @@ import teammates.storage.entity.Instructor;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.joda.time.DateTime;
+import org.joda.time.DateTime;
 
 /**
  * Generates txt file which contains a list of receiver emails.<br>
