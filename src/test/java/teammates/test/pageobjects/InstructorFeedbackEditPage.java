@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TestTimeHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -899,13 +900,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDate(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
-                                     TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
+                TestTimeHelper.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
                       + TimeHelper.formatDate(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
-                                     TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
+                TestTimeHelper.convertToDisplayValueInTimeDropDown(endTime));
 
         // Fill in instructions
         fillRichTextEditor("instructions", instructions.getValue());

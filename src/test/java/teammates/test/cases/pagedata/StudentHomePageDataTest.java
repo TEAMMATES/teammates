@@ -15,6 +15,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.TestTimeHelper;
 import teammates.ui.pagedata.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
@@ -193,10 +194,10 @@ public class StudentHomePageDataTest extends BaseTestCase {
             int offsetStart, int offsetEnd, int offsetPublish) {
         FeedbackSessionAttributes session = new FeedbackSessionAttributes();
         session.setFeedbackSessionName(name);
-        session.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(offsetStart));
-        session.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(offsetEnd));
-        session.setResultsVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(offsetPublish));
-        session.setSessionVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(-1));
+        session.setStartTime(TestTimeHelper.getHoursOffsetToCurrentTime(offsetStart));
+        session.setEndTime(TestTimeHelper.getHoursOffsetToCurrentTime(offsetEnd));
+        session.setResultsVisibleFromTime(TestTimeHelper.getHoursOffsetToCurrentTime(offsetPublish));
+        session.setSessionVisibleFromTime(TestTimeHelper.getHoursOffsetToCurrentTime(-1));
         return session;
     }
 

@@ -10,10 +10,10 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.TestStringHelper;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
@@ -203,10 +203,10 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private StudentProfileAttributes getInvalidStudentProfileAttributes() {
-        String googleId = StringHelper.generateStringOfLength(46);
+        String googleId = TestStringHelper.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = TestStringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";

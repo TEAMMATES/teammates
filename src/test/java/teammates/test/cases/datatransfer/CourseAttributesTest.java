@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.TestStringHelper;
 
 /**
  * SUT: {@link CourseAttributes}.
@@ -23,7 +24,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
         assertTrue("valid value", validCourse.isValid());
 
-        String veryLongId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
+        String veryLongId = TestStringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         String invalidTimeZone = "InvalidTimeZone";
         CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName, invalidTimeZone);

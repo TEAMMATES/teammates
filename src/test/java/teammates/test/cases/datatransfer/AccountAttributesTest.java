@@ -12,6 +12,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.TestStringHelper;
 
 /**
  * SUT: {@link AccountAttributes}.
@@ -140,7 +141,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String name = ""; //invalid name
         boolean isInstructor = false;
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = TestStringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = new StudentProfileAttributes();
 
         return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);

@@ -25,10 +25,6 @@ public final class StringHelper {
         // utility class
     }
 
-    public static String generateStringOfLength(int length) {
-        return StringHelper.generateStringOfLength(length, 'a');
-    }
-
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();

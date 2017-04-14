@@ -30,7 +30,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -40,6 +39,8 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.CourseStudent;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.TestTimeHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -417,8 +418,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         List<String> expectedInvalidInfoList = new ArrayList<String>();
 
         ______TS("enrollLines with invalid parameters");
-        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
-        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        String invalidTeamName = TestStringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        String invalidStudentName = TestStringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         String headerLine = "Team | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
@@ -622,9 +623,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
                 courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2),
-                TimeHelper.getHoursOffsetToCurrentTime(5), TimeHelper.getHoursOffsetToCurrentTime(1),
-                TimeHelper.getHoursOffsetToCurrentTime(6),
+                TestTimeHelper.getHoursOffsetToCurrentTime(0), TestTimeHelper.getHoursOffsetToCurrentTime(2),
+                TestTimeHelper.getHoursOffsetToCurrentTime(5), TestTimeHelper.getHoursOffsetToCurrentTime(1),
+                TestTimeHelper.getHoursOffsetToCurrentTime(6),
                 8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
 
