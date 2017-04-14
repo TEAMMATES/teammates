@@ -19,7 +19,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 public class InstructorFeedbackResultsPageScaleTest extends BaseUiTestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
-    private Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected void prepareTestData() {
