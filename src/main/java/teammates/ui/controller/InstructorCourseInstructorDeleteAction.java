@@ -3,9 +3,9 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -28,13 +28,11 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
         /* Process deleting an instructor and setup status to be shown to user and admin */
         if (hasAlternativeInstructor(courseId, instructorEmail)) {
-            try {
-                validateIsInstructorDisplaytoStudents(courseId, instructorEmail);
-            } catch (InvalidParametersException e) {
-                isError = true;
-                setStatusForException(e);
-            }
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+            isError = !logic.isAtLeastOneInstructorDisplayedToStudents(instructors, instructorEmail);
             if (isError) {
+                statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR,
+                                                   StatusMessageColor.DANGER));
                 RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
                 result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
                 return result;
@@ -89,23 +87,5 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         }
 
         return false;
-    }
-
-    /**
-     * Ensure at least one instructor display to students.
-     * If there are none, the instructor currently being deleted will be stop.
-     * @param courseId         Id of the course.
-     * @param instructorEmail Email of the instructor.
-     * @throws InvalidParametersException when none of the instructor display to students.
-     */
-    private void validateIsInstructorDisplaytoStudents(String courseId, String instructorEmail)
-            throws InvalidParametersException {
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        String error = logic.validateIsInstructorDisplaytoStudents(instructors, instructorEmail);
-        if (!error.isEmpty()) {
-            isError = true;
-            statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
-            throw new InvalidParametersException("<strong>Instructor Visibility Error</strong>");
-        }
     }
 }

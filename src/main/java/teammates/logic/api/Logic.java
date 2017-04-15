@@ -1093,8 +1093,8 @@ public class Logic {
     /**
      * Return error message if no instructor display to students.
      */
-    public String validateIsInstructorDisplaytoStudents(List<InstructorAttributes> instructors, String email) {
-        return coursesLogic.validateIsInstructorDisplaytoStudents(instructors, email);
+    public boolean isAtLeastOneInstructorDisplayedToStudents(List<InstructorAttributes> instructors, String email) {
+        return coursesLogic.isAtLeastOneInstructorDisplayedToStudents(instructors, email);
     }
 
     /**

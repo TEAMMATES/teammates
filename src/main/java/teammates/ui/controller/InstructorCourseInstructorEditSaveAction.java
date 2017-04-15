@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -30,14 +31,17 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         if (!isDisplayedToStudents) {
-            try {
-                validateIsInstructorDisplaytoStudents(courseId, instructorId, instructorEmail);
-            } catch (InvalidParametersException e) {
-                isError = true;
-                setStatusForException(e);
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+            InstructorAttributes instructortoEdit;
+            if (instructorId == null) {
+                instructortoEdit = logic.getInstructorForEmail(courseId, instructorEmail);
+            } else {
+                instructortoEdit = logic.getInstructorForGoogleId(courseId, instructorId);
             }
+            isError = !logic.isAtLeastOneInstructorDisplayedToStudents(instructors, instructortoEdit.email);
         }
         if (isError) {
+            statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR, StatusMessageColor.DANGER));
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
             return result;
@@ -66,31 +70,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
-    }
-
-    /**
-     * Ensure at least one instructor display to students.
-     * If there are none, the instructor currently being edited will not hide his/her visibility.
-     * @param courseId         Id of the course.
-     * @param instructorId GoogleID of the instructor.
-     * @param instructorEmail Email of the instructor.
-     * @throws InvalidParametersException when none of the instructor display to students.
-     */
-    private void validateIsInstructorDisplaytoStudents(String courseId, String instructorId, String instructorEmail)
-            throws InvalidParametersException {
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        InstructorAttributes instructortoEdit;
-        if (instructorId == null) {
-            instructortoEdit = logic.getInstructorForEmail(courseId, instructorEmail);
-        } else {
-            instructortoEdit = logic.getInstructorForGoogleId(courseId, instructorId);
-        }
-        String error = logic.validateIsInstructorDisplaytoStudents(instructors, instructortoEdit.email);
-        if (!error.isEmpty()) {
-            isError = true;
-            statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
-            throw new InvalidParametersException("<strong>Instructor Visibility Error</strong>");
-        }
     }
 
     /**

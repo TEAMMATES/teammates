@@ -722,13 +722,16 @@ public final class CoursesLogic {
         return archivedCourseIds;
     }
 
-    public String validateIsInstructorDisplaytoStudents(List<InstructorAttributes> instructors, String email) {
+    /**
+     * Return true if at least one instructor in the course display to students otherwise false.
+     */
+    public boolean isAtLeastOneInstructorDisplayedToStudents(List<InstructorAttributes> instructors, String email) {
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isDisplayedToStudents && !instructor.email.equals(email)) {
-                return "";
+                return true;
             }
         }
-        return FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR;
+        return false;
     }
 
 }
