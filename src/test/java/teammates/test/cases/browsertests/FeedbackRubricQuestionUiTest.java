@@ -274,6 +274,22 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
 
+        ______TS("empty row test");
+        feedbackEditPage.clickEditQuestionButton(1);
+
+        // Add an empty row
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("", 1, 1);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.RUBRIC_ERROR_EMPTY_SUB_QUESTION);
+
+        // Remove the empty row
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
+
         ______TS("RUBRIC: edit choices success");
         feedbackEditPage.clickEditQuestionButton(1);
 

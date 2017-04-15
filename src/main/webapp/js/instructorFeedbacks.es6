@@ -9,6 +9,7 @@ DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID:false, DISPLAY_FEEDBACK_QUESTI
 FEEDBACK_QUESTION_TYPE:false, FEEDBACK_SESSION_STARTDATE:false, FEEDBACK_SESSION_STARTTIME:false
 FEEDBACK_QUESTION_NUMSCALE_MIN:false, FEEDBACK_QUESTION_NUMSCALE_MAX:false, FEEDBACK_QUESTION_NUMSCALE_STEP:false
 DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID:false, DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID:false
+FEEDBACK_QUESTION_RUBRIC_SUBQUESTION:false, DISPLAY_FEEDBACK_QUESTION_RUBRIC_INVALIDSUBQUESTION:false
 DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID:false, DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID:false
 FEEDBACK_SESSION_TIMEZONE:false, COURSE_ID:false, FEEDBACK_SESSION_NAME:false, FEEDBACK_SESSION_COPY_INVALID:false
 DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE:false, FEEDBACK_SESSION_SESSIONVISIBLEBUTTON:false
@@ -63,6 +64,18 @@ function checkFeedbackQuestion(form) {
         }
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
         return false;
+    }
+    if ($(form).find(`[name=${FEEDBACK_QUESTION_TYPE}]`).val() === 'RUBRIC') {
+        const questionNum = getQuestionNumFromEditForm(form);
+        const questionId = `#rubricNumRows-${questionNum}`;
+        const numberOfRows = parseInt($(questionId).val(), 10);
+        for (let row = 0; row < numberOfRows; row += 1) {
+            if ($.trim($(form).find(`[name=${FEEDBACK_QUESTION_RUBRIC_SUBQUESTION}-${row}]`).val()) === '' &&
+                $(form).find(`[name=${FEEDBACK_QUESTION_RUBRIC_SUBQUESTION}-${row}]`).get(0) !== undefined) {
+                setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RUBRIC_INVALIDSUBQUESTION, StatusType.DANGER, form);
+                return false;
+            }
+        }
     }
     return true;
 }
