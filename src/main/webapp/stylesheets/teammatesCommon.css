@@ -1120,3 +1120,13 @@ Prevent Long URL From Breaking Out of Container
     float: left;
     margin-right: 5px;
 }
+
+/* 
+Glyphicon for success status messages
+*/
+.alert-success:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right:2px;
+    content:"\e084";
+}
