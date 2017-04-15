@@ -5,6 +5,11 @@ import java.util.Date;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -14,11 +19,6 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Handles CRUD operations for student profiles.
