@@ -1,6 +1,7 @@
 package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.AdminEmailsLogic;

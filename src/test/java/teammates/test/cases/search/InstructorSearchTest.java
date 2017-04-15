@@ -8,13 +8,12 @@ import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
-import teammates.storage.search.InstructorSearchDocument;
-import teammates.storage.search.InstructorSearchQuery;
 import teammates.test.driver.AssertHelper;
 
 /**
- * SUT: {@link InstructorsDb}, {@link InstructorSearchDocument},
- * {@link InstructorSearchQuery}.
+ * SUT: {@link InstructorsDb},
+ *      {@link teammates.storage.search.InstructorSearchDocument},
+ *      {@link teammates.storage.search.InstructorSearchQuery}.
  */
 public class InstructorSearchTest extends BaseSearchTest {
     @Test

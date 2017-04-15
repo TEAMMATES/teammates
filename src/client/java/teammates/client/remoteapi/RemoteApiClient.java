@@ -5,12 +5,12 @@ import java.lang.reflect.Method;
 
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.test.driver.TestProperties;
-
-import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
-import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 
 public abstract class RemoteApiClient {
 

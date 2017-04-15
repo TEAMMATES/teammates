@@ -10,10 +10,10 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import com.google.gson.annotations.SerializedName;
+
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
-
-import com.google.gson.annotations.SerializedName;
 
 /**
  * An association class that represents the association Account -->

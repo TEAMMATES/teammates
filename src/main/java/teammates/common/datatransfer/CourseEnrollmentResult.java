@@ -1,9 +1,9 @@
 package teammates.common.datatransfer;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
  * Represents the result of an enrollment of students to a course.
