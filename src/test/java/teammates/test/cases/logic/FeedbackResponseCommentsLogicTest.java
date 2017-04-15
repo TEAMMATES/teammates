@@ -6,6 +6,8 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -14,8 +16,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link FeedbackResponseCommentsLogic}.

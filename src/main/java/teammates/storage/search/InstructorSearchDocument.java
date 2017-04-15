@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
-import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+
+import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for instructors.

@@ -7,10 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.datastore.Text;
+import com.google.gson.reflect.TypeToken;
+
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -27,9 +30,6 @@ import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.ui.pagedata.InstructorFeedbacksPageData;
-
-import com.google.appengine.api.datastore.Text;
-import com.google.gson.reflect.TypeToken;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 

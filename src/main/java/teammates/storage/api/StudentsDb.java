@@ -10,10 +10,13 @@ import java.util.Map;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
+import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -28,9 +31,6 @@ import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD operations for students.

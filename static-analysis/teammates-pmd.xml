@@ -31,8 +31,6 @@
         <exclude name="EmptyCatchBlock"/>
     </rule>
 
-    <rule ref="rulesets/java/imports.xml"/>
-
     <rule ref="rulesets/java/junit.xml">
         <!-- Not worth the benefit -->
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
@@ -83,6 +81,7 @@
     
     <!-- Handled by Checkstyle -->
     <!--<rule ref="rulesets/java/braces.xml"/>-->
+    <!--<rule ref="rulesets/java/imports.xml"/>-->
     <!--<rule ref="rulesets/java/naming.xml"/>-->
     
     <!-- Irrelevant for our code -->

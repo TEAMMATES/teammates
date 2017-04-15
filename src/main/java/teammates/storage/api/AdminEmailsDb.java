@@ -8,6 +8,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -19,7 +21,6 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles CRUD operations for emails sent by the admin.

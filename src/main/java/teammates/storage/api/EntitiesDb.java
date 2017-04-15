@@ -7,6 +7,13 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
+
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -19,12 +26,6 @@ import teammates.common.util.ThreadHelper;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
