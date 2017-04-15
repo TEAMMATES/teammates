@@ -3,9 +3,9 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.ui.template.EnrollResultPanel;

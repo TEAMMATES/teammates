@@ -6,18 +6,16 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.storage.api.CommentsDb;
-import teammates.storage.search.CommentSearchQuery;
-import teammates.storage.search.CommentSearchDocument;
 import teammates.test.driver.AssertHelper;
 
 /**
  * SUT: {@link CommentsDb},
- *      {@link CommentSearchDocument},
- *      {@link CommentSearchQuery}.
+ *      {@link teammates.storage.search.CommentSearchDocument},
+ *      {@link teammates.storage.search.CommentSearchQuery}.
  */
 public class CommentSearchTest extends BaseSearchTest {
 

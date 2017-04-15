@@ -7,12 +7,12 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.TeammatesException;
-
-import com.google.appengine.api.log.AppLogLine;
 
 /**
  * A log entry to describe an action carried out by the app.

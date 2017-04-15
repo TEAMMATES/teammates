@@ -11,12 +11,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
 /**
- * SUT: {@link EntitiesDb}.
+ * SUT: {@link teammates.storage.api.EntitiesDb}.
  */
 public class EntitiesDbTest extends BaseComponentTestCase {
 

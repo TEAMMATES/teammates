@@ -1,9 +1,9 @@
 package teammates.common.datatransfer;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 
 /**
  * The search result bundle for {@link InstructorAttributes}.
