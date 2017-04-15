@@ -7,6 +7,20 @@ ${instructorFragment}
     <br>&nbsp;&nbsp; Course: [${courseId}]${courseName} 
     <br>&nbsp;&nbsp; Feedback Session Name: ${feedbackSessionName}
     <br>&nbsp;&nbsp; Deadline: ${deadline}
+    <div>
+        <table style="max-width:600px;border:1px solid black;margin-left:10px;">
+            <tr>
+                <th style="padding:10px;">
+                    Instructions for this feedback session are:<hr/>
+                </th>
+            </tr>
+            <tr>
+                <td style="padding:0px 10px 10px 10px;">
+                    ${SessionInstructions}
+                </td>
+            </tr>
+        </table>
+    </div>
     <br>
     <strong>To submit feedback for the above session, please go to this Web address: </strong>
     <a href="${submitUrl}">${submitUrl}</a>
