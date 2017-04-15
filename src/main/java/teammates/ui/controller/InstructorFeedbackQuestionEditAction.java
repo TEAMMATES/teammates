@@ -70,9 +70,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
         logic.deleteFeedbackQuestion(updatedQuestion.getId());
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber + " for session:<span class=\"bold\">("
+        statusToAdmin.add("Feedback Question " + updatedQuestion.questionNumber + " for session:<span class=\"bold\">("
                         + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                        + updatedQuestion.courseId + "]</span> deleted.<br>";
+                        + updatedQuestion.courseId + "]</span> deleted.<br>");
     }
 
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
@@ -96,13 +96,13 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber
+            statusToAdmin.add("Feedback Question " + updatedQuestion.questionNumber
                           + " for session:<span class=\"bold\">("
                           + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                           + updatedQuestion.courseId + "]</span> edited.<br>"
                           + "<span class=\"bold\">"
                           + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
-                          + updatedQuestionDetails.getQuestionText();
+                          + updatedQuestionDetails.getQuestionText());
         } else {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;

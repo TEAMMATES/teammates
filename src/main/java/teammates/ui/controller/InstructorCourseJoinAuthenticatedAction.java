@@ -53,9 +53,9 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         }
 
         if (statusToAdmin == null) {
-            statusToAdmin = joinedCourseMsg.toString();
+            statusToAdmin.add(joinedCourseMsg.toString());
         } else {
-            statusToAdmin += "<br><br>" + joinedCourseMsg.toString();
+            statusToAdmin.add("<br><br>" + joinedCourseMsg.toString());
         }
 
         /* Create redirection to instructor's homepage */

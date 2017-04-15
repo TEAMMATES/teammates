@@ -74,9 +74,9 @@ public class InstructorCommentsPageAction extends Action {
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         }
 
-        statusToAdmin = "instructorComments Page Load<br>"
+        statusToAdmin.add("instructorComments Page Load<br>"
                       + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records "
-                      + "for Course <span class=\"bold\">[" + courseId + "]</span>";
+                      + "for Course <span class=\"bold\">[" + courseId + "]</span>");
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
                   giverEmailToCommentsMap, giverEmailToCanModifyCommentListMap, roster,

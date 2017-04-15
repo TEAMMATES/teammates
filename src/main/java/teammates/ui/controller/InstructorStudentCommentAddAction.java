@@ -68,10 +68,10 @@ public class InstructorStudentCommentAddAction extends Action {
             String commentPlainText = Jsoup.clean(createdComment.getCommentText(), Whitelist.none());
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COMMENT_ADDED, commentPlainText),
                                                StatusMessageColor.SUCCESS));
-            statusToAdmin = "Created Comment for Student:<span class=\"bold\">("
+            statusToAdmin.add("Created Comment for Student:<span class=\"bold\">("
                             + comment.recipients + ")</span> for Course <span class=\"bold\">["
                             + comment.courseId + "]</span><br>"
-                            + "<span class=\"bold\">Comment:</span> " + comment.commentText;
+                            + "<span class=\"bold\">Comment:</span> " + comment.commentText);
         } catch (EntityAlreadyExistsException e) {
             // this exception should not be thrown normally unless GAE creates duplicate commentId
             Assumption.fail("Creating a duplicate comment should not be possible "
@@ -79,7 +79,7 @@ public class InstructorStudentCommentAddAction extends Action {
         } catch (InvalidParametersException e) {
             // TODO: add a test to cover this branch
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin = e.getMessage();
+            statusToAdmin.add(e.getMessage());
             isError = true;
         }
 

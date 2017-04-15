@@ -24,9 +24,9 @@ public class InstructorFeedbackRemindAction extends Action {
         taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
 
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Email sent out to all students who have not completed "
+        statusToAdmin.add("Email sent out to all students who have not completed "
                       + "Feedback Session <span class=\"bold\">(" + feedbackSessionName
-                      + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
+                      + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>");
 
         return createRedirectResult(nextUrl);
     }

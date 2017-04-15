@@ -81,9 +81,9 @@ public class StudentCommentsPageAction extends Action {
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
 
-        statusToAdmin = "studentComments Page Load<br>"
+        statusToAdmin.add("studentComments Page Load<br>"
                 + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records "
-                + "for Course <span class=\"bold\">[" + courseId + "]</span>";
+                + "for Course <span class=\"bold\">[" + courseId + "]</span>");
 
         return createShowPageResult(Const.ViewURIs.STUDENT_COMMENTS, data);
     }

@@ -124,8 +124,8 @@ public class AdminSessionsPageAction extends Action {
                 isError = true;
                 statusToUser.add(new StatusMessage("The filter range is not valid."
                                  + " End time should be after start time.", StatusMessageColor.DANGER));
-                statusToAdmin = "Admin Sessions Page Load<br>"
-                              + "<span class=\"bold\"> Error: invalid filter range</span>";
+                statusToAdmin.add("Admin Sessions Page Load<br>"
+                              + "<span class=\"bold\"> Error: invalid filter range</span>");
 
                 prepareDefaultPageData(calStart, calEnd);
                 data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
@@ -139,8 +139,8 @@ public class AdminSessionsPageAction extends Action {
 
             isError = true;
             statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
-            statusToAdmin = "Admin Sessions Page Load<br>"
-                          + "<span class=\"bold\"> Error: Missing Parameters</span>";
+            statusToAdmin.add("Admin Sessions Page Load<br>"
+                          + "<span class=\"bold\"> Error: Missing Parameters</span>");
 
             prepareDefaultPageData(calStart, calEnd);
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
@@ -163,8 +163,8 @@ public class AdminSessionsPageAction extends Action {
 
             isError = false;
             statusToUser.add(new StatusMessage("Currently No Ongoing Sessions", StatusMessageColor.WARNING));
-            statusToAdmin = "Admin Sessions Page Load<br>"
-                          + "<span class=\"bold\"> No Ongoing Sessions</span>";
+            statusToAdmin.add("Admin Sessions Page Load<br>"
+                          + "<span class=\"bold\"> No Ongoing Sessions</span>");
 
             this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
             this.totalOngoingSessions = 0;
@@ -215,11 +215,11 @@ public class AdminSessionsPageAction extends Action {
         }
         this.map = map;
         this.totalInstitutes = getTotalInstitutes(map);
-        statusToAdmin = "Admin Sessions Page Load<br>"
+        statusToAdmin.add("Admin Sessions Page Load<br>"
                       + "<span class=\"bold\">Total Ongoing Sessions:</span> "
                       + this.totalOngoingSessions
                       + "<span class=\"bold\">Total Opened Sessions:</span> "
-                      + this.totalOpenStatusSessions;
+                      + this.totalOpenStatusSessions);
 
         constructSessionToInstructorIdMap();
         data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,

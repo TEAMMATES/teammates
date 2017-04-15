@@ -58,10 +58,11 @@ public class InstructorStudentCommentClearPendingAction extends Action {
         if (isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY,
                                                StatusMessageColor.DANGER));
-            statusToAdmin = "Unsuccessful: " + account.googleId + " cleared pending comments for course " + courseId;
+            statusToAdmin.add("Unsuccessful: " + account.googleId + " cleared pending comments for course "
+                                               + courseId);
         } else {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
+            statusToAdmin.add("Successful: " + account.googleId + " cleared pending comments for course " + courseId);
         }
 
         return createRedirectResult(new PageData(account).getInstructorCommentsLink() + "&"

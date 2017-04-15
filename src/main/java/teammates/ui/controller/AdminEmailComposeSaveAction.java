@@ -68,8 +68,8 @@ public class AdminEmailComposeSaveAction extends Action {
                                                         null);
             data.emailToEdit.emailId = emailId;
         } else {
-            statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
-                    + "Subject: " + SanitizationHelper.sanitizeForHtml(subject);
+            statusToAdmin.add(Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
+                    + "Subject: " + SanitizationHelper.sanitizeForHtml(subject));
             statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS));
         }
 

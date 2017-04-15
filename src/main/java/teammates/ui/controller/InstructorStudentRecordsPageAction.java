@@ -97,12 +97,12 @@ public class InstructorStudentRecordsPageAction extends Action {
                         account, student, courseId, showCommentBox, studentProfile,
                         giverEmailToCommentsMap, giverEmailToGiverNameMap, sessionNames, instructor);
 
-        statusToAdmin = "instructorStudentRecords Page Load<br>"
+        statusToAdmin.add("instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
                       + "Number of sessions: " + sessions.size() + "<br>"
                       + "Student Profile: " + (studentProfile == null ? "No Profile"
-                                                                      : studentProfile.toString());
+                                                                      : studentProfile.toString()));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }

@@ -25,7 +25,7 @@ public class StudentProfilePageAction extends Action {
         }
 
         StudentProfilePageData data = new StudentProfilePageData(account, isEditingPhoto);
-        statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
+        statusToAdmin.add("studentProfile Page Load <br> Profile: " + account.studentProfile.toString());
 
         return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
     }

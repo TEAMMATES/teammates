@@ -55,7 +55,7 @@ public class AdminEmailLogPageAction extends Action {
             searchEmailLogsWithTimeIncrement(data);
         }
 
-        statusToAdmin = "adminEmailLogPage Page Load";
+        statusToAdmin.add("adminEmailLogPage Page Load");
 
         if (timeOffset == null) {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);

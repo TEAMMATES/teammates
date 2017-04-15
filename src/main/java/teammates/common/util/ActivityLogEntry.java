@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,7 +130,7 @@ public class ActivityLogEntry {
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
 
-    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,
+    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, List<String> logMessage,
                             String requestUrl, StudentAttributes unregisteredStudent, UserType userType) {
         time = System.currentTimeMillis();
         try {
@@ -139,7 +140,7 @@ public class ActivityLogEntry {
         }
         action = servletName; //TODO: remove this?
         toShow = true;
-        message = logMessage;
+        message = StringHelper.join("", logMessage.toArray(new String[logMessage.size()]));
         url = requestUrl;
 
         boolean isAccountWithGoogleId = userAccount != null && userAccount.googleId != null;

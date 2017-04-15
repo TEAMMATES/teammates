@@ -29,9 +29,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 
-        statusToAdmin = "Show instructor feedback result page<br>"
+        statusToAdmin.add("Show instructor feedback result page<br>"
                       + "Session Name: " + feedbackSessionName + "<br>"
-                      + "Course ID: " + courseId;
+                      + "Course ID: " + courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

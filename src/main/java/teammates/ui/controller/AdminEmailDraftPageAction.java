@@ -11,7 +11,7 @@ public class AdminEmailDraftPageAction extends Action {
         AdminEmailDraftPageData data = new AdminEmailDraftPageData(account);
 
         data.draftEmailList = logic.getAdminEmailDrafts();
-        statusToAdmin = "adminEmailDraftPage Page Load";
+        statusToAdmin.add("adminEmailDraftPage Page Load");
         data.init();
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);

@@ -30,15 +30,15 @@ public class InstructorCourseInstructorDeleteAction extends Action {
             logic.deleteInstructor(courseId, instructorEmail);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
-                + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+            statusToAdmin.add("Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
+                    + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>");
         } else {
             isError = true;
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED,
                                                StatusMessageColor.DANGER));
-            statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
+            statusToAdmin.add("Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                     + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
-                    + "as there is only one instructor left to be able to modify instructors.<br>";
+                    + "as there is only one instructor left to be able to modify instructors.<br>");
         }
 
         /* Create redirection. It will redirect back to 'Courses' page if the instructor deletes himself */
