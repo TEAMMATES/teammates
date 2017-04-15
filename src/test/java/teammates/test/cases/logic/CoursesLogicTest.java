@@ -2,8 +2,8 @@ package teammates.test.cases.logic;
 
 import static teammates.common.util.Const.EOL;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
@@ -524,7 +524,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("Instructor with 2 courses");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        HashMap<String, CourseDetailsBundle> courseList =
+        Map<String, CourseDetailsBundle> courseList =
                 coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
         assertEquals(2, courseList.size());
         for (CourseDetailsBundle cdd : courseList.values()) {
@@ -568,7 +568,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Typical case");
 
-        HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
+        Map<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
                 .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3", false);
         assertEquals(2, courseListForInstructor.size());
 
