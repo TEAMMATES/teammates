@@ -84,6 +84,9 @@
             <%-- Course join link --%>
             <li class="list-group-item list-group-item-info">
                 <strong>Course Join Link</strong>
+                <button type="button"
+                                onclick="mailto('${student.email}', 'Course Join Link', '${student.links.courseJoinLink}');"
+                                class="btn btn-info btn-xs">Mail to</button>
                 <input value="${student.links.courseJoinLink}" readonly class="form-control">
             </li>
             
@@ -92,6 +95,9 @@
                 <c:forEach items="${student.openFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-warning">
                         <strong>${session.fsName}</strong>
+                        <button type="button"
+                                onclick="mailto('${student.email}', '${session.fsName}', '${session.link}');"
+                                class="btn btn-info btn-xs">Mail to</button>
                         <input value="${session.link}" readonly class="form-control">
                     </li>
                 </c:forEach>
@@ -102,6 +108,9 @@
                 <c:forEach items="${student.closedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-danger">
                         <strong>${session.fsName}</strong>
+                        <button type="button"
+                                onclick="mailto('${student.email}', '${session.fsName}', '${session.link}');"
+                                class="btn btn-info btn-xs">Mail to</button>
                         <input value="${session.link}" readonly class="form-control">
                     </li>
                 </c:forEach>
@@ -112,6 +121,9 @@
                 <c:forEach items="${student.publishedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-success">
                         <strong>${session.fsName}</strong>
+                        <button type="button"
+                                onclick="mailto('${student.email}', '${session.fsName}', '${session.link}');"
+                                class="btn btn-info btn-xs">Mail to</button>
                         <input value="${session.link}" readonly class="form-control">
                     </li>
                 </c:forEach>

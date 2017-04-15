@@ -110,6 +110,10 @@ function adminSearchCollapseAllInstructors() {
     $('.fslink_instructor').hide();
     $('.instructorRow').attr('class', 'instructorRow');
 }
+function mailto(emailid, subject, uri) {
+    const mail = `mailto:${emailid}?Subject=Requested link for ${subject}&body=${encodeURIComponent(uri)}`;
+    window.location.href = mail;
+}
 /*
 export default {
     submitResetGoogleIdAjaxRequest,
