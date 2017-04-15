@@ -5,7 +5,7 @@ import java.util.List;
 import javax.jdo.Query;
 
 /**
- * Struct for bundling a Query together with parameters and expected result field.
+ * Data transfer object for bundling a Query together with parameters and expected result field.
  */
 public class QueryWithParams {
 
