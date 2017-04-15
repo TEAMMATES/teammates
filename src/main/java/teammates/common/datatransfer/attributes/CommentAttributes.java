@@ -107,30 +107,30 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addToErrors(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        addToErrors(validator.getInvalidityInfoForEmail(giverEmail), errors);
+        addNonEmptyError(validator.getInvalidityInfoForEmail(giverEmail), errors);
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    addToErrors(validator.getInvalidityInfoForEmail(recipientId), errors);
+                    addNonEmptyError(validator.getInvalidityInfoForEmail(recipientId), errors);
                 }
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    addToErrors(validator.getInvalidityInfoForTeamName(recipientId), errors);
+                    addNonEmptyError(validator.getInvalidityInfoForTeamName(recipientId), errors);
                 }
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    addToErrors(validator.getInvalidityInfoForSectionName(recipientId), errors);
+                    addNonEmptyError(validator.getInvalidityInfoForSectionName(recipientId), errors);
                 }
                 break;
             case COURSE :
                 for (String recipientId : recipients) {
-                    addToErrors(validator.getInvalidityInfoForCourseId(recipientId), errors);
+                    addNonEmptyError(validator.getInvalidityInfoForCourseId(recipientId), errors);
                 }
                 break;
             default : // cases for NONE or null

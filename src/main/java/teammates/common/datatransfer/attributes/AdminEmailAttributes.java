@@ -54,9 +54,9 @@ public class AdminEmailAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addToErrors(validator.getInvalidityInfoForEmailContent(content), errors);
+        addNonEmptyError(validator.getInvalidityInfoForEmailContent(content), errors);
 
-        addToErrors(validator.getInvalidityInfoForEmailSubject(subject), errors);
+        addNonEmptyError(validator.getInvalidityInfoForEmailSubject(subject), errors);
 
         return errors;
     }

@@ -95,27 +95,27 @@ public class StudentProfileAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addToErrors(validator.getInvalidityInfoForGoogleId(googleId), errors);
+        addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
 
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!shortName.isEmpty()) {
-            addToErrors(validator.getInvalidityInfoForPersonName(shortName), errors);
+            addNonEmptyError(validator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
         if (!email.isEmpty()) {
-            addToErrors(validator.getInvalidityInfoForEmail(email), errors);
+            addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
         }
 
         if (!institute.isEmpty()) {
-            addToErrors(validator.getInvalidityInfoForInstituteName(institute), errors);
+            addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
         if (!nationality.isEmpty()) {
-            addToErrors(validator.getInvalidityInfoForNationality(nationality), errors);
+            addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        addToErrors(validator.getInvalidityInfoForGender(gender), errors);
+        addNonEmptyError(validator.getInvalidityInfoForGender(gender), errors);
 
         Assumption.assertNotNull(this.pictureKey);
 

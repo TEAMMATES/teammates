@@ -160,9 +160,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
 
-        addToErrors(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        addToErrors(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
         // special case when additional text should be added to error text
         String error = validator.getInvalidityInfoForEmail(creatorEmail);
@@ -171,7 +171,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             buffer.append("Invalid creator's email: ").append(error);
             error = buffer.toString();
         }
-        addToErrors(error, errors);
+        addNonEmptyError(error, errors);
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 

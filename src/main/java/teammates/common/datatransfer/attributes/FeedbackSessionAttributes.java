@@ -196,41 +196,41 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
         // Check for null fields.
 
-        addToErrors(validator.getValidityInfoForNonNullField(
+        addNonEmptyError(validator.getValidityInfoForNonNullField(
                 FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField(FieldValidator.COURSE_ID_FIELD_NAME, courseId), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField(FieldValidator.COURSE_ID_FIELD_NAME, courseId), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField(
+        addNonEmptyError(validator.getValidityInfoForNonNullField(
                 "time for the session to become visible", sessionVisibleFromTime), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        addToErrors(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        addToErrors(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        addToErrors(validator.getInvalidityInfoForEmail(creatorEmail), errors);
+        addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
 
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) {
             return errors;
         }
 
-        addToErrors(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
 
-        addToErrors(validator.getValidityInfoForNonNullField(
+        addNonEmptyError(validator.getValidityInfoForNonNullField(
                 "time for the responses to become visible", resultsVisibleFromTime), errors);
 
         // Early return if any null fields
@@ -238,9 +238,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             return errors;
         }
 
-        addToErrors(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
+        addNonEmptyError(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
 
-        addToErrors(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+        addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
                 sessionVisibleFromTime, startTime), errors);
 
         Date actualSessionVisibleFromTime = sessionVisibleFromTime;
@@ -249,7 +249,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             actualSessionVisibleFromTime = startTime;
         }
 
-        addToErrors(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+        addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         return errors;

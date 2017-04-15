@@ -59,9 +59,12 @@ public abstract class EntityAttributes {
     public abstract void sanitizeForSaving();
 
     /**
-     * Adds non-empty error message to a List, ignores empty error messages.
+     * Adds {@code error} to {@code errors} if {@code error} is a non-empty string.
+     * @param error A String, which describes an error, can be empty if no error received
+     * @param errors A List of non-empty String values with {@code error} descriptions, 
+     * which is modified by adding new non-empty {@code error} value, received as first parameter
      */
-    public void addToErrors(String error, List<String> errors) {
+    public void addNonEmptyError(String error, List<String> errors) {
         if (!error.isEmpty()) {
             errors.add(error);
         }
