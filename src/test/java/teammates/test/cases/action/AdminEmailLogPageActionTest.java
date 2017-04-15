@@ -24,7 +24,7 @@ import teammates.ui.pagedata.AdminEmailLogPageData;
 import teammates.ui.pagedata.PageData;
 import teammates.ui.template.AdminEmailTableRow;
 
-import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * SUT: {@link AdminEmailLogPageAction}.
