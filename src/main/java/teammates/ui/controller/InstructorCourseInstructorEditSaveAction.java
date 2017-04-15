@@ -72,6 +72,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
      * Ensure at least one instructor display to students.
      * If there are none, the instructor currently being edited will not hide his/her visibility.
      * @param courseId         Id of the course.
+     * @param instructorId GoogleID of the instructor.
+     * @param instructorEmail Email of the instructor.
      * @throws InvalidParametersException when none of the instructor display to students.
      */
     private void validateIsInstructorDisplaytoStudents(String courseId, String instructorId, String instructorEmail)
