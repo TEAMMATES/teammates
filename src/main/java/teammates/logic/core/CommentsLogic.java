@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -283,7 +284,7 @@ public final class CommentsLogic {
                                                                  CommentParticipantType.INSTRUCTOR);
         removeNonVisibleCommentsForInstructor(commentsForOtherInstructor, commentsVisitedSet, comments);
 
-        java.util.Collections.sort(comments);
+        Collections.sort(comments);
 
         return comments;
     }
@@ -355,7 +356,7 @@ public final class CommentsLogic {
                                           sectionStudentsEmails, teamsInThisSection,
                                           commentsVisitedSet, comments);
 
-        java.util.Collections.sort(comments);
+        Collections.sort(comments);
 
         return comments;
     }
