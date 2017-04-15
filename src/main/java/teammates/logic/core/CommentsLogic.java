@@ -289,7 +289,7 @@ public final class CommentsLogic {
     }
 
     private void removeNonVisibleCommentsForInstructor(List<CommentAttributes> commentsForInstructor,
-                                                       HashSet<String> commentsVisitedSet,
+                                                       Set<String> commentsVisitedSet,
                                                        List<CommentAttributes> comments) {
         for (CommentAttributes c : commentsForInstructor) {
             removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.INSTRUCTOR);
@@ -386,7 +386,7 @@ public final class CommentsLogic {
 
     private void removeNonVisibleCommentsForCourse(List<CommentAttributes> commentsForCourse, StudentAttributes student,
                                                    List<String> teammates, List<String> sectionStudentsEmails,
-                                                   List<String> teamsInThisSection, HashSet<String> commentsVisitedSet,
+                                                   List<String> teamsInThisSection, Set<String> commentsVisitedSet,
                                                    List<CommentAttributes> comments) {
         removeNonVisibleCommentsForSection(commentsForCourse, student, teammates,
                                            sectionStudentsEmails, teamsInThisSection,
@@ -406,7 +406,7 @@ public final class CommentsLogic {
 
     private void removeNonVisibleCommentsForSection(List<CommentAttributes> commentsForSection,
             StudentAttributes student, List<String> teammatesEmails, List<String> sectionStudentsEmails,
-            List<String> teamsInThisSection, HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
+            List<String> teamsInThisSection, Set<String> commentsVisitedSet, List<CommentAttributes> comments) {
         removeNonVisibleCommentsForTeam(commentsForSection, student, teammatesEmails, commentsVisitedSet, comments);
 
         for (CommentAttributes c : commentsForSection) {
@@ -444,7 +444,7 @@ public final class CommentsLogic {
     }
 
     private void removeNonVisibleCommentsForTeam(List<CommentAttributes> commentsForTeam, StudentAttributes student,
-                                                 List<String> teammates, HashSet<String> commentsVisitedSet,
+                                                 List<String> teammates, Set<String> commentsVisitedSet,
                                                  List<CommentAttributes> comments) {
         for (CommentAttributes c : commentsForTeam) {
             if (c.recipientType == CommentParticipantType.PERSON && isCommentRecipientsWithinGroup(teammates, c)) {
@@ -471,7 +471,7 @@ public final class CommentsLogic {
     }
 
     private void removeNonVisibleCommentsForStudent(List<CommentAttributes> commentsForStudent,
-                                                    HashSet<String> commentsVisitedSet,
+                                                    Set<String> commentsVisitedSet,
                                                     List<CommentAttributes> comments) {
         for (CommentAttributes c : commentsForStudent) {
             if (c.showCommentTo.contains(CommentParticipantType.PERSON)) {
@@ -520,14 +520,14 @@ public final class CommentsLogic {
 
     private void appendComments(CommentAttributes c,
                                 List<CommentAttributes> toThisCommentList,
-                                HashSet<String> commentsVisitedSet) {
+                                Set<String> commentsVisitedSet) {
         if (!commentsVisitedSet.contains(c.getCommentId().toString())) {
             toThisCommentList.add(c);
             preventAppendingThisCommentAgain(commentsVisitedSet, c);
         }
     }
 
-    private void preventAppendingThisCommentAgain(HashSet<String> commentsVisitedSet, CommentAttributes c) {
+    private void preventAppendingThisCommentAgain(Set<String> commentsVisitedSet, CommentAttributes c) {
         commentsVisitedSet.add(c.getCommentId().toString());
     }
 

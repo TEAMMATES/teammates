@@ -1,7 +1,6 @@
 package teammates.logic.api;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -602,7 +601,7 @@ public class Logic {
      * @return A less detailed version of courses for this instructor without stats.
      *         Returns an empty list if none found.
      */
-    public HashMap<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId,
+    public Map<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId,
                                                                                             boolean omitArchived) {
 
         Assumption.assertNotNull(googleId);
@@ -615,7 +614,7 @@ public class Logic {
      * @return A less detailed version of courses for this instructor.
      *         Returns an empty list if none found.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId)
+    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(googleId);
@@ -628,7 +627,7 @@ public class Logic {
      * @return A less detailed version of courses for the specified instructor attributes.
      *         Returns an empty list if none found.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) {
+    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
         return coursesLogic.getCourseSummariesForInstructor(instructorList);

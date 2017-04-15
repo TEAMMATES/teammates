@@ -22,8 +22,8 @@ public class CourseDetailsBundle {
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
 
-    public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
-    public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+    public List<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
+    public List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
 
     public CourseDetailsBundle(CourseAttributes courseData) {
         this.course = courseData;

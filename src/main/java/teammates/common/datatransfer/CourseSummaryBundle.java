@@ -11,7 +11,7 @@ import java.util.List;
 public class CourseSummaryBundle {
 
     public CourseAttributes course;
-    public ArrayList<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+    public List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
 
     public CourseSummaryBundle(CourseAttributes courseData) {
         this.course = courseData;
