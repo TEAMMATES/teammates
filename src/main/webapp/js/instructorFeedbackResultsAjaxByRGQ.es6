@@ -7,9 +7,21 @@
            bindCollapseEvents:false,
            toggleSingleCollapse:false,
            showHideStats:false
+           prepareInstructorPages:false
+           prepareInstructorFeedbackResultsPage:false
+           registerResponseCommentsEvent:false
+           registerResponseCommentCheckboxEvent:false
+           enableHoverToDisplayEditOptions:false
 */
 
 $(document).ready(() => {
+    prepareInstructorPages();
+    prepareInstructorFeedbackResultsPage();
+
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
+
     const seeMoreRequest = function (e) {
         const panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {

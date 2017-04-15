@@ -11,9 +11,9 @@ import java.util.Set;
 
 import org.joda.time.DateTimeZone;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-
 import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -599,7 +599,7 @@ public class FieldValidator {
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
     public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
 
@@ -610,7 +610,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
                                                                             Date sessionStart) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
 
@@ -621,12 +621,12 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart,
                                                                               Date resultsPublish) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
-    private String getInvalidtyInfoForFirstTimeIsBeforeSecondTime(Date earlierTime, Date laterTime,
-            String earlierTimeFieldName, String laterTimeFieldName) {
+    private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
+            Date earlierTime, Date laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         Assumption.assertTrue("Non-null value expected", earlierTime != null);
         Assumption.assertTrue("Non-null value expected", laterTime != null);
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {

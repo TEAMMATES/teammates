@@ -1,12 +1,12 @@
 package teammates.common.datatransfer;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -19,7 +19,7 @@ public class CourseRoster {
     Map<String, InstructorAttributes> instructorListByEmail = new HashMap<String, InstructorAttributes>();
 
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
-        populateStuentListByEmail(students);
+        populateStudentListByEmail(students);
         populateInstructorListByEmail(instructors);
     }
 
@@ -64,7 +64,7 @@ public class CourseRoster {
         return instructorListByEmail.get(email);
     }
 
-    private void populateStuentListByEmail(List<StudentAttributes> students) {
+    private void populateStudentListByEmail(List<StudentAttributes> students) {
 
         if (students == null) {
             return;

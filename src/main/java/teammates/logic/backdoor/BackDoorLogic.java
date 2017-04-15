@@ -8,18 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -39,8 +41,6 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Provides additional business logic for non-production usage (e.g. testing, client scripts).
@@ -165,7 +165,7 @@ public class BackDoorLogic extends Logic {
 
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
         for (AdminEmailAttributes email : adminEmails.values()) {
-            adminEmailsDb.creatAdminEmail(email);
+            adminEmailsDb.createAdminEmail(email);
         }
 
         // any Db can be used to commit the changes.
@@ -439,8 +439,15 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
 
-        // Delete all admin emails
-        adminEmailsDb.deleteEntities(adminEmailsDb.getAllAdminEmails());
+        for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
+            // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.
+            AdminEmailAttributes emailInDb = adminEmailsDb.getAdminEmailBySubject(email.subject);
+            // It is expected that email may not be in datastore yet, should fail silently.
+            if (emailInDb == null) {
+                continue;
+            }
+            adminEmailsDb.deleteEntity(emailInDb);
+        }
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {

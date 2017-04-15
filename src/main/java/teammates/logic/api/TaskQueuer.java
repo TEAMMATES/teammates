@@ -277,6 +277,19 @@ public class TaskQueuer {
     }
 
     /**
+     * Schedules putting of comment document in index.
+     *
+     * @param commentId the ID of comment to be put in index
+     */
+    public void scheduleSearchableDocumentsProductionForComments(String commentId) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.COMMENT_ID, commentId);
+
+        addTask(TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME,
+                TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL, paramMap);
+    }
+
+    /**
      * Schedules for the given list of emails to be sent.
      *
      * @param emails the list of emails to be sent

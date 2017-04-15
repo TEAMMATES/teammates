@@ -10,11 +10,13 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -25,8 +27,6 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE}.
@@ -918,7 +918,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
         feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
-        assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+        feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
+        feedbacksPage.verifyResponseValue("1 / 1", courseId, feedbackSessionName);
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
@@ -933,7 +934,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbacksPage = navigateToInstructorFeedbacksPage();
         feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
-        assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+        feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
+        feedbacksPage.verifyResponseValue("0 / 1", courseId, feedbackSessionName);
 
         // Delete the question
         feedbackEditPage = getFeedbackEditPage();
