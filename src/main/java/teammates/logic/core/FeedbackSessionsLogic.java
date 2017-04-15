@@ -1565,7 +1565,7 @@ public final class FeedbackSessionsLogic {
                                                               fsa.getCourseId(),
                                                               fsa.getCreatorEmail());
             List<FeedbackQuestionAttributes> validQuestions =
-                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.getCreatorEmail());
+                    fqLogic.getQuestionsWithRecipients(instructorQuestions, fsa.getCreatorEmail());
             if (validQuestions.isEmpty()) {
                 break;
             }
