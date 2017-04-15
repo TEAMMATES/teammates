@@ -1560,7 +1560,7 @@ public final class FeedbackSessionsLogic {
             break;
 
         case PRIVATE:
-            List<FeedbackQuestionAttributes> instuctorQuestions =
+            List<FeedbackQuestionAttributes> instructorQuestions =
                     fqLogic.getFeedbackQuestionsForInstructor(fsa.getFeedbackSessionName(),
                                                               fsa.getCourseId(),
                                                               fsa.getCreatorEmail());
