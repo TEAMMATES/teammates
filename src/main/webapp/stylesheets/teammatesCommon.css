@@ -1125,7 +1125,7 @@ Prevent Long URL From Breaking Out of Container
 Glyphicon for success status messages
 */
 
-.alert-success: before {
+.alert-success:before {
     font-family: 'Glyphicons Halflings';
     display: inline-block;
     padding-right: 2px;
