@@ -535,7 +535,7 @@ public final class CoursesLogic {
      * Omits archived courses if omitArchived == true<br>
      *
      * @param googleId The Google ID of the instructor
-     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * @return Map with courseId as key, and CourseDetailsBundle as value.
      *         Does not include details within the course, such as feedback sessions.
      */
     public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived)
