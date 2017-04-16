@@ -354,7 +354,7 @@ public class FeedbackSession {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList) {
+    public void setRespondingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 
