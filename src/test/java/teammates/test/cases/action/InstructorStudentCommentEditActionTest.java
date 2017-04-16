@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
@@ -132,6 +133,8 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
         a = getAction(submissionParams);
         r = getRedirectResult(a);
+
+        verifySpecifiedTasksAdded(a, TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME, 1);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
                 + "?user=idOfInstructor3&"

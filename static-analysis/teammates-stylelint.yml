@@ -383,7 +383,8 @@ rules:
     # Selector list
 
     # Require a newline or disallow whitespace after the commas of selector lists
-    # selector-list-comma-newline-after
+    # Used to enforce one selector per line.
+    selector-list-comma-newline-after: always
 
     # Require a newline or disallow whitespace before the commas of selector lists
     # selector-list-comma-newline-before

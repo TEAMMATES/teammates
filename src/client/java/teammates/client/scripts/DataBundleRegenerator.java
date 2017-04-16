@@ -11,14 +11,14 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.appengine.api.datastore.Text;
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.FileHelper;
-
-import com.google.appengine.api.datastore.Text;
-import com.google.gson.reflect.TypeToken;
 
 public final class DataBundleRegenerator {
 
