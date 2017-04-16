@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
 
-    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/";
+    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
     private static final Logger log = Logger.getLogger();
 
     @Override

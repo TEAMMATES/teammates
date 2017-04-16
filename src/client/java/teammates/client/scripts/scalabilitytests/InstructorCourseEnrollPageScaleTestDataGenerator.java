@@ -3,6 +3,7 @@ package teammates.client.scripts.scalabilitytests;
 import org.kohsuke.randname.RandomNameGenerator;
 import teammates.test.driver.FileHelper;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,9 +40,11 @@ public final class InstructorCourseEnrollPageScaleTestDataGenerator {
     }
 
     public static void main(String[] args) throws IOException {
+        String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
+        new File(folderPath).mkdir();
         for (int studentGroup : studentGroups) {
             FileHelper.saveFile(
-                    "src/client/java/teammates/client/scripts/scalabilitytests/" + FILENAME + studentGroup,
+                    folderPath + FILENAME + studentGroup,
                     generateStudents(studentGroup));
         }
     }

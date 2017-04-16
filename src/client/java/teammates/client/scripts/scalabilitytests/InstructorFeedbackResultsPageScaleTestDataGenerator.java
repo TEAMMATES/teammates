@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.kohsuke.randname.RandomNameGenerator;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -157,11 +158,13 @@ public class InstructorFeedbackResultsPageScaleTestDataGenerator {
     public static void main(String[] args) throws IOException {
         int[] studentNums = {10, 20};
         int[] questionNums = {1, 5, 10};
+        String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
+        new File(folderPath).mkdir();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         for (int studentNum : studentNums) {
             for (int questionNum : questionNums) {
                 Writer writer = new FileWriter(
-                        "src/client/java/teammates/client/scripts/scalabilitytests/"
+                        folderPath
                         + "InstructorFeedbackResultsPageScaleTest-" + studentNum
                         + "Students" + questionNum + "Questions.json");
                 gson.toJson(new InstructorFeedbackResultsPageScaleTestDataGenerator(questionNum, studentNum), writer);
