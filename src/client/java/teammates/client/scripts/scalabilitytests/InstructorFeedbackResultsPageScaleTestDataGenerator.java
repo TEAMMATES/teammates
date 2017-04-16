@@ -165,6 +165,7 @@ public class InstructorFeedbackResultsPageScaleTestDataGenerator {
                         + "InstructorFeedbackResultsPageScaleTest-" + studentNum
                         + "Students" + questionNum + "Questions.json");
                 gson.toJson(new InstructorFeedbackResultsPageScaleTestDataGenerator(questionNum, studentNum), writer);
+                writer.close();
             }
         }
     }
