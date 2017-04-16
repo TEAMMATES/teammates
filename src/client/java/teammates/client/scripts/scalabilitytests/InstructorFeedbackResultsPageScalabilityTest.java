@@ -44,14 +44,9 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             for (int questionLoad : questionLoads) {
                 log.info("Testing with " + studentLoad + " students, " + questionLoad + " questions...");
                 refreshTestData(studentLoad, questionLoad);
-                testContent();
+                loginToInstructorFeedbackResultsPage("CFResultsScT.instr", "Open Session");
             }
         }
-    }
-
-    private void testContent() throws Exception {
-        InstructorFeedbackResultsPage resultsPage =
-                loginToInstructorFeedbackResultsPage("CFResultsScT.instr", "Open Session");
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
@@ -66,7 +61,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         InstructorFeedbackResultsPage resultsPage =
                 loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
-        resultsPage.waitForPageToLoad();
 
         log.info("Time taken: " + stopwatch.getTimeElapsedInSeconds());
 
