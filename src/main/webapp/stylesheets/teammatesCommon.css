@@ -1150,3 +1150,49 @@ Prevent Long URL From Breaking Out of Container
     float: left;
     margin-right: 5px;
 }
+
+.team-members .row {
+    border-bottom: 2px solid #e3e3e3;
+    padding: 20px 10px;
+    border-top: 2px solid #efefef;
+    box-sizing: border-box;
+}
+
+ol.grids li {
+    display: inline;
+    width: 30%;
+    float: left;
+    height: 200px;
+    border: 1px dashed #e3e3e3;
+    text-align: left;
+    padding: 10px;
+    margin: 5px;
+    min-width: 300px;
+}
+
+.past-team ol {
+    list-style-type: none;
+    clear: both;
+}
+
+.team-members .row > div {
+    overflow: auto;
+}
+
+.contributions-table {
+    width: 100%;
+}
+
+.contributions-table th {
+    padding: 10px;
+    text-align: center;
+}
+
+.contributions-table td {
+    padding: 10px;
+}
+
+.contributions-table tr {
+    border: 1px solid #333;
+    padding: 10px;
+}
