@@ -160,7 +160,7 @@ public final class StringHelper {
 
     /**
      * Converts and concatenates a list of objects to a single string, separated by line breaks.
-     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
+     * The conversion is done by using the {@link Object#toString()} method.
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list) {
@@ -169,7 +169,7 @@ public final class StringHelper {
 
     /**
      * Converts and concatenates a list of objects to a single string, separated by the given delimiter.
-     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
+     * The conversion is done by using the {@link Object#toString()} method.
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list, String delimiter) {
