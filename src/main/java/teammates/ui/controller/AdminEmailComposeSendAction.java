@@ -135,7 +135,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
 
-        statusToAdmin += "<br/>" + "Receipient: " + addressReceiverListString;
+        statusToAdmin += "<br/>" + "Recipient: " + addressReceiverListString;
         statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
                      StatusMessageColor.SUCCESS));
     }
