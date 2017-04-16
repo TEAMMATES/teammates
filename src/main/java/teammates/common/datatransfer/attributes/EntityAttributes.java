@@ -60,9 +60,9 @@ public abstract class EntityAttributes {
 
     /**
      * Adds {@code error} to {@code errors} if {@code error} is a non-empty string.
-     * @param error A String, which describes an error, can be empty if no error received.
-     * @param errors A List of non-empty String values with {@code error} descriptions,
-     *          which is modified by adding new non-empty {@code error} value, received as first parameter.
+     * 
+     * @param error An {@code error) message, possibly empty.
+     * @param errors A List of {@code errors}, to add {@code error} to.
      */
     public void addNonEmptyError(String error, List<String> errors) {
         if (!error.isEmpty()) {
