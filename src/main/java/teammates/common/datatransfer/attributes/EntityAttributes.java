@@ -61,7 +61,7 @@ public abstract class EntityAttributes {
     /**
      * Adds {@code error} to {@code errors} if {@code error} is a non-empty string.
      *
-     * @param error An {@code error) message, possibly empty.
+     * @param error An {@code error} message, possibly empty.
      * @param errors A List of {@code errors}, to add {@code error} to.
      */
     public void addNonEmptyError(String error, List<String> errors) {
