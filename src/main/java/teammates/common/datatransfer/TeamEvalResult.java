@@ -3,10 +3,10 @@ package teammates.common.datatransfer;
 import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Assumption;
 
 /**
  * This class represents an feedback contribution question result for a given team.
