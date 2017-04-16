@@ -1,16 +1,15 @@
 package teammates.client.scripts.scalabilitytests;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
+
 import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
-
-import java.io.IOException;
-
-import static teammates.client.scripts.scalabilitytests.InstructorCourseEnrollPageDataGenerator.generateStudents;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
@@ -46,7 +45,7 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
 
         InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
-        String enrollString = generateStudents(numStudents);
+        String enrollString = InstructorCourseEnrollPageDataGenerator.generateStudents(numStudents);
 
         log.info("Testing with " + numStudents + " students...");
         Stopwatch stopwatch = new Stopwatch();

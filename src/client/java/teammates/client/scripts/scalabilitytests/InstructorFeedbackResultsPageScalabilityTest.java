@@ -1,10 +1,11 @@
 package teammates.client.scripts.scalabilitytests;
 
 import org.testng.annotations.Test;
+
+import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.client.scripts.util.Stopwatch;
 import teammates.test.cases.browsertests.BaseUiTestCase;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 

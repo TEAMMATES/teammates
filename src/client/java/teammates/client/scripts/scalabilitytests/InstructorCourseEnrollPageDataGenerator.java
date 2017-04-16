@@ -1,12 +1,14 @@
 package teammates.client.scripts.scalabilitytests;
 
-import org.kohsuke.randname.RandomNameGenerator;
-import teammates.test.driver.FileHelper;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.kohsuke.randname.RandomNameGenerator;
+
+import teammates.test.driver.FileHelper;
+
 
 /**
  * Generates test data for InstructorCourseEnrollPageScaleTest.

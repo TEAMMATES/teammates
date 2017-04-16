@@ -1,15 +1,16 @@
 package teammates.client.scripts.scalabilitytests;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.kohsuke.randname.RandomNameGenerator;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.kohsuke.randname.RandomNameGenerator;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
