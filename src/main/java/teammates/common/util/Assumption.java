@@ -20,6 +20,14 @@ public final class Assumption {
         // Intentional private constructor to prevent instantiation.
     }
 
+    public static void assertEception(String message, Exception e) {
+    	throw new AssertionError(message, e);
+    }
+
+    public static void assertEception(String message) {
+    	throw new AssertionError(message);
+    }
+
     /**
      * Asserts that a condition is true. If it isn't it throws an
      * AssertionFailedError with the given message.
