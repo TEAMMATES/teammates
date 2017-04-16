@@ -20,7 +20,10 @@ public final class InstructorCourseEnrollPageDataGenerator {
     private InstructorCourseEnrollPageDataGenerator() {
     }
 
-    private static String generateStudents(int num) {
+    /**
+     * Generates students to be enrolled, as a string.
+     */
+    public static String generateStudents(int num) {
         RandomNameGenerator generator = new RandomNameGenerator(num);
         Set<String> studentNames = new HashSet<>();
         StringBuffer students = new StringBuffer(HEADER);

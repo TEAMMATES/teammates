@@ -1,15 +1,16 @@
 package teammates.client.scripts.scalabilitytests;
 
 import org.testng.annotations.Test;
+import teammates.client.scripts.util.Stopwatch;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.client.scripts.util.Stopwatch;
 import teammates.test.cases.browsertests.BaseUiTestCase;
-import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 import java.io.IOException;
+
+import static teammates.client.scripts.scalabilitytests.InstructorCourseEnrollPageDataGenerator.generateStudents;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
@@ -18,12 +19,11 @@ import java.io.IOException;
  */
 public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
 
-    private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
     private static final Logger log = Logger.getLogger();
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
+        testData = loadDataBundle("/InstructorCourseEnrollPageScTest.json");
         removeAndRestoreDataBundle(testData);
     }
 
@@ -46,8 +46,7 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
 
         InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
-        String enrollString =
-                FileHelper.readFile(DATA_FOLDER_PATH + "InstructorCourseEnrollPageScaleTestData" + numStudents);
+        String enrollString = generateStudents(numStudents);
 
         log.info("Testing with " + numStudents + " students...");
         Stopwatch stopwatch = new Stopwatch();
