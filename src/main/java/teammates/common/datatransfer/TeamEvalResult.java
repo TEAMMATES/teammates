@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -443,8 +444,7 @@ public class TeamEvalResult {
     private static void verify(String message, boolean condition) {
         // TODO: replace with Assumption.assert*
         if (!condition) {
-            throw new RuntimeException("Internal assertion failuer : "
-                    + message);
+        	Assumption.assertTrue("Internal assertion failure : ", condition);
         }
     }
 
