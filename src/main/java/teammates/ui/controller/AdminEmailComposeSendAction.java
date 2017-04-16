@@ -123,6 +123,10 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
+
+        statusToAdmin += "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
+                     StatusMessageColor.SUCCESS));
     }
 
     private void moveJobToAddressModeTaskQueue() {
@@ -130,6 +134,10 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
+
+        statusToAdmin += "<br/>" + "Recipient: " + addressReceiverListString;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
+                     StatusMessageColor.SUCCESS));
     }
 
     private void recordNewSentEmail(String subject,
@@ -150,6 +158,7 @@ public class AdminEmailComposeSendAction extends Action {
             setStatusForException(e, e.getMessage());
             return;
         }
+        statusToAdmin = "Email queued for sending.";
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
