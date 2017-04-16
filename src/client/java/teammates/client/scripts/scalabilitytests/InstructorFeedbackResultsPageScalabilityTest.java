@@ -51,7 +51,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     private void testContent() throws Exception {
         InstructorFeedbackResultsPage resultsPage =
                 loginToInstructorFeedbackResultsPage("CFResultsScT.instr", "Open Session");
-        resultsPage.waitForPanelsToExpand();
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
