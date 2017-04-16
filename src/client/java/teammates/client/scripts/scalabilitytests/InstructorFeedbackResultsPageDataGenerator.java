@@ -94,9 +94,22 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     class Instructor {
+        private String googleId = "CFResultsScT.instr";
+        private String courseId = "CFResultsScT.CS2104";
+        private String name = "Teammates Test";
+        private String email = "CFResultsScT.instr@gmail.tmt";
+        private String role = "Co-owner";
+        private String isDisplayedToStudents = "false";
+        private String displayedName = "Instructor";
+
+        private Privileges privileges = new Privileges();
+        private EmptyObject sectionLevel = new EmptyObject();
+        private EmptyObject sessionLevel = new EmptyObject();
+
         class Privileges {
             private CourseLevel courseLevel = new CourseLevel();
         }
+
         class CourseLevel {
             private String canviewstudentinsection = "true";
             private String cangivecommentinsection = "true";
@@ -110,17 +123,6 @@ public class InstructorFeedbackResultsPageDataGenerator {
             private String canmodifystudent = "true";
             private String canmodifyinstructor = "true";
         }
-        private String googleId = "CFResultsScT.instr";
-        private String courseId = "CFResultsScT.CS2104";
-        private String name = "Teammates Test";
-        private String email = "CFResultsScT.instr@gmail.tmt";
-        private String role = "Co-owner";
-        private String isDisplayedToStudents = "false";
-        private String displayedName = "Instructor";
-
-        private Privileges privileges = new Privileges();
-        private EmptyObject sectionLevel = new EmptyObject();
-        private EmptyObject sessionLevel = new EmptyObject();
     }
 
     class Student {
