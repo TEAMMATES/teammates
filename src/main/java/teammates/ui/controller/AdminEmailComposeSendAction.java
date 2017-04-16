@@ -17,7 +17,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
-public final class AdminEmailComposeSendAction extends Action {
+public class AdminEmailComposeSendAction extends Action {
 
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
@@ -69,8 +69,8 @@ public final class AdminEmailComposeSendAction extends Action {
 
         if (!addressModeOn && !groupModeOn) {
             isError = true;
-            statusToAdmin = "Error : No receiver address or file given";
-            statusToUser.add(new StatusMessage("Error : No receiver address or file given", StatusMessageColor.DANGER));
+            statusToAdmin = "Error : No reciver address or file given";
+            statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));
         }
 
         if (isError) {
