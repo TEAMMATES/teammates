@@ -14,6 +14,8 @@
 
     <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
 
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingRawExceptionTypes"/>
+
     <exclude-pattern>.*/test/java/.*</exclude-pattern>
     <exclude-pattern>.*/client/java/.*</exclude-pattern>
 </ruleset>
