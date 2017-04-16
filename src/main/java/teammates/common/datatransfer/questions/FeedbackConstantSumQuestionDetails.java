@@ -85,14 +85,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Assumption.assertNotNull("Null points in total", pointsString);
         Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
         Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
-        
+
         if (pointsPerOption) {
             points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
                                             : Integer.parseInt(pointsForEachOptionString);
         } else {
             points = Integer.parseInt(pointsString);
         }
-        
 
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
