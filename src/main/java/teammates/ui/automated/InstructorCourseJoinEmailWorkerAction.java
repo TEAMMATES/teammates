@@ -46,7 +46,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         try {
             emailSender.sendEmail(email);
         } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
+        	Assumption.assertEception("Unexpected error while sending email", e);
         }
     }
 

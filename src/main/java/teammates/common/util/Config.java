@@ -64,7 +64,7 @@ public final class Config {
         try {
             properties.load(FileHelper.getResourceAsStream("build.properties"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+        	 Assumption.assertEception("IOException", e);
         }
         APP_URL = Url.trimTrailingSlash(properties.getProperty("app.url"));
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
