@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * <p>Run InstructorCourseEnrollPageScaleTestDataGenerator.java before running the tests.
  */
-public class InstructorCourseEnrollPageScaleTest extends BaseUiTestCase {
+public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
     private static final Logger log = Logger.getLogger();
