@@ -168,9 +168,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         String error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
             error = new StringBuffer()
-            .append("Invalid creator's email: ")
-            .append(error)
-            .toString();
+                    .append("Invalid creator's email: ")
+                    .append(error)
+                    .toString();
         }
         addNonEmptyError(error, errors);
 

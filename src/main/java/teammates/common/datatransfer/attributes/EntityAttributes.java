@@ -65,8 +65,10 @@ public abstract class EntityAttributes {
      * @param errors A List of {@code errors}, to add {@code error} to.
      */
     public void addNonEmptyError(String error, List<String> errors) {
-        if (!error.isEmpty()) {
-            errors.add(error);
+        if (error.isEmpty()) {
+            return;
         }
+
+        errors.add(error);
     }
 }
