@@ -160,17 +160,13 @@
                 </div>
             </li>
         </ul>
-
     </div>
-
-    <!-- Getting Started -->
-    <br>
-    <hr>
-    <br>
+    <div class="separate-content-holder">
+        <hr>
+    </div>
     <h4>
         <a name="gs">Getting Started</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <ol type="1">
@@ -387,22 +383,13 @@
             <a href="#Top">Back to Top
             </a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--FAQ -->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="faq">Frequently Asked Questions</a>
     </h4>
-
     <div id="contentHolder">
         <div class="bulletPointsIndent">
             <ul>
@@ -593,26 +580,14 @@
                 <a href="#Top">Back to Top
                 </a>
             </p>
-            <a href="#Top">
-            </a>
         </div>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--tips-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
-        <a name="tips">Tips for conducting 'team peer evaluation' sessions
-        </a>
+        <a name="tips">Tips for conducting 'team peer evaluation' sessions</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <p>Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your course while minimizing any negative effects. Here are some of the things you could do:</p>
@@ -682,22 +657,13 @@
             </ul>
         </div>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--editCourse-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="editCourse">Add/Edit instructors</a>
     </h4>
     <div id="contentHolder">
@@ -1152,25 +1118,15 @@
             <br>
         </ul>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--sessionTypes-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="sessionTypes">Sessions</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <ol style="list-style-type: none;">
@@ -5874,7 +5830,7 @@
                                                                             name="constSumUnevenDistribution" disabled
                                                                             id="constSum_UnevenDistribution-10">
                                                                     <span id="constSum_labelText-10">
-                                                                    Every Recipient to recieve a different number of points
+                                                                    Every Recipient to receive a different number of points
                                                                     </span>
                                                                 </label>
                                                             </div>
@@ -6201,7 +6157,7 @@
                             <h4>Team contribution question</h4>
                         </a>
                         Team contribution questions are a specialized question type designed for team contribution evaluations.
-                        <br> They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
+                        <br> They allow estimation of perceived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
                         <a href="#Top">here</a>.
                         <br>
                         <br> An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
@@ -7822,7 +7778,7 @@
                                 </div>
                             </form>
                         </div>
-                        <br> The statistics for rubric question show the frquency which a choice is selected for each sub-question.
+                        <br> The statistics for rubric question show the frequency which a choice is selected for each sub-question.
                         <br> If weights are assigned to the choices, they will be shown beside their corresponding choices.
                         <br>
                         <br>
@@ -8815,24 +8771,13 @@
             </li>
         </ol>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-    </a>
-    <a href="#Top">
-
-        <!--sessionTypes-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="editComments">Comments</a>
     </h4>
     <div id="contentHolder">
@@ -9545,8 +9490,7 @@
         </ol>
         <br>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
     </div>
 </t:helpPage>

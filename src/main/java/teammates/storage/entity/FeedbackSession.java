@@ -9,10 +9,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents an instructor-created Feedback Session.
@@ -354,7 +354,7 @@ public class FeedbackSession {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList) {
+    public void setRespondingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 

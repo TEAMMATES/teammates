@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -17,8 +19,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
-
-import com.google.appengine.api.datastore.Text;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
     private String feedbackSessionName;

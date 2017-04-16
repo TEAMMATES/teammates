@@ -148,6 +148,12 @@ Apply to alert to override Bootstrap's default 3d alerts
     margin-right: .5em;
 }
 
+.separate-content-holder {
+    height: 5em;
+    padding-top: 1em;
+    width: 100%;
+}
+
 /*
 Allow only mouse hover events for the element.
 !important is required to override Bootstrap .disabled class matches
@@ -172,7 +178,8 @@ which usually match 2 classes (eg .btn.disabled)
 /*
 Apply to thead to make headers not bold.
 */
-.font-weight-normal, .font-weight-normal > tr > th {
+.font-weight-normal,
+.font-weight-normal > tr > th {
     font-weight: normal;
 }
 
@@ -223,7 +230,8 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
-.inline, input.inline {
+.inline,
+input.inline {
     display: inline;
 }
 
@@ -251,7 +259,8 @@ Apply to thead to make headers not bold.
     margin: 0 auto;
 }
 
-.min-height-0.checkbox, .min-height-0 {
+.min-height-0.checkbox,
+.min-height-0 {
     min-height: 0;
 }
 
@@ -319,7 +328,8 @@ Apply to thead to make headers not bold.
     overflow: auto;
 }
 
-.padding-top-0, .padding-top-0.checkbox {
+.padding-top-0,
+.padding-top-0.checkbox {
     padding-top: 0;
 }
 
@@ -375,7 +385,8 @@ Apply to thead to make headers not bold.
     display: flex;
 }
 
-.form-control.width-100-pc, .width-100-pc {
+.form-control.width-100-pc,
+.width-100-pc {
     width: 100%;
 }
 
@@ -614,7 +625,9 @@ Apply to thead to make headers not bold.
     box-shadow: none;
 }
 
-.btn-login:focus, .btn-login:hover, .btn-login:active {
+.btn-login:focus,
+.btn-login:hover,
+.btn-login:active {
     color: #00FF00;
 }
 
@@ -869,7 +882,9 @@ Apply to thead to make headers not bold.
     background: url(../images/sortDownButton.png);
 }
 
-.button-sort-ascending:hover, .button-sort-none:hover, .button-sort-descending:hover {
+.button-sort-ascending:hover,
+.button-sort-none:hover,
+.button-sort-descending:hover {
     cursor: pointer;
 }
 

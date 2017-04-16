@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -25,8 +26,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.backdoor.BackDoorOperation;
-
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Used to access the datastore without going through the UI.
@@ -464,7 +463,7 @@ public final class BackDoor {
 
     /**
      * Replaces {@link DataBundle#adminEmails} from {@code dataBundle} with an empty map.
-     * Using {@link BackDoor} to remove and persist {@link AdminEmailAttributes}
+     * Using {@link BackDoor} to remove and persist admin emails
      * may affect normal functioning of Admin Emails and remove non-testing data.
      */
     private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {

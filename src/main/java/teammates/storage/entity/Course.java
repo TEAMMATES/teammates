@@ -6,9 +6,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import teammates.common.util.Const;
-
 import com.google.gson.annotations.SerializedName;
+
+import teammates.common.util.Const;
 
 /**
  * Represents a course entity.
