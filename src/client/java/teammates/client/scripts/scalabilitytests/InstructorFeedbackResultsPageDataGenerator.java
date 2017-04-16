@@ -188,6 +188,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     public static void main(String[] args) throws IOException {
+        //Number of students and questions for each data set.
         int[] studentNums = {10, 20};
         int[] questionNums = {1, 5, 10};
         String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";

@@ -17,6 +17,7 @@ public final class InstructorCourseEnrollPageDataGenerator {
 
     private static final String HEADER = "Section | Team | Name | Email | Comments\n";
 
+    //Number of students to be added for each data set
     private static final int[] studentGroups = {10, 20, 50, 75, 100, 150};
 
     private InstructorCourseEnrollPageDataGenerator() {

@@ -35,6 +35,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
     @Test
     public void testContentWithIncreasingLoad() throws Exception {
+        //Number of students and questions for each case.
         int[] studentLoads = {10, 20};
         int[] questionLoads = {1, 5, 10};
 

@@ -29,6 +29,7 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
 
     @Test
     public void testInstructorCourseEnrollPage() throws Exception {
+        //Number of students for each case.
         int[] loads = {10, 20, 50, 75, 100, 150};
         for (int load : loads) {
             ______TS("enroll action: " + load + " students");
