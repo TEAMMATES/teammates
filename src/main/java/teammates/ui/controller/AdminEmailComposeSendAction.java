@@ -100,16 +100,6 @@ public class AdminEmailComposeSendAction extends Action {
             data.emailToEdit.emailId = emailId;
         }
 
-        if (addressModeOn && groupModeOn) {
-            statusToAdmin = "Email queued for sending." + "<br/>" + "Receipient: " + addressReceiverListString
-                            + "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
-            statusToUser.clear();
-
-            statusToUser.add(new StatusMessage("Email will be sent within an hour to "
-                        + addressReceiverListString + " and uploaded group receiver's list.", StatusMessageColor.SUCCESS));
-
-        }
-
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
@@ -134,7 +124,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
 
-        statusToAdmin = "Email queued for sending." + "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
+        statusToAdmin += "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
         statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
                      StatusMessageColor.SUCCESS));
     }
@@ -145,7 +135,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
 
-        statusToAdmin = "Email queued for sending." + "<br/>" + "Receipient: " + addressReceiverListString;
+        statusToAdmin += "<br/>" + "Receipient: " + addressReceiverListString;
         statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
                      StatusMessageColor.SUCCESS));
     }
@@ -168,6 +158,7 @@ public class AdminEmailComposeSendAction extends Action {
             setStatusForException(e, e.getMessage());
             return;
         }
+        statusToAdmin = "Email queued for sending.";
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
