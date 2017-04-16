@@ -17,9 +17,6 @@ public final class InstructorCourseEnrollPageDataGenerator {
 
     private static final String HEADER = "Section | Team | Name | Email | Comments\n";
 
-    //Number of students to be added for each data set
-    private static final int[] studentGroups = {10, 20, 50, 75, 100, 150};
-
     private InstructorCourseEnrollPageDataGenerator() {
     }
 
@@ -41,6 +38,8 @@ public final class InstructorCourseEnrollPageDataGenerator {
     }
 
     public static void main(String[] args) throws IOException {
+        //Number of students to be added for each data set
+        int[] studentGroups = {10, 20, 50, 75, 100, 150};
         String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
         new File(folderPath).mkdir();
         for (int studentGroup : studentGroups) {
