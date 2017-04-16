@@ -1,7 +1,5 @@
 package teammates.client.scripts.util;
 
-import teammates.common.util.Logger;
-
 /**
  * Helper class to measure event durations.
  */
@@ -15,14 +13,10 @@ public class Stopwatch {
         startTime = System.nanoTime();
     }
 
-    private double getTimeElapsedInSeconds() {
-        return (System.nanoTime() - startTime) / 1000000000.0;
-    }
-
     /**
-     * Logs the time elapsed since the start using the supplied logger.
+     * Gets the time elapsed since the start.
      */
-    public void logTimeElapsedInSeconds(Logger log) {
-        log.info("Time taken: " + getTimeElapsedInSeconds());
+    public double getTimeElapsedInSeconds() {
+        return (System.nanoTime() - startTime) / 1000000000.0;
     }
 }

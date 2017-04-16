@@ -53,6 +53,6 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         enrollPage.enroll(enrollString);
-        stopwatch.logTimeElapsedInSeconds(log);
+        log.info("Time taken: " + stopwatch.getTimeElapsedInSeconds());
     }
 }
