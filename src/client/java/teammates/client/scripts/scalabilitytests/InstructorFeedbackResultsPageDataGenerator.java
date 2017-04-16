@@ -31,15 +31,15 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     class Account {
-        private String email = "CFResultsUiT.instr@gmail.tmt";
-        private String googleId = "CFResultsUiT.instr";
+        private String email = "CFResultsScT.instr@gmail.tmt";
+        private String googleId = "CFResultsScT.instr";
         private String institute = "TEAMMATES Test Institute 1";
         private String isInstructor = "true";
         private String name = "Teammates Test";
     }
 
     class Course {
-        private String id = "CFResultsUiT.CS2104";
+        private String id = "CFResultsScT.CS2104";
         private String name = "Programming Language Concepts";
         private String timeZone = "UTC";
     }
@@ -53,8 +53,8 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     class Question {
-        private String courseId = "CFResultsUiT.CS2104";
-        private String creatorEmail = "CFResultsUiT.instr@gmail.tmt";
+        private String courseId = "CFResultsScT.CS2104";
+        private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
         private String feedbackSessionName = "Open Session";
         private String giverType = "STUDENTS";
         private int numberOfEntitiesToGiveFeedbackTo = 4;
@@ -72,9 +72,9 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     class Session {
-        private String courseId = "CFResultsUiT.CS2104";
+        private String courseId = "CFResultsScT.CS2104";
         private String createdTime = "2012-04-01 11:59 PM UTC";
-        private String creatorEmail = "CFResultsUiT.instr@gmail.tmt";
+        private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
         private String endTime = "2026-04-30 11:59 PM UTC";
         private String feedbackSessionName = "Open Session";
         private String feedbackSessionType = "STANDARD";
@@ -110,10 +110,10 @@ public class InstructorFeedbackResultsPageDataGenerator {
             private String canmodifystudent = "true";
             private String canmodifyinstructor = "true";
         }
-        private String googleId = "CFResultsUiT.instr";
-        private String courseId = "CFResultsUiT.CS2104";
+        private String googleId = "CFResultsScT.instr";
+        private String courseId = "CFResultsScT.CS2104";
         private String name = "Teammates Test";
-        private String email = "CFResultsUiT.instr@gmail.tmt";
+        private String email = "CFResultsScT.instr@gmail.tmt";
         private String role = "Co-owner";
         private String isDisplayedToStudents = "false";
         private String displayedName = "Instructor";
@@ -124,10 +124,10 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     class Student {
-        private String googleId = "CFResultsUiT.";
+        private String googleId = "CFResultsScT.";
         private String comments = "This is a student.";
-        private String course = "CFResultsUiT.CS2104";
-        private String email = "CFResultsUiT.";
+        private String course = "CFResultsScT.CS2104";
+        private String email = "CFResultsScT.";
         private String name;
         private String section = "Section A";
         private String team = "Team 1";
@@ -147,7 +147,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private String giver;
         private String recipient;
         private String feedbackQuestionId;
-        private String courseId = "CFResultsUiT.CS2104";
+        private String courseId = "CFResultsScT.CS2104";
         private String feedbackQuestionType = "TEXT";
         private String feedbackSessionName = "Open Session";
         private String giverSection = "Section A";
@@ -162,10 +162,10 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     private InstructorFeedbackResultsPageDataGenerator(int numQuestions, int numStudents) {
-        courses.put("CFResultsUiT.CS2104", new Course());
-        accounts.put("CFResultsUiT.instr", new Account());
+        courses.put("CFResultsScT.CS2104", new Course());
+        accounts.put("CFResultsScT.instr", new Account());
         feedbackSessions.put("Open Session", new Session());
-        instructors.put("CFResultsUiT.instr", new Instructor());
+        instructors.put("CFResultsScT.instr", new Instructor());
 
         RandomNameGenerator nameGenerator = new RandomNameGenerator();
         for (int i = 0; i < numStudents; i++) {

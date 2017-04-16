@@ -41,8 +41,8 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseUiTestCase {
     private void testEnrollAction(int numStudents) throws IOException {
         AppUrl enrollUrl =
                 createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").getId());
+                        .withUserId(testData.instructors.get("CCEnrollScT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollScT.CS2104").getId());
 
         InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
