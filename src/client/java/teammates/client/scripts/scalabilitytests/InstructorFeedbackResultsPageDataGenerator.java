@@ -18,6 +18,7 @@ import java.util.Map;
 public class InstructorFeedbackResultsPageDataGenerator {
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
+    private Map<String, Instructor> instructors = new HashMap<>();
     private Map<String, Course> courses = new HashMap<>();
     private Map<String, Session> feedbackSessions = new HashMap<>();
     private Map<String, Response> feedbackResponses = new HashMap<>();
@@ -92,6 +93,36 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private double timeZone = 8.0;
     }
 
+    class Instructor {
+        class Privileges {
+            private CourseLevel courseLevel = new CourseLevel();
+        }
+        class CourseLevel {
+            private String canviewstudentinsection = "true";
+            private String cangivecommentinsection = "true";
+            private String cansubmitsessioninsection = "true";
+            private String canmodifysessioncommentinsection = "true";
+            private String canmodifycommentinsection = "true";
+            private String canmodifycourse = "true";
+            private String canviewsessioninsection = "true";
+            private String canmodifysession = "true";
+            private String canviewcommentinsection = "true";
+            private String canmodifystudent = "true";
+            private String canmodifyinstructor = "true";
+        }
+        private String googleId = "CFResultsUiT.instr";
+        private String courseId = "CFResultsUiT.CS2104";
+        private String name = "Teammates Test";
+        private String email = "CFResultsUiT.instr@gmail.tmt";
+        private String role = "Co-owner";
+        private String isDisplayedToStudents = "false";
+        private String displayedName = "Instructor";
+
+        private Privileges privileges = new Privileges();
+        private EmptyObject sectionLevel = new EmptyObject();
+        private EmptyObject sessionLevel = new EmptyObject();
+    }
+
     class Student {
         private String googleId = "CFResultsUiT.";
         private String comments = "This is a student.";
@@ -134,6 +165,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         courses.put("CFResultsUiT.CS2104", new Course());
         accounts.put("CFResultsUiT.instr", new Account());
         feedbackSessions.put("Open Session", new Session());
+        instructors.put("CFResultsUiT.instr", new Instructor());
 
         RandomNameGenerator nameGenerator = new RandomNameGenerator();
         for (int i = 0; i < numStudents; i++) {
