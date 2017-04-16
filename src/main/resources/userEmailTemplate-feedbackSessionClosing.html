@@ -3,18 +3,53 @@
 ${instructorFragment}
 
 <p>The following feedback session ${status}.
-    <br>&nbsp;&nbsp; Course: [${courseId}]${courseName} 
-    <br>&nbsp;&nbsp; Feedback Session Name: ${feedbackSessionName}
-    <br>&nbsp;&nbsp; Deadline: ${deadline}
     <div>
-        <table style="max-width:600px;border:1px solid black;margin-left:10px;">
-            <tr>
-                <th style="padding:10px;">
-                    Instructions for this feedback session are:<hr/>
+        <table style="max-width:600px;border:1px solid black;border-collapse:collapse;margin-left:10px;">
+            <tr style="">
+                <th colspan="2" style="padding:10px;text-align:center;font-size:120%;">
+                    Feedback Session Details
                 </th>
             </tr>
             <tr>
-                <td style="padding:0px 10px 10px 10px;">
+                <td style="padding:10px;border:1px solid black;">
+                    <strong>
+                        Course:
+                    </strong>
+                </td>
+                <td style="padding:10px;border:1px solid black;">
+                    [${courseId}] ${courseName} 
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding:10px;border:1px solid black;">
+                    <strong>
+                        Feedback Session Name:
+                    </strong>
+                </td>
+                <td style="padding:10px;border:1px solid black;">
+                    ${feedbackSessionName}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding:10px;border:1px solid black;">
+                    <strong>
+                        Deadline:
+                    </strong>
+                </td>
+                <td style="padding:10px;border:1px solid black;">
+                    ${deadline}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding:10px;border:1px solid black;">
+                    <strong>
+                        Session Instructions:
+                    </strong>
+                </td>
+                <td style="padding:10px;border:1px solid black;">
                     ${sessionInstructions}
                 </td>
             </tr>
