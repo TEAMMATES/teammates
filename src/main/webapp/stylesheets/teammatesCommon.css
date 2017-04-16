@@ -280,6 +280,10 @@ input.inline {
     margin-top: 7px;
 }
 
+.margin_top_50px {
+    margin-top: 50px;
+}
+
 .padding-0 {
     padding: 0;
 }
@@ -474,6 +478,10 @@ input.inline {
 
 .text-box-error {
     border: 2px solid red;
+}
+
+.no-bullets {
+    list-style: none;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
