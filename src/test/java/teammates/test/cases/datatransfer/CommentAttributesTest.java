@@ -9,14 +9,14 @@ import java.util.Set;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link CommentAttributes}.

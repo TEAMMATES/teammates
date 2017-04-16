@@ -5,14 +5,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
-
-import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailAttributes extends EntityAttributes {
 

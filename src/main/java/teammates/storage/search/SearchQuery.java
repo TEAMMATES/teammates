@@ -3,18 +3,17 @@ package teammates.storage.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.search.Query;
+import com.google.appengine.api.search.QueryOptions;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Query;
-import com.google.appengine.api.search.QueryOptions;
-
 /**
- * Defines how we query {@link Document}.
+ * Defines how we query {@link com.google.appengine.api.search.Document}.
  */
 public abstract class SearchQuery {
 
