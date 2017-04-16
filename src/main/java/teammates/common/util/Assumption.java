@@ -20,10 +20,16 @@ public final class Assumption {
         // Intentional private constructor to prevent instantiation.
     }
 
+    /**
+     * Asserts the detail message of exception and class. 
+     */
     public static void assertEception(String message, Exception e) {
     	throw new AssertionError(message, e);
     }
 
+    /**
+     * Asserts the detail message of the exception.
+     */
     public static void assertEception(String message) {
     	throw new AssertionError(message);
     }
