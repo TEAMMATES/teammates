@@ -15,7 +15,7 @@ import java.util.Map;
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
 @SuppressWarnings("PMD.UnusedPrivateField")//Inner classes and their fields are only used for JSON object generation.
-public class InstructorFeedbackResultsPageScaleTestDataGenerator {
+public class InstructorFeedbackResultsPageDataGenerator {
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
     private Map<String, Course> courses = new HashMap<>();
@@ -130,7 +130,7 @@ public class InstructorFeedbackResultsPageScaleTestDataGenerator {
         }
     }
 
-    private InstructorFeedbackResultsPageScaleTestDataGenerator(int numQuestions, int numStudents) {
+    private InstructorFeedbackResultsPageDataGenerator(int numQuestions, int numStudents) {
         courses.put("CFResultsUiT.CS2104", new Course());
         accounts.put("CFResultsUiT.instr", new Account());
         feedbackSessions.put("Open Session", new Session());
@@ -167,7 +167,7 @@ public class InstructorFeedbackResultsPageScaleTestDataGenerator {
                         folderPath
                         + "InstructorFeedbackResultsPageScaleTest-" + studentNum
                         + "Students" + questionNum + "Questions.json");
-                gson.toJson(new InstructorFeedbackResultsPageScaleTestDataGenerator(questionNum, studentNum), writer);
+                gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
                 writer.close();
             }
         }

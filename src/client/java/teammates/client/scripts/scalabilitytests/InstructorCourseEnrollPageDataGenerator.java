@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Generates test data for InstructorCourseEnrollPageScaleTest.
  */
-public final class InstructorCourseEnrollPageScaleTestDataGenerator {
+public final class InstructorCourseEnrollPageDataGenerator {
 
     private static final String FILENAME = "InstructorCourseEnrollPageScaleTestData";
 
@@ -19,7 +19,7 @@ public final class InstructorCourseEnrollPageScaleTestDataGenerator {
 
     private static final int[] studentGroups = {10, 20, 50, 75, 100, 150};
 
-    private InstructorCourseEnrollPageScaleTestDataGenerator() {
+    private InstructorCourseEnrollPageDataGenerator() {
     }
 
     private static String generateStudents(int num) {
