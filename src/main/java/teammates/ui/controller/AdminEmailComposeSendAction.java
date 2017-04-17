@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -13,9 +16,6 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailComposeSendAction extends Action {
 
@@ -123,6 +123,10 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
+
+        statusToAdmin.add("<br/>" + "Group receiver's list " + groupReceiverListFileKey);
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
+                     StatusMessageColor.SUCCESS));
     }
 
     private void moveJobToAddressModeTaskQueue() {
@@ -130,6 +134,10 @@ public class AdminEmailComposeSendAction extends Action {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
+
+        statusToAdmin.add("<br/>" + "Recipient: " + addressReceiverListString);
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
+                     StatusMessageColor.SUCCESS));
     }
 
     private void recordNewSentEmail(String subject,
@@ -150,6 +158,7 @@ public class AdminEmailComposeSendAction extends Action {
             setStatusForException(e, e.getMessage());
             return;
         }
+        statusToAdmin.add("Email queued for sending.");
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();

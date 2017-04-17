@@ -5,11 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
-import teammates.common.util.Logger;
-import teammates.common.util.ThreadHelper;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
@@ -20,6 +15,11 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.StatusCode;
+
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
+import teammates.common.util.Logger;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Manages {@link Document} and {@link Index} in the Datastore for use of search functions.

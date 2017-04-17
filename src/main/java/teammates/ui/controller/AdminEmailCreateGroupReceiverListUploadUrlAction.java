@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.ui.pagedata.AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData;
-
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
 

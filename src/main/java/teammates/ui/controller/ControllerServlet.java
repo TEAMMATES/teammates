@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
+import com.google.apphosting.api.DeadlineExceededException;
+
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
@@ -22,9 +25,6 @@ import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-import com.google.apphosting.api.DeadlineExceededException;
 
 /**
  * Receives requests from the Browser, executes the matching action and sends

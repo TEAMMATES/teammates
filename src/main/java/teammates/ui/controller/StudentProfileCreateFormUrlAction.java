@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Logger;
 import teammates.ui.pagedata.StudentProfileCreateFormUrlAjaxPageData;
-
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 /**
  * Action: generates the UploadUrl for pictures given by students.

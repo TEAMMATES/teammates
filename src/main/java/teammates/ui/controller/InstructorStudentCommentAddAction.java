@@ -8,10 +8,12 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -24,8 +26,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Url;
 import teammates.ui.pagedata.PageData;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Create a new {@link CommentAttributes}.

@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
+import com.google.apphosting.api.DeadlineExceededException;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-
-import com.google.apphosting.api.DeadlineExceededException;
 
 public class AdminExceptionTestAction extends Action {
 

@@ -1,17 +1,18 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -110,7 +111,7 @@ public class InstructorCommentsPageAction extends Action {
     private String getCoursePaginationList(List<String> coursePaginationList) {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
-        java.util.Collections.sort(courses);
+        Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             InstructorAttributes instructorOfCourse =
@@ -157,7 +158,7 @@ public class InstructorCommentsPageAction extends Action {
 
         //sort comments by created date
         for (List<CommentAttributes> commentList : giverEmailToCommentsMap.values()) {
-            java.util.Collections.sort(commentList);
+            Collections.sort(commentList);
         }
         return giverEmailToCommentsMap;
     }
