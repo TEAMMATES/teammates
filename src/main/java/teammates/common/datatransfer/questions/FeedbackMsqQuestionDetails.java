@@ -427,7 +427,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
      * Check if there is a non empty response.
      * @return -1 if there is no empty response else number of empty response.
      */
-    private int getQuestionResultStatistics(
+    private int getNumberOfEmptyResponse(
             List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
 
