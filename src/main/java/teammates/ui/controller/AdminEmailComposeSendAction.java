@@ -72,7 +72,7 @@ public class AdminEmailComposeSendAction extends Action {
             statusToAdmin.add("Error : No reciver address or file given");
             statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));
         }
-      
+        
         if (isError) {
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
