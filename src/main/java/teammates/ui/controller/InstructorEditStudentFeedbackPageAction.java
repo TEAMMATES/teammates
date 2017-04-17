@@ -2,8 +2,8 @@ package teammates.ui.controller;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;

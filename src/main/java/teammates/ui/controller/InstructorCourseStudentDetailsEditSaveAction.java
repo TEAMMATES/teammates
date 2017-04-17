@@ -15,8 +15,8 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.logic.api.EmailGenerator;
+import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 

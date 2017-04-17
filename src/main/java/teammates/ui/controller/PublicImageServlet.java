@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry;
@@ -15,10 +19,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 /**
  * Serves the public image stored in google cloud storage using the blobkey.<br>
