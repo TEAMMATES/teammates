@@ -460,7 +460,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 answerStrings.remove(otherAnswer);
             }
 
-            int numChoices = checkContainsNonEmptyResponse(answerStrings, answerFrequency);
+            int numChoices = getNumberOfEmptyResponseOfQuestion(answerStrings, answerFrequency);
             if (numChoices > 0) {
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected += numChoices;
