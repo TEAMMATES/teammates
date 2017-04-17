@@ -616,9 +616,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
         resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContainElement(By.id("frComment-visibility-options-trigger-0-1-0-1-1"));
+        resultsPage.verifyContainsElement(By.id("frComment-visibility-options-trigger-0-1-0-1-1"));
         resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyContainElement(By.id("visibility-options-0-1-0-1-2"));
+        resultsPage.verifyContainsElement(By.id("visibility-options-0-1-0-1-2"));
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 

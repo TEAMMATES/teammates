@@ -919,7 +919,7 @@ public abstract class AppPage {
         return this;
     }
 
-    public void verifyContainElement(By by) {
+    public void verifyContainsElement(By by) {
         List<WebElement> elements = browser.driver.findElements(by);
         assertFalse(elements.isEmpty());
     }
