@@ -3,6 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -30,8 +32,6 @@ import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_HOME_PAGE}.

@@ -2,11 +2,11 @@ package teammates.test.cases.util;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.EmailWrapper;
 import teammates.test.cases.BaseTestCase;
-
-import com.google.appengine.api.log.AppLogLine;
 
 /**
  * SUT: {@link EmailLogEntry}.

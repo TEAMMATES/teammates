@@ -7,9 +7,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.AccountsLogic;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.core.AccountsLogic;
 import teammates.ui.automated.InstructorCourseJoinEmailWorkerAction;
 
 /**

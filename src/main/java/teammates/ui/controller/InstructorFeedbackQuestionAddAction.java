@@ -3,19 +3,19 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
-
-import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackQuestionAddAction extends Action {
 

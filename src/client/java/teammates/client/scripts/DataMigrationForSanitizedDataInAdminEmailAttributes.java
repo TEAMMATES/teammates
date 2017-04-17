@@ -1,5 +1,10 @@
 package teammates.client.scripts;
 
+import java.io.IOException;
+import java.util.List;
+
+import com.google.appengine.api.datastore.Text;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.DataMigrationForSanitizedDataHelper;
 import teammates.client.scripts.util.LoopHelper;
@@ -9,11 +14,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.storage.api.AdminEmailsDb;
-
-import java.io.IOException;
-import java.util.List;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Script to desanitize content of AdminEmailAttributes if it is sanitized.
