@@ -29,7 +29,7 @@ public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
-    public void clickAjaxLoadedPanelAndWaitForExpansion(
+    protected void clickAjaxLoadedPanelAndWaitForExpansion(
             InstructorFeedbackResultsPage resultsPage, String panelId, String ajaxClass) {
         resultsPage.clickElementById(panelId);
         resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
