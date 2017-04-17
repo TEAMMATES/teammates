@@ -69,6 +69,7 @@ public class InstructorCourseAddAction extends Action {
 
         String courseIdToShowParam = "";
         String courseNameToShowParam = "";
+        statusToAdmin.clear();
 
         if (isError) { // there is error in adding the course
             courseIdToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getId());

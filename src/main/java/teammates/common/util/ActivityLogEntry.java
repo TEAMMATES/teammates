@@ -140,7 +140,7 @@ public class ActivityLogEntry {
         }
         action = servletName; //TODO: remove this?
         toShow = true;
-        message = StringHelper.join("", logMessage.toArray(new String[logMessage.size()]));
+        message = logMessage.isEmpty() ? "null" : StringHelper.join("", logMessage.toArray(new String[logMessage.size()]));
         url = requestUrl;
 
         boolean isAccountWithGoogleId = userAccount != null && userAccount.googleId != null;
