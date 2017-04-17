@@ -418,10 +418,4 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         return loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
     }
-
-    private void clickAjaxLoadedPanelAndWaitForExpansion(
-            InstructorFeedbackResultsPage resultsPage, String panelId, String ajaxClass) {
-        resultsPage.clickElementById(panelId);
-        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
-    }
 }
