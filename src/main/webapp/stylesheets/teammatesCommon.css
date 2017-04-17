@@ -280,10 +280,6 @@ input.inline {
     margin-top: 7px;
 }
 
-.margin_top_50px {
-    margin-top: 50px;
-}
-
 .padding-0 {
     padding: 0;
 }
@@ -478,10 +474,6 @@ input.inline {
 
 .text-box-error {
     border: 2px solid red;
-}
-
-.no-bullets {
-    list-style: none;
 }
 
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
@@ -1157,4 +1149,14 @@ Prevent Long URL From Breaking Out of Container
 .courses-table-dropdown {
     float: left;
     margin-right: 5px;
+}
+
+/*
+Glyphicon for success status messages
+*/
+.alert-success:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: 2px;
+    content: '\e084';
 }
