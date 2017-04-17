@@ -479,7 +479,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
-    private int checkContainsNonEmptyResponse(List<String> answerStrings, Map<String, Integer> answerFrequency) {
+    private int getNumberOfEmptyResponseOfQuestion(List<String> answerStrings, Map<String, Integer> answerFrequency) {
         int numChoices = 0;
         for (String answerString : answerStrings) {
             if (answerString.isEmpty()) {
