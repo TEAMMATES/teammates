@@ -17,7 +17,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
-public final class AdminEmailComposeSendAction extends Action {
+public class AdminEmailComposeSendAction extends Action {
 
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
