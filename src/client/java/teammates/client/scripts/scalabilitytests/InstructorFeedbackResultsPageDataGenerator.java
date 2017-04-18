@@ -141,8 +141,8 @@ public class InstructorFeedbackResultsPageDataGenerator {
             this.email += name + "@gmail.tmt";
         }
 
-        public String getGoogleId() {
-            return googleId;
+        public String getEmail() {
+            return email;
         }
     }
 
@@ -183,7 +183,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
                 for (Student recipient : students.values()) {
                     feedbackResponses.put(
                             "response" + count,
-                            new Response(giver.getGoogleId(), recipient.getGoogleId(), String.valueOf(i)));
+                            new Response(giver.getEmail(), recipient.getEmail(), String.valueOf(i)));
                     count++;
                 }
             }
