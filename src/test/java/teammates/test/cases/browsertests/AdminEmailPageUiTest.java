@@ -47,7 +47,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("send email - no recipient");
 
         emailPage.clickSendButton();
-        emailPage.verifyStatus("Error : No reciver address or file given");
+        emailPage.verifyStatus("Error : No receiver address or file given");
 
         ______TS("send email - recipient email format error");
 
