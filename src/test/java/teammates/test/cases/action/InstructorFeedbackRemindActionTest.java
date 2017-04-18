@@ -6,8 +6,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackRemindAction;
-import teammates.ui.controller.RedirectResult;
+import teammates.ui.pagedata.InstructorFeedbackRemindAjaxPageData;
 
 /**
  * SUT: {@link InstructorFeedbackRemindAction}.
@@ -47,8 +48,10 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
 
         InstructorFeedbackRemindAction action = getAction(paramsTypical);
 
-        RedirectResult rr = getRedirectResult(action);
-        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT));
+        AjaxResult ar = getAjaxResult(action);
+        InstructorFeedbackRemindAjaxPageData pageData = (InstructorFeedbackRemindAjaxPageData) ar.data;
+
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, pageData.getStatusForAjax());
 
         verifySpecifiedTasksAdded(action,
                 TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME, 1);

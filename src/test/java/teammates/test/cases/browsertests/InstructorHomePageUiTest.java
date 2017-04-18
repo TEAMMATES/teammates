@@ -71,7 +71,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTMLWithUnloadedCourse.html");
-
+        logout();
         loginAsCommonInstructor();
     }
 

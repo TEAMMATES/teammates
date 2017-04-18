@@ -59,6 +59,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"
                href="${actions.remindLink}"
                data-fsname="${actions.fsName}"
+               data-courseid="${actions.courseId}"
                <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
                 Remind
             </a>
@@ -74,6 +75,7 @@
                     <a href="${actions.remindLink}"
                        class="session-remind-inner-for-test"
                        data-fsname="${actions.fsName}"
+                       data-courseid="${actions.courseId}"
                        <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
                         Remind all students
                     </a>

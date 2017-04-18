@@ -335,7 +335,21 @@ function bindRemindButtons() {
         const messageText = `Send e-mails to remind students who have not submitted their feedback for ${
                            $button.data('fsname')}?`;
         const okCallback = function () {
-            window.location = $button.attr('href');
+            $.ajax({
+                url: '/page/instructorFeedbackRemind',
+                type: 'POST',
+                data: {
+                    fsname: $button.data('fsname'),
+                    courseid: $button.data('courseid'),
+                },
+                success(result) {
+                    if (result.hasError) {
+                        setStatusMessage(result.ajaxStatus, StatusType.DANGER);
+                    } else {
+                        setStatusMessage(result.ajaxStatus, StatusType.SUCCESS);
+                    }
+                },
+            });
         };
 
         BootboxWrapper.showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,

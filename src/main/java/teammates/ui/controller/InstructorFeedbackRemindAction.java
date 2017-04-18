@@ -1,8 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.util.Const;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorFeedbackRemindAjaxPageData;
 
 public class InstructorFeedbackRemindAction extends Action {
 
@@ -21,14 +20,16 @@ public class InstructorFeedbackRemindAction extends Action {
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
+        InstructorFeedbackRemindAjaxPageData data = new InstructorFeedbackRemindAjaxPageData(account);
 
-        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
+        taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
+        data.ajaxStatus = Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT;
+
         statusToAdmin = "Email sent out to all students who have not completed "
                       + "Feedback Session <span class=\"bold\">(" + feedbackSessionName
                       + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
 
-        return createRedirectResult(nextUrl);
+        return createAjaxResult(data);
     }
 
 }
