@@ -317,7 +317,10 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName()
+                    + "(" + fsa.getSessionStartTime()
+                    + " - " + fsa.getSessionEndTime()
+                    + ")");
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -328,7 +331,11 @@ public class AdminSearchPageAction extends Action {
                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
+            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName()
+                    + " (Currently Not Open)"
+                    + "(" + fsa.getSessionStartTime()
+                    + " - " + fsa.getSessionEndTime()
+                    + ")");
         }
 
         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
@@ -347,7 +354,11 @@ public class AdminSearchPageAction extends Action {
                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
+            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName()
+                    + " (Published)"
+                    + "(" + fsa.getSessionStartTime()
+                    + " - " + fsa.getSessionEndTime()
+                    + ")");
         }
         return data;
     }
