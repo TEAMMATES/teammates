@@ -11,7 +11,7 @@ public class StudentCourseDetailsPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);

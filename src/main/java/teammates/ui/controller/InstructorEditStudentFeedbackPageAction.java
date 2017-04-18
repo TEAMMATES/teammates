@@ -46,9 +46,9 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
 
         String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
 
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, courseId);
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, moderatedEntityIdentifier);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedEntityIdentifier);
 
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
 

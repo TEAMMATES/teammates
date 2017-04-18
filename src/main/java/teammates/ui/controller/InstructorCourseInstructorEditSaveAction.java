@@ -98,7 +98,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
     private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId,
                                                           String instructorName, String instructorEmail) {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
-        Assumption.assertNotNull(instructorRole);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_ROLE_NAME, instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
         if (displayedName == null || displayedName.isEmpty()) {

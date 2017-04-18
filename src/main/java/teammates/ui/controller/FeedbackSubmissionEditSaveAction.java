@@ -305,24 +305,27 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
 
         response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, response.feedbackSessionName);
 
         response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull("Null feedback courseId", response.courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, response.courseId);
 
         response.feedbackQuestionId = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
-        Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx,
+                response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
                                 response.feedbackQuestionId);
 
         response.recipient = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
-        Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-"
+                + responseIndx, response.recipient);
 
         String feedbackQuestionType = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
-        Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx,
+                feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
 
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;

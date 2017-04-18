@@ -28,13 +28,13 @@ public class InstructorStudentRecordsPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 

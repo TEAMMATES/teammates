@@ -25,7 +25,7 @@ public class PutCommentDocumentWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
-        Assumption.assertNotNull(commentId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
 
         CommentAttributes comment = logic.getComment(Long.valueOf(commentId));
         if (comment == null) {
