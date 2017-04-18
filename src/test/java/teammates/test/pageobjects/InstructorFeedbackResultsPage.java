@@ -250,7 +250,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     /**
-     * Wait for Ajax loaded panel to be expanded. The panel is expanded when Ajax loading finishes,
+     * Waits for Ajax loaded panel to be expanded. The panel is expanded when Ajax loading finishes,
      * which is identified by the removal of Ajax class in the element.
      *
      * @param panelId the Id of panel element
