@@ -723,9 +723,9 @@ public final class CoursesLogic {
     }
 
     /**
-     * Return true if at least one instructor in the course display to students otherwise false.
+     * Returns {@code true} if at least one of the instructors is visible to students.
      */
-    public boolean isAtLeastOneInstructorDisplayedToStudents(List<InstructorAttributes> instructors, String email) {
+    public boolean isAtLeastOneInstructorVisibleToStudents(List<InstructorAttributes> instructors, String email) {
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isDisplayedToStudents && !instructor.email.equals(email)) {
                 return true;

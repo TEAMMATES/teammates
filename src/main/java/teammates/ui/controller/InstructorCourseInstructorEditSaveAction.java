@@ -38,7 +38,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             } else {
                 instructortoEdit = logic.getInstructorForGoogleId(courseId, instructorId);
             }
-            isError = !logic.isAtLeastOneInstructorDisplayedToStudents(instructors, instructortoEdit.email);
+            isError = !logic.isAtLeastOneInstructorVisibleToStudents(instructors, instructortoEdit.email);
         }
         if (isError) {
             statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR, StatusMessageColor.DANGER));

@@ -1091,10 +1091,10 @@ public class Logic {
     }
 
     /**
-     * Return error message if no instructor display to students.
+     * Returns {@code true} if at least one of the instructors is visible to students.
      */
-    public boolean isAtLeastOneInstructorDisplayedToStudents(List<InstructorAttributes> instructors, String email) {
-        return coursesLogic.isAtLeastOneInstructorDisplayedToStudents(instructors, email);
+    public boolean isAtLeastOneInstructorVisibleToStudents(List<InstructorAttributes> instructors, String email) {
+        return coursesLogic.isAtLeastOneInstructorVisibleToStudents(instructors, email);
     }
 
     /**

@@ -29,7 +29,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         /* Process deleting an instructor and setup status to be shown to user and admin */
         if (hasAlternativeInstructor(courseId, instructorEmail)) {
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            isError = !logic.isAtLeastOneInstructorDisplayedToStudents(instructors, instructorEmail);
+            isError = !logic.isAtLeastOneInstructorVisibleToStudents(instructors, instructorEmail);
             if (isError) {
                 statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR,
                                                    StatusMessageColor.DANGER));
