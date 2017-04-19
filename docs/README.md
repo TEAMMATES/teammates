@@ -33,3 +33,9 @@ Here are some documents important for TEAMMATES developers.
 * [Static analysis](staticAnalysis.md): Performing code quality check.
 * [Setting up third-party email providers](emails.md).
 * ["GodMode"](godmode.md)
+
+## Technical Reports
+
+> These are the in-depth descriptions about various aspects of the project.
+
+* [Measuring the scalability and performance of TEAMMATES](techReports/Measuring-scalability-and-performance.md) - by Samson Tan Min Rong
