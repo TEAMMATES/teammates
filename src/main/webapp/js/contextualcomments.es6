@@ -6,7 +6,7 @@
            scrollToTop:false,
  */
 
-$(document).ready(() => {
+function prepareComments() {
     $('#button_add_comment').click(() => {
         if ($('#commentArea').is(':visible')) {
             $('#commentArea').hide();
@@ -129,4 +129,4 @@ $(document).ready(() => {
             commentRecipientSelectChangeHandler();
         }
     }
-});
+}

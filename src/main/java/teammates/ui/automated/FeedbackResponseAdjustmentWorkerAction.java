@@ -2,18 +2,18 @@ package teammates.ui.automated;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.api.GateKeeper;
 import teammates.common.util.JsonUtils;
-
-import com.google.gson.reflect.TypeToken;
+import teammates.common.util.Logger;
+import teammates.logic.api.GateKeeper;
 
 /**
  * Task queue worker action: adjusts feedback responses in the database due to

@@ -7,6 +7,9 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -14,9 +17,6 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link StudentProfileAttributes}.

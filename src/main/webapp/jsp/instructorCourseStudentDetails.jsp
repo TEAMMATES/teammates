@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/contextualcomments.js"></script>
+    <script type="text/javascript" src="/js/instructorCourseStudentDetails.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Student Details" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

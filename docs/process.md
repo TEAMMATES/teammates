@@ -108,7 +108,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      ```sh
      ./gradlew staticAnalysis
      ```
-   * **Dev green**, i.e. all *local tests* are passing on your dev server. Local tests can be run using the "Local Tests" run configuration in Eclipse.<br>
+   * **Dev green**, i.e. all *local tests* are passing on your dev server.<br>
      You are more than welcome to also ensure all *CI tests* are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
      ensure that the affected tests are passing against the updated app running on your own GAE staging server.

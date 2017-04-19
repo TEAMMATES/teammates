@@ -15,7 +15,6 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacksSpecific.js"></script>
 </c:set>
