@@ -39,12 +39,13 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                 instructortoEdit = logic.getInstructorForGoogleId(courseId, instructorId);
             }
             isError = !logic.isAtLeastOneInstructorVisibleToStudents(instructors, instructortoEdit.email);
-        }
-        if (isError) {
-            statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR, StatusMessageColor.DANGER));
-            RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
-            result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-            return result;
+            if (isError) {
+                statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR,
+                                 StatusMessageColor.DANGER));
+                RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+                result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+                return result;
+            }
         }
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
