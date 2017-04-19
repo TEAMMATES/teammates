@@ -695,7 +695,7 @@ public class EmailGenerator {
         String coOwnersEmailsList = "";
         for (InstructorAttributes instructor: instructors) {
             if(instructor.hasCoownerPrivileges()) {
-                coOwnersEmailsList += instructor.getEmail()+", ";
+                coOwnersEmailsList += (instructor.getName()+"("+instructor.getEmail()+"), ");
             }
         }
         return coOwnersEmailsList.substring(0,coOwnersEmailsList.length()-2);
