@@ -459,7 +459,7 @@ function executeCopyCommand() {
 // Initial load-up
 // -----------------------------------------------------------------------------
 
-$(document).ready(() => {
+function prepareInstructorPages() {
     // bind the show picture onclick events
     bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
 
@@ -469,4 +469,4 @@ $(document).ready(() => {
     // bind the event handler to show confirmation modal
     bindCourseDeleteLinks();
     bindSessionDeleteLinks();
-});
+}

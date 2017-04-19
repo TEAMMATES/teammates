@@ -11,10 +11,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
 

@@ -1,4 +1,4 @@
-$(document).ready(() => {
+function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
         const actionlink = button.data('actionlink');
@@ -22,4 +22,4 @@ $(document).ready(() => {
             },
         });
     });
-});
+}

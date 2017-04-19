@@ -42,6 +42,11 @@ public class AdminEmailPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void clearRecipientBox() {
+        WebElement recipientBox = this.getRecipientBox();
+        recipientBox.clear();
+    }
+
     public void clearSubjectBox() {
         WebElement subjectBox = this.getSubjectBox();
         subjectBox.clear();
