@@ -8,6 +8,9 @@ import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link ActionResult}.
+ */
 public class ActionResultTest extends BaseTestCase {
 
     @Test

@@ -8,10 +8,12 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -24,8 +26,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Url;
 import teammates.ui.pagedata.PageData;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Create a new {@link CommentAttributes}.
@@ -62,8 +62,9 @@ public class InstructorStudentCommentAddAction extends Action {
 
         try {
             CommentAttributes createdComment = logic.createComment(comment);
-            //TODO: move putDocument to Task Queue
-            logic.putDocument(createdComment);
+            //in case document production requires many retries
+            taskQueuer.scheduleSearchableDocumentsProductionForComments(
+                    Long.toString(createdComment.getCommentId()));
             String commentPlainText = Jsoup.clean(createdComment.getCommentText(), Whitelist.none());
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COMMENT_ADDED, commentPlainText),
                                                StatusMessageColor.SUCCESS));
@@ -203,7 +204,7 @@ public class InstructorStudentCommentAddAction extends Action {
                || comment.isVisibleTo(CommentParticipantType.COURSE);
     }
 
-    public String getCourseStudentDetailsLink(String courseId, String studentEmail) {
+    private String getCourseStudentDetailsLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);

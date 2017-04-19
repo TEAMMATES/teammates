@@ -2,14 +2,17 @@ package teammates.test.cases.util;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.api.log.AppLogLine;
-
+/**
+ * SUT: {@link ActivityLogEntry}.
+ */
 public class ActivityLogEntryTest extends BaseTestCase {
 
     @Test

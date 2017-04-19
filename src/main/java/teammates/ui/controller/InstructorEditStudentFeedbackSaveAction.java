@@ -1,9 +1,9 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -11,13 +11,16 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
 
-    StudentAttributes moderatedStudent;
+    private static final Logger log = Logger.getLogger();
+
+    private StudentAttributes moderatedStudent;
 
     @Override
     protected void verifyAccesibleForSpecificUser() {

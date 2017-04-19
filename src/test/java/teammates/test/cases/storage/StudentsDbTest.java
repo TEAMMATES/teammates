@@ -16,6 +16,9 @@ import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link StudentsDb}.
+ */
 public class StudentsDbTest extends BaseComponentTestCase {
 
     private StudentsDb studentsDb = new StudentsDb();

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -19,7 +19,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
@@ -32,8 +31,6 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
  * Data and utility methods needed to render a specific page.
  */
 public class PageData {
-
-    protected static final Logger log = Logger.getLogger();
 
     /** The user for whom the pages are displayed (i.e. the 'nominal user').
      *  May not be the logged in user (under masquerade mode) */

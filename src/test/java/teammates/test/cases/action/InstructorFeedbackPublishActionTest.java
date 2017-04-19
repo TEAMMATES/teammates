@@ -14,6 +14,9 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackPublishAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorFeedbackPublishAction}.
+ */
 public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
     @Override

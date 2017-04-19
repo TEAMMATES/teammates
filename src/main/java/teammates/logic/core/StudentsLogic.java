@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -532,6 +532,13 @@ public final class StudentsLogic {
 
     public void putDocument(StudentAttributes student) {
         studentsDb.putDocument(student);
+    }
+
+    /**
+     * Batch creates or updates documents for the given students.
+     */
+    public void putDocuments(List<StudentAttributes> students) {
+        studentsDb.putDocuments(students);
     }
 
     private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument)

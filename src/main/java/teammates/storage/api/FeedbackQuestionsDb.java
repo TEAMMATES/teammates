@@ -7,13 +7,14 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -24,6 +25,8 @@ import teammates.storage.entity.FeedbackQuestion;
  */
 public class FeedbackQuestionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {

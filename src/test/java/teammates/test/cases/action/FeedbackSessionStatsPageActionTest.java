@@ -10,6 +10,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FeedbackSessionStatsPageAction;
 import teammates.ui.pagedata.FeedbackSessionStatsPageData;
 
+/**
+ * SUT: {@link FeedbackSessionStatsPageAction}.
+ */
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 
     @Override

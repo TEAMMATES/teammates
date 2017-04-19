@@ -11,13 +11,14 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
@@ -30,6 +31,8 @@ import teammates.storage.entity.FeedbackSession;
 public class FeedbackSessionsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
             throws InvalidParametersException {

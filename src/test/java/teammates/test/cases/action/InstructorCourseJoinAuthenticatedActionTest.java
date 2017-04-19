@@ -13,6 +13,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseJoinAuthenticatedAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseJoinAuthenticatedAction}.
+ */
 public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
     @Override

@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -16,8 +18,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
-
-import com.google.appengine.api.datastore.Text;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -159,22 +159,20 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForEmail(creatorEmail);
+        // special case when additional text should be added to error text
+        String error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
-            errors.add("Invalid creator's email: " + error);
+            error = new StringBuffer()
+                    .append("Invalid creator's email: ")
+                    .append(error)
+                    .toString();
         }
+        addNonEmptyError(error, errors);
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 

@@ -10,6 +10,9 @@ import teammates.ui.controller.InstructorCoursesPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
+/**
+ * SUT: {@link InstructorCoursesPageAction}.
+ */
 public class InstructorCoursesPageActionTest extends BaseActionTest {
 
     @Override

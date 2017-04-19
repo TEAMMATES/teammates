@@ -8,6 +8,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfilePictureEditAction;
 
+/**
+ * SUT: {@link StudentProfilePictureEditAction}.
+ */
 public class StudentProfilePictureEditActionTest extends BaseActionTest {
 
     @Override

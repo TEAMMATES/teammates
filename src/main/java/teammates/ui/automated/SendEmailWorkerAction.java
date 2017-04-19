@@ -4,11 +4,14 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: sends queued email.
  */
 public class SendEmailWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {

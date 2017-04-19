@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.Config;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link Config}.
+ */
 public class BuildPropertiesTest extends BaseTestCase {
 
     @Test

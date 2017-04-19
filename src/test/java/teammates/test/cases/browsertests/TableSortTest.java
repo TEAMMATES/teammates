@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
 
 /**
- * Covers the table sorting functionality.
+ * Verifies that the table sorting functions work.
  */
 public class TableSortTest extends BaseUiTestCase {
     private AppPage page;

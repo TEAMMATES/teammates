@@ -8,20 +8,23 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributesFactory;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.StudentUpdateStatus;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -41,9 +44,9 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.CourseStudent;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link StudentsLogic}.
+ */
 public class StudentsLogicTest extends BaseLogicTest {
 
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -588,7 +591,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     /**
      * Returns the error message of EnrollException thrown when trying to call
-     * {@link teammates.logic.core.StudentsLogic#createStudents(String, String)} method with
+     * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
      * {@link #signalFailureToDetectException()}.
      *

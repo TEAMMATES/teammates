@@ -10,8 +10,7 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 
 /**
- * Covers the 'accounts management' view for admins.
- * SUT: {@link AdminAccountDetailsPage}
+ * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_DETAILS_PAGE}.
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {

@@ -7,12 +7,15 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: prepares admin email to be sent via task queue in address mode,
  * i.e. using the address list given directly.
  */
 public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {
@@ -46,7 +49,7 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
 
         for (String emailAddress : addressList) {
             taskQueuer.scheduleAdminEmailForSending(emailId, emailAddress, adminEmail.getSubject(),
-                                                    adminEmail.getContent().getValue());
+                                                    adminEmail.getContentValue());
         }
     }
 

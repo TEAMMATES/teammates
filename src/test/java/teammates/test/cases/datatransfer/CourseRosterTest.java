@@ -10,6 +10,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link CourseRoster}.
+ */
 public class CourseRosterTest extends BaseTestCase {
 
     @Test

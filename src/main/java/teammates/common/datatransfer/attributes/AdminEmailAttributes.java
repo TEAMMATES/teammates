@@ -5,14 +5,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
-
-import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailAttributes extends EntityAttributes {
 
@@ -53,17 +53,10 @@ public class AdminEmailAttributes extends EntityAttributes {
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForEmailContent(content);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForEmailContent(content), errors);
 
-        error = validator.getInvalidityInfoForEmailSubject(subject);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForEmailSubject(subject), errors);
 
         return errors;
     }
@@ -96,7 +89,6 @@ public class AdminEmailAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         this.subject = SanitizationHelper.sanitizeTextField(subject);
-        this.content = new Text(SanitizationHelper.sanitizeForHtml(content.getValue()));
     }
 
     public String getEmailId() {
@@ -123,8 +115,8 @@ public class AdminEmailAttributes extends EntityAttributes {
         return this.createDate;
     }
 
-    public Text getContent() {
-        return this.content;
+    public String getContentValue() {
+        return this.content.getValue();
     }
 
     public boolean getIsInTrashBin() {
@@ -149,10 +141,6 @@ public class AdminEmailAttributes extends EntityAttributes {
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
 
         return TimeHelper.formatTime12H(cal.getTime());
-    }
-
-    public String getContentForDisplay() {
-        return SanitizationHelper.desanitizeFromHtml(this.getContent().getValue());
     }
 
     public String getFirstAddressReceiver() {

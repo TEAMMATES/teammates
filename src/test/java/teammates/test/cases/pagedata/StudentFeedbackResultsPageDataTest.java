@@ -8,8 +8,8 @@ import java.util.Map;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -20,6 +20,9 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
+/**
+ * SUT: {@link StudentFeedbackResultsPageData}.
+ */
 public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 

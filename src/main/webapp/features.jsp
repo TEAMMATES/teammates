@@ -103,7 +103,7 @@
                 <h2 class="color_orange col-xs-12">No signup required for students</h2>
                 <img class="img-responsive col-xs-12" src="images/feature-nosignuprequired.png" alt="No signup required for students">
                 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    Students can submit responses and view published responses using the unique links TEAMMATES email them, without having to login or signup.
+                    Students can submit responses and view published responses using the unique links TEAMMATES emails them, without having to login or signup.
                     <br><br>
                     If they login to TEAMMATES using their Google accounts (optional), they can access all TEAMMATES courses in one page and access even more features such as setting up profiles.
                 </div>
@@ -118,7 +118,7 @@
                 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
                     You can download the collected responses (and statistics) as spreadsheets.
                     <br><br>
-                    The collected data belong to you and you may delete your data from TEAMMATES any time.
+                    The collected data belongs to you and you may delete your data from TEAMMATES any time.
                 </div>
                 <img class="img-responsive" src="images/raised-edge.png">
             </div>

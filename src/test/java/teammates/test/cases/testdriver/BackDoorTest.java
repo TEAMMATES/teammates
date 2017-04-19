@@ -3,9 +3,11 @@ package teammates.test.cases.testdriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -16,8 +18,9 @@ import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link BackDoor}.
+ */
 @Priority(2)
 public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 

@@ -360,6 +360,30 @@
         "INSTRUCTORS",
         "RECEIVER"
       ]
+    },
+    "CHomeUiT.CS2104:Third Feedback Session:Q1": {
+      "feedbackSessionName": "Third Feedback Session",
+      "courseId": "CHomeUiT.CS2104",
+      "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {},

@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -16,8 +18,9 @@ import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
+/**
+ * SUT: {@link ProfilesDb}.
+ */
 public class ProfilesDbTest extends BaseComponentTestCase {
 
     private ProfilesDb profilesDb = new ProfilesDb();

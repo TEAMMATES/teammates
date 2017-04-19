@@ -4,11 +4,14 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link StudentAttributesFactory}.
+ */
 public class StudentAttributesFactoryTest extends BaseTestCase {
 
     @Test

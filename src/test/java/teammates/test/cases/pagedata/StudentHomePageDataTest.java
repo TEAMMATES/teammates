@@ -7,11 +7,11 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -22,6 +22,9 @@ import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
+/**
+ * SUT: {@link StudentHomePageData}.
+ */
 public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
 

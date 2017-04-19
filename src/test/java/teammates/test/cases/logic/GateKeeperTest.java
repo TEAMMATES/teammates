@@ -2,13 +2,16 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
+/**
+ * SUT: {@link GateKeeper}.
+ */
 public class GateKeeperTest extends BaseLogicTest {
 
     private static GateKeeper gateKeeper = new GateKeeper();

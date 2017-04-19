@@ -8,6 +8,9 @@ import teammates.ui.controller.AdminAccountDetailsPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
+/**
+ * SUT: {@link AdminAccountDetailsPageAction}.
+ */
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
     @Override

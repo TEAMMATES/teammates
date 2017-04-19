@@ -2,8 +2,8 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -14,6 +14,9 @@ import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.pagedata.AdminHomePageData;
 
+/**
+ * SUT: {@link AdminInstructorAccountAddAction}.
+ */
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
     @Override

@@ -8,6 +8,9 @@ import teammates.logic.core.AccountsLogic;
 import teammates.ui.controller.AdminAccountDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link AdminAccountDeleteAction}.
+ */
 public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
     @Override

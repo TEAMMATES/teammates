@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
@@ -25,8 +25,8 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         super(account);
     }
 
-    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor, int pendingComments,
-                     List<String> sectionNames) {
+    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor,
+            int pendingComments) {
         this.index = tableIndex;
         this.courseTable = createCourseTable(
                 courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments);

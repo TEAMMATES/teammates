@@ -11,6 +11,9 @@ import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 
+/**
+ * Verifies that God mode is working properly.
+ */
 public class GodModeTest extends BaseUiTestCase {
 
     private static final String PLACEHOLDER_CONTENT = "<div id=\"mainContent\">test</div>";

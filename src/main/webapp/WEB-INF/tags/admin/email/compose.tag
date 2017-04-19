@@ -37,7 +37,7 @@
         <br>
         <p>
             <textarea cols="80" id="adminEmailBox" name="<%=Const.ParamsNames.ADMIN_EMAIL_CONTENT%>" rows="10">
-                ${not empty emailToEdit ? emailToEdit.contentForDisplay : ''}
+                ${not empty emailToEdit ? emailToEdit.contentValue : ''}
             </textarea>
         </p>
         <p>

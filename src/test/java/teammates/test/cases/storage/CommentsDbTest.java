@@ -11,9 +11,11 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -23,8 +25,9 @@ import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link CommentsDb}.
+ */
 public class CommentsDbTest extends BaseComponentTestCase {
 
     private String courseId = "CDT.courseId";

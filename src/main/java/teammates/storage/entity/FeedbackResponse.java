@@ -8,11 +8,14 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * Represents a feedback response.
+ */
 @PersistenceCapable
 public class FeedbackResponse implements StoreCallback {
 

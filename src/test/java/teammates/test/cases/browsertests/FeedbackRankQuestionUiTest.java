@@ -13,6 +13,10 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
+ *      specifically for rank questions.
+ */
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -413,7 +417,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultPage = loginAdminToPage(resultsPageUrl, InstructorFeedbackResultsPage.class);
+        resultPage.expandPanels();
+
+        return resultPage;
     }
 
 }

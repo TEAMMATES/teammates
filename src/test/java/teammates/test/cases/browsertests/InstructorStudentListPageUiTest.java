@@ -24,7 +24,7 @@ import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * Covers the 'student list' view for instructors.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {

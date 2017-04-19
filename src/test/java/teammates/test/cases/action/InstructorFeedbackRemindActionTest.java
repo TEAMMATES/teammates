@@ -9,6 +9,9 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.ui.controller.InstructorFeedbackRemindAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorFeedbackRemindAction}.
+ */
 public class InstructorFeedbackRemindActionTest extends BaseActionTest {
 
     @Override

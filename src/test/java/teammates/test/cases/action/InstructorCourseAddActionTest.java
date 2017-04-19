@@ -12,9 +12,7 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
- * Test case for adding a course for an instructor
- * This test case will fully cover the path in checking archived courses.
- * This also will be tested in UI testing.
+ * SUT: {@link InstructorCourseAddAction}.
  */
 public class InstructorCourseAddActionTest extends BaseActionTest {
 

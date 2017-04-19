@@ -7,8 +7,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 
 /**
- * Covers the 'student details' view for instructors.
- * SUT: {@link InstructorCourseStudentDetailsViewPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE}.
  */
 public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 

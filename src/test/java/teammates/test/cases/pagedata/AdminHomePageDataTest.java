@@ -2,11 +2,14 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.AdminHomePageData;
 
+/**
+ * SUT: {@link AdminHomePageData}.
+ */
 public class AdminHomePageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private AdminHomePageData pageData;

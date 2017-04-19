@@ -16,9 +16,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * Tests 'Course Details' view for Instructors.
- * SUT {@link InstructorCourseDetailsPage}. <br>
- * This class uses real user accounts for students.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_DETAILS_PAGE}.
  */
 public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private InstructorCourseDetailsPage detailsPage;
@@ -196,6 +194,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         if (isEmailEnabled) {
             assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
         }
+        detailsPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student2.email);
 
         // Hiding of the 'Send invite' link is already covered by content test.
         //  (i.e., they contain cases of both hidden and visible 'Send invite' links.

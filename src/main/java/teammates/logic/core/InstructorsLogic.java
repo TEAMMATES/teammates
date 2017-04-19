@@ -3,8 +3,8 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -53,6 +53,14 @@ public final class InstructorsLogic {
      */
     public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
+    }
+
+    /**
+     * Batch creates or updates documents for the given Instructors.
+     * @param instructors a list of instructors to be put into documents
+     */
+    public void putDocuments(List<InstructorAttributes> instructors) {
+        instructorsDb.putDocuments(instructors);
     }
 
     /**

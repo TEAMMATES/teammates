@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -19,8 +21,9 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link FeedbackQuestionsLogic}.
+ */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();

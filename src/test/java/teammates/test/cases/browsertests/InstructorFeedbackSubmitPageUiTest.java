@@ -2,19 +2,18 @@ package teammates.test.cases.browsertests;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * Tests 'Submit Feedback' view of instructors.
- * SUT: {@link FeedbackSubmitPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
  */
 public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;

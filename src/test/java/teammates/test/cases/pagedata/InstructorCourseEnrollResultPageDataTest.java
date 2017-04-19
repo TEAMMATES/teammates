@@ -5,13 +5,16 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
+/**
+ * SUT: {@link InstructorCourseEnrollResultPageData}.
+ */
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 

@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.ui.controller.AdminSearchPageAction;
 
+/**
+ * SUT: {@link AdminSearchPageAction}.
+ */
 public class AdminSearchPageActionTest extends BaseActionTest {
 
     @Override

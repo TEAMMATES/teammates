@@ -8,12 +8,15 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: prepares comments notification emails for a particular course to be sent.
  */
 public class PendingCommentClearedEmailWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {

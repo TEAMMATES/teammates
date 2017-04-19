@@ -8,6 +8,9 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.template.StudentInfoTable;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsEditPageData}.
+ */
 public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase {
 
     private StudentAttributes inputStudent;
@@ -33,7 +36,7 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
-    protected InstructorCourseStudentDetailsEditPageData createData() {
+    private InstructorCourseStudentDetailsEditPageData createData() {
         String name = "John Doe";
         String email = "john@doe.com";
 
@@ -43,7 +46,7 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
                 hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
-    protected void createStudent(String name, String email) {
+    private void createStudent(String name, String email) {
         String comments = "This is a comment for John Doe.";
         String courseId = "CourseForJohnDoe";
         String team = "TeamForJohnDoe";

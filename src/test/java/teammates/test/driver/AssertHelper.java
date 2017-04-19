@@ -10,11 +10,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Joiner;
+
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
-
+/**
+ * Provides additional assertion methods that are often used during testing.
+ */
 public final class AssertHelper {
 
     private AssertHelper() {
@@ -29,13 +32,8 @@ public final class AssertHelper {
                                     TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
     }
 
-    public static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
+    private static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
         assertTrue(!(date.before(startDate) || date.after(endDate)));
-    }
-
-    public static void assertSameDates(Date expected, Date actual) {
-        assertEquals(TimeHelper.calendarToString(TimeHelper.dateToCalendar(expected)),
-                TimeHelper.calendarToString(TimeHelper.dateToCalendar(actual)));
     }
 
     /**
@@ -130,8 +128,8 @@ public final class AssertHelper {
     }
 
     /**
-     * Asserts that the actual log message, excluding its id, is equal to the expected log message,
-     * and that the actual log message's id contains the expected google id.
+     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
+     * and that the actual log message's ID contains the expected google ID.
      */
     public static void assertLogMessageEquals(String expected, String actual) {
         String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
@@ -151,11 +149,18 @@ public final class AssertHelper {
                    actualId.contains(userIdentifier));
     }
 
+    /**
+     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
+     * and that the actual log message's ID contains information of the specified student email and course ID.
+     */
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
 
+    /**
+     * Asserts that the two given lists have the same contents, ignoring their order.
+     */
     public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {
 
         String expectedListAsString = Joiner.on("\t").join(a);

@@ -13,13 +13,11 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.QUnitPage;
 
 /**
- * Loads all JavaScript unit tests (done in QUnit) into a browser window and
- * ensures all tests passed. This class is not using the PageObject pattern
- * because it is not a regular UI test.
+ * Loads all JavaScript unit tests (done with QUnit) into a browser and ensures all tests passed.
  */
 public class AllJsTests extends BaseUiTestCase {
 
-    private static final float MIN_COVERAGE_REQUIREMENT = 25;
+    private static final float MIN_COVERAGE_REQUIREMENT = 24;
     private QUnitPage page;
 
     @Override
@@ -31,8 +29,8 @@ public class AllJsTests extends BaseUiTestCase {
     public void classSetup() {
         loginAdmin();
         page = AppPage.getNewPageInstance(browser)
-                      .navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST))
-                      .changePageType(QUnitPage.class);
+                .navigateTo(createUrl(Const.ViewURIs.JS_UNIT_TEST + (TestProperties.isDevServer() ? "?coverage" : "")))
+                .changePageType(QUnitPage.class);
         page.waitForPageToLoad();
     }
 
@@ -69,6 +67,10 @@ public class AllJsTests extends BaseUiTestCase {
         assertTrue(totalCases != 0);
 
         print("As expected, " + expectedFailedCases + " failed tests out of " + totalCases + " tests.");
+
+        if (!TestProperties.isDevServer()) {
+            return;
+        }
 
         float coverage = page.getCoverage();
 

@@ -9,8 +9,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -23,6 +23,9 @@ import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link InstructorsDb}.
+ */
 public class InstructorsDbTest extends BaseComponentTestCase {
 
     private static final InstructorsDb instructorsDb = new InstructorsDb();

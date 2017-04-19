@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.ui.controller.AdminExceptionTestAction;
 
+/**
+ * SUT: {@link AdminExceptionTestAction}.
+ */
 public class AdminExceptionTestActionTest extends BaseActionTest {
 
     @Override

@@ -29,6 +29,9 @@ import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
 
+/**
+ * SUT: {@link InstructorFeedbackEditPageData}.
+ */
 public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
     private static final int DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO = 1;

@@ -36,11 +36,13 @@ before_script:
   - export PATH="./node_modules/.bin":$PATH
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools
-  - npm install eslint eslint-plugin-json stylelint
-  - ./gradlew staticAnalysis --continue
+  - ./gradlew lint --continue
+  - npm install
+  - npm run lint
 
 install: true
 script:
+  - npm run build
   - ./gradlew appengineRun ciTests
 
 after_failure:

@@ -3,6 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.apphosting.api.DeadlineExceededException;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -11,12 +13,8 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
 
-import com.google.apphosting.api.DeadlineExceededException;
-
 /**
- * Triggers various system errors that in turn triggers email error reports
- * to the admin. When run against a production server, this class triggers
- * three emails to the admin.
+ * Verifies that various system error report emails should or should not be sent to the admin.
  */
 public class SystemErrorEmailReportTest extends BaseUiTestCase {
     private AppPage page;

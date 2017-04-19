@@ -15,6 +15,9 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AdminSearchPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_SEARCH_PAGE}.
+ */
 public class AdminSearchPageUiTest extends BaseUiTestCase {
     private static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
     private static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;

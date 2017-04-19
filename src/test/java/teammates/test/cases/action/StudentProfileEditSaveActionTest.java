@@ -14,6 +14,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfileEditSaveAction;
 
+/**
+ * SUT: {@link StudentProfileEditSaveAction}.
+ */
 public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     @Override

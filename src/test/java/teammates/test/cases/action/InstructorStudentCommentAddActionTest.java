@@ -6,11 +6,15 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentAddAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorStudentCommentAddAction}.
+ */
 public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
     @Override
@@ -126,6 +130,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
         a = getAction(submissionParams);
         r = getRedirectResult(a);
+
+        verifySpecifiedTasksAdded(a, TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME, 1);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
                 + "?courseid=idOfTypicalCourse1&"

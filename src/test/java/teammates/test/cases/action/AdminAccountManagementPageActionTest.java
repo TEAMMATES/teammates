@@ -6,6 +6,9 @@ import teammates.common.util.Const;
 import teammates.ui.controller.AdminAccountManagementPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link AdminAccountManagementPageAction}.
+ */
 public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
     @Override

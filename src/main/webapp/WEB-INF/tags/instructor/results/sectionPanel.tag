@@ -26,11 +26,13 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+                            <a class="btn btn-success btn-xs collapse" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
                                 Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
-                            <span class="glyphicon glyphicon-chevron-up"></span>
+                            <div class="display-icon" style="display:inline;">
+                            	<span class="glyphicon glyphicon-chevron-up"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,11 +46,13 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+                            <a class="btn btn-success btn-xs collapse" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
                                 Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
-                            <span class="glyphicon glyphicon-chevron-down"></span>
+                            <div class="display-icon" style="display:inline;">
+                            	<span class="glyphicon glyphicon-chevron-down"></span>
+                            </div>
                         </div>
                      </div>
                 </div>

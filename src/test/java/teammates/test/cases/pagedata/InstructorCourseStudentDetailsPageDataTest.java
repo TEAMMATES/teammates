@@ -13,6 +13,9 @@ import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 import teammates.ui.template.StudentInfoTable;
 import teammates.ui.template.StudentProfile;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsPageData}.
+ */
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private static final String[] USERS_COMMENT_BOX_SHOWN_TO = {"student", "team", "section"};
 
@@ -83,7 +86,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(inputStudentProfile.moreInfo, studentProfile.getMoreInfo());
     }
 
-    protected void testStudentInfoTable(StudentInfoTable studentInfoTable) {
+    private void testStudentInfoTable(StudentInfoTable studentInfoTable) {
         assertNotNull(studentInfoTable);
 
         assertEquals(inputStudent.name, studentInfoTable.getName());
@@ -104,7 +107,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         createStudentProfile(email, pictureKey);
     }
 
-    protected void createStudent(String name, String email) {
+    private void createStudent(String name, String email) {
         String comments = "This is a comment for John Doe.";
         String courseId = "CourseForJohnDoe";
         String team = "TeamForJohnDoe";
@@ -132,7 +135,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                 null, shortName, email, institute, nationality, gender, moreInfo, pictureKey);
     }
 
-    protected InstructorCourseStudentDetailsPageData createData() {
+    private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
         return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), inputStudent, inputStudentProfile,

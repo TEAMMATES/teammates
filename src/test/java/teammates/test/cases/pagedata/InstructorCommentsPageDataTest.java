@@ -9,11 +9,11 @@ import java.util.TreeMap;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -23,6 +23,9 @@ import teammates.ui.template.CommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 
+/**
+ * SUT: {@link InstructorCommentsPageData}.
+ */
 public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     private DataBundle dataBundle = getTypicalDataBundle();

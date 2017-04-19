@@ -93,6 +93,14 @@
         <rate>1/s</rate>
         <bucket-size>1</bucket-size>
     </queue>
+    
+    <queue>
+        <name>put-comment-document-queue</name>
+        <!-- Configuration allows for 5 documents to be queued when the bucket is not full -->
+        <rate>5/s</rate>
+        <bucket-size>10</bucket-size>
+    </queue>
+    
 
     <queue>
         <name>send-email-queue</name>

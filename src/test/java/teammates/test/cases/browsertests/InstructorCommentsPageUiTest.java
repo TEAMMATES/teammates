@@ -8,6 +8,9 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorCommentsPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COMMENTS_PAGE}.
+ */
 public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private InstructorCommentsPage commentsPage;
 

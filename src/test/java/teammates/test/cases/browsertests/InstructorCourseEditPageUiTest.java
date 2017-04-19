@@ -3,8 +3,8 @@ package teammates.test.cases.browsertests;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -16,8 +16,7 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * Tests 'Edit Course Details' functionality for Instructors.
- * SUT {@link InstructorCourseEditPage}. <br>
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
  */
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private InstructorCourseEditPage courseEditPage;

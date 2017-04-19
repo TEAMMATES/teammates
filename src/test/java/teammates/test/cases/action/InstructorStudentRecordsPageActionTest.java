@@ -20,6 +20,9 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorStudentRecordsPageData;
 
+/**
+ * SUT: {@link InstructorStudentRecordsPageAction}.
+ */
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
     private final Logic logic = new Logic();

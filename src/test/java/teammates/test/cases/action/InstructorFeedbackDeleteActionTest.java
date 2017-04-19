@@ -9,6 +9,9 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorFeedbackDeleteAction}.
+ */
 public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 
     @Override

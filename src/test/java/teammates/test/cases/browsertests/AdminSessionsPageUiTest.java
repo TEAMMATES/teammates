@@ -13,8 +13,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminSessionsPage;
 
 /**
- * Covers the home page for admins.
- * SUT: {@link AdminSessionsPage}
+ * SUT: {@link Const.ActionURIs#ADMIN_SESSIONS_PAGE}.
  */
 public class AdminSessionsPageUiTest extends BaseUiTestCase {
     private AdminSessionsPage sessionsPage;

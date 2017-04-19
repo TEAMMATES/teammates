@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponse;
 
 /**
@@ -24,6 +25,8 @@ import teammates.storage.entity.FeedbackResponse;
  * @see FeedbackResponseAttributes
  */
 public class FeedbackResponsesDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd)
             throws InvalidParametersException {

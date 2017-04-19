@@ -6,12 +6,15 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
 /**
  * Action: serves a profile picture that is stored in Google Cloud Storage.
  */
 public class StudentProfilePictureAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

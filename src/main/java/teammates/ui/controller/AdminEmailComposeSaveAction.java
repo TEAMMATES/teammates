@@ -3,20 +3,21 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
-import com.google.appengine.api.datastore.Text;
-
 public class AdminEmailComposeSaveAction extends Action {
 
-    List<String> addressReceiver = new ArrayList<String>();
-    List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<String>();
+    private List<String> groupReceiver = new ArrayList<String>();
 
     @Override
     protected ActionResult execute() {
@@ -68,7 +69,7 @@ public class AdminEmailComposeSaveAction extends Action {
             data.emailToEdit.emailId = emailId;
         } else {
             statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
-                    + "Subject: " + subject;
+                    + "Subject: " + SanitizationHelper.sanitizeForHtml(subject);
             statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS));
         }
 

@@ -10,6 +10,9 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackQuestionVisibilityMessageAction;
 
+/**
+ * SUT: {@link InstructorFeedbackQuestionVisibilityMessageAction}.
+ */
 public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseActionTest {
 
     @Override

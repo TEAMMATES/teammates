@@ -15,6 +15,9 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCourseEditPageData;
 import teammates.ui.template.CourseEditInstructorPanel;
 
+/**
+ * SUT: {@link InstructorCourseEditPageAction}.
+ */
 public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
     @Override

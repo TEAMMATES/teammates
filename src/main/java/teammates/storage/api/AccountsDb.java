@@ -8,6 +8,10 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -16,13 +20,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Handles CRUD operations for accounts.
@@ -31,6 +32,8 @@ import com.google.appengine.api.datastore.KeyFactory;
  * @see AccountAttributes
  */
 public class AccountsDb extends EntitiesDb {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * Preconditions:

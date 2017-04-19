@@ -12,6 +12,9 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 
+/**
+ * SUT: {@link InstructorFeedbackResultsDownloadAction}.
+ */
 public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest {
 
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();

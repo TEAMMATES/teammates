@@ -384,16 +384,7 @@ public class AdminActivityLogPageData extends PageData {
             return "";
         }
 
-        char delimiter = ',';
-        StringBuffer keywords = new StringBuffer();
-        for (String keyword : q.infoValues) {
-            keywords.append(keyword).append(delimiter);
-        }
-        if (keywords.length() > 0) {
-            keywords.deleteCharAt(keywords.length() - 1);
-        }
-
-        return keywords.toString();
+        return StringHelper.join(",", q.infoValues);
     }
 
     /**

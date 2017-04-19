@@ -9,6 +9,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link TimeHelper}.
+ */
 public class TimeHelperTest extends BaseTestCase {
 
     @Test

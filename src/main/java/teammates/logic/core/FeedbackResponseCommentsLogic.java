@@ -8,14 +8,14 @@ import java.util.Set;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -172,6 +172,13 @@ public final class FeedbackResponseCommentsLogic {
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         frcDb.putDocument(comment);
+    }
+
+    /**
+     * Creates or updates documents for the given comments.
+     */
+    public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
+        frcDb.putDocuments(comments);
     }
 
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,

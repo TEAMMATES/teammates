@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -62,7 +62,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
-    protected StudentAttributes getStudent() {
+    private StudentAttributes getStudent() {
         if (student == null) {
             // branch of student != null is not covered since student is not set elsewhere, but this
             // helps to speed up the process of 'getting' a student so we should leave it here

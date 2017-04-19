@@ -7,12 +7,15 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: prepares session published reminder for a particular session to be sent.
  */
 public class FeedbackSessionPublishedEmailWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {

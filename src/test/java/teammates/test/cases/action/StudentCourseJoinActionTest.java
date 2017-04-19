@@ -13,6 +13,9 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseJoinAction;
 import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
 
+/**
+ * SUT: {@link StudentCourseJoinAction}.
+ */
 public class StudentCourseJoinActionTest extends BaseActionTest {
 
     @Override

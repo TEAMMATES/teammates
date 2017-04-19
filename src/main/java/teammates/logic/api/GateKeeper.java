@@ -1,11 +1,15 @@
 package teammates.logic.api;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -14,10 +18,9 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
+/**
+ * Provides access control mechanisms.
+ */
 public class GateKeeper {
 
     private static UserService userService = UserServiceFactory.getUserService();

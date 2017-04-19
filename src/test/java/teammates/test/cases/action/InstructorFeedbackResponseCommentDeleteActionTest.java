@@ -14,6 +14,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackResponseCommentDeleteAction}.
+ */
 public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 
     @Override

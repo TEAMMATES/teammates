@@ -4,14 +4,17 @@ import static teammates.common.util.Const.EOL;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link InstructorAttributes}.
+ */
 public class InstructorAttributesTest extends BaseTestCase {
 
     @Test

@@ -4,15 +4,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
-import teammates.common.util.Config;
-import teammates.common.util.EmailWrapper;
-
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Email;
+
+import teammates.common.util.Config;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 /**
  * Email sender service provided by Mailjet.
@@ -23,6 +24,8 @@ import com.mailjet.client.resource.Email;
  * @see MailjetResponse
  */
 public class MailjetService extends EmailSenderService {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * {@inheritDoc}

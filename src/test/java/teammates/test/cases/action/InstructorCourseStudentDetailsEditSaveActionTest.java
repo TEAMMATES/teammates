@@ -17,6 +17,9 @@ import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsEditSaveAction}.
+ */
 public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseActionTest {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();

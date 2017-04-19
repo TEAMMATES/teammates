@@ -9,6 +9,9 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link InstructorPrivileges}.
+ */
 public class InstructorPrivilegesTest extends BaseTestCase {
 
     @Test

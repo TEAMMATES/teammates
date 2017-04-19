@@ -10,6 +10,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link SessionAttributes}.
+ */
 public class SessionAttributesTest extends BaseTestCase {
 
     @Test

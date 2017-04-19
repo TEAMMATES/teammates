@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -233,6 +234,13 @@ public final class CommentsLogic {
         commentsDb.putDocument(comment);
     }
 
+    /**
+     * Batch creates or updates documents for comments.
+     */
+    public void putDocuments(List<CommentAttributes> comments) {
+        commentsDb.putDocuments(comments);
+    }
+
     public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors) {
         return commentsDb.search(queryString, instructors);
     }
@@ -276,7 +284,7 @@ public final class CommentsLogic {
                                                                  CommentParticipantType.INSTRUCTOR);
         removeNonVisibleCommentsForInstructor(commentsForOtherInstructor, commentsVisitedSet, comments);
 
-        java.util.Collections.sort(comments);
+        Collections.sort(comments);
 
         return comments;
     }
@@ -348,7 +356,7 @@ public final class CommentsLogic {
                                           sectionStudentsEmails, teamsInThisSection,
                                           commentsVisitedSet, comments);
 
-        java.util.Collections.sort(comments);
+        Collections.sort(comments);
 
         return comments;
     }

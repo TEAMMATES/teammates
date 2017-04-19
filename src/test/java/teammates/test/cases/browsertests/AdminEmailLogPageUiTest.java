@@ -11,6 +11,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailLogPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_EMAIL_LOG_PAGE}.
+ */
 public class AdminEmailLogPageUiTest extends BaseUiTestCase {
 
     private static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;

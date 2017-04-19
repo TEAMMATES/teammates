@@ -5,12 +5,15 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
  * Cron job: schedules feedback session closed emails to be sent.
  */
 public class FeedbackSessionClosedRemindersAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {

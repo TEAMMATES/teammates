@@ -17,6 +17,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
+/**
+ * Provides mechanism for HTML comparison during testing.
+ * GodMode is also configured here.
+ */
 public final class HtmlHelper {
 
     private static final String INDENTATION_STEP = "  ";
@@ -443,8 +447,9 @@ public final class HtmlHelper {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace("window.location.origin + '/" + Config.STUDENT_MOTD_URL + "';",
-                               "window.location.origin + '/${studentmotd.url}';")
+        return content.replaceAll("( type=\"hidden\"| id=\"motd-url\"|"
+                                      + " value=\"" + Config.STUDENT_MOTD_URL + "\"){3}",
+                                  " id=\"motd-url\" type=\"hidden\" value=\"\\${studentmotd\\.url}\"")
                       .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")

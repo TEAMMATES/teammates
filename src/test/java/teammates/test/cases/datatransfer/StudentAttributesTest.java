@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -15,6 +15,9 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link StudentAttributes}.
+ */
 public class StudentAttributesTest extends BaseTestCase {
 
     private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {

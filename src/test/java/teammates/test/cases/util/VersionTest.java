@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.Version;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link Version}.
+ */
 public class VersionTest extends BaseTestCase {
     @Test
     @SuppressWarnings("PMD.AvoidUsingHardCodedIP") // A version with 4 numbers is not an IP address

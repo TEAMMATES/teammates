@@ -7,6 +7,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_COPY}.
+ */
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private String instructorId;
     private String courseId;

@@ -37,7 +37,8 @@
     text-align: center;
 }
 
-.ui-datepicker-prev, .ui-datepicker-next {
+.ui-datepicker-prev,
+.ui-datepicker-next {
     display: inline-block;
     width: 30px;
     height: 30px;
@@ -97,7 +98,8 @@
     border-bottom: 0;
 }
 
-.ui-datepicker td span, .ui-datepicker td a {
+.ui-datepicker td span,
+.ui-datepicker td a {
     display: inline-block;
     font-weight: bold;
     text-align: center;

@@ -14,6 +14,11 @@ import javax.mail.search.FlagTerm;
 
 import teammates.common.util.EmailType;
 
+/**
+ * Provides an access to real Gmail inbox used for testing.
+ *
+ * <p>Authentication via a real username (Google ID) and password is required.
+ */
 public final class EmailAccount {
 
     private EmailAccount() {
@@ -23,7 +28,6 @@ public final class EmailAccount {
     /**
      * Retrieve registration key sent to Gmail inbox. After retrieving, marks
      * the email as read.
-     *      * Can be easily modified to support other mail providers
      *
      * @return registration key (null if cannot be found).
      */
@@ -60,22 +64,6 @@ public final class EmailAccount {
                 body.indexOf("key=") + "key=".length(),
                 body.indexOf("studentemail=") - 1); //*If prompted to log in
         return key.trim();
-    }
-
-    /**
-     * Helper function - Mark all emails of an account as read.
-     *
-     */
-    public static void markAllEmailsSeen(String username, String password)
-            throws Exception {
-        Folder inbox = getGmailInbox(username, password);
-        Message[] messages = getMessages(inbox);
-
-        for (Message message : messages) {
-            message.setFlag(Flags.Flag.SEEN, true);
-        }
-
-        inbox.close(true);
     }
 
     private static Folder getGmailInbox(String username, String password)

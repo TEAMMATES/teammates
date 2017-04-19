@@ -9,6 +9,9 @@ import java.util.Set;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
@@ -21,13 +24,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.CommentSearchQuery;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
+import teammates.storage.search.SearchDocument;
 
 /**
  * Handles CRUD operations for student comments.
@@ -38,6 +40,8 @@ import com.google.appengine.api.search.ScoredDocument;
 public class CommentsDb extends EntitiesDb {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
+
+    private static final Logger log = Logger.getLogger();
 
     public void createComments(Collection<CommentAttributes> commentsToAdd) throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
@@ -473,6 +477,17 @@ public class CommentsDb extends EntitiesDb {
      */
     public void putDocument(CommentAttributes comment) {
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
+    }
+
+    /*
+     * Batch create or update search documents for the given comments
+     */
+    public void putDocuments(List<CommentAttributes> comments) {
+        List<SearchDocument> commentSearchDocuments = new ArrayList<SearchDocument>();
+        for (CommentAttributes comment : comments) {
+            commentSearchDocuments.add(new CommentSearchDocument(comment));
+        }
+        putDocuments(Const.SearchIndex.COMMENT, commentSearchDocuments);
     }
 
     /**

@@ -12,8 +12,7 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 
 /**
- * Covers the 'edit student details' functionality for instructors.
- * SUT: {@link InstructorCourseStudentDetailsEditPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT}.
  */
 public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase {
     private InstructorCourseStudentDetailsEditPage editPage;

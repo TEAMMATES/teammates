@@ -3,20 +3,23 @@ package teammates.ui.controller;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.util.AppUrl;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.ui.pagedata.FileUploadPageData;
-
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
+import teammates.common.util.AppUrl;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.Logger;
+import teammates.ui.pagedata.FileUploadPageData;
+
 /**
  * Action: uploads an image to Google Cloud Storage.
  */
 public class ImageUploadAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     private FileUploadPageData data;
 

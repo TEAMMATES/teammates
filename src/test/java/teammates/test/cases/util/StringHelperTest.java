@@ -11,6 +11,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link StringHelper}.
+ */
 public class StringHelperTest extends BaseTestCase {
 
     @Test

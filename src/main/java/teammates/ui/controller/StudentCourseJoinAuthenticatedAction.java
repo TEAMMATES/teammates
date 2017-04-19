@@ -12,6 +12,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -23,6 +24,9 @@ import teammates.common.util.StatusMessageColor;
  * joining of the student to the course.
  */
 public class StudentCourseJoinAuthenticatedAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         Assumption.assertNotNull(regkey);
@@ -49,7 +53,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             logic.joinCourseForStudent(regkey, account.googleId);
         } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link
-            if (e.errorCode.equals(Const.StatusCodes.INVALID_KEY)) {
+            if (Const.StatusCodes.INVALID_KEY.equals(e.errorCode)) {
                 setStatusForException(e, String.format(e.getMessage(), requestUrl));
             } else {
                 setStatusForException(e, e.getMessage());

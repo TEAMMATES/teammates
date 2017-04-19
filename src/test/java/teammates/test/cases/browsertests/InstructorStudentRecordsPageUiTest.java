@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * Covers the 'student records' view for instructors.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_STUDENT_RECORDS_PAGE}.
  */
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private InstructorStudentRecordsPage viewPage;

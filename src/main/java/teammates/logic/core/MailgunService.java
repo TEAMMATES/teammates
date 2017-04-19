@@ -2,14 +2,15 @@ package teammates.logic.core;
 
 import javax.ws.rs.core.MediaType;
 
-import teammates.common.util.Config;
-import teammates.common.util.EmailWrapper;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.multipart.FormDataMultiPart;
+
+import teammates.common.util.Config;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 /**
  * Email sender service provided by Mailgun.
@@ -18,6 +19,8 @@ import com.sun.jersey.multipart.FormDataMultiPart;
  * @see FormDataMultiPart
  */
 public class MailgunService extends EmailSenderService {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * {@inheritDoc}

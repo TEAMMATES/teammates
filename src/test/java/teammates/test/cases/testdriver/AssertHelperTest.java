@@ -7,6 +7,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
 
+/**
+ * SUT: {@link AssertHelper}.
+ */
 public class AssertHelperTest extends BaseTestCase {
 
     @Test

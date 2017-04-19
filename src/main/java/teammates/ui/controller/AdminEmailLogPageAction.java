@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
@@ -10,10 +12,7 @@ import teammates.common.util.GaeLogApi;
 import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.common.util.TimeHelper;
 import teammates.ui.pagedata.AdminEmailLogPageData;
-
-import com.google.appengine.api.log.AppLogLine;
 
 public class AdminEmailLogPageAction extends Action {
     private static final int LOGS_PER_PAGE = 50;
@@ -33,25 +32,10 @@ public class AdminEmailLogPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-
         gateKeeper.verifyAdminPrivileges(account);
-        String timeOffset = getRequestParamValue("offset");
-        Long endTimeToSearch;
-        if (timeOffset == null || timeOffset.isEmpty()) {
-            endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
-        } else {
-            endTimeToSearch = Long.parseLong(timeOffset);
-        }
 
         AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
-
-        String pageChange = getRequestParamValue("pageChange");
-        boolean isPageChanged = "true".equals(pageChange) || timeOffset == null;
-        if (isPageChanged) {
-            //Reset the offset because we are performing a new search, so we start from the beginning of the logs
-            endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
-        }
 
         if (data.getFilterQuery() == null) {
             data.setFilterQuery("");
@@ -60,11 +44,20 @@ public class AdminEmailLogPageAction extends Action {
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(data.getFilterQuery());
 
-        data.setLogs(getEmailLogs(endTimeToSearch, data));
+        String timeOffset = getRequestParamValue("offset");
+        if (timeOffset != null && !timeOffset.isEmpty()) {
+            data.setToDate(Long.parseLong(timeOffset));
+        }
+
+        if (data.isFromDateInQuery()) {
+            searchEmailLogsWithExactTimePeriod(data);
+        } else {
+            searchEmailLogsWithTimeIncrement(data);
+        }
 
         statusToAdmin = "adminEmailLogPage Page Load";
 
-        if (isPageChanged) {
+        if (timeOffset == null) {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
 
@@ -85,12 +78,33 @@ public class AdminEmailLogPageAction extends Action {
     }
 
     /**
-     * Retrieves enough email logs within MAX_SEARCH_PERIOD hours.
+     * Searches all logs in the time period specified in the query.
      */
-    private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
+    private void searchEmailLogsWithExactTimePeriod(AdminEmailLogPageData data) {
+        List<String> versionToQuery = getVersionsForQuery(data.getVersions());
+        AdminLogQuery query = new AdminLogQuery(versionToQuery, data.getFromDate(), data.getToDate());
+
+        List<AppLogLine> searchResult = new GaeLogApi().fetchLogs(query);
+        data.setLogs(filterLogsForEmailLogPage(searchResult, data));
+
+        long nextEndTimeToSearch = data.getFromDate() - 1;
+        int totalLogsSearched = searchResult.size();
+
+        String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
+                + totalLogsSearched + "<br>"
+                + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
+                + nextEndTimeToSearch + "');\">Search More</button>";
+        data.setStatusForAjax(status);
+        statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
+    }
+
+    /**
+     * Searches enough email logs within MAX_SEARCH_PERIOD hours.
+     */
+    private void searchEmailLogsWithTimeIncrement(AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
         List<String> versionToQuery = getVersionsForQuery(data.getVersions());
-        AdminLogQuery query = new AdminLogQuery(versionToQuery, null, endTimeToSearch);
+        AdminLogQuery query = new AdminLogQuery(versionToQuery, null, data.getToDate());
 
         int totalLogsSearched = 0;
 
@@ -109,15 +123,16 @@ public class AdminEmailLogPageAction extends Action {
             totalLogsSearched += searchResult.size();
             query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
-        Long nextEndTimeToSearch = query.getEndTime();
 
+        data.setLogs(emailLogs);
+
+        long nextEndTimeToSearch = query.getEndTime();
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
                       + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
                       + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
-        return emailLogs;
     }
 
     private List<EmailLogEntry> filterLogsForEmailLogPage(List<AppLogLine> appLogLines,
@@ -136,6 +151,7 @@ public class AdminEmailLogPageAction extends Action {
                 emailLogs.add(emailLogEntry);
             }
         }
+
         return emailLogs;
     }
 }

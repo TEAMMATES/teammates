@@ -8,6 +8,10 @@ import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
+ *      specifically for multiple choice (single answer) questions.
+ */
 public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 

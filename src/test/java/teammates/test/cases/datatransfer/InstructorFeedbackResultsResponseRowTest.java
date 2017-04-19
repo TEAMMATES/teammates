@@ -8,6 +8,9 @@ import org.testng.annotations.Test;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
+/**
+ * SUT: {@link InstructorFeedbackResultsResponseRow}.
+ */
 public class InstructorFeedbackResultsResponseRowTest extends BaseTestCase {
 
     @Test

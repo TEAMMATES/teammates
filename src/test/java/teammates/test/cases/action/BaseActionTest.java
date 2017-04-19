@@ -29,7 +29,7 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 /**
- * Parent class for *ActionTest classes.
+ * Base class for action tests.
  */
 public abstract class BaseActionTest extends BaseComponentTestCase {
 

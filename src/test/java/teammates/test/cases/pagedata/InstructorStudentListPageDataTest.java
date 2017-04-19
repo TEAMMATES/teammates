@@ -16,6 +16,9 @@ import teammates.ui.template.InstructorStudentListFilterCourse;
 import teammates.ui.template.InstructorStudentListSearchBox;
 import teammates.ui.template.InstructorStudentListStudentsTableCourse;
 
+/**
+ * SUT: {@link InstructorStudentListPageData}.
+ */
 public class InstructorStudentListPageDataTest extends BaseTestCase {
 
     private InstructorStudentListPageData islpd;

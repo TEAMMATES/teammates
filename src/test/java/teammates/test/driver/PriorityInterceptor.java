@@ -10,8 +10,14 @@ import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
 
+/**
+ * Allows TestNG to run tests in a specified order, based on the {@code Priority(n)} annotation.
+ * By default, TestNG run all tests in lexical order.
+ *
+ * @see Priority
+ */
 public class PriorityInterceptor implements IMethodInterceptor {
-    static String packageOrder;
+    private static String packageOrder;
 
     static {
         try {
