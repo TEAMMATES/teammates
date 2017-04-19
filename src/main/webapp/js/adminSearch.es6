@@ -65,42 +65,43 @@ $(document).ready(() => {
         const GoogleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
         const status = $(this).find('input.status').val();
         let subject = '';
-        let bodycontent = '';
+        const bodyheader = `Hello ${studentName},`;
+        const linkmessage = `please go to this Web address: ${uri}`;
+        const bodyfooter =
+                'If you encounter any problems when using '
+                + 'the system, you can email TEAMMATES support team at teammates@comp.nus.edu.sg.'
+                + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
+        const safetymessage =
+                'The above link is unique to you. '
+                + 'Please do not share it with your classmates.';
+        let bodymain = '';
         if (subjectType === 'Invitation to join course') {
             subject = `TEAMMATES: ${subjectType} [${courseName}][Course ID: ${Id}]`;
-            bodycontent =
-                `Hello ${studentName}%0D%0AThe course ${courseName} `
+            bodymain =
+                `%0D%0AThe course ${courseName} `
                 + 'is using the TEAMMATES System to collect feedback.%0D%'
-                + '0ATo \'join\' the course, please go to this Web address: '
-                + `${uri}%0D%0A*If prompted to log in, `
+                + `0ATo 'join' the course, ${linkmessage}`
+                + '%0D%0A*If prompted to log in, '
                 + 'use your Googleaccount to log in. If you do not '
                 + 'have a Google account, please create one from the '
-                + `${GoogleSignup}`
-                + '%0D%0A*The above link is unique to you. Please do not '
-                + 'share it with your classmates.%0D%0ANote that If you '
-                + 'wish to access TEAMMATES without using your Googleaccount, '
+                + `${GoogleSignup}%0D%0A*${safetymessage}`
+                + '%0D%0ANote that If you wish to access TEAMMATES '
+                + 'without using your Googleaccount, '
                 + 'you do not need to \'join\' the course as instructed '
                 + 'above. You will still be able to submit/view feedback '
                 + 'by following the instructions sent to you by TEAMMATES at the '
                 + 'appropriate times. However, we recommend joining the courseusing '
                 + 'your Google account, because it gives you more convenient '
-                + 'access to all your feedback stored in TEAMMATES.%0D%0A%0D%0A'
-                + 'If you encounter any problems when using the system, you can '
-                + 'email TEAMMATES support team at teammates@comp.nus.edu.sg.%0D%0A%0D%0A'
-                + 'Regards,%0D%0ATEAMMATES Team.';
+                + 'access to all your feedback stored in TEAMMATES.%0D%0A%0D%0A';
         } else {
             subject = `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${Id}]`;
-            bodycontent =
-                `Hello ${studentName}`
-                + `%0D%0AThe following feedback session is ${status}%0D%0A`
+            bodymain =
+                `%0D%0AThe following feedback session is ${status}%0D%0A`
                 + `Course: [${Id}][${courseName}]%0D%0AFeedback Session Name: ${Id}%0D%0A`
-                + 'The link of the feedback for the above session, please go to this Web address: '
-                + `${uri}%0D%0A*The above link is unique to you. Please `
-                + 'do not share it with others.%0D%0A%0D%0AIf you encounter any problems when using '
-                + 'the system, you can email TEAMMATES support team at teammates@comp.nus.edu.sg.'
-                + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
+                + `The link of the feedback for the above session, ${linkmessage}`
+                + `%0D%0A*${safetymessage}%0D%0A%0D%0A`;
         }
-        const EmailWrapper = `mailto:${receiveremailId}?Subject=${subject}&body=${bodycontent}`;
+        const EmailWrapper = `mailto:${receiveremailId}?Subject=${subject}&body=${bodyheader}${bodymain}${bodyfooter}`;
         window.location.href = EmailWrapper;
     });
 });
