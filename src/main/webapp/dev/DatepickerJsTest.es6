@@ -1,8 +1,5 @@
-'use strict';
 
-QUnit.module('datepicker.js');
-
-QUnit.test('triggerDatepickerOnClick(datepickerDivs)', function(assert) {
+QUnit.test('triggerDatepickerOnClick(datepickerDivs)', (assert) => {
     assert.expect(1);
 
     $('#date-picker-div').datepicker();
@@ -12,11 +9,11 @@ QUnit.test('triggerDatepickerOnClick(datepickerDivs)', function(assert) {
     assert.equal($('.ui-datepicker-calendar:visible').length, 1, 'Displays datepickers after trigger');
 });
 
-QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', function(assert) {
+QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', (assert) => {
     assert.expect(5);
 
-    var startDate = new Date(2017, 3, 19, 2, 31, 0, 0);
-    var publishDate = new Date(2017, 3, 19, 2, 30, 0, 0);
+    const startDate = new Date(2017, 3, 19, 2, 31, 0, 0);
+    const publishDate = new Date(2017, 3, 19, 2, 30, 0, 0);
 
     assert.equal(getMaxDateForVisibleDate(startDate, null), startDate,
             'Returns startDate when publishDate is null');
@@ -30,10 +27,10 @@ QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', function(assert) 
             'Returns startDate when startDate < publishDate');
 });
 
-QUnit.test('getMinDateForPublishDate(visibleDate)', function(assert) {
+QUnit.test('getMinDateForPublishDate(visibleDate)', (assert) => {
     assert.expect(1);
 
-    var visibleDate = new Date(2017, 3, 19, 2, 31, 0, 0);
+    const visibleDate = new Date(2017, 3, 19, 2, 31, 0, 0);
 
     assert.equal(getMinDateForPublishDate(visibleDate), visibleDate, 'Returns visibleDate');
 });

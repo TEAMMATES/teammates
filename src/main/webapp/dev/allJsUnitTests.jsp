@@ -58,7 +58,7 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorStudentList.js" data-cover></script>
     <script type="text/javascript" src="/js/student.js" data-cover></script>
-    <script type="text/javascript" src="/js/datepicker.js" data-cover></script>
+    <script type="text/javascript" src="/js/datepicker.es6" data-cover></script>
 
     <div id="test-scripts">
         <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
@@ -69,7 +69,7 @@
         <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
         <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
         <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
-        <script type="text/javascript" src="/dev/DatepickerJsTest.js"></script>
+        <script type="text/javascript" src="/dev/DatepickerJsTest.es6"></script>
     </div>
 </body>
 </html>
