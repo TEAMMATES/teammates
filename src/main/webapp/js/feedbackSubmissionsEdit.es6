@@ -15,8 +15,10 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const WARNING_STATUS_MESSAGE_SESSION_CLOSE = 'You have only 15 minutes left to finish this feedback session. Hurry up!.';
 
 // text displayed to user
+const SESSION_ENDS_SOON = 'Feedback Session Closes Soon';
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
 
 function isPreview() {
