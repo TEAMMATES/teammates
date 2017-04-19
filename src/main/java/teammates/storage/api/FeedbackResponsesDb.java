@@ -663,7 +663,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
     public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        getFeedbackResponsesForCoursesQuery(courseIds).deletePersistentAll();
+        getFeedbackResponsesForCoursesQuery(courseIds)
+            .deletePersistentAll();
     }
 
     private QueryWithParams getFeedbackResponsesForCoursesQuery(List<String> courseIds) {

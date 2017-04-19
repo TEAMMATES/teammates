@@ -188,7 +188,8 @@ public abstract class EntitiesDb {
     public void deleteEntity(EntityAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
-        getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
+        getEntityKeyOnlyQuery(entityToDelete)
+            .deletePersistentAll();
 
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -218,7 +219,8 @@ public abstract class EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
         for (EntityAttributes entityToDelete : entitiesToDelete) {
             log.info(entityToDelete.getBackupIdentifier());
-            getEntityKeyOnlyQuery(entityToDelete).deletePersistentAll();
+            getEntityKeyOnlyQuery(entityToDelete)
+                .deletePersistentAll();
         }
     }
 

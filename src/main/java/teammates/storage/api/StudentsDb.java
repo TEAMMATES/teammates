@@ -499,7 +499,8 @@ public class StudentsDb extends EntitiesDb {
                 getPm().flush();
             }
         } else {
-            getCourseStudentForEmailQuery(courseId, email).deletePersistentAll();
+            getCourseStudentForEmailQuery(courseId, email)
+                .deletePersistentAll();
         }
 
         // Check delete operation persisted
@@ -547,7 +548,8 @@ public class StudentsDb extends EntitiesDb {
             getPm().deletePersistentAll(courseStudents);
             getPm().flush();
         } else {
-            getCourseStudentsForGoogleIdQuery(googleId).deletePersistentAll();
+            getCourseStudentsForGoogleIdQuery(googleId)
+                .deletePersistentAll();
         }
     }
 
@@ -577,7 +579,8 @@ public class StudentsDb extends EntitiesDb {
             getPm().deletePersistentAll(courseStudentList);
             getPm().flush();
         } else {
-            getCourseStudentsForCourseQuery(courseId).deletePersistentAll();
+            getCourseStudentsForCourseQuery(courseId)
+                .deletePersistentAll();
         }
     }
 
@@ -585,7 +588,8 @@ public class StudentsDb extends EntitiesDb {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        getCourseStudentsForCoursesQuery(courseIds).deletePersistentAll();
+        getCourseStudentsForCoursesQuery(courseIds)
+            .deletePersistentAll();
     }
 
     /**

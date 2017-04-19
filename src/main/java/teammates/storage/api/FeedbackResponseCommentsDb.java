@@ -194,7 +194,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
 
-        getFeedbackResponseCommentsForResponseQuery(responseId).deletePersistentAll();
+        getFeedbackResponseCommentsForResponseQuery(responseId)
+            .deletePersistentAll();
     }
 
     /*
@@ -203,7 +204,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        getFeedbackResponseCommentsForCoursesQuery(courseIds).deletePersistentAll();
+        getFeedbackResponseCommentsForCoursesQuery(courseIds)
+            .deletePersistentAll();
     }
 
     public void deleteFeedbackResponseCommentsForCourse(String courseId) {
