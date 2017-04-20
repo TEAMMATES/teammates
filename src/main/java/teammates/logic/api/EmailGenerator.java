@@ -698,7 +698,7 @@ public class EmailGenerator {
                 coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
             }
         }
-        return coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2).toString();
+        return coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2);
     }
 
 }
