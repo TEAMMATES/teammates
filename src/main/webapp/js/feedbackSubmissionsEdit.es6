@@ -906,6 +906,24 @@ function showModalWarningIfSessionClosed() {
     }
 }
 
+function showModalWarningMessageIfSessionIsClosig() {
+    const endDate = $('#endTime').text().split(' ');
+    const currentDate = new Date();
+    const locale = 'en-us';
+    const month = currentDate.toLocaleString(locale, {
+        month: 'short',
+    });
+    if (endDate[1] === currentDate.getDate() && endDate[2] === month
+            && endDate[3] === currentDate.getFullYear()) {
+        if (endDate[5] === currentDate.split(' ')[5]
+                && (endDate[4].split(':')[0] - currentDate[4].split(':')[0]) <= 15) {
+            BootboxWrapper.showModalAlert(SESSION_ENDS_SOON,
+                    WARNING_STATUS_MESSAGE_SESSION_CLOSE,
+                    BootboxWrapper.DEFAULT_OK_TEXT, StatusType.WARNING);
+        }
+    }
+}
+
 /**
  * Updates the length of the textArea
  * @param textAreaId - Id of text area for which char are to be counted
