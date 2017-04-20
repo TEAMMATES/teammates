@@ -913,6 +913,7 @@ function showModalWarningMessageIfSessionIsClosig() {
     const month = currentDate.toLocaleString(locale, {
         month: 'short',
     });
+
     if (endDate[1] === currentDate.getDate() && endDate[2] === month
             && endDate[3] === currentDate.getFullYear()) {
         if (endDate[5] === currentDate.split(' ')[5]
@@ -1057,6 +1058,8 @@ $(document).ready(() => {
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
+
+    showModalWarningMessageIfSessionIsClosig();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
