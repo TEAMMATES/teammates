@@ -79,8 +79,10 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                               Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
 
+        String feedbackSessionStatus = getInstructorStatusForFeedbackSession(fsa);
+
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
-                                                             fsDeleteLink, copyToLink);
+                                                             fsDeleteLink, copyToLink, feedbackSessionStatus);
     }
 
     private FeedbackSessionsAdditionalSettingsFormSegment

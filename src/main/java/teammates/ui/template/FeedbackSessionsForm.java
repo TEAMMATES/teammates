@@ -51,6 +51,8 @@ public class FeedbackSessionsForm {
     private List<ElementTag> fsEndTimeOptions;
     private List<ElementTag> gracePeriodOptions;
 
+    private String feedbackSessionStatus;
+
     private boolean isShowNoCoursesMessage;
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
@@ -60,7 +62,7 @@ public class FeedbackSessionsForm {
 
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings,
-                                                  String fsDeleteLink, String fsEditCopyLink) {
+                                                  String fsDeleteLink, String fsEditCopyLink, String feedbackSessionStatus) {
         FeedbackSessionsForm fsForm = new FeedbackSessionsForm();
 
         fsForm.fsDeleteLink = fsDeleteLink;
@@ -97,6 +99,8 @@ public class FeedbackSessionsForm {
         fsForm.editButtonTags = new ElementTag("onclick", "enableEditFS()");
 
         fsForm.additionalSettings = additionalSettings;
+
+        fsForm.feedbackSessionStatus = feedbackSessionStatus;
 
         return fsForm;
     }
@@ -251,6 +255,14 @@ public class FeedbackSessionsForm {
 
     public void setSubmitButtonVisible(boolean isSubmitButtonVisible) {
         this.isSubmitButtonVisible = isSubmitButtonVisible;
+    }
+
+    public String getFeedbackSessionStatus() {
+        return feedbackSessionStatus;
+    }
+
+    public void setFeedbackSessionStatus(String feedbackSessionStatus) {
+        this.feedbackSessionStatus = feedbackSessionStatus;
     }
 
     public String getFsDeleteLink() {

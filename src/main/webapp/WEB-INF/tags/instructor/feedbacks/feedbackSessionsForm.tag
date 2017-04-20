@@ -108,6 +108,30 @@
                         </div>
                     </div>
                 </div>
+                <c:choose>
+                    <c:when test="${not fsForm.fsNameEditable}">
+                        <br class="hidden-xs">
+                        <div class="row">
+                            <div class="col-sm-12"
+                                title="<%= Const.Tooltips.FEEDBACK_SESSION_STATUS_MESSAGE %>"
+                                data-toggle="tooltip"
+                                data-placement="top">
+                                <div class="form-group">
+                                    <h5 class="col-sm-2">
+                                        <label class="control-label">
+                                            Session Status
+                                        </label>
+                                    </h5>
+                                    <div class="col-sm-10">
+                                        <h5 class="form-control-static font-weight-normal">
+                                            ${fsForm.feedbackSessionStatus}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:when>
+                </c:choose>
                 <br class="hidden-xs">
                 <div class="row" id="instructionsRow">
                     <div class="col-sm-12"
