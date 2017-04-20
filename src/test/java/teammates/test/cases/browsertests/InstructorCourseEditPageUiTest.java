@@ -9,7 +9,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
@@ -120,8 +120,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("Checking max-length enforcement by the text boxes");
 
-        String maxLengthInstructorName = TestStringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
-        String longInstructorName = TestStringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        String maxLengthInstructorName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
+        String longInstructorName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         courseEditPage.clickEditInstructorLink(1);
         courseEditPage.clickShowNewInstructorFormButton();
@@ -135,8 +135,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertEquals(longInstructorName.substring(0, FieldValidator.PERSON_NAME_MAX_LENGTH),
                      courseEditPage.editInstructorName(1, longInstructorName));
 
-        String maxLengthEmail = TestStringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH);
-        String longEmail = TestStringHelper.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1);
+        String maxLengthEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH);
+        String longEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1);
 
         // Add instructor
         assertEquals(maxLengthEmail, courseEditPage.fillNewInstructorEmail(maxLengthEmail));

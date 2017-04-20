@@ -21,7 +21,7 @@ import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -376,7 +376,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2035-09-01 11:00 PM UTC"));
         newSession.setGracePeriod(5);
 
-        newSession.setInstructions(new Text(TestStringHelper.generateStringOfLength(3000)));
+        newSession.setInstructions(new Text(StringHelperExtension.generateStringOfLength(3000)));
         newSession.setPublishedEmailEnabled(true);
         newSession.setClosingEmailEnabled(true);
 

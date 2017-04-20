@@ -42,8 +42,8 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.CourseStudent;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.TestStringHelper;
-import teammates.test.driver.TestTimeHelper;
+import teammates.test.driver.StringHelperExtension;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link StudentsLogic}.
@@ -418,8 +418,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         List<String> expectedInvalidInfoList = new ArrayList<String>();
 
         ______TS("enrollLines with invalid parameters");
-        String invalidTeamName = TestStringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
-        String invalidStudentName = TestStringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        String invalidStudentName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         String headerLine = "Team | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
@@ -623,9 +623,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
                 courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TestTimeHelper.getHoursOffsetToCurrentTime(0), TestTimeHelper.getHoursOffsetToCurrentTime(2),
-                TestTimeHelper.getHoursOffsetToCurrentTime(5), TestTimeHelper.getHoursOffsetToCurrentTime(1),
-                TestTimeHelper.getHoursOffsetToCurrentTime(6),
+                TimeHelperExtension.getHoursOffsetToCurrentTime(0), TimeHelperExtension.getHoursOffsetToCurrentTime(2),
+                TimeHelperExtension.getHoursOffsetToCurrentTime(5), TimeHelperExtension.getHoursOffsetToCurrentTime(1),
+                TimeHelperExtension.getHoursOffsetToCurrentTime(6),
                 8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
 

@@ -3,14 +3,15 @@ package teammates.test.driver;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 import teammates.common.util.TimeHelper;
 
 /**
  * Holds additional methods for {@link TimeHelper} used only in tests.
  */
-public final class TestTimeHelper {
+public final class TimeHelperExtension {
 
-    private TestTimeHelper() {
+    private TimeHelperExtension() {
         // utility class
     }
 

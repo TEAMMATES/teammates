@@ -16,7 +16,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
@@ -203,10 +203,10 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private StudentProfileAttributes getInvalidStudentProfileAttributes() {
-        String googleId = TestStringHelper.generateStringOfLength(46);
+        String googleId = StringHelperExtension.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
-        String institute = TestStringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";

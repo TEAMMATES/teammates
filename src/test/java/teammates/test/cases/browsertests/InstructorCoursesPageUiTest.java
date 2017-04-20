@@ -9,7 +9,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -204,15 +204,15 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
                       FieldValidator.COURSE_NAME_MAX_LENGTH));
 
         //Checking max-length enforcement by the text boxes
-        String maxLengthCourseId = TestStringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
-        String longCourseId = TestStringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
+        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
+        String longCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
 
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
         assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH),
                      coursesPage.fillCourseIdTextBox(longCourseId));
 
-        String maxLengthCourseName = TestStringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-        String longCourseName = TestStringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        String maxLengthCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
+        String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
 
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
         assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH),

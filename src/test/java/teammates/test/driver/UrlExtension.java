@@ -2,14 +2,15 @@ package teammates.test.driver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import teammates.common.util.Url;
 
 /**
  * Holds additional methods for {@link Url} used only in tests.
  */
-public final class TestUrl {
+public final class UrlExtension {
 
-    private TestUrl() {
+    private UrlExtension() {
         // utility class
     }
 

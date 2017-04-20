@@ -12,7 +12,7 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -142,7 +142,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
 
         ______TS("Error case, invalid email parameter (email has too many characters)");
 
-        String invalidStudentEmail = TestStringHelper.generateStringOfLength(255 - "@gmail.tmt".length()) + "@gmail.tmt";
+        String invalidStudentEmail = StringHelperExtension.generateStringOfLength(255 - "@gmail.tmt".length())
+                + "@gmail.tmt";
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
         submissionParams = new String[]{

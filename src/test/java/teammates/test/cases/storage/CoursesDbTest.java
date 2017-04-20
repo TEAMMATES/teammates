@@ -12,7 +12,7 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link CoursesDb}.
@@ -58,7 +58,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
                     e.getMessage());
         }
 
-        String longCourseName = TestStringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         CourseAttributes invalidNameCourse = new CourseAttributes("CDbT.tCC.newCourse", longCourseName, "UTC");
         try {
             coursesDb.createEntity(invalidNameCourse);

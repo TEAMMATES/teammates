@@ -1,19 +1,19 @@
 package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
-import static teammates.test.driver.FieldValidator.*
-
+import static teammates.test.driver.FieldValidator.*;
 
 import java.util.Date;
+
 import org.testng.annotations.Test;
+
 import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FieldValidator;
-import teammates.test.driver.TestStringHelper;
-import teammates.test.driver.TestTimeHelper;
-import com.google.appengine.api.datastore.Text;
-
+import teammates.test.driver.StringHelperExtension;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link FieldValidator}.
@@ -49,9 +49,9 @@ public class FieldValidatorTest extends BaseTestCase {
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName,
                         maxLength,
-                        TestStringHelper.generateStringOfLength(maxLength)));
+                        StringHelperExtension.generateStringOfLength(maxLength)));
 
-        String tooLongName = TestStringHelper.generateStringOfLength(maxLength + 1);
+        String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an my field because it is too long. The value of a/an my field should be no "
@@ -130,7 +130,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName,
                         maxLength,
-                        TestStringHelper.generateStringOfLength(maxLength)));
+                        StringHelperExtension.generateStringOfLength(maxLength)));
 
         String emptyValue = "";
         assertEquals("valid: empty",
@@ -147,7 +147,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      validator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                untrimmedValue));
 
-        String tooLongName = TestStringHelper.generateStringOfLength(maxLength + 1);
+        String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an my field because it is too long. The value of a/an my field should be no "
@@ -241,11 +241,11 @@ public class FieldValidatorTest extends BaseTestCase {
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName,
                         maxLength,
-                        TestStringHelper.generateStringOfLength(maxLength)));
+                        StringHelperExtension.generateStringOfLength(maxLength)));
 
         ______TS("failure: too long");
 
-        String tooLongName = TestStringHelper.generateStringOfLength(maxLength + 1);
+        String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
         assertEquals("invalid: too long",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an name field because it is too long. The value of a/an name field should "
@@ -281,7 +281,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
-        String invalidInstituteName = TestStringHelper.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
+        String invalidInstituteName = StringHelperExtension.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
@@ -339,7 +339,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
-        String invalidSessionName = TestStringHelper.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String invalidSessionName = StringHelperExtension.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specfic to feedback session name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
@@ -416,7 +416,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Google ID (short email) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(shortEmailAsId));
 
-        String maxLengthId = TestStringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
+        String maxLengthId = StringHelperExtension.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
         assertEquals("Valid Google ID (max length) should return empty string", "",
                      validator.getInvalidityInfoForGoogleId(maxLengthId));
     }
@@ -440,7 +440,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME),
                      validator.getInvalidityInfoForGoogleId(untrimmedId));
 
-        String tooLongId = TestStringHelper.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
+        String tooLongId = StringHelperExtension.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Google ID (too long) should return appropriate error message",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                          + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -488,7 +488,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid email (short) should return empty string", "",
                      validator.getInvalidityInfoForEmail(shortEmail));
 
-        String maxLengthEmail = TestStringHelper.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
+        String maxLengthEmail = StringHelperExtension.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
         assertEquals("Valid email (max-length) should return empty string", "",
                      validator.getInvalidityInfoForEmail(maxLengthEmail));
     }
@@ -512,7 +512,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME),
                      validator.getInvalidityInfoForEmail(whitespaceEmail));
 
-        String tooLongEmail = TestStringHelper.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
+        String tooLongEmail = StringHelperExtension.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
         assertEquals("Invalid email (too long) should return appropriate error string",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                          + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -595,7 +595,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Course ID (short) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(shortCourseId));
 
-        String maxLengthCourseId = TestStringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH);
+        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(COURSE_ID_MAX_LENGTH);
         assertEquals("Valid Course ID (max length) should return empty string", "",
                      validator.getInvalidityInfoForCourseId(maxLengthCourseId));
     }
@@ -619,7 +619,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", COURSE_NAME_FIELD_NAME),
                      validator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
-        String tooLongCourseId = TestStringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
+        String tooLongCourseId = StringHelperExtension.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
                          + "course ID because it is too long. A course ID can contain letters, numbers, "
@@ -646,23 +646,23 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_valid_returnEmptyString() {
-        Date sessionStart = TestTimeHelper.getHoursOffsetToCurrentTime(-1);
-        Date sessionEnd = TestTimeHelper.getHoursOffsetToCurrentTime(1);
+        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
+        Date sessionEnd = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
         assertEquals("", validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_invalid_returnErrorString() {
-        Date sessionStart = TestTimeHelper.getHoursOffsetToCurrentTime(1);
-        Date sessionEnd = TestTimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
+        Date sessionEnd = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
         assertEquals("The end time for this feedback session cannot be earlier than the start time.",
                      validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_valid_returnEmptyString() {
-        Date visibilityStart = TestTimeHelper.getHoursOffsetToCurrentTime(-1);
-        Date sessionStart = TestTimeHelper.getHoursOffsetToCurrentTime(1);
+        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
+        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
         assertEquals("",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
                          visibilityStart, sessionStart));
@@ -670,8 +670,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_invalid_returnErrorString() {
-        Date visibilityStart = TestTimeHelper.getHoursOffsetToCurrentTime(1);
-        Date sessionStart = TestTimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
+        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
         assertEquals("The start time for this feedback session cannot be earlier than the time when the "
                          + "session will be visible.",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
@@ -680,8 +680,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_valid_returnEmptyString() {
-        Date visibilityStart = TestTimeHelper.getHoursOffsetToCurrentTime(-1);
-        Date resultsPublish = TestTimeHelper.getHoursOffsetToCurrentTime(1);
+        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
+        Date resultsPublish = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
         assertEquals("",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                          visibilityStart, resultsPublish));
@@ -689,8 +689,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_invalid_returnErrorString() {
-        Date visibilityStart = TestTimeHelper.getHoursOffsetToCurrentTime(1);
-        Date resultsPublish = TestTimeHelper.getHoursOffsetToCurrentTime(-1);
+        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
+        Date resultsPublish = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
         assertEquals("The time when the results will be visible for this feedback session cannot be "
                          + "earlier than the time when the session will be visible.",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(

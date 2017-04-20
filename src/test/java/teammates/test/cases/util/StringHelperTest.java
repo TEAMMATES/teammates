@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StringHelper}.
@@ -20,8 +20,8 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testGenerateStringOfLength() {
 
-        assertEquals(5, TestStringHelper.generateStringOfLength(5).length());
-        assertEquals(0, TestStringHelper.generateStringOfLength(0).length());
+        assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());
+        assertEquals(0, StringHelperExtension.generateStringOfLength(0).length());
     }
 
     @Test

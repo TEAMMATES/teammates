@@ -6,7 +6,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestStringHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseEnrollResultPage;
 import teammates.test.pageobjects.InstructorCoursesDetailsPage;
@@ -186,10 +186,10 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                 // A new student with invalid email input
                 + "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid" + Const.EOL
                 // A new student with invalid team name
-                + TestStringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
+                + StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
                         + " | Robert Downey | rob@email.tmt | This student team name is too long" + Const.EOL
                 // A new student with invalid name
-                + "Team 2 | " + TestStringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
+                + "Team 2 | " + StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
                         + " | longname@email.tmt | This student name is too long" + Const.EOL;
 
         enrollPage.enrollUnsuccessfully(enrollString);
