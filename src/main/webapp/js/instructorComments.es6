@@ -1,4 +1,7 @@
-/* global tinyMCE:false,
+/* global prepareInstructorPages:false
+          registerResponseCommentsEvent:false
+          registerResponseCommentCheckboxEvent:false
+          enableHoverToDisplayEditOptions:false
           BootboxWrapper:false,
           StatusType:false,
           richTextEditorBuilder:false,
@@ -78,6 +81,12 @@ function enableEdit(commentIdx) {
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
+
     function isRedirectToSpecificComment() {
         return window.location.href.includes('#');
     }
@@ -124,7 +133,7 @@ $(document).ready(() => {
         if ($(e.currentTarget).find('[id^=commentedittype]').val() !== 'delete') {
             const commentTextInput = $(e.currentTarget).find('.mce-content-body');
             const commentTextId = commentTextInput.attr('id');
-            const content = tinyMCE.get(commentTextId).getContent();
+            const content = tinymce.get(commentTextId).getContent();
             $(e.currentTarget).find(`input[name=${commentTextId}]`).prop('disabled', true);
             $(e.currentTarget).find('input[name=commenttext]').val(content);
         }

@@ -50,12 +50,13 @@ More information can be found at [this documentation](https://help.github.com/ar
    ```sh
    npm install
    ```
+   **Verification:** A folder named `node_modules` should be added to the project root directory.
 
 1. Run this command to create the main config files (these are not under revision control because their contents vary from developer to developer):
    ```sh
-   ./gradlew setup
+   ./gradlew createConfigs
    ```
-   **Verification:** The file named `.project` should be added to the project root directory.
+   **Verification:** The file named `gradle.properties` should be added to the project root directory.
 
 1. Modify the following config files:
    * `gradle.properties`<br>
@@ -66,82 +67,14 @@ More information can be found at [this documentation](https://help.github.com/ar
       Append a **same** unique id (e.g your name) to **each** of the default accounts found at the bottom of this file,
       e.g change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`.
 
-## Step 4: Set up an IDE
-
-[Eclipse IDE](#eclipse) is our preferred development environment and will get full support. [IntelliJ IDEA](#intellij-idea) usage is currently experimental and will receive limited support. Support requests related to other IDEs will not be entertained.
-
-### Eclipse
-
-> Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
-
-1. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) version Luna, Mars, or Neon, and install the following plugins:
-   * [Google Plugin for Eclipse](https://developers.google.com/eclipse/docs/download). Use the correct version for your Eclipse IDE.<br>
-     Be careful to omit other plugins shown on the screen (e.g Google App Engine Tools for Android, GWT plugin).
-   * The latest stable [TestNG Eclipse plugin](http://testng.org/doc/download.html).
-   
-   **Verification:** You can check if the plugins were installed successfully by going to `Help → Installation Details`.
-
-1. Configure Eclipse as follows (if you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES):
-   * Google App Engine: Go to `Eclipse → Preferences → Google → App Engine`, click the `Add` button, and point it to where Gradle keeps the downloaded SDK.<br>
-     This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
-     Further instructions for installing can be found [here](https://developers.google.com/eclipse/docs/using_sdks).
-   * Text encoding: Go to `Eclipse → Preferences → General → Workspace`, change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
-   * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a JDK (not a JRE) is selected (use **JDK 1.7**, as recommended by GAE).
-     One of the items in the [troubleshooting guide](troubleshooting-guide.md) explains how to do this.
-     
-   **Verification:** Go to `Eclipse → Preferences → Java → Installed JREs`, select the JDK 1.7 entry, and choose Edit. It should result in something like this:
-      ![devverification-guide-1.png](images/devverification-guide-1.png)
-
-1. Run this command to download the dependencies required by TEAMMATES and configure them up to be used by Eclipse:
-   ```sh
-   ./gradlew resetEclipseDeps
-   ```
-   This command can be run again whenever the dependencies need to be updated.
-  
- **Verification:** The file named `.classpath` should be added to the project root directory.
-
-1. Import the project to your Eclipse instance.
-   * Start Eclipse and go to `File → Import...`.
-   * Select `Existing Projects into Workspace` under `General`.
-   * Set the `root directory` to the location where the repo is cloned.
-   * Click `Finish`.
-   
-1. Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
-     Go to `Eclipse → Preferences` and configure for all the languages used in TEAMMATES:
-     * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`
-     * HTML: `Web → HTML Files → Editor → Indent using spaces`
-     * CSS: `Web → CSS Files → Editor → Indent using spaces`
-     * XML: `XML → XML Files → Editor → Indent using spaces`
-* HTML/JSP syntax: We prefer not to use the HTML/JSP syntax validator provided by Eclipse.<br>
-    To turn it off, go to `Project → Properties → Validation → HTML Syntax Validator` and uncheck the `Build` option. Similarly for `JSP Content Validator` and `JSP Syntax Validator`.
-
-### IntelliJ IDEA
-
-1. Download and install [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/).
-   * You will need an Ultimate Edition license in order to work with Google App Engine in IntelliJ IDEA.
-   * You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
-1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
-1. Configure IntelliJ as follows:
-   * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `Configure → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
-   * Text Encoding: Go to `Configure → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
-   * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `Configure → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
-1. Import the project into IntelliJ.
-   * Click `Import project` and select the local repository folder.
-   * Click `Import project from external model → Gradle`.
-   * Click `Next`.
-   * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
-   * Click `Finish`.
-1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
-
 If you followed every step correctly, you should have successfully set up the development environment.
 You may proceed to the development routine as lined out in [this document](development.md).
 
-## Step 5: (Optional) Set up static analysis tools for your IDE
+## Step 4: (Optional but recommended) Set up an IDE
 
-TEAMMATES uses a number of static analysis tools in order to maintain code quality and measure code coverage.
+You are encouraged, but not required, to use an IDE to assist many development tasks.
 
-If you use our supported IDEs, we have provided [a guide on how to set up the tools used in those IDEs](staticAnalysis.md).
+We currently support two IDEs: Eclipse IDE (full support) and IntelliJ IDEA (experimental; limited support).
+Support requests related to other IDEs will not be entertained.
 
-If you do not wish to install those tools in your IDE, you can run all static analysis tools via command line.
+Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.

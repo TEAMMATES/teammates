@@ -7,8 +7,8 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;

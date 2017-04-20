@@ -1,15 +1,19 @@
 package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
-import static teammates.test.driver.FieldValidator.*;
+import static teammates.test.driver.FieldValidator.*
+
+
 import java.util.Date;
 import org.testng.annotations.Test;
+import com.google.appengine.api.datastore.Text;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FieldValidator;
 import teammates.test.driver.TestStringHelper;
 import teammates.test.driver.TestTimeHelper;
 import com.google.appengine.api.datastore.Text;
+
 
 /**
  * SUT: {@link FieldValidator}.

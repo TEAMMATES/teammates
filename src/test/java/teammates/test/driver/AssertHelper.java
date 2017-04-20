@@ -10,10 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Joiner;
+
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
-
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 
 /**
  * Provides additional assertion methods that are often used during testing.

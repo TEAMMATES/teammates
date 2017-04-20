@@ -274,12 +274,42 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
 
-        ______TS("remind action: CLOSED feedback session");
 
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionClosed.getCourseId(),
-                                                          feedbackSessionClosed.getFeedbackSessionName()));
-        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionClosed.getCourseId(),
-                                                                 feedbackSessionClosed.getFeedbackSessionName()));
+
+        ______TS("remind action: CLOSED feedback session - inner button");
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName()));
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+
+        ______TS("remind particular users action: CLOSED feedback session");
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName());
+        homePage.cancelRemindParticularUsersForm();
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
+        homePage.submitRemindParticularUsersForm();
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
+        homePage.fillRemindParticularUsersForm();
+        homePage.submitRemindParticularUsersForm();
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
 
         ______TS("remind action: PUBLISHED feedback session");
 

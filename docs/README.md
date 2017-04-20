@@ -8,6 +8,7 @@ Here are some documents important for TEAMMATES developers.
 * The [**glossary**](glossary.md) of terms used in the project.
 * Software [**Design**](design.md) - Architecture, APIs, etc.
 * How to [**set up the developer environment**](settingUp.md).
+  * How to [**set up some IDEs for development**](ide-usage.md).
 * [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
@@ -32,3 +33,9 @@ Here are some documents important for TEAMMATES developers.
 * [Static analysis](staticAnalysis.md): Performing code quality check.
 * [Setting up third-party email providers](emails.md).
 * ["GodMode"](godmode.md)
+
+## Technical Reports
+
+> These are the in-depth descriptions about various aspects of the project.
+
+* [Measuring the scalability and performance of TEAMMATES](techReports/Measuring-scalability-and-performance.md) - by Samson Tan Min Rong
