@@ -690,15 +690,15 @@ public class EmailGenerator {
         email.setReplyTo(Config.EMAIL_REPLYTO);
         return email;
     }
-    
-    private String getCoOwnersEmailsList(List<InstructorAttributes> instructors){
-        String coOwnersEmailsList = "";
-        for (InstructorAttributes instructor: instructors) {
-            if(instructor.hasCoownerPrivileges()) {
-                coOwnersEmailsList += (instructor.getName()+"("+instructor.getEmail()+"), ");
+
+    private String getCoOwnersEmailsList(List<InstructorAttributes> instructors) {
+        StringBuffer coOwnersEmailsList = new StringBuffer();
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.hasCoownerPrivileges()) {
+                coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
             }
         }
-        return coOwnersEmailsList.substring(0,coOwnersEmailsList.length()-2);
+        return coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2).toString();
     }
-    
+
 }
