@@ -177,34 +177,18 @@ public class InstructorAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
         if (googleId != null) {
-            error = validator.getInvalidityInfoForGoogleId(googleId);
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
 
-        error = validator.getInvalidityInfoForEmail(email);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
 
-        error = validator.getInvalidityInfoForPersonName(displayedName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForPersonName(displayedName), errors);
 
         return errors;
     }

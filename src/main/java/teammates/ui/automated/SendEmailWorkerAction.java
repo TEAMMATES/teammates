@@ -2,9 +2,9 @@ package teammates.ui.automated;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: sends queued email.

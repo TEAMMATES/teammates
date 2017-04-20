@@ -1,11 +1,11 @@
 package teammates.common.datatransfer;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import teammates.common.datatransfer.attributes.CommentAttributes;
 
 /**
  * The search result bundle for {@link CommentAttributes}.

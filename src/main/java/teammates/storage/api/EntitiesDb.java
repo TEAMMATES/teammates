@@ -8,6 +8,12 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
+
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -20,12 +26,6 @@ import teammates.common.util.ThreadHelper;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
@@ -41,8 +41,8 @@ public abstract class EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION =
             "Trying to update non-existing InstructorPermission: ";
-    public static final String ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION =
-            "Trying to update to existent IntructorPermission: ";
+    public static final String ERROR_UPDATE_TO_EXISTENT_INSTRUCTOR_PERMISSION =
+            "Trying to update to existent InstructorPermission: ";
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
             "Trying to make an non-existent account an Instructor :";
