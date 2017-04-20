@@ -4,7 +4,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.SanitizationHelper;
 
 /**
- * Used to handle the data validation aspect for test.
+ * Holds additional methods for {@link teammates.common.util.FieldValidator} used only in tests.
  */
 public class FieldValidator extends teammates.common.util.FieldValidator {
 
@@ -21,7 +21,7 @@ public class FieldValidator extends teammates.common.util.FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public static String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
+    public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
 
         if (value.isEmpty()) {

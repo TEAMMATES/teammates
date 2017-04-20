@@ -5,7 +5,7 @@ import java.net.URL;
 import teammates.common.util.Url;
 
 /**
- * Utility methods for Url class used only in tests.
+ * Holds additional methods for {@link Url} used only in tests.
  */
 public final class TestUrl {
 

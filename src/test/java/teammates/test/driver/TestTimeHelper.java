@@ -6,8 +6,7 @@ import java.util.TimeZone;
 import teammates.common.util.TimeHelper;
 
 /**
- * A helper class to hold time-related functions (e.g., converting dates to strings etc.).
- * Time zone is assumed as UTC unless specifically mentioned.
+ * Holds additional methods for {@link TimeHelper} used only in tests.
  */
 public final class TestTimeHelper {
 
