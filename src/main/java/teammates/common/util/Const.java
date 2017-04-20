@@ -290,6 +290,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
                 "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> "
                 + "It will be displayed at the top of the page when users respond to the session.";
+        public static final String FEEDBACK_SESSION_STATUS_MESSAGE = "Status of feedback session.";
         public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
         public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
         public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
