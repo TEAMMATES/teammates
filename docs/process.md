@@ -47,13 +47,13 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
 
 ### Step 2: Start clean from a new branch
 
-1. Start off from your `master` branch and make sure it is up-to-date with the latest version of the committer repo's `master` branch.
+1. Start off from your `master` branch and make sure it is up-to-date with the latest version of the main repo's `master` branch.
    ```sh
    git checkout master
    git pull
    ```
 
-1. Create a new branch to push your commits into. If you have push access, name it `{IssueNumber}-{some-keywords}`,
+1. Create a new branch to push your commits into. If you have commit access and need to push into the main repo for some reason, name it `{IssueNumber}-{some-keywords}`,
    where `some-keywords` are representative keywords taken from the issue title.
    ```sh
    git checkout -b 3942-remove-unnecessary-println
@@ -62,7 +62,7 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
 Notes:
 
 1. **Do not** combine fixes for multiple issues in one branch, unless they are tightly related.
-1. Your `master` branch must never be ahead of the committer repo's `master` branch at all times.
+1. Your `master` branch must never be ahead of the main repo's `master` branch at all times.
 
 ### Step 3: Fix the issue
 
@@ -80,8 +80,8 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * Use meaningful commit messages (e.g. `Add tests for the truncate method`).
      [Here](http://chris.beams.io/posts/git-commit/) is a good reference.
 
-1. Sync with the committer repo frequently. While you were fixing the issue, others might have pushed new code to the committer repo.
-   * Update your repo's `master` branch with any new changes from committer repo, then switch back to your work branch.
+1. Sync with the main repo frequently. While you were fixing the issue, others might have pushed new code to the main repo.
+   * Update your repo's `master` branch with any new changes from main repo, then switch back to your work branch.
 
      ```sh
      git checkout master
@@ -117,7 +117,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * All new public APIs (methods, classes) are **documented with header comments**.
    * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features.
 
-1. Push your branch to your fork, or to the committer repo if you have push access.
+1. Push your branch to your fork, or to the main repo only if necessary.
    ```sh
    git push {remote-name} 3942-remove-unnecessary-println
    ```
@@ -126,10 +126,16 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    git push -f {remote-name} 3942-remove-unnecessary-println
    ```
 
+   > Anyone working on an issue, including core team members, should use branches in his/her own fork instead unless the branch needs to be in the main repo.
+   > Such cases include:
+   >
+   > * The branch is being worked on by multiple people.
+   > * The branch contains changes that need to be trialled by other core team member.
+
 ### Step 4: Submit a PR
 
 [Create a PR](https://help.github.com/articles/creating-a-pull-request/) with the following configuration:
-* The base branch is the committer repo's `master` branch (except for hot patches in which it will be the `release` branch).
+* The base branch is the main repo's `master` branch (except for hot patches in which it will be the `release` branch).
 * PR name: copy-and-paste the relevant issue name and include the issue number as well,
   e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
@@ -186,7 +192,7 @@ The cycle of "code review" - "updating the PR" will be repeated until your PR is
 The core team member responsible for merging your PR might contact you for reasons such as syncing your PR with the latest `master` branch or resolving merge conflicts.
 Depending on the situation, this may necessitate more changes to be made in your PR (e.g. if your PR is functionally conflicting with a recent change), however this rarely happens.
 
-Your work on the issue is done when your PR is successfully merged to the committer repo's `master` or `release` branch.
+Your work on the issue is done when your PR is successfully merged to the main repo's `master` or `release` branch.
 
 ## Reviewing a PR
 
