@@ -903,6 +903,18 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
+    public AppPage verifyHtmlMainContentWithReloadRetry(String filePath) throws IOException {
+        for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+            try {
+                return verifyHtmlPart(MAIN_CONTENT, filePath);
+            } catch (AssertionError e) {
+            }
+            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
+            reloadPage();
+        }
+        return verifyHtmlPart(MAIN_CONTENT, filePath);
+    }
+
     /**
      * Verifies that the title of the loaded page is the same as {@code expectedTitle}.
      */

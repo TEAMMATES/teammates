@@ -235,7 +235,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                              new Text("updated instructions"),
                                              feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
+        instructorHomePage.verifyHtmlMainContentWithReloadRetry("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
 
         ______TS("new instructor can click submit button of sample feedbackSession");
         instructorHomePage.loadInstructorHomeTab();
