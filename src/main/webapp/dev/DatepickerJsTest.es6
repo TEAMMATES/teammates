@@ -1,3 +1,9 @@
+/* global
+triggerDatepickerOnClick:false, getMaxDateForVisibleDate:false
+getMinDateForPublishDate:false
+*/
+
+QUnit.module('datepicker.js');
 
 QUnit.test('triggerDatepickerOnClick(datepickerDivs)', (assert) => {
     assert.expect(1);
