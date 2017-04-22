@@ -356,9 +356,9 @@ public class AdminSearchPageAction extends Action {
 
             data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName()
                     + " (Published)"
-                    + "(" + fsa.getSessionStartTime()
+                    + "[" + fsa.getSessionStartTime()
                     + " - " + fsa.getSessionEndTime()
-                    + ")");
+                    + "]");
         }
         return data;
     }
