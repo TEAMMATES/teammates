@@ -2,6 +2,7 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -14,7 +15,14 @@ import teammates.common.util.Const;
  * Represents a course entity.
  */
 @PersistenceCapable
-public class Course {
+public class Course extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Course.class);
+
     @PrimaryKey
     @Persistent
     @SerializedName("id")

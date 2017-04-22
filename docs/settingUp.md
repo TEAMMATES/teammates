@@ -20,7 +20,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone that fork to your hard disk.
 
-1. Add a remote name (e.g `upstream`) for the original repo for your repo to keep in sync with.
+1. Add a remote name (e.g `upstream`) for the main repo for your repo to keep in sync with.
    ```sh
    git remote add upstream https://github.com/TEAMMATES/teammates.git
    ```
@@ -30,7 +30,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
     upstream        https://github.com/TEAMMATES/teammates.git (push)
     ```
 
-1. Set your `master` branch to track the original repo's `master` branch.
+1. Set your `master` branch to track the main repo's `master` branch.
    ```sh
    git checkout master
    git branch -u upstream/master

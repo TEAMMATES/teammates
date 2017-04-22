@@ -17,7 +17,13 @@ import teammates.common.util.Const;
  * Represents a feedback response.
  */
 @PersistenceCapable
-public class FeedbackResponse implements StoreCallback {
+public class FeedbackResponse extends Entity implements StoreCallback {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackResponse.class);
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
