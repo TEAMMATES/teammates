@@ -261,7 +261,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
-        
 
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
@@ -272,7 +271,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         
-
         ______TS("remind action: CLOSED feedback session");
 
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionClosed.getCourseId(),
