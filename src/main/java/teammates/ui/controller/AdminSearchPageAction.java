@@ -52,7 +52,7 @@ public class AdminSearchPageAction extends Action {
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentRecordsPageLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putStudentInsitituteIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentInstituteIntoMap(data.studentResultBundle.studentList, data);
 
         data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey);
         data = putInstructorInsitituteIntoMap(data.instructorResultBundle.instructorList, data);
@@ -169,7 +169,7 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
 
-    private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
+    private AdminSearchPageData putStudentInstituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data) {
         for (StudentAttributes student : students) {
 
             if (tempCourseIdToInstituteMap.get(student.course) != null) {
@@ -289,7 +289,7 @@ public class AdminSearchPageAction extends Action {
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course);
 
             for (FeedbackSessionAttributes fsa : feedbackSessions) {
-                processedData = extractDataFromFeedbackSeesion(fsa, processedData, student);
+                processedData = extractDataFromFeedbackSession(fsa, processedData, student);
             }
         }
 
@@ -297,7 +297,7 @@ public class AdminSearchPageAction extends Action {
 
     }
 
-    private AdminSearchPageData extractDataFromFeedbackSeesion(FeedbackSessionAttributes fsa,
+    private AdminSearchPageData extractDataFromFeedbackSession(FeedbackSessionAttributes fsa,
                                                                AdminSearchPageData data,
                                                                StudentAttributes student) {
 
