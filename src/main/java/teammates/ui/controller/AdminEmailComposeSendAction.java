@@ -69,8 +69,8 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (!addressModeOn && !groupModeOn) {
             isError = true;
-            statusToAdmin = "Error : No reciver address or file given";
-            statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));
+            statusToAdmin = "Error : No receiver address or file given";
+            statusToUser.add(new StatusMessage("Error : No receiver address or file given", StatusMessageColor.DANGER));
         }
 
         if (isError) {
