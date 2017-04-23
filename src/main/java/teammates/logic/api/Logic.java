@@ -236,10 +236,14 @@ public class Logic {
         }
 
         InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleParam)
-                .displayedName(displayedNameParam).privileges(privileges)
+                .googleId(googleId).courseId(courseId).name(name).email(email)
+                .role(roleParam).displayedName(displayedNameParam).privileges(privileges)
                 .isDisplayedToStudents(isDisplayedToStudents).isArchived(isArchived)
                 .build();
+
+        if (privileges == null && roleParam != null) {
+            instructor.privileges = new InstructorPrivileges(roleParam);
+        }
 
         instructorsLogic.createInstructor(instructor);
     }

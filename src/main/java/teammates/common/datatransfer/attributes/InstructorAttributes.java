@@ -96,12 +96,16 @@ public class InstructorAttributes extends EntityAttributes {
         public Builder privileges(String privilegesAsText) {
             instructorAttributes.privileges = (privilegesAsText == null)
                     ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
-                    : InstructorAttributes.getInstructorPrivilegesFromText(privilegesAsText);
+                    : getInstructorPrivilegesFromText(privilegesAsText);
             return this;
         }
 
         public InstructorAttributes build() {
             return instructorAttributes;
+        }
+
+        private static InstructorPrivileges getInstructorPrivilegesFromText(String instructorPrivilegesAsText) {
+            return JsonUtils.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
         }
     }
 
@@ -138,10 +142,6 @@ public class InstructorAttributes extends EntityAttributes {
 
     public String getTextFromInstructorPrivileges() {
         return JsonUtils.toJson(privileges, InstructorPrivileges.class);
-    }
-
-    private static InstructorPrivileges getInstructorPrivilegesFromText(String instructorPrivilegesAsText) {
-        return JsonUtils.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
 
     public String getName() {
