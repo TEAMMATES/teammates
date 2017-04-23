@@ -696,7 +696,7 @@ public class FieldValidator {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
-    protected static boolean isUntrimmed(String value) {
+    public static boolean isUntrimmed(String value) {
         return value.length() != value.trim().length();
     }
 
@@ -719,7 +719,7 @@ public class FieldValidator {
         return uniqueElements.size() == elements.size();
     }
 
-    protected static String getPopulatedErrorMessage(
+    public static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
                    .replace("${maxLength}", String.valueOf(maxLength));

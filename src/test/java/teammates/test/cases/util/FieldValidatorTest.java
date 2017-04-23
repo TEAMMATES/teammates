@@ -1,7 +1,8 @@
 package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
-import static teammates.test.driver.FieldValidator.*;
+import static teammates.common.util.FieldValidator.*;
+//CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.Date;
 
@@ -9,9 +10,10 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.FieldValidator;
+import teammates.test.driver.FieldValidatorExtension;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -29,7 +31,7 @@ public class FieldValidatorTest extends BaseTestCase {
         int typicalLength = 25;
 
         try {
-            validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
+            FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                     typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
@@ -39,14 +41,14 @@ public class FieldValidatorTest extends BaseTestCase {
         int maxLength = 50;
         assertEquals("valid: typical value",
                 "",
-                validator.getValidityInfoForSizeCappedNonEmptyString(
+                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName,
                         maxLength,
                         "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"));
 
         assertEquals("valid: max length",
                 "",
-                validator.getValidityInfoForSizeCappedNonEmptyString(
+                FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName,
                         maxLength,
                         StringHelperExtension.generateStringOfLength(maxLength)));
@@ -56,21 +58,21 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an my field because it is too long. The value of a/an my field should be no "
                          + "longer than 50 characters. It should not be empty.",
-                     validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
+                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                              maxLength, tooLongName));
 
         String emptyValue = "";
         assertEquals("invalid: empty",
                      "\"\" is not acceptable to TEAMMATES as a/an my field because it is empty. The value of "
                          + "a/an my field should be no longer than 50 characters. It should not be empty.",
-                     validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
+                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                              maxLength, emptyValue));
 
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed",
                      "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
                          + "contains extra spaces at the beginning or at the end of the text.",
-                     validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
+                     FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                              maxLength, untrimmedValue));
     }
 
@@ -110,7 +112,7 @@ public class FieldValidatorTest extends BaseTestCase {
         int typicalLength = 25;
 
         try {
-            validator.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
+            FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                     typicalLength, null);
             signalFailureToDetectException("not expected to be null");
         } catch (AssertionError e) {
