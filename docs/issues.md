@@ -14,6 +14,16 @@ Colors indicate which roles are involved in which states/transitions.
 
 ## Issue labels
 
+### Status (`s.*`)
+
+This label classifies the issue based on its **status**.
+
+* No `s.*` label and no other labels: issue is yet to be triaged
+* `s.NeedsInfo`: more information is needed from the issue reporter
+* `s.ToInvestigate`: the issue needs to be validated by a core team member
+* `s.OnHold`: the issue's validity has been put on hold pending some other event
+* No `s.*` label and other labels present: issue is accepted
+
 ### Category (`c.*`)
 
 This label classifies the issue based on its **type**.
