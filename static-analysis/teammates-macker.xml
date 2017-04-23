@@ -297,12 +297,6 @@
                                 <include class="${testCases}.datatransfer.**" />
                             </from>
                         </allow>
-
-                        <!-- Violations that need fixing -->
-                        <allow>
-                            <from class="${testCases}.storage.FeedbackResponseCommentsDbTest" />
-                            <to class="${storage}.entity.FeedbackResponseComment" />
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>
