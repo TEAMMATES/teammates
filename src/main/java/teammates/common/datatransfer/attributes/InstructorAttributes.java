@@ -77,7 +77,7 @@ public class InstructorAttributes extends EntityAttributes {
         }
 
         public Builder isArchived(Boolean isArchived) {
-            instructorAttributes.isArchived = (isArchived != null) && isArchived;
+            instructorAttributes.isArchived = isArchived != null && isArchived;
             return this;
         }
 
@@ -96,7 +96,7 @@ public class InstructorAttributes extends EntityAttributes {
         public Builder privileges(String privilegesAsText) {
             instructorAttributes.privileges = (privilegesAsText == null)
                     ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
-                    : getInstructorPrivilegesFromText(privilegesAsText);
+                    : InstructorAttributes.getInstructorPrivilegesFromText(privilegesAsText);
             return this;
         }
 
