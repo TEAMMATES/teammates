@@ -308,10 +308,6 @@
                             <from class="${testCases}.storage.FeedbackResponseCommentsDbTest" />
                             <to class="${storage}.entity.FeedbackResponseComment" />
                         </allow>
-                        <allow>
-                            <from class="${testCases}.logic.StudentsLogicTest" />
-                            <to class="${storage}.entity.CourseStudent" />
-                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>
