@@ -23,19 +23,26 @@ public class InstructorAttributes extends EntityAttributes {
     public String name;
     public String email;
     public String key;
-    public String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-    public String displayedName = DEFAULT_DISPLAY_NAME;
-    public Boolean isArchived = false;
-    public boolean isDisplayedToStudents = true;
-
-    public InstructorPrivileges privileges = new InstructorPrivileges(
-            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+    public String role;
+    public String displayedName;
+    public Boolean isArchived;
+    public boolean isDisplayedToStudents;
+    public InstructorPrivileges privileges;
 
     /**
      * Builder class to simplify creation of object.
      */
     public static class Builder {
-        private final InstructorAttributes instructorAttributes = new InstructorAttributes();
+        private final InstructorAttributes instructorAttributes;
+
+        public Builder() {
+            instructorAttributes = new InstructorAttributes();
+            instructorAttributes.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+            instructorAttributes.displayedName = DEFAULT_DISPLAY_NAME;
+            instructorAttributes.isArchived = false;
+            instructorAttributes.isDisplayedToStudents = true;
+            instructorAttributes.privileges = new InstructorPrivileges(instructorAttributes.role);
+        }
 
         public Builder googleId(String googleId) {
             instructorAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
