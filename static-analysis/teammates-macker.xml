@@ -96,12 +96,7 @@
                         </from>
                         <to class="${ui}.template.**" />
                         <allow>
-                            <from>
-                                <include class="${ui}.pagedata.**" />
-
-                                <!-- Violations that need fixing -->
-                                <include class="${ui}.controller.StudentCourseDetailsPageAction" />
-                            </from>
+                            <from class="${ui}.pagedata.**" />
                         </allow>
                     </deny>
                 </access-rule>
