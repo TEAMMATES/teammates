@@ -333,9 +333,7 @@
                                 <include class="${test}.driver.BackDoor**$**" /> <!-- allow dependency to inner class -->
                                 <include class="${testCases}.browsertests.**" />
                                 <include class="${testCases}.testdriver.BackDoorTest" />
-
-                                <!-- Violation that needs fixing -->
-                                <include class="${testCases}.BaseTestCaseWithDatastoreAccess" />
+                                <include class="${testCases}.BaseTestCaseWithBackDoorApiAccess" />
 
                                 <include class="${client}.scripts.ImportData" />
                                 <include class="${client}.scripts.PerformanceProfiler" />
