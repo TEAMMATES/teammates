@@ -32,8 +32,7 @@ public class InstructorAttributes extends EntityAttributes {
             Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
     /**
-     * Builder class to simplify creation of object
-     * and replace telescoping constructor antipattern
+     * Builder class to simplify creation of object.
      */
     public static class Builder {
         private final InstructorAttributes instructorAttributes = new InstructorAttributes();
@@ -106,7 +105,7 @@ public class InstructorAttributes extends EntityAttributes {
         }
     }
 
-    /** Return new builder instance */
+    /** Return new builder instance. */
     public static Builder builder() {
         return new Builder();
     }

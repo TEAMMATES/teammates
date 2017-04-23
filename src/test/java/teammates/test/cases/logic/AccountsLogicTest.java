@@ -360,7 +360,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but account already exists");
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns =InstructorAttributes.builder()
+        InstructorAttributes newIns = InstructorAttributes.builder()
                 .courseId(instructor.courseId).name(nonInstrAccount.name).email(nonInstrAccount.email)
                 .build();
 
