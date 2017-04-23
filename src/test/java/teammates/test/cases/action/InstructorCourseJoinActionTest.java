@@ -78,7 +78,10 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
 
         ______TS("Typical case: unregistered instructor, redirect to confirmation page");
 
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAT.instr@email.com");
+        instructor = InstructorAttributes.builder()
+                .courseId(instructor.courseId)
+                .name("New Instructor").email("ICJAT.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAT.instr";
 

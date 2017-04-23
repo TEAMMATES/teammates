@@ -236,19 +236,12 @@ public class Logic {
             accountsLogic.createAccount(account);
         }
 
-        String role = roleParam == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : roleParam;
-        String displayedName = displayedNameParam == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedNameParam;
-        InstructorAttributes instructor = null;
+        InstructorAttributes instructor = InstructorAttributes.builder()
+                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleParam)
+                .displayedName(displayedNameParam).privileges(privileges)
+                .isDisplayedToStudents(isDisplayedToStudents).isArchived(isArchived)
+                .build();
 
-        if (privileges == null) {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, isDisplayedToStudents,
-                                                  displayedName, new InstructorPrivileges(role));
-        } else {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
-        }
-
-        instructor.isArchived = isArchived;
-        instructor.isDisplayedToStudents = isDisplayedToStudents;
         instructorsLogic.createInstructor(instructor);
     }
 
@@ -265,9 +258,10 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor =
-                new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
-
+        InstructorAttributes instructor = InstructorAttributes.builder()
+                .courseId(courseId).name(name).email(email)
+                .role(role).privileges(new InstructorPrivileges(role))
+                .build();
         instructorsLogic.createInstructor(instructor);
     }
 

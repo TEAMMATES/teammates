@@ -22,117 +22,119 @@ public class InstructorAttributes extends EntityAttributes {
     public String courseId;
     public String name;
     public String email;
-    public Boolean isArchived;
     public String key;
-    public String role;
-    public boolean isDisplayedToStudents;
-    public String displayedName;
+    public String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+    public String displayedName = DEFAULT_DISPLAY_NAME;
+    public Boolean isArchived = false;
+    public boolean isDisplayedToStudents = true;
 
-    public InstructorPrivileges privileges;
-
-    /**
-     * Creates a new instructor with default access level and default displayedName.
-     *
-     * @deprecated only to be used for testing
-     */
-    @Deprecated
-    public InstructorAttributes(String googleId, String courseId, String name, String email) {
-        this(googleId, courseId, name, email,
-             Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, DEFAULT_DISPLAY_NAME,
-             new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-    }
+    public InstructorPrivileges privileges = new InstructorPrivileges(
+            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
     /**
-     * Creates a new instructor with params specified (isDisplayedToStudent is set to true by default).
+     * Builder class to simplify creation of object
+     * and replace telescoping constructor antipattern
      */
-    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                String displayedName, String instructorPrivilegesAsText) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.courseId = SanitizationHelper.sanitizeTitle(courseId);
-        this.isArchived = false;
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = email;
-        this.role = SanitizationHelper.sanitizeName(role);
-        this.isDisplayedToStudents = true;
-        this.displayedName = SanitizationHelper.sanitizeName(displayedName);
-        this.privileges = getInstructorPrivilegesFromText(instructorPrivilegesAsText);
-    }
+    public static class Builder {
+        private final InstructorAttributes instructorAttributes = new InstructorAttributes();
 
-    /**
-     * Creates an instructor (isDisplayedToStudent is set to true by default).
-     */
-    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                String displayedName, InstructorPrivileges privileges) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.courseId = courseId;
-        this.isArchived = false;
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = email;
-        this.role = SanitizationHelper.sanitizeName(role);
-        this.isDisplayedToStudents = true;
-        this.displayedName = SanitizationHelper.sanitizeName(displayedName);
-        this.privileges = privileges;
-    }
-
-    /**
-     * Creates an instructor.
-     */
-    public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-                                boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
-        this(googleId, courseId, name, email, role, displayName, privileges);
-        this.isDisplayedToStudents = isDisplayedToStudents;
-        this.isArchived = false;
-    }
-
-    public InstructorAttributes(Instructor instructor) {
-        this.googleId = instructor.getGoogleId();
-        this.courseId = instructor.getCourseId();
-        this.isArchived = instructor.getIsArchived() != null && instructor.getIsArchived();
-        this.name = instructor.getName();
-        this.email = instructor.getEmail();
-
-        if (instructor.getRegistrationKey() == null) {
-            instructor.setGeneratedKeyIfNull();
+        public Builder googleId(String googleId) {
+            instructorAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            return this;
         }
 
-        this.key = instructor.getRegistrationKey();
-
-        if (instructor.getRole() == null) {
-            this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        } else {
-            this.role = instructor.getRole();
+        public Builder courseId(String courseId) {
+            instructorAttributes.courseId = SanitizationHelper.sanitizeTitle(courseId);
+            return this;
         }
 
-        this.isDisplayedToStudents = instructor.isDisplayedToStudents();
-
-        if (instructor.getDisplayedName() == null) {
-            this.displayedName = DEFAULT_DISPLAY_NAME;
-        } else {
-            this.displayedName = instructor.getDisplayedName();
+        public Builder name(String name) {
+            instructorAttributes.name = SanitizationHelper.sanitizeName(name);
+            return this;
         }
 
-        if (instructor.getInstructorPrivilegesAsText() == null) {
-            this.privileges =
-                    new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        } else {
-            this.privileges = getInstructorPrivilegesFromText(instructor.getInstructorPrivilegesAsText());
+        public Builder email(String email) {
+            instructorAttributes.email = email;
+            return this;
+        }
+
+        public Builder key(String key) {
+            instructorAttributes.key = key;
+            return this;
+        }
+
+        public Builder role(String role) {
+            instructorAttributes.role = (role == null)
+                    ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                    : SanitizationHelper.sanitizeName(role);
+            return this;
+        }
+
+        public Builder displayedName(String displayedName) {
+            instructorAttributes.displayedName = (displayedName == null)
+                    ? DEFAULT_DISPLAY_NAME
+                    : SanitizationHelper.sanitizeName(displayedName);
+            return this;
+        }
+
+        public Builder isArchived(Boolean isArchived) {
+            instructorAttributes.isArchived = (isArchived != null) && isArchived;
+            return this;
+        }
+
+        public Builder isDisplayedToStudents(boolean isDisplayedToStudents) {
+            instructorAttributes.isDisplayedToStudents = isDisplayedToStudents;
+            return this;
+        }
+
+        public Builder privileges(InstructorPrivileges privileges) {
+            instructorAttributes.privileges = (privileges == null)
+                    ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                    : privileges;
+            return this;
+        }
+
+        public Builder privileges(String privilegesAsText) {
+            instructorAttributes.privileges = (privilegesAsText == null)
+                    ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                    : getInstructorPrivilegesFromText(privilegesAsText);
+            return this;
+        }
+
+        public InstructorAttributes build() {
+            return instructorAttributes;
         }
     }
 
-    @Deprecated
-    public InstructorAttributes() {
-        // deprecated
+    /** Return new builder instance */
+    public static Builder builder() {
+        return new Builder();
     }
 
-    private InstructorAttributes(InstructorAttributes other) {
-        this(other.googleId, other.courseId, other.name, other.email,
-             other.role, other.isDisplayedToStudents, other.displayedName, other.privileges);
-        this.key = other.key;
-        this.isArchived = other.isArchived;
+    public static InstructorAttributes valueOf(Instructor instructor) {
+        return builder()
+                .googleId(instructor.getGoogleId())
+                .courseId(instructor.getCourseId())
+                .name(instructor.getName())
+                .email(instructor.getEmail())
+                .key(instructor.getRegistrationKey())
+                .role(instructor.getRole())
+                .displayedName(instructor.getDisplayedName())
+                .privileges(instructor.getInstructorPrivilegesAsText())
+                .isDisplayedToStudents(instructor.isDisplayedToStudents())
+                .isArchived(instructor.getIsArchived())
+                .build();
     }
 
+    // Do we really need that method? It creates only shallow copy of object.
+    // If we need exactly that behavior and not deep copy of object we can implement cloneable interface
+    // and use clone() method instead.
     public InstructorAttributes getCopy() {
-        return new InstructorAttributes(this);
+        return builder()
+                .googleId(googleId).courseId(courseId).name(name).email(email).key(key)
+                .role(role).displayedName(displayedName).privileges(privileges)
+                .isDisplayedToStudents(isDisplayedToStudents).isArchived(isArchived)
+                .build();
     }
 
     public String getTextFromInstructorPrivileges() {

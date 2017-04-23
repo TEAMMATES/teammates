@@ -105,7 +105,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         ______TS("Typical case: authenticate for new instructor with corresponding key");
 
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
+        instructor = InstructorAttributes.builder()
+                .courseId(instructor.courseId).name("New Instructor").email("ICJAAT.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT.instr";
 
@@ -143,7 +145,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         ______TS("Failure case: the current unused key is not for this account ");
 
         String currentLoginId = instructor.googleId;
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
+        instructor = InstructorAttributes.builder()
+                .courseId(instructor.courseId).name("New Instructor 2").email("ICJAAT2.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT2.instr";
 
