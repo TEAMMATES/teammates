@@ -36,30 +36,6 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Returns a HashMap object containing all the parameters key-value pairs from a URLFetchRequest object.
-     */
-    public static HashMap<String, String> getParamMap(URLFetchRequest request) {
-        String requestBody = request.getPayload().toStringUtf8();
-        String[] params = requestBody.split("&");
-        HashMap<String, String> hashMap = new HashMap<String, String>();
-
-        for (String param : params) {
-            String[] pair = param.split("=");
-            String name = pair[0];
-            String value = pair[1];
-            try {
-                String decodedValue = URLDecoder.decode(value, "UTF8");
-
-                hashMap.put(name, decodedValue);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return hashMap;
-    }
-
-    /**
      * Returns the first value for the key in the request's parameter map, or null if key not found.
      *
      * @param req An HttpServletRequest which contains the parameters map
