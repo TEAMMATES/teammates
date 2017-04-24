@@ -69,8 +69,7 @@ The following plugins are needed:
    * Validation: We do not validate HTML, JSP, and XML.<br>
      `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
 
-1. Indentation: Go to `Eclipse → Preferences`
-     Configure 4 spaces in place of tabs for all the remaining languages used in TEAMMATES:
+1. Indentation: Go to `Eclipse → Preferences` and configure 4 spaces in place of tabs for all the remaining languages used in TEAMMATES:
 	 * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
