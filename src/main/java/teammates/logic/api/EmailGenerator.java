@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -695,10 +694,9 @@ public class EmailGenerator {
     private String getCoOwnersEmailsList(List<InstructorAttributes> instructors) {
         StringBuffer coOwnersEmailsList = new StringBuffer();
         for (InstructorAttributes instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
-                continue;
+            if (instructor.hasCoownerPrivileges()) {
+                coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
             }
-            coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
         }
         return coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2);
     }
