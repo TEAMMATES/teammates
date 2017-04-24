@@ -44,7 +44,7 @@
             <div id="filterReference">
                 <div class="form-group">
                     <div class="col-md-12">                                
-                        <div class="alert alert-success text-center">
+                        <div class="alert alert-info text-center">
                             <span class="glyphicon glyphicon-filter"></span>
                             A query is formed by a
                             list of filters. Each
