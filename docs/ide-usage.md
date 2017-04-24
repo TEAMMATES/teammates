@@ -62,15 +62,19 @@ The following plugins are needed:
        ![setupguide-8.png](images/setupguide-8.png)
 
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
-     Configure for all the languages used in TEAMMATES:
+     Configure for Java and JavaScript languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     * HTML: `Web → HTML Files → Editor → Indent using spaces`.
-     * CSS: `Web → CSS Files → Editor → Indent using spaces`.
-     * XML: `XML → XML Files → Editor → Indent using spaces`.
+     
    * Validation: We do not validate HTML, JSP, and XML.<br>
      `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
 
+1. Indentation: Go to `Eclipse → Preferences`
+     Configure 4 spaces in place of tabs for all the remaining languages used in TEAMMATES:
+	 * HTML: `Web → HTML Files → Editor → Indent using spaces`.
+     * CSS: `Web → CSS Files → Editor → Indent using spaces`.
+     * XML: `XML → XML Files → Editor → Indent using spaces`.
+	 
 1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![setupguide-6.png](images/setupguide-6.png)
