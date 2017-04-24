@@ -84,12 +84,6 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
 1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
 
-1. Run this command to get necessary configuration files for IntelliJ:
-
-   ```sh
-   ./gradlew setupIntellij
-   ```
-
 1. Configure IntelliJ as follows:
    * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `Configure → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
@@ -104,5 +98,11 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    * Click `Finish`.
 
 1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
+
+1. Run this command to set up the necessary configuration files for IntelliJ:
+
+   ```sh
+   ./gradlew setupIntellij
+   ```
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).

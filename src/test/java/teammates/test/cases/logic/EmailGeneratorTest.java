@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.mortbay.log.Log;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
