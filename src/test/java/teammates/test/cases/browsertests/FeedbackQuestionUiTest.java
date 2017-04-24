@@ -3,6 +3,7 @@ package teammates.test.cases.browsertests;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
  * Base class for all Feedback*QuestionUiTest.
@@ -28,4 +29,9 @@ public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
+    protected void clickAjaxLoadedPanelAndWaitForExpansion(
+            InstructorFeedbackResultsPage resultsPage, String panelId, String ajaxClass) {
+        resultsPage.clickElementById(panelId);
+        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
+    }
 }
