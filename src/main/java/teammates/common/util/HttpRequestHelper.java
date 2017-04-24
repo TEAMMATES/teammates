@@ -52,7 +52,7 @@ public final class HttpRequestHelper {
 
                 hashMap.put(name, decodedValue);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+            	Assumption.assertEception("Exception", e);
             }
         }
 

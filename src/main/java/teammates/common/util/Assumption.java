@@ -21,6 +21,20 @@ public final class Assumption {
     }
 
     /**
+     * Asserts the detail message of exception and class. 
+     */
+    public static void assertEception(String message, Exception e) {
+    	throw new AssertionError(message, e);
+    }
+
+    /**
+     * Asserts the detail message of the exception.
+     */
+    public static void assertEception(String message) {
+    	throw new AssertionError(message);
+    }
+
+    /**
      * Asserts that a condition is true. If it isn't it throws an
      * AssertionFailedError with the given message.
      */
