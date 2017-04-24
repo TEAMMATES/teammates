@@ -642,6 +642,11 @@ public abstract class AppPage {
         return tableElement.getAttribute("id");
     }
 
+    public void clickElementById(String elementId) {
+        WebElement element = browser.driver.findElement(By.id(elementId));
+        click(element);
+    }
+
     /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
@@ -912,6 +917,11 @@ public abstract class AppPage {
     public AppPage verifyContains(String searchString) {
         AssertHelper.assertContainsRegex(searchString, getPageSource());
         return this;
+    }
+
+    public void verifyContainsElement(By by) {
+        List<WebElement> elements = browser.driver.findElements(by);
+        assertFalse(elements.isEmpty());
     }
 
     /**

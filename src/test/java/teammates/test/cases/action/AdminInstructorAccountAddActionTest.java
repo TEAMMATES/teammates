@@ -7,9 +7,9 @@ import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.CommentsLogic;
+import teammates.test.driver.StringHelperExtension;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.pagedata.AdminHomePageData;
@@ -143,13 +143,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String atEmail = "@gmail.tmt";
         final int normalIdSuffixLength = normalIdSuffix.length(); // 9
         final String strShortWithWordDemo =
-                StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
+                StringHelperExtension.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
         final String strWayShorterThanMaximum =
-                StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
+                StringHelperExtension.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
         final String strOneCharShorterThanMaximum =
-                StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
+                StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
         final String strOneCharLongerThanMaximum =
-                StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
+                StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
         assertEquals(strShortWithWordDemo + normalIdSuffix,
                      generateNextDemoCourseId(strShortWithWordDemo + atEmail, maximumIdLength));
         assertEquals(strShortWithWordDemo + normalIdSuffix + "0",
