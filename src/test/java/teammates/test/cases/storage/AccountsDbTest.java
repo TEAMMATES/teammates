@@ -19,6 +19,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AccountsDb}.
@@ -238,7 +239,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.googleId = "";
         a.email = "test-no-at-funny.com";
         a.name = "%asdf";
-        a.institute = StringHelper.generateStringOfLength(65);
+        a.institute = StringHelperExtension.generateStringOfLength(65);
         a.studentProfile.shortName = "??";
 
         try {

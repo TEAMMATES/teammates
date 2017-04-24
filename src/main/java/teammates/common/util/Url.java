@@ -77,15 +77,6 @@ public class Url {
         return url.trim().replaceAll("/(?=$)", "");
     }
 
-    /**
-     * Gets the relative path of a full URL. Useful for http/https-based URLs.
-     * @throws MalformedURLException if the given {@code url} is malformed
-     */
-    public static String getRelativePath(String url) throws MalformedURLException {
-        new URL(url); // ensure that the given URL is not malformed
-        return new Url(url).toString();
-    }
-
     @Override
     public String toString() {
         return relativeUrl + query;
