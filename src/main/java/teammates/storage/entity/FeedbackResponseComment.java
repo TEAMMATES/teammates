@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -21,7 +22,14 @@ import teammates.common.util.SanitizationHelper;
  * Currently giver is restricted only to Instructors.
  */
 @PersistenceCapable
-public class FeedbackResponseComment {
+public class FeedbackResponseComment extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackResponseComment.class);
+
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long feedbackResponseCommentId;

@@ -348,4 +348,27 @@ public class AdminEmailsDb extends EntitiesDb {
                                    adminEmailToGet.getCreateDate());
     }
 
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = AdminEmail.class;
+        String primaryKeyName = AdminEmail.PRIMARY_KEY_NAME;
+        AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
+        String id = aea.emailId;
+
+        Query q = getPm().newQuery(entityClass);
+        Object[] params;
+
+        if (id == null) {
+            q.declareParameters("String subjectParam, java.util.Date createDateParam");
+            q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
+            params = new Object[] {aea.subject, aea.createDate};
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            params = new Object[] {id};
+        }
+
+        return new QueryWithParams(q, params, primaryKeyName);
+    }
+
 }

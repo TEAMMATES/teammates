@@ -27,6 +27,7 @@ npm-debug.log
 test-output/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes
+src/client/java/teammates/client/scripts/scalabilitytests/data/
 *.exe
 
 ### Gradle ###
