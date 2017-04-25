@@ -70,8 +70,8 @@ The following plugins are needed:
      * XML: `XML → XML Files → Editor → Indent using spaces`.
    * Validation: 
      * We do not validate HTML, JSP, and XML.`Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
-	 * Disable JavaScript validation for node_modules folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → select `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder → `OK` → then click on `Finish`.
-	 Note: Some Eclipse versions might have `Client-side JavaScript` label instead of `JavaScript Validation`.
+     * Disable JavaScript validation for node_modules folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → select `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder → `OK` → then click on `Finish`.
+     (Note: Some Eclipse versions might have `Client-side JavaScript` label instead of `JavaScript Validation`.)
 
 1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
