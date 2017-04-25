@@ -404,7 +404,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        int numChoicesSelected = getNumberOfEmptyResponse(responses, answerFrequency);
+        int numChoicesSelected = getNumberOfResponse(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
@@ -510,7 +510,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        int numChoicesSelected = getNumberOfEmptyResponse(responses, answerFrequency);
+        int numChoicesSelected = getNumberOfResponse(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
