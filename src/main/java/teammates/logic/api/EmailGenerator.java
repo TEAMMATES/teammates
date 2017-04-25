@@ -702,7 +702,9 @@ public class EmailGenerator {
             }
             coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
         }
-        return coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2);
+        return coOwnersEmailsList.length() == 0
+                ? "(No contactable instructors found)."
+                : coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2);
     }
 
 }
