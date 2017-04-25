@@ -425,7 +425,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Check if there is a non empty response.
-     * @return -1 if there is no empty response else number of empty response.
+     * @return -1 if there is no empty response else number of response.
      */
     private int getNumberOfResponse(
             List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
