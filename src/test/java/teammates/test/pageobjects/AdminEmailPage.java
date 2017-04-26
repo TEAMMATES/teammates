@@ -83,8 +83,7 @@ public class AdminEmailPage extends AppPage {
     }
 
     public String getGroupListFileKey() {
-        String groupListKey = this.getGroupRecipientBox().getAttribute("value");
-        return groupListKey;
+        return this.getGroupRecipientBox().getAttribute("value");
     }
 
     private WebElement uploadGroupListFile() {
