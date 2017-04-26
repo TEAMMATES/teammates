@@ -54,7 +54,9 @@
     display: none;
 }
 
-.feedback-response-comments, .student-record-comments, .drafts {
+.feedback-response-comments,
+.student-record-comments,
+.drafts {
     margin-top: 10px;
 }
 

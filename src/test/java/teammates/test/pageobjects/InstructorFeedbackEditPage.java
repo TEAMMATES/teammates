@@ -2,6 +2,7 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,12 +15,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-
-import com.google.appengine.api.datastore.Text;
+import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
 
@@ -899,13 +901,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDate(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
-                                     TimeHelper.convertToDisplayValueInTimeDropDown(startTime));
+                TimeHelperExtension.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
                       + TimeHelper.formatDate(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
-                                     TimeHelper.convertToDisplayValueInTimeDropDown(endTime));
+                TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
         // Fill in instructions
         fillRichTextEditor("instructions", instructions.getValue());

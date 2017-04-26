@@ -10,22 +10,22 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACKS_PAGE}.
@@ -376,7 +376,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2035-09-01 11:00 PM UTC"));
         newSession.setGracePeriod(5);
 
-        newSession.setInstructions(new Text(StringHelper.generateStringOfLength(3000)));
+        newSession.setInstructions(new Text(StringHelperExtension.generateStringOfLength(3000)));
         newSession.setPublishedEmailEnabled(true);
         newSession.setClosingEmailEnabled(true);
 
@@ -779,9 +779,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
         feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "Private Session #");
-
-        ______TS("test response rate already displayed");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Open Session #"));
     }
 
     private void testViewResultsLink() {

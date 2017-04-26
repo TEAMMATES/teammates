@@ -13,13 +13,13 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Generate list of institutes and number of users per institute.

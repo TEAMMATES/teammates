@@ -3,21 +3,21 @@ package teammates.storage.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for student comments.

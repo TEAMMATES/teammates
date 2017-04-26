@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -305,9 +306,9 @@ public abstract class AppPage {
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By by) {
+    public WebElement waitForElementPresence(By by) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
@@ -641,6 +642,11 @@ public abstract class AppPage {
         return tableElement.getAttribute("id");
     }
 
+    public void clickElementById(String elementId) {
+        WebElement element = browser.driver.findElement(By.id(elementId));
+        click(element);
+    }
+
     /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
@@ -796,7 +802,7 @@ public abstract class AppPage {
      * The header row will be ignored
      */
     public void verifyTablePattern(int tableNum, int column, String patternString) {
-        String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+        String[] splitString = patternString.split(Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
         for (int row = 1; row < splitString.length; row++) {
@@ -911,6 +917,11 @@ public abstract class AppPage {
     public AppPage verifyContains(String searchString) {
         AssertHelper.assertContainsRegex(searchString, getPageSource());
         return this;
+    }
+
+    public void verifyContainsElement(By by) {
+        List<WebElement> elements = browser.driver.findElements(by);
+        assertFalse(elements.isEmpty());
     }
 
     /**

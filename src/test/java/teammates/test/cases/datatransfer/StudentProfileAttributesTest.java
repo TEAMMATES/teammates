@@ -7,16 +7,16 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
@@ -75,7 +75,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfo() throws Exception {
         testGetInvalidityInfoForValidProfileWithValues();
-        testGetInvalidtyInfoForValidProfileWithEmptyValues();
+        testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
     }
 
@@ -87,7 +87,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    private void testGetInvalidtyInfoForValidProfileWithEmptyValues() {
+    private void testGetInvalidityInfoForValidProfileWithEmptyValues() {
         StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
 
         ______TS("Typical case: valid profile with empty attributes");
@@ -203,10 +203,10 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private StudentProfileAttributes getInvalidStudentProfileAttributes() {
-        String googleId = StringHelper.generateStringOfLength(46);
+        String googleId = StringHelperExtension.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
