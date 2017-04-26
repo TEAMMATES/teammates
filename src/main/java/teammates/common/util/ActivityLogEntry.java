@@ -130,7 +130,7 @@ public class ActivityLogEntry {
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
 
-    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, List<String> logMessage,
+    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, List<String> logMessages,
                             String requestUrl, StudentAttributes unregisteredStudent, UserType userType) {
         time = System.currentTimeMillis();
         try {
@@ -140,7 +140,7 @@ public class ActivityLogEntry {
         }
         action = servletName; //TODO: remove this?
         toShow = true;
-        message = logMessage.isEmpty() ? "null" : StringHelper.join("", logMessage.toArray(new String[logMessage.size()]));
+        message = logMessages.isEmpty() ? null : StringHelper.join("", logMessages.toArray(new String[logMessages.size()]));
         url = requestUrl;
 
         boolean isAccountWithGoogleId = userAccount != null && userAccount.googleId != null;
