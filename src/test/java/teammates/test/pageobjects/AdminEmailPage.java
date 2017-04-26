@@ -1,6 +1,9 @@
 package teammates.test.pageobjects;
 
+import java.io.File;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
@@ -18,6 +21,18 @@ public class AdminEmailPage extends AppPage {
     public void inputRecipient(String recipient) {
         WebElement recipientBox = this.getRecipientBox();
         recipientBox.sendKeys(recipient);
+    }
+
+    public void inputGroupRecipient(String fileName) {
+        WebElement groupReceiverListUploadBox = this.getGroupReceiverListUploadBox();
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("arguments[0].style.display = 'inline'", groupReceiverListUploadBox);
+        File file = new File("src/test/resources/data/" + fileName);
+        WebElement uploadGroupListFile = this.uploadGroupListFile();
+        uploadGroupListFile.sendKeys(file.getAbsolutePath());
+        js.executeScript("arguments[0].style.display = 'none'", groupReceiverListUploadBox);
+        waitForAjaxLoaderGifToDisappear();
+
     }
 
     public void inputSubject(String subject) {
@@ -67,8 +82,25 @@ public class AdminEmailPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public String getGroupListFileKey() {
+        String groupListKey = this.getGroupRecipientBox().getAttribute("value");
+        return groupListKey;
+    }
+
+    private WebElement uploadGroupListFile() {
+        return browser.driver.findElement(By.id("adminEmailGroupReceiverList"));
+    }
+
     private WebElement getRecipientBox() {
         return browser.driver.findElement(By.id("addressReceiverEmails"));
+    }
+
+    private WebElement getGroupRecipientBox() {
+        return browser.driver.findElement(By.name("adminemailgroupreceiverlistfilekey"));
+    }
+
+    private WebElement getGroupReceiverListUploadBox() {
+        return browser.driver.findElement(By.id("adminEmailGroupReceiverListUploadBox"));
     }
 
     private WebElement getSubjectBox() {
@@ -94,4 +126,5 @@ public class AdminEmailPage extends AppPage {
     private WebElement getTrashTab() {
         return browser.driver.findElement(By.cssSelector("a[href='" + Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE + "']"));
     }
+
 }
