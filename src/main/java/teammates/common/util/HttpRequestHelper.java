@@ -36,7 +36,7 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Returns a Map interface containing all the parameters key-value pairs from a URLFetchRequest object.
+     * Returns a Map containing all the parameters key-value pairs from a URLFetchRequest object.
      */
     public static Map<String, String> getParamMap(URLFetchRequest request) {
         String requestBody = request.getPayload().toStringUtf8();
