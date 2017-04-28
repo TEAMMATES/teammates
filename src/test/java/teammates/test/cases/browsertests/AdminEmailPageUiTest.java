@@ -98,6 +98,24 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         assertTrue(isEmailComposeElementsPresent());
         emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.");
 
+        ______TS("send email to groupmode and addressmode - no subject");
+
+        emailPage.inputRecipient("recipient@email.tmt");
+        emailPage.inputContent("Email Content");
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        emailPage.verifyGroupListFileKey(emailPage.getGroupListFileKey());
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        emailPage.clearSubjectBox();
+        emailPage.clickSendButton();
+        assertTrue(hasStatusMessageNoSubject());
+
+        ______TS("send email to groupmode and addressmode - success");
+
+        emailPage.inputSubject("Email Subject");
+        emailPage.clickSendButton();
+        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.\n"
+                + "Email will be sent within an hour to recipient@email.tmt");
+
         ______TS("save email - success");
 
         emailPage.inputRecipient("recipient@email.tmt");

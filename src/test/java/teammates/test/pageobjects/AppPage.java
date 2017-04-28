@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -975,15 +974,6 @@ public abstract class AppPage {
         String pageSource = getPageSource();
         assertFalse(pageSource.contains(searchString));
         return this;
-    }
-
-    /**
-     * Verifies a substring in encoded key which remains same for a particular file type.
-     *
-     *  @param key in which a particular subString has to be checked
-     */
-    public void verifyGroupListFileKey(String key) {
-        assertTrue(key.contains("L2dzL3RlYW1tYXRlcy1qb2huLmFwcHNwb3QuY29tL"));
     }
 
     public void waitForAjaxLoaderGifToDisappear() {

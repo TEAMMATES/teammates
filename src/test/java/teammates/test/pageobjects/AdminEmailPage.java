@@ -1,14 +1,23 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import java.io.File;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.test.driver.TestProperties;
 
 public class AdminEmailPage extends AppPage {
+    @FindBy (id = "adminEmailGroupReceiverListUploadBox")
+    private WebElement groupReceiverListUploadBox;
+
+    @FindBy (id = "adminEmailGroupReceiverList")
+    private WebElement inputFieldForGroupList;
+
     public AdminEmailPage(Browser browser) {
         super(browser);
     }
@@ -23,14 +32,15 @@ public class AdminEmailPage extends AppPage {
         recipientBox.sendKeys(recipient);
     }
 
+    /**
+     *This method makes the groupReceiverListUploadBox visible, uploads file and makes it invisible again.
+     * @param fileName to be uploaded
+     */
     public void inputGroupRecipient(String fileName) {
-        WebElement groupReceiverListUploadBox = this.getGroupReceiverListUploadBox();
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("arguments[0].style.display = 'inline'", groupReceiverListUploadBox);
-        File file = new File("src/test/resources/data/" + fileName);
-        WebElement uploadGroupListFile = this.uploadGroupListFile();
-        uploadGroupListFile.sendKeys(file.getAbsolutePath());
-        js.executeScript("arguments[0].style.display = 'none'", groupReceiverListUploadBox);
+        executeScript("arguments[0].style.display = 'inline'", groupReceiverListUploadBox);
+        File file = new File(TestProperties.TEST_DATA_FOLDER + "/" + fileName);
+        inputFieldForGroupList.sendKeys(file.getAbsolutePath());
+        executeScript("arguments[0].style.display = 'none'", groupReceiverListUploadBox);
         waitForAjaxLoaderGifToDisappear();
 
     }
@@ -86,20 +96,12 @@ public class AdminEmailPage extends AppPage {
         return this.getGroupRecipientBox().getAttribute("value");
     }
 
-    private WebElement uploadGroupListFile() {
-        return browser.driver.findElement(By.id("adminEmailGroupReceiverList"));
-    }
-
     private WebElement getRecipientBox() {
         return browser.driver.findElement(By.id("addressReceiverEmails"));
     }
 
     private WebElement getGroupRecipientBox() {
         return browser.driver.findElement(By.name("adminemailgroupreceiverlistfilekey"));
-    }
-
-    private WebElement getGroupReceiverListUploadBox() {
-        return browser.driver.findElement(By.id("adminEmailGroupReceiverListUploadBox"));
     }
 
     private WebElement getSubjectBox() {
@@ -124,6 +126,15 @@ public class AdminEmailPage extends AppPage {
 
     private WebElement getTrashTab() {
         return browser.driver.findElement(By.cssSelector("a[href='" + Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE + "']"));
+    }
+
+    /**
+     * Verifies a substring in encoded key which remains same for a particular file type.
+     *
+     *  @param key in which a particular subString has to be checked
+     */
+    public void verifyGroupListFileKey(String key) {
+        assertTrue(key.contains("L2dzL3RlYW1tYXRlcy1qb2huLmFwcHNwb3QuY29tL"));
     }
 
 }
