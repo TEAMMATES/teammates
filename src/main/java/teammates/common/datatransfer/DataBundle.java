@@ -3,6 +3,18 @@ package teammates.common.datatransfer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+
 /**
  * Holds a bundle of *Attributes data transfer objects.
  * This class is mainly used for serializing JSON strings.
@@ -22,4 +34,5 @@ public class DataBundle {
             new LinkedHashMap<String, FeedbackResponseCommentAttributes>();
     public Map<String, CommentAttributes> comments = new LinkedHashMap<String, CommentAttributes>();
     public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<String, StudentProfileAttributes>();
+    public Map<String, AdminEmailAttributes> adminEmails = new LinkedHashMap<>();
 }

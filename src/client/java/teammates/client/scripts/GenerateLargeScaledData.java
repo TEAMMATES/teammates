@@ -4,25 +4,25 @@ import java.io.IOException;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.FileHelper;
 
 public class GenerateLargeScaledData extends RemoteApiClient {
-    
+
     public static void main(String[] args) throws IOException {
         GenerateLargeScaledData dataGenerator = new GenerateLargeScaledData();
         dataGenerator.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         Logic logic = new Logic();
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
-        
+
         try {
             int index = 0;
             /*
@@ -34,7 +34,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
                 }
             }
             */
-          
+
             for (FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()) {
                 logic.createFeedbackResponse(injectRealIds(response));
                 index++;
@@ -46,11 +46,11 @@ public class GenerateLargeScaledData extends RemoteApiClient {
             e.printStackTrace();
         }
     }
-    
+
     private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-        
+
             response.feedbackQuestionId =
                 FeedbackQuestionsLogic.inst().getFeedbackQuestion(
                         response.feedbackSessionName, response.courseId,
@@ -58,11 +58,11 @@ public class GenerateLargeScaledData extends RemoteApiClient {
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-        
+
         return response;
     }
-    
-    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
+
+    private static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
             String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;

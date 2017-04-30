@@ -6,10 +6,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
@@ -24,33 +23,32 @@ import teammates.ui.automated.FeedbackSessionRemindEmailWorkerAction;
  * SUT: {@link FeedbackSessionRemindEmailWorkerAction}.
  */
 public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedActionTest {
-    
+
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @Override
     protected String getActionUri() {
         return Const.TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL;
     }
-    
+
     @Test
     public void allTests() throws Exception {
-        
+
         ______TS("Send feedback session reminder email");
-        
+
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        
+
         // re-read from Datastore to update the respondents list
         session1 = fsLogic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
-        
+
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId()
         };
-        
+
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);
         action.execute();
         
@@ -63,7 +61,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
                 studentRecipientList.add(student.email);
             }
         }
-        
+
         List<String> instructorRecipientList = new ArrayList<String>();
         List<String> instructorNotifiedList = new ArrayList<String>();
         for (InstructorAttributes instructor : instructorsLogic.getInstructorsForCourse(session1.getCourseId())) {
@@ -72,7 +70,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             }
             instructorNotifiedList.add(instructor.email);
         }
-        
+
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
@@ -80,11 +78,11 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
                                        session1.getSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
-            
+
             String header = "The email below has been sent to students of course: " + session1.getCourseId();
             String content = paramMap.get(ParamsNames.EMAIL_CONTENT)[0];
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
-            
+
             if (content.contains(header)) { // notification to all instructors
                 assertTrue(instructorNotifiedList.contains(recipient));
                 instructorNotifiedList.remove(recipient);
@@ -100,18 +98,17 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             }
             fail("Email recipient " + recipient + " is not in the list!");
         }
-        
+
         // Ensure that every email recipient is accounted for
         assertTrue(String.valueOf(studentRecipientList.size()), studentRecipientList.isEmpty());
         assertTrue(String.valueOf(instructorRecipientList.size()), instructorRecipientList.isEmpty());
         assertTrue(instructorNotifiedList.isEmpty());
-        
+
     }
-    
+
     @Override
-    protected FeedbackSessionRemindEmailWorkerAction getAction(String... submissionParams) {
-        return (FeedbackSessionRemindEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+    protected FeedbackSessionRemindEmailWorkerAction getAction(String... params) {
+        return (FeedbackSessionRemindEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
-    
+
 }

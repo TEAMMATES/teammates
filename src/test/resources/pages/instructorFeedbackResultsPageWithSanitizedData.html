@@ -239,8 +239,8 @@
             </div>
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
-              Collapse Questions
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Questions
             </a>
           </div>
         </div>
@@ -272,9 +272,20 @@
         <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
-      <strong>
-        Question 1:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-1">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-1" name="fruploaddownloadbtn" title="" type="submit" value="Question 1:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="Sanitized Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="1">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Rate the contribution of ideas from yourself and your team members in the last meeting. 
@@ -302,7 +313,7 @@
               </div>
               <div class="col-sm-3 pull-right">
                 [
-                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" target="_blank">
+                <a href="/instructorHelp.jsp#faq7a" id="interpret_help_link" rel="noopener noreferrer" target="_blank">
                   How do I interpret/use these values?
                 </a>
                 ]
@@ -612,51 +623,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-      <div class="panel-body padding-0">
-        <table class="table table-striped table-bordered margin-0">
-          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-            <tr>
-              <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 30%;">
-                Team
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this)" style="width: 30%;">
-                Name
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="action-header">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                Team '1&lt;/td&gt;&lt;/div&gt;'"
-              </td>
-              <td>
-                Benn'y Charle's
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
-                  <input name="fsname" type="hidden" value="Sanitized Session">
-                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-2">
     </div>
   </div>
 </div>

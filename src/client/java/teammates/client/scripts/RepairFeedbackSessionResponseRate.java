@@ -13,10 +13,10 @@ import java.util.Set;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.EntityAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
@@ -31,16 +31,16 @@ import teammates.storage.entity.FeedbackSession;
  * <li> or a specified feedback session, </li>
  * </ul>
  * and verifies that the non-respondents do not have a response in the feedback session. <br>
- * 
- * If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
+ *
+ * <p>If isPreview is false, whenever an inconsistency is found, {@code logic.updateRespondents} will
  * be used to recompute the respondents' set.
- * 
+ *
  */
 public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
 
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    
+
     // if isPreview is true, then no writes will be done
     private boolean isPreview = true;
 
@@ -48,7 +48,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     // then feedback sessions with start date from (now - numDays) days to the current time
     // will be retrieved and checked
     private int numDays = 180;
-    
+
     // If numDays is not set, and
     // and both courseId and feedbackSessionName is specified,
     // the feedback session specified will be operated upon.
@@ -58,12 +58,12 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     private String feedbackSessionName;
 
     private Map<String, Set<String>> emailsInCourse = new HashMap<>();
-    
+
     public static void main(String[] args) throws IOException {
         RepairFeedbackSessionResponseRate migrator = new RepairFeedbackSessionResponseRate();
         migrator.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         List<FeedbackSessionAttributes> feedbackSessions;
@@ -75,11 +75,11 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
             feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
             feedbackSessions.add(logic.getFeedbackSession(feedbackSessionName, courseId));
         }
-        
+
         try {
             for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
                 System.out.println(feedbackSession.getIdentificationString());
-                
+
                 Set<String> nonRespondents = getNonRespondentsForFeedbackSession(feedbackSession);
                 findAndFixInconsistentNonRespondentList(feedbackSession, nonRespondents);
             }
@@ -103,7 +103,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                 isRepairRequired = true;
             }
         }
-        
+
         if (!isPreview && isRepairRequired) {
             System.out.println("fixing " + feedbackSession.getIdentificationString());
             logic.updateRespondents(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
@@ -111,11 +111,11 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     }
 
     private Set<String> getNonRespondentsForFeedbackSession(FeedbackSessionAttributes feedbackSession) {
-        
+
         // obtain the respondents first
         Set<String> respondingStudentsEmail = feedbackSession.getRespondingStudentList();
         Set<String> respondingInstructorsEmail = feedbackSession.getRespondingInstructorList();
-        
+
         Set<String> respondents = new HashSet<>(respondingInstructorsEmail);
         respondents.addAll(respondingStudentsEmail);
 
@@ -131,7 +131,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
             List<EntityAttributes> allPossibleRespondents = new ArrayList<>();
             allPossibleRespondents.addAll(allInstructors);
             allPossibleRespondents.addAll(allStudents);
-            
+
             nonRespondentsEmails = new HashSet<String>();
             for (EntityAttributes possibleRespondent : allPossibleRespondents) {
                 if (possibleRespondent instanceof StudentAttributes) {
@@ -142,56 +142,56 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
                     nonRespondentsEmails.add(instructor.email);
                 }
             }
-            
+
             emailsInCourse.put(feedbackSession.getCourseId(), nonRespondentsEmails);
         }
-        
+
         // non-respondents = all students and instructors - respondents
         nonRespondentsEmails.removeAll(respondents);
         return nonRespondentsEmails;
     }
-    
+
     @SuppressWarnings("deprecation")
     private List<FeedbackSessionAttributes> getAllFeedbackSessions() {
         return fsDb.getAllFeedbackSessions();
     }
-    
+
     /**
-     * Return a list of feedback sessions with start time from (now - numDays) and now
+     * Returns a list of feedback sessions with start time from (now - numDays) and now.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
+    private List<FeedbackSessionAttributes> getFeedbackSessionsWithStartDateNoOlderThan(int numDays) {
         Calendar startCal = Calendar.getInstance();
         startCal.add(Calendar.DAY_OF_YEAR, -1 * numDays);
-        
+
         Date now = Calendar.getInstance().getTime();
-        
+
         return getFeedbackSessionsWithStartTimeWithinRange(startCal.getTime(), now);
     }
-    
+
     private List<FeedbackSessionAttributes> getFeedbackSessionsWithStartTimeWithinRange(
                                                     Date startDate, Date endDate) {
         List<FeedbackSessionAttributes> result = new ArrayList<>();
-        
+
         Query query = PM.newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
                                 + "WHERE this.startTime >= rangeStart && this.startTime < rangeEnd "
                                 + "PARAMETERS java.util.Date rangeStart, "
                                 + "java.util.Date rangeEnd");
-        
+
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(startDate);
         Calendar endCal = Calendar.getInstance();
         endCal.setTime(endDate);
-        
+
         Date curStart = startCal.getTime();
         Date curEnd = endCal.getTime();
-        
+
         @SuppressWarnings("unchecked")
         List<FeedbackSession> feedbackSessions = (List<FeedbackSession>) query.execute(curStart, curEnd);
         for (FeedbackSession feedbackSession : feedbackSessions) {
             FeedbackSessionAttributes feedbackSessionAttributes = new FeedbackSessionAttributes(feedbackSession);
             result.add(feedbackSessionAttributes);
         }
-        
+
         return result;
     }
 }

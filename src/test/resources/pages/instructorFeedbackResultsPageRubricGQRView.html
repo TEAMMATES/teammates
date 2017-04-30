@@ -219,8 +219,8 @@
         </div>
         <div class="row">
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
-              Collapse Sections
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Sections
             </a>
           </div>
         </div>
@@ -245,12 +245,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" style="display: inline;" title="">
               Collapse Students
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -367,13 +369,13 @@
                                     </p>
                                   </td>
                                   <td>
-                                    100% (1)
-                                  </td>
-                                  <td>
                                     0% (0)
                                   </td>
                                   <td>
-                                    1.01
+                                    100% (2)
+                                  </td>
+                                  <td>
+                                    -0.99
                                   </td>
                                 </tr>
                                 <tr>
@@ -438,13 +440,45 @@
                               Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                             </td>
                             <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              a) No
+                              <span class="color_neutral">
+                                <i>
+                                  (Choice 2)
+                                </i>
+                              </span>
+                              <br>
+                              b)
+                              <span class="color_neutral">
+                                <i>
+                                  No Response
+                                </i>
+                              </span>
+                              <br>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
                               Benny Charles
                             </td>
                             <td class="word-wrap-break text-preserve-space">
-                              a) Yes
+                              a) No
                               <span class="color_neutral">
                                 <i>
-                                  (Choice 1)
+                                  (Choice 2)
                                 </i>
                               </span>
                               <br>
@@ -696,6 +730,204 @@
             </div>
           </div>
         </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-0-3" id="panelHeading-0-3" style="cursor: pointer;">
+            From:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+              <strong>
+                Colin Daniels
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:colin.d.tmms@gmail.tmt">
+                [colin.d.tmms@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+              <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+                <input name="fsname" type="hidden" value="Second Session">
+                <input name="moderatedperson" type="hidden" value="colin.d.tmms@gmail.tmt">
+              </form>
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-3">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 1:
+                  <span class="text-preserve-space">
+                    Please choose the best choice for the following sub-questions. 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-section-0-giver-2-question-1" onclick="toggleAdditionalQuestionInfo('1-section-0-giver-2-question-1')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-1-section-0-giver-2-question-1" style="display:none;">
+                        Rubric question sub-questions:
+                        <p>
+                          a) This student has done a good job.
+                          <br>
+                          b) This student has tried his/her best.
+                          <br>
+                        </p>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12 table-responsive">
+                            <table class="table table-striped table-bordered margin-0">
+                              <thead>
+                                <tr>
+                                  <th>
+                                  </th>
+                                  <th>
+                                    <p>
+                                      Yes
+                                      <span style="font-weight:normal;">
+                                        (Weight: 1.01)
+                                      </span>
+                                    </p>
+                                  </th>
+                                  <th>
+                                    <p>
+                                      No
+                                      <span style="font-weight:normal;">
+                                        (Weight: -0.99)
+                                      </span>
+                                    </p>
+                                  </th>
+                                  <th>
+                                    <p>
+                                      Average
+                                    </p>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <p>
+                                      a) This student has done a good job.
+                                    </p>
+                                  </td>
+                                  <td>
+                                    0% (0)
+                                  </td>
+                                  <td>
+                                    100% (1)
+                                  </td>
+                                  <td>
+                                    -0.99
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <p>
+                                      b) This student has tried his/her best.
+                                    </p>
+                                  </td>
+                                  <td>
+                                    100% (1)
+                                  </td>
+                                  <td>
+                                    0% (0)
+                                  </td>
+                                  <td>
+                                    1.01
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this)" style="width: 15%; min-width: 90px;">
+                              Recipient
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <thead>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Colin Daniels
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              a) No
+                              <span class="color_neutral">
+                                <i>
+                                  (Choice 2)
+                                </i>
+                              </span>
+                              <br>
+                              b) Yes
+                              <span class="color_neutral">
+                                <i>
+                                  (Choice 1)
+                                </i>
+                              </span>
+                              <br>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -708,15 +940,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-      <div class="panel-body">
-        All students have responded to some questions in this session.
-      </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-2">
     </div>
   </div>
 </div>

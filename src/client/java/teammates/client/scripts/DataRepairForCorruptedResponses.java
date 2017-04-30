@@ -5,23 +5,23 @@ import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 
 public class DataRepairForCorruptedResponses extends RemoteApiClient {
-    
+
     private Logic logic = new Logic();
-    
+
     public static void main(String[] args) throws IOException {
         DataRepairForCorruptedResponses dataRepair = new DataRepairForCorruptedResponses();
         dataRepair.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         try {
@@ -30,7 +30,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             e.printStackTrace();
         }
     }
-    
+
     private void repairDataForSession(String courseId, String sessionName)
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(sessionName, courseId);
@@ -42,7 +42,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             }
         }
     }
-    
+
     private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection,
                                             boolean needRepairRecipientSection)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
@@ -59,7 +59,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                     needUpdateResponse = true;
                 }
             }
-            
+
             if (needRepairRecipientSection) {
                 if (isTeamRecipient(question.recipientType)) {
                     String recipientSection =
@@ -78,7 +78,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                     }
                 }
             }
-            
+
             if (needUpdateResponse) {
                 System.out.println("Repairing giver section:"
                         + originalGiverSection + "-->" + response.giverSection
@@ -88,11 +88,11 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             }
         }
     }
-    
+
     private boolean isGiverContainingSection(FeedbackParticipantType giverType) {
         return giverType == FeedbackParticipantType.STUDENTS || giverType == FeedbackParticipantType.TEAMS;
     }
-    
+
     private boolean isRecipientContaningSection(FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
         return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
                || recipientType == FeedbackParticipantType.STUDENTS
@@ -101,7 +101,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
-    
+
     private boolean isTeamRecipient(FeedbackParticipantType recipientType) {
         return recipientType == FeedbackParticipantType.TEAMS || recipientType == FeedbackParticipantType.OWN_TEAM;
     }

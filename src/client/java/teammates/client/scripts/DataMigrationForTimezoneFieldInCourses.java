@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.jdo.JDOHelper;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -18,9 +18,9 @@ import teammates.logic.api.Logic;
 import teammates.storage.entity.Course;
 
 public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
-    
-    public static Map<String, String> timeZoneDoubleToIdMapping = new HashMap<String, String>();
-    
+
+    private static final Map<String, String> timeZoneDoubleToIdMapping = new HashMap<String, String>();
+
     static {
         map("-12.0", "Etc/GMT+12");
         map("-11.0", "US/Samoa");
@@ -62,20 +62,20 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
         map("13.0", "Pacific/Tongatapu");
         map("14.0", "Pacific/Kiritimati");
     }
-    
+
     private static final Logic logic = new Logic();
-    
+
     private boolean isPreview = true;
-    
-    public static void map(String doubleTimezone, String timezoneId) {
+
+    private static void map(String doubleTimezone, String timezoneId) {
         timeZoneDoubleToIdMapping.put(doubleTimezone, timezoneId);
     }
-    
+
     public static void main(String[] args) throws IOException {
         DataMigrationForTimezoneFieldInCourses migrator = new DataMigrationForTimezoneFieldInCourses();
         migrator.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         List<CourseAttributes> allCourses = getAllCoursesWithoutTimeZone();
@@ -83,17 +83,17 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
             updateTimezoneForCourse(course);
         }
     }
-    
+
     private void updateTimezoneForCourse(CourseAttributes course) {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(course.getId());
         String timeZone = sessions.isEmpty() ? Const.DEFAULT_TIMEZONE
                                              : getTimeZoneId(sessions.get(0).getTimeZone());
-        
+
         if (isPreview) {
             System.out.println("Course " + course.getId() + " timezone to be set to " + timeZone + ".");
             return;
         }
-        
+
         try {
             course.setTimeZone(timeZone);
             logic.updateCourse(course);
@@ -103,11 +103,11 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
             e.printStackTrace();
         }
     }
-    
+
     private String getTimeZoneId(double timeZoneDouble) {
         return timeZoneDoubleToIdMapping.get(Double.toString(timeZoneDouble));
     }
-    
+
     private List<CourseAttributes> getAllCoursesWithoutTimeZone() {
         List<CourseAttributes> coursesWithoutTimeZone = new ArrayList<CourseAttributes>();
         List<Course> courseEntities = getAllCourseEntities();
@@ -118,11 +118,11 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
         }
         return coursesWithoutTimeZone;
     }
-    
+
     @SuppressWarnings("unchecked")
     private List<Course> getAllCourseEntities() {
         String query = "select from " + Course.class.getName();
         return (List<Course>) PM.newQuery(query).execute();
     }
-    
+
 }

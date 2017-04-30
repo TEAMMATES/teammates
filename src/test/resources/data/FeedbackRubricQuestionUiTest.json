@@ -73,6 +73,14 @@
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+    },
+    "colin.tmms@FRubricQnUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.colin.tmms",
+      "email": "colin.d.tmms@gmail.tmt",
+      "course": "FRubricQnUiT.CS2104",
+      "name": "Colin Daniels",
+      "comments": "This student's name is Colin Daniels",
+      "team": "Team 2</option><option value=\"dump\"></td><td>'\""
     }
   },
   "feedbackSessions": {
@@ -155,6 +163,29 @@
       "createdTime": "2012-04-01 11:59 PM UTC",
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2012-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "openSession4": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for fourth session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
       "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
       "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
       "timeZone": 2.0,
@@ -268,9 +299,254 @@
         "INSTRUCTORS",
         "STUDENTS"
       ]
+    },
+    "qn1InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"You have done a good job.\",\"You have tried your best.\"],\"questionText\":\"Recipient: None. See responses: students, instructor. \",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 1,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[1.01,-0.99],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS_INCLUDING_SELF. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 2,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn3InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[2,0],\"questionText\":\"Recipient: TEAMS. See responses: recipients, instructor.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 3,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn4InOpenSession4InCourse": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[0.01,-0.01],\"questionText\":\"Recipient: OWN_TEAM_MEMBERS. See responses: recipients, instructor. No received responses.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 4,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    }
+
+  },
+  "feedbackResponses": {
+    "feedbackResponseForFourthSessionQn1.1": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn1.2": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn1.3": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "colin.d.tmms@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn2.11": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn2.12": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn2.21": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn2.22": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn2.31": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "colin.d.tmms@gmail.tmt",
+      "recipient": "colin.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn3.1": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn3.2": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn3.3": {
+     "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "colin.d.tmms@gmail.tmt",
+      "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForFourthSessionQn4.1": {
+      "feedbackSessionName": "Fourth Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
     }
   },
-  "feedbackResponses": {},
   "feedbackResponseComments": {},
   "comments": {},
   "profiles": {}

@@ -21,7 +21,7 @@ public class AdminAccountDetailsPage extends AppPage {
         waitForPageToLoad();
         return this;
     }
-    
+
     public AdminAccountDetailsPage clickRemoveStudentFromCourse(String courseId) {
         waitForElementPresence(By.id("student_" + courseId));
         click(browser.driver.findElement(By.id("student_" + courseId)));

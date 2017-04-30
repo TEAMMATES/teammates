@@ -242,8 +242,8 @@
             </div>
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
-              Collapse Sections
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Sections
             </a>
           </div>
         </div>
@@ -259,6 +259,44 @@
   <br>
   <br>
   <div class="panel panel-success">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            No specific recipient
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="fsname" type="hidden" value="Instructor Session">
+        <input name="frgroupbysection" type="hidden" value="None">
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-0-1">
+      <div class="panel-body" id="sectionBody-0">
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-success">
     <div class="panel-heading" data-target="#panelBodyCollapse-section-1-2" id="panelHeading-section-1-2" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
@@ -268,12 +306,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" style="display: inline;" title="">
               Collapse Students
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1069,7 +1109,7 @@
     </div>
   </div>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -1078,12 +1118,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
               Collapse Students
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1094,231 +1136,13 @@
         <input name="user" type="hidden" value="FRankUiT.instructor">
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="recipient-question-giver">
-        <input id="showStats-2" name="frshowstats" type="hidden" value="off">
+        <input id="showStats-2" name="frshowstats" type="hidden" value="on">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input id="mainIndex-2" name="frmainindex" type="hidden" value="-1">
       </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-2-3" style="height: auto;">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
       <div class="panel-body" id="sectionBody-2">
-        <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-2-1" id="panelHeading-2-1" style="cursor: pointer;">
-            To:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
-              <strong>
-                Emily F.
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a class="link-in-dark-bg" href="mailto:emily.f.tmms@gmail.tmt">
-                [emily.f.tmms@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-2-1">
-            <div class="panel-body">
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                  Question 2:
-                  <span class="text-preserve-space">
-                    As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good.  
-                    <span style=" white-space: normal;">
-                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-section-2-recipient-0-question-1" onclick="toggleAdditionalQuestionInfo('2-section-2-recipient-0-question-1')">
-                        [more]
-                      </a>
-                      <br>
-                      <span id="questionAdditionalInfo-2-section-2-recipient-0-question-1" style="display:none;">
-                        Rank (options) question options:
-                        <ul style="list-style-type: disc;margin-left: 20px;">
-                          <li>
-                            Style
-                          </li>
-                          <li>
-                            Organisation
-                          </li>
-                          <li>
-                            Related work
-                          </li>
-                          <li>
-                            Progress made
-                          </li>
-                          <li>
-                            Future work
-                          </li>
-                          <li>
-                            Motivation
-                          </li>
-                          <li>
-                            Pictures
-                          </li>
-                          <li>
-                            Graphs
-                          </li>
-                          <li>
-                            Reporting
-                          </li>
-                          <li>
-                            Level of detail
-                          </li>
-                          <li>
-                            Samples of data collected and work
-                          </li>
-                          <li>
-                            ;
-                          </li>
-                          <li>
-                            Originality
-                          </li>
-                          <li>
-                            Introduction
-                          </li>
-                        </ul>
-                      </span>
-                    </span>
-                  </span>
-                </div>
-                <div>
-                  <div class="panel-body padding-0">
-                    <div class="resultStatistics" style="display: none;">
-                      <div class="panel-body">
-                        <div class="row">
-                          <div class="col-sm-4 text-color-gray">
-                            <strong>
-                              Response Summary
-                            </strong>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <table class="table table-bordered table-responsive margin-0">
-                              <thead>
-                                <tr>
-                                  <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this);" style="width: 35%;">
-                                    Option
-                                    <span class="icon-sort unsorted">
-                                    </span>
-                                  </td>
-                                  <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this);">
-                                    Ranks Received
-                                    <span class="icon-sort unsorted">
-                                    </span>
-                                  </td>
-                                  <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this);" style="width:15%;">
-                                    Average Rank
-                                    <span class="icon-sort unsorted">
-                                    </span>
-                                  </td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>
-                                    Introduction
-                                  </td>
-                                  <td>
-                                    1
-                                  </td>
-                                  <td>
-                                    1
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    Organisation
-                                  </td>
-                                  <td>
-                                    2
-                                  </td>
-                                  <td>
-                                    2
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="table-responsive">
-                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                          <tr>
-                            <th>
-                              Photo
-                            </th>
-                            <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
-                              Team
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
-                              Giver
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
-                              Feedback
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="action-header">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="middlealign">
-                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor">
-                                <a class="student-profile-pic-view-link btn-link">
-                                  View Photo
-                                </a>
-                                <img alt="No Image Given" class="hidden" src="">
-                              </div>
-                            </td>
-                            <td class="word-wrap-break middlealign">
-                              Instructors
-                            </td>
-                            <td class="word-wrap-break middlealign">
-                              Teammates Test
-                            </td>
-                            <td class="word-wrap-break text-preserve-space">
-                              <ul>
-                                <li>
-                                  1: Introduction
-                                </li>
-                                <li>
-                                  2: Organisation
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
-                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
-                                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-                                <input name="fsname" type="hidden" value="Instructor Session">
-                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
-                                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
-                              </form>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1331,127 +1155,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
-      <div class="panel-body padding-0">
-        <table class="table table-striped table-bordered margin-0">
-          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-            <tr>
-              <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 30%;">
-                Team
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this)" style="width: 30%;">
-                Name
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="action-header">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <i>
-                  Instructors
-                </i>
-              </td>
-              <td>
-                Teammates Helper who can only see section 1
-              </td>
-              <td class="action-button-item">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-              </td>
-              <td>
-                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-                  <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-              </td>
-              <td>
-                Benny Charles
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-                  <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedperson" type="hidden" value="benny.c.tmms@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 2
-              </td>
-              <td>
-                Charlie Davis
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-                  <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedperson" type="hidden" value="charlie.d.tmms@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 2
-              </td>
-              <td>
-                Danny Engrid
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-                  <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedperson" type="hidden" value="danny.e.tmms@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 3
-              </td>
-              <td>
-                Emily F.
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-                  <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedperson" type="hidden" value="emily.f.tmms@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-4">
     </div>
   </div>
 </div>

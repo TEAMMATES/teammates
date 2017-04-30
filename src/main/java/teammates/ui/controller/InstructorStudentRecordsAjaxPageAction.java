@@ -5,17 +5,17 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.SessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorStudentRecordsAjaxPageData;
 
 public class InstructorStudentRecordsAjaxPageAction extends Action {
 
@@ -33,7 +33,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
@@ -43,7 +43,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
 
-        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
         filterFeedbackSessions(courseId, feedbacks, instructor, student);
 

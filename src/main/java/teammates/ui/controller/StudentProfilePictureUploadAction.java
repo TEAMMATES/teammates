@@ -5,19 +5,18 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreInputStream;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.blobstore.BlobInfo;
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreInputStream;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 /**
  * Action: saves the file information of the profile picture
@@ -32,7 +31,7 @@ public class StudentProfilePictureUploadAction extends Action {
      */
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
 
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");
@@ -74,9 +73,8 @@ public class StudentProfilePictureUploadAction extends Action {
         blobStream.read(imageData);
         blobStream.close();
 
-        String newKey = GoogleCloudStorageHelper.writeImageDataToGcs(account.googleId, imageData);
         deletePicture(blobKey);
-        return newKey;
+        return GoogleCloudStorageHelper.writeImageDataToGcs(account.googleId, imageData);
     }
 
     private BlobInfo extractProfilePictureKey() {
@@ -115,7 +113,7 @@ public class StudentProfilePictureUploadAction extends Action {
                                                StatusMessageColor.DANGER));
             return null;
         }
-        
+
         return profilePic;
     }
 

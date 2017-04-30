@@ -5,20 +5,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents an instructor-created Feedback Session.
  */
 @PersistenceCapable
-public class FeedbackSession {
+public class FeedbackSession extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackSession.class);
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
@@ -27,16 +34,16 @@ public class FeedbackSession {
     @PrimaryKey
     @Persistent
     private transient String feedbackSessionId;
-    
+
     @Persistent
     private String feedbackSessionName;
-    
+
     @Persistent
     private String courseId;
-    
+
     @Persistent
     private String creatorEmail; //TODO: should this be googleId?
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Set<String> respondingInstructorList;
@@ -48,25 +55,25 @@ public class FeedbackSession {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Text instructions;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Date createdTime;
-    
+
     @Persistent
     private Date startTime;
-    
+
     @Persistent
     private Date endTime;
 
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Date sessionVisibleFromTime;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Date resultsVisibleFromTime;
-    
+
     /** This is legacy data that is no longer used. <br>
      * The value is set to Const.INT_UNINITIALIZED if it is already processed or
      * the old value if it hasn't. <br>
@@ -75,43 +82,43 @@ public class FeedbackSession {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private int timeZone;
-    
+
     /** This replaces the legacy field timeZone. <br>
      * The value is null for legacy data. <br>
      * TODO Rename to timeZone after removing legacy field
      */
     @Persistent
     private Double timeZoneDouble;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private int gracePeriod;
-    
+
     @Persistent
     private FeedbackSessionType feedbackSessionType;
-    
+
     @Persistent
     private boolean sentOpenEmail;
-    
+
     @Persistent
     private Boolean sentClosingEmail;
-    
+
     @Persistent
     private Boolean sentClosedEmail;
-    
+
     @Persistent
     private boolean sentPublishedEmail;
 
     //TODO change to primitive types and update getter
     @Persistent
     private Boolean isOpeningEmailEnabled;
-    
+
     @Persistent
     private Boolean isClosingEmailEnabled;
-    
+
     @Persistent
     private Boolean isPublishedEmailEnabled;
-    
+
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
             Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
@@ -227,18 +234,18 @@ public class FeedbackSession {
     public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
-    
+
     /** This method automatically converts the legacy timeZone field to
      * the new timeZoneDouble field and returns the value of timeZoneDouble.
      */
     public double getTimeZone() {
         if (timeZone != Const.INT_UNINITIALIZED) {
-            timeZoneDouble = new Double(timeZone);
+            timeZoneDouble = Double.valueOf(timeZone);
             timeZone = Const.INT_UNINITIALIZED;
         }
         return timeZoneDouble;
     }
-    
+
     /** This method automatically marks the timeZone field as legacy
      * and store the timeZone data to the new timeZoneDouble field.
      */
@@ -302,42 +309,42 @@ public class FeedbackSession {
     public void setSentPublishedEmail(boolean sentPublishedEmail) {
         this.sentPublishedEmail = sentPublishedEmail;
     }
-    
+
     public boolean isOpeningEmailEnabled() {
         // Legacy data might not have this field
         if (isOpeningEmailEnabled == null) {
             isOpeningEmailEnabled = true;
         }
-        
+
         return isOpeningEmailEnabled.booleanValue();
     }
-    
+
     public void setIsOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
     }
-    
+
     public boolean isClosingEmailEnabled() {
         // Legacy data might not have this field
         if (isClosingEmailEnabled == null) {
             isClosingEmailEnabled = true;
         }
-        
+
         return isClosingEmailEnabled.booleanValue();
     }
-    
+
     public void setSendClosingEmail(boolean isClosingEmailEnabled) {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
     }
-    
+
     public boolean isPublishedEmailEnabled() {
         // Legacy data might not have this field
         if (isPublishedEmailEnabled == null) {
             isPublishedEmailEnabled = true;
         }
-        
+
         return isPublishedEmailEnabled.booleanValue();
     }
-    
+
     public void setSendPublishedEmail(boolean isPublishedEmailEnabled) {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
@@ -354,7 +361,7 @@ public class FeedbackSession {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList) {
+    public void setRespondingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 

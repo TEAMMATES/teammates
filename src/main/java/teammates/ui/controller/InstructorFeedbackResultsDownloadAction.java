@@ -1,14 +1,13 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
 
@@ -21,6 +20,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
         boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        String questionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
 
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -29,30 +30,41 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
 
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly);
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
         String fileContent = "";
         String fileName = "";
+
         try {
+            String questionName = "";
+            if (questionNumber != null) {
+                questionName = "_question" + questionNumber;
+            }
+
             if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
-                        courseId, feedbackSessionName, instructor.email, filterText, isMissingResponsesShown, isStatsShown);
-                fileName = courseId + "_" + feedbackSessionName;
+                        courseId, feedbackSessionName, instructor.email, filterText,
+                        isMissingResponsesShown, isStatsShown, questionId);
+
+                fileName = courseId + "_" + feedbackSessionName + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                         courseId, feedbackSessionName, instructor.email, section,
-                        filterText, isMissingResponsesShown, isStatsShown);
-                fileName = courseId + "_" + feedbackSessionName + "_" + section;
+                        questionId, filterText, isMissingResponsesShown, isStatsShown);
+                fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " within " + section + " was downloaded";
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
-            statusToUser.add(new StatusMessage("There are too many responses. "
-                                                       + "Please download the feedback results by section",
-                                               StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage("This session has more responses than that can be downloaded in one go. "
+                        + "Please download responses for "
+                        + (questionNumber == null ? "one question at a time instead. "
+                        + "To download responses for a specific question, click on the corresponding question number."
+                                                 : "section instead."),
+                                                 StatusMessageColor.DANGER));
             isError = true;
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);

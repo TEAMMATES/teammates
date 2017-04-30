@@ -2,6 +2,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -11,7 +12,7 @@
                  <span class="icon-bar"></span>
                  <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+            <t:teammatesLogo/>
         </div>
         <div class="collapse navbar-collapse" id="contentLinks">
             <ul class="nav navbar-nav">
@@ -36,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="nav help" href="/instructorHelp.jsp" target="_blank">Help</a>
+                    <a class="nav help" href="/instructorHelp.jsp" target="_blank" rel="noopener noreferrer">Help</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-right">

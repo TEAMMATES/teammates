@@ -2,9 +2,9 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
+import teammates.ui.pagedata.PageData;
 
 public class StudentProfileEditBox {
 
@@ -14,7 +14,7 @@ public class StudentProfileEditBox {
     private String email;
     private String institute;
     private String nationality;
-    /** option to select the nationality */
+    /** option to select the nationality. */
     private List<ElementTag> nationalitySelectField;
     private String legacyNationalityInstructions;
     private String gender;
@@ -37,7 +37,7 @@ public class StudentProfileEditBox {
         this.googleId = googleId;
         this.pictureUrl = pictureUrl;
     }
-    
+
     public String getName() {
         return name;
     }

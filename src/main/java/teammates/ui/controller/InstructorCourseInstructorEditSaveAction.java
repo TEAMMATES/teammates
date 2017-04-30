@@ -2,22 +2,21 @@ package teammates.ui.controller;
 
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseInstructorEditSaveAction extends InstructorCourseInstructorAbstractAction {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
+
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
@@ -25,22 +24,22 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId),
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-        
+
         try {
             if (instructorId == null) {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
             } else {
                 logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
-            
+
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
                                                StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
@@ -49,18 +48,18 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
-        
+
         /* Create redirection to 'Edit' page with corresponding course id */
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
     }
-    
+
     /**
      * Checks if there are any other registered instructors that can modify instructors.
      * If there are none, the instructor currently being edited will be granted the privilege
      * of modifying instructors automatically.
-     * 
+     *
      * @param courseId         Id of the course.
      * @param instructorToEdit Instructor that will be edited.
      *                             This may be modified within the method.
@@ -84,12 +83,12 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
     }
-    
+
     /**
      * Creates a new instructor representing the updated instructor with all information filled in,
      * using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
-     * 
+     *
      * @param courseId        Id of the course the instructor is being added to.
      * @param instructorId    Id of the instructor.
      * @param instructorName  Name of the instructor.
@@ -105,28 +104,28 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
-        instructorRole = Sanitizer.sanitizeName(instructorRole);
-        displayedName = Sanitizer.sanitizeName(displayedName);
-        
+        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
+        displayedName = SanitizationHelper.sanitizeName(displayedName);
+
         InstructorAttributes instructorToEdit =
                 updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
                                                 instructorRole, isDisplayedToStudents, displayedName);
-        
+
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
         }
-        
+
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToEdit);
-        
+
         instructorToEdit.privileges.validatePrivileges();
-        
+
         return instructorToEdit;
     }
-    
+
     /**
      * Edits an existing instructor's basic information.
      * This consists of everything apart from custom privileges.
-     * 
+     *
      * @param courseId              Id of the course the instructor is being added to.
      * @param instructorId          Id of the instructor.
      * @param instructorName        Name of the instructor.
@@ -146,13 +145,13 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         } else {
             instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
-        instructorToEdit.name = Sanitizer.sanitizeName(instructorName);
-        instructorToEdit.email = Sanitizer.sanitizeEmail(instructorEmail);
-        instructorToEdit.role = Sanitizer.sanitizeName(instructorRole);
-        instructorToEdit.displayedName = Sanitizer.sanitizeName(displayedName);
+        instructorToEdit.name = SanitizationHelper.sanitizeName(instructorName);
+        instructorToEdit.email = SanitizationHelper.sanitizeEmail(instructorEmail);
+        instructorToEdit.role = SanitizationHelper.sanitizeName(instructorRole);
+        instructorToEdit.displayedName = SanitizationHelper.sanitizeName(displayedName);
         instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
         instructorToEdit.privileges = new InstructorPrivileges(instructorToEdit.role);
-        
+
         return instructorToEdit;
     }
 }

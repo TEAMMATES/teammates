@@ -242,7 +242,7 @@
             </div>
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
               Collapse Sections
             </a>
           </div>
@@ -268,12 +268,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" style="display: inline;" title="">
               Collapse Teams
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -467,12 +469,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" style="display: inline;" title="">
               Collapse Teams
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -4123,12 +4127,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" style="display: inline;" title="">
               Collapse Teams
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -4373,7 +4379,7 @@
     </div>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">

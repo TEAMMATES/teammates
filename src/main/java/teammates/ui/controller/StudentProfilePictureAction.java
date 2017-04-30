@@ -1,28 +1,31 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
 
 /**
- * Action: serves a profile picture that is stored in Google Cloud Storage
+ * Action: serves a profile picture that is stored in Google Cloud Storage.
  */
 public class StudentProfilePictureAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         boolean isRequestFromStudent = getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null;
         boolean isRequestFromInstructorOrOtherStudent =
                                         getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null;
-        
+
         if (!isRequestFromStudent && !isRequestFromInstructorOrOtherStudent) {
             Assumption.fail("expected blob-key, or student email with courseId");
         }
-        
+
         ActionResult result = null;
         if (isRequestFromStudent) {
             result = handleRequestWithBlobKey();
@@ -31,7 +34,7 @@ public class StudentProfilePictureAction extends Action {
             result = handleRequestWithEmailAndCourse();
             statusToAdmin = "Requested Profile Picture by instructor/other students";
         }
-        
+
         return result;
     }
 
@@ -43,12 +46,20 @@ public class StudentProfilePictureAction extends Action {
 
     private ActionResult handleRequestWithEmailAndCourse()
             throws EntityDoesNotExistException {
-        String email = getStudentEmailFromRequest();
-        String courseId = getCourseIdFromRequest();
+        String email;
+        String courseId;
+        try {
+            email = getStudentEmailFromRequest();
+            courseId = getCourseIdFromRequest();
+        } catch (InvalidParametersException e) {
+            log.warning("Attempting to decrypt malformed ciphertext when retrieving email or course id from request.");
+            throw new EntityDoesNotExistException(e);
+        }
+
         log.info("email: " + email + ", course: " + courseId);
 
         StudentAttributes student = getStudentForGivenParameters(courseId, email);
-        new GateKeeper().verifyAccessibleForCurrentUserAsInstructorOrTeamMember(account, courseId, student.section, email);
+        gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(account, courseId, student.section, email);
 
         return createImageResult(getPictureKeyForStudent(student));
     }
@@ -68,14 +79,14 @@ public class StudentProfilePictureAction extends Action {
         return blobKey;
     }
 
-    private String getCourseIdFromRequest() {
+    private String getCourseIdFromRequest() throws InvalidParametersException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         courseId = StringHelper.decrypt(courseId);
         return courseId;
     }
 
-    private String getStudentEmailFromRequest() {
+    private String getStudentEmailFromRequest() throws InvalidParametersException {
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, email);
         email = StringHelper.decrypt(email);

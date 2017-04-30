@@ -8,8 +8,23 @@ body {
     padding: 60px 0 30px;
 }
 
-a#editUncommonSettingsButton:hover {
+.editUncommonSettingsButton:hover {
     cursor: pointer;
+}
+
+/*
+Apply to alert to override Bootstrap's default 3d alerts
+*/
+.alert {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.alert-warning,
+.alert-success,
+.alert-info,
+.alert-danger {
+    background-image: none;
 }
 
 .align-center {
@@ -97,6 +112,18 @@ a#editUncommonSettingsButton:hover {
     color: gray;
 }
 
+.color_orange {
+    color: #e46d0b;
+}
+
+.color_blue {
+    color: #4379D1;
+}
+
+.color-inherit {
+    color: inherit;
+}
+
 .cursor-pointer {
     cursor: pointer;
     cursor: hand;
@@ -105,6 +132,26 @@ a#editUncommonSettingsButton:hover {
 .constSumOptionsLabel {
     padding-right: 15px;
     max-width: 75%;
+}
+
+.ordered-table {
+    counter-reset: rownumber;
+}
+
+.ordered-table tr:not(.skip) {
+    counter-increment: rownumber;
+}
+
+.ordered-table tr td:first-child::before {
+    content: counter(rownumber) '.';
+    min-width: 1em;
+    margin-right: .5em;
+}
+
+.separate-content-holder {
+    height: 5em;
+    padding-top: 1em;
+    width: 100%;
 }
 
 /*
@@ -131,7 +178,8 @@ which usually match 2 classes (eg .btn.disabled)
 /*
 Apply to thead to make headers not bold.
 */
-.font-weight-normal, .font-weight-normal > tr > th {
+.font-weight-normal,
+.font-weight-normal > tr > th {
     font-weight: normal;
 }
 
@@ -182,7 +230,8 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
-.inline, input.inline {
+.inline,
+input.inline {
     display: inline;
 }
 
@@ -210,8 +259,13 @@ Apply to thead to make headers not bold.
     margin: 0 auto;
 }
 
-.min-height-0.checkbox, .min-height-0 {
+.min-height-0.checkbox,
+.min-height-0 {
     min-height: 0;
+}
+
+.margin-right-10px {
+    margin-right: 10px;
 }
 
 .margin-top-0 {
@@ -274,7 +328,8 @@ Apply to thead to make headers not bold.
     overflow: auto;
 }
 
-.padding-top-0, .padding-top-0.checkbox {
+.padding-top-0,
+.padding-top-0.checkbox {
     padding-top: 0;
 }
 
@@ -330,7 +385,8 @@ Apply to thead to make headers not bold.
     display: flex;
 }
 
-.form-control.width-100-pc, .width-100-pc {
+.form-control.width-100-pc,
+.width-100-pc {
     width: 100%;
 }
 
@@ -553,6 +609,49 @@ Apply to thead to make headers not bold.
 }
 
 /*////////////////////////////////////////////////////////////
+/////////////////////// Static page /////////////////////////
+//////////////////////////////////////////////////////////*/
+.navbar-brand {
+    padding: 0;
+}
+
+.btn-login {
+    color: #00FF00;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.btn-login:focus,
+.btn-login:hover,
+.btn-login:active {
+    color: #00FF00;
+}
+
+@media (max-width: 768px) {
+    .btn-login {
+        width: 100%;
+        text-align: left;
+        padding: 6px 0;
+    }
+}
+
+/* prevent dom height from jumping, adjust as needed */
+#testimonialContainer {
+    min-height: 14rem;
+}
+
+#raisedEdge {
+    position: relative;
+    z-index: -1;
+}
+
+@media screen and (min-width: 768px) {
+    #raisedEdge {
+        top: -2em;
+    }
+}
+
+/*////////////////////////////////////////////////////////////
 /////////////////////// Main Content ////////////////////////
 //////////////////////////////////////////////////////////*/
 
@@ -571,7 +670,7 @@ Apply to thead to make headers not bold.
 
 .bs-example:after {
     color: #bbb;
-    content: "Example";
+    content: 'Example';
     font-size: 12px;
     font-weight: 700;
     left: 15px;
@@ -693,7 +792,7 @@ Apply to thead to make headers not bold.
     display: table;
 }
 
-.profile-pic-edit [class*="col-"] {
+.profile-pic-edit [class*='col-'] {
     float: none;
     display: table-cell;
     vertical-align: middle;
@@ -779,7 +878,9 @@ Apply to thead to make headers not bold.
     background: url(../images/sortDownButton.png);
 }
 
-.button-sort-ascending:hover, .button-sort-none:hover, .button-sort-descending:hover {
+.button-sort-ascending:hover,
+.button-sort-none:hover,
+.button-sort-descending:hover {
     cursor: pointer;
 }
 
@@ -865,7 +966,7 @@ Apply to thead to make headers not bold.
 
 .dropdown-submenu > a:after {
     display: block;
-    content: " ";
+    content: ' ';
     float: right;
     width: 0;
     height: 0;
@@ -1052,4 +1153,14 @@ Prevent Long URL From Breaking Out of Container
 .courses-table-dropdown {
     float: left;
     margin-right: 5px;
+}
+
+/*
+Glyphicon for success status messages
+*/
+.alert-success:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: 2px;
+    content: '\e084';
 }

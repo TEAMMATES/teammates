@@ -3,54 +3,54 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.datastore.Text;
+import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSaveAction extends Action {
-    
-    List<String> addressReceiver = new ArrayList<String>();
-    List<String> groupReceiver = new ArrayList<String>();
-    
+
+    private List<String> addressReceiver = new ArrayList<String>();
+    private List<String> groupReceiver = new ArrayList<String>();
+
     @Override
     protected ActionResult execute() {
-        
-        new GateKeeper().verifyAdminPrivileges(account);
+
+        gateKeeper.verifyAdminPrivileges(account);
         AdminEmailComposePageData data = new AdminEmailComposePageData(account);
-        
+
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
         String addressReceiverListString = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
-        
+
         String groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
-        
 
         String emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
-        
+
         addressReceiver.add(addressReceiverListString);
-        
+
         if (groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty()) {
             groupReceiver.add(groupReceiverListFileKey);
         }
-        
+
         boolean isNewDraft = emailId == null;
-        
+
         if (isNewDraft) {
             //this is a new email draft, so create a new admin email entity
             createAndSaveNewDraft(subject, addressReceiver, groupReceiver, emailContent);
         } else {
             //currently editing a previous email draft, so we need to update the previous draft
             //instead of creating a new admin email entity
-            
+
             //retrieve the previous draft email
             AdminEmailAttributes previousDraft = logic.getAdminEmailById(emailId);
-            
+
             if (previousDraft == null) {
                 //the previous draft is not found (eg. deleted by accident when editing)
                 createAndSaveNewDraft(subject, addressReceiver, groupReceiver, emailContent);
@@ -59,7 +59,7 @@ public class AdminEmailComposeSaveAction extends Action {
                 updatePreviousEmailDraft(previousDraft.getEmailId(), subject, addressReceiver, groupReceiver, emailContent);
             }
         }
-        
+
         if (isError) {
             data.emailToEdit = new AdminEmailAttributes(subject,
                                                         addressReceiver,
@@ -69,20 +69,20 @@ public class AdminEmailComposeSaveAction extends Action {
             data.emailToEdit.emailId = emailId;
         } else {
             statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
-                    + "Subject: " + subject;
+                    + "Subject: " + SanitizationHelper.sanitizeForHtml(subject);
             statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS));
         }
-        
+
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
-    
+
     private void updatePreviousEmailDraft(String previousEmailId,
                                           String subject,
                                           List<String> addressReceiver,
                                           List<String> groupReceiver,
                                           String content
                                           ) {
-        
+
         AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
                                                                  addressReceiver,
                                                                  groupReceiver,
@@ -94,14 +94,14 @@ public class AdminEmailComposeSaveAction extends Action {
             isError = true;
             setStatusForException(e);
         }
-        
+
     }
-    
+
     private void createAndSaveNewDraft(String subject,
                                        List<String> addressReceiver,
                                        List<String> groupReceiver,
                                        String content) {
-        
+
         AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
                                                                  addressReceiver,
                                                                  groupReceiver,

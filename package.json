@@ -1,0 +1,30 @@
+{
+  "devDependencies": {
+    "babel-cli": "6.23.0",
+    "babel-preset-env": "1.2.1",
+    "eslint": "3.17.1",
+    "eslint-config-airbnb-base": "11.1.1",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-json": "1.2.0",
+    "stylelint": "7.9.0"
+  },
+  "babel": {
+    "presets": [
+      ["env", {
+        "targets": {
+          "browsers": ["ie >= 9"]
+        }
+      }]
+    ]
+  },
+  "scripts": {
+    "build:test": "babel src/main/webapp/dev/ -x \".es6\" -d src/main/webapp/dev/",
+    "build:src": "babel src/main/webapp/js/ -x \".es6\" -d src/main/webapp/js/",
+    "build": "npm run build:src && npm run build:test",
+    "lint:src": "eslint src/main/webapp/js -c static-analysis/teammates-eslint-es6.yml --ext es6",
+    "lint:test": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint-es6.yml --ext es6",
+    "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint.yml",
+    "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
+    "lint": "npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css"
+  }
+}

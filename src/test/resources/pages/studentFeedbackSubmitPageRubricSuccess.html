@@ -6,9 +6,7 @@
   </h1>
   <br>
   <div id="student-motd-wrapper">
-    <script>
-      var motdUrl = window.location.origin + '/${studentmotd.url}';
-    </script>
+    <input id="motd-url" type="hidden" value="${studentmotd.url}">
     <script defer="" src="/js/studentMotd.js" type="text/javascript">
     </script>
     ${studentmotd.container}
@@ -111,15 +109,15 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option style="display: none;" value="alice.b.tmms@gmail.tmt">
+                <option selected="" value="alice.b.tmms@gmail.tmt">
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </option>
-                <option selected="" value="benny.c.tmms@gmail.tmt">
+                <option style="display: none;" value="benny.c.tmms@gmail.tmt">
                   Benny Charles
                 </option>
               </select>
               <span>
-                Benny Charles
+                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </span>
             </div>
             <div class="col-sm-10">
@@ -149,25 +147,25 @@
                             a) This student has done a good job.
                           </p>
                         </td>
-                        <td class="col-md-1 cell-selected">
-                          <input checked="" class="overlay" id="rubricChoice-1-0-0-0" name="rubricChoice-1-0-0" type="radio" value="0-0">
+                        <td class="col-md-1">
+                          <input class="overlay" id="rubricChoice-1-0-0-0" name="rubricChoice-1-0-0" type="radio" value="0-0">
                           <span class="color_neutral overlay">
                           </span>
                         </td>
-                        <td class="col-md-1">
-                          <input class="overlay" id="rubricChoice-1-0-0-1" name="rubricChoice-1-0-0" type="radio" value="0-1">
+                        <td class="col-md-1 cell-selected">
+                          <input checked="" class="overlay" id="rubricChoice-1-0-0-1" name="rubricChoice-1-0-0" type="radio" value="0-1">
                           <span class="color_neutral overlay">
                           </span>
                         </td>
                       </tr>
-                      <tr class="row-answered">
+                      <tr>
                         <td>
                           <p>
                             b) This student has tried his/her best.
                           </p>
                         </td>
-                        <td class="col-md-1 cell-selected">
-                          <input checked="" class="overlay" id="rubricChoice-1-0-1-0" name="rubricChoice-1-0-1" type="radio" value="1-0">
+                        <td class="col-md-1">
+                          <input class="overlay" id="rubricChoice-1-0-1-0" name="rubricChoice-1-0-1" type="radio" value="1-0">
                           <span class="color_neutral overlay">
                             Most of the time
                           </span>
@@ -189,7 +187,7 @@
                       <div class="panel-body">
                         <div class="radio">
                           <label>
-                            <input checked="" id="mobile-rubricChoice-1-0-0-0" name="mobile-rubricChoice-1-0-0" type="radio" value="0-0">
+                            <input id="mobile-rubricChoice-1-0-0-0" name="mobile-rubricChoice-1-0-0" type="radio" value="0-0">
                             <strong>
                               Yes
                             </strong>
@@ -198,7 +196,7 @@
                         </div>
                         <div class="radio">
                           <label>
-                            <input id="mobile-rubricChoice-1-0-0-1" name="mobile-rubricChoice-1-0-0" type="radio" value="0-1">
+                            <input checked="" id="mobile-rubricChoice-1-0-0-1" name="mobile-rubricChoice-1-0-0" type="radio" value="0-1">
                             <strong>
                               No
                             </strong>
@@ -207,14 +205,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="panel panel-success">
+                    <div class="panel panel-default">
                       <div class="panel-heading">
                         b) This student has tried his/her best.
                       </div>
                       <div class="panel-body">
                         <div class="radio">
                           <label>
-                            <input checked="" id="mobile-rubricChoice-1-0-1-0" name="mobile-rubricChoice-1-0-1" type="radio" value="1-0">
+                            <input id="mobile-rubricChoice-1-0-1-0" name="mobile-rubricChoice-1-0-1" type="radio" value="1-0">
                             <strong>
                               Yes
                             </strong>
@@ -236,7 +234,7 @@
                 </div>
               </div>
               <input id="rubricResponse-1-0" name="responsetext-1-0" type="hidden" value="">
-              <input name="responseid-1-0" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt">
+              <input name="responseid-1-0" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt">
             </div>
           </div>
           <br>
@@ -245,18 +243,18 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="alice.b.tmms@gmail.tmt">
+                <option style="display: none;" value="alice.b.tmms@gmail.tmt">
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </option>
-                <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                <option selected="" value="benny.c.tmms@gmail.tmt">
                   Benny Charles
                 </option>
               </select>
               <span>
-                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                Benny Charles
               </span>
             </div>
             <div class="col-sm-10">
@@ -280,7 +278,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr class="row-answered">
                         <td>
                           <p>
                             a) This student has done a good job.
@@ -291,20 +289,20 @@
                           <span class="color_neutral overlay">
                           </span>
                         </td>
-                        <td class="col-md-1">
-                          <input class="overlay" id="rubricChoice-1-1-0-1" name="rubricChoice-1-1-0" type="radio" value="0-1">
+                        <td class="col-md-1 cell-selected">
+                          <input checked="" class="overlay" id="rubricChoice-1-1-0-1" name="rubricChoice-1-1-0" type="radio" value="0-1">
                           <span class="color_neutral overlay">
                           </span>
                         </td>
                       </tr>
-                      <tr>
+                      <tr class="row-answered">
                         <td>
                           <p>
                             b) This student has tried his/her best.
                           </p>
                         </td>
-                        <td class="col-md-1">
-                          <input class="overlay" id="rubricChoice-1-1-1-0" name="rubricChoice-1-1-1" type="radio" value="1-0">
+                        <td class="col-md-1 cell-selected">
+                          <input checked="" class="overlay" id="rubricChoice-1-1-1-0" name="rubricChoice-1-1-1" type="radio" value="1-0">
                           <span class="color_neutral overlay">
                             Most of the time
                           </span>
@@ -319,7 +317,7 @@
                     </tbody>
                   </table>
                   <div class="visible-xs visible-sm">
-                    <div class="panel panel-default">
+                    <div class="panel panel-success">
                       <div class="panel-heading">
                         a) This student has done a good job.
                       </div>
@@ -335,7 +333,7 @@
                         </div>
                         <div class="radio">
                           <label>
-                            <input id="mobile-rubricChoice-1-1-0-1" name="mobile-rubricChoice-1-1-0" type="radio" value="0-1">
+                            <input checked="" id="mobile-rubricChoice-1-1-0-1" name="mobile-rubricChoice-1-1-0" type="radio" value="0-1">
                             <strong>
                               No
                             </strong>
@@ -344,14 +342,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-success">
                       <div class="panel-heading">
                         b) This student has tried his/her best.
                       </div>
                       <div class="panel-body">
                         <div class="radio">
                           <label>
-                            <input id="mobile-rubricChoice-1-1-1-0" name="mobile-rubricChoice-1-1-1" type="radio" value="1-0">
+                            <input checked="" id="mobile-rubricChoice-1-1-1-0" name="mobile-rubricChoice-1-1-1" type="radio" value="1-0">
                             <strong>
                               Yes
                             </strong>
@@ -373,6 +371,7 @@
                 </div>
               </div>
               <input id="rubricResponse-1-1" name="responsetext-1-1" type="hidden" value="">
+              <input name="responseid-1-1" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt">
             </div>
           </div>
         </div>
@@ -383,7 +382,9 @@
     <div class="bold align-center">
       <input name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
-      <input class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
+      <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit">
+        Submit Feedback
+      </button>
     </div>
     <br>
     <br>

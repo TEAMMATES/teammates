@@ -1,18 +1,19 @@
 package teammates.ui.controller;
 
-import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
-
 import com.google.appengine.api.blobstore.BlobKey;
 
+import teammates.common.util.Const;
+import teammates.ui.pagedata.AdminEmailComposePageData;
+import teammates.ui.pagedata.FileUploadPageData;
+
 /**
- * Action: uploads an image for admin email
+ * Action: uploads an image for admin email.
  */
 public class AdminEmailImageUploadAction extends ImageUploadAction {
 
     @Override
     protected ActionResult execute() {
-        GateKeeper.inst().verifyAdminPrivileges(account);
+        gateKeeper.verifyAdminPrivileges(account);
 
         FileUploadPageData uploadPageData = prepareData();
         AdminEmailComposePageData data = new AdminEmailComposePageData(account);

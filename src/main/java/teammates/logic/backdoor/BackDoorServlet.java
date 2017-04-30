@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
@@ -16,6 +16,18 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 
+/**
+ * Servlet for the BackDoor API.
+ *
+ * <p>It first checks for authentication (backdoor key) and then forwards the
+ * API call to the correct method as specified by the supplied parameters.
+ *
+ * <p>Each authorized API call will return either the return value of the called method,
+ * or a status code indicating the status of the API call.
+ *
+ * @see BackDoorLogic
+ * @see BackDoorOperation
+ */
 @SuppressWarnings("serial")
 public class BackDoorServlet extends HttpServlet {
 
@@ -29,13 +41,13 @@ public class BackDoorServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/plain; charset=utf-8");
-        
+
         String keyReceived = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_KEY);
         boolean isAuthorized = keyReceived.equals(Config.BACKDOOR_KEY);
         if (isAuthorized) {
             String action = req.getParameter(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION);
             log.info(action);
-            
+
             BackDoorOperation opCode = BackDoorOperation.valueOf(action);
             String returnValue;
             try {
@@ -151,9 +163,9 @@ public class BackDoorServlet extends HttpServlet {
             courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
             return backDoorLogic.getFeedbackSessionAsJson(feedbackSessionName, courseId);
         case OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID:
-            String instructorId = req.getParameter(BackDoorOperation.PARAMETER_INSTRUCTOR_ID);
+            googleId = req.getParameter(BackDoorOperation.PARAMETER_GOOGLE_ID);
             courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
-            return backDoorLogic.getInstructorAsJsonById(instructorId, courseId);
+            return backDoorLogic.getInstructorAsJsonById(googleId, courseId);
         case OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL:
             instructorEmail = req.getParameter(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL);
             courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
@@ -192,5 +204,5 @@ public class BackDoorServlet extends HttpServlet {
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
-    
+
 }

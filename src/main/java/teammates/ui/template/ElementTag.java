@@ -25,28 +25,28 @@ public class ElementTag {
      */
     public ElementTag(String... attributePairs) {
         boolean isSelfClosing = attributePairs.length % 2 == 0;
-        
+
         this.content = isSelfClosing ? null : attributePairs[0];
-        
+
         int startIndex = isSelfClosing ? 0 : 1;
         this.attributes = new HashMap<String, String>();
         for (int i = startIndex; i < attributePairs.length; i += 2) {
             this.attributes.put(attributePairs[i], attributePairs[i + 1]);
         }
     }
-    
+
     public String getContent() {
         return content;
     }
-    
+
     public boolean isSelfClosing() {
         return content == null;
     }
-    
+
     public Map<String, String> getAttributes() {
         return Collections.unmodifiableMap(attributes);
     }
-    
+
     /**
      * Associates the specified value to the specified attribute name.
      * @return the previous value associated with attributeName or null if it had none
@@ -54,7 +54,7 @@ public class ElementTag {
     public String setAttribute(String attributeName, String attributeValue) {
         return attributes.put(attributeName, attributeValue);
     }
-    
+
     /**
      * Removes the mapping for the specified attribute name.
      * @return the previous value associated with attributeName or null if it had none
@@ -62,7 +62,7 @@ public class ElementTag {
     public String removeAttribute(String attributeName) {
         return attributes.remove(attributeName);
     }
-    
+
     public List<ElementTag> getNestedElements() {
         return nestedElements;
     }
@@ -76,15 +76,15 @@ public class ElementTag {
     }
 
     /**
-     * @return all attributes joined into a string for HTML purposes with a space in front;
+     * Returns all attributes joined into a string for HTML purposes with a space in front;
      *         attribute added if and only if it has a non-null value,
-     *         empty strings will still be treated as empty strings
+     *         empty strings will still be treated as empty strings.
      */
     public String getAttributesToString() {
         if (attributes == null || attributes.isEmpty()) {
             return "";
         }
-        
+
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> attribute : attributes.entrySet()) {
             sb.append(' ').append(attribute.getKey());

@@ -19,7 +19,7 @@
                     <br><br>
                 </li>
             </ul>
-            If the problem persists, please inform <a class="link" href="contact.jsp" target="_blank">TEAMMATES support team</a>.
+            If the problem persists, please inform <a class="link" href="contact.jsp" target="_blank" rel="noopener noreferrer">TEAMMATES support team</a>.
             <br><br>
             <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.
             <br><br>

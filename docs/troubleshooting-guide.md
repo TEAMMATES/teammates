@@ -4,7 +4,6 @@ This document can help you to fix the common problems encountered while contribu
 Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
 
 * [Troubleshooting project setup](#troubleshooting-project-setup)
-    * [Setup checklist](#setup-checklist)
     * [Common setup errors and solutions](#common-setup-errors-and-solutions)
 * [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
@@ -14,54 +13,9 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 ## Troubleshooting project setup
 
-### Setup checklist
-
-Use this checklist to verify that your project setup is correct.
-
-1. **Undo any automatic setting changes done by Eclipse**
-
-    Make sure Eclipse has not modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from GitHub. If there are any changes, do a `git reset --hard` and restart Eclipse.
-
-1. **Check the version of the Google plugin for Eclipse**
-
-    In Eclipse, go to `Help → Install new software → What's already installed`.
-    
-    * Ensure that Google Plugin version is `4.4` (Luna), `4.5` (Mars), or `4.6` (Neon), not `4.3` as shown in the screenshot.
-    * Ensure that TestNG is installed.
-
-    ![setup-checklist-1.png](images/setup-checklist-1.png)
-
-1. **Check the text encoding settings**
-
-    `Window → Preferences → General → Workspace`
-
-    ![setup-checklist-2.png](images/setup-checklist-2.png)
-
-1. **Check the JDK compliance**
-
-    `Project → Properties → Java Compiler`
-
-    ![setup-checklist-3.png](images/setup-checklist-3.png)
-
-1. **Check the SDK version**
-
-   Note: We are using version `1.9.27` instead of `1.9.4`.
-
-    `Project → Properties → Google → App Engine`
-
-    ![setup-checklist-4.png](images/setup-checklist-4.png)
-
-1. **Check for compilation errors**
-
-    Markers tab should have 0 errors. Warnings are generally fine to be ignored.
-
-    ![setup-checklist-5.png](images/setup-checklist-5.png)
-
-    If it shows errors, try refreshing the project (right-click on the project in Project explorer) followed by a `Project → Clean`.
-
 ### Common setup errors and solutions
 
-1. **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
+* **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
 
   **REASON**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK).
 
@@ -69,27 +23,27 @@ Use this checklist to verify that your project setup is correct.
   
   **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.7/jre`. Now you should see all of the JARs added to the library section.
 
-1. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
+* **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
   **SOLUTION**: You can force Eclipse to use the JDK (instead of JRE) by modifying the `eclipse.ini` file. See [here](http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse) for more details.
 
-1. **ERROR (on Windows)**: Dev server launched by Eclipse keeps running even after closing Eclipse. After restarting Eclipse, you will be able to relaunch dev server on the same port but requests will be received by the previous server instance.
+* **ERROR (on Windows)**: Dev server launched by Eclipse keeps running even after closing Eclipse. After restarting Eclipse, you will be able to relaunch dev server on the same port but requests will be received by the previous server instance.
 
   **REASON**: If Eclipse crashes while dev server is running inside Eclipse, the server might keep running even after Eclipse is closed.
 
   **SOLUTION**: Go to Windows Task Manager and kill processes named `javaw.exe`.
 
-1. **ERROR**: Eclipse complains "file out of sync".
+* **ERROR**: Eclipse complains "file out of sync".
 
   **SOLUTION**: "Refresh" the project in Eclipse.
 
-1. **ERROR**: Eclipse complains "There are no JREs installed in the workplace that are strictly compatible with this environment.".
+* **ERROR**: Eclipse complains "There are no JREs installed in the workplace that are strictly compatible with this environment.".
 
   **REASON**: Eclipse may be using an incompatible version of the JRE Library (with respect to TEAMMATES) for the current JRE definition. System Library for JRE should be set to the workspace default, after an appropriate JRE definition has been added (covered in existing point#2 of the troubleshooting section).
 
   **SOLUTION**: Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE".
 
-1. **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
+* **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
 
   **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
 
@@ -123,21 +77,21 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
 ### Common test errors and solutions
 
-1. **ERROR**: Encountered `java.net.ConnectException: Connection refused` when running some tests.
+* **ERROR**: Encountered `java.net.ConnectException: Connection refused` when running some tests.
 
   **SOLUTION**: Ensure that your dev server is started prior to running those tests.
 
-1. **ERROR**: Encountered `org.openqa.selenium.WebDriverException: Unable to bind to locking port 7054 within 45000 ms` when running tests with Browser.
+* **ERROR**: Encountered `org.openqa.selenium.WebDriverException: Unable to bind to locking port 7054 within 45000 ms` when running tests with Browser.
 
   **SOLUTION**: Ensure compatible version of Firefox is installed as specified under [Development process document](development.md#testing).
 
-1. **ERROR**: Tests fail randomly during dev server testing.
+* **ERROR**: Tests fail randomly during dev server testing.
 
   **SOLUTION**: Make sure there is only one dev server running. Eclipse will happily allow you to start multiple dev servers.
 
   ![troubleshooting-test-4.png](images/troubleshooting-test-4.png)
 
-1. **ERROR**: Test failure message encountered when running full test suite: "Selenium cannot find Firefox binary in PATH".
+* **ERROR**: Test failure message encountered when running full test suite: "Selenium cannot find Firefox binary in PATH".
 
   **REASON 1**: Path to Firefox executable on local machine is incorrect.
 
@@ -149,42 +103,46 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION 2**: Make sure that the path is set correctly following the example from `test.template.properties`.
 
-1. **ERROR**: After deploying on the staging server, you get an error related to "Unsupported major.minor version ..." when trying to access pages of the staged app.
+* **ERROR**: After deploying on the staging server, you get an error related to "Unsupported major.minor version ..." when trying to access pages of the staged app.
 
   **REASON**: This can happen if you have Java 8 installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
    
   **SOLUTION**: Refer to [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed) to learn how to modify `eclipse.ini` to use Java 7 by default.
 
-1. **ERROR**: A handful of failed test cases (< 10).
+* **ERROR**: A handful of failed test cases (< 10).
 
   **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
 
-1. **ERROR**: Browser alert about invalid SSL certificate.
+* **ERROR**: Browser alert about invalid SSL certificate.
 
   **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://4-30-dot-teammates-john.appspot.com`.
 
-1. **ERROR**: Tests fail due to accented characters.
+* **ERROR**: Tests fail due to accented characters.
 
   **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](settingUp.md).
 
-1. **ERROR**: Error message in the console about "incorrect date format".
+* **ERROR**: Error message in the console about "incorrect date format".
 
   **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link](http://www.sevenforums.com/tutorials/3530-time-format-change.html) may be useful.
 
   ![troubleshooting-test-5.png](images/troubleshooting-test-5.png)
 
-1. **ERROR**: `java.lang.UnsupportedClassVersionError` when running on staging server.
+* **ERROR**: `java.lang.UnsupportedClassVersionError` when running on staging server.
 
   **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. [Here is a useful reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
 
-1. **ERROR**: `InstructorCourseDetailsPageUiTest` fails in production server due to Gmail's access restriction (e.g `javax.mail.AuthenticationFailedException`)
+* **ERROR**: `InstructorCourseDetailsPageUiTest` fails in production server due to Gmail's access restriction (e.g `javax.mail.AuthenticationFailedException`)
 
   **SOLUTION**: ["Allow access for less secure apps"](https://support.google.com/accounts/answer/6010255?hl=en) for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes.
 
-1. **ERROR (on Linux)**: `java.io.IOException: Directory "/tmpfiles" could not be created`.
+* **ERROR (on Linux)**: `java.io.IOException: Directory "/tmpfiles" could not be created`.
 
    **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 
+* **ERROR (on IntelliJ)**: Error message in console when running dev server : `Cannot start process, the working directory '{project home directory}/build/libs/exploded/teammates.war' does not exist` or `Could not locate /.../appengine-web.xml`.
+   
+  **SOLUTION**: The path to the exploded application may be configured wrongly. Go to `File → Project Structure...`. Under `Under Artifacts → Gradle : <your-project-name>.war (exploded)`, change `Output directory` to `{path to repo}/build/exploded-app`, which contains `appengine-web.xml`.
+   
 ## Submitting help request
 
 If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to request for help.

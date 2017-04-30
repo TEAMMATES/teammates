@@ -7,60 +7,60 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.SessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.StudentCommentsPageData;
 
 /**
- * Action: Showing the StudentCommentsPage for a student
+ * Action: Showing the StudentCommentsPage for a student.
  */
 public class StudentCommentsPageAction extends Action {
-    
+
     private String courseId;
     private String studentEmail;
-    
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         //check accessibility without courseId
         verifyBasicAccessibility();
-        
+
         //COURSE_ID can be null, if viewed by default
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        
+
         List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
-        
+
         Collections.sort(courses);
-        
+
         if (courseId == null && !courses.isEmpty()) {
             // if courseId not provided, select the newest course
             courseId = courses.get(0).getId();
         }
-        
+
         String courseName = getSelectedCourseName(courses);
         if (courseName.isEmpty()) {
             throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
         }
-        
+
         //check accessibility with courseId
         if (!isJoinedCourse(courseId)) {
             return createPleaseJoinCourseResponse(courseId);
         }
         verifyAccessible();
-        
+
         List<String> coursePaginationList = getCoursePaginationList(courses);
-        
+
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
@@ -76,28 +76,28 @@ public class StudentCommentsPageAction extends Action {
             comments = logic.getCommentsForStudent(student);
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
-        
+
         StudentCommentsPageData data = new StudentCommentsPageData(account);
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
-        
+
         statusToAdmin = "studentComments Page Load<br>"
                 + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records "
                 + "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         return createShowPageResult(Const.ViewURIs.STUDENT_COMMENTS, data);
     }
-    
+
     private void verifyBasicAccessibility() {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
         if (regkey != null) {
             // unregistered users cannot view the page
             throw new UnauthorizedAccessException("User is not registered");
         }
     }
-    
+
     private void verifyAccessible() {
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 logic.getStudentForGoogleId(courseId, account.googleId),
                 logic.getCourse(courseId));
     }
@@ -108,10 +108,10 @@ public class StudentCommentsPageAction extends Action {
         for (CourseAttributes course : sortedCourses) {
             coursePaginationList.add(course.getId());
         }
-        
+
         return coursePaginationList;
     }
-    
+
     private String getSelectedCourseName(List<CourseAttributes> sortedCourses) {
         for (CourseAttributes course : sortedCourses) {
             if (course.getId().equals(courseId)) {
@@ -120,7 +120,7 @@ public class StudentCommentsPageAction extends Action {
         }
         return "";
     }
-    
+
     /*
      * Returns a sorted map(LinkedHashMap) of FeedbackSessionResultsBundle,
      * where the sessions are sorted in descending order of their endTime
@@ -135,15 +135,13 @@ public class StudentCommentsPageAction extends Action {
             if (!fs.isPublished()) {
                 continue;
             }
-            
+
             FeedbackSessionResultsBundle bundle =
                     logic.getFeedbackSessionResultsForStudent(
                                   fs.getFeedbackSessionName(), courseId, studentEmail, roster);
-            if (bundle != null) {
-                removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-                if (bundle.questions.size() != 0) {
-                    feedbackResultBundles.put(fs.getFeedbackSessionName(), bundle);
-                }
+            removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
+            if (bundle.questions.size() != 0) {
+                feedbackResultBundles.put(fs.getFeedbackSessionName(), bundle);
             }
         }
         return feedbackResultBundles;

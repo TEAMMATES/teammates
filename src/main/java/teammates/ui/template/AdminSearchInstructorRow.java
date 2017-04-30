@@ -11,7 +11,7 @@ public class AdminSearchInstructorRow {
     private String viewRecentActionsId;
     private String email;
     private String courseJoinLink;
-    
+
     public AdminSearchInstructorRow(String id, String name, String courseName, String courseId,
                                     String googleId, String googleIdLink, String institute,
                                     String viewRecentActionsId, String email, String courseJoinLink) {

@@ -2,17 +2,14 @@ package teammates.logic.core;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 
 /**
  * An email sender interface used by services for sending emails.
  */
 public abstract class EmailSenderService {
-    
+
     protected static final int SUCCESS_CODE = 200;
-    
-    protected static final Logger log = Logger.getLogger();
-    
+
     /**
      * Parses the {@code wrapper} email object to specific implementations of email object
      * used by the service.
@@ -20,7 +17,7 @@ public abstract class EmailSenderService {
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     // accounts for the many different Exceptions from different email services
     public abstract Object parseToEmail(EmailWrapper wrapper) throws Exception;
-    
+
     /**
      * Sends the email packaged as a {@code wrapper}.
      */
@@ -31,9 +28,9 @@ public abstract class EmailSenderService {
             throw new EmailSendingException(e);
         }
     }
-    
+
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     // accounts for the many different Exceptions from different email services
     protected abstract void sendEmailWithService(EmailWrapper wrapper) throws Exception;
-    
+
 }

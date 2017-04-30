@@ -925,6 +925,28 @@
         "INSTRUCTORS"
       ]
     },
+    "qn2InSession6InCourse1": {
+      "feedbackSessionName": "RUBRIC Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"rubricWeights\":[1.25,1],\"questionText\":\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"hasAssignedWeights\":true,\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 2,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession7InCourse1": {
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1440,6 +1462,39 @@
       "recipient": "student4InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":[-1,0],\"questionType\":\"RUBRIC\"}"
+      }
+    },
+    "response1ForQ2S6C1": {
+      "feedbackSessionName": "RUBRIC Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}"
+      }
+    },
+    "response2ForQ2S6C1": {
+      "feedbackSessionName": "RUBRIC Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":[1,-1],\"questionType\":\"RUBRIC\"}"
+      }
+    },
+    "response3ForQ2S6C1": {
+      "feedbackSessionName": "RUBRIC Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":[0,-1],\"questionType\":\"RUBRIC\"}"
       }
     },
     "response1ForQ1S7C1": {

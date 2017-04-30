@@ -2,17 +2,17 @@ package teammates.ui.controller;
 
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.ui.pagedata.CreateImageUploadUrlAjaxPageData;
 
 /**
- * Action: creates a URL for uploading an image
+ * Action: creates a URL for uploading an image.
  */
 public class CreateImageUploadUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         return createAjaxResult(getCreateImageUploadUrlPageData());
     }
 

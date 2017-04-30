@@ -15,71 +15,68 @@ import teammates.common.util.NationalityHelper;
 
 public class StudentProfilePage extends AppPage {
 
-    @FindBy(id = "studentPhoto")
-    protected WebElement profilePicBox;
-
     @FindBy(id = "studentShortname")
-    protected WebElement shortNameBox;
+    private WebElement shortNameBox;
 
     @FindBy(id = "studentEmail")
-    protected WebElement emailBox;
+    private WebElement emailBox;
 
     @FindBy(id = "studentInstitution")
-    protected WebElement institutionBox;
+    private WebElement institutionBox;
 
     @FindBy(id = "studentNationality")
-    protected WebElement studentNationalityDropdown;
+    private WebElement studentNationalityDropdown;
 
     @FindBy(id = "genderMale")
-    protected WebElement genderMaleRadio;
+    private WebElement genderMaleRadio;
 
     @FindBy(id = "genderFemale")
-    protected WebElement genderFemaleRadio;
+    private WebElement genderFemaleRadio;
 
     @FindBy(id = "genderOther")
-    protected WebElement genderOtherRadio;
+    private WebElement genderOtherRadio;
 
     @FindBy(id = "studentMoreInfo")
-    protected WebElement moreInfoBox;
+    private WebElement moreInfoBox;
 
     @FindBy(id = "studentPhotoUploader")
-    protected WebElement uploadEditModal;
+    private WebElement uploadEditModal;
 
     @FindBy(id = "uploadEditPhoto")
-    protected WebElement uploadPopupButton;
+    private WebElement uploadPopupButton;
 
     @FindBy(id = "profileEditSubmit")
-    protected WebElement submitButton;
+    private WebElement submitButton;
 
     @FindBy(id = "profileUploadPictureSubmit")
-    protected WebElement uploadPictureSubmit;
+    private WebElement uploadPictureSubmit;
 
     @FindBy(id = "profileEditPictureSubmit")
-    protected WebElement editPictureSubmit;
+    private WebElement editPictureSubmit;
 
     @FindBy(id = "profilePicEditRotateLeft")
-    protected WebElement editPictureRotateLeft;
+    private WebElement editPictureRotateLeft;
 
     @FindBy(id = "profilePicEditZoomIn")
-    protected WebElement editPictureZoomIn;
+    private WebElement editPictureZoomIn;
 
     @FindBy(id = "profilePicEditZoomOut")
-    protected WebElement editPictureZoomOut;
+    private WebElement editPictureZoomOut;
 
     @FindBy(id = "profilePicEditRotateRight")
-    protected WebElement editPictureRotateRight;
+    private WebElement editPictureRotateRight;
 
     @FindBy(id = "profilePicEditPanUp")
-    protected WebElement editPicturePanUp;
+    private WebElement editPicturePanUp;
 
     @FindBy(id = "profilePicEditPanLeft")
-    protected WebElement editPicturePanLeft;
+    private WebElement editPicturePanLeft;
 
     @FindBy(id = "profilePicEditPanRight")
-    protected WebElement editPicturePanRight;
+    private WebElement editPicturePanRight;
 
     @FindBy(id = "profilePicEditPanDown")
-    protected WebElement editPicturePanDown;
+    private WebElement editPicturePanDown;
 
     public StudentProfilePage(Browser browser) {
         super(browser);
@@ -153,7 +150,7 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
+    public void editProfileThroughUi(String shortName, String email, String institute,
                                      String nationality, String gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
@@ -238,9 +235,9 @@ public class StudentProfilePage extends AppPage {
 
     public void verifyUploadButtonState(boolean expectedState) {
         assertEquals(expectedState, uploadPictureSubmit.isEnabled());
-        
+
     }
-    
+
     public void waitForUploadEditModalVisible() {
         waitForElementVisibility(uploadEditModal);
     }

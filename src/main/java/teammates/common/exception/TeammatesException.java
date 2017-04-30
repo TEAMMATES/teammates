@@ -22,6 +22,10 @@ public class TeammatesException extends Exception {
         errorCode = errorcode;
     }
 
+    public TeammatesException(Throwable cause) {
+        super(cause);
+    }
+
     public static String toStringWithStackTrace(Throwable e) {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));

@@ -8,14 +8,23 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.util.Const;
-
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.util.Const;
+
+/**
+ * Represents a feedback response.
+ */
 @PersistenceCapable
-public class FeedbackResponse implements StoreCallback {
-    
+public class FeedbackResponse extends Entity implements StoreCallback {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackResponse.class);
+
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
@@ -23,35 +32,35 @@ public class FeedbackResponse implements StoreCallback {
      **/
     @NotPersistent
     public boolean keepUpdateTimestamp;
-    
+
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
     //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
     @PrimaryKey
     @Persistent
     private String feedbackResponseId;
-    
+
     @Persistent
     private String feedbackSessionName;
-    
+
     @Persistent
     private String courseId;
-    
+
     @Persistent
     private String feedbackQuestionId;
-    
+
     @Persistent
     private FeedbackQuestionType feedbackQuestionType;
-    
+
     @Persistent
     private String giverEmail;
-    
+
     @Persistent
     private String giverSection;
 
     @Persistent
     private String receiver;
-    
+
     @Persistent
     private String receiverSection;
 
@@ -60,10 +69,10 @@ public class FeedbackResponse implements StoreCallback {
 
     @Persistent
     private Date createdAt;
-    
+
     @Persistent
     private Date updatedAt;
-    
+
     public FeedbackResponse(String feedbackSessionName, String courseId,
             String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
             String giverEmail, String giverSection, String recipient, String recipientSection, Text answer) {
@@ -76,9 +85,9 @@ public class FeedbackResponse implements StoreCallback {
         this.receiver = recipient;
         this.receiverSection = recipientSection;
         this.answer = answer;
-                
+
         this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
-        
+
         this.setCreatedAt(new Date());
     }
 
@@ -181,7 +190,7 @@ public class FeedbackResponse implements StoreCallback {
             this.updatedAt = newDate;
         }
     }
-    
+
     /**
      * Called by jdo before storing takes place.
      */

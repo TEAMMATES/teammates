@@ -7,99 +7,101 @@ import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
 
     @FindBy(id = "fstype")
     private WebElement fsType;
-    
+
     @FindBy(id = "courseid")
     private WebElement courseIdDropdown;
-    
+
     @FindBy(id = "fsname")
     private WebElement fsNameTextBox;
-    
+
     @FindBy(id = "starttime")
     private WebElement startTimeDropdown;
-    
+
     @FindBy(id = "endtime")
     private WebElement endTimeDropdown;
-    
+
     @FindBy (id = "visibletime")
     private WebElement visibleTimeDropdown;
-    
+
     @FindBy (id = "publishtime")
     private WebElement publishTimeDropdown;
-    
+
     @FindBy (id = "timezone")
     private WebElement timezoneDropdown;
-    
+
     @FindBy(id = "graceperiod")
     private WebElement gracePeriodDropdown;
 
-    @FindBy(id = "editUncommonSettingsButton")
-    private WebElement uncommonSettingsButton;
-    
+    @FindBy(id = "editUncommonSettingsSessionResponsesVisibleButton")
+    private WebElement uncommonSettingsSessionResponsesVisibleButton;
+
+    @FindBy(id = "editUncommonSettingsSendEmailsButton")
+    private WebElement uncommonSettingsSendEmailsButton;
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
     private WebElement customResultsVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
     private WebElement neverResultsVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
     private WebElement defaultSessionVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible")
     private WebElement defaultResultsVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_later")
     private WebElement manualResultsVisibleTimeButton;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_open")
     private WebElement sendOpenEmailCheckbox;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
     private WebElement sendClosingEmailCheckbox;
-    
+
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_published")
     private WebElement sendPublishedEmailCheckbox;
-    
+
     @FindBy(id = "button_submit")
     private WebElement submitButton;
-    
+
     @FindBy(id = "button_copy")
     private WebElement copyButton;
-    
+
     @FindBy(id = "button_copy_submit")
     private WebElement copySubmitButton;
-    
+
     @FindBy(id = "modalCopiedCourseId")
     private WebElement copiedCourseIdDropdown;
-    
+
     @FindBy(id = "modalCopiedSessionName")
     private WebElement copiedFsNameTextBox;
-    
+
     @FindBy(id = "button_sortname")
     private WebElement sortByNameIcon;
-    
+
     @FindBy(id = "button_sortid")
     private WebElement sortByIdIcon;
-    
+
     private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbacksPage(Browser browser) {
@@ -111,11 +113,11 @@ public class InstructorFeedbacksPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
     }
-    
+
     public InstructorCopyFsToModal getFsCopyToModal() {
         return fsCopyToModal;
     }
-    
+
     public void selectSessionType(String visibleText) {
         selectDropdownByVisibleValue(fsType, visibleText);
     }
@@ -125,7 +127,7 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForPageToLoad();
         return this;
     }
-    
+
     public AppPage sortById() {
         click(sortByIdIcon);
         waitForPageToLoad();
@@ -136,11 +138,20 @@ public class InstructorFeedbacksPage extends AppPage {
         click(submitButton);
         waitForPageToLoad();
     }
-    
-    public void clickEditUncommonSettingsButton() {
-        click(uncommonSettingsButton);
+
+    public void clickEditUncommonSettingsButtons() {
+        clickEditUncommonSettingsSessionResponsesVisibleButton();
+        clickEditUncommonSettingsSendEmailsButton();
     }
-    
+
+    public void clickEditUncommonSettingsSessionResponsesVisibleButton() {
+        click(uncommonSettingsSessionResponsesVisibleButton);
+    }
+
+    public void clickEditUncommonSettingsSendEmailsButton() {
+        click(uncommonSettingsSendEmailsButton);
+    }
+
     public void clickCustomVisibleTimeButton() {
         click(customSessionVisibleTimeButton);
     }
@@ -148,31 +159,31 @@ public class InstructorFeedbacksPage extends AppPage {
     public void clickCustomPublishTimeButton() {
         click(customResultsVisibleTimeButton);
     }
-    
+
     public void clickNeverVisibleTimeButton() {
         click(neverSessionVisibleTimeButton);
     }
-    
+
     public void clickNeverPublishTimeButton() {
         click(neverResultsVisibleTimeButton);
     }
-    
+
     public void clickManualPublishTimeButton() {
         click(manualResultsVisibleTimeButton);
     }
-    
+
     public void clickDefaultVisibleTimeButton() {
         click(defaultSessionVisibleTimeButton);
     }
-    
+
     public void clickDefaultPublishTimeButton() {
         click(defaultResultsVisibleTimeButton);
     }
-    
+
     public void clickCopyButton() {
         click(copyButton);
     }
-    
+
     public void clickCopySubmitButton() {
         click(copySubmitButton);
         waitForPageToLoad();
@@ -182,19 +193,19 @@ public class InstructorFeedbacksPage extends AppPage {
         click(getViewResponseLink(courseId, sessionName));
         waitForPageToLoad();
     }
-    
+
     public void toggleSendOpenEmailCheckbox() {
         click(sendOpenEmailCheckbox);
     }
-    
+
     public void toggleSendClosingEmailCheckbox() {
         click(sendClosingEmailCheckbox);
     }
-    
+
     public void toggleSendPublishedEmailCheckbox() {
         click(sendPublishedEmailCheckbox);
     }
-    
+
     public void addFeedbackSessionWithTimeZone(
             String feedbackSessionName,
             String courseId,
@@ -205,28 +216,28 @@ public class InstructorFeedbacksPage extends AppPage {
             Text instructions,
             int gracePeriod,
             double timeZone) {
-        
+
         fillTextBox(fsNameTextBox, feedbackSessionName);
-        
+
         String timeZoneString = Double.toString(timeZone);
 
         double fractionalPart = timeZone % 1;
-        
+
         if (fractionalPart == 0.0) {
             timeZoneString = Integer.toString((int) timeZone);
         }
-        
+
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
-        
+
         waitForElementVisibility(courseIdDropdown);
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
-        
+
         // fill in time values
         fillStartTime(startTime);
         fillEndTime(endTime);
         fillVisibleTime(visibleTime);
         fillPublishTime(publishTime);
-        
+
         // Fill in instructions
         if (instructions != null) {
             fillRichTextEditor("instructions", instructions.getValue());
@@ -236,10 +247,10 @@ public class InstructorFeedbacksPage extends AppPage {
         if (gracePeriod != -1) {
             selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
         }
-    
+
         clickSubmitButton();
     }
-    
+
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         String copyButtonId = "button_copy";
         this.waitForTextContainedInElementPresence(
@@ -248,11 +259,11 @@ public class InstructorFeedbacksPage extends AppPage {
         this.waitForElementVisibility(copiedFsNameTextBox);
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
-        
+
         clickCopyTableAtRow(0);
         clickCopySubmitButton();
     }
-    
+
     public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {
         clickCopyButton();
         this.waitForElementVisibility(copiedFsNameTextBox);
@@ -266,45 +277,41 @@ public class InstructorFeedbacksPage extends AppPage {
                                        .get(rowIndex + 1);
         click(row);
     }
-    
+
     public void clickCopyTableRadioButtonAtRow(int rowIndex) {
         WebElement button = browser.driver.findElement(By.id("copyTableModal"))
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1).findElement(By.tagName("input"));
         click(button);
     }
-    
+
     public void fillStartTime(Date startTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown);
     }
-    
+
     public void fillEndTime(Date endTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown);
     }
-    
+
     public void fillVisibleTime(Date visibleTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown);
     }
-    
+
     public void fillPublishTime(Date publishTime) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
+        fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown);
     }
-    
-    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown, JavascriptExecutor js) {
+
+    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
-            
+            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+
             String timeDropdownId = timeDropdown.getAttribute("id");
             int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
-            js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
+            executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
-    
-    /** 
+
+    /**
      * This method contains an intended mix of Selenium and JavaScript to ensure that the test
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
@@ -321,44 +328,41 @@ public class InstructorFeedbacksPage extends AppPage {
             click(element);
         }
     }
-    
+
     public String getValueOfDate(String timeId) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#" + timeId + "').datepicker('getDate') == null ? "
-                                         + "null : "
-                                         + "$('#" + timeId + "').datepicker('getDate').toDateString();");
+        return (String) executeScript("return $('#" + timeId + "').datepicker('getDate') == null ? "
+                                      + "null : "
+                                      + "$('#" + timeId + "').datepicker('getDate').toDateString();");
     }
-    
+
     public String getMinDateOf(String timeId) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'minDate') == null ? "
-                                         + "null : "
-                                         + "$('#" + timeId + "').datepicker('option', 'minDate').toDateString();");
+        return (String) executeScript("return $('#" + timeId + "').datepicker('option', 'minDate') == null ? "
+                                      + "null : "
+                                      + "$('#" + timeId + "').datepicker('option', 'minDate').toDateString();");
     }
-    
+
     public String getMaxDateOf(String timeId) {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'maxDate') == null ? "
-                                         + "null : "
-                                         + "$('#" + timeId + "').datepicker('option', 'maxDate').toDateString();");
+        return (String) executeScript("return $('#" + timeId + "').datepicker('option', 'maxDate') == null ? "
+                                      + "null : "
+                                      + "$('#" + timeId + "').datepicker('option', 'maxDate').toDateString();");
     }
-    
+
     public String getSessionType() {
         return fsType.getAttribute("value");
     }
-    
+
     public String getStartTime() {
         return startTimeDropdown.getAttribute("value");
     }
-    
+
     public String getEndTime() {
         return endTimeDropdown.getAttribute("value");
     }
-    
+
     public String getTimeZone() {
         return timezoneDropdown.getAttribute("value");
     }
-    
+
     public String getInstructions() {
         return getRichTextEditorContent("instructions");
     }
@@ -367,30 +371,29 @@ public class InstructorFeedbacksPage extends AppPage {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                         .findElements(By.tagName("tr"))
                                         .get(rowIndex + 1);
-        
+
         return row.getAttribute("class").contains("row-selected");
     }
-    
+
     public boolean isRadioButtonChecked(int rowIndex) {
         WebElement button = browser.driver.findElement(By.id("copyTableModal"))
                                         .findElements(By.tagName("tr"))
                                         .get(rowIndex + 1).findElement(By.tagName("input"));
-        
+
         return button.isSelected();
     }
-    
+
     public boolean isCopySubmitButtonEnabled() {
         return copySubmitButton.isEnabled();
     }
-    
+
     public String getClientTimeZone() {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
+        return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
     }
-    
+
     public void addFeedbackSession(String feedbackSessionName, String courseId, Date startTime,
             Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
-        
+
         addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime,
                 visibleTime, publishTime, instructions, gracePeriod, 8.0);
     }
@@ -401,51 +404,51 @@ public class InstructorFeedbacksPage extends AppPage {
                 By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]/td[contains(@class,'session-response-for-test')]/a"));
     }
-    
+
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(
                 By.xpath("//tbody/tr[" + (sessionRowId + 1)
                 + "]/td[contains(@class,'session-response-for-test')]")).getText();
     }
-    
+
     public void verifyResponseValue(String responseRate, String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         waitForTextContainedInElementPresence(
                 By.xpath("//tbody/tr[" + (sessionRowId + 1) + "]/td[contains(@class,'session-response-for-test')]"),
                 responseRate);
     }
-    
+
     public WebElement getViewResultsLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-view-for-test", sessionRowId);
     }
-    
+
     public WebElement getEditLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-edit-for-test", sessionRowId);
     }
-    
+
     public WebElement getDeleteLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-delete-for-test", sessionRowId);
     }
-    
+
     public WebElement getSubmitLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-submit-for-test", sessionRowId);
     }
-    
+
     public WebElement getPublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-publish-for-test", sessionRowId);
     }
-    
+
     public WebElement getUnpublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
     }
-    
+
     public void verifyPublishLinkHidden(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
@@ -455,7 +458,7 @@ public class InstructorFeedbacksPage extends AppPage {
             return;
         }
     }
-    
+
     public void verifyUnpublishLinkHidden(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
@@ -465,23 +468,23 @@ public class InstructorFeedbacksPage extends AppPage {
             return;
         }
     }
-    
+
     public boolean verifyHidden(By locator) {
         return !browser.driver.findElement(locator).isDisplayed();
     }
-    
+
     public boolean verifyEnabled(By locator) {
         return browser.driver.findElement(locator).isEnabled();
     }
-    
+
     public boolean verifyDisabled(By locator) {
         return !browser.driver.findElement(locator).isEnabled();
     }
-    
+
     public boolean verifyVisible(By locator) {
         return browser.driver.findElement(locator).isDisplayed();
     }
-    
+
     public boolean isContainingCssClass(By locator, String className) {
         return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
     }
@@ -494,7 +497,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 + "]//a[contains(@class,'" + className + "')]"),
                 InstructorFeedbackResultsPage.class);
     }
-    
+
     public FeedbackSubmitPage loadSubmitLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-submit-for-test";
@@ -503,7 +506,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 + "]//a[contains(@class,'" + className + "')]"),
                 FeedbackSubmitPage.class);
     }
-    
+
     public InstructorFeedbackEditPage loadEditLink(String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-edit-for-test";
@@ -512,11 +515,11 @@ public class InstructorFeedbacksPage extends AppPage {
                 + "]//a[contains(@class,'" + className + "')]"),
                 InstructorFeedbackEditPage.class);
     }
-    
+
     public String getPageUrl() {
         return browser.driver.getCurrentUrl();
     }
-    
+
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
         return browser.driver.findElement(
                 By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
@@ -534,11 +537,11 @@ public class InstructorFeedbacksPage extends AppPage {
         }
         return -1;
     }
-    
+
     private int getFeedbackSessionsCount() {
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
-    
+
     private String getFeedbackSessionCourseId(int rowId) {
         return browser.driver.findElement(By.id("table-sessions"))
                              .findElements(By.xpath("tbody/tr")).get(rowId)
@@ -558,24 +561,23 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForPageToLoad();
         return changePageType(destinationPageType);
     }
-    
+
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
         By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
-        
+
         // give it some time to load as it is loaded via AJAX
         waitForElementPresence(fsCopyButtonElement);
-        
+
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         click(fsCopyButton);
     }
-    
+
     public void changeUserIdInAjaxForSessionsForm(String newUserId) {
-        String script = "$('#ajaxForSessions [name=\"user\"]').val('" + newUserId + "')";
-        ((JavascriptExecutor) browser.driver).executeScript(script);
+        executeScript("$('#ajaxForSessions [name=\"user\"]').val('" + newUserId + "');");
     }
-    
+
     public void reloadSessionsList() {
-        ((JavascriptExecutor) browser.driver).executeScript("isSessionsAjaxSending = false");
-        ((JavascriptExecutor) browser.driver).executeScript("$('#ajaxForSessions').submit()");
+        executeScript("isSessionsAjaxSending = false;");
+        executeScript("$('#ajaxForSessions').submit();");
     }
 }

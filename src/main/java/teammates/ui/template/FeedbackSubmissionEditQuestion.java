@@ -2,11 +2,11 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionType;
-
 import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 
 public class FeedbackSubmissionEditQuestion {
     private String courseId;
@@ -103,7 +103,7 @@ public class FeedbackSubmissionEditQuestion {
     public boolean isQuestionTypeConstsum() {
         return questionType == FeedbackQuestionType.CONSTSUM;
     }
-    
+
     public int getNumberOfEntitiesToGiveFeedbackTo() {
         return numberOfEntitiesToGiveFeedbackTo;
     }

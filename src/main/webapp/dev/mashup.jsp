@@ -3,7 +3,7 @@
 <%@ page import="teammates.common.util.StringHelper" %>
 <%@ page import="teammates.logic.core.FeedbackQuestionsLogic" %>
 <%@ page import="teammates.logic.api.Logic" %>
-<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
+<%@ page import="teammates.common.datatransfer.attributes.StudentAttributes" %>
 
 <!DOCTYPE html>
 <html>
@@ -14,8 +14,8 @@
         <title>TEAMMATES - Webpage Compilation</title>
         
         <link rel="shortcut icon" href="/favicon.png">
-        <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS.getLibrarySource() %>">
-        <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS.getLibrarySource() %>">
+        <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>">
+        <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
         <style>
             .full-width {
@@ -31,8 +31,8 @@
                 border: 2px red solid;
             }
         </style>
-        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY.getLibrarySource() %>"></script>
-        <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP.getLibrarySource() %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
     <body>

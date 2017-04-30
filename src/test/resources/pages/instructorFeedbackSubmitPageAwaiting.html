@@ -6,11 +6,11 @@
 <link href="/favicon.png" rel="shortcut icon">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="${lib.path}/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="${lib.path}/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<link href="${lib.path}/skin.min.css" id="u0" rel="stylesheet" type="text/css">
-<link href="${lib.path}/content.inline.min.css" rel="stylesheet">
+<link href="https://unpkg.com/tinymce@4.5.5/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/tinymce@4.5.5/skins/lightgray/content.inline.min.css" rel="stylesheet">
 </head>
 <body class="modal-open" spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -27,8 +27,8 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.jsp">
-        TEAMMATES
+      <a class="navbar-brand" href="/">
+        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
       </a>
     </div>
     <div class="collapse navbar-collapse" id="contentLinks">
@@ -64,7 +64,7 @@
           </a>
         </li>
         <li>
-          <a class="nav help" href="/instructorHelp.jsp" target="_blank">
+          <a class="nav help" href="/instructorHelp.jsp" rel="noopener noreferrer" target="_blank">
             Help
           </a>
         </li>
@@ -404,7 +404,9 @@
     <div class="bold align-center">
       <input name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
-      <input class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
+      <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit">
+        Submit Feedback
+      </button>
     </div>
     <br>
     <br>
@@ -432,7 +434,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="/contact.jsp" target="_blank">
+          <a class="link" href="/contact.jsp" rel="noopener noreferrer" target="_blank">
             Feedback
           </a>
           ]
@@ -445,17 +447,19 @@
 </script>
 <script src="/js/googleAnalytics.js" type="text/javascript">
 </script>
-<script src="${lib.path}/jquery.min.js" type="text/javascript">
+<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
 </script>
-<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
+<script src="https://unpkg.com/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
 </script>
-<script src="${lib.path}/bootstrap.min.js" type="text/javascript">
+<script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
 </script>
-<script src="${lib.path}/bootbox.min.js" type="text/javascript">
+<script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/const.js" type="text/javascript">
 </script>
 <script src="/js/common.js" type="text/javascript">
 </script>
-<script src="${lib.path}/tinymce.min.js" type="text/javascript">
+<script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
 </script>
 <script src="/js/richTextEditor.js" type="text/javascript">
 </script>

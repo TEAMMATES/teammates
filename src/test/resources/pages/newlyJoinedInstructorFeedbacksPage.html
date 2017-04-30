@@ -24,7 +24,7 @@
           </div>
           <div class="col-xs-1">
             <h5>
-              <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
+              <a href="/instructorHelp.jsp#fbSetupSession" rel="noopener noreferrer" target="_blank">
                 <span class="glyphicon glyphicon-info-sign">
                 </span>
               </a>
@@ -53,8 +53,8 @@
                 </h5>
                 <div class="col-sm-10 col-md-8">
                   <select class="form-control" id="courseid" name="courseid">
-                    <option selected="" value="AHPUiT.instr1.gma-demo">
-                      AHPUiT.instr1.gma-demo
+                    <option selected="" value="AHPUiT____.instr1_.gma-demo">
+                      AHPUiT____.instr1_.gma-demo
                     </option>
                   </select>
                 </div>
@@ -452,293 +452,297 @@
           </div>
         </div>
       </div>
-      <div class="row" id="uncommonSettingsInfo">
-        <div class="col-md-12 text-muted">
-          <span id="uncommonSettingsInfoText">
+      <div id="uncommonSettingsSection">
+        <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="display:none;">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <div class="row">
+                  <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
+                    <label class="label-control">
+                      Session visible from
+                    </label>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <h5 class="col-xs-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br>Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_custom">
+                      At
+                    </label>
+                    <input id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
+                  </h5>
+                  <div class="col-xs-5">
+                    <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="">
+                  </div>
+                  <div class="col-xs-5">
+                    <select class="form-control" disabled="" id="visibletime" name="visibletime">
+                      <option value="1">
+                        0100H
+                      </option>
+                      <option value="2">
+                        0200H
+                      </option>
+                      <option value="3">
+                        0300H
+                      </option>
+                      <option value="4">
+                        0400H
+                      </option>
+                      <option value="5">
+                        0500H
+                      </option>
+                      <option value="6">
+                        0600H
+                      </option>
+                      <option value="7">
+                        0700H
+                      </option>
+                      <option value="8">
+                        0800H
+                      </option>
+                      <option value="9">
+                        0900H
+                      </option>
+                      <option value="10">
+                        1000H
+                      </option>
+                      <option value="11">
+                        1100H
+                      </option>
+                      <option value="12">
+                        1200H
+                      </option>
+                      <option value="13">
+                        1300H
+                      </option>
+                      <option value="14">
+                        1400H
+                      </option>
+                      <option value="15">
+                        1500H
+                      </option>
+                      <option value="16">
+                        1600H
+                      </option>
+                      <option value="17">
+                        1700H
+                      </option>
+                      <option value="18">
+                        1800H
+                      </option>
+                      <option value="19">
+                        1900H
+                      </option>
+                      <option value="20">
+                        2000H
+                      </option>
+                      <option value="21">
+                        2100H
+                      </option>
+                      <option value="22">
+                        2200H
+                      </option>
+                      <option value="23">
+                        2300H
+                      </option>
+                      <option selected="" value="24">
+                        2359H
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_atopen">
+                      Submission opening time
+                    </label>
+                    <input checked="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to be private. A private session is never visible to anyone. Private sessions can be used to record your own comments about others, for your own reference." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="sessionVisibleFromButton_never">
+                      Never
+                    </label>
+                    <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
+                <div class="row">
+                  <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                    <label class="label-control">
+                      Responses visible from
+                    </label>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <h5 class="col-xs-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br>will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_custom">
+                      At
+                    </label>
+                    <input id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
+                  </h5>
+                  <div class="col-xs-5">
+                    <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="">
+                  </div>
+                  <div class="col-xs-5">
+                    <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
+                      <option value="1">
+                        0100H
+                      </option>
+                      <option value="2">
+                        0200H
+                      </option>
+                      <option value="3">
+                        0300H
+                      </option>
+                      <option value="4">
+                        0400H
+                      </option>
+                      <option value="5">
+                        0500H
+                      </option>
+                      <option value="6">
+                        0600H
+                      </option>
+                      <option value="7">
+                        0700H
+                      </option>
+                      <option value="8">
+                        0800H
+                      </option>
+                      <option value="9">
+                        0900H
+                      </option>
+                      <option value="10">
+                        1000H
+                      </option>
+                      <option value="11">
+                        1100H
+                      </option>
+                      <option value="12">
+                        1200H
+                      </option>
+                      <option value="13">
+                        1300H
+                      </option>
+                      <option value="14">
+                        1400H
+                      </option>
+                      <option value="15">
+                        1500H
+                      </option>
+                      <option value="16">
+                        1600H
+                      </option>
+                      <option value="17">
+                        1700H
+                      </option>
+                      <option value="18">
+                        1800H
+                      </option>
+                      <option value="19">
+                        1900H
+                      </option>
+                      <option value="20">
+                        2000H
+                      </option>
+                      <option value="21">
+                        2100H
+                      </option>
+                      <option value="22">
+                        2200H
+                      </option>
+                      <option value="23">
+                        2300H
+                      </option>
+                      <option selected="" value="24">
+                        2359H
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_atvisible">
+                      Immediately
+                    </label>
+                    <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_later">
+                      Publish manually
+                    </label>
+                    <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
+                  </div>
+                </div>
+                <div class="row radio">
+                  <div class="col-xs-12" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
+                    <label for="resultsVisibleFromButton_never">
+                      Never
+                    </label>
+                    <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary" id="sendEmailsForPanel" style="display:none;">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label">
+                  Send emails for
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label>
+                    Session opening reminder
+                  </label>
+                  <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
+                </div>
+              </div>
+              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label for="sendreminderemail_closing">
+                    Session closing reminder
+                  </label>
+                  <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
+                </div>
+              </div>
+              <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
+                <div class="checkbox">
+                  <label for="sendreminderemail_published">
+                    Results published announcement
+                  </label>
+                  <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="margin-bottom-15px text-muted" id="uncommonSettingsSessionResponsesVisible">
+          <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
-            <br>
+          </span>
+          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+            [Change]
+          </a>
+        </div>
+        <div class="margin-bottom-15px text-muted" id="uncommonSettingsSendEmails">
+          <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsButton">
-            [Edit]
+          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+            [Change]
           </a>
-          <br>
-          <br>
-        </div>
-      </div>
-      <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="display:none;">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div class="row">
-                <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
-                  <label class="label-control">
-                    Session visible from
-                  </label>
-                </div>
-              </div>
-              <div class="row radio">
-                <h5 class="col-xs-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br>Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="sessionVisibleFromButton_custom">
-                    At
-                  </label>
-                  <input id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
-                </h5>
-                <div class="col-xs-5">
-                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="">
-                </div>
-                <div class="col-xs-5">
-                  <select class="form-control" disabled="" id="visibletime" name="visibletime">
-                    <option value="1">
-                      0100H
-                    </option>
-                    <option value="2">
-                      0200H
-                    </option>
-                    <option value="3">
-                      0300H
-                    </option>
-                    <option value="4">
-                      0400H
-                    </option>
-                    <option value="5">
-                      0500H
-                    </option>
-                    <option value="6">
-                      0600H
-                    </option>
-                    <option value="7">
-                      0700H
-                    </option>
-                    <option value="8">
-                      0800H
-                    </option>
-                    <option value="9">
-                      0900H
-                    </option>
-                    <option value="10">
-                      1000H
-                    </option>
-                    <option value="11">
-                      1100H
-                    </option>
-                    <option value="12">
-                      1200H
-                    </option>
-                    <option value="13">
-                      1300H
-                    </option>
-                    <option value="14">
-                      1400H
-                    </option>
-                    <option value="15">
-                      1500H
-                    </option>
-                    <option value="16">
-                      1600H
-                    </option>
-                    <option value="17">
-                      1700H
-                    </option>
-                    <option value="18">
-                      1800H
-                    </option>
-                    <option value="19">
-                      1900H
-                    </option>
-                    <option value="20">
-                      2000H
-                    </option>
-                    <option value="21">
-                      2100H
-                    </option>
-                    <option value="22">
-                      2200H
-                    </option>
-                    <option value="23">
-                      2300H
-                    </option>
-                    <option selected="" value="24">
-                      2359H
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row radio">
-                <div class="col-xs-12" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="sessionVisibleFromButton_atopen">
-                    Submission opening time
-                  </label>
-                  <input checked="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
-                </div>
-              </div>
-              <div class="row radio">
-                <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to be private. A private session is never visible to anyone. Private sessions can be used to record your own comments about others, for your own reference." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="sessionVisibleFromButton_never">
-                    Never
-                  </label>
-                  <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
-              <div class="row">
-                <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
-                  <label class="label-control">
-                    Responses visible from
-                  </label>
-                </div>
-              </div>
-              <div class="row radio">
-                <h5 class="col-xs-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br>will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="resultsVisibleFromButton_custom">
-                    At
-                  </label>
-                  <input id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
-                </h5>
-                <div class="col-xs-5">
-                  <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="">
-                </div>
-                <div class="col-xs-5">
-                  <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
-                    <option value="1">
-                      0100H
-                    </option>
-                    <option value="2">
-                      0200H
-                    </option>
-                    <option value="3">
-                      0300H
-                    </option>
-                    <option value="4">
-                      0400H
-                    </option>
-                    <option value="5">
-                      0500H
-                    </option>
-                    <option value="6">
-                      0600H
-                    </option>
-                    <option value="7">
-                      0700H
-                    </option>
-                    <option value="8">
-                      0800H
-                    </option>
-                    <option value="9">
-                      0900H
-                    </option>
-                    <option value="10">
-                      1000H
-                    </option>
-                    <option value="11">
-                      1100H
-                    </option>
-                    <option value="12">
-                      1200H
-                    </option>
-                    <option value="13">
-                      1300H
-                    </option>
-                    <option value="14">
-                      1400H
-                    </option>
-                    <option value="15">
-                      1500H
-                    </option>
-                    <option value="16">
-                      1600H
-                    </option>
-                    <option value="17">
-                      1700H
-                    </option>
-                    <option value="18">
-                      1800H
-                    </option>
-                    <option value="19">
-                      1900H
-                    </option>
-                    <option value="20">
-                      2000H
-                    </option>
-                    <option value="21">
-                      2100H
-                    </option>
-                    <option value="22">
-                      2200H
-                    </option>
-                    <option value="23">
-                      2300H
-                    </option>
-                    <option selected="" value="24">
-                      2359H
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row radio">
-                <div class="col-xs-12" data-original-title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="resultsVisibleFromButton_atvisible">
-                    Immediately
-                  </label>
-                  <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
-                </div>
-              </div>
-              <div class="row radio">
-                <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="resultsVisibleFromButton_later">
-                    Publish manually
-                  </label>
-                  <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
-                </div>
-              </div>
-              <div class="row radio">
-                <div class="col-xs-12" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
-                  <label for="resultsVisibleFromButton_never">
-                    Never
-                  </label>
-                  <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-primary" id="sendEmailsForPanel" style="display:none;">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-12">
-              <label class="control-label">
-                Send emails for
-              </label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
-              <div class="checkbox">
-                <label>
-                  Session opening reminder
-                </label>
-                <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
-              </div>
-            </div>
-            <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
-              <div class="checkbox">
-                <label for="sendreminderemail_closing">
-                  Session closing reminder
-                </label>
-                <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
-              </div>
-            </div>
-            <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
-              <div class="checkbox">
-                <label for="sendreminderemail_published">
-                  Results published announcement
-                </label>
-                <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="form-group">
@@ -791,7 +795,7 @@
       <tbody>
         <tr class="sessionsRow" id="session0">
           <td>
-            AHPUiT.instr1.gma-demo
+            AHPUiT____.instr1_.gma-demo
           </td>
           <td>
             Second team feedback session
@@ -801,30 +805,32 @@
               Open
             </span>
           </td>
-          <td class="session-response-for-test recent">
-            0 / 9
+          <td class="session-response-for-test">
+            <a href="/page/feedbackSessionStatsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" oncontextmenu="return false;">
+              Show
+            </a>
           </td>
           <td class="no-print">
-            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" title="">
               View Results
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Second team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
               Delete
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-AHPUiT.instr1.gma-demo-Second team feedback session" title="Copy feedback session details">
+            <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Second team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-AHPUiT____.instr1_.gma-demo-Second team feedback session" title="Copy feedback session details">
               Copy
             </a>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}">
                 Submit
               </a>
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -833,26 +839,26 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
+                    <a class="session-remind-inner-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
                       Remind all students
                     </a>
                   </li>
                   <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-target="#remindModal" data-toggle="modal" href="#">
+                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Second team feedback session" data-target="#remindModal" data-toggle="modal" href="#">
                       Remind particular students
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Second team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Second team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
               Unpublish Results
             </a>
           </td>
         </tr>
         <tr class="sessionsRow" id="session1">
           <td>
-            AHPUiT.instr1.gma-demo
+            AHPUiT____.instr1_.gma-demo
           </td>
           <td>
             First team feedback session
@@ -863,31 +869,31 @@
             </span>
           </td>
           <td class="session-response-for-test">
-            <a href="/page/feedbackSessionStatsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" oncontextmenu="return false;">
+            <a href="/page/feedbackSessionStatsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" oncontextmenu="return false;">
               Show
             </a>
           </td>
           <td class="no-print">
-            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" title="">
               View Results
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
               Delete
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-AHPUiT.instr1.gma-demo-First team feedback session" title="Copy feedback session details">
+            <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-AHPUiT____.instr1_.gma-demo-First team feedback session" title="Copy feedback session details">
               Copy
             </a>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}">
                 Submit
               </a>
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -896,26 +902,26 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
+                    <a class="session-remind-inner-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
                       Remind all students
                     </a>
                   </li>
                   <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
+                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
                       Remind particular students
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="First team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="First team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
               Unpublish Results
             </a>
           </td>
         </tr>
         <tr class="sessionsRow" id="session2">
           <td>
-            AHPUiT.instr1.gma-demo
+            AHPUiT____.instr1_.gma-demo
           </td>
           <td>
             Session with different question types
@@ -926,31 +932,31 @@
             </span>
           </td>
           <td class="session-response-for-test">
-            <a href="/page/feedbackSessionStatsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" oncontextmenu="return false;">
+            <a href="/page/feedbackSessionStatsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" oncontextmenu="return false;">
               Show
             </a>
           </td>
           <td class="no-print">
-            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" title="">
               View Results
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
               Delete
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-AHPUiT.instr1.gma-demo-Session with different question types" title="Copy feedback session details">
+            <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-AHPUiT____.instr1_.gma-demo-Session with different question types" title="Copy feedback session details">
               Copy
             </a>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}">
                 Submit
               </a>
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -959,19 +965,19 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
+                    <a class="session-remind-inner-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}">
                       Remind all students
                     </a>
                   </li>
                   <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
+                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
                       Remind particular students
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Session with different question types" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Session with different question types" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" title="">
               Unpublish Results
             </a>
           </td>
@@ -1038,8 +1044,8 @@
                 Create in course
               </label>
               <select class="form-control" id="modalCopiedCourseId" name="copiedcourseid">
-                <option value="AHPUiT.instr1.gma-demo">
-                  AHPUiT.instr1.gma-demo
+                <option value="AHPUiT____.instr1_.gma-demo">
+                  AHPUiT____.instr1_.gma-demo
                 </option>
               </select>
             </div>
@@ -1072,7 +1078,7 @@
                     <input type="radio">
                   </td>
                   <td>
-                    AHPUiT.instr1.gma-demo
+                    AHPUiT____.instr1_.gma-demo
                   </td>
                   <td>
                     Second team feedback session
@@ -1083,7 +1089,7 @@
                     <input type="radio">
                   </td>
                   <td>
-                    AHPUiT.instr1.gma-demo
+                    AHPUiT____.instr1_.gma-demo
                   </td>
                   <td>
                     First team feedback session
@@ -1094,7 +1100,7 @@
                     <input type="radio">
                   </td>
                   <td>
-                    AHPUiT.instr1.gma-demo
+                    AHPUiT____.instr1_.gma-demo
                   </td>
                   <td>
                     Session with different question types

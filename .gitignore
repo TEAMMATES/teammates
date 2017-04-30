@@ -5,7 +5,9 @@
 *.orig
 *.class
 *.jar
-*.properties
+gradle.properties
+build.properties
+test.properties
 report
 target
 appengine-generated
@@ -17,12 +19,15 @@ chromedriver*
 *.db
 *.md.html
 libs/
+*.js
 node_modules/
+npm-debug.log
 
-*.launch
+.launches
 test-output/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes
+src/client/java/teammates/client/scripts/scalabilitytests/data/
 *.exe
 
 ### Gradle ###
@@ -43,3 +48,6 @@ gradle-app.setting
 .checkstyle
 .pmd
 .ruleset
+.idea/
+*.iml
+out/

@@ -5,10 +5,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
@@ -20,24 +19,23 @@ import teammates.ui.automated.FeedbackSessionRemindParticularUsersEmailWorkerAct
  * SUT: {@link FeedbackSessionRemindParticularUsersEmailWorkerAction}.
  */
 public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends BaseAutomatedActionTest {
-    
+
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @Override
     protected String getActionUri() {
         return Const.TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL;
     }
-    
+
     @Test
     public void allTests() {
-        
+
         ______TS("Send feedback session reminder email");
-        
+
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
         InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
-        
+
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
@@ -45,13 +43,13 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends B
                 ParamsNames.SUBMISSION_REMIND_USERLIST, instructor1.email,
                 ParamsNames.SUBMISSION_REMIND_USERLIST, "non-existent"
         };
-        
+
         FeedbackSessionRemindParticularUsersEmailWorkerAction action = getAction(submissionParams);
         action.execute();
-        
+
         // send 2 emails as specified in the submission parameters
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
-        
+
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
@@ -63,11 +61,11 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest extends B
             assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
         }
     }
-    
+
     @Override
-    protected FeedbackSessionRemindParticularUsersEmailWorkerAction getAction(String... submissionParams) {
+    protected FeedbackSessionRemindParticularUsersEmailWorkerAction getAction(String... params) {
         return (FeedbackSessionRemindParticularUsersEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), submissionParams);
+                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
-    
+
 }

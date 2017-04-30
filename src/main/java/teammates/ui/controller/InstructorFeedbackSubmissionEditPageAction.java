@@ -1,12 +1,11 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
 
@@ -15,20 +14,20 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         // Instructor is always already joined
         return true;
     }
-    
+
     @Override
     protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes session) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         boolean creatorOnly = false;
-        new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
+        gateKeeper.verifyAccessible(instructor, session, creatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        
+
         if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
-        
+
         if (!shouldEnableSubmit) {
             throw new UnauthorizedAccessException("Feedback session [" + session.getFeedbackSessionName()
                                                   + "] is not accessible to instructor ["
@@ -46,7 +45,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         return logic.getFeedbackSessionQuestionsBundleForInstructor(
                              feedbackSessionName, courseId, userEmailForCourse);
     }
-    
+
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
         return session.isOpened() || session.isPrivateSession();
@@ -62,7 +61,7 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE);
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 

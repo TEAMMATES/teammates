@@ -134,10 +134,10 @@
   </p>
   <ol>
     <li>
-      <a href="http://activatejavascript.org/en/instructions/" target="_blank">http://activatejavascript.org/en/instructions/</a>
+      <a href="http://activatejavascript.org/en/instructions/" target="_blank" rel="noopener noreferrer">http://activatejavascript.org/en/instructions/</a>
     </li>
     <li>
-      <a href="https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages" target="_blank">
+      <a href="https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages" target="_blank" rel="noopener noreferrer">
         https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page
       </a>
     </li>

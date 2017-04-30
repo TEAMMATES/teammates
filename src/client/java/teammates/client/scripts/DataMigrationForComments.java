@@ -11,7 +11,7 @@ import javax.jdo.Query;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.entity.Comment;
 
@@ -59,8 +59,8 @@ public class DataMigrationForComments extends RemoteApiClient {
         }
         PM.close();
     }
-    
-    protected List<Comment> getCommentEntitiesForInstructor(
+
+    private List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
         Query q = PM.newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
@@ -73,7 +73,7 @@ public class DataMigrationForComments extends RemoteApiClient {
     }
 
     @SuppressWarnings("deprecation")
-    protected List<InstructorAttributes> getAllInstructors() {
+    private List<InstructorAttributes> getAllInstructors() {
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         return instructorsLogic.getAllInstructors();
     }

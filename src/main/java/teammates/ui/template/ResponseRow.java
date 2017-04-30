@@ -7,7 +7,7 @@ public class ResponseRow {
     private String recipientName;
     private String response;
     private List<FeedbackResponseCommentRow> feedbackResponseComments;
-    
+
     public ResponseRow(String giverName, String recipientName,
                        String response, List<FeedbackResponseCommentRow> feedbackResponseComments) {
         this.giverName = giverName;
@@ -15,19 +15,19 @@ public class ResponseRow {
         this.response = response;
         this.feedbackResponseComments = feedbackResponseComments;
     }
-    
+
     public String getGiverName() {
         return giverName;
     }
-    
+
     public String getRecipientName() {
         return recipientName;
     }
-    
+
     public String getResponse() {
         return response;
     }
-    
+
     public List<FeedbackResponseCommentRow> getFeedbackResponseComments() {
         return feedbackResponseComments;
     }

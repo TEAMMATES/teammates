@@ -27,11 +27,26 @@
             <div class='display-icon pull-right'>
                 <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
             </div>
-            
         </c:if>
         <c:choose>
             <c:when test="${questionPanel.boldQuestionNumber}">
-                <strong>Question ${questionPanel.question.questionNumber}: </strong>
+                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>" class="inline">
+                <div id="DownloadQuestion-${questionPanel.question.questionNumber}" class="inline">
+                    <input id="button_download-${questionPanel.question.questionNumber}" type="submit" 
+                        class="btn-link text-bold padding-0 color-inherit" data-toggle="tooltip" title="Download Question Results"
+                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                        value="Question ${questionPanel.question.questionNumber}:">
+                </div>
+                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
+                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
+                <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${data.selectedSection}">
+                <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
+                <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${showStats}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${data.missingResponsesShown}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="${questionPanel.question.questionNumber}">
+                </form>
                 <div class="inline panel-heading-text">
                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                     <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>

@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+
 public class FeedbackSessionQuestionsBundle {
 
     public FeedbackSessionAttributes feedbackSession;
@@ -26,7 +30,7 @@ public class FeedbackSessionQuestionsBundle {
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
         return questionResponseBundle;
     }
-    
+
     public FeedbackSessionAttributes getFeedbackSession() {
         return feedbackSession;
     }
@@ -45,8 +49,7 @@ public class FeedbackSessionQuestionsBundle {
     }
 
     /**
-     * Gets the question in the data bundle with id == questionId
-     * @param questionId
+     * Gets the question in the data bundle with id == questionId.
      * @return a FeedbackQuestionAttribute with the specified questionId
      */
     public FeedbackQuestionAttributes getQuestionAttributes(String questionId) {
@@ -66,7 +69,7 @@ public class FeedbackSessionQuestionsBundle {
      * Gets the recipient list for a question, sorted by the recipient's name.
      * @param feedbackQuestionId of the question
      * @return A {@code Map<String key, String value>} where {@code key} is the recipient's email
-     * and {@code value} is the recipients name.
+     *         and {@code value} is the recipients name.
      */
     public Map<String, String> getSortedRecipientList(String feedbackQuestionId) {
 
@@ -106,14 +109,14 @@ public class FeedbackSessionQuestionsBundle {
 
         return result;
     }
-     
+
     /**
      * Removes question from the bundle if the question has givers or recipients that are anonymous to the instructor
      * or responses that are hidden from the instructor.
      */
     public void hideUnmoderatableQuestions() {
         List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
-        
+
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isRecipientVisibleToInstructor =
@@ -125,10 +128,10 @@ public class FeedbackSessionQuestionsBundle {
                 questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
         }
-        
+
         questionResponseBundle.keySet().removeAll(questionsToHide);
     }
-    
+
     /**
      * Empties responses for all questions in this bundle.
      * Used to not show existing responses when previewing as instructor

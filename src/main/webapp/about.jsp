@@ -1,180 +1,199 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="about">
-    <h1 class="caption">About Us</h1>
-    <div id="contentHolder">
-        <p class="bold">Acknowledgements:</p>
-        <br>
-        <h2>
-            <span class="bold">TEAMMATES</span> team wishes to thank the following invaluable contributions.
-        </h2>
-        <div style="margin: 0 auto; padding: 0 52px 15px;">
-            <br>
+    <div class="container">
+        <section class="row">
+            <h1 class="color_orange">About Us</h1>
+            <p class="h3">Acknowledgements:</p>
+            <h2>
+                <b>TEAMMATES</b> team wishes to thank the following invaluable contributions.
+            </h2>
             <ul>
-                <li style="margin: 0 0 10px 0;">
-                    <a href="http://www.comp.nus.edu.sg/" target="_blank">School of Computing, National University of Singapore (NUS)</a>, for providing us with the infrastructure support to run the project.
+                <li>
+                    <a href="http://www.comp.nus.edu.sg/" target="_blank" rel="noopener noreferrer">School of Computing, National University of Singapore (NUS)</a>, for providing us with the infrastructure support to run the project.
                 </li>
-                <li style="margin: 0 0 10px 0;">
-                    <a href="http://www.cdtl.nus.edu.sg/" target="_blank">Centre for Development of Teaching and Learning (CDTL)</a> of NUS, for supporting us with several Teaching Enhancement Grants over the years.
+                <li>
+                    <a href="http://www.cdtl.nus.edu.sg/" target="_blank" rel="noopener noreferrer">Centre for Development of Teaching and Learning (CDTL)</a> of NUS, for supporting us with several Teaching Enhancement Grants over the years.
                 </li>
-                <li style="margin: 0 0 10px 0;">
-                    <span class="bold">Learning Innovation Fund-Technology (LIF-T)</span> initiative of NUS, for funding us for the 2015-2018 period.
+                <li>
+                    <b>Learning Innovation Fund-Technology (LIF-T)</b> initiative of NUS, for funding us for the 2015-2018 period.
                 </li>
-                <li style="margin: 0 0 10px 0;">
-                    <span class="bold">Google Summer of Code</span> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015 and GSoC2016 editions.
+                <li>
+                    <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015 and GSoC2016 editions.
                 </li>
-                <li style="margin: 0 0 10px 0;">
-                    <span class="bold">Facebook Open Academy</span> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
+                <li>
+                    <b>Facebook Open Academy</b> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
                 </li>
-                <li style="margin: 0 0 10px 0;">
-                    <span class="bold">YourKit LLC</span>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank">YourKit Java Profiler</a>
+                <li>
+                    <b>YourKit LLC</b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler/" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>
                     <img src="https://www.yourkit.com/images/yklogo.png" width='70'>.
                 </li>
             </ul>
-        </div>
+        </section>
 
-        <p class="bold">Core Team:</p>
-        <table>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/damith.png" width="180px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    <a href="http://www.comp.nus.edu.sg/~damithch/" target="_blank">Damith C. Rajapakse</a><br><br>
+        <section class="row">
+            <h3>Core Team:</h3>
+            <div class="row margin-top-7px">
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+                    <img class="img-responsive" src="images/teammembers/damith.png">
+                </div>
+                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
+                    <a href="http://www.comp.nus.edu.sg/~damithch/" target="_blank" rel="noopener noreferrer">Damith C. Rajapakse</a><br><br>
                     Founder (2010)<br>
                     Project Mentor (2010 -)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/hongjin.png" width="180px">
-                </td>
-                <td class="coreTeamDetailsCell">
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+                    <img class="img-responsive" src="images/teammembers/hongjin.png">
+                </div>
+                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
                     Kang Hong Jin<br><br>
                     Project Mentor (June 2016 - )<br>
                     Project Lead (Aug 2015 - May 2016)<br>
                     Snr Developer (May 2015 - Jul 2015)<br>
                     Committer (Aug 2014 - Apr 2015)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/thyagesh.png" width="180px">
-                </td>
-                <td class="coreTeamDetailsCell">
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+                    <img class="img-responsive" src="images/teammembers/thyagesh.png">
+                </div>
+                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
                     Thyagesh Manikandan<br><br>
                     Project Mentor (June 2016 - )<br>
                     Project Lead (Jan 2016 - May 2016)<br>
                     Area Lead - Profiles (Aug 2014 - Dec 2015)<br>
                     Snr Developer (June 2014 - Jul 2014)<br>
                     Committer (Apr 2014 - May 2014)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/wilson.png" width="180px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Wilson Kurniawan<br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+                    <img class="img-responsive" src="images/teammembers/wilson.png">
+                </div>
+                <div class="col-xs-12 col-sm-7 col-md-6 margin-top-7px">
+                    Wilson Kurniawan<br><br>
                     Project Lead (June 2016 - )<br>
                     Area Lead - DevOps, Results (Jan 2016 - May 2016)<br>
                     Snr Developer (Aug 2015 - Dec 2015)<br>
                     Committer (Apr 2015 - May 2015)
-                </td>
-            </tr>
-        </table>
-        
-        <br><br><br>
-
-        <table>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/josephine.png" width="120px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Josephine Kwa<br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
+                    <img class="img-responsive" width="90%" src="images/teammembers/josephine.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-7 col-md-8 margin-top-7px">
+                    Josephine Kwa<br><br>
                     Area Lead - UI/UX, Comments, Profiles, Courses (Jan 2016 - )<br>
                     Snr Developer (Aug 2015 - Dec 2015)<br>
                     Committer (Feb 2015 - May 2015)
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/junhao.png" width="120px">
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Yap Jun Hao<br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
+                    <img class="img-responsive" width="90%" src="images/teammembers/junhao.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-7 col-md-8 margin-top-7px">
+                    Yap Jun Hao<br><br>
                     Area Lead - DevOps, Submissions (Jan 2016 - )<br>
                     Snr Developer (Aug 2015 - Dec 2015)<br>
                     Committer (Apr 2015 - May 2015)
-                </td>
-            </tr>
-        </table>
-      
-        <br><br>
-        <table>
-           <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/yuanbin.png" width="100px">
-                    <br><br>
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Chow Yuan Bin<br><br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
+                    <img class="img-responsive" src="images/teammembers/yuanbin.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
+                    Chow Yuan Bin<br>
                     Snr Developer (Aug 2016 - )<br>
                     Committer (May 2016 - Jul 2016)
-                    <br><br>
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/yongjie.png" width="100px">
-                    <br><br>
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Khoo Yong Jie<br><br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
+                    <img class="img-responsive" src="images/teammembers/yongjie.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
+                    Khoo Yong Jie<br>
                     Snr Developer (Aug 2016 - )<br>
                     Committer (May 2016 - Jul 2016)
-                    <br><br>
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/lakmal.png" width="100px">
-                    <br><br>
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Lakmal Padmakumara<br><br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
+                    <img class="img-responsive" src="images/teammembers/lakmal.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
+                    Lakmal Padmakumara<br>
                     Major contributor (May 2016 - )
-                    <br><br>
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/serhii.png" width="100px">
-                    <br><br>
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Serhii Beliablia<br><br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
+                    <img class="img-responsive" src="images/teammembers/serhii.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
+                    Serhii Beliablia<br>
                     Major contributor (May 2016 - )
-                    <br><br>
-                </td>
-            </tr>
-            <tr>
-                <td class="coreTeamPhotoCell">
-                    <img src="images/teammembers/tarun.png" width="100px">
-                    <br><br>
-                </td>
-                <td class="coreTeamDetailsCell">
-                    Tarun Kumar Yadav<br><br>
+                </div>
+            </div>
+            <div class="row margin-top-7px">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 col-md-3 col-lg-2">
+                    <img class="img-responsive" src="images/teammembers/tarun.png">
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-6 margin-top-7px">
+                    Tarun Kumar Yadav<br>
                     Major contributor (May 2016 - )
-                    <br><br>
-                </td>
-            </tr>
-        </table>
-        
-        <br><br>
+                </div>
+            </div>
+        </section>
 
-        <p class="bold">Past Team Members:</p>
-        <div style="margin: 0 auto; padding: 0 52px 15px;">
+        <section class="row">
+            <h3>Committers:</h3>
+            <ol>
+                <li>
+                    <img src="images/teammembers/mingshin.png" width="80px"><br>
+                    Ch'ng Ming Shin (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/dickson.png" width="80px"><br>
+                    Dickson Tan (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/john.png" width="80px"><br>
+                    John Yong (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/yimin.png" width="80px"><br>
+                    Lee Yi Min (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/likai.png" width="80px"><br>
+                    Li Kai (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/samson.png" width="80px"><br>
+                    Samson Tan (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/thenaesh.png" width="80px"><br>
+                    Thenaesh Elango (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/xiaopu.png" width="80px"><br>
+                    Xiao Pu (Jan 2017 - )
+                </li>
+                <li>
+                    <img src="images/teammembers/boxin.png" width="80px"><br>
+                    Yang Boxin (Jan 2017 - )
+                </li>
+            </ol>
+        </section>
+
+        <section class="row">
+            <h3>Past Team Members:</h3>
             <ol>
                 <li>
                     <img src="images/teammembers/weilin.png" width="80px"><br> 
@@ -239,55 +258,55 @@
                 </li>
                 <li>
                     <img src="images/teammembers/shawn.png" width="80px"> 
-                    Shawn Lee (Area Lead, Snr Developer)
+                    <div>Shawn Lee (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/yangmo.png" width="80px"> 
-                    Yang Mo (Area Lead, Snr Developer)
+                    <div>Yang Mo (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/arnold.png" width="80px"> 
-                    Arnold Koroa (Area Lead, Snr Developer)
+                    <div>Arnold Koroa (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/ivan.png" width="80px"> 
-                    Ivan Poon (Area Lead, Snr Developer)
+                    <div>Ivan Poon (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/jamesdjuhartono.png" width="80px"> 
-                    James Djuhartono (Area Lead, Snr Developer)
+                    <div>James Djuhartono (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/ryan.png" width="80px"> 
-                    Ryan Chang (Snr Developer)
+                    <div>Ryan Chang (Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/theongsiang.png" width="80px"> 
-                    Oo Theong Siang (Area Lead, Snr Developer)
+                    <div>Oo Theong Siang (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/hunar.png" width="80px"> 
-                    Hunar Khanna (Area Lead, Snr Developer)
+                    <div>Hunar Khanna (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/qiaoliang.png" width="80px"> 
-                    Qiao Liang (Area Lead, Snr Developer)
+                    <div>Qiao Liang (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/kenny.png" width="80px"> 
-                    Tan How Cheng Kenny (Area Lead, Snr Developer)
+                    <div>Tan How Cheng Kenny (Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/chunteck.png" width="80px"> 
-                    Goh Chun Teck (Project Lead, Area Lead, Snr Developer)
+                    <div>Goh Chun Teck (Project Lead, Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/wangsha.png" width="80px"> 
-                    Wang Sha (Project Lead, Area Lead, Snr Developer)
+                    <div>Wang Sha (Project Lead, Area Lead, Snr Developer)</div>
                 </li>
                 <li>
                     <img src="images/teammembers/james.png" width="80px"> 
-                    Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)
+                    <div>Long Dam Tuan, James (Project Lead, Area Lead, Snr Developer)</div>
                 </li>
                 <br>
                 <li>Aldrian Obaja (Area Lead, Snr Developer)</li>
@@ -296,569 +315,1136 @@
                 <li>Zhang Xialin (Area Lead, Snr Developer)</li>
                 <li>Huy Nguyen (Area Lead, Snr Developer)</li>
                 <li>Gerald Goh (Project Lead, Snr Developer)</li>
-                <li>Xiaoni Lai (Project Lead, Snr Developer)</li>
+                <li>Lai Xiaoni (Project Lead, Snr Developer)</li>
             </ol>
-        </div>
+        </section>
 
-        <p class="bold">Past Committers:</p>
-        <br>
-        <div style="margin: 0 auto; padding: 0 52px 15px;">
+        <section class="row">
+            <h3>Past Committers:</h3>
             <ol>
                 <li>John Kevin Tjahjadi (Jan 2016 - May 2016)</li>
                 <li>Kenneth Ho Chee Chong (Jan 2016 - May 2016)</li>
                 <li>Su Sumei (Jan 2016 - May 2016)</li>
                 <li>Wong Yu Xuan (Jan 2016 - May 2016)</li>
             </ol>
-        </div>
-                
-        <p class="bold">Contributors:</p>
-        <br>
-        <div style="margin: 0 auto; padding: 0 52px 15px;">
-            <ol>
-                <div style="margin: 0 auto; padding: 0 0 15px;">[Multiple contributions]</div>
-                <li>Ang Ji Kai 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Ang Jin Juan Gabriel 
-                    [initial adoption of Selenium]
-                </li>
-                <li>Ang Nickolas 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Anoop Shukla 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aweaveranoop"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Anubhav Shrivastava 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Arvind Kalyan 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aarvind-kalyan"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Atishay Jain 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aatishay100495"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Chen Shenglong Bryan 
-                    [initial adoption of Selenium]
-                </li>
-                <li>Chen Di 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AsundychenD"
-                        target="_blank">enhancements</a>]
-                </li>
-                <li>Chen Zhuo 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Achen-zhuo"
-                        target="_blank">bug fixing, enhancements</a>]
-                </li>
-                <li>Cheung Yew Kong Benjamin 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Chi Cheng 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AChi-Cheng-Leon"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Chin Yong Wei 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Chong Kok Wei 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Chua Hong Jing 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Chua Jie Sheng 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Chua Peng Chin Benson 
-                    [initial adoption of Selenium]
-                </li>
-                <li>Daryl Lim 
-                    [improved help documentation]
-                </li>
-                <li>Devang Gaur 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adrunken-saint"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Dinesh Thangavel 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Divya Pandilla 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apandilladivya"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Dong Yanfei 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Du Lingyi 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Foo Yong Jie 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Gautam Dudeja 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amt10589"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Guan Xiaokang 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Han Zijian 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aihenria"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Hou Guochen 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Huang Guanyang Eugene 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Huynh Van Quang 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Jiang Sheng
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGisonrg"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Jiang Yaoxuan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Karan Kamath 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Karandeep Singh Bhatia 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akaran173"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Kseniia Solodovnik 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Lee Lunn
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleelunn"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Le Minh Khue 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Le Viet Tien 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Lian Wenhui Florine 
-                    [initial adoption of Selenium]
-                </li>
-                <li>Liu Yuanrui 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Loke Yan Hao 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Luk Ming Kit 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Michael Limantara 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amikelimantara"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Mohamed Moanis
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amohamed-moanis"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Mohit Singh Kanwal 
-                    [initial scalability experiments]
-                </li>
-                <li>Ng Joon Kiat Steve 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Ng Zhi An 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Angzhian"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Nguyen Quang Phuc 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Nguyen Truong Duy 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Nikoletta Szedljak
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asznicci"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Nisala Niroshana 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANisalaNiroshana"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Pak Chong Da Glen 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Peh Shao Hong 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Pham Minh Viet, Victor 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Phan Thi Quynh Trang 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Pon Heng Wai 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Pratyoush Srivastava
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apratyoushs"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Qiao Zhengyuan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Qua Zi Xian 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AZiXian92"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Ratul Ghosh
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ARatulGhosh"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Richard Goulter 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Ruchir Sharma 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aruchirsharma1993"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Sai Sasidhar Nimmagadda
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ansaiisasidhar"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Samat Davletshin 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asamatdav"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Shawn Teo Chee Yong 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Shiluka Dharmasena 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiluka"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Shum Chee How 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Siddhant Gupta
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASiddhant085"
-                        target="_blank">bug reporting/fixing,enhancements</a>]
-                </li>
-                <li>Sim Shengming, Eugene 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Song Qiyue 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Sreshta Vijayaraghavan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Staniloiu Eduard 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Steve Simpson
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astevesimpson4375"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Subhodip Kumar 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asubhodip7"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Sudarsan Gopalaswami Padmanabhan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Sujeet 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asujeet14108"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Supraja Bhavani Sekhar 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Svitlana Nesterenko 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASvetaNesterenko"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Tan Guo Wei 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Tan Wee Kwan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Tan Wei Xin 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Tan Xue Si
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Axeia"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Tang Ning 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Agithub-tn"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Tang Zijian 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atangzijian"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Teo Yock Swee Terence 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Thng Kai Yuan 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Athngkaiyuan"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Truong Hoang Phuoc 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Wang Chao 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Winson Tanputraman 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Wu Lifu 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Xia Lu 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Y V S S Santosh 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayvsssantosh"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Yasiru Nilan 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayasirunilan"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Yen Zi Shyun 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Yogen Aggarwal 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Zhang Haoqiang 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Zheng Pingxia 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Zhu Liang 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aparadite"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <br>
-                <div style="margin: 0 auto; padding: 0 0 15px;">[One-time contributions]</div>
-                <li>Adarsh Khubchandani
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aaskhubchandani"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Alexandr Kolymago
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajusttimki"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Angie Jones
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aangiejones"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Atheesan Sornalingam 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Avijit Gupta 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3A526avijitgupta"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Bruno Mendes 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Abrnomendes"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Chao Song
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asongchoa"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Connor Kendrick
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aconnorkendrick"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Dhiren Patil
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adp80"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Dustin Lapierre
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adustinlapierre"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Fred Xu
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Afairbet"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Gable Heng
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Agableh"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Gonçalo Garcia
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGGfpc"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Harshvardhan Singh
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHarshvardhan58"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Hiresh Trivedi
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahiresh"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Hoo De Lin
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHooDeLin"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Jake Akers
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajakers821"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Jayant Jain 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Jonathan Lim 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajonathanlimsc"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Junwei Chan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Justin Ouyang 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Kenny Zhao
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akennyzha"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Kevin Thich
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ak-thich"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Khac Tung 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atungnk1993"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Leonard Hio
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleonardhml"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Lim Jia Yee
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajia1"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Mairieli Wessel 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amairieli"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Malinda Kumarasinghe 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Manvi Jain 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amanvijain"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Manraj Singh
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AManrajGrover"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Marianna Sternefeld 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amesternefeld"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Maria Sam 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amariasam1"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Niklas Wuensche 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANWuensche"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>                
-                <li>Nilesh Suthar 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Onkar Shedge 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aonkarshedge"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Paramsothy Sanshayan 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Prithviraj Billa 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>P S Narayanan
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APSNAppz"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Pulasthi Harasgama 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APulasthih"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Raghav Sai
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apetgoldfish"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Rajat Saxena 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asrajat"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Rajiv Jha 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Arajivjhaimin"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Rohith Mukku 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANaruto8"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Shekhar Reddy
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AShekharReddy4"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Shiv Kandikuppa 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiv12095"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Sri Aurobindo Munagala
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AEinsteino"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Steven Khong 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Tarun Bansal 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Ujjwal Wahi 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aujjwalwahi"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Vaibhav Desai 
-                    [bug reporting/fixing, enhancements]
-                </li>
-                <li>Vamsi Sangam
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AVamsiSangam"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Venkatesan Harish 
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aharishv7"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Warren Schrader
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AwwSchrader"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-                <li>Xiao Pu
-                    [<a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Axpdavid"
-                        target="_blank">bug reporting/fixing, enhancements</a>]
-                </li>
-            </ol>
-            <br>
-            <p class="bold">
-                Would you like to join the TEAMMATES team as a contributor? <a href="contact.jsp">Contact Us</a>.
-            </p>
-        </div>
-    </div>
+        </section>
+
+        <section class="row">
+            <h3>Contributors:</h3>
+            <table class="ordered-table">
+                <tr class="skip"><th colspan="2">Multiple contributions</th></tr>
+                <tr>
+                    <td>Adam Jones</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adomdomegg"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Amar Prakash Pandey</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aamarlearning"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Anagh Hegde</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AAnaghHegde"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Anand Singh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahackosinn"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Ang Ji Kai</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Ang Jin Juan Gabriel</td>
+                    <td>initial adoption of Selenium</td>
+                </tr>
+                <tr>
+                    <td>Ang Nickolas</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Anoop Shukla</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aweaveranoop"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Anubhav Shrivastava</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Arvind Kalyan</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aarvind-kalyan"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Atishay Jain</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aatishay100495"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Baron Chan</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ADartteon"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Chen Shenglong Bryan</td>
+                    <td>initial adoption of Selenium</td>
+                </tr>
+                <tr>
+                    <td>Chen Di</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AsundychenD"
+                        target="_blank" rel="noopener noreferrer">enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Chen Zhuo</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Achen-zhuo"
+                        target="_blank" rel="noopener noreferrer">bug fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Cheung Yew Kong Benjamin</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Chi Cheng</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Acc-leon"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Chin Yong Wei</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Chong Kok Wei</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Chua Hong Jing</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Chua Jie Sheng</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Chua Peng Chin Benson</td>
+                    <td>initial adoption of Selenium</td>
+                </tr>
+                <tr>
+                    <td>Daryl Lim</td>
+                    <td>improved help documentation</td>
+                </tr>
+                <tr>
+                    <td>Devang Gaur</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adg711"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Dinesh Thangavel</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Divya Pandilla</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apandilladivya"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Fazil</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahalfdreamer"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Dong Yanfei</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Du Lingyi</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Foo Yong Jie</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Guan Xiaokang</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Han Zijian</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aihenria"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Hirday Gupta</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHirdayGupta"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Hou Guochen</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Huang Guanyang Eugene</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Huynh Van Quang</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Jarvis Nguyen</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajarvis57"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Jiang Sheng</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGisonrg"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Jiang Yaoxuan</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Joshua Lee</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Alejolly"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>@julian1990</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajulian1990"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Karan Kamath</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Karandeep Singh Bhatia</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akaran173"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Koh Xian Hui</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AXianHuiKoh"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Kseniia Solodovnik</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Lee Lunn</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleelunn"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Le Minh Khue</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Le Viet Tien</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Lian Wenhui Florine</td>
+                    <td>initial adoption of Selenium</td>
+                </tr>
+                <tr>
+                    <td>Liu Yuanrui</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Loke Yan Hao</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Luk Ming Kit</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Mayank Harsani</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AMynk96"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Michael Limantara</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amikelimantara"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Mohamed Moanis</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amohamed-moanis"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Mohit Singh Kanwal</td>
+                    <td>initial scalability experiments</td>
+                </tr>
+                <tr>
+                    <td>Ng Joon Kiat Steve</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Ng Zhi An</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Angzhian"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Nguyen Quang Phuc</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Nguyen Quoc Dat</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aacruis"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Nguyen Truong Duy</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Nikoletta Szedljak</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asznicci"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Nisala Niroshana</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANisalaNiroshana"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Pak Chong Da Glen</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Peh Shao Hong</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Pham Minh Viet, Victor</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Phan Thi Quynh Trang</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Pon Heng Wai</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Pratyoush Srivastava</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apratyoushs"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Qiao Zhengyuan</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Qua Zi Xian</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AZiXian92"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Ratul Ghosh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ARatulGhosh"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Richard Goulter</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Ruchir Sharma</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aruchirsharma1993"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sachin Gopal</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asaching97"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sai Sasidhar Nimmagadda</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ansaiisasidhar"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Samat Davletshin</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asamatdav"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shawn Teo Chee Yong</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Shiluka Dharmasena</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiluka"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shrut Patel</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashrut1996"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shum Chee How</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Siddhant Gupta</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASiddhant085"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing,enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sim Shengming, Eugene</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Song Qiyue</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Sreshta Vijayaraghavan</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Staniloiu Eduard</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Steve Simpson</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astevesimpson4375"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Subhodip Kumar</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asubhodip7"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sudarsan Gopalaswami Padmanabhan</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Suhas Bhatt</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asuhas355"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sujeet</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asujeet14108"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Supraja Bhavani Sekhar</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Svitlana Nesterenko</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASvetaNesterenko"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Tan Guo Wei</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Tan Li Hao</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ALiHaoTan"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Tan Wee Kwan</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Tan Wei Xin</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Tan Xue Si</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Axeia"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Tang Ning</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aningt"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Tang Zijian</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atangzijian"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Taras Sakharchuk</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ALimeTheCoder"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Teo Yock Swee Terence</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Thng Kai Yuan</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Athngkaiyuan"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Truong Hoang Phuoc</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Vamsi Sangam</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AVamsiSangam"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Wang Chao</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Winson Tanputraman</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Wu Lifu</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Xia Lu</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Y V S S Santosh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayvsssantosh"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Yang Suwei</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aswxsw"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Yasiru Nilan</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayasirunilan"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Yen Zi Shyun</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Yogen Aggarwal</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Zhang Haoqiang</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Zheng Pingxia</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Zhu Liang</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aparadite"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr class="skip"><th colspan="2">One-time contributions</th></tr>
+                <tr>
+                    <td>A Sai Krishna</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aiamsk9"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aashutosh Rathi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aaashutoshrathi"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Abdul Basit</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Abasitsattar"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Abdurahman Sherif</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ADevOpt"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Abhishek Chaudary</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AAbhishekChd"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Abhishek Maiti</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aovshake"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Adarsh Khubchandani</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aaskhubchandani"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aditya Jain</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3A95adityajain"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aishwarya Seth</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AThe-Lady"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Akshay Vijayvergia</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aslidego"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Alexander Levy</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aallevy3"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Alexandr Kolymago</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajusttimki"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aman Dhaliwal</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aa-dhaliwal"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Andrew Hunter</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aiamhunter"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Angie Jones</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aangiejones"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Anirudh Jain</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asponde25"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Anthony Schneider</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ABr35Ba56"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Anurag Sharma</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aanu0012"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aravind Putrevu</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AAravindPutrevu"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Ashwin Oke</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aokeashwin"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Atheesan Sornalingam</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Avijit Gupta</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3A526avijitgupta"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Aygiz Shaymardanov</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aaigyz"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Bartłomej Weber</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ABedol"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Bhargav Thanki</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Abmthanki"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Billy Zafack</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ABillyZafack"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Bruno Mendes</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Abrnomendes"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Chan Junwei</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Chao Song</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asongchoa"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Cho Joo Yeong</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajujojujoju"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Connor Kendrick</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aconnorkendrick"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Dhiren Patil</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adp80"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Dilan Tharaka</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atharakamd"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Ding Liheng</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adingliheng"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Dustin Lapierre</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Adustinlapierre"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Fred Xu</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Afairbet"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Gable Heng</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Agableh"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Gautam Dudeja</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AtheDiablo"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Gonçalo Garcia</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGGfpc"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Greg Hibberd</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGregHib"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Griffin Hines</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGriffinHines"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Guga Katsiashvili</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Agugakatsi"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Harshvardhan Singh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHarshvardhan58"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Hiresh Trivedi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahiresh"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Hoo De Lin</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AHooDeLin"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Irene Tenison</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aireneten"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Jake Akers</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajakers821"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>James Murithi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajimmyshephard"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Jaspreet Singh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajp111"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Jayant Jain</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Jonathan Lim</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajonathanlimsc"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Joshua Clark</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AJoshuaClark311"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>João Victor</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AJvsierra"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Justin Ouyang</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Kaitlyn Wehrheim</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akwehrheim"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Karthik</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akarthikaacharya"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Kenny Zhao</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akennyzha"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Kevin Thich</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ak-thich"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Khris Danielle Jalog</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akhrisdaniels"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Kumaranath Fernando</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Awkk91193"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Leonard Hio</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleonardhml"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Liew Ken Hua</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Akenhua-l"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Lim Jia Yee</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajia1"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Liu Jia Hao</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ALIUJIAHAOCS"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Logan Smith</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asmithla1"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Mairieli Wessel</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amairieli"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Malinda Kumarasinghe</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Manish Vishnoi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amanishvishnoi2"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Manvi Jain</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amanvijain"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Manraj Singh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AManrajGrover"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Marianna Sternefeld</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amesternefeld"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Maria Sam</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amariasam1"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Megan Belle</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aonealml"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Meng Lingyao</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Alingyaomeng1"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Miguel Araújo</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amiguelarauj1o"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Muhammad Shehroz Sajjad</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amshehrozsajjad"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Mukesh Gupta</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amukesh14149"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>@natashagandhi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Anatashagandhi"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Nguyen Khac Tung</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atungnk1993"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Nikiforos Botis</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Anikiforosbotis"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Niklas Wuensche</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANWuensche"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>                
+                <tr>
+                    <td>Nilaksha Perera</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANilaksha"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Nilesh Suthar</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>@nockc</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Anockc"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Onkar Shedge</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aonkarshedge"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Paramsothy Sanshayan</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Pratyush Talreja</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APratyushTalreja"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Prithviraj Billa</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>P S Narayanan</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APSNAppz"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Pulasthi Harasgama</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3APulasthih"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Raghav Sai</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apetgoldfish"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Rajat Saxena</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asrajat"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Rajiv Jha</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Arajivjhaimin"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Rishikesh</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Arishikksh20"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Rohith Mukku</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ANaruto8"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sai Teja</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asaitj99"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sandeep Choudhary</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASkchoudhary"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Savin Varshney</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asaav"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sharthak Mishra</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASharUzumaki"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shekhar Reddy</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AShekharReddy4"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shiv Kandikuppa</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiv12095"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shivang Tripathi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashivangg"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shubham Jain</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashubhampkj"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Shubham Nishad</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashubhamnishad97"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Sri Aurobindo Munagala</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AEinsteino"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Steven Khong</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Supun Harsha Priyadarshana</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asupunharsha"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Tainan Valentim</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atainansv"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Tarun Bansal</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>@theaverageguy</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Atheaverageguy"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Ujjwal Wahi</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aujjwalwahi"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Vaibhav Desai</td>
+                    <td>bug reporting/fixing, enhancements</td>
+                </tr>
+                <tr>
+                    <td>Venkatesan Harish</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aharishv7"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Vibhor Gupta</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Avibhorgupta96"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Vishnu H Nair</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amalayaleecoder"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Wang Yuqing</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayuqingw"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Warren Schrader</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AwwSchrader"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Wu Xiao Xiao</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aa0129998"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Yash Patel</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayash2o1o"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+            </table>
+        </section>
+        <p>
+            Would you like to join the TEAMMATES team as a contributor? <a href="contact.jsp">Contact Us</a>.
+        </p>
 </t:staticPage>

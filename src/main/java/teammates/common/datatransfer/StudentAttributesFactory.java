@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -53,8 +54,6 @@ public class StudentAttributesFactory {
      * doesn't contain all required columns, then it is ignored and treated as a
      * normal enroll line. <br>
      * Pre-condition: headerRow must not be null
-     *
-     * @throws EnrollException
      */
     public StudentAttributesFactory(String headerRow) throws EnrollException {
         Assumption.assertNotNull(headerRow);
@@ -78,8 +77,6 @@ public class StudentAttributesFactory {
 
     /**
      * Return a StudentAttributes object created from the given enrollLine.
-     *
-     * @throws EnrollException
      */
     public StudentAttributes makeStudent(String enrollLine, String courseId) throws EnrollException {
         if (enrollLine.isEmpty()) {

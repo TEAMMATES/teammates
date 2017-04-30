@@ -10,63 +10,66 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.backdoor.BackDoorOperation;
 
-import com.google.gson.reflect.TypeToken;
-
 /**
- * Used to access the datastore without going through the UI. The main use of
- * this class is for the test suite to prepare test data.<br>
- * It works only if the test.backdoor.key in test.properties matches the
- * app.backdoor.key in build.properties of the deployed app.<br>
- * Using this mechanism, we can limit back door access to only the person who
- * deployed the application.
+ * Used to access the datastore without going through the UI.
+ *
+ * <p>It requires an authentication via "backdoor key" so that
+ * the access is limited only to the person who deployed the application.
  */
 public final class BackDoor {
-    
+
     private BackDoor() {
         //utility class
     }
 
     /**
-     * Persists given data. If given entities already exist in the data store,
-     * they will be overwritten.
+     * Persists given data into the datastore.
+     *
+     * <p>If given entities already exist in the data store, they will be overwritten.
      */
     public static String restoreDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_PERSIST_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
-    
+
     /**
-     * Removes given data. If given entities have already been deleted,
-     * it fails silently.
+     * Removes given data from the datastore.
+     *
+     * <p>If given entities have already been deleted, it fails silently.
      */
-    public static String removeDataBundleFromDb(DataBundle dataBundle) {
+    public static String removeDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePostRequest(params);
     }
-    
+
     /**
-     * Removes and restores given data.
+     * Removes and restores given data into the datastore.
      */
-    public static String removeAndRestoreDataBundleFromDb(DataBundle dataBundle) {
+    public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+        removeAdminEmailsFromDataBundle(dataBundle);
         String dataBundleJson = JsonUtils.toJson(dataBundle);
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);
         params.put(BackDoorOperation.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
@@ -74,7 +77,7 @@ public final class BackDoor {
     }
 
     /**
-     * This create documents for entities through back door.
+     * Puts searchable documents for entities into the datastore.
      */
     public static String putDocuments(DataBundle dataBundle) {
         String dataBundleJson = JsonUtils.toJson(dataBundle);
@@ -83,32 +86,47 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Persists an account data into the datastore.
+     */
     public static String createAccount(AccountAttributes account) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.accounts.put(account.googleId, account);
         return restoreDataBundle(dataBundle);
     }
-    
+
+    /**
+     * Gets an account data from the datastore.
+     */
     public static AccountAttributes getAccount(String googleId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ACCOUNT_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         String accountJsonString = makePostRequest(params);
         return JsonUtils.fromJson(accountJsonString, AccountAttributes.class);
     }
-    
+
+    /**
+     * Gets a student profile data from the datastore.
+     */
     public static StudentProfileAttributes getStudentProfile(String googleId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTPROFILE_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         String studentProfileJsonString = makePostRequest(params);
         return JsonUtils.fromJson(studentProfileJsonString, StudentProfileAttributes.class);
     }
-    
+
+    /**
+     * Checks if a profile picture with the specified key is present in GCS.
+     */
     public static boolean getWhetherPictureIsPresentInGcs(String pictureKey) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_PICTURE_PRESENT_IN_GCS);
         params.put(BackDoorOperation.PARAMETER_PICTURE_KEY, pictureKey);
         return Boolean.parseBoolean(makePostRequest(params));
     }
 
+    /**
+     * Uploads and updates a student's profile picture in the datastore.
+     */
     public static String uploadAndUpdateStudentProfilePicture(String googleId, String pictureDataJsonString) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_STUDENT_PROFILE_PICTURE);
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
@@ -116,26 +134,38 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Deletes an account from datastore.
+     */
     public static String deleteAccount(String googleId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_ACCOUNT);
         params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         return makePostRequest(params);
     }
-    
+
+    /**
+     * Persists an instructor data into the datastore.
+     */
     public static String createInstructor(InstructorAttributes instructor) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.instructors.put(instructor.googleId, instructor);
         return restoreDataBundle(dataBundle);
     }
 
-    public static InstructorAttributes getInstructorByGoogleId(String instructorId, String courseId) {
+    /**
+     * Gets an instructor data with particular google ID from the datastore.
+     */
+    public static InstructorAttributes getInstructorByGoogleId(String googleId, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_ID);
-        params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_ID, instructorId);
+        params.put(BackDoorOperation.PARAMETER_GOOGLE_ID, googleId);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
     }
-    
+
+    /**
+     * Gets an instructor data with particular email from the datastore.
+     */
     public static InstructorAttributes getInstructorByEmail(String instructorEmail, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_INSTRUCTOR_AS_JSON_BY_EMAIL);
         params.put(BackDoorOperation.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
@@ -143,7 +173,10 @@ public final class BackDoor {
         String instructorJsonString = makePostRequest(params);
         return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
     }
-    
+
+    /**
+     * Gets the encrypted registration key for an instructor in the datastore.
+     */
     public static String getEncryptedKeyForInstructor(String courseId, String instructorEmail) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -151,6 +184,9 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Deletes an instructor from the datastore.
+     */
     public static String deleteInstructor(String courseId, String instructorEmail) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_INSTRUCTOR);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -158,31 +194,46 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Persists a course into the datastore.
+     */
     public static String createCourse(CourseAttributes course) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.courses.put("dummy-key", course);
         return restoreDataBundle(dataBundle);
     }
 
+    /**
+     * Gets a course data from the datastore.
+     */
     public static CourseAttributes getCourse(String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_COURSE_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         String courseJsonString = makePostRequest(params);
         return JsonUtils.fromJson(courseJsonString, CourseAttributes.class);
     }
-    
+
+    /**
+     * Deletes a course from the datastore.
+     */
     public static String deleteCourse(String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_COURSE);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         return makePostRequest(params);
     }
 
+    /**
+     * Persists a student data into the datastore.
+     */
     public static String createStudent(StudentAttributes student) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.students.put("dummy-key", student);
         return restoreDataBundle(dataBundle);
     }
 
+    /**
+     * Gets a student data from the datastore.
+     */
     public static StudentAttributes getStudent(String courseId, String studentEmail) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENT_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -191,6 +242,9 @@ public final class BackDoor {
         return JsonUtils.fromJson(studentJson, StudentAttributes.class);
     }
 
+    /**
+     * Gets the encrypted registration key for a student in the datastore.
+     */
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -198,6 +252,9 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Edits a student in the datastore.
+     */
     public static String editStudent(String originalEmail, StudentAttributes student) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_STUDENT);
         params.put(BackDoorOperation.PARAMETER_STUDENT_EMAIL, originalEmail);
@@ -205,6 +262,9 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Deletes a student from the datastore.
+     */
     public static String deleteStudent(String courseId, String studentEmail) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_STUDENT);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
@@ -212,6 +272,9 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Gets a feedback session data from the datastore.
+     */
     public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_SESSION_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -219,20 +282,29 @@ public final class BackDoor {
         String feedbackSessionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
     }
-    
+
+    /**
+     * Edits a feedback session in the datastore.
+     */
     public static String editFeedbackSession(FeedbackSessionAttributes updatedFeedbackSession) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_FEEDBACK_SESSION);
         params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(updatedFeedbackSession));
         return makePostRequest(params);
     }
-    
+
+    /**
+     * Deletes a feedback session from the datastore.
+     */
     public static String deleteFeedbackSession(String feedbackSessionName, String courseId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_SESSION);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_SESSION_NAME, feedbackSessionName);
         params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
         return makePostRequest(params);
     }
-    
+
+    /**
+     * Gets a feedback question data from the datastore.
+     */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
                                                                  int qnNumber) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_AS_JSON);
@@ -242,32 +314,47 @@ public final class BackDoor {
         String feedbackQuestionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
     }
-    
+
+    /**
+     * Gets a feedback question data from the datastore.
+     */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         String feedbackQuestionJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
     }
-    
+
+    /**
+     * Edits a feedback question in the datastore.
+     */
     public static String editFeedbackQuestion(FeedbackQuestionAttributes updatedFeedbackQuestion) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_FEEDBACK_QUESTION);
         params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(updatedFeedbackQuestion));
         return makePostRequest(params);
     }
 
+    /**
+     * Deletes a feedback question from the datastore.
+     */
     public static String deleteFeedbackQuestion(String questionId) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_QUESTION);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
         return makePostRequest(params);
     }
 
+    /**
+     * Persists a feedback response into the datastore.
+     */
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
         return restoreDataBundle(dataBundle);
     }
-    
+
+    /**
+     * Gets a feedback response data from the datastore.
+     */
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giverEmail,
                                                                  String recipient) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON);
@@ -277,7 +364,10 @@ public final class BackDoor {
         String feedbackResponseJson = makePostRequest(params);
         return JsonUtils.fromJson(feedbackResponseJson, FeedbackResponseAttributes.class);
     }
-    
+
+    /**
+     * Gets a list of feedback response data for particular recipient from the datastore.
+     */
     public static List<FeedbackResponseAttributes>
             getFeedbackResponsesForReceiverForCourse(String courseId, String recipientEmail) {
         Map<String, String> params =
@@ -288,7 +378,10 @@ public final class BackDoor {
         return JsonUtils.fromJson(feedbackResponsesJson,
                                   new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
     }
-    
+
+    /**
+     * Gets a list of feedback response data for particular giver from the datastore.
+     */
     public static List<FeedbackResponseAttributes>
             getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
         Map<String, String> params =
@@ -300,6 +393,9 @@ public final class BackDoor {
                                   new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
     }
 
+    /**
+     * Deletes a feedback response from the datastore.
+     */
     public static String deleteFeedbackResponse(String feedbackQuestionId, String giverEmail, String recipient) {
         Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_FEEDBACK_RESPONSE);
         params.put(BackDoorOperation.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
@@ -360,9 +456,18 @@ public final class BackDoor {
     private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
         for (Map.Entry<String, String> e : map.entrySet()) {
-            dataStringBuilder.append(e.getKey() + "=" + Sanitizer.sanitizeForUri(e.getValue().toString()) + "&");
+            dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue()) + "&");
         }
         return dataStringBuilder.toString();
+    }
+
+    /**
+     * Replaces {@link DataBundle#adminEmails} from {@code dataBundle} with an empty map.
+     * Using {@link BackDoor} to remove and persist admin emails
+     * may affect normal functioning of Admin Emails and remove non-testing data.
+     */
+    private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {
+        dataBundle.adminEmails = new HashMap<>();
     }
 
 }

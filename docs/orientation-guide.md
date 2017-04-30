@@ -50,7 +50,7 @@ Of course we are happy to guide you if you encounter any difficulties when doing
 
 1. [Set up TEAMMATES development environment on your computer.](settingUp.md)<br>
    **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
-1. Get _Travis green and dev green_. It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
+1. Get _Local CI green and dev green_. It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 ### **Phase C**: Tinker with the code
 

@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
@@ -27,11 +27,11 @@ import teammates.storage.entity.FeedbackSession;
  */
 public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClient {
     private static final boolean isPreview = true;
-    
+
     private FeedbackSessionsDb feedbackSessionsDb = new FeedbackSessionsDb();
-    
+
     private List<String> courseIdsToRunOn = Arrays.asList();
-    
+
     public static void main(String[] args) throws IOException {
         RepairFeedbackSessionNameWithExtraWhiteSpace migrator = new RepairFeedbackSessionNameWithExtraWhiteSpace();
         migrator.doOperationRemotely();
@@ -45,15 +45,15 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         } else {
             feedbackSessions = getFeedbackSessionEntitiesOfCourses(courseIdsToRunOn);
         }
-        
+
         System.out.println("There is/are " + feedbackSessions.size() + " session(s).");
-        
+
         if (isPreview) {
             System.out.println("Checking extra spaces in feedback session name...");
         } else {
             System.out.println("Removing extra spaces in feedback session name...");
         }
-        
+
         Set<String> coursesAffected = new HashSet<>();
         try {
             int numberOfFeedbackSessionWithExtraWhiteSpacesInName = 0;
@@ -68,7 +68,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
                     }
                 }
             }
-            
+
             if (isPreview) {
                 System.out.println("There are/is " + numberOfFeedbackSessionWithExtraWhiteSpacesInName
                                    + "/" + feedbackSessions.size() + " feedback session(s) with extra spaces in name!");
@@ -77,7 +77,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
                                    + "/" + feedbackSessions.size() + " feedback session(s) have been fixed!");
                 System.out.println("Extra space removing done!");
             }
-            
+
             if (!coursesAffected.isEmpty()) {
                 showAffectedCourses(coursesAffected);
             }
@@ -116,11 +116,11 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
             throw new EntityAlreadyExistsException(
                     "Will be unable to rename session as a session with the extra-space-removed name exists");
         }
-        
+
         fixFeedbackQuestionsOfFeedbackSession(session);
         fixFeedbackResponsesOfFeedbackSession(session);
         fixFeedbackResponseCommentsOfFeedbackSession(session);
-        
+
         FeedbackSessionAttributes sessionAttribute = new FeedbackSessionAttributes(session);
         feedbackSessionsDb.deleteEntity(sessionAttribute);
         sessionAttribute.setFeedbackSessionName(
@@ -129,11 +129,11 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Removes extra space in feedbackSessionName in FeedbackResponseComments
+     * Removes extra space in feedbackSessionName in FeedbackResponseComments.
      */
     private void fixFeedbackResponseCommentsOfFeedbackSession(FeedbackSession session) {
         Query q = PM.newQuery(FeedbackResponseComment.class);
-        
+
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                     + "courseId == courseIdParam");
@@ -141,7 +141,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         List<FeedbackResponseComment> responseComments =
                 (List<FeedbackResponseComment>) q.execute(session.getFeedbackSessionName(),
                                                           session.getCourseId());
-        
+
         for (FeedbackResponseComment response : responseComments) {
             response.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(response.getFeedbackSessionName()));
@@ -150,18 +150,18 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Removes extra space in feedbackSessionName in FeedbackResponses
+     * Removes extra space in feedbackSessionName in FeedbackResponses.
      */
     private void fixFeedbackResponsesOfFeedbackSession(FeedbackSession session) {
         Query q = PM.newQuery(FeedbackResponse.class);
-        
+
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                     + "courseId == courseIdParam");
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> responses =
                 (List<FeedbackResponse>) q.execute(session.getFeedbackSessionName(), session.getCourseId());
-        
+
         for (FeedbackResponse response : responses) {
             response.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(response.getFeedbackSessionName()));
@@ -170,38 +170,38 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
     }
 
     /**
-     * Removes extra space in feedbackSessionName in FeedbackQuestions
+     * Removes extra space in feedbackSessionName in FeedbackQuestions.
      */
     private void fixFeedbackQuestionsOfFeedbackSession(FeedbackSession session) {
         Query q = PM.newQuery(FeedbackQuestion.class);
-        
+
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
                     + "courseId == courseIdParam");
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> questions =
                 (List<FeedbackQuestion>) q.execute(session.getFeedbackSessionName(), session.getCourseId());
-        
+
         for (FeedbackQuestion question : questions) {
             question.setFeedbackSessionName(
                     StringHelper.removeExtraSpace(question.getFeedbackSessionName()));
         }
         PM.close();
     }
-    
+
     /**
-     * @return true if there is extra space in the string.
+     * Returns true if there is extra space in the string.
      */
     private boolean hasExtraSpaces(String s) {
         return !s.equals(StringHelper.removeExtraSpace(s));
     }
-    
+
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getAllFeedbackSessionEntities() {
         Query q = PM.newQuery(FeedbackSession.class);
         return (List<FeedbackSession>) q.execute();
     }
-    
+
     @SuppressWarnings("unchecked")
     private List<FeedbackSession> getFeedbackSessionEntitiesOfCourses(List<String> courseIdsToRunOn) {
         List<FeedbackSession> feedbackSessions = new ArrayList<>();

@@ -8,7 +8,7 @@
             <p>
                 There was an error in our server.<br>
                 Please try again in a few moments. <br><br>
-                If the error persists, please <a class="link" href="contact.jsp" target="_blank"> let us know </a>
+                If the error persists, please <a class="link" href="contact.jsp" target="_blank" rel="noopener noreferrer"> let us know </a>
             </p>
         </div>
     </div>

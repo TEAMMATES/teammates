@@ -242,8 +242,8 @@
             </div>
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
-              Collapse Sections
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Sections
             </a>
           </div>
         </div>
@@ -259,7 +259,7 @@
   <br>
   <br>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -268,12 +268,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
               Collapse Students
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -284,102 +286,13 @@
         <input name="user" type="hidden" value="CFResultsUiT.instr">
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="recipient-question-giver">
-        <input id="showStats-0" name="frshowstats" type="hidden" value="off">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="on">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
       </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-0-1" style="height: auto;">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-0-1">
       <div class="panel-body" id="sectionBody-0">
-        <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-0-1" id="panelHeading-0-1" style="cursor: pointer;">
-            To:
-            <div class="inline panel-heading-text">
-              <strong>
-                -
-              </strong>
-            </div>
-            <div class="pull-right">
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-0-1">
-            <div class="panel-body">
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                  Question 3:
-                  <span class="text-preserve-space">
-                    My comments on the class
-                  </span>
-                </div>
-                <div>
-                  <div class="panel-body padding-0">
-                    <div class="resultStatistics" style="display: none;">
-                    </div>
-                    <div class="table-responsive">
-                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                          <tr>
-                            <th>
-                              Photo
-                            </th>
-                            <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
-                              Team
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
-                              Giver
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
-                              Feedback
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="action-header">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="middlealign">
-                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
-                                <a class="student-profile-pic-view-link btn-link">
-                                  View Photo
-                                </a>
-                                <img alt="No Image Given" class="hidden" src="">
-                              </div>
-                            </td>
-                            <td class="word-wrap-break middlealign">
-                              Instructors
-                            </td>
-                            <td class="word-wrap-break middlealign">
-                              Teammates Test
-                            </td>
-                            <td class="word-wrap-break text-preserve-space">
-                              This is for nobody specific.
-                            </td>
-                            <td>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -393,12 +306,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" style="display: inline;" title="">
               Collapse Students
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -2405,7 +2320,7 @@
     </div>
   </div>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -2414,12 +2329,14 @@
         </div>
         <div class="col-sm-3">
           <div class="pull-right">
-            <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
               Collapse Students
             </a>
              
-            <span class="glyphicon glyphicon-chevron-up">
-            </span>
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -2430,113 +2347,13 @@
         <input name="user" type="hidden" value="CFResultsUiT.instr">
         <input name="frgroupbyteam" type="hidden" value="null">
         <input name="frsorttype" type="hidden" value="recipient-question-giver">
-        <input id="showStats-2" name="frshowstats" type="hidden" value="off">
+        <input id="showStats-2" name="frshowstats" type="hidden" value="on">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input id="mainIndex-2" name="frmainindex" type="hidden" value="-1">
       </form>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-2-3" style="height: auto;">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
       <div class="panel-body" id="sectionBody-2">
-        <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-2-1" id="panelHeading-2-1" style="cursor: pointer;">
-            To:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-              <strong>
-                Emily
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.emily.f@gmail.tmt">
-                [CFResultsUiT.emily.f@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-2-1">
-            <div class="panel-body">
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                  Question 1:
-                  <span class="text-preserve-space">
-                    Rate 3 other students' products
-                  </span>
-                </div>
-                <div>
-                  <div class="panel-body padding-0">
-                    <div class="resultStatistics" style="display: none;">
-                    </div>
-                    <div class="table-responsive">
-                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
-                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                          <tr>
-                            <th>
-                              Photo
-                            </th>
-                            <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
-                              Team
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
-                              Giver
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
-                              Feedback
-                              <span class="icon-sort unsorted">
-                              </span>
-                            </th>
-                            <th class="action-header">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <thead>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="middlealign">
-                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
-                                <a class="student-profile-pic-view-link btn-link">
-                                  View Photo
-                                </a>
-                                <img alt="No Image Given" class="hidden" src="">
-                              </div>
-                            </td>
-                            <td class="word-wrap-break middlealign">
-                              Team 2
-                            </td>
-                            <td class="word-wrap-break middlealign">
-                              Charlie Dávis
-                            </td>
-                            <td class="word-wrap-break text-preserve-space">
-                              3 Response to Emily.
-                            </td>
-                            <td>
-                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
-                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                                <input name="fsname" type="hidden" value="First Session">
-                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
-                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
-                              </form>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -2549,91 +2366,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
-      <div class="panel-body padding-0">
-        <table class="table table-striped table-bordered margin-0">
-          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-            <tr>
-              <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 30%;">
-                Team
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this)" style="width: 30%;">
-                Name
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="action-header">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <i>
-                  Instructors
-                </i>
-              </td>
-              <td>
-                Teammates Helper1
-              </td>
-              <td class="action-button-item">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <i>
-                  Instructors
-                </i>
-              </td>
-              <td>
-                Teammates Helper2
-              </td>
-              <td class="action-button-item">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 2
-              </td>
-              <td>
-                Extra guy
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                  <input name="fsname" type="hidden" value="First Session">
-                  <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Team 3
-              </td>
-              <td>
-                Emily
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                  <input name="fsname" type="hidden" value="First Session">
-                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-4">
     </div>
   </div>
 </div>

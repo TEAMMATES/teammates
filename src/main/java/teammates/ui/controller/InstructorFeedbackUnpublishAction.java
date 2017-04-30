@@ -1,14 +1,13 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackUnpublishAction extends Action {
     @Override
@@ -24,7 +23,7 @@ public class InstructorFeedbackUnpublishAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
 
-        new GateKeeper().verifyAccessible(
+        gateKeeper.verifyAccessible(
                 instructor, session, isCreatorOnly, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
@@ -32,7 +31,7 @@ public class InstructorFeedbackUnpublishAction extends Action {
             if (session.isPublishedEmailEnabled()) {
                 taskQueuer.scheduleFeedbackSessionUnpublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
             }
-            
+
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED,
                                                StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "

@@ -18,7 +18,7 @@
                     Please select a feedback path <span class="caret"></span>
                 </c:when>
                 <c:when test="${fqForm.feedbackPathSettings.commonPathSelected}">
-                    ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}</span>
+                    ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}
                 </c:when>
                 <c:otherwise>
                     Predefined combinations:

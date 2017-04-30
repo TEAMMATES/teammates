@@ -1,48 +1,74 @@
 package teammates.common.util;
 
+import com.google.gson.JsonObject;
+
 /**
  * Represents the directory of a client-side external library.
  */
-public enum FrontEndLibrary {
-    
-    BOOTBOX("/js/lib/", "https://unpkg.com/bootbox@4.4.0/", "bootbox.min.js"),
-    BOOTSTRAP_CSS("/stylesheets/lib/", "https://unpkg.com/bootstrap@3.1.1/dist/css/", "bootstrap.min.css"),
-    BOOTSTRAP_THEME_CSS("/stylesheets/lib/", "https://unpkg.com/bootstrap@3.1.1/dist/css/", "bootstrap-theme.min.css"),
-    BOOTSTRAP("/js/lib/", "https://unpkg.com/bootstrap@3.1.1/dist/js/", "bootstrap.min.js"),
-    D3("/js/lib/", "https://unpkg.com/d3@3.5.17/", "d3.min.js"),
-    DATAMAPS("/js/lib/", "https://unpkg.com/datamaps@0.5.8/dist/", "datamaps.none.min.js"),
-    HANDSONTABLE("/js/lib/", "https://unpkg.com/handsontable@0.25.1/dist/", "handsontable.full.min.js"),
-    HANDSONTABLE_CSS("/stylesheets/lib/", "https://unpkg.com/handsontable@0.25.1/dist/", "handsontable.full.min.css"),
-    JQUERY("/js/lib/", "https://unpkg.com/jquery@1.12.4/dist/", "jquery.min.js"),
-    JQUERY_GUILLOTINE("/js/lib/", "https://unpkg.com/guillotine@1.3.1/js/", "jquery.guillotine.min.js"),
-    JQUERY_GUILLOTINE_CSS("/stylesheets/lib/", "https://unpkg.com/guillotine@1.3.1/css/", "jquery.guillotine.css"),
-    JQUERY_HIGHLIGHT("/js/lib/", "https://unpkg.com/jquery-highlight@3.3.0/", "jquery.highlight.js"),
-    JQUERY_PRINTTHIS("/js/lib/", "https://unpkg.com/printthis@0.1.5/", "printThis.js"),
-    JQUERY_UI("/js/lib/", "https://unpkg.com/jquery-ui-dist@1.12.1/", "jquery-ui.min.js"),
-    MOMENT("/js/lib/", "https://unpkg.com/moment@2.17.1/min/", "moment.min.js"),
-    MOMENT_TIMEZONE("/js/lib/", "https://unpkg.com/moment-timezone@0.5.9/builds/",
-                    "moment-timezone-with-data-2010-2020.min.js"),
-    TINYMCE("/js/lib/", "https://unpkg.com/tinymce@4.5.1/", "tinymce.min.js"),
-    TOPOJSON("/js/lib/", "https://unpkg.com/topojson@1.6.27/build/", "topojson.min.js"),
-    WORLDMAP("/js/lib/", "https://unpkg.com/datamaps@0.5.8/src/js/data/", "world.hires.topo.json");
-    
-    private final String localSrc;
-    private final String cdnSrc;
-    
-    FrontEndLibrary(String localDir, String cdnDir, String fileName) {
-        this.localSrc = localDir + fileName;
-        this.cdnSrc = cdnDir + fileName;
+public final class FrontEndLibrary {
+
+    public static final String BLANKET;
+    public static final String BOOTBOX;
+    public static final String BOOTSTRAP_CSS;
+    public static final String BOOTSTRAP_THEME_CSS;
+    public static final String BOOTSTRAP;
+    public static final String D3;
+    public static final String DATAMAPS;
+    public static final String HANDSONTABLE;
+    public static final String HANDSONTABLE_CSS;
+    public static final String JQUERY;
+    public static final String JQUERY_GUILLOTINE;
+    public static final String JQUERY_GUILLOTINE_CSS;
+    public static final String JQUERY_HIGHLIGHT;
+    public static final String JQUERY_PRINTTHIS;
+    public static final String JQUERY_UI;
+    public static final String MOMENT;
+    public static final String MOMENT_TIMEZONE;
+    public static final String QUNIT_CSS;
+    public static final String QUNIT;
+    public static final String TINYMCE;
+    public static final String TOPOJSON;
+    public static final String WORLDMAP;
+
+    private static final JsonObject DEPENDENCIES_CONFIG;
+
+    private FrontEndLibrary() {
+        // utility class; not meant to be instantiated
     }
-    
-    /**
-     * Gets the full directory of the specified library, chosen based on the build's environment.
-     * <ul>
-     * <li>Local files are used on development to enable purely offline testing.</li>
-     * <li>CDN files are used on production to reduce the load on Appspot's server.</li>
-     * </ul>
-     */
-    public String getLibrarySource() {
-        return Config.isDevServer() ? localSrc : cdnSrc;
+
+    static {
+
+        String dependenciesConfigString = FileHelper.readResourceFile("package.json");
+        DEPENDENCIES_CONFIG = JsonUtils.parse(dependenciesConfigString).getAsJsonObject()
+                                       .get("dependencies").getAsJsonObject();
+
+        BLANKET = getLibrarySource("blanket", "dist/qunit/blanket.min.js");
+        BOOTBOX = getLibrarySource("bootbox", "bootbox.min.js");
+        BOOTSTRAP_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap.min.css");
+        BOOTSTRAP_THEME_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap-theme.min.css");
+        BOOTSTRAP = getLibrarySource("bootstrap", "dist/js/bootstrap.min.js");
+        D3 = getLibrarySource("d3", "d3.min.js");
+        DATAMAPS = getLibrarySource("datamaps", "dist/datamaps.none.min.js");
+        HANDSONTABLE = getLibrarySource("handsontable", "dist/handsontable.full.min.js");
+        HANDSONTABLE_CSS = getLibrarySource("handsontable", "dist/handsontable.full.min.css");
+        JQUERY = getLibrarySource("jquery", "dist/jquery.min.js");
+        JQUERY_GUILLOTINE = getLibrarySource("guillotine", "js/jquery.guillotine.min.js");
+        JQUERY_GUILLOTINE_CSS = getLibrarySource("guillotine", "css/jquery.guillotine.css");
+        JQUERY_HIGHLIGHT = getLibrarySource("jquery-highlight", "jquery.highlight.js");
+        JQUERY_PRINTTHIS = getLibrarySource("printthis", "printThis.js");
+        JQUERY_UI = getLibrarySource("jquery-ui-dist", "jquery-ui.min.js");
+        MOMENT = getLibrarySource("moment", "min/moment.min.js");
+        MOMENT_TIMEZONE = getLibrarySource("moment-timezone", "builds/moment-timezone-with-data-2010-2020.min.js");
+        QUNIT_CSS = getLibrarySource("qunitjs", "qunit/qunit.css");
+        QUNIT = getLibrarySource("qunitjs", "qunit/qunit.js");
+        TINYMCE = getLibrarySource("tinymce", "tinymce.min.js");
+        TOPOJSON = getLibrarySource("topojson", "build/topojson.min.js");
+        WORLDMAP = getLibrarySource("datamaps", "src/js/data/world.hires.topo.json");
     }
-    
+
+    private static String getLibrarySource(String libraryNameInNpm, String fileDir) {
+        return "https://unpkg.com/" + libraryNameInNpm + "@"
+                + DEPENDENCIES_CONFIG.get(libraryNameInNpm).getAsString() + "/" + fileDir;
+    }
+
 }

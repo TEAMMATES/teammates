@@ -3,8 +3,8 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -15,160 +15,185 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
 /**
- * Handles  operations related to instructor roles.
+ * Handles operations related to instructors.
+ *
+ * @see InstructorAttributes
+ * @see InstructorsDb
  */
-public class InstructorsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
-    
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    
+public final class InstructorsLogic {
+
     private static final Logger log = Logger.getLogger();
-    
-    private static InstructorsLogic instance;
-    
+
+    private static InstructorsLogic instance = new InstructorsLogic();
+
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+
+    private InstructorsLogic() {
+        // prevent initialization
+    }
+
     public static InstructorsLogic inst() {
-        if (instance == null) {
-            instance = new InstructorsLogic();
-        }
         return instance;
     }
-    
+
     /* ====================================
      * methods related to google search API
      * ====================================
      */
-    
+
+    /**
+     * Creates or updates document for the given Instructor.
+     * @param instructor to be put into documents
+     */
     public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
     }
-    
+
+    /**
+     * Batch creates or updates documents for the given Instructors.
+     * @param instructors a list of instructors to be put into documents
+     */
+    public void putDocuments(List<InstructorAttributes> instructors) {
+        instructorsDb.putDocuments(instructors);
+    }
+
+    /**
+     * Removes document for the given Instructor.
+     * @param instructor to be removed from documents
+     */
     public void deleteDocument(InstructorAttributes instructor) {
         instructorsDb.deleteDocument(instructor);
     }
-    
+
     /**
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
-     * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString) {
-        return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+        return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
-    
+
     /* ====================================
      * ====================================
      */
-    
+
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        
+
         Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
-        
+
         log.info("going to create instructor :\n" + instructorToAdd.toString());
-        
+
         return instructorsDb.createInstructor(instructorToAdd);
     }
 
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
            throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = archiveStatus;
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
-    
+
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-        
+
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-        
+
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);
     }
-    
+
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-        
+
         return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
-        
+
         return instructorsDb.getInstructorsForCourse(courseId);
     }
-    
+
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-        
+
         return getInstructorsForGoogleId(googleId, false);
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-        
+
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
-    
+
     public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
-        
+
         verifyIsEmailOfInstructorOfCourse(email, courseId);
-        
+
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
-    
+
         return StringHelper.encrypt(instructor.key);
     }
-    
+
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
-        
+
         return instructorsDb.getInstructorsForEmail(email);
     }
 
     /**
+     * Gets all instructors in the Datastore.
+     *
      * @deprecated Not scalable. Use only for admin features.
      */
     @Deprecated
     public List<InstructorAttributes> getAllInstructors() {
-        
+
         return instructorsDb.getAllInstructors();
     }
 
     public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
-        
+
         return instructorsDb.getInstructorForGoogleId(courseId, instructorId) != null;
     }
-    
+
     public boolean isEmailOfInstructorOfCourse(String instructorEmail, String courseId) {
-       
+
         return instructorsDb.getInstructorForEmail(courseId, instructorEmail) != null;
     }
-    
+
+    /**
+     * Returns whether the instructor is a new user, according to one of the following criteria:
+     * <ul>
+     * <li>There is only a sample course (created by system) for the instructor.</li>
+     * <li>There is no any course for the instructor.</li>
+     * </ul>
+     */
     public boolean isNewInstructor(String googleId) {
         List<InstructorAttributes> instructorList = getInstructorsForGoogleId(googleId);
         return instructorList.isEmpty()
                || instructorList.size() == 1 && coursesLogic.isSampleCourse(instructorList.get(0).courseId);
     }
-    
+
     public void verifyInstructorExists(String instructorId)
             throws EntityDoesNotExistException {
-        
+
         if (!accountsLogic.isAccountAnInstructor(instructorId)) {
             throw new EntityDoesNotExistException("Instructor does not exist :"
                     + instructorId);
         }
     }
-    
+
     public void verifyIsEmailOfInstructorOfCourse(String instructorEmail, String courseId)
             throws EntityDoesNotExistException {
-        
+
         if (!isEmailOfInstructorOfCourse(instructorEmail, courseId)) {
             throw new EntityDoesNotExistException("Instructor " + instructorEmail
                     + " does not belong to course " + courseId);
@@ -177,10 +202,7 @@ public class InstructorsLogic {
 
     /**
      * Update the name and email address of an instructor with the specific Google ID.
-     * @param googleId
      * @param instructor InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -191,10 +213,10 @@ public class InstructorsLogic {
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
         checkForUpdatingRespondents(instructor);
-        
+
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
-    
+
     private void checkForUpdatingRespondents(InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -214,60 +236,57 @@ public class InstructorsLogic {
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
-            FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsEmails(
+            frcLogic.updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
         }
     }
-    
+
     /**
      * Update the Google ID and name of an instructor with the specific email.
-     * @param email
      * @param instructor InstructorAttributes object containing the details to be updated
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void updateInstructorByEmail(String email, InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
-        
+
         instructorsDb.updateInstructorByEmail(instructor);
     }
-    
+
     public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
                                                               String institute, String email) {
-        
+
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
-        
+
         error = validator.getInvalidityInfoForPersonName(shortName);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForEmail(email);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         error = validator.getInvalidityInfoForInstituteName(institute);
         if (!error.isEmpty()) {
             errors.add(error);
         }
-        
+
         //No validation for isInstructor and createdAt fields.
         return errors;
     }
-    
+
     public void deleteInstructorCascade(String courseId, String email) {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
         fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
@@ -276,7 +295,7 @@ public class InstructorsLogic {
 
     public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
         List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
-        
+
         //Cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
             deleteInstructorCascade(instructor.courseId, instructor.email);
@@ -286,7 +305,7 @@ public class InstructorsLogic {
     // this method is only being used in course logic. cascade to comments is therefore not necessary
     // as it it taken care of when deleting course
     public void deleteInstructorsForCourse(String courseId) {
-        
+
         instructorsDb.deleteInstructorsForCourse(courseId);
     }
 

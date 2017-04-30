@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class InstructorStudentListStudentsTableCourse {
 
@@ -17,7 +17,7 @@ public class InstructorStudentListStudentsTableCourse {
                                                     boolean isInstructorAllowedToModify) {
         this.courseArchived = isCourseArchived;
         this.courseId = courseId;
-        this.courseName = Sanitizer.sanitizeForHtml(courseName);
+        this.courseName = SanitizationHelper.sanitizeForHtml(courseName);
         this.googleId = googleId;
         this.instructorCourseEnrollLink = instructorCourseEnrollLink;
         this.instructorAllowedToModify = isInstructorAllowedToModify;

@@ -32,10 +32,10 @@
                             <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
                         </li>
                         <li>
-                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
+                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
                         </li>
                         <li>
-                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+                            <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
                         </li>
                         <li>
                             <a href="#faq9">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
@@ -160,17 +160,13 @@
                 </div>
             </li>
         </ul>
-
     </div>
-
-    <!-- Getting Started -->
-    <br>
-    <hr>
-    <br>
+    <div class="separate-content-holder">
+        <hr>
+    </div>
     <h4>
         <a name="gs">Getting Started</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <ol type="1">
@@ -229,7 +225,7 @@
                             Go to the ‘Home’ page, click on the ‘Students‘ button on the corresponding course, and choose ‘Enroll’
                         </li>
                         <li>
-                            Go the the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
+                            Go to the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
                         </li>
                     </ul>
                     <br>
@@ -387,22 +383,13 @@
             <a href="#Top">Back to Top
             </a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--FAQ -->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="faq">Frequently Asked Questions</a>
     </h4>
-
     <div id="contentHolder">
         <div class="bulletPointsIndent">
             <ul>
@@ -593,26 +580,14 @@
                 <a href="#Top">Back to Top
                 </a>
             </p>
-            <a href="#Top">
-            </a>
         </div>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--tips-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
-        <a name="tips">Tips for conducting 'team peer evaluation' sessions
-        </a>
+        <a name="tips">Tips for conducting 'team peer evaluation' sessions</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <p>Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your course while minimizing any negative effects. Here are some of the things you could do:</p>
@@ -661,7 +636,7 @@
                         This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values):
                         <br>
                         <br>
-                        <span class="italic">It is OK to do less than an equal share of the the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
+                        <span class="italic">It is OK to do less than an equal share of the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
                         <br>
                         <br>
                     </div>
@@ -682,22 +657,13 @@
             </ul>
         </div>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--editCourse-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="editCourse">Add/Edit instructors</a>
     </h4>
     <div id="contentHolder">
@@ -1152,25 +1118,15 @@
             <br>
         </ul>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-
-        <!--sessionTypes-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="sessionTypes">Sessions</a>
     </h4>
-
     <div id="contentHolder">
         <br>
         <ol style="list-style-type: none;">
@@ -5874,7 +5830,7 @@
                                                                             name="constSumUnevenDistribution" disabled
                                                                             id="constSum_UnevenDistribution-10">
                                                                     <span id="constSum_labelText-10">
-                                                                    Every Recipient to recieve a different number of points
+                                                                    Every Recipient to receive a different number of points
                                                                     </span>
                                                                 </label>
                                                             </div>
@@ -6201,7 +6157,7 @@
                             <h4>Team contribution question</h4>
                         </a>
                         Team contribution questions are a specialized question type designed for team contribution evaluations.
-                        <br> They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
+                        <br> They allow estimation of perceived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
                         <a href="#Top">here</a>.
                         <br>
                         <br> An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
@@ -6585,7 +6541,7 @@
                                                     </div>
                                                     <div class="col-sm-3 pull-right">
                                                         [
-                                                        <a href="#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                                        <a href="#faq7a" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -7822,7 +7778,7 @@
                                 </div>
                             </form>
                         </div>
-                        <br> The statistics for rubric question show the frquency which a choice is selected for each sub-question.
+                        <br> The statistics for rubric question show the frequency which a choice is selected for each sub-question.
                         <br> If weights are assigned to the choices, they will be shown beside their corresponding choices.
                         <br>
                         <br>
@@ -8815,24 +8771,13 @@
             </li>
         </ol>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
-        <a href="#Top">
-        </a>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <a href="#Top">
-    </a>
-    <a href="#Top">
-
-        <!--sessionTypes-->
-        <br>
-        <hr>
-        <br>
-    </a>
     <h4>
-        <a href="#Top">
-        </a>
         <a name="editComments">Comments</a>
     </h4>
     <div id="contentHolder">
@@ -9545,8 +9490,7 @@
         </ol>
         <br>
         <p align="right">
-            <a href="#Top">Back to Top
-            </a>
+            <a href="#Top">Back to Top</a>
         </p>
     </div>
 </t:helpPage>

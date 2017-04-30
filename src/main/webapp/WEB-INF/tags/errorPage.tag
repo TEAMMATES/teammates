@@ -8,8 +8,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEAMMATES</title>
-    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_CSS.getLibrarySource() %>" type="text/css">
-    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS.getLibrarySource() %>" type="text/css">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" type="text/css">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" type="text/css">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -21,7 +21,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+                <t:teammatesLogo/>
             </div>
         </div>
     </div>

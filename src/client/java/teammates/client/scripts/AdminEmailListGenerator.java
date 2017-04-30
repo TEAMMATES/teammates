@@ -17,6 +17,11 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
+import org.joda.time.DateTime;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -26,25 +31,21 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.repackaged.org.joda.time.DateTime;
-
 /**
  * Generates txt file which contains a list of receiver emails.<br>
  * List file configuration is preset in admin email configuration section.
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
-    
+
     private enum StudentStatus { REG, UNREG, ALL }
-    
+
     private enum InstructorStatus { REG, UNREG, ALL }
-    
+
     private int iterationCounter;
-    
+
     //handle test data
     private boolean includeTestData = true;
-    
+
     //admin email configuration
     private boolean student;
     private boolean instructor = true;
@@ -58,7 +59,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
     private EmailListConfig emailListConfig = new EmailListConfig();
     private HashMap<String, Date> courseIdToCreatedDateMap = new HashMap<String, Date>();
-    
+
     public static void main(String[] args) throws IOException {
         AdminEmailListGenerator adminEmailListGenerator = new AdminEmailListGenerator();
         adminEmailListGenerator.doOperationRemotely();
@@ -76,7 +77,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
 
         System.out.print("\n\nstudent : " + emailListConfig.student + "\n");
-        
+
         if (emailListConfig.student) {
             System.out.print("Student Status: ");
             switch (emailListConfig.studentStatus) {
@@ -87,24 +88,22 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 System.out.print("UNREG\n");
                 break;
             case ALL:
-                System.out.print("ALL\n");
-                break;
             default:
                 System.out.print("ALL\n");
                 break;
             }
         }
-        
+
         if (emailListConfig.studentCreatedDateRangeStart != null) {
             System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart + "\n");
         }
-        
+
         if (emailListConfig.studentCreatedDateRangeEnd != null) {
             System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd + "\n");
         }
-        
+
         System.out.print("instructor : " + emailListConfig.instructor + "\n");
-        
+
         if (emailListConfig.instructor) {
             System.out.print("Instructor Status: ");
             switch (emailListConfig.studentStatus) {
@@ -115,24 +114,22 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 System.out.print("UNREG\n");
                 break;
             case ALL:
-                System.out.print("ALL\n");
-                break;
             default:
                 System.out.print("ALL\n");
                 break;
             }
         }
-        
+
         if (emailListConfig.instructorCreatedDateRangeStart != null) {
             System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart + "\n");
         }
-        
+
         if (emailListConfig.instructorCreatedDateRangeEnd != null) {
             System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd + "\n");
         }
-       
+
     }
-    
+
     private void getInstructorEmailConfiguration() throws InvalidParametersException {
         emailListConfig.instructor = this.instructor;
         if (!emailListConfig.instructor) {
@@ -142,7 +139,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         emailListConfig.instructorCreatedDateRangeStart = getInputDate(instructorCreatedDateRangeStart);
         emailListConfig.instructorCreatedDateRangeEnd = getInputDate(instructorCreatedDateRangeEnd);
     }
-    
+
     private void getStudentEmailConfiguration() throws InvalidParametersException {
         emailListConfig.student = this.student;
         if (!emailListConfig.student) {
@@ -154,11 +151,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private Date getInputDate(String dateString) throws InvalidParametersException {
-        
+
         if (dateString == null) {
             return null;
         }
-        
+
         String[] split = dateString.split("/");
         int day = Integer.parseInt(split[0]);
         int month = Integer.parseInt(split[1]);
@@ -167,35 +164,35 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             throw new InvalidParametersException("Date format error");
         }
         return getDate(day, month, year);
-        
+
     }
-    
+
     private void printToFile() {
-        
+
         if (!emailListConfig.student && !emailListConfig.instructor) {
             System.out.print("No email list to be generated. Exiting now..\n\n");
             return;
         }
-        
+
         HashSet<String> studentEmailSet = new HashSet<String>();
         HashSet<String> instructorEmailSet = new HashSet<String>();
-        
+
         if (emailListConfig.student) {
             studentEmailSet = addStudentEmailIntoSet(studentEmailSet);
         }
-             
+
         if (emailListConfig.instructor) {
             instructorEmailSet = addInstructorEmailIntoSet(instructorEmailSet);
         }
-        
+
         writeEmailsIntoTextFile(studentEmailSet, instructorEmailSet);
     }
-    
+
     private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet) {
         String q = "SELECT FROM " + Instructor.class.getName();
         @SuppressWarnings("unchecked")
         List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
-        
+
         for (Instructor instructor : allInstructors) {
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
                         || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
@@ -205,10 +202,10 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
             updateProgressIndicator();
         }
-        
+
         return instructorEmailSet;
     }
-    
+
     private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
         String q = "SELECT FROM " + CourseStudent.class.getName();
         @SuppressWarnings("unchecked")
@@ -225,21 +222,21 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
         return studentEmailSet;
     }
-    
+
     private boolean isRegistered(CourseStudent student) {
         return student.getGoogleId() != null && !student.getGoogleId().isEmpty();
     }
 
     private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
                                          HashSet<String> instructorEmailSet) {
-        
+
         try {
-        
+
             File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
             FileOutputStream fos = new FileOutputStream(newFile);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
             Writer w = new BufferedWriter(osw);
-            
+
             int studentEmailCount = 0;
             if (!studentEmailSet.isEmpty()) {
                 for (String email : studentEmailSet) {
@@ -250,7 +247,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                     studentEmailCount++;
                 }
             }
-            
+
             int instructorEmailCount = 0;
             if (!instructorEmailSet.isEmpty()) {
                 for (String email : instructorEmailSet) {
@@ -261,24 +258,24 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                     instructorEmailCount++;
                 }
             }
-            
+
             System.out.print("Student email num: " + studentEmailCount + "\n");
             System.out.print("Instructor email num: " + instructorEmailCount + "\n");
             w.close();
-        
+
         } catch (IOException e) {
             System.err.println("Problem writing to the file statsTest.txt");
         }
     }
-    
+
     private boolean isInstructorCreatedInRange(Instructor instructor) {
-        
+
         Date instructorCreatedAt = getInstructorCreatedDate(instructor);
 
         if (instructorCreatedAt == null) {
             return false;
         }
-        
+
         if (emailListConfig.instructorCreatedDateRangeEnd == null
                 && emailListConfig.instructorCreatedDateRangeStart == null) {
             //no range set
@@ -291,50 +288,50 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                    && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //before a specific date
             return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
-            
+
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
                    && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //within a date interval
             return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
                 && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
         }
-        
+
         return false;
-        
+
     }
 
     private Date getInstructorCreatedDate(Instructor instructor) {
-    
+
         if (instructor.getGoogleId() != null && !instructor.getGoogleId().isEmpty()) {
             Account account = getAccountEntity(instructor.getGoogleId());
             if (account != null) {
                 return account.getCreatedAt();
             }
         }
-        
+
         if (courseIdToCreatedDateMap.get(instructor.getCourseId()) != null) {
             return courseIdToCreatedDateMap.get(instructor.getCourseId());
         }
-        
+
         Course course = getCourseEntity(instructor.getCourseId());
-        
+
         if (course != null) {
             courseIdToCreatedDateMap.put(instructor.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
-        
+
         return null;
-        
+
     }
 
     private boolean isStudentCreatedInRange(CourseStudent student) {
-        
+
         Date studentCreatedAt = getStudentCreatedDate(student);
 
         if (studentCreatedAt == null) {
             return false;
         }
-        
+
         if (emailListConfig.studentCreatedDateRangeEnd == null
                 && emailListConfig.studentCreatedDateRangeStart == null) {
             //no range set
@@ -343,7 +340,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                    && emailListConfig.studentCreatedDateRangeEnd == null) {
             //after a specific date
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
-            
+
         } else if (emailListConfig.studentCreatedDateRangeStart == null
                    && emailListConfig.studentCreatedDateRangeEnd != null) {
             //before a specific date
@@ -354,11 +351,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
                 && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
         }
-        
+
         return false;
-        
+
     }
-    
+
     private Date getStudentCreatedDate(CourseStudent student) {
         if (student.getGoogleId() != null && !student.getGoogleId().isEmpty()) {
             Account account = getAccountEntity(student.getGoogleId());
@@ -366,50 +363,50 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 return account.getCreatedAt();
             }
         }
-        
+
         if (courseIdToCreatedDateMap.get(student.getCourseId()) != null) {
             return courseIdToCreatedDateMap.get(student.getCourseId());
         }
-        
+
         Course course = getCourseEntity(student.getCourseId());
-        
+
         if (course != null) {
             courseIdToCreatedDateMap.put(student.getCourseId(), course.getCreatedAt());
             return course.getCreatedAt();
         }
-        
+
         return null;
-        
+
     }
-    
+
     private Course getCourseEntity(String courseId) {
-        
+
         Query q = PM.newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
-        
+
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) q.execute(courseId);
-        
+
         if (courseList.isEmpty() || JDOHelper.isDeleted(courseList.get(0))) {
             return null;
         }
-    
+
         return courseList.get(0);
     }
-    
+
     private Account getAccountEntity(String googleId) {
-        
+
         try {
             Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
             Account account = PM.getObjectById(Account.class, key);
-            
+
             if (JDOHelper.isDeleted(account)) {
                 return null;
             }
-            
+
             return account;
-            
+
         } catch (IllegalArgumentException | JDOObjectNotFoundException e) {
             return null;
         }
@@ -417,27 +414,27 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
     private String getCurrentDateForDisplay() {
         Date now = new Date();
-        
+
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTime(now);
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        
+
         System.out.print(formatTime(cal.getTime()) + "\n");
         return formatTime(cal.getTime());
-        
+
     }
-    
+
     private String formatTime(Date date) {
         if (date == null) {
             return "";
         }
         return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy").format(date);
-        
+
     }
-    
+
     private boolean isValidDate(int day, int month, int year) {
-        
+
         boolean isDateValid = false;
 
         if (day <= 0 || month <= 0 || year <= 0) {
@@ -447,19 +444,19 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         } else {
             isDateValid = true;
         }
-   
+
         if (isDateValid) {
             System.out.print("Date Entered is valid.\n\n");
         } else {
             System.out.print("Date is not valid. Please Re-enter date.\n\n");
         }
-       
+
         return isDateValid;
-        
+
     }
-    
+
     private int getMaxNumOfDayForMonth(int month, int year) {
-        
+
         DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 0);
         return dateTime.dayOfMonth().getMaximumValue();
     }
@@ -468,18 +465,18 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(year, month - 1, day, 0, 0, 0);
-        
+
         return cal.getTime();
-        
+
     }
-    
+
     private void updateProgressIndicator() {
         iterationCounter++;
         if (iterationCounter % 1000 == 0) {
             System.out.print("------------------ iterations count:" + iterationCounter + " ------------------------\n");
         }
     }
-    
+
     private static class EmailListConfig {
         public boolean student;
         public boolean instructor;
