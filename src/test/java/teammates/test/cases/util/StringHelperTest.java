@@ -3,9 +3,13 @@ package teammates.test.cases.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -126,6 +130,47 @@ public class StringHelperTest extends BaseTestCase {
 
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
+    }
+
+    @Test
+    public void testDefaultAesCipherParams() throws Exception {
+        //plaintext is less than 1 block long
+        String plaintextLength124 = StringHelper.generateStringOfLength(31, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength124);
+
+        //plaintext is equal to 1 block
+        String plaintextLength128 = StringHelper.generateStringOfLength(32, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength128);
+
+        //plaintext is more than 1 block long
+        String plaintextLength132 = StringHelper.generateStringOfLength(33, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength132);
+    }
+
+    /**
+    * Verifies that encrypting with and without specifying algorithm parameters produce the same ciphertext.
+    * This ensures parameters being specified for encryption are the same as the defaults.
+    *
+    * @param plaintext the plaintext to encrypt, as a hexadecimal string.
+    */
+    private static void assertEncryptionUsesExpectedDefaultParams(String plaintext) throws Exception {
+        String actualCiphertext = encryptWithoutSpecifyingAlgorithmParams(plaintext);
+        String expectedCiphertext = StringHelper.encrypt(plaintext);
+        assertEquals(expectedCiphertext, actualCiphertext);
+    }
+
+    /**
+     * Encrypts plaintext without specifying mode and padding scheme during  {@link Cipher} initialization.
+     *
+     * @param plaintext the plaintext to encrypt as a hexadecimal string
+     * @return ciphertext the ciphertext as a hexadecimal string.
+     */
+    private static String encryptWithoutSpecifyingAlgorithmParams(String plaintext) throws Exception {
+        SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+        byte[] encrypted = cipher.doFinal(plaintext.getBytes());
+        return StringHelper.byteArrayToHexString(encrypted);
     }
 
     @Test
