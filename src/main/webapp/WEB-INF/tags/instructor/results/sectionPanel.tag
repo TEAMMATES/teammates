@@ -7,7 +7,6 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="teamIndexOffset" type="java.lang.Integer" required="true" %>
 <%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
@@ -85,7 +84,6 @@
                 <c:when test="${isGroupedByTeam}">
                     <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}">
                            <results:teamPanel teamName="${teamPanel.key}" teamIndex="${teamIndex}" 
-                                              isShowingAll="${isShowingAll}" 
                                               statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
                                               detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
                                               statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
@@ -99,8 +97,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="participantPanel" items="${sectionPanel.participantPanelsInSortedOrder}">
-                        <results:participantPanel isShowingAll="${isShowingAll}"
-                                                  participantPanel="${participantPanel}" 
+                        <results:participantPanel participantPanel="${participantPanel}" 
                                                   isSecondaryParticipantType="${!isGroupedByQuestion}"/>
                     </c:forEach>
                 </c:otherwise>
