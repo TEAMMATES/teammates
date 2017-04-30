@@ -48,7 +48,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${statsTables}" var="statsTable">
-                                    <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${statsTable}"/>
+                                    <results:questionPanel questionPanel="${statsTable}"/>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>

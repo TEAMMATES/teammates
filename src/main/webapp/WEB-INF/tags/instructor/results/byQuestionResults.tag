@@ -5,11 +5,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="questionPanels" type="java.util.List" required="true" %>
-<%@ attribute name="isShowingResponses" type="java.lang.Boolean" required="true" %>
 
 <br>
 
 <c:forEach items="${questionPanels}" var="questionPanel" varStatus="i">
-    <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}" 
-                           questionPanel="${questionPanel}"/>
+    <results:questionPanel questionIndex="${i.index}" questionPanel="${questionPanel}"/>
 </c:forEach>

@@ -5,7 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByTeam" type="java.lang.Boolean" required="true" %>
 
