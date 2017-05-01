@@ -929,7 +929,8 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ]
+      ],
+      "feedbackPaths":[]
     },
     "custom.feedback.paths.student.question":{
         "feedbackSessionName":"First feedback session",
@@ -938,7 +939,7 @@
         "questionMetaData":{
             "value":"A particular student's feedback about their own progress"
         },
-        "questionNumber":"6",
+        "questionNumber": 6,
         "questionType":"TEXT",
         "giverType":"CUSTOM",
         "recipientType":"CUSTOM",
@@ -972,7 +973,7 @@
         "questionMetaData":{
             "value":"A particular instructor's feedback about their own progress"
         },
-        "questionNumber":"7",
+        "questionNumber": 7,
         "questionType":"TEXT",
         "giverType":"CUSTOM",
         "recipientType":"CUSTOM",
@@ -1006,7 +1007,7 @@
         "questionMetaData":{
             "value":"A particular team's feedback about their own progress"
         },
-        "questionNumber":"8",
+        "questionNumber": 8,
         "questionType":"TEXT",
         "giverType":"CUSTOM",
         "recipientType":"CUSTOM",
