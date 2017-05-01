@@ -834,10 +834,7 @@ public final class FeedbackQuestionsLogic {
                 isInstructorGiver
                 && feedbackPath.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
 
-        boolean isUserFeedbackPathGiver =
-                isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
-
-        return isUserFeedbackPathGiver;
+        return isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
     }
 
     private String getRecipientName(
