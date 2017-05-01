@@ -8,6 +8,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -20,8 +22,6 @@ import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 /**
  * Handles CRUD operations for emails sent by the admin.
  *
@@ -32,7 +32,7 @@ public class AdminEmailsDb extends EntitiesDb {
 
     private static final Logger log = Logger.getLogger();
 
-    public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
+    public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
             AdminEmail ae = (AdminEmail) createEntity(adminEmailToAdd);
             return ae.getCreateDate();
@@ -177,6 +177,20 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     /**
+     * Gets an admin email based on subject.
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailBySubject(String subject) {
+        AdminEmail matchedEmail = getAdminEmailEntityBySubject(subject);
+
+        if (matchedEmail == null) {
+            return null;
+        }
+
+        return new AdminEmailAttributes(matchedEmail);
+    }
+
+    /**
      * Gets all admin email drafts that have NOT been sent and NOT in trash bin.
      * @return empty list if no email found
      */
@@ -306,6 +320,22 @@ public class AdminEmailsDb extends EntitiesDb {
         return adminEmailList.get(0);
     }
 
+    private AdminEmail getAdminEmailEntityBySubject(String subject) {
+
+        Query q = getPm().newQuery(AdminEmail.class);
+        q.declareParameters("String subjectParam");
+        q.setFilter("subject == subjectParam");
+        q.setRange(0, 1);
+
+        @SuppressWarnings("unchecked")
+        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject);
+
+        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+            return null;
+        }
+        return adminEmailList.get(0);
+    }
+
     @Override
     protected Object getEntity(EntityAttributes attributes) {
         AdminEmailAttributes adminEmailToGet = (AdminEmailAttributes) attributes;
@@ -316,6 +346,29 @@ public class AdminEmailsDb extends EntitiesDb {
 
         return getAdminEmailEntity(adminEmailToGet.getSubject(),
                                    adminEmailToGet.getCreateDate());
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = AdminEmail.class;
+        String primaryKeyName = AdminEmail.PRIMARY_KEY_NAME;
+        AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
+        String id = aea.emailId;
+
+        Query q = getPm().newQuery(entityClass);
+        Object[] params;
+
+        if (id == null) {
+            q.declareParameters("String subjectParam, java.util.Date createDateParam");
+            q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
+            params = new Object[] {aea.subject, aea.createDate};
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            params = new Object[] {id};
+        }
+
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 
 }

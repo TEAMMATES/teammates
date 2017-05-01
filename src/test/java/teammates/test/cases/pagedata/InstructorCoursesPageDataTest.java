@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCoursesPageData;
@@ -23,8 +23,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
     @Test
     public void testAll() {
         ______TS("test no course");
-        AccountAttributes instructorAccountWithourCourses = dataBundle.accounts.get("instructorWithoutCourses");
-        InstructorCoursesPageData pageData = new InstructorCoursesPageData(instructorAccountWithourCourses);
+        AccountAttributes instructorAccountWithoutCourses = dataBundle.accounts.get("instructorWithoutCourses");
+        InstructorCoursesPageData pageData = new InstructorCoursesPageData(instructorAccountWithoutCourses);
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
         Map<String, InstructorAttributes> instructorForCourses = new HashMap<String, InstructorAttributes>();

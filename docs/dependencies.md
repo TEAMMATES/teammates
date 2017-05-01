@@ -22,9 +22,12 @@ Add the library based on the name listed in [Maven Central](http://search.maven.
 
 To update a library's version, simply change the version number declared in `build.gradle` file.
 
-To propagate the update of dependencies to your Eclipse configuration, run the following command:
+If you are using Eclipse, you need to do a manual update to your Eclipse configuration to reflect the above changes.
+You will do so by running the following command:
 
-`./gradlew resetEclipseDeps`
+```sh
+./gradlew resetEclipseDeps
+```
 
 Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse should fix that.
 

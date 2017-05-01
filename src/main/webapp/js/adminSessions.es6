@@ -1,8 +1,10 @@
-/* global bindBackToTopButtons:false */
+/* global bindBackToTopButtons:false linkAjaxForResponseRate:false prepareDatepickers:false */
 
 $(document).ready(() => {
     $('#timeFramePanel').toggle();
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    linkAjaxForResponseRate();
+    prepareDatepickers();
 });
 
 function toggleContent(id) {

@@ -11,9 +11,9 @@ import java.util.Set;
 
 import org.joda.time.DateTimeZone;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-
 import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -486,38 +486,6 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if the given string is a non-null non-empty string no longer than
-     * the specified length {@code maxLength}.
-     *
-     * @param fieldName
-     *            A descriptive name of the field e.g., "student name", to be
-     *            used in the return value to make the explanation more
-     *            descriptive.
-     * @param value
-     *            The string to be checked.
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
-     */
-    public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
-
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
-
-        if (value.isEmpty()) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
-                                            REASON_EMPTY, maxLength);
-        }
-        if (isUntrimmed(value)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
-        }
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
-        if (value.length() > maxLength) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
-                                            fieldName, REASON_TOO_LONG, maxLength);
-        }
-        return "";
-    }
-
-    /**
      * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength},
      * and also does not contain any invalid characters (| or %).
@@ -599,7 +567,7 @@ public class FieldValidator {
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
     public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
 
@@ -610,7 +578,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
                                                                             Date sessionStart) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
 
@@ -621,12 +589,12 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart,
                                                                               Date resultsPublish) {
-        return getInvalidtyInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
-    private String getInvalidtyInfoForFirstTimeIsBeforeSecondTime(Date earlierTime, Date laterTime,
-            String earlierTimeFieldName, String laterTimeFieldName) {
+    private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
+            Date earlierTime, Date laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         Assumption.assertTrue("Non-null value expected", earlierTime != null);
         Assumption.assertTrue("Non-null value expected", laterTime != null);
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
@@ -728,7 +696,7 @@ public class FieldValidator {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
-    private boolean isUntrimmed(String value) {
+    public static boolean isUntrimmed(String value) {
         return value.length() != value.trim().length();
     }
 
@@ -751,7 +719,7 @@ public class FieldValidator {
         return uniqueElements.size() == elements.size();
     }
 
-    private static String getPopulatedErrorMessage(
+    public static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
                    .replace("${maxLength}", String.valueOf(maxLength));

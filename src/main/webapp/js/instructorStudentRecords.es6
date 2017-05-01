@@ -1,5 +1,5 @@
-/* global toggleSingleCollapse:false showCommentBox:false tinymce:false */
-/* global isBlank:false setStatusMessage:false StatusType:false */
+/* global toggleSingleCollapse:false tinymce:false */
+/* global isBlank:false setStatusMessage:false StatusType:false prepareInstructorPages:false */
 /* global scrollToTop:false richTextEditorBuilder:false BootboxWrapper:false */
 
 const COMMENT_TEXT = 'commenttext';
@@ -162,12 +162,14 @@ function readyStudentRecordsPage() {
     });
 
     // Open the comment box if so desired by the request
-    if (showCommentBox === 'yes') {
+    if ($('#show-comment-box').val() === 'yes') {
         $('#button_add_comment').click();
     }
 }
 
 $(document).ready(() => {
+    prepareInstructorPages();
+
     // Auto-loading for feedback responses
     $('div[id^="studentFeedback-"]').click();
 
