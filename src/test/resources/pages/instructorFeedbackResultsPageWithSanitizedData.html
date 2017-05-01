@@ -239,8 +239,8 @@
             </div>
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
-              Collapse Questions
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Questions
             </a>
           </div>
         </div>
@@ -615,7 +615,7 @@
     </div>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
         <input name="fsname" type="hidden" value="Sanitized Session">
@@ -623,51 +623,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-      <div class="panel-body padding-0">
-        <table class="table table-striped table-bordered margin-0">
-          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-            <tr>
-              <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 30%;">
-                Team
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this)" style="width: 30%;">
-                Name
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="action-header">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                Team '1&lt;/td&gt;&lt;/div&gt;'"
-              </td>
-              <td>
-                Benn'y Charle's
-              </td>
-              <td class="action-button-item">
-                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
-                  <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
-                  <input name="fsname" type="hidden" value="Sanitized Session">
-                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-2">
     </div>
   </div>
 </div>
