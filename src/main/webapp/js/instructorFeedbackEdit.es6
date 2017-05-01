@@ -208,7 +208,7 @@ function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
                                        || $(`#questionTable-${questionNum} > .panel-body`).html();
     customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum] =
-            $('#questionTable-${questionNum} .custom-feedback-paths-spreadsheet').handsontable('getData');
+            $(`#questionTable-${questionNum} .custom-feedback-paths-spreadsheet`).handsontable('getData');
 }
 
 /**
@@ -385,9 +385,9 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $(`#questionTable-${NEW_QUESTION}`).find('.visibility-options-dropdown .dropdown-menu li').removeClass('hidden');
     
      // removes custom participant type option
-    $('#givertype-${NEW_QUESTION}').find(
+    $(`#givertype-${NEW_QUESTION}`).find(
             'option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
-    $('#recipienttype-${NEW_QUESTION}').find(
+    $(`#recipienttype-${NEW_QUESTION}`).find(
             'option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
 
     FeedbackPath.attachEvents();
@@ -924,7 +924,7 @@ function showNewQuestionFrame(type) {
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     
-    $('#questionTable-${NEW_QUESTION} .custom-feedback-paths-display').hide();
+    $(`#questionTable-${NEW_QUESTION} .custom-feedback-paths-display`).hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
 
     getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
