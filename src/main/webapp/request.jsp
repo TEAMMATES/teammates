@@ -1,6 +1,10 @@
+<<<<<<< Updated upstream
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+=======
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+>>>>>>> Stashed changes
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 
 <t:staticPage>
@@ -11,6 +15,7 @@
         Request for an Account
     </h1>
     
+<<<<<<< Updated upstream
 	<h5> Dear Instructor, <br>
 	We are glad that you are thinking of joining the "TEAMMATES" team.<br>
 	Please complete the form below and we will get back to you as soon as possible. 
@@ -43,12 +48,49 @@
                             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
                             
                             <button type="submit" title="Request" id="button_request" name="button_request" class="btn btn-primary btn-md">
+=======
+    <h4>Welcome to the <b>TEAMMATES</b> community! We are glad that you are thinking of joining us. <br>
+    Please complete the following form and we will get back to you as soon as possible.</h4>
+    <br>
+    
+            <form action="${data.instructorRequestAccountLink}" method="post" class="form-horizontal" role="form">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-sm-11">
+                        	<label for="instructions" class="col-sm-1 control-label">Name:</label>
+                            <textarea class="form-control" id="fullName" name="fullName" rows="1" cols="1" style="max-width:25%;" placeholder="Enter your Full Name here"></textarea>
+                            <br>
+                            <label for="instructions" class="col-sm-1 control-label">University:</label>
+                            <textarea class="form-control" id="university" name="university" rows="1" cols="1" style="max-width:25%;" placeholder="University/School/Institution"></textarea>
+                            <br>
+                            <label for="instructions" class="col-sm-1 control-label">Country:</label>
+                            <textarea class="form-control" id="country" name="country" rows="1" cols="1" style="max-width:25%;" placeholder="Country"></textarea>
+                            <br>
+                            <label for="instructions" class="col-sm-1 control-label">URL:</label>
+                            <textarea class="form-control" id="URL" name="url" rows="1" cols="1" style="max-width:25%;" placeholder="URL of your home page (if any)"></textarea>
+                            <br>
+                            <label for="instructions" class="col-sm-1 control-label">Email:</label>
+                            <textarea class="form-control" id="email" name="email" rows="1" cols="1" style="max-width:25%;" placeholder="Give your official email address"></textarea>
+                            <br>
+                            <label for="instructions" class="col-sm-1 control-label">Comments:</label>
+                            <textarea class="form-control" id="comments" name="comments" rows="3" cols="2" style="max-width:25%;" placeholder="Any other comments/queries"></textarea>
+                            
+                            <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+                            
+                            <br>
+                            <button type="submit" title="Request" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
+>>>>>>> Stashed changes
                                 Request Account
                             </button>
                         </div>
                     </div>
                 </div>
+<<<<<<< Updated upstream
 	</form>
 
    </div>
+=======
+            </form>
+    
+>>>>>>> Stashed changes
 </t:staticPage>
