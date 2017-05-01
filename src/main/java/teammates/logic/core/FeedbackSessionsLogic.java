@@ -1542,11 +1542,11 @@ public final class FeedbackSessionsLogic {
             List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
             List<FeedbackQuestionAttributes> questions =
                     fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-            
+
             for (StudentAttributes student : students) {
                 List<FeedbackQuestionAttributes> studentQns =
                         fqLogic.getFeedbackQuestionsForStudent(questions, student);
-                
+
                 if (!studentQns.isEmpty()) {
                     details.stats.expectedTotal += 1;
                 }
@@ -2209,13 +2209,13 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
         List<StudentAttributes> students = roster.getStudents();
         List<InstructorAttributes> instructors = roster.getInstructors();
-        
+
         List<String> studentNoResponses = new ArrayList<String>();
-        
+
         for (StudentAttributes student : students) {
             List<FeedbackQuestionAttributes> studentQns =
                     fqLogic.getFeedbackQuestionsForStudent(questions, student);
-            
+
             if (!studentQns.isEmpty()) {
                 studentNoResponses.add(student.email);
                 responseStatus.emailNameTable.put(student.email, student.name);
@@ -2223,7 +2223,7 @@ public final class FeedbackSessionsLogic {
                 responseStatus.emailTeamNameTable.put(student.email, student.team);
             }
         }
-        
+
         studentNoResponses.removeAll(fsa.getRespondingStudentList());
 
         List<String> instructorNoResponses = new ArrayList<String>();
@@ -2396,7 +2396,7 @@ public final class FeedbackSessionsLogic {
 
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
-    
+
     public boolean isFeedbackSessionViewableToStudent(
             FeedbackSessionAttributes session, String userEmail) {
         // Allow student to view the feedback session if there are questions for him/her
@@ -2404,11 +2404,11 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudent(
                         session.getFeedbackSessionName(), session.getCourseId(), student);
-        
+
         if (session.isVisible() && !questionsToAnswer.isEmpty()) {
             return true;
         }
-        
+
         // Allow students to view the feedback session
         // if there are any questions for instructors to answer
         // where the responses of the questions are visible to the students
@@ -2420,10 +2420,10 @@ public final class FeedbackSessionsLogic {
                 questionsWithVisibleResponses.add(question);
             }
         }
-        
+
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
-    
+
     /**
      * Returns true if there are any questions for students to answer.
      */

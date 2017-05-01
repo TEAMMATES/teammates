@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
@@ -55,8 +57,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Provides the business logic for production usage of the system.

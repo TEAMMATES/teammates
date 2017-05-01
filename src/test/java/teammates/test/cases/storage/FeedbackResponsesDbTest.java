@@ -280,9 +280,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         String courseId = fras.get("response1ForQ1S1C1").courseId;
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
-        
+
         assertEquals(9, responses.size());
-        
+
         ______TS("null params");
 
         try {
@@ -673,9 +673,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
-        
+
         assertEquals(2, responses.size());
-        
+
         ______TS("null params");
 
         try {

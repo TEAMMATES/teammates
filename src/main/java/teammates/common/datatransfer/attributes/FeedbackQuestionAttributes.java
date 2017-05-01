@@ -7,6 +7,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackPathAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -18,10 +22,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackPath;
 import teammates.storage.entity.FeedbackQuestion;
-
-import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
@@ -70,9 +70,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
-        
+
         this.feedbackPaths = getFeedbackPaths(fq.getFeedbackPaths());
-        
+
         removeIrrelevantVisibilityOptions();
     }
 
@@ -93,7 +93,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         this.createdAt = other.getCreatedAt();
         this.updatedAt = other.getUpdatedAt();
-        
+
         this.feedbackPaths = other.feedbackPaths;
 
         removeIrrelevantVisibilityOptions();
@@ -289,13 +289,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
-    
+
     public boolean isGiverATeam() {
         return giverType.isTeam()
                 || giverType == FeedbackParticipantType.CUSTOM
                 && isFeedbackPathsGiverTypeTeams();
     }
-    
+
     public boolean isRecipientATeam() {
         return recipientType.isTeam()
                 || recipientType == FeedbackParticipantType.CUSTOM
@@ -664,7 +664,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
-    
+
     private List<FeedbackPathAttributes> getFeedbackPaths(List<FeedbackPath> feedbackPathEntities) {
         List<FeedbackPathAttributes> feedbackPaths =
                 new ArrayList<FeedbackPathAttributes>();
@@ -673,9 +673,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return feedbackPaths;
     }
-    
+
     /**
-     * Returns a list of feedback path entities converted from the question's feedback paths
+     * Returns a list of feedback path entities converted from the question's feedback paths.
      */
     public List<FeedbackPath> getFeedbackPathEntities() {
         List<FeedbackPath> feedbackPathEntities = new ArrayList<FeedbackPath>();
@@ -684,12 +684,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                 feedbackPathEntities.add(feedbackPath.toEntity());
             }
         }
-        
+
         return feedbackPathEntities;
     }
-    
-    /** 
-     * Returns true if the given student is a giver in the question's feedback paths
+
+    /**
+     * Returns true if the given student is a giver in the question's feedback paths.
      */
     public boolean hasStudentAsGiverInFeedbackPaths(String studentEmail) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -699,9 +699,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if the given instructor is a giver in the question's feedback paths
+
+    /**
+     * Returns true if the given instructor is a giver in the question's feedback paths.
      */
     public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -711,9 +711,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if the given team is a giver in the question's feedback paths
+
+    /**
+     * Returns true if the given team is a giver in the question's feedback paths.
      */
     public boolean hasTeamAsGiverInFeedbackPaths(String teamName) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -723,9 +723,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if whether the class is a recipient in the question's feedback paths
+
+    /**
+     * Returns true if whether the class is a recipient in the question's feedback paths.
      */
     public boolean hasClassAsRecipientInFeedbackPaths() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -735,9 +735,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if the question's feedback paths giver type is Students
+
+    /**
+     * Returns true if the question's feedback paths giver type is Students.
      */
     public boolean isFeedbackPathsGiverTypeStudents() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -747,9 +747,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if the question's feedback paths giver type is Instructors
+
+    /**
+     * Returns true if the question's feedback paths giver type is Instructors.
      */
     public boolean isFeedbackPathsGiverTypeInstructors() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -759,9 +759,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if the question's feedback paths giver type is Teams
+
+    /**
+     * Returns true if the question's feedback paths giver type is Teams.
      */
     public boolean isFeedbackPathsGiverTypeTeams() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -771,9 +771,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns true if the question's feedback paths recipient type is Teams
+
+    /**
+     * Returns true if the question's feedback paths recipient type is Teams.
      */
     public boolean isFeedbackPathsRecipientTypeTeams() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -783,9 +783,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return false;
     }
-    
-    /** 
-     * Returns a list of the question's response givers for which the student is a response recipient
+
+    /**
+     * Returns a list of the question's response givers for which the student is a response recipient.
      */
     public List<String> getGiversFromFeedbackPathsForStudentRecipient(String studentEmail) {
         List<String> givers = new ArrayList<String>();
@@ -796,9 +796,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return givers;
     }
-    
-    /** 
-     * Returns a list of the question's response givers for which the instructor is a response recipient
+
+    /**
+     * Returns a list of the question's response givers for which the instructor is a response recipient.
      */
     public List<String> getGiversFromFeedbackPathsForInstructorRecipient(String instructorEmail) {
         List<String> givers = new ArrayList<String>();
@@ -809,9 +809,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return givers;
     }
-    
-    /** 
-     * Returns a list of the question's response givers for which the team is a response recipient
+
+    /**
+     * Returns a list of the question's response givers for which the team is a response recipient.
      */
     public List<String> getGiversFromFeedbackPathsForTeamRecipient(String teamName) {
         List<String> givers = new ArrayList<String>();
@@ -822,9 +822,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return givers;
     }
-    
-    /** 
-     * Returns a list of all the question's response givers
+
+    /**
+     * Returns a list of all the question's response givers.
      */
     public List<String> getAllGiversFromFeedbackPaths() {
         List<String> givers = new ArrayList<String>();
@@ -833,9 +833,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return givers;
     }
-    
-    /** 
-     * Returns a list of the question's response recipients for which the student is a response giver
+
+    /**
+     * Returns a list of the question's response recipients for which the student is a response giver.
      */
     public List<String> getRecipientsFromFeedbackPathsForStudentGiver(String studentEmail) {
         List<String> recipients = new ArrayList<String>();
@@ -846,9 +846,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return recipients;
     }
-    
-    /** 
-     * Returns a list of the question's response recipients for which the instructor is a response giver
+
+    /**
+     * Returns a list of the question's response recipients for which the instructor is a response giver.
      */
     public List<String> getRecipientsFromFeedbackPathsForInstructorGiver(String instructorEmail) {
         List<String> recipients = new ArrayList<String>();
@@ -859,9 +859,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return recipients;
     }
-    
-    /** 
-     * Returns a list of the question's response recipients for which the team is a response giver
+
+    /**
+     * Returns a list of the question's response recipients for which the team is a response giver.
      */
     public List<String> getRecipientsFromFeedbackPathsForTeamGiver(String teamName) {
         List<String> recipients = new ArrayList<String>();
@@ -872,9 +872,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return recipients;
     }
-    
-    /** 
-     * Returns a list of all the question's response recipients
+
+    /**
+     * Returns a list of all the question's response recipients.
      */
     public List<String> getAllRecipientsFromFeedbackPaths() {
         List<String> recipients = new ArrayList<String>();
@@ -883,9 +883,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
         return recipients;
     }
-    
-    /** 
-     * Returns a list of feedback paths converted from the spreadsheet data
+
+    /**
+     * Returns a list of feedback paths converted from the spreadsheet data.
      */
     public static List<FeedbackPathAttributes> getFeedbackPathsFromSpreadsheetData(
             String courseId, String customFeedbackPathsSpreadsheetData) {
@@ -898,7 +898,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             feedbackPaths.add(
                     new FeedbackPathAttributes(courseId, feedbackPath.get(0), feedbackPath.get(1)));
         }
-        
+
         return feedbackPaths;
     }
 }

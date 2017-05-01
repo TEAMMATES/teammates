@@ -234,11 +234,11 @@ public final class FeedbackQuestionsLogic {
         if (isInstructor) {
             questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
                             feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
-            
+
             List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
                     fqDb.getFeedbackQuestionsForGiverType(
                             feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
-            
+
             for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
                 if (question.hasInstructorAsGiverInFeedbackPaths(instructor.getEmail())) {
                     questions.add(question);
@@ -281,17 +281,17 @@ public final class FeedbackQuestionsLogic {
         // Return all self (creator) questions
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
                 courseId, FeedbackParticipantType.SELF));
-        
+
         List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
                 fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
-        
+
         for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
             if (question.hasInstructorAsGiverInFeedbackPaths(fsa.getCreatorEmail())) {
                 questions.add(question);
             }
         }
-        
+
         Collections.sort(questions);
         return questions;
     }
@@ -302,7 +302,7 @@ public final class FeedbackQuestionsLogic {
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator, String instructorEmail) {
-        
+
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
 
@@ -345,7 +345,7 @@ public final class FeedbackQuestionsLogic {
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudent(
             List<FeedbackQuestionAttributes> allQuestions, StudentAttributes student) {
-        
+
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
 
@@ -358,10 +358,10 @@ public final class FeedbackQuestionsLogic {
                 questions.add(question);
             }
         }
-        
+
         return questions;
     }
-    
+
     /**
      * Gets a {@code List} of all questions for the given session that
      * the student can view/submit.
@@ -371,25 +371,25 @@ public final class FeedbackQuestionsLogic {
 
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
-        
+
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS));
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.TEAMS));
-        
+
         List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
                 fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
-        
+
         for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
             if (question.hasStudentAsGiverInFeedbackPaths(student.getEmail())
                     || question.hasTeamAsGiverInFeedbackPaths(student.getTeam())) {
                 questions.add(question);
             }
         }
-        
+
         Collections.sort(questions);
         return questions;
     }
@@ -473,20 +473,20 @@ public final class FeedbackQuestionsLogic {
                     getStudentEmailToStudentNameMap(question.courseId);
             Map<String, String> instructorEmailToInstructorNameMap =
                     getInstructorEmailToInstructorNameMap(question.courseId);
-            
+
             for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
                 boolean isUserFeedbackPathGiver =
                         isUserFeedbackPathGiver(feedbackPath, studentGiver, instructorGiver);
-                
+
                 if (!isUserFeedbackPathGiver) {
                     continue;
                 }
-                
+
                 String feedbackPathRecipientId = feedbackPath.getRecipientId();
                 String name = getRecipientName(studentEmailToStudentNameMap,
                                                instructorEmailToInstructorNameMap,
                                                feedbackPath, feedbackPathRecipientId);
-                
+
                 recipients.put(feedbackPathRecipientId, name);
             }
             break;
@@ -800,7 +800,7 @@ public final class FeedbackQuestionsLogic {
         }
         return questionsWithRecipients;
     }
-    
+
     private Map<String, String> getStudentEmailToStudentNameMap(String courseId) {
         Map<String, String> studentEmailToStudentNameMap = new HashMap<String, String>();
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
@@ -809,7 +809,7 @@ public final class FeedbackQuestionsLogic {
         }
         return studentEmailToStudentNameMap;
     }
-    
+
     private Map<String, String> getInstructorEmailToInstructorNameMap(String courseId) {
         Map<String, String> instructorEmailToInstructorNameMap = new HashMap<String, String>();
         List<InstructorAttributes> instructorList =
@@ -819,7 +819,7 @@ public final class FeedbackQuestionsLogic {
         }
         return instructorEmailToInstructorNameMap;
     }
-    
+
     private boolean isUserFeedbackPathGiver(
             FeedbackPathAttributes feedbackPath, StudentAttributes studentGiver,
             InstructorAttributes instructorGiver) {
@@ -829,23 +829,23 @@ public final class FeedbackQuestionsLogic {
                 isStudentGiver
                 && (feedbackPath.isStudentFeedbackPathGiver(studentGiver.getEmail())
                         || feedbackPath.isTeamFeedbackPathGiver(studentGiver.getTeam()));
-        
+
         boolean isUserInstructorAndFeedbackPathGiver =
                 isInstructorGiver
                 && feedbackPath.isInstructorFeedbackPathGiver(instructorGiver.getEmail());
-        
+
         boolean isUserFeedbackPathGiver =
                 isUserStudentAndFeedbackPathGiver || isUserInstructorAndFeedbackPathGiver;
-        
+
         return isUserFeedbackPathGiver;
     }
-    
+
     private String getRecipientName(
             Map<String, String> studentEmailToStudentNameMap,
             Map<String, String> instructorEmailToInstructorNameMap,
             FeedbackPathAttributes feedbackPath,
             String feedbackPathRecipientId) {
-        
+
         if (feedbackPath.isFeedbackPathRecipientAStudent()) {
             return studentEmailToStudentNameMap.get(feedbackPathRecipientId);
         } else if (feedbackPath.isFeedbackPathRecipientAnInstructor()) {

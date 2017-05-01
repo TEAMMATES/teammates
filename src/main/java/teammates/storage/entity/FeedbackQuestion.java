@@ -11,11 +11,11 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents a feedback question.
@@ -88,7 +88,7 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
 
     @Persistent
     private List<FeedbackPath> feedbackPaths;
-    
+
     @Persistent
     private Date createdAt;
 
@@ -105,7 +105,7 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo,
             List<FeedbackPath> feedbackPaths) {
-        
+
         this.feedbackQuestionId = null; // Allow GAE to generate key.
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
@@ -257,15 +257,15 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
             List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
     }
-    
+
     public void setFeedbackPaths(List<FeedbackPath> feedbackPaths) {
         this.feedbackPaths = feedbackPaths;
     }
-    
+
     public List<FeedbackPath> getFeedbackPaths() {
         return feedbackPaths;
     }
-    
+
     /**
      * Called by jdo before storing takes place.
      */

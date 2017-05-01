@@ -74,7 +74,7 @@ public class StudentHomePageAction extends Action {
     private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId) {
         StudentAttributes student = logic.getStudentForGoogleId(fs.getCourseId(), googleId);
         Assumption.assertNotNull(student);
-        
+
         return logic.hasStudentSubmittedFeedback(fs, student);
     }
 

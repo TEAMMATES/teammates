@@ -41,7 +41,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
-    
+
     public String getCustomFeedbackPathsSpreadsheetData() {
         return customFeedbackPathsSpreadsheetData;
     }

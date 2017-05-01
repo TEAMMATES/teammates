@@ -11,6 +11,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
@@ -37,8 +39,6 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TimeHelperExtension;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.

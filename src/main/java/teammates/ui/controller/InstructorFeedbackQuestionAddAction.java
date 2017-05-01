@@ -113,12 +113,12 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         } else {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
-        
+
         if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
                 && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
             String customFeedbackPathsSpreadsheetData =
                     getRequestParamValue("custom-feedback-paths-spreadsheet-data");
-            
+
             newQuestion.feedbackPaths =
                     FeedbackQuestionAttributes.getFeedbackPathsFromSpreadsheetData(
                             newQuestion.getCourseId(), customFeedbackPathsSpreadsheetData);

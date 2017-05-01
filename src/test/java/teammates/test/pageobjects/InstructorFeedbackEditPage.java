@@ -15,13 +15,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.TimeHelperExtension;
-
-import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackEditPage extends AppPage {
 
@@ -561,7 +561,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
         click(qnEditLink);
     }
-    
+
     public void clickToggleCustomFeedbackPathsDisplayLink(int qnNumber) {
         WebElement toggleCustomFeedbackPathsDisplayLink =
                 browser.driver.findElement(
@@ -569,7 +569,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                                        + " .toggle-custom-feedback-paths-display-link"));
         toggleCustomFeedbackPathsDisplayLink.click();
     }
-    
+
     public boolean isToggleCustomFeedbackPathsDisplayLinkVisible(int qnNumber) {
         WebElement toggleCustomFeedbackPathsDisplayLink =
                 browser.driver.findElement(
@@ -577,7 +577,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                                        + " .toggle-custom-feedback-paths-display-link"));
         return toggleCustomFeedbackPathsDisplayLink.isDisplayed();
     }
-    
+
     public boolean isCustomFeedbackPathsDisplayVisible(int qnNumber) {
         WebElement customFeedbackPathsDisplay =
                 browser.driver.findElement(
@@ -585,7 +585,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                                        + " .custom-feedback-paths-display"));
         return customFeedbackPathsDisplay.isDisplayed();
     }
-    
+
     public boolean isQuestionEnabled(int qnNumber) {
         WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
         return questionTextArea.isEnabled();

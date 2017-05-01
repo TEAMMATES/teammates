@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -27,8 +29,6 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
-
-import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
@@ -285,7 +285,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
         return options;
     }
-    
+
     private void populateCustomFeedbackPathsData(
             String creatorEmail, List<StudentAttributes> students, List<InstructorAttributes> instructors) {
         setCreatorEmail(creatorEmail);
@@ -385,21 +385,21 @@ public class InstructorFeedbackEditPageData extends PageData {
     public void setHasError(boolean value) {
         this.hasError = value;
     }
-    
+
     public String getCreatorEmail() {
         return creatorEmail;
     }
-    
+
     public void setCreatorEmail(String creatorEmail) {
         this.creatorEmail = creatorEmail;
     }
-    
+
     public String getStudentsDataAsString() {
         // studentsData is converted to a JSONObject to obtain its JSON string representation
         JSONObject json = new JSONObject(studentsData);
         return SanitizationHelper.sanitizeForHtml(json.toString());
     }
-    
+
     public String getInstructorsDataAsString() {
         return SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeListForCsv(instructorsData)).toString();
     }

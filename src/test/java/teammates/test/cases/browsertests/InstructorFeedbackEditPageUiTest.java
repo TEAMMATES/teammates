@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -25,8 +27,6 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE}.
@@ -88,7 +88,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testEditQuestionLink();
         testEditQuestionAction();
-        
+
         testToggleCustomFeedbackPathDisplayLink();
 
         testCopyQuestion();
@@ -384,7 +384,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
-    
+
     private void testToggleCustomFeedbackPathDisplayLink() {
 
         ______TS("Show feedback path details");
@@ -392,7 +392,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.isToggleCustomFeedbackPathsDisplayLinkVisible(1));
         feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
         assertTrue(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
-        
+
         ______TS("Hide feedback path details");
         feedbackEditPage.clickToggleCustomFeedbackPathsDisplayLink(1);
         assertFalse(feedbackEditPage.isCustomFeedbackPathsDisplayVisible(1));
