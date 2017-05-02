@@ -3,15 +3,15 @@ package teammates.ui.automated;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.apphosting.api.ApiProxy;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.GoogleCloudStorageHelper;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.apphosting.api.ApiProxy;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: prepares admin email to be sent via task queue in group mode,

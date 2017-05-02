@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
@@ -18,8 +20,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Comment;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * A data transfer object for {@link Comment} entities.
@@ -106,50 +106,31 @@ public class CommentAttributes extends EntityAttributes implements Comparable<Co
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForEmail(giverEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForEmail(giverEmail), errors);
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
             case PERSON :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForEmail(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addNonEmptyError(validator.getInvalidityInfoForEmail(recipientId), errors);
                 }
                 break;
             case TEAM :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForTeamName(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addNonEmptyError(validator.getInvalidityInfoForTeamName(recipientId), errors);
                 }
                 break;
             case SECTION :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForSectionName(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addNonEmptyError(validator.getInvalidityInfoForSectionName(recipientId), errors);
                 }
                 break;
             case COURSE :
                 for (String recipientId : recipients) {
-                    error = validator.getInvalidityInfoForCourseId(recipientId);
-                    if (!error.isEmpty()) {
-                        errors.add(error);
-                    }
+                    addNonEmptyError(validator.getInvalidityInfoForCourseId(recipientId), errors);
                 }
                 break;
             default : // cases for NONE or null

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,8 +19,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-
-import com.google.appengine.api.blobstore.BlobKey;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AccountsDb}.
@@ -238,7 +239,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.googleId = "";
         a.email = "test-no-at-funny.com";
         a.name = "%asdf";
-        a.institute = StringHelper.generateStringOfLength(65);
+        a.institute = StringHelperExtension.generateStringOfLength(65);
         a.studentProfile.shortName = "??";
 
         try {

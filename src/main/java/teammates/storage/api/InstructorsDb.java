@@ -9,6 +9,9 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -25,9 +28,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
 import teammates.storage.search.SearchDocument;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD operations for instructors.
@@ -596,6 +596,19 @@ public class InstructorsDb extends EntitiesDb {
         InstructorAttributes instructorToGet = (InstructorAttributes) attributes;
 
         return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = Instructor.class;
+        String primaryKeyName = Instructor.PRIMARY_KEY_NAME;
+        InstructorAttributes ia = (InstructorAttributes) attributes;
+
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String courseIdParam, String emailParam");
+        q.setFilter("courseId == courseIdParam && email == emailParam");
+
+        return new QueryWithParams(q, new Object[] {ia.courseId, ia.email}, primaryKeyName);
     }
 
 }

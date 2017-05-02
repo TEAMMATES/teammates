@@ -5,16 +5,17 @@ import java.util.List;
 import java.util.Set;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.util.SanitizationHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * An association class that represents the association Giver
@@ -24,7 +25,13 @@ import com.google.appengine.api.datastore.Text;
  * receiver is restricted to Student.
  */
 @PersistenceCapable
-public class Comment {
+public class Comment extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Comment.class);
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

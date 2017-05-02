@@ -5,15 +5,16 @@ import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.SanitizationHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * An association class that represents the association
@@ -21,7 +22,14 @@ import com.google.appengine.api.datastore.Text;
  * Currently giver is restricted only to Instructors.
  */
 @PersistenceCapable
-public class FeedbackResponseComment {
+public class FeedbackResponseComment extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackResponseComment.class);
+
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long feedbackResponseCommentId;

@@ -4,7 +4,9 @@
   <property name="severity" value="error"/>
   <module name="TreeWalker">
     <module name="FileContentsHolder"/>
-    <module name="UnusedImports"/>
+    <module name="UnusedImports">
+      <property name="processJavadoc" value="false"/>
+    </module>
     <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
       <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
@@ -156,6 +158,15 @@
       <property name="scope" value="public"/>
     </module>
     <module name="CommentsIndentation"/>
+    <module name="ImportOrder">
+      <property name="option" value="top"/>
+      <property name="groups" value="java,javax,org,com,teammates"/>
+      <property name="separated" value="true"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
+    </module>
+    <module name="IllegalImport">
+      <property name="illegalPkgs" value="sun,com.google.appengine.repackaged,com.google.appengine.labs.repackaged"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

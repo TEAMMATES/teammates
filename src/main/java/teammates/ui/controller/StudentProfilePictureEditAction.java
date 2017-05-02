@@ -2,12 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
@@ -15,6 +9,12 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.OutputSettings;
 import com.google.appengine.api.images.Transform;
+
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * Action: edits the profile picture based on the coordinates of
