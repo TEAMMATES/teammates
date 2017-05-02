@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -39,24 +40,31 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
 
-        List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(feedbackQuestion.getCourseId());
-        List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(feedbackQuestion.getCourseId());
-        String feedbackPathsParticipantsError =
-                validateQuestionFeedbackPathsParticipants(
-                        feedbackQuestion, studentsInCourse, instructorsInCourse);
-        StatusMessage feedbackPathsParticipantsErrorMessage =
-                new StatusMessage(feedbackPathsParticipantsError, StatusMessageColor.DANGER);
-
         RedirectResult redirectResult =
                 createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
 
-        if (!questionDetailsErrors.isEmpty() || !feedbackPathsParticipantsError.isEmpty()) {
+        if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
-            statusToUser.add(feedbackPathsParticipantsErrorMessage);
-            statusToAdmin = feedbackPathsParticipantsError;
             isError = true;
 
             return redirectResult;
+        }
+
+        if (feedbackQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && feedbackQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+
+            String feedbackPathsParticipantsError =
+                    validateQuestionCustomFeedbackPathsParticipants(feedbackQuestion);
+
+            if (!feedbackPathsParticipantsError.isEmpty()) {
+                StatusMessage feedbackPathsParticipantsErrorMessage =
+                        new StatusMessage(feedbackPathsParticipantsError, StatusMessageColor.DANGER);
+                statusToUser.add(feedbackPathsParticipantsErrorMessage);
+                statusToAdmin = feedbackPathsParticipantsError;
+                isError = true;
+
+                return redirectResult;
+            }
         }
 
         String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
@@ -87,11 +95,10 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
 
-    private String validateQuestionFeedbackPathsParticipants(
-            FeedbackQuestionAttributes question, List<StudentAttributes> students,
-            List<InstructorAttributes> instructors) {
-        return FeedbackQuestionAttributes.validateQuestionFeedbackPathsParticipants(
-                question, students, instructors);
+    private String validateQuestionCustomFeedbackPathsParticipants(FeedbackQuestionAttributes question) {
+        List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(question.getCourseId());
+        List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(question.getCourseId());
+        return question.validateCustomFeedbackPathsParticipants(studentsInCourse, instructorsInCourse);
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
@@ -132,6 +139,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
+        newQuestion.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
         if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
                 && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
             String customFeedbackPathsSpreadsheetData =
