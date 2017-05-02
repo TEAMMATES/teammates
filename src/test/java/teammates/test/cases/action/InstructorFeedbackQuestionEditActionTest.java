@@ -1412,14 +1412,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessCustomFeedbackPathsQuestion() throws Exception {
         removeAndRestoreTypicalDataBundle();
-        
+
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
+
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                 .inst()
                 .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
-        
+
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical success case");
@@ -1454,7 +1454,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
-        
+
         assertEquals("The changes to the question has been updated.", result.getStatusMessage());
 
         String expectedLogMessage =
@@ -1468,11 +1468,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + " edited.<br><span class=\"bold\">Essay question:</span> "
                 + "Question with custom feedback paths."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        
+
         ______TS("Failure: Different giver type");
-        
+
         spreadsheetData =
                 "[[\"student1InCourse1@gmail.tmt (Student)\","
                 + "\"student1InCourse1@gmail.tmt (Student)\"],"
@@ -1504,7 +1504,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
-        
+
         assertEquals("Feedback path givers are not all of the same type.", result.getStatusMessage());
 
         expectedLogMessage =
@@ -1514,11 +1514,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : Feedback path givers are not all of the same type."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        
+
         ______TS("Failure: Different recipient type");
-        
+
         spreadsheetData =
                 "[[\"student1InCourse1@gmail.tmt (Student)\","
                 + "\"student1InCourse1@gmail.tmt (Student)\"],"
@@ -1550,7 +1550,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
-        
+
         assertEquals("Feedback path recipients are not all of the same type.", result.getStatusMessage());
 
         expectedLogMessage =
@@ -1560,11 +1560,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : Feedback path recipients are not all of the same type."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        
+
         ______TS("Failure: Duplicate feedback paths");
-        
+
         spreadsheetData =
                 "[[\"student1InCourse1@gmail.tmt (Student)\","
                 + "\"student1InCourse1@gmail.tmt (Student)\"],"
@@ -1596,7 +1596,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
-        
+
         assertEquals("Duplicate feedback paths exist.", result.getStatusMessage());
 
         expectedLogMessage =
@@ -1606,11 +1606,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : Duplicate feedback paths exist."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        
+
         ______TS("Failure: Non-existent participant");
-        
+
         spreadsheetData =
                 "[[\"nonexistentstudent@gmail.tmt (Student)\", \"student1InCourse1@gmail.tmt (Student)\"]]";
 
@@ -1639,7 +1639,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
-        
+
         assertEquals("Unable to save question as the following feedback path participants do not exist: "
                      + "nonexistentstudent@gmail.tmt (Student).",
                      result.getStatusMessage());
@@ -1652,11 +1652,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "Unable to save question as the following feedback path participants do not exist: "
                 + "nonexistentstudent@gmail.tmt (Student)."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        
+
         ______TS("Failure: Non-student participant type for contrib question");
-        
+
         spreadsheetData =
                 "[[\"Team 1.2 (Team)\", \"student1InCourse1@gmail.tmt (Student)\"]]";
 
@@ -1685,7 +1685,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
-        
+
         assertEquals("Both the giver and recipient must be a student.", result.getStatusMessage());
 
         expectedLogMessage =
@@ -1695,11 +1695,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Both the giver and recipient must be a student."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        
+
         ______TS("Failure: Not all team members are givers and recipients for contrib question");
-        
+
         spreadsheetData =
                 "[[\"student1InCourse1@gmail.tmt (Student)\", \"student1InCourse1@gmail.tmt (Student)\"]]";
 
@@ -1728,7 +1728,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
                      + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
-        
+
         assertEquals("All the students in a team must be a giver. "
                      + "The student must give feedback to all his/her team members including himself/herself.",
                      result.getStatusMessage());
@@ -1741,7 +1741,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "All the students in a team must be a giver. The student must give feedback to "
                 + "all his/her team members including himself/herself."
                 + "|||/page/instructorFeedbackQuestionEdit";
-        
+
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 

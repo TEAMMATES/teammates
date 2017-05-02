@@ -150,7 +150,7 @@ public class FieldValidator {
             "Feedback path %s are not all of the same type.";
     public static final String DUPLICATE_FEEDBACK_PATHS_ERROR_MESSAGE =
             "Duplicate feedback paths exist.";
-    
+
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -638,55 +638,55 @@ public class FieldValidator {
                     recipientType.toDisplayRecipientName(),
                     giverType.toDisplayGiverName()));
         }
-        
+
         if (giverType == FeedbackParticipantType.CUSTOM && recipientType != FeedbackParticipantType.CUSTOM
                 || recipientType == FeedbackParticipantType.CUSTOM && giverType != FeedbackParticipantType.CUSTOM) {
             errors.add(PARTICIPANT_TYPE_CUSTOM_ERROR_MESSAGE);
         }
-        
+
         return errors;
     }
-    
+
     public List<String> getInvalidityInfoForFeedbackPaths(List<FeedbackPathAttributes> feedbackPaths) {
-        
+
         Assumption.assertNotNull("Non-null value expected", feedbackPaths);
-        
+
         Set<String> errors = new TreeSet<String>();
         Map<String, Set<String>> giverToRecipientsMap = new HashMap<String, Set<String>>();
-        
+
         if (!feedbackPaths.isEmpty()) {
             FeedbackPathAttributes prevFeedbackPath = feedbackPaths.get(0);
             giverToRecipientsMap.put(prevFeedbackPath.getGiver(),
                                      new HashSet<String>(Arrays.asList(prevFeedbackPath.getRecipient())));
-            
+
             for (int i = 1; i < feedbackPaths.size(); i++) {
                 FeedbackPathAttributes currFeedbackPath = feedbackPaths.get(i);
                 if (!prevFeedbackPath.getFeedbackPathGiverType().equals(
                         currFeedbackPath.getFeedbackPathGiverType())) {
                     errors.add(String.format(FEEDBACK_PATHS_PARTICIPANT_TYPE_ERROR_MESSAGE, "givers"));
                 }
-                
+
                 if (!prevFeedbackPath.getFeedbackPathRecipientType().equals(
                         currFeedbackPath.getFeedbackPathRecipientType())) {
                     errors.add(String.format(FEEDBACK_PATHS_PARTICIPANT_TYPE_ERROR_MESSAGE, "recipients"));
                 }
-                
+
                 Set<String> recipientsForGiver = giverToRecipientsMap.get(currFeedbackPath.getGiver());
-                
+
                 if (recipientsForGiver == null) {
                     recipientsForGiver = new HashSet<String>();
                 } else if (recipientsForGiver.contains(currFeedbackPath.getRecipient())) {
                     errors.add(DUPLICATE_FEEDBACK_PATHS_ERROR_MESSAGE);
                 }
-                
+
                 recipientsForGiver.add(currFeedbackPath.getRecipient());
                 giverToRecipientsMap.put(currFeedbackPath.getGiver(), recipientsForGiver);
             }
         }
-        
+
         return new ArrayList<String>(errors);
     }
-    
+
     public List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,

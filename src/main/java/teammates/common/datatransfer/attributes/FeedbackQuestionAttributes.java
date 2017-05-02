@@ -775,7 +775,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return false;
     }
 
-    /** 
+    /**
      * Returns true if the question's feedback paths recipient type is Students.
      */
     public boolean isFeedbackPathsRecipientTypeStudents() {

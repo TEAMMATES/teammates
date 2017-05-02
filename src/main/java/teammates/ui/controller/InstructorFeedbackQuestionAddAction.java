@@ -38,7 +38,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
-        
+
         List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(feedbackQuestion.getCourseId());
         List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(feedbackQuestion.getCourseId());
         String feedbackPathsParticipantsError =
@@ -86,7 +86,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
-    
+
     private String validateQuestionFeedbackPathsParticipants(
             FeedbackQuestionAttributes question, List<StudentAttributes> students,
             List<InstructorAttributes> instructors) {
