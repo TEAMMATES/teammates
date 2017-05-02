@@ -1,9 +1,13 @@
 package teammates.common.util;
 
+import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 public final class HttpRequestHelper {
 
