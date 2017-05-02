@@ -3,6 +3,8 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.test.driver.TestProperties;
+
 /**
  * The page object for QUnit test result page.
  */
@@ -24,8 +26,12 @@ public class QUnitPage extends AppPage {
     @Override
     public void waitForPageToLoad() {
         // This is not a web page and thus document.readyState is not relevant here.
-        // Instead, wait for the number of total cases to appear.
-        waitForElementVisibility(totalCase);
+        // Instead, wait for the coverage percentage to appear.
+        if (TestProperties.isDevServer()) {
+            waitForElementVisibility(coverage);
+        } else {
+            waitForElementVisibility(totalCase);
+        }
     }
 
     /**

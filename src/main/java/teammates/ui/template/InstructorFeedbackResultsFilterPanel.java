@@ -3,8 +3,8 @@ package teammates.ui.template;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Sanitizer;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.util.SanitizationHelper;
 
 public class InstructorFeedbackResultsFilterPanel {
     private boolean isStatsShown;
@@ -17,15 +17,15 @@ public class InstructorFeedbackResultsFilterPanel {
     private String sortType;
     private String resultsLink;
     private List<String> sections;
-    
+
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
                                     String selectedSection, boolean isGroupedByTeam, String sortType,
                                     String resultsLink, List<String> sections,
                                     boolean isMissingResponsesShown) {
         this.isStatsShown = isStatsShown;
-        this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
+        this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
+        this.feedbackSessionName = SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName());
         this.isAllSectionsSelected = isAllSectionsSelected;
         this.selectedSection = selectedSection;
         this.isGroupedByTeam = isGroupedByTeam;
@@ -34,7 +34,7 @@ public class InstructorFeedbackResultsFilterPanel {
         this.isMissingResponsesShown = isMissingResponsesShown;
         List<String> sanitizedSections = new ArrayList<>();
         for (String s : sections) {
-            sanitizedSections.add(Sanitizer.sanitizeForHtml(s));
+            sanitizedSections.add(SanitizationHelper.sanitizeForHtml(s));
         }
         this.sections = sanitizedSections;
     }
@@ -46,7 +46,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public boolean isMissingResponsesShown() {
         return isMissingResponsesShown;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
@@ -58,7 +58,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public boolean isAllSectionsSelected() {
         return isAllSectionsSelected;
     }
-    
+
     public boolean isNoneSectionSelected() {
         return "None".equals(selectedSection);
     }
@@ -66,7 +66,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public String getSelectedSection() {
         return selectedSection;
     }
-    
+
     public boolean isGroupedByTeam() {
         return isGroupedByTeam;
     }
@@ -74,7 +74,7 @@ public class InstructorFeedbackResultsFilterPanel {
     public String getSortType() {
         return sortType;
     }
-    
+
     public String getResultsLink() {
         return resultsLink;
     }
@@ -82,5 +82,5 @@ public class InstructorFeedbackResultsFilterPanel {
     public List<String> getSections() {
         return sections;
     }
-    
+
 }

@@ -12,8 +12,8 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -24,14 +24,14 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     // TODO: This class contains lot of code copy-pasted from the Logic and
     // Storage layer. This duplication can be removed if we figure out
     // to reuse the Logic API from here.
-    
+
     private int duplicateEmailCount;
 
     public static void main(String[] args) throws IOException {
         RepairStudentsWithDuplicateEmail repairman = new RepairStudentsWithDuplicateEmail();
         repairman.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
         List<CourseAttributes> allCourses = getAllCourses();
@@ -51,18 +51,18 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         for (StudentAttributes student : studentList) {
             String duplicateEmailOwner =
                     emailNameMap.put(student.email, student.name);
-            
+
             if (duplicateEmailOwner != null) {
                 duplicateEmailRecord.add("<" + student.email + "> owner: " + duplicateEmailOwner);
                 duplicateEmailRecord.add("<" + student.email + "> owner: " + student.name);
             }
         }
-        
+
         for (String entry : duplicateEmailRecord) {
             print(entry);
             //TODO: delete duplicate records if possible
         }
-        
+
         duplicateEmailCount += duplicateEmailRecord.size();
         print("[" + duplicateEmailRecord.size() + ": " + course.getId() + "]");
     }
@@ -70,19 +70,19 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     private void print(String string) {
         System.out.println(string);
     }
-    
+
     private List<CourseAttributes> getAllCourses() {
-        
+
         Query q = PM.newQuery(Course.class);
-        
+
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) q.execute();
-    
+
         List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
         for (Course c : courseList) {
             courseDataList.add(new CourseAttributes(c));
         }
-    
+
         return courseDataList;
     }
 

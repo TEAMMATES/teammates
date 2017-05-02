@@ -6,8 +6,8 @@
 <link href="/favicon.png" rel="shortcut icon">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="${lib.path}/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="${lib.path}/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -25,8 +25,8 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.jsp">
-        TEAMMATES
+      <a class="navbar-brand" href="/">
+        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
       </a>
     </div>
     <div class="collapse navbar-collapse" id="contentLinks">
@@ -62,7 +62,7 @@
           </a>
         </li>
         <li>
-          <a class="nav help" href="/instructorHelp.jsp" target="_blank">
+          <a class="nav help" href="/instructorHelp.jsp" rel="noopener noreferrer" target="_blank">
             Help
           </a>
         </li>
@@ -88,22 +88,22 @@
     Enrollment Results for CCEnrollUiT.CS2104
   </h1>
   <br>
-  <div class="alert alert-success">
-    <form action="/page/instructorCourseEnrollPage?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" method="post" name="goBack" role="form">
-      Enrollment Successful. Summary given below. Click
-      <a href="javascript:document.forms['goBack'].submit()" id="edit_enroll">
-        here
-      </a>
-      to do further changes to the student list.
-      <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104">
-      <input name="enrollstudents" type="hidden" value="Section | Team | Name | Email | Comments
+  <form action="/page/instructorCourseEnrollPage?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" method="post" name="goBack" role="form">
+    <div class = "alert alert-success">
+          Enrollment Successful. Summary given below. Click
+          <a href="javascript:document.forms['goBack'].submit()" id="edit_enroll">
+            here
+          </a>
+          to do further changes to the student list.
+          <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104">
+          <input name="enrollstudents" type="hidden" value="Section | Team | Name | Email | Comments
 Section 1| Team 4 | Alice Betsy</textarea><textarea>'&quot; | alice.b.tmms@gmail.tmt | This comment has been changed
 Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.tmt |
 Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.tmt |
 Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters
 ">
-    </form>
-  </div>
+    </div>
+  </form>
   <div class="panel panel-primary">
     <div class="panel-heading">
       2 student(s) added:
@@ -313,7 +313,7 @@ Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name 
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="/contact.jsp" target="_blank">
+          <a class="link" href="/contact.jsp" rel="noopener noreferrer" target="_blank">
             Feedback
           </a>
           ]
@@ -326,17 +326,21 @@ Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name 
 </script>
 <script src="/js/googleAnalytics.js" type="text/javascript">
 </script>
-<script src="${lib.path}/jquery.min.js" type="text/javascript">
+<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
 </script>
-<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
+<script src="https://unpkg.com/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
 </script>
-<script src="${lib.path}/bootstrap.min.js" type="text/javascript">
+<script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
 </script>
-<script src="${lib.path}/bootbox.min.js" type="text/javascript">
+<script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/const.js" type="text/javascript">
 </script>
 <script src="/js/common.js" type="text/javascript">
 </script>
 <script src="/js/instructor.js" type="text/javascript">
+</script>
+<script src="/js/instructorCourseEnrollResult.js" type="text/javascript">
 </script>
 </body>
 </html>

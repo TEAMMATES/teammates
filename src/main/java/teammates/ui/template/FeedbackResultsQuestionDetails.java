@@ -6,7 +6,7 @@ public class FeedbackResultsQuestionDetails {
     private String additionalInfo;
     private String questionResultStatistics;
     private boolean isIndividualResponsesShownToStudents;
-    
+
     public FeedbackResultsQuestionDetails(String questionIndex, String questionText, String additionalInfo,
                                           String questionResultStatistics,
                                           boolean isIndividualResponsesShownToStudents) {
@@ -28,11 +28,11 @@ public class FeedbackResultsQuestionDetails {
     public String getAdditionalInfo() {
         return additionalInfo;
     }
-   
+
     public String getQuestionResultStatistics() {
         return questionResultStatistics;
     }
-    
+
     public boolean isIndividualResponsesShownToStudents() {
         return isIndividualResponsesShownToStudents;
     }

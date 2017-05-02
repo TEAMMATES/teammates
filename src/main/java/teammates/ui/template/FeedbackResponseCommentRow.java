@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
@@ -32,12 +32,12 @@ public class FeedbackResponseCommentRow {
     private boolean withNotificationIcon;
     private boolean withLinkToCommentsPage;
     private String linkToCommentsPage;
-    
+
     private boolean editDeleteEnabled;
     private boolean editDeleteEnabledOnlyOnHover;
     private boolean instructorAllowedToDelete;
     private boolean instructorAllowedToEdit;
-    
+
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
@@ -50,41 +50,41 @@ public class FeedbackResponseCommentRow {
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
                                       String giverName, String recipientName, String showCommentToString,
                                       String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this(frc, giverDisplay);
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisiblities);
+                                showCommentToString, showGiverNameToString, responseVisibilities);
     }
-    
+
     // for adding comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
                                       String giverName, String recipientName, String showCommentToString,
                                       String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisiblities);
+                                showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
     }
-    
+
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
             String giverName, String recipientName,
             String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
-        
+
         this.showCommentTo = frc.showCommentTo;
         this.showGiverNameTo = frc.showGiverNameTo;
-        
-        this.responseVisibilities = responseVisiblities;
-        
+
+        this.responseVisibilities = responseVisibilities;
+
         // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
-        
+
     }
 
     public String getExtraClass() {
@@ -122,7 +122,7 @@ public class FeedbackResponseCommentRow {
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getQuestionId() {
         return questionId;
     }
@@ -170,7 +170,7 @@ public class FeedbackResponseCommentRow {
     public boolean isEditDeleteEnabledOnlyOnHover() {
         return editDeleteEnabledOnlyOnHover;
     }
-    
+
     public boolean isInstructorAllowedToDelete() {
         return instructorAllowedToDelete;
     }
@@ -178,15 +178,15 @@ public class FeedbackResponseCommentRow {
     public boolean isInstructorAllowedToEdit() {
         return instructorAllowedToEdit;
     }
-    
+
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
         return responseVisibilities.containsKey(type) && responseVisibilities.get(type);
     }
-    
+
     private boolean isShowCommentTo(FeedbackParticipantType type) {
         return showCommentTo.contains(type);
     }
-    
+
     private boolean isShowGiverNameTo(FeedbackParticipantType type) {
         return showGiverNameTo.contains(type);
     }
@@ -262,30 +262,30 @@ public class FeedbackResponseCommentRow {
     public void setExtraClass(String extraClass) {
         this.extraClass = extraClass;
     }
-    
+
     private void enableEditDelete() {
         this.editDeleteEnabled = true;
     }
-    
+
     public void enableEdit() {
         enableEditDelete();
         this.instructorAllowedToEdit = true;
     }
-    
+
     public void enableDelete() {
         enableEditDelete();
         this.instructorAllowedToDelete = true;
     }
-    
+
     public void enableEditDeleteOnHover() {
         this.editDeleteEnabledOnlyOnHover = true;
     }
-    
+
     public void enableVisibilityIcon(String whoCanSeeComment) {
         this.withVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
-    
+
     public void enableNotificationIcon() {
         this.withNotificationIcon = true;
     }

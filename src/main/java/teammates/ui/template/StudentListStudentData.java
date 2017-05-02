@@ -1,7 +1,7 @@
 package teammates.ui.template;
 
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 
 public class StudentListStudentData {
@@ -23,8 +23,8 @@ public class StudentListStudentData {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.studentStatus = studentStatus;
-        this.studentNameForJs = Sanitizer.sanitizeForJs(studentName);
-        this.courseIdForJs = Sanitizer.sanitizeForJs(course);
+        this.studentNameForJs = SanitizationHelper.sanitizeForJs(studentName);
+        this.courseIdForJs = SanitizationHelper.sanitizeForJs(course);
         this.photoUrl = photoUrl;
         this.courseStudentDetailsLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,

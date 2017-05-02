@@ -17,8 +17,17 @@ addons:
   firefox: "46.0"
 
 before_install:
+  - |
+      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(.md)|(.txt)|(.png)|(.jpg)|(.gif)|^(LICENSE)|^(docs)'
+      status_codes=( ${PIPESTATUS[*]} ); git_diff_status=${status_codes[0]}; grep_status=${status_codes[1]}
+      if [[ $git_diff_status == 0 && $grep_status == 1 && $TRAVIS_PULL_REQUEST != "false" ]]
+      then
+        echo "Only doc files were updated in PR, not running the CI."
+        exit
+      fi
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
+  - nvm install node
 
 before_script:
   - export DISPLAY=:99.0
@@ -26,19 +35,23 @@ before_script:
   - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
   - export PATH="./node_modules/.bin":$PATH
   - ./gradlew createConfigs testClasses
-  - ./gradlew downloadStaticAnalysisTools --continue
-  - ./gradlew staticAnalysis --continue
+  - ./gradlew downloadStaticAnalysisTools
+  - ./gradlew lint --continue
+  - npm install
+  - npm run lint
 
 install: true
 script:
-  - ./gradlew appengineRun travisTests
+  - npm run build
+  - ./gradlew appengineRun ciTests
 
 after_failure:
   - gem install gist
   - ./gradlew generateFailedCmd
 
 after_success:
-  - ./gradlew jacocoTestReport
+  - ./gradlew jacocoReport
+  - bash <(curl -s https://codecov.io/bash)
 
 after_script:
   - ./gradlew appengineStop

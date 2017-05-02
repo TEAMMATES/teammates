@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -20,35 +20,35 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Handles  operations related to student roles.
+ * Handles operations related to students.
+ *
+ * @see StudentAttributes
+ * @see StudentsDb
  */
-public class StudentsLogic {
-    //The API of this class doesn't have header comments because it sits behind
-    //  the API of the logic class. Those who use this class is expected to be
-    //  familiar with the its code and Logic's code. Hence, no need for header
-    //  comments.
-    
-    private static final int SECTION_SIZE_LIMIT = 100;
-    private static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
+public final class StudentsLogic {
 
-    private static StudentsLogic instance;
-    private StudentsDb studentsDb = new StudentsDb();
-    
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
-    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
-    
+    private static final int SECTION_SIZE_LIMIT = 100;
+
+    private static StudentsLogic instance = new StudentsLogic();
+
+    private static final StudentsDb studentsDb = new StudentsDb();
+
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+
+    private StudentsLogic() {
+        // prevent initialization
+    }
+
     public static StudentsLogic inst() {
-        if (instance == null) {
-            instance = new StudentsLogic();
-        }
         return instance;
     }
 
@@ -63,18 +63,21 @@ public class StudentsLogic {
             EntityAlreadyExistsException, EntityDoesNotExistException {
         createStudentCascade(studentData, false);
     }
-    
+
     public void createStudentCascade(StudentAttributes studentData, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         studentsDb.createStudent(studentData, hasDocument);
-        
+
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
                     "Course does not exist [" + studentData.course + "]");
         }
-        
+
     }
 
+    /**
+     * Gets all students in the database.
+     */
     @SuppressWarnings("deprecation")
     public List<StudentAttributes> getAllStudents() {
         return studentsDb.getAllStudents();
@@ -99,7 +102,7 @@ public class StudentsLogic {
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         return studentsDb.getStudentsForCourse(courseId);
     }
-    
+
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }
@@ -111,42 +114,39 @@ public class StudentsLogic {
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
-    
+
     public void deleteDocument(StudentAttributes student) {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
-                                                    String cursorString) {
-        return studentsDb.search(queryString, instructors, cursorString);
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+        return studentsDb.search(queryString, instructors);
     }
 
     /**
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
-     * @param queryString
-     * @param cursorString
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString) {
-        return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+        return studentsDb.searchStudentsInWholeSystem(queryString);
     }
-    
+
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
-        
+
         return profilesLogic.getStudentProfile(googleId);
     }
-    
+
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
+
         StudentAttributes studentData = getStudentForEmail(courseId, email);
-        
+
         if (studentData == null) {
             throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
         }
-    
+
         return StringHelper.encrypt(studentData.key);
     }
 
@@ -157,14 +157,14 @@ public class StudentsLogic {
     public boolean isStudentInCourse(String courseId, String studentEmail) {
         return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
     }
-    
+
     public boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
-        
+
         StudentAttributes student = getStudentForEmail(courseId, studentEmail);
         if (student == null) {
             return false;
         }
-        
+
         List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);
         for (StudentAttributes teammate : teammates) {
             if (teammate.email.equals(student.email)) {
@@ -173,7 +173,7 @@ public class StudentsLogic {
         }
         return false;
     }
-    
+
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
         StudentAttributes student1 = getStudentForEmail(courseId, student1Email);
         if (student1 == null) {
@@ -181,7 +181,7 @@ public class StudentsLogic {
         }
         return isStudentInTeam(courseId, student1.team, student2Email);
     }
-    
+
     public void updateStudentCascade(String originalEmail,
             StudentAttributes student) throws InvalidParametersException,
             EntityDoesNotExistException {
@@ -198,7 +198,7 @@ public class StudentsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
         updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student, hasDocument);
-        
+
         /* finalEmail is the string to be used to represent a student's email.
          * This is because:
          *  - originalEmail cannot be used when student's email is being updated with a new valid email
@@ -212,12 +212,12 @@ public class StudentsLogic {
                                 || !validator.getInvalidityInfoForEmail(student.email).isEmpty()
                             ? originalEmail
                             : student.email;
-        
+
         // cascade email changes to comments
         if (!originalStudent.email.equals(finalEmail)) {
             commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
         }
-        
+
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
@@ -227,10 +227,10 @@ public class StudentsLogic {
             frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section,
                                                               student.section);
         }
-        
+
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
     }
-    
+
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail,
             StudentAttributes student, boolean hasDocument)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -238,40 +238,40 @@ public class StudentsLogic {
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithReferenceToExistingStudentRecord method called,
         // the student should be valid
-    
+
         // here is like a db access that can be avoided if we really want to optimize the code
         studentsDb.verifyStudentExists(student.course, originalEmail);
-        
+
         StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-        
+
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
-        
+
         if (!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
-        
+
         studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
                                  student.email, student.googleId, student.comments, hasDocument, false);
-        
+
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
             fsLogic.updateRespondentsForStudent(originalEmail, student.email, student.course);
         }
     }
-    
+
     public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, InvalidParametersException {
         // Edit student uses KeepOriginal policy, where unchanged fields are set
         // as null. Hence, we can't do isValid() for student here.
         // After updateWithExistingRecordWithGoogleIdReset method called,
         // the student should be valid
-    
+
         studentsDb.verifyStudentExists(courseId, originalEmail);
         StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
         originalStudent.googleId = null;
-        
+
         if (!originalStudent.isValid()) {
             throw new InvalidParametersException(originalStudent.getInvalidityInfo());
         }
@@ -292,39 +292,19 @@ public class StudentsLogic {
 
     private CourseEnrollmentResult enrollStudents(String enrollLines, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-        
+
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException("Course does not exist :"
                     + courseId);
         }
-        
+
         if (enrollLines.isEmpty()) {
             throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
         }
-        
-        List<String> invalidityInfo = getInvalidityInfoInEnrollLines(enrollLines, courseId);
-        if (!invalidityInfo.isEmpty()) {
-            throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
-        }
-        
+
+        List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
         ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
-        ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        
-        String[] linesArray = enrollLines.split(Const.EOL);
-
-        StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
-        
-        for (int i = 1; i < linesArray.length; i++) {
-            String line = linesArray[i];
-            
-            if (StringHelper.isWhiteSpace(line)) {
-                continue;
-            }
-            
-            StudentAttributes student = saf.makeStudent(line, courseId);
-            studentList.add(student);
-        }
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -333,14 +313,14 @@ public class StudentsLogic {
         // enroll all students
         for (StudentAttributes student : studentList) {
             StudentEnrollDetails enrollmentDetails;
-            
+
             enrollmentDetails = enrollStudent(student, hasDocument);
             student.updateStatus = enrollmentDetails.updateStatus;
-            
+
             enrollmentList.add(enrollmentDetails);
             returnList.add(student);
         }
-        
+
         // add to return list students not included in the enroll list.
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
@@ -354,16 +334,13 @@ public class StudentsLogic {
     }
 
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
-        if (students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
+        if (students.size() > Const.SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
         }
     }
 
     /**
      * Validates sections for any limit violations and teams for any team name violations.
-     * @param studentList
-     * @param courseId
-     * @throws EnrollException
      */
     public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -380,12 +357,9 @@ public class StudentsLogic {
         }
 
     }
-    
+
     /**
-     * Validates teams for any team name violations
-     * @param studentList
-     * @param courseId
-     * @throws EnrollException
+     * Validates teams for any team name violations.
      */
     public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
@@ -394,7 +368,7 @@ public class StudentsLogic {
         if (mergedList.size() < 2) { // no conflicts
             return;
         }
-        
+
         String errorMessage = getTeamInvalidityInfo(mergedList);
 
         if (errorMessage.length() > 0) {
@@ -402,7 +376,7 @@ public class StudentsLogic {
         }
 
     }
-    
+
     private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
         List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
@@ -419,7 +393,7 @@ public class StudentsLogic {
         }
         return mergedList;
     }
-    
+
     public String getSectionForTeam(String courseId, String teamName) {
 
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
@@ -430,7 +404,7 @@ public class StudentsLogic {
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
-        
+
         StudentAttributes.sortBySectionName(mergedList);
 
         List<String> invalidSectionList = new ArrayList<String>();
@@ -478,7 +452,7 @@ public class StudentsLogic {
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
             errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
-                                              Sanitizer.sanitizeForHtml(team)));
+                                              SanitizationHelper.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
@@ -519,10 +493,10 @@ public class StudentsLogic {
         }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
-    
+
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        
+
         // Cascade delete students
         for (StudentAttributes student : students) {
             deleteStudentCascade(student.course, student.email);
@@ -536,7 +510,7 @@ public class StudentsLogic {
     public void deleteStudentsForCourseWithoutDocument(String courseId) {
         studentsDb.deleteStudentsForCourseWithoutDocument(courseId);
     }
-    
+
     public void adjustFeedbackResponseForEnrollments(
             List<StudentEnrollDetails> enrollmentList,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
@@ -549,22 +523,29 @@ public class StudentsLogic {
             if (isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
                 isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
             }
-        
+
             if (!isResponseDeleted && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
     }
-    
+
     public void putDocument(StudentAttributes student) {
         studentsDb.putDocument(student);
     }
-    
+
+    /**
+     * Batch creates or updates documents for the given students.
+     */
+    public void putDocuments(List<StudentAttributes> students) {
+        studentsDb.putDocuments(students);
+    }
+
     private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         StudentAttributes originalStudentAttributes = getStudentForEmail(
                 validStudentAttributes.course, validStudentAttributes.email);
-        
+
         StudentEnrollDetails enrollmentDetails = new StudentEnrollDetails();
         enrollmentDetails.course = validStudentAttributes.course;
         enrollmentDetails.email = validStudentAttributes.email;
@@ -578,7 +559,7 @@ public class StudentsLogic {
             updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
                                                                   validStudentAttributes, true);
             enrollmentDetails.updateStatus = StudentUpdateStatus.MODIFIED;
-            
+
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
                 enrollmentDetails.oldTeam = originalStudentAttributes.team;
             }
@@ -592,32 +573,38 @@ public class StudentsLogic {
 
         return enrollmentDetails;
     }
-    
-    /* All empty lines or lines with only white spaces will be skipped.
-     * The invalidity info returned are in HTML format.
+
+    /**
+     * Builds {@code studentList} from user input {@code lines}. All empty lines or lines with only white spaces will
+     * be skipped.
+     *
+     * @param lines the enrollment lines entered by the instructor.
+     * @throws EnrollException if some of the student instances created are invalid. The exception message contains
+     *         invalidity info for all invalid student instances in HTML format.
      */
-    private List<String> getInvalidityInfoInEnrollLines(String lines, String courseId) throws EnrollException {
+    public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<String>();
         String[] linesArray = lines.split(Const.EOL);
         ArrayList<String> studentEmailList = new ArrayList<String>();
-    
+        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
-        
+
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
-            String sanitizedLine = Sanitizer.sanitizeForHtml(line);
+            String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
             try {
                 if (StringHelper.isWhiteSpace(line)) {
                     continue;
                 }
                 StudentAttributes student = saf.makeStudent(line, courseId);
-                
+
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(Sanitizer.sanitizeForHtml(student.getInvalidityInfo()),
+                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
-                
+
                 if (isStudentEmailDuplicated(student.email, studentEmailList)) {
                     String info =
                             StringHelper.toString(
@@ -625,29 +612,34 @@ public class StudentsLogic {
                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
-                
+
                 studentEmailList.add(student.email);
+                studentList.add(student);
             } catch (EnrollException e) {
                 String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
                 invalidityInfo.add(info);
             }
         }
-        
-        return invalidityInfo;
+
+        if (!invalidityInfo.isEmpty()) {
+            throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
+        }
+
+        return studentList;
     }
-    
+
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
             ArrayList<String> studentEmailList, String[] linesArray) {
         List<String> info = new ArrayList<String>();
         info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1] + "\"");
         return info;
     }
-    
+
     private boolean isStudentEmailDuplicated(String email,
             ArrayList<String> studentEmailList) {
         return studentEmailList.contains(email);
     }
-    
+
     private boolean isInEnrollList(StudentAttributes student,
             List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
@@ -657,7 +649,7 @@ public class StudentsLogic {
         }
         return false;
     }
-    
+
     private boolean isTeamChanged(String originalTeam, String newTeam) {
         return newTeam != null && originalTeam != null
                 && !originalTeam.equals(newTeam);
@@ -678,5 +670,5 @@ public class StudentsLogic {
         }
         return null;
     }
-    
+
 }

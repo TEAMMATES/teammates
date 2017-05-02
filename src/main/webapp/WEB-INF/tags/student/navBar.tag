@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <c:set var="isUnregistered" value="${data.unregisteredStudent}" />
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -12,7 +13,7 @@
                  <span class="icon-bar"></span>
                  <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/index.jsp">TEAMMATES</a>
+            <t:teammatesLogo/>
         </div>
         <div class="collapse navbar-collapse" id="contentLinks">
             <ul class="nav navbar-nav">
@@ -35,7 +36,7 @@
                     </a>
                 </li>
                 <li<c:if test="${fn:contains(data.class,'StudentHelp')}"> class="active"</c:if>>
-                    <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank">Help</a>
+                    <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank" rel="noopener noreferrer">Help</a>
                 </li>
             </ul>
             <c:if test="${not empty data.account && not empty data.account.googleId}">

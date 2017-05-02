@@ -8,7 +8,7 @@ apply plugin: "jacoco"
 
 def appengineVersion = "1.9.27"
 def checkstyleVersion = "6.19"
-def pmdVersion = "5.5.2"
+def pmdVersion = "5.5.4"
 def findbugsVersion = "3.0.1"
 
 buildscript {
@@ -54,9 +54,9 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.3",
                     "com.sun.jersey:jersey-core:1.19.3",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.3",
-                    "joda-time:joda-time:2.9.6",
+                    "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.10.1"
+                    "org.jsoup:jsoup:1.10.2"
 
     exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
@@ -74,7 +74,7 @@ dependencies {
     runtime         configurations.exclude
 
     enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "joda-time:joda-time:2.9.6",
+                    "joda-time:joda-time:2.9.7",
                     "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "org.datanucleus:datanucleus-core:1.1.5",
                     "org.datanucleus:datanucleus-jpa:1.1.5",
@@ -86,7 +86,8 @@ dependencies {
                     "httpunit:httpunit:1.7",
                     "javax.mail:mail:1.4.7",
                     "org.seleniumhq.selenium:selenium-java:2.53.1",
-                    "org.testng:testng:6.9.4"
+                    "org.testng:testng:6.9.4",
+                    "org.kohsuke:wordnet-random-name:1.3"
 
     testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
 
@@ -132,7 +133,7 @@ eclipse {
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
     classpath {
-        containers "com.google.appengine.eclipse.core.GAE_CONTAINER"
+        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.27"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
         minusConfigurations = [configurations.exclude, configurations.testExclude]
@@ -166,7 +167,9 @@ eclipseClasspath {
     }
 }
 
-task createConfigs << {
+task createConfigs {
+    description "Sets up the project by obtaining necessary files and configurations points."
+    group "Setup"
     def templatesToCopy = [
         "gradle.template.properties",
         "src/main/resources/build.template.properties",
@@ -184,28 +187,50 @@ task createConfigs << {
     }
 }
 
-task createLaunches << {
+task createEclipseLaunches << {
     def templatesToCopy = [
-        ".launches/All tests.launch.xml",
-        ".launches/All tests (GodMode).launch.xml",
-        ".launches/Failed tests.launch.xml",
-        ".launches/Failed tests (GodMode).launch.xml",
-        ".launches/Local tests.launch.xml",
-        ".launches/Travis tests.launch.xml",
-        ".launches/Staging tests.launch.xml"
+        ".templates/eclipseLaunches/All tests.launch.xml",
+        ".templates/eclipseLaunches/All tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/CI tests.launch.xml",
+        ".templates/eclipseLaunches/CI tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/Failed tests.launch.xml",
+        ".templates/eclipseLaunches/Failed tests (GodMode).launch.xml",
+        ".templates/eclipseLaunches/Local tests.launch.xml",
+        ".templates/eclipseLaunches/Local tests (GodMode).launch.xml"
     ]
     templatesToCopy.findAll {
-        !(new File(it.replace(".xml", ""))).exists()
+        !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
     }.each {
         filename -> copy {
             from filename
-            into new File(filename).getParent()
+            into ".launches"
             rename '(.*).xml', '$1'
         }
-        filename = filename.replace(".xml", "")
+        filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
         def fileContents = new File(filename).getText("UTF-8")
         def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
         new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
+    }
+}
+
+task createIntellijRunConfigs << {
+    def templatesToCopy = [
+        ".templates/intellijRunConfigs/All_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/All_Tests.xml",
+        ".templates/intellijRunConfigs/CI_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/CI_Tests.xml",
+        ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/Failed_Tests.xml",
+        ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
+        ".templates/intellijRunConfigs/Local_Tests.xml"
+    ]
+    templatesToCopy.findAll {
+        !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
+    }.each {
+        filename -> copy {
+            from filename
+            into ".idea/runConfigurations"
+        }
     }
 }
 
@@ -232,10 +257,16 @@ task printUserHomeDir << {
     println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
 }
 
-task setup {
-    description "Sets up the project by obtaining necessary files and configurations points."
+task setupEclipse {
+    description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
-    dependsOn eclipseProject, createConfigs, createLaunches
+    dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
+}
+
+task setupIntellij {
+    description "Sets up the IntelliJ-specific configurations for the project."
+    group "Setup"
+    dependsOn createIntellijRunConfigs
 }
 
 // RUN SERVER TASKS
@@ -293,21 +324,6 @@ war.dependsOn enhancerRun
 
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
-task eslint(type: Exec) {
-    def command = ["eslint"]
-    def jsDirs = ["src/main/webapp/js", "src/test/javascript"]
-    def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    def ignore = ["--ignore-pattern", "lib/"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + configFile + ignore
-}
-
-task stylelint(type: Exec) {
-    def command = ["stylelint"]
-    def cssDirs = ["src/main/webapp/stylesheets/*.css"]
-    def configFile = ["--config", "static-analysis/teammates-stylelint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + cssDirs + configFile
-}
-
 checkstyle {
     toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
@@ -319,9 +335,6 @@ pmd {
     ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
 }
-
-pmdMain.dependsOn compileJava
-pmdTest.dependsOn compileTestJava
 
 findbugs {
     toolVersion = findbugsVersion
@@ -337,28 +350,19 @@ tasks.withType(FindBugs) {
     }
 }
 
-task installEslint(type: Exec) {
-    commandLine "npm", "install", "eslint@3.11.1"
-}
-
-task installStylelint(type: Exec) {
-    commandLine "npm", "install", "stylelint@7.6.0"
-}
-
 task downloadStaticAnalysisTools {
     description "Downloads all static analysis tools."
     group "Static analysis"
     doFirst {
         configurations.staticAnalysis.resolve()
     }
-    finalizedBy installEslint, installStylelint
 }
 
-task staticAnalysisMain {
+task lintMain {
     dependsOn checkstyleMain, pmdMain, findbugsMain
 }
 
-task staticAnalysisTest {
+task lintTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
@@ -374,18 +378,19 @@ task macker << {
 }
 
 macker.dependsOn testClasses
-macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
+macker.shouldRunAfter lintMain, lintTest
 
-task staticAnalysis {
-    description "Runs the entire static analysis tasks."
+task lint {
+    description "Runs the entire static analysis tasks for back-end."
     group "Static analysis"
-    dependsOn eslint, stylelint, staticAnalysisMain, staticAnalysisTest, macker
+    dependsOn lintMain, lintTest, macker
 }
 
 // TEST TASKS
 
 def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
 def failedXmlPath = "test-output/testng-failed.xml"
 def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
@@ -406,9 +411,11 @@ def afterTestClosure = { descriptor, result ->
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
             process.waitFor()
-            def deleteCommand = isWindows ? "del" : "rm"
-            "${deleteCommand} ${expectedFileName}".execute()
-            "${deleteCommand} ${actualFileName}".execute()
+            if (!isAppVeyor && !isTravis) { // CI does not allow deleting files
+                def deleteCommand = isWindows ? "del" : "rm"
+                "${deleteCommand} ${expectedFileName}".execute()
+                "${deleteCommand} ${actualFileName}".execute()
+            }
         } else {
             println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
         }
@@ -424,7 +431,75 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
-task travisTests {
+def checkConfigFailureClosure = { descriptor, result ->
+    if (result.exception instanceof org.gradle.messaging.remote.internal.PlaceholderException
+            && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
+        throw new GradleException('Detected TestNG configuration failure - check src/test/testng-ci.xml')
+    }
+}
+
+test {
+    useTestNG()
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (project.hasProperty("godmode")) {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+    } else {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+    dependsOn enhancerRun
+}
+
+task localTests(type: Test) {
+    useTestNG()
+    options.suites "src/test/testng-local.xml"
+    options.outputDirectory = file("build/reports/test-local")
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (project.hasProperty("godmode")) {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+    } else {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+    dependsOn enhancerRun
+}
+
+task failedTests(type: Test) {
+    useTestNG()
+    options.suites "test-output/testng-failed.xml"
+    options.outputDirectory = file("build/reports/test-failed")
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (project.hasProperty("godmode")) {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+    } else {
+        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+    dependsOn enhancerRun
+}
+
+task ciTests {
     description "Runs the full test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"
 }
@@ -434,7 +509,7 @@ task travisTests {
     def isLastRetry = id == numOfTestRetries + 1
     task "testTry${id}"(type: Test) {
         useTestNG()
-        options.suites isFirstTry ? "src/test/testng-travis.xml" : "build/reports/test-try-${id - 1}/testng-failed.xml"
+        options.suites isFirstTry ? "src/test/testng-ci.xml" : "build/reports/test-try-${id - 1}/testng-failed.xml"
         options.outputDirectory = file("build/reports/test-try-${id}")
         options.useDefaultListeners = true
         ignoreFailures = !isLastRetry
@@ -443,6 +518,8 @@ task travisTests {
         reports.junitXml.enabled = false
         if (isTravis) {
             jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        } else if (project.hasProperty("godmode")) {
+            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
         } else {
             jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
         }
@@ -451,6 +528,8 @@ task travisTests {
         }
         if (isLastRetry) {
             afterTest afterTestClosure
+        } else if (isFirstTry) {
+            afterSuite checkConfigFailureClosure
         }
         finalizedBy "killFirefox${id}"
         dependsOn enhancerRun
@@ -458,7 +537,7 @@ task travisTests {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
     }
-    travisTests.dependsOn "testTry${id}"
+    ciTests.dependsOn "testTry${id}"
 
     task "killFirefox${id}"(type: Exec) {
         doFirst {
@@ -488,7 +567,9 @@ task generateFailedCmd(type: Exec) {
         println "Run failed tests locally by downloading the XML file containing the failed tests using the command:"
         println "Windows: gradlew.bat -Pgist=${gistHash} downloadFailedXml"
         println "Linux/OS X: ./gradlew -Pgist=${gistHash} downloadFailedXml"
-        println "followed by running \"Failed tests\" in Eclipse."
+        println "followed by running \"Failed tests\" in Eclipse/IntelliJ or using the following command:"
+        println "Windows: gradlew.bat failedTests"
+        println "Linux/OS X: ./gradlew failedTests"
     }
 }
 
@@ -498,7 +579,7 @@ task cleanTestOutputDir << {
 }
 
 task downloadFailedXml {
-    description "Downloads testng-failed.xml from a failed run in Travis."
+    description "Downloads testng-failed.xml from a failed run in Travis/AppVeyor."
     group "Test"
     onlyIf {
         project.hasProperty("gist")
@@ -511,7 +592,7 @@ task downloadFailedXml {
     }
     doLast {
         println "The XML file containing the failed tests has been downloaded successfully."
-        println "You can now run the failed tests from Eclipse."
+        println "You can now run the failed tests locally."
     }
     dependsOn cleanTestOutputDir
 }
@@ -519,16 +600,22 @@ task downloadFailedXml {
 // COVERAGE TASKS
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.8"
 }
 
-jacocoTestReport {
+task jacocoMerge(type: JacocoMerge) {
+    destinationFile = file("${buildDir}/jacocoMerge/jacocoMerge.exec")
+    executionData fileTree("${buildDir}/jacoco").files
+}
+
+task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
     sourceDirectories = files(sourceSets.main.java.srcDirs, sourceSets.test.java.srcDirs)
-    classDirectories =  files(sourceSets.main.output, sourceSets.test.output)
+    classDirectories = files(sourceSets.main.output, sourceSets.test.output)
+    executionData jacocoMerge.destinationFile
     reports {
-        xml.enabled false
+        xml.enabled true
         html.enabled true
     }
     afterEvaluate {
@@ -536,4 +623,5 @@ jacocoTestReport {
             fileTree(dir: it, exclude: ["**/*.jar", "teammates/client/**/*", "**/*Filter.class", "**/*Servlet.class"])
         })
     }
+    dependsOn jacocoMerge
 }

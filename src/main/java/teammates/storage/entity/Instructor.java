@@ -3,6 +3,7 @@ package teammates.storage.entity;
 import java.security.SecureRandom;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -14,7 +15,14 @@ import com.google.appengine.api.datastore.Text;
  * --> [is an instructor for] --> Course.
  */
 @PersistenceCapable
-public class Instructor {
+public class Instructor extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Instructor.class);
+
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
@@ -31,7 +39,7 @@ public class Instructor {
     /** The foreign key to locate the Course object. */
     @Persistent
     private String courseId;
-    
+
     /** new attribute. Default value: Old Entity--null  New Entity--false*/
     @Persistent
     private Boolean isArchived;
@@ -43,26 +51,26 @@ public class Instructor {
     /** The instructor's email used for this course. */
     @Persistent
     private String email;
-    
-    /** The instructor's registration key used for joining */
+
+    /** The instructor's registration key used for joining. */
     @Persistent
     private String registrationKey;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String role;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Boolean isDisplayedToStudents;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String displayedName;
 
     @Persistent
     private Text instructorPrivilegesAsText;
-    
+
     public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
                       String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
@@ -83,11 +91,12 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
-                      String key, String role, boolean isDisplayedToStudents, String displayedName,
-                      String instructorPrivilegesAsText) {
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
+                      String instructorEmail, String key, String role, boolean isDisplayedToStudents,
+                      String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
+        this.setIsArchived(isArchived);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
@@ -100,13 +109,15 @@ public class Instructor {
     }
 
     /**
-     * @return The unique ID of the entity (format: googleId%courseId).
+     * Returns the unique ID of the entity (format: googleId%courseId).
      */
     public String getUniqueId() {
         return id;
     }
 
     /**
+     * Sets the unique ID for the instructor entity.
+     *
      * @param uniqueId
      *          The unique ID of the entity (format: googleId%courseId).
      */
@@ -133,7 +144,7 @@ public class Instructor {
     public Boolean getIsArchived() {
         return isArchived;
     }
-    
+
     public void setIsArchived(Boolean isArchived) {
         this.isArchived = isArchived;
     }
@@ -153,33 +164,30 @@ public class Instructor {
     public void setEmail(String instructorEmail) {
         this.email = instructorEmail;
     }
-    
+
     public String getRegistrationKey() {
         return registrationKey;
     }
-    
+
     public void setRegistrationKey(String key) {
         this.registrationKey = key;
     }
-    
+
     public void setGeneratedKeyIfNull() {
         if (this.registrationKey == null) {
             setRegistrationKey(generateRegistrationKey());
         }
     }
-    
+
     /**
      * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
-     * @return
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
-        
-        String key = uniqueId + prng.nextInt();
-        
-        return key;
+
+        return uniqueId + prng.nextInt();
     }
 
     public String getRole() {

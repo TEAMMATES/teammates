@@ -3,16 +3,14 @@ package teammates.test.cases.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackPathAttributes;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -21,51 +19,49 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link FeedbackQuestionsDb}.
+ */
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
-    @BeforeClass
-    public static void classSetUp() {
-        printTestClassHeader();
-    }
-    
     @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
                                        EntityDoesNotExistException {
-        
+
         ______TS("success : created");
 
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
-        
+
         // remove possibly conflicting entity from the database
         fqDb.deleteEntity(fq);
-        
+
         fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq, true);
-        
+        verifyPresentInDatastore(fq);
+
         String feedbackSessionName = fq.feedbackSessionName;
         String courseId = fq.courseId;
         int questionNumber = fq.questionNumber;
-        
+
         FeedbackQuestionAttributes feedbackQuestion =
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-     
+
         // Assert dates are now.
         AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());
         AssertHelper.assertDateIsNow(feedbackQuestion.getUpdatedAt());
-        
+
         ______TS("success : update lastUpdated");
-        
+
         feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
-        
+
         FeedbackQuestionAttributes updatedFq =
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
-        
+
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
         AssertHelper.assertDateIsNow(updatedFq.getUpdatedAt());
-        
+
         ______TS("success : keep lastUpdated");
 
         feedbackQuestion.questionNumber++;
@@ -73,23 +69,23 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         FeedbackQuestionAttributes updatedFqTwo =
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
-        
+
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
     }
-      
+
     @Test
     public void testCreateDeleteFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
 
         ______TS("standard success case");
 
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
-        
+
         // remove possibly conflicting entity from the database
         fqDb.deleteEntity(fqa);
-        
+
         fqDb.createEntity(fqa);
-        verifyPresentInDatastore(fqa, true);
+        verifyPresentInDatastore(fqa);
 
         ______TS("duplicate - with same id.");
 
@@ -130,10 +126,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetFeedbackQuestions() throws Exception {
         FeedbackQuestionAttributes expected = getNewFeedbackQuestionAttributes();
-        
+
         // remove possibly conflicting entity from the database
         fqDb.deleteEntity(expected);
-        
+
         fqDb.createEntity(expected);
 
         ______TS("standard success case");
@@ -226,10 +222,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetFeedbackQuestionsForGiverType() throws Exception {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
-        
+
         // remove possibly conflicting entity from the database
         fqDb.deleteEntity(fqa);
-        
+
         int[] numOfQuestions = createNewQuestionsForDifferentRecipientTypes();
 
         ______TS("standard success case");
@@ -332,7 +328,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
-        verifyPresentInDatastore(modifiedQuestion, true);
+        verifyPresentInDatastore(modifiedQuestion);
 
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
@@ -369,7 +365,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
-        
+
         fqa.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
 
         return fqa;
@@ -382,10 +378,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         for (int i = 1; i <= num; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
-            
+
             // remove possibly conflicting entity from the database
             fqDb.deleteEntity(fqa);
-            
+
             fqDb.createEntity(fqa);
             returnVal.add(fqa);
         }
@@ -444,8 +440,4 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         }
     }
 
-    @AfterClass
-    public static void classTearDown() {
-        printTestClassFooter();
-    }
 }

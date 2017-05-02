@@ -17,12 +17,12 @@ import teammates.common.util.EmailWrapper;
 /**
  * Email sender service provided by JavaMail.
  * This is the default service provided by Google App Engine.
- * Reference: https://cloud.google.com/appengine/docs/java/mail/
- * 
+ *
+ * @see <a href="https://cloud.google.com/appengine/docs/java/mail/">https://cloud.google.com/appengine/docs/java/mail/</a>
  * @see MimeMessage
  */
 public class JavamailService extends EmailSenderService {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -44,11 +44,11 @@ public class JavamailService extends EmailSenderService {
         email.setContent(wrapper.getContent(), "text/html");
         return email;
     }
-    
+
     @Override
     protected void sendEmailWithService(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
         MimeMessage email = parseToEmail(wrapper);
         Transport.send(email);
     }
-    
+
 }

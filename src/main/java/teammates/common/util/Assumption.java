@@ -6,11 +6,11 @@ import teammates.common.exception.NullPostParameterException;
  * This class provides a set of static method to verify assumptions about the
  * system. When the real runtime condition differs from the assumed situation,
  * an unchecked AssertionFailedError will be thrown at runtime.
- * 
- * Normally, we uses Java assertion to do runtime checking, but GAE does not
+ *
+ * <p>Normally, we uses Java assertion to do runtime checking, but GAE does not
  * support the assertions.is This file is a copy of org.junit.Assert v4.10.
  * Cannot use default java assert due to GAE environment restriction
- * 
+ *
  * @see org.junit.Assert
  */
 public final class Assumption {
@@ -77,11 +77,11 @@ public final class Assumption {
         if (expected == null && actual == null) {
             return;
         }
-        
+
         if (expected != null && expected.equals(actual)) {
             return;
         }
-        
+
         failNotEquals(message, expected, actual);
     }
 
@@ -101,11 +101,11 @@ public final class Assumption {
         if (expected == null && actual == null) {
             return;
         }
-        
+
         if (expected != null && expected.equals(actual)) {
             return;
         }
-        
+
         throw new AssertionError(format(message, expected, actual));
     }
 
@@ -126,9 +126,9 @@ public final class Assumption {
         if (Double.compare(expected, actual) == 0) {
             return;
         }
-        
+
         if (Math.abs(expected - actual) > delta) {
-            failNotEquals(message, new Double(expected), new Double(actual));
+            failNotEquals(message, Double.valueOf(expected), Double.valueOf(actual));
         }
     }
 
@@ -150,9 +150,9 @@ public final class Assumption {
         if (Float.compare(expected, actual) == 0) {
             return;
         }
-        
+
         if (Math.abs(expected - actual) > delta) {
-            failNotEquals(message, new Float(expected), new Float(actual));
+            failNotEquals(message, Float.valueOf(expected), Float.valueOf(actual));
         }
     }
 
@@ -216,7 +216,7 @@ public final class Assumption {
      * is thrown with the given message.
      */
     public static void assertEquals(String message, char expected, char actual) {
-        assertEquals(message, new Character(expected), new Character(actual));
+        assertEquals(message, Character.valueOf(expected), Character.valueOf(actual));
     }
 
     /**
@@ -297,7 +297,7 @@ public final class Assumption {
         if (expected == actual) {
             return;
         }
-        
+
         failNotSame(message, expected, actual);
     }
 
@@ -365,25 +365,25 @@ public final class Assumption {
         return formatted + "expected:<" + expected + "> but was:<" + actual + ">";
     }
 
-    public static void assertPostParamNotNull(String parameterName, String postParameter) {
+    public static <T> void assertPostParamNotNull(String parameterName, T postParameter) {
         if (postParameter == null) {
             throw new NullPostParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     parameterName));
         }
     }
-    
+
     public static void assertNotEmpty(String str) {
         assertFalse(str.isEmpty());
     }
-    
+
     public static void assertNotEmpty(String message, String str) {
         assertFalse(message, str.isEmpty());
     }
-    
+
     public static void assertIsEmpty(String str) {
         assertTrue(str.isEmpty());
     }
-    
+
     public static void assertIsEmpty(String message, String str) {
         assertTrue(message, str.isEmpty());
     }

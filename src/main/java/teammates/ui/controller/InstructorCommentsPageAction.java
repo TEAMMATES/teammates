@@ -1,40 +1,41 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorCommentsPageData;
 
 /**
- * Action: Showing the InstructorCommentsPage for an instructor
+ * Action: Showing the InstructorCommentsPage for an instructor.
  */
 public class InstructorCommentsPageAction extends Action {
 
-    public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
-    
+    private static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
+
     private String courseId;
     private String isDisplayArchivedCourseString;
     private Boolean isDisplayArchivedCourse;
     private Boolean isViewingDraft;
     private InstructorAttributes instructor;
-    
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        
+
         //COURSE_ID can be null, if viewed by Draft
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         //DISPLAY_ARCHIVE can be null. Its value can be retrieved from session
@@ -42,24 +43,24 @@ public class InstructorCommentsPageAction extends Action {
         //TODO: a param for draft page
 
         verifyAccessible();
-        
+
         if (isDisplayArchivedCourseString == null) {
             getDisplayArchivedOptionFromSession();
         } else {
             putDisplayArchivedOptionToSession();
         }
-        
+
         List<String> coursePaginationList = new ArrayList<String>();
         String courseName = getCoursePaginationList(coursePaginationList);
         InstructorCommentsPageData data = new InstructorCommentsPageData(account);
-        
+
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new HashMap<String, List<Boolean>>();
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         if (!coursePaginationList.isEmpty()) {
-        //Load details of students and instructors once and pass it to callee methods
-        //  (rather than loading them many times).
+            // Load details of students and instructors once and pass it to callee methods
+            // (rather than loading them many times).
             roster = new CourseRoster(logic.getStudentsForCourse(courseId), logic.getInstructorsForCourse(courseId));
 
             //Prepare comments data
@@ -67,13 +68,13 @@ public class InstructorCommentsPageAction extends Action {
             giverEmailToCanModifyCommentListMap = getGiverEmailToCanModifyCommentListMap(giverEmailToCommentsMap);
             feedbackSessions = getFeedbackSessions();
         }
-        
+
         int numberOfPendingComments = 0;
         if (!courseId.isEmpty()) {
             numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         }
-        
+
         statusToAdmin = "instructorComments Page Load<br>"
                       + "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -81,7 +82,7 @@ public class InstructorCommentsPageAction extends Action {
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
                   giverEmailToCommentsMap, giverEmailToCanModifyCommentListMap, roster,
                   feedbackSessions, numberOfPendingComments);
-        
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
     }
 
@@ -89,10 +90,10 @@ public class InstructorCommentsPageAction extends Action {
         isViewingDraft = courseId == null;
         if (isViewingDraft) {
             courseId = "";
-            new GateKeeper().verifyInstructorPrivileges(account);
+            gateKeeper.verifyInstructorPrivileges(account);
         } else { //view by Course
             instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
         }
         isViewingDraft = false; //TODO: handle the draft page
     }
@@ -110,7 +111,7 @@ public class InstructorCommentsPageAction extends Action {
     private String getCoursePaginationList(List<String> coursePaginationList) {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
-        java.util.Collections.sort(courses);
+        Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             InstructorAttributes instructorOfCourse =
@@ -154,10 +155,10 @@ public class InstructorCommentsPageAction extends Action {
             }
             updateCommentList(comment, isCurrentInstructorGiver, commentList);
         }
-        
+
         //sort comments by created date
         for (List<CommentAttributes> commentList : giverEmailToCommentsMap.values()) {
-            java.util.Collections.sort(commentList);
+            Collections.sort(commentList);
         }
         return giverEmailToCommentsMap;
     }
@@ -172,17 +173,17 @@ public class InstructorCommentsPageAction extends Action {
             commentList.add(comment);
         }
     }
-    
+
     private Map<String, List<Boolean>> getGiverEmailToCanModifyCommentListMap(
                                                Map<String, List<CommentAttributes>> comments) {
         Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new TreeMap<String, List<Boolean>>();
-        for (String giverEmail : comments.keySet()) {
+        for (Map.Entry<String, List<CommentAttributes>> entry : comments.entrySet()) {
             List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
-            for (CommentAttributes comment : comments.get(giverEmail)) {
-                Boolean canModifyComment = isInstructorAllowedToModifyCommentInSection(comment);
+            for (CommentAttributes comment : entry.getValue()) {
+                boolean canModifyComment = isInstructorAllowedToModifyCommentInSection(comment);
                 canModifyCommentList.add(canModifyComment);
             }
-            giverEmailToCanModifyCommentListMap.put(giverEmail, canModifyCommentList);
+            giverEmailToCanModifyCommentListMap.put(entry.getKey(), canModifyCommentList);
         }
         return giverEmailToCanModifyCommentListMap;
     }
@@ -190,7 +191,7 @@ public class InstructorCommentsPageAction extends Action {
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
         return logic.getFeedbackSessionsForCourse(courseId);
     }
-    
+
     private boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {
         return instructor != null
                        && (comment.giverEmail.equals(instructor.email)
@@ -198,7 +199,7 @@ public class InstructorCommentsPageAction extends Action {
                                               comment, instructor, courseId,
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
     }
-    
+
     private boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, InstructorAttributes instructor,
                                                              String courseId, String privilegeName) {
         // TODO: remember to come back and change this if later

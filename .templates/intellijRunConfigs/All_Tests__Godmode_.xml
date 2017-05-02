@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All Tests (Godmode)" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
+    <toRun type="TestNG" name="CI Tests (Godmode)" />
+    <toRun type="TestNG" name="Local Tests (Godmode)" />
+    <method />
+  </configuration>
+</component>

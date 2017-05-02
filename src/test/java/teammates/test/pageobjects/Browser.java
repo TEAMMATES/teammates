@@ -14,7 +14,7 @@ import teammates.test.driver.TestProperties;
  * A programmatic interface to the Browser used to test the app.
  */
 public class Browser {
-    
+
     /**
      * The {@link WebDriver} object that drives the Browser instance.
      */
@@ -25,21 +25,21 @@ public class Browser {
      * used and not ready to be reused by another test.
      */
     public boolean isInUse;
-    
+
     public boolean isAdminLoggedIn;
-    
+
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
     private final Stack<String> windowHandles = new Stack<String>();
-    
+
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
         isInUse = false;
         isAdminLoggedIn = false;
     }
-    
+
     /**
      * Switches to new browser window for browsing.
      */
@@ -53,7 +53,7 @@ public class Browser {
             }
         }
     }
-    
+
     /**
      * Closes the current browser window and switches back to the last window
      * used previously.
@@ -62,7 +62,7 @@ public class Browser {
         driver.close();
         driver.switchTo().window(windowHandles.pop());
     }
-    
+
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
@@ -88,9 +88,9 @@ public class Browser {
 
         } else if ("chrome".equals(browser)) {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
-            
+
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
-            
+
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--allow-file-access-from-files");
             return new ChromeDriver(options);
@@ -99,5 +99,5 @@ public class Browser {
         return null;
 
     }
-    
+
 }

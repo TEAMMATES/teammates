@@ -12,13 +12,13 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="cssIncludes">
-    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS.getLibrarySource() %>" type="text/css" media="screen">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/customFeedbackPaths.css" type="text/css" media="screen">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getLibrarySource() %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
 
     <script type="text/javascript" src="/js/datepicker.js"></script>

@@ -23,7 +23,7 @@
             </div>
             <div class="col-xs-1">
                 <h5>
-                    <a href="/instructorHelp.jsp#fbSetupSession" target="_blank">
+                    <a href="/instructorHelp.jsp#fbSetupSession" target="_blank" rel="noopener noreferrer">
                         <span class="glyphicon glyphicon-info-sign"></span>
                     </a>
                 </h5>

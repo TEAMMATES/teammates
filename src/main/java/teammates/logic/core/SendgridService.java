@@ -2,22 +2,25 @@ package teammates.logic.core;
 
 import org.jsoup.Jsoup;
 
-import teammates.common.util.Config;
-import teammates.common.util.EmailWrapper;
-
 import com.sendgrid.SendGrid;
 import com.sendgrid.SendGrid.Email;
 import com.sendgrid.SendGrid.Response;
 import com.sendgrid.SendGridException;
 
+import teammates.common.util.Config;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
+
 /**
  * Email sender service provided by SendGrid.
- * Reference: https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid
- * 
+ *
+ * @see <a href="https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid">https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid</a>
  * @see SendGrid
  */
 public class SendgridService extends EmailSenderService {
-    
+
+    private static final Logger log = Logger.getLogger();
+
     /**
      * {@inheritDoc}
      */
@@ -38,7 +41,7 @@ public class SendgridService extends EmailSenderService {
         email.setText(Jsoup.parse(wrapper.getContent()).text());
         return email;
     }
-    
+
     @Override
     protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
         Email email = parseToEmail(wrapper);
@@ -48,5 +51,5 @@ public class SendgridService extends EmailSenderService {
             log.severe("Email failed to send: " + response.getMessage());
         }
     }
-    
+
 }

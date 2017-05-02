@@ -15,10 +15,10 @@ import teammates.common.util.Const.TaskQueue;
  * Generates the matching {@link AutomatedAction} for a given URI.
  */
 public class AutomatedActionFactory {
-    
+
     private static Map<String, Class<? extends AutomatedAction>> actionMappings =
             new HashMap<String, Class<? extends AutomatedAction>>();
-    
+
     static {
         // Cron jobs
         map(ActionURIs.AUTOMATED_LOG_COMPILATION, CompileLogsAction.class);
@@ -26,7 +26,7 @@ public class AutomatedActionFactory {
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, FeedbackSessionClosedRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, FeedbackSessionClosingRemindersAction.class);
         map(ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, FeedbackSessionPublishedRemindersAction.class);
-        
+
         // Task queue workers
         map(TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL, AdminPrepareEmailAddressModeWorkerAction.class);
         map(TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL, AdminPrepareEmailGroupModeWorkerAction.class);
@@ -39,35 +39,36 @@ public class AutomatedActionFactory {
         map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, FeedbackSessionUnpublishedEmailWorkerAction.class);
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, PendingCommentClearedEmailWorkerAction.class);
+        map(TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL, PutCommentDocumentWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, StudentCourseJoinEmailWorkerAction.class);
     }
-    
+
     private static void map(String actionUri, Class<? extends AutomatedAction> actionClass) {
         actionMappings.put(actionUri, actionClass);
     }
-    
+
     /**
-     * @return the matching {@link AutomatedAction} object for the URI in the {@code req}.
+     * Returns the matching {@link AutomatedAction} object for the URI in the {@code req}.
      */
     public AutomatedAction getAction(HttpServletRequest req, HttpServletResponse resp) {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
-        
+
         AutomatedAction action = getAction(uri);
         action.initialiseAttributes(req, resp);
         return action;
     }
-    
+
     private AutomatedAction getAction(String uri) {
         Class<? extends AutomatedAction> action = actionMappings.get(uri);
-        
+
         if (action == null) {
             throw new PageNotFoundException("Page not found for " + uri);
         }
-        
+
         try {
             return action.newInstance();
         } catch (Exception e) {
@@ -75,5 +76,5 @@ public class AutomatedActionFactory {
                                        + TeammatesException.toStringWithStackTrace(e));
         }
     }
-    
+
 }

@@ -1,8 +1,10 @@
 # TEAMMATES Developer Web Site
 
-![Users Count](https://img.shields.io/badge/users-80K%2B-brightgreen.svg)
+![Users Count](https://img.shields.io/badge/users-140K%2B-brightgreen.svg)
 ![Universities Count](https://img.shields.io/badge/universities-1200%2B-green.svg)
-[![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
+[![Travis Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw?svg=true)](https://ci.appveyor.com/project/damithc/teammates)
+[![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 
 ![Java LoC Count](https://img.shields.io/badge/java-119%20KLoC-blue.svg)

@@ -1,8 +1,8 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbackResultsSessionPanel {
@@ -23,8 +23,8 @@ public class InstructorFeedbackResultsSessionPanel {
                                                  String selectedSection,
                                                  boolean isMissingResponsesShown,
                                                  boolean isStatsShown) {
-        this.courseId = Sanitizer.sanitizeForHtml(session.getCourseId());
-        this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.getFeedbackSessionName());
+        this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
+        this.feedbackSessionName = SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName());
         this.editLink = editLink;
         this.startTime = TimeHelper.formatTime12H(session.getStartTime());
         this.endTime = TimeHelper.formatTime12H(session.getEndTime());
@@ -34,7 +34,7 @@ public class InstructorFeedbackResultsSessionPanel {
         this.isStatsShown = isStatsShown;
         this.isMissingResponsesShown = isMissingResponsesShown;
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
@@ -66,11 +66,11 @@ public class InstructorFeedbackResultsSessionPanel {
     public String getSelectedSection() {
         return selectedSection;
     }
-    
+
     public boolean getIsStatsShown() {
         return isStatsShown;
     }
-    
+
     public boolean getIsMissingResponsesShown() {
         return isMissingResponsesShown;
     }

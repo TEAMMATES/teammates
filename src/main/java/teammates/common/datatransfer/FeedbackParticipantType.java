@@ -76,7 +76,7 @@ public enum FeedbackParticipantType {
     public boolean isTeam() {
         return this == TEAMS || this == OWN_TEAM;
     }
-    
+
     public boolean isCustom() {
         return this == CUSTOM;
     }
@@ -103,7 +103,7 @@ public enum FeedbackParticipantType {
      * Formats the participant type for display to user in the response visibility section.
      *
      * @return A user-friendly {@code String} representing this participant directed to users who are
-     * responding to a feedback.
+     *         responding to a feedback.
      */
     public String toVisibilityString() {
         return displayNameVisibility;
@@ -136,16 +136,34 @@ public enum FeedbackParticipantType {
     }
 
     /**
-     * Gets {@code displayNameGiver} property
+     * Gets {@code displayNameGiver} property.
      */
     public String getDisplayNameGiver() {
         return displayNameGiver;
     }
 
     /**
-     * Gets {@code displayNameRecipient} property
+     * Gets {@code displayNameRecipient} property.
      */
     public String getDisplayNameRecipient() {
         return displayNameRecipient;
+    }
+
+    /**
+     * Returns A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
+     */
+    public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
+            String commaSeparatedValues) {
+        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
+
+        if (commaSeparatedValues == null || commaSeparatedValues.isEmpty()) {
+            return participantList;
+        }
+
+        for (String str : commaSeparatedValues.split(",")) {
+            participantList.add(FeedbackParticipantType.valueOf(str));
+        }
+
+        return participantList;
     }
 }

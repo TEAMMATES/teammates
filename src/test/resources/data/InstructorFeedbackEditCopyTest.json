@@ -26,6 +26,7 @@
     "course": {
       "id": "FeedbackEditCopy.CS2104",
       "name": "Programming Language Concepts",
+      "createdAt": "2012-04-01 08:00 PM UTC",
       "timeZone": "UTC"
     },
     "course2": {
@@ -36,11 +37,13 @@
     "course3": {
       "id": "FeedbackEditCopy.CS2105",
       "name": "Introduction to Computer Networks",
+      "createdAt": "2012-04-01 09:00 PM UTC",
       "timeZone": "UTC"
     },
     "course4": {
       "id": "FeedbackEditCopy.CS2103",
       "name": "Software Engineering",
+      "createdAt": "2012-04-01 10:00 PM UTC",
       "timeZone": "UTC"
     },
     "course5": {

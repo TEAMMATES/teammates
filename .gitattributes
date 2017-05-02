@@ -28,9 +28,6 @@
 *.gif binary
 
 # Ignore certain files from language statistics
-src/main/webapp/js/lib/**/*         linguist-vendored
-src/main/webapp/stylesheets/lib/*   linguist-vendored
-src/test/javascript/lib/*           linguist-vendored
 src/test/resources/emails/*         linguist-vendored
 src/test/resources/pages/*          linguist-vendored
 

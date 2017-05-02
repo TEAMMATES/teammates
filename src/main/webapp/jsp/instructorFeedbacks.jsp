@@ -8,14 +8,13 @@
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
 
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacksSpecific.js"></script>
 </c:set>

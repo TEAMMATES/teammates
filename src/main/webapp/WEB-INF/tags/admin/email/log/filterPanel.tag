@@ -1,5 +1,8 @@
 <%@ tag description="adminEmailLog.jsp - filter panel in Admin Email Log Page" %>
 <%@ attribute name="filterQuery" required="true" %>
+<%@ attribute name="queryKeywordsForReceiver" required="true" %>
+<%@ attribute name="queryKeywordsForSubject" required="true" %>
+<%@ attribute name="queryKeywordsForContent" required="true" %>
 
 <div class="well well-plain">
     <form class="form-horizontal" method="post" action="/admin/adminEmailLogPage"
@@ -21,14 +24,15 @@
                                    class="form-control"
                                    id="filterQuery"
                                    name="filterQuery"
-                                   value="${filterQuery}">
-                        
-                            <input type="text" name="pageChange" value="true" style="display:none;">
-                                    
+                                   value="${filterQuery}">                           
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <input type="hidden" id="query-keywords-for-receiver" value="${queryKeywordsForReceiver}">
+            <input type="hidden" id="query-keywords-for-subject" value="${queryKeywordsForSubject}">
+            <input type="hidden" id="query-keywords-for-content" value="${queryKeywordsForContent}">
             
             <div class="form-group">
                 <a href="#" class="btn btn-link center-block" onclick="toggleReference()">      
@@ -40,14 +44,12 @@
             <div id="filterReference">
                 <div class="form-group">
                     <div class="col-md-12">                                
-                        <div class="alert alert-success">
-                            <p class="text-center">
-                                <span class="glyphicon glyphicon-filter"></span>
-                                A query is formed by a
-                                list of filters. Each
-                                filter is in the format
-                                <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
-                            </p>
+                        <div class="alert alert-info text-center">
+                            <span class="glyphicon glyphicon-filter"></span>
+                            A query is formed by a
+                            list of filters. Each
+                            filter is in the format
+                            <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
                         </div>
 
                         <p class="text-center">

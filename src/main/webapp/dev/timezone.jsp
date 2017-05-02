@@ -20,9 +20,9 @@
                 <td id="momentjs"></td>
             </tr>
         </table>
-        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY.getLibrarySource() %>"></script>
-        <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT.getLibrarySource() %>"></script>
-        <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE.getLibrarySource() %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
+        <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
         <script>
             var d = new Date();
             moment.tz.names().forEach(function(timeZone) {

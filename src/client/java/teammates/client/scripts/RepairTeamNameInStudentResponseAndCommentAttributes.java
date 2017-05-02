@@ -14,11 +14,11 @@ import java.util.TreeSet;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,11 +36,11 @@ import teammates.storage.entity.CourseStudent;
  */
 public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteApiClient {
     private static final boolean isPreview = true;
-    
+
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private FeedbackResponsesLogic responsesLogic = new FeedbackResponsesLogic();
-    private CommentsLogic commentsLogic = new CommentsLogic();
+    private FeedbackResponsesLogic responsesLogic = FeedbackResponsesLogic.inst();
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
 
     public static void main(String[] args) throws IOException {
         RepairTeamNameInStudentResponseAndCommentAttributes migrator =
@@ -53,21 +53,21 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         List<CourseAttributes> courseList = getCoursesWithinOneYear();
         List<CourseStudent> allStudents = getStudentsFromCourses(courseList);
         int totalNumberOfStudents = allStudents.size();
-        
+
         System.out.println("There is/are " + courseList.size() + " course(s) within one year.");
-        
+
         if (isPreview) {
             System.out.println("Checking extra spaces in team name...");
         } else {
             System.out.println("Removing extra spaces in team name...");
         }
-        
+
         try {
             int numberOfStudentsWithExtraSpacesInTeamName = removeExtraSpacesInStudents(allStudents);
             Map<String, Set<String>> courseTeamListMap = createCourseTeamNameList(allStudents);
             int numberOfReponsesWithExtraSpacesInRecipient = removeExtraSpacesInResponses(courseTeamListMap);
             int numberOfCommentsWithExtraSpacesInRecipient = removeExtraSpacesInComments(courseTeamListMap);
-            
+
             if (isPreview) {
                 System.out.println("There are/is " + numberOfStudentsWithExtraSpacesInTeamName
                                    + "/" + totalNumberOfStudents + " student(s) with extra spaces in team name!");
@@ -75,7 +75,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                                    + " response(s) with extra spaces in recipient and/or giver!");
                 System.out.println("There are/is " + numberOfCommentsWithExtraSpacesInRecipient
                                    + " comment(s) with extra spaces in recipient!");
-                             
+
             } else {
                 System.out.println(numberOfStudentsWithExtraSpacesInTeamName
                                    + "/" + totalNumberOfStudents + " student(s) have been fixed!");
@@ -103,13 +103,13 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
 
     private List<CourseAttributes> getCoursesWithinOneYear() {
         List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
-        
+
         Query q = PM.newQuery(Course.class);
         q.declareParameters("java.util.Date startTime");
         q.setFilter("createdAt >= startTime");
-        
+
         Calendar startTime = new GregorianCalendar(2016, Calendar.JANUARY, 1);
-        
+
         @SuppressWarnings("unchecked")
         List<Course> courseEntityList = (List<Course>) q.execute(startTime.getTime());
         for (Course course : courseEntityList) {
@@ -149,7 +149,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         }
         return result.toString();
     }
-    
+
     /**
      * Previews or removes extra spaces in team name of students.
      * @return the number of students with extra spaces in team name.
@@ -162,7 +162,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                 continue;
             }
             numberOfStudentsWithExtraSpacesInTeamName++;
-            
+
             if (isPreview) {
                 System.out.println(numberOfStudentsWithExtraSpacesInTeamName
                                    + ". \"" + studentEntity.getTeamName() + "\" "
@@ -174,10 +174,9 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         }
         return numberOfStudentsWithExtraSpacesInTeamName;
     }
-    
+
     /**
      * Previews or removes extra spaces in recipients of comments.
-     * @param courseTeamListMap
      * @return the number of comments with extra spaces in recipients.
      */
     private int removeExtraSpacesInComments(Map<String, Set<String>> courseTeamListMap)
@@ -193,7 +192,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                 numberOfCommentWithExtraSpacesInRecipient += removeExtraSpacesInComments(comments);
             }
         }
-        
+
         return numberOfCommentWithExtraSpacesInRecipient;
     }
 
@@ -217,7 +216,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
 
     /**
      * Previews or removes extra spaces in recipient and/or giver of feedback responses.
-     * @param courseTeamListMap
      * @return the number of responses with extra spaces in recipient and/or giver.
      */
     private int removeExtraSpacesInResponses(Map<String, Set<String>> courseTeamListMap)
@@ -230,7 +228,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                 List<FeedbackResponseAttributes> responsesTeamAsReceiver =
                         responsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, teamName);
                 numberOfReponsesWithExtraSpacesInRecipient += removeExtraSpacesInResponses(responsesTeamAsReceiver);
-                
+
                 List<FeedbackResponseAttributes> responsesTeamAsGiver =
                         responsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, teamName);
                 numberOfReponsesWithExtraSpacesInRecipient += removeExtraSpacesInResponses(responsesTeamAsGiver);
@@ -265,19 +263,19 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     private boolean hasExtraSpaces(String s) {
         return !s.equals(StringHelper.removeExtraSpace(s));
     }
-    
-    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
+
+    private void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
                                                                                       EntityDoesNotExistException {
         studentsDb.verifyStudentExists(student.course, originalEmail);
         StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
-        
+
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
-        
+
         if (!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
-        
+
         studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
                                  student.email, student.googleId, student.comments, true);
     }

@@ -9,32 +9,18 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class StatusMessage implements Serializable {
     private String text;
-    private String color;
-    
+    private StatusMessageColor color;
+
     public StatusMessage(String text, StatusMessageColor color) {
         this.text = text;
-        
-        switch (color) {
-        case SUCCESS:
-            this.color = "success";
-            break;
-        case WARNING:
-            this.color = "warning";
-            break;
-        case DANGER:
-            this.color = "danger";
-            break;
-        default:
-            this.color = "info";
-            break;
-        }
+        this.color = color;
     }
-    
+
     public String getText() {
         return text;
     }
-    
+
     public String getColor() {
-        return color;
+        return color.name().toLowerCase();
     }
 }

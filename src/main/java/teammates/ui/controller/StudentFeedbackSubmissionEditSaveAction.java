@@ -1,18 +1,21 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
+import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
+
+    private static final Logger log = Logger.getLogger();
+
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
+        gateKeeper.verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
@@ -37,10 +40,10 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     protected String getUserEmailForCourse() {
         return getStudent().email;
     }
-    
+
     @Override
     protected String getUserTeamForCourse() {
-        return StringHelper.recoverFromSanitizedText(getStudent().team);
+        return SanitizationHelper.desanitizeFromHtml(getStudent().team);
     }
 
     @Override
@@ -83,12 +86,12 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
             return result;
         }
-        
+
         // Return to student home page if there is no error and user is registered
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
-    protected StudentAttributes getStudent() {
+    private StudentAttributes getStudent() {
         if (student == null) {
             student = logic.getStudentForGoogleId(courseId, account.googleId);
         }
@@ -96,7 +99,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         return student;
     }
 
-    protected boolean isRegisteredStudent() {
+    private boolean isRegisteredStudent() {
         // a registered student must have an associated google Id, therefore 2 branches are missed here
         // and not covered, if they happen, it signifies a much larger problem.
         // i.e. that student.googleId cannot be empty or null if student != null

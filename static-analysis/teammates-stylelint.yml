@@ -109,8 +109,8 @@ rules:
 
     # Time
 
-    # Disallow animation and transition less than or equal to 100ms
-    time-no-imperceptible: true
+    # Specify the minimum number of milliseconds for time values.
+    time-min-milliseconds: 100
 
     # Unit
 
@@ -155,9 +155,6 @@ rules:
 
     # Require or disallow an empty line before custom properties
     # custom-property-empty-line-before
-
-    # Disallow custom properties outside of :root rules
-    # custom-property-no-outside-root
 
     # Specify a pattern for custom properties
     # custom-property-pattern
@@ -229,17 +226,11 @@ rules:
     # Disallow duplicate properties within declaration blocks
     # declaration-block-no-duplicate-properties
 
-    # Disallow property values that are ignored due to another property value in the same rule
-    # declaration-block-no-ignored-properties
-
     # Disallow longhand properties that can be combined into one shorthand property
     # declaration-block-no-redundant-longhand-properties
 
     # Disallow shorthand properties that override related longhand properties within declaration blocks
     # declaration-block-no-shorthand-property-overrides
-
-    # Specify the order of properties within declaration blocks
-    # declaration-block-properties-order
 
     # Require a newline or disallow whitespace after the semicolons of declaration blocks
     declaration-block-semicolon-newline-after: "always"
@@ -278,9 +269,6 @@ rules:
 
     # Disallow empty blocks
     block-no-empty: true
-
-    # Disallow single-line blocks
-    block-no-single-line: true
 
     # Require a newline after the opening brace of blocks
     block-opening-brace-newline-after: "always"
@@ -344,9 +332,6 @@ rules:
     # Disallow combinators in selectors
     # selector-no-combinator
 
-    # Disallow empty selectors
-    # selector-no-empty
-
     # Disallow id selectors
     # selector-no-id
 
@@ -386,9 +371,6 @@ rules:
     # Disallow unknown pseudo-element selectors
     # selector-pseudo-element-no-unknown
 
-    # Disallow the composition of :root in selectors
-    # selector-root-no-composition
-
     # Specify lowercase or uppercase for type selector
     selector-type-case: "lower"
 
@@ -401,7 +383,8 @@ rules:
     # Selector list
 
     # Require a newline or disallow whitespace after the commas of selector lists
-    # selector-list-comma-newline-after
+    # Used to enforce one selector per line.
+    selector-list-comma-newline-after: always
 
     # Require a newline or disallow whitespace before the commas of selector lists
     # selector-list-comma-newline-before
@@ -412,18 +395,10 @@ rules:
     # Require a single space or disallow whitespace before the commas of selector lists
     selector-list-comma-space-before: "never"
 
-    # Root rule
-
-    # Disallow standard properties inside :root rules
-    # root-no-standard-properties
-
     # Rule
 
-    # Require or disallow an empty line before nested rules
-    rule-nested-empty-line-before: ["always", { except: "first-nested", ignore: "after-comment" }]
-
-    # Require or disallow an empty line before non-nested rules
-    rule-non-nested-empty-line-before: ["always", { ignore: "after-comment" }]
+    # Require or disallow an empty line before rules
+    rule-empty-line-before: ["always", { except: "first-nested", ignore: "after-comment" }]
 
     # Media feature
 
@@ -447,9 +422,6 @@ rules:
 
     # Specify a whitelist of allowed media feature names
     # media-feature-name-whitelist
-
-    # Disallow missing punctuation for non-boolean media features
-    # media-feature-no-missing-punctuation
 
     # Require a single space or disallow whitespace on the inside of the parentheses within media features
     media-feature-parentheses-space-inside: "never"
@@ -508,11 +480,6 @@ rules:
     # Specify a whitelist of allowed at-rules
     # at-rule-whitelist
 
-    # stylelint-disable comment
-
-    # Require a reason comment before or after stylelint-disable comments
-    # stylelint-disable-reason
-
     # Comment
 
     # Require or disallow an empty line before comments
@@ -541,9 +508,6 @@ rules:
     # Limit the depth of nesting
     # max-nesting-depth
 
-    # Disallow browser hacks that are irrelevant to the browsers you are targeting
-    no-browser-hacks: true
-
     # Disallow selectors of lower specificity from coming after overriding selectors of higher specificity
     # no-descending-specificity
 
@@ -559,9 +523,6 @@ rules:
     # Disallow extra semicolons
     no-extra-semicolons: true
 
-    # Disallow colors that are suspiciously close to being identical
-    # no-indistinguishable-colors
-
     # Disallow double-slash comments (//...) which are not supported by CSS
     no-invalid-double-slash-comments: true
 
@@ -570,6 +531,3 @@ rules:
 
     # Disallow animation names that do not correspond to a @keyframes declaration
     # no-unknown-animations
-
-    # Disallow features that are unsupported by the browsers that you are targeting
-    # no-unsupported-browser-features

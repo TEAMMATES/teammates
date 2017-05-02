@@ -242,8 +242,8 @@
             </div>
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
-              Collapse Questions
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Questions
             </a>
           </div>
         </div>
@@ -258,8 +258,8 @@
   </div>
   <br>
   <br>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -272,20 +272,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 1:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-1">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-1" name="fruploaddownloadbtn" title="" type="submit" value="Question 1:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="1">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Rate 3 other students' products
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
-      <div class="panel-body" id="questionBody-0">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-1">
+      <div class="panel-body padding-0" id="questionBody-0">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -294,8 +305,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -308,20 +319,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 2:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-2">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-2" name="fruploaddownloadbtn" title="" type="submit" value="Question 2:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="2">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           What is the best selling point of your product?
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-      <div class="panel-body" id="questionBody-1">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-2">
+      <div class="panel-body padding-0" id="questionBody-1">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -330,8 +352,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-3" id="seeMore-3" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -344,20 +366,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 3:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-3">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-3" name="fruploaddownloadbtn" title="" type="submit" value="Question 3:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="3">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           My comments on the class
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-3" style="height: auto;">
-      <div class="panel-body" id="questionBody-2">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-3">
+      <div class="panel-body padding-0" id="questionBody-2">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -366,8 +399,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-4" id="seeMore-4" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -380,20 +413,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 4:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-4">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-4" name="fruploaddownloadbtn" title="" type="submit" value="Question 4:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="4">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Give feedback to 3 other teams.
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-4" style="height: auto;">
-      <div class="panel-body" id="questionBody-3">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-4">
+      <div class="panel-body padding-0" id="questionBody-3">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -402,8 +446,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-5" id="seeMore-5" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -416,20 +460,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 5:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-5">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-5" name="fruploaddownloadbtn" title="" type="submit" value="Question 5:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="5">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Give feedback to your team mates
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-5" style="height: auto;">
-      <div class="panel-body" id="questionBody-4">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-5">
+      <div class="panel-body padding-0" id="questionBody-4">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -438,8 +493,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-6" id="seeMore-6" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -452,20 +507,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 6:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-6">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-6" name="fruploaddownloadbtn" title="" type="submit" value="Question 6:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="6">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           This question should be hidden.
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-6" style="height: auto;">
-      <div class="panel-body" id="questionBody-5">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-6">
+      <div class="panel-body padding-0" id="questionBody-5">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -474,8 +540,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-7" id="seeMore-7" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -488,12 +554,23 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 7:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-7">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-7" name="fruploaddownloadbtn" title="" type="submit" value="Question 7:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="7">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           What is your extra feature? 
@@ -523,8 +600,8 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-7" style="height: auto;">
-      <div class="panel-body" id="questionBody-6">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-7">
+      <div class="panel-body padding-0" id="questionBody-6">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -533,8 +610,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-8" id="seeMore-8" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -547,12 +624,23 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 8:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-8">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-8" name="fruploaddownloadbtn" title="" type="submit" value="Question 8:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="8">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           What is your extra feature? 
@@ -582,8 +670,8 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-8" style="height: auto;">
-      <div class="panel-body" id="questionBody-7">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-8">
+      <div class="panel-body padding-0" id="questionBody-7">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -592,8 +680,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-9" id="seeMore-9" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -606,12 +694,23 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 9:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-9">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-9" name="fruploaddownloadbtn" title="" type="submit" value="Question 9:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="9">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Who do you think is the most hardworking student? 
@@ -629,8 +728,8 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-9" style="height: auto;">
-      <div class="panel-body" id="questionBody-8">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-9">
+      <div class="panel-body padding-0" id="questionBody-8">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -639,8 +738,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-10" id="seeMore-10" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -653,12 +752,23 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 10:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-10">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-10" name="fruploaddownloadbtn" title="" type="submit" value="Question 10:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="10">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Which team do you think has the best feature? 
@@ -676,8 +786,8 @@
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-10" style="height: auto;">
-      <div class="panel-body" id="questionBody-9">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-10">
+      <div class="panel-body padding-0" id="questionBody-9">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response
@@ -686,8 +796,8 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-11" id="seeMore-11" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -700,20 +810,31 @@
         <input name="frgroupbysection" type="hidden" value="Section B">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-up pull-right">
         </span>
       </div>
-      <strong>
-        Question 11:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-11">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-11" name="fruploaddownloadbtn" title="" type="submit" value="Question 11:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="Section B">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="11">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           This is a dummy question to test default sort
         </span>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-11" style="height: auto;">
-      <div class="panel-body" id="questionBody-10">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-11">
+      <div class="panel-body padding-0" id="questionBody-10">
         <div class="col-sm-12 no-response">
           <i class="text-muted">
             There are no responses for this question or you may not have the permission to see the response

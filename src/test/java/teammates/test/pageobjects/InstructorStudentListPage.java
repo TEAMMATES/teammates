@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,15 @@ public class InstructorStudentListPage extends AppPage {
 
     @FindBy(id = "searchbox")
     private WebElement searchBox;
+
+    @FindBy(id = "show_email")
+    private WebElement showEmailCheckbox;
+
+    @FindBy(id = "emails")
+    private WebElement shownEmails;
+
+    @FindBy(id = "copy-email-button")
+    private WebElement copyEmailButton;
 
     @FindBy(id = "buttonSearch")
     private WebElement searchButton;
@@ -27,6 +37,34 @@ public class InstructorStudentListPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Student List</h1>");
+    }
+
+    public void toggleShowEmailCheckbox() {
+        click(showEmailCheckbox);
+    }
+
+    public void clickCopyEmailButton() {
+        click(copyEmailButton);
+    }
+
+    public boolean isCopyEmailButtonVisible() {
+        return copyEmailButton.isDisplayed();
+    }
+
+    public void waitForCopyEmailPopoverVisible() {
+        String cssSelector = "#copy-email-button + div.popover";
+        WebElement copyEmailPopover = browser.driver.findElement(By.cssSelector(cssSelector));
+        waitForElementVisibility(copyEmailPopover);
+    }
+
+    public String getSelectedText() {
+        String selectedText = (String) executeScript("return window.getSelection().toString();");
+        selectedText = selectedText.replace(Const.EOL, "\n"); // standardize line separator
+        return selectedText;
+    }
+
+    public String getShownEmailsText() {
+        return shownEmails.getText();
     }
 
     public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {
@@ -104,6 +142,8 @@ public class InstructorStudentListPage extends AppPage {
                                                     .getAttribute("src"));
         WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
                                          .findElement(By.cssSelector(".profile-pic-icon-click > img"));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -100);", photo);
         Actions action = new Actions(browser.driver);
         action.click(photo).build().perform();
         assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
@@ -160,7 +200,7 @@ public class InstructorStudentListPage extends AppPage {
     private WebElement getViewRecordsLink(String rowId) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
         WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
-        
+
         if ("All Records".equals(fourthLink.getText())) {
             return fourthLink;
         }
@@ -170,7 +210,7 @@ public class InstructorStudentListPage extends AppPage {
     private WebElement getDeleteLink(String rowId) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
         WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
-        
+
         if ("Delete".equals(thirdLink.getText())) {
             return thirdLink;
         }

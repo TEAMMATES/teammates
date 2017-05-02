@@ -1,21 +1,20 @@
 package teammates.ui.controller;
 
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 public class AdminEmailTrashDeleteAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
-        new GateKeeper().verifyAdminPrivileges(account);
-        
+
+        gateKeeper.verifyAdminPrivileges(account);
+
         boolean emptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
-        
+
         if (emptyTrashBin) {
             try {
                 logic.deleteAllEmailsInTrashBin();
@@ -26,7 +25,7 @@ public class AdminEmailTrashDeleteAction extends Action {
                 statusToUser.add(new StatusMessage("Blobstore connection failure", StatusMessageColor.DANGER));
             }
         }
-        
+
         return createRedirectResult(Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE);
     }
 

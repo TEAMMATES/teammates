@@ -25,7 +25,7 @@
                 </li>
                 <li>
                     If that Google ID does not belong to you, please inform 
-                    <a class="link" href="contact.jsp" target="_blank">TEAMMATES support team</a>.
+                    <a class="link" href="contact.jsp" target="_blank" rel="noopener noreferrer">TEAMMATES support team</a>.
                     <br><br>
                     <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.
                 </li>

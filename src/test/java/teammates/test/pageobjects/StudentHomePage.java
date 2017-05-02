@@ -4,12 +4,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class StudentHomePage extends AppPage {
-
-    @FindBy(id = "button_join_course")
-    protected WebElement joinButton;
 
     public StudentHomePage(Browser browser) {
         super(browser);
@@ -30,29 +26,29 @@ public class StudentHomePage extends AppPage {
 
         click(viewTeamLinks.get(0));
     }
-    
+
     public WebElement getViewFeedbackButton(String feedbackName) {
-        
+
         int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("viewFeedbackResults" + rowId));
     }
-    
+
     public void clickViewFeedbackButton(String feedbackName) {
         click(getViewFeedbackButton(feedbackName));
     }
 
     public WebElement getEditFeedbackButton(String feedbackName) {
-    
+
         int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("editFeedbackResponses" + rowId));
     }
-    
+
     public void clickEditFeedbackButton(String feedbackName) {
         click(getEditFeedbackButton(feedbackName));
     }
 
     public WebElement getSubmitFeedbackButton(String feedbackName) {
-        
+
         int rowId = getEvalRowId(feedbackName);
         return browser.driver.findElement(By.id("submitFeedback" + rowId));
     }
@@ -62,7 +58,7 @@ public class StudentHomePage extends AppPage {
     }
 
     private int getEvalRowId(String name) {
-        
+
         int id = 0;
         while (isElementPresent(By.id("evaluation" + id))) {
 
@@ -72,7 +68,7 @@ public class StudentHomePage extends AppPage {
             if (text.getText().contains(name)) {
                 return id;
             }
-            
+
             id++;
         }
         return -1;

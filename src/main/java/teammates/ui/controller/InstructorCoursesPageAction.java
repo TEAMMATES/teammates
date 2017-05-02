@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
@@ -24,17 +24,17 @@ public class InstructorCoursesPageAction extends Action {
          * After that, we may verify parameters.
          * e.g. Assumption.assertNotNull(courseId);
          * In this Action, there are no parameters.*/
-        
+
         /* Explanation: Next, check if the user has rights to execute the action.*/
-        new GateKeeper().verifyInstructorPrivileges(account);
-        
+        gateKeeper.verifyInstructorPrivileges(account);
+
         /* Explanation: This is a 'show page' type action. Therefore, we
          * prepare the matching PageData object, accessing the Logic
          * component if necessary.*/
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         data.setUsingAjax(isUsingAjax != null);
-        
+
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
         List<CourseAttributes> allCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
@@ -46,10 +46,10 @@ public class InstructorCoursesPageAction extends Action {
             for (InstructorAttributes instructor : instructorList) {
                 instructorsForCourses.put(instructor.courseId, instructor);
             }
-            
+
             // Get corresponding courses of the instructors.
             allCourses = logic.getCoursesForInstructor(instructorList);
-            
+
             List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
             for (CourseAttributes course : allCourses) {
                 if (archivedCourseIds.contains(course.getId())) {
@@ -58,24 +58,24 @@ public class InstructorCoursesPageAction extends Action {
                     activeCourses.add(course);
                 }
             }
-            
+
             // Sort CourseDetailsBundle lists by course id
             CourseAttributes.sortById(activeCourses);
             CourseAttributes.sortById(archivedCourses);
         }
-        
+
         data.init(activeCourses, archivedCourses, instructorsForCourses);
-        
+
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (data.isUsingAjax() && allCourses.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
-        
+
         /* Explanation: We must set this variable. It is the text that will
          * represent this particular execution of this action in the
          * 'admin activity log' page.*/
         statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
-        
+
         /* Explanation: Create the appropriate result object and return it.*/
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }

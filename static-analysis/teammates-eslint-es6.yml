@@ -1,0 +1,42 @@
+env:
+    browser: true
+    jquery: true
+    qunit: true
+    es6: true
+    node: false
+
+extends:
+    - airbnb-base
+
+parserOptions:
+    ecmaVersion: 2017
+    sourceType: "script"
+
+rules:
+
+    # enforce named function expressions
+    func-names: "off"
+
+    # enforce consistent indentation
+    indent: ["error", 4]
+
+    # enforce consistent linebreak style
+    linebreak-style: "off"
+
+    # enforce a maximum line length
+    max-len: ["error", 125]
+
+    # disallow continue statements
+    no-continue: "off"
+
+    # disallow mixes of different operators
+    no-mixed-operators: "off"
+
+    # disallow reassigning function parameters
+    no-param-reassign: ["error", { "props": false }]
+
+    # disallow the use of variables before they are defined
+    no-use-before-define: "off"
+
+    # require or disallow strict mode directives
+    strict: ["error", "never"]

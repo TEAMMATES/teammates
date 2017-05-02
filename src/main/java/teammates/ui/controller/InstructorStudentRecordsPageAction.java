@@ -9,18 +9,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorStudentRecordsPageData;
 
 public class InstructorStudentRecordsPageAction extends Action {
 
@@ -31,8 +31,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         Assumption.assertNotNull(courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
-        
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
+
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Assumption.assertNotNull(studentEmail);
 
@@ -44,26 +44,26 @@ public class InstructorStudentRecordsPageAction extends Action {
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
-        
+
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
         List<CommentAttributes> comments =
                 logic.getCommentsForReceiverVisibleToInstructor(
                         courseId, CommentParticipantType.PERSON, studentEmail, instructor.email);
-        
+
         CommentAttributes.sortCommentsByCreationTimeDescending(comments);
-        
+
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap =
                 mapCommentsToGiverEmail(comments, instructor);
-        
+
         Map<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
         filterFeedbackSessions(courseId, sessions, instructor, student);
 
         Collections.sort(sessions, FeedbackSessionAttributes.DESCENDING_ORDER);
-        
+
         StudentProfileAttributes studentProfile = null;
 
         boolean isInstructorAllowedToViewStudent = instructor.isAllowedForPrivilege(student.section,
@@ -91,7 +91,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         for (FeedbackSessionAttributes fsa : sessions) {
             sessionNames.add(fsa.getFeedbackSessionName());
         }
-        
+
         InstructorStudentRecordsPageData data =
                 new InstructorStudentRecordsPageData(
                         account, student, courseId, showCommentBox, studentProfile,
@@ -119,12 +119,9 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
         }
     }
-    
+
     /**
      * Maps emails of instructors to the comments they gave.
-     * @param comments
-     * @param instructor
-     * @param courseId
      * @return A map with instructor email => comments mappings.
      */
     private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(
@@ -134,7 +131,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         // add an element representing the current instructor to allow "no comments" to display correctly
         giverEmailToCommentsMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
                                     new ArrayList<CommentAttributes>());
-        
+
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
             String key = isCurrentInstructorGiver
@@ -150,18 +147,16 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
         return giverEmailToCommentsMap;
     }
-    
+
     /**
      * Maps emails of instructors giving the comments to their names.
-     * @param courseId
-     * @param giverEmails
      * @return A map with instructor email => instructor name mappings.
      */
     private Map<String, String> mapGiverNameToGiverEmail(String courseId, Set<String> giverEmails) {
         Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
         giverEmailToGiverNameMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
                                      Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS);
-        
+
         // keep the original naming of an anonymous giver
         giverEmailToGiverNameMap.put(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT,
                                      Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT);

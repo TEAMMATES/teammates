@@ -10,20 +10,20 @@ import java.util.Map;
 
 public class InstructorFeedbackResultsSectionPanel {
     private String panelClass;
-    
+
     private boolean isDisplayingMissingParticipants;
     private boolean isLoadSectionResponsesByAjax;
     private boolean isAbleToLoadResponses;
-    
+
     private String sectionName;
     private String sectionNameForDisplay;
-    
+
     private String statisticsHeaderText;
     private String detailedResponsesHeaderText;
-    
+
     // A mapping from team name to a list of participant panels. Each participant panel is for one member of the team
     private Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels;
-    
+
     private Map<String, Boolean> isDisplayingTeamStatistics;
     private Map<String, List<InstructorFeedbackResultsQuestionTable>> teamStatisticsTable;
     private Map<String, Boolean> isTeamWithResponses;
@@ -31,12 +31,12 @@ public class InstructorFeedbackResultsSectionPanel {
     public InstructorFeedbackResultsSectionPanel() {
         panelClass = "panel-success";
         isDisplayingMissingParticipants = true;
-        
+
         isAbleToLoadResponses = true;
         isTeamWithResponses = new HashMap<String, Boolean>();
         participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
-    
+
     public InstructorFeedbackResultsSectionPanel(String name, String nameForDisplay, boolean loadByAjax) {
         this();
         sectionName = name;
@@ -46,26 +46,26 @@ public class InstructorFeedbackResultsSectionPanel {
 
     /**
      * Adds a participant panel. The participant panel will not be grouped with any team panel.
-     * @see {@link #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)}
+     * @see #addParticipantPanel(String, InstructorFeedbackResultsParticipantPanel)
      */
     public void addParticipantPanel(InstructorFeedbackResultsParticipantPanel participantPanel) {
         addParticipantPanel("", participantPanel);
     }
-    
+
     /**
      * Adds a participant panel. The participant panel is grouped with the team panel with team {@code currentTeam}.
-     * @see {@link #addParticipantPanel(InstructorFeedbackResultsParticipantPanel)}
+     * @see #addParticipantPanel(InstructorFeedbackResultsParticipantPanel)
      */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
         List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
-        
+
         if (participantPanels.containsKey(currentTeam)) {
             teamsMembersPanels = participantPanels.get(currentTeam);
         } else {
             teamsMembersPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
         }
-        
+
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);
     }
@@ -150,7 +150,7 @@ public class InstructorFeedbackResultsSectionPanel {
     public void setLoadSectionResponsesByAjax(boolean isLoadSectionResponsesByAjax) {
         this.isLoadSectionResponsesByAjax = isLoadSectionResponsesByAjax;
     }
-    
+
     public String getSectionNameForDisplay() {
         return sectionNameForDisplay;
     }
@@ -174,8 +174,8 @@ public class InstructorFeedbackResultsSectionPanel {
             sortedPanels.addAll(participantsPanels);
         }
         Collections.sort(sortedPanels);
-        
+
         return sortedPanels;
     }
-    
+
 }

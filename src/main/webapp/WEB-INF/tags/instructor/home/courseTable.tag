@@ -48,7 +48,7 @@
                     ${sessionRow.status}
                 </span>
             </td>
-            <td class="session-response-for-test<c:if test="${sessionRow.recent}"> recent</c:if>">
+            <td class="session-response-for-test">
                 <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
             </td>
             <td class="no-print text-nowrap padding-right-25px">

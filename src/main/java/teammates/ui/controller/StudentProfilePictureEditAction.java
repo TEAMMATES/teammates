@@ -2,13 +2,6 @@ package teammates.ui.controller;
 
 import java.io.IOException;
 
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
@@ -16,6 +9,12 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.OutputSettings;
 import com.google.appengine.api.images.Transform;
+
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 
 /**
  * Action: edits the profile picture based on the coordinates of
@@ -34,7 +33,7 @@ public class StudentProfilePictureEditAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        gateKeeper.verifyLoggedInUserPrivileges();
         readAllPostParamterValuesToFields();
         if (!validatePostParameters()) {
             return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
@@ -111,16 +110,15 @@ public class StudentProfilePictureEditAction extends Action {
 
     private CompositeTransform getCompositeTransformToApply() {
         Transform standardCompress = ImagesServiceFactory.makeResize(150, 150);
-        CompositeTransform finalTransform = ImagesServiceFactory.makeCompositeTransform()
-                                                                .concatenate(getScaleTransform())
-                                                                .concatenate(getRotateTransform())
-                                                                .concatenate(getCropTransform())
-                                                                .concatenate(standardCompress);
-        return finalTransform;
+        return ImagesServiceFactory.makeCompositeTransform()
+                .concatenate(getScaleTransform())
+                .concatenate(getRotateTransform())
+                .concatenate(getCropTransform())
+                .concatenate(standardCompress);
     }
 
     /**
-     * Checks that the information given via POST is valid
+     * Checks that the information given via POST is valid.
      */
     private boolean validatePostParameters() {
         if (leftXString.isEmpty() || topYString.isEmpty()
@@ -148,8 +146,7 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     /**
-     * Gets all the parameters from the Request and ensures that
-     * they are not null
+     * Gets all the parameters from the Request and ensures that they are not null.
      */
     private void readAllPostParamterValuesToFields() {
         leftXString = getLeftXString();

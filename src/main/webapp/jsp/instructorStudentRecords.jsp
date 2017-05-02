@@ -7,17 +7,15 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetails" prefix="ticsd" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE.getLibrarySource() %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
-    <script>
-        var showCommentBox = '${data.showCommentBox}';
-    </script>
 </c:set>
 <c:set var="bodyTitle">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+    <input type="hidden" id="show-comment-box" value="${data.showCommentBox}">
     <div class="container-fluid">
         <c:if test="${not empty data.studentProfile}">
             <ticsd:studentProfile student="${data.studentProfile}"/>

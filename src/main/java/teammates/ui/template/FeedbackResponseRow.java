@@ -3,12 +3,12 @@ package teammates.ui.template;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.util.Sanitizer;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.util.SanitizationHelper;
 
 public class FeedbackResponseRow {
 
@@ -17,7 +17,7 @@ public class FeedbackResponseRow {
     private String questionMoreInfo;
     private String responseText;
     private List<FeedbackResponseCommentRow> responseComments;
-    
+
     public FeedbackResponseRow(int fbIndex, int personIndex, String personType,
                                FeedbackResponseAttributes response, FeedbackSessionResultsBundle results) {
         String questionId = response.feedbackQuestionId;
@@ -47,7 +47,7 @@ public class FeedbackResponseRow {
     }
 
     public String getQuestionText() {
-        return Sanitizer.sanitizeForHtml(questionText);
+        return SanitizationHelper.sanitizeForHtml(questionText);
     }
 
     public String getQuestionMoreInfo() {

@@ -5,7 +5,7 @@ import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -14,13 +14,16 @@ import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link teammates.storage.api.EntitiesDb}.
+ */
 public class EntitiesDbTest extends BaseComponentTestCase {
 
     @Test
     public void testCreateEntity() throws Exception {
         //We are using CoursesDb to test EntititesDb here.
         CoursesDb coursesDb = new CoursesDb();
-        
+
         /*Explanation:
          * The SUT (i.e. EntitiesDb::createEntity) has 4 paths. Therefore, we
          * have 4 test cases here, one for each path.
@@ -32,7 +35,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
-        
+
         ______TS("fails: entity already exists");
         try {
             coursesDb.createEntity(c);
@@ -44,7 +47,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
         }
         coursesDb.deleteEntity(c);
-        
+
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = new CourseAttributes("invalid id spaces", "Basic Computing", "UTC");
         try {
@@ -58,7 +61,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                         FieldValidator.COURSE_ID_MAX_LENGTH),
                     e.getMessage());
         }
-        
+
         ______TS("fails: null parameter");
         try {
             coursesDb.createEntity(null);

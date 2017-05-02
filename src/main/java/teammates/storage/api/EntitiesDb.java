@@ -8,7 +8,13 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-import teammates.common.datatransfer.EntityAttributes;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
+
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -21,11 +27,9 @@ import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
-
+/**
+ * Base class for all classes performing CRUD operations against the Datastore.
+ */
 public abstract class EntitiesDb {
 
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
@@ -37,57 +41,53 @@ public abstract class EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_INSTRUCTOR_PERMISSION =
             "Trying to update non-existing InstructorPermission: ";
-    public static final String ERROR_UPDATE_TO_EXISTENT_INTRUCTOR_PERMISSION =
-            "Trying to update to existent IntructorPermission: ";
+    public static final String ERROR_UPDATE_TO_EXISTENT_INSTRUCTOR_PERMISSION =
+            "Trying to update to existent InstructorPermission: ";
     public static final String ERROR_CREATE_INSTRUCTOR_ALREADY_EXISTS = "Trying to create a Instructor that exists: ";
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
             "Trying to make an non-existent account an Instructor :";
 
-    protected static final Logger log = Logger.getLogger();
-    
     private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
     private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
-    
+    private static final Logger log = Logger.getLogger();
+
     /**
      * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
     public Object createEntity(EntityAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        
+
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
-        
+
         entityToAdd.sanitizeForSaving();
-        
+
         if (!entityToAdd.isValid()) {
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
         }
-        
+
         // TODO: Do we really need special identifiers? Can just use ToString()?
         // Answer: Yes. We can use toString.
-        Object existingEntity = getEntity(entityToAdd);
-        if (existingEntity != null) {
+        if (hasEntity(entityToAdd)) {
             String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
                     + entityToAdd.getIdentificationString();
             log.info(error);
-            throw new EntityAlreadyExistsException(error, existingEntity);
+            throw new EntityAlreadyExistsException(error);
         }
-        
+
         Object entity = entityToAdd.toEntity();
         getPm().makePersistent(entity);
         getPm().flush();
 
         // Wait for the operation to persist
         int elapsedTime = 0;
-        Object createdEntity = getEntity(entityToAdd);
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-            while (createdEntity == null
+            while (!hasEntity(entityToAdd)
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                createdEntity = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
-                if (createdEntity == null) {
+                if (!hasEntity(entityToAdd)) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
@@ -97,77 +97,44 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
-        
+
         log.info(entityToAdd.getBackupIdentifier());
-        
+
         return entity;
     }
-    
+
     public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd)
             throws InvalidParametersException {
-        
+
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
-        
+
         List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
         List<Object> entities = new ArrayList<Object>();
-        
+
         for (EntityAttributes entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
-            
+
             if (!entityToAdd.isValid()) {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
-            
-            if (getEntity(entityToAdd) == null) {
-                entities.add(entityToAdd.toEntity());
-            } else {
+
+            if (hasEntity(entityToAdd)) {
                 entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
             }
-            
+
             log.info(entityToAdd.getBackupIdentifier());
         }
-       
+
         getPm().makePersistentAll(entities);
         getPm().flush();
- 
+
         return entitiesToUpdate;
 
     }
-    
-    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd)
-            throws InvalidParametersException {
-        
-        Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
-        
-        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
-        List<Object> entities = new ArrayList<Object>();
-        
-        for (EntityAttributes entityToAdd : entitiesToAdd) {
-            entityToAdd.sanitizeForSaving();
-            
-            if (!entityToAdd.isValid()) {
-                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
-            }
-            
-            if (getEntity(entityToAdd) == null) {
-                entities.add(entityToAdd.toEntity());
-            } else {
-                entitiesToUpdate.add(entityToAdd);
-            }
-            
-            log.info(entityToAdd.getBackupIdentifier());
-        }
-        
-        getPm().makePersistentAll(entities);
-        getPm().flush();
- 
-        return entities;
 
-    }
-
-    
     /**
      * Warning: Do not use this method unless a previous update might cause
      * adding of the new entity to fail due to EntityAlreadyExists exception
@@ -176,15 +143,15 @@ public abstract class EntitiesDb {
      */
     public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd)
             throws InvalidParametersException {
-        
+
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
-        
+
         entityToAdd.sanitizeForSaving();
-        
+
         if (!entityToAdd.isValid()) {
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
         }
-        
+
         Object entity = entityToAdd.toEntity();
         getPm().makePersistent(entity);
         getPm().flush();
@@ -192,13 +159,11 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
-            Object entityCheck = getEntity(entityToAdd);
-            while (entityCheck == null
+            while (!hasEntity(entityToAdd)
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                entityCheck = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
-                if (entityCheck == null) {
+                if (!hasEntity(entityToAdd)) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
@@ -209,10 +174,10 @@ public abstract class EntitiesDb {
             }
         }
         log.info(entityToAdd.getBackupIdentifier());
-        
+
         return entity;
     }
-    
+
     // TODO: use this method for subclasses.
     /**
      * Note: This is a non-cascade delete.<br>
@@ -223,26 +188,18 @@ public abstract class EntitiesDb {
     public void deleteEntity(EntityAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
-        Object entity = getEntity(entityToDelete);
+        getEntityKeyOnlyQuery(entityToDelete)
+            .deletePersistentAll();
 
-        if (entity == null) {
-            return;
-        }
-
-        getPm().deletePersistent(entity);
-        getPm().flush();
-        
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
-            Object entityCheck = getEntity(entityToDelete);
-            boolean isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+            boolean isEntityDeleted = !hasEntity(entityToDelete);
             while (!isEntityDeleted
                     && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                entityCheck = getEntity(entityToDelete);
-                
-                isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+
+                isEntityDeleted = !hasEntity(entityToDelete);
                 //check before incrementing to avoid boundary case problem
                 if (!isEntityDeleted) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -256,37 +213,31 @@ public abstract class EntitiesDb {
         }
         log.info(entityToDelete.getBackupIdentifier());
     }
-    
+
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
-        
+
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
-        List<Object> entities = new ArrayList<Object>();
         for (EntityAttributes entityToDelete : entitiesToDelete) {
-            Object entity = getEntity(entityToDelete);
-            if (entity != null) {
-                entities.add(entity);
-                log.info(entityToDelete.getBackupIdentifier());
-            }
+            log.info(entityToDelete.getBackupIdentifier());
+            getEntityKeyOnlyQuery(entityToDelete)
+                .deletePersistentAll();
         }
-        
-        getPm().deletePersistentAll(entities);
-        getPm().flush();
     }
-    
+
     public void commitOutstandingChanges() {
         closePm();
     }
-    
+
     protected void closePm() {
         if (!getPm().isClosed()) {
             getPm().close();
         }
     }
-    
+
     public void deletePicture(BlobKey key) {
         GoogleCloudStorageHelper.deleteFile(key);
     }
-    
+
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the Entity
      * matching the EntityAttributes in the parameter.
@@ -295,13 +246,21 @@ public abstract class EntitiesDb {
      *             does not already exist in the Datastore.
      */
     protected abstract Object getEntity(EntityAttributes attributes);
-    
+
+    protected abstract QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes);
+
+    public boolean hasEntity(EntityAttributes attributes) {
+        QueryWithParams q = getEntityKeyOnlyQuery(attributes);
+        List<?> results = q.execute();
+        return !results.isEmpty();
+    }
+
     protected PersistenceManager getPm() {
         PersistenceManager pm = PER_THREAD_PM.get();
         if (pm != null && !pm.isClosed()) {
             return pm;
         }
-        
+
         if (pm != null && pm.isClosed()) {
             PER_THREAD_PM.remove();
         }
@@ -309,20 +268,28 @@ public abstract class EntitiesDb {
         PER_THREAD_PM.set(pm);
         return pm;
     }
-    
+
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document) {
         try {
             SearchManager.putDocument(indexName, document.build());
         } catch (Exception e) {
-            log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
+            log.severe("Failed to put searchable document in " + indexName + " for " + document.toString());
         }
     }
-    
-    protected void getDocument(String indexName, String documentId) {
-        SearchManager.getDocument(indexName, documentId);
+
+    protected void putDocuments(String indexName, List<SearchDocument> documents) {
+        List<Document> searchDocuments = new ArrayList<Document>();
+        for (SearchDocument document : documents) {
+            searchDocuments.add(document.build());
+        }
+        try {
+            SearchManager.putDocuments(indexName, searchDocuments);
+        } catch (Exception e) {
+            log.severe("Failed to batch put searchable documents in " + indexName + " for " + documents.toString());
+        }
     }
-    
+
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
             if (query.getFilterSize() > 0) {
@@ -334,7 +301,7 @@ public abstract class EntitiesDb {
             return null;
         }
     }
-    
+
     protected void deleteDocument(String indexName, String documentId) {
         try {
             SearchManager.deleteDocument(indexName, documentId);
@@ -342,8 +309,5 @@ public abstract class EntitiesDb {
             log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);
         }
     }
-    
-    protected void deleteDocuments(String indexName, String[] documentId) {
-        SearchManager.deleteDocuments(indexName, documentId);
-    }
+
 }

@@ -1,32 +1,29 @@
 package teammates.test.cases.storage;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
 
+/**
+ * SUT: {@link CoursesDb}.
+ */
 public class CoursesDbTest extends BaseComponentTestCase {
 
     private CoursesDb coursesDb = new CoursesDb();
-    
-    @BeforeClass
-    public static void setupClass() {
-        printTestClassHeader();
-    }
 
     @Test
     public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
-        
+
         /*Explanation:
          * This is an inherited method from EntitiesDb and should be tested in
          * EntitiesDbTest class. We test it here too because the method in
@@ -34,11 +31,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
          */
 
         ______TS("Success: typical case");
-        
+
         CourseAttributes c = new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing", "UTC");
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
-        
+
         ______TS("Failure: create duplicate course");
 
         try {
@@ -61,7 +58,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
                     e.getMessage());
         }
 
-        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         CourseAttributes invalidNameCourse = new CourseAttributes("CDbT.tCC.newCourse", longCourseName, "UTC");
         try {
             coursesDb.createEntity(invalidNameCourse);
@@ -90,25 +87,25 @@ public class CoursesDbTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
-        
+
     }
-    
+
     @Test
     public void testGetCourse() throws InvalidParametersException {
         CourseAttributes c = createNewCourse();
-        
+
         ______TS("Success: get an existent course");
 
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertNotNull(retrieved);
-        
+
         ______TS("Failure: get a non-existent course");
 
         retrieved = coursesDb.getCourse("non-existent-course");
         assertNull(retrieved);
-        
+
         ______TS("Failure: get null parameters");
-        
+
         try {
             coursesDb.getCourse(null);
             signalFailureToDetectException();
@@ -116,23 +113,23 @@ public class CoursesDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
-    
+
     @Test
     public void testUpdateCourse() throws Exception {
-        
+
         ______TS("Failure: null paramater");
-        
+
         try {
             coursesDb.updateCourse(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
-        
+
         ______TS("Failure: update course with invalid parameters");
-        
+
         CourseAttributes invalidCourse = new CourseAttributes("", "", "");
-        
+
         try {
             coursesDb.updateCourse(invalidCourse);
             signalFailureToDetectException();
@@ -144,39 +141,39 @@ public class CoursesDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
                                         e.getMessage());
         }
-        
+
         ______TS("fail: non-exisitng course");
-        
+
         CourseAttributes nonExistentCourse = new CourseAttributes("CDbT.non-exist-course", "Non existing course", "UTC");
-        
+
         try {
             coursesDb.updateCourse(nonExistentCourse);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT_COURSE, e.getMessage());
         }
-        
+
         ______TS("success: typical case");
-        
+
         CourseAttributes c = createNewCourse();
         CourseAttributes updatedCourse = new CourseAttributes(c.getId(), c.getName() + " updated", "UTC");
-     
+
         coursesDb.updateCourse(updatedCourse);
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
         assertEquals(c.getName() + " updated", retrieved.getName());
     }
-    
+
     @Test
     public void testDeleteCourse() throws InvalidParametersException {
         CourseAttributes c = createNewCourse();
-        
+
         ______TS("Success: delete an existing course");
 
         coursesDb.deleteCourse(c.getId());
-        
+
         CourseAttributes deleted = coursesDb.getCourse(c.getId());
         assertNull(deleted);
-        
+
         ______TS("Failure: delete a non-existent courses");
 
         // Should fail silently
@@ -193,16 +190,16 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     private CourseAttributes createNewCourse() throws InvalidParametersException {
-        
+
         CourseAttributes c = new CourseAttributes("Computing101", "Basic Computing", "UTC");
-        
+
         try {
             coursesDb.createEntity(c);
         } catch (EntityAlreadyExistsException e) {
             //It is ok if it already exists.
             ignoreExpectedException();
         }
-        
+
         return c;
     }
 }
