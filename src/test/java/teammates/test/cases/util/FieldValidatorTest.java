@@ -292,7 +292,7 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfoForFeedbackPaths() {
+    public void testGetInvalidityInfoForFeedbackPaths() {
         List<FeedbackPathAttributes> feedbackPaths;
         List<String> expected;
         List<String> actual;
