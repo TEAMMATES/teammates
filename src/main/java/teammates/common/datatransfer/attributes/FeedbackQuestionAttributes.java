@@ -923,11 +923,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     /**
-     * Checks that the feedback path participants for the given FeedbackQuestionAttributes are valid.
+     * Checks that the feedback path participants are valid for this question.
      */
-    public static String validateQuestionFeedbackPathsParticipants(
-            FeedbackQuestionAttributes question, List<StudentAttributes> students,
-            List<InstructorAttributes> instructors) {
+    public String validateCustomFeedbackPathsParticipants(
+            List<StudentAttributes> students, List<InstructorAttributes> instructors) {
         Set<String> studentEmails = new HashSet<String>();
         Set<String> instructorEmails = new HashSet<String>();
         Set<String> teamNames = new HashSet<String>();
@@ -939,7 +938,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         // Check for non-existent participants
         Set<String> nonExistentParticipants =
-                getNonExistentParticipantsFromFeedbackPaths(question, studentEmails, instructorEmails, teamNames);
+                getNonExistentParticipantsFromFeedbackPaths(studentEmails, instructorEmails, teamNames);
 
         if (!nonExistentParticipants.isEmpty()) {
             return "Unable to save question as the following feedback path participants do not exist: "
@@ -953,14 +952,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         // Each giver should have all the members in his/her team as a recipient
         StringBuilder errorMsg = new StringBuilder(200);
 
-        if (question.getQuestionType() == FeedbackQuestionType.CONTRIB) {
+        if (questionType == FeedbackQuestionType.CONTRIB) {
             Map<String, Set<String>> teamNameToGiverIdsMap = new HashMap<String, Set<String>>();
             Map<String, Set<String>> giverIdToRecipientIdsMap = new HashMap<String, Set<String>>();
 
-            if (question.isFeedbackPathsGiverTypeStudents()
-                    && question.isFeedbackPathsRecipientTypeStudents()) {
+            if (isFeedbackPathsGiverTypeStudents()
+                    && isFeedbackPathsRecipientTypeStudents()) {
                 populateFeedbackPathsMappings(
-                        question, studentEmailToTeamNameMap, teamNameToGiverIdsMap, giverIdToRecipientIdsMap);
+                        studentEmailToTeamNameMap, teamNameToGiverIdsMap, giverIdToRecipientIdsMap);
 
                 if (!isAllStudentsInTeamGivers(teamNameToStudentEmailsMap, teamNameToGiverIdsMap)) {
                     errorMsg.append("All the students in a team must be a giver. ");
@@ -1000,12 +999,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
     }
 
-    private static Set<String> getNonExistentParticipantsFromFeedbackPaths(
-            FeedbackQuestionAttributes question, Set<String> studentEmails,
-            Set<String> instructorEmails, Set<String> teamNames) {
+    private Set<String> getNonExistentParticipantsFromFeedbackPaths(
+            Set<String> studentEmails, Set<String> instructorEmails, Set<String> teamNames) {
         Set<String> nonExistentParticipants = new HashSet<String>();
 
-        for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
             boolean isFeedbackPathGiverTypeNonExistent =
                     feedbackPath.getFeedbackPathGiverType().isEmpty();
             boolean isFeedbackPathGiverStudentNonExistent =
@@ -1048,10 +1046,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return nonExistentParticipants;
     }
 
-    private static void populateFeedbackPathsMappings(
-            FeedbackQuestionAttributes question, Map<String, String> studentEmailToTeamNameMap,
-            Map<String, Set<String>> teamNameToGiverIdsMap, Map<String, Set<String>> giverIdToRecipientIdsMap) {
-        for (FeedbackPathAttributes feedbackPath : question.feedbackPaths) {
+    private void populateFeedbackPathsMappings(
+            Map<String, String> studentEmailToTeamNameMap, Map<String, Set<String>> teamNameToGiverIdsMap,
+            Map<String, Set<String>> giverIdToRecipientIdsMap) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
             String giverId = feedbackPath.getGiverId();
             String giverTeam = studentEmailToTeamNameMap.get(giverId);
             Set<String> giverIds = teamNameToGiverIdsMap.get(giverTeam);
