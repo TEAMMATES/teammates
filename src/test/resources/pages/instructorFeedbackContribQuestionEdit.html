@@ -811,13 +811,13 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,1)" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,1)" style="display: none;" title="">
                 Edit
               </a>
-              <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
+              <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="">
                 Save Changes
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="display:none" title="">
+              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="" title="">
                 Discard Changes
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
@@ -881,7 +881,7 @@
             (Who is giving feedback about whom?)
           </div>
           <div class="feedback-path-dropdown col-sm-12 btn-group">
-            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+            <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
               </span>
@@ -1262,7 +1262,7 @@
         </div>
         <div>
           <span class="pull-right">
-            <input class="btn btn-primary" id="button_question_submit-1" style="display:none" tabindex="0" type="submit" value="Save Changes">
+            <input class="btn btn-primary" id="button_question_submit-1" style="" tabindex="0" type="submit" value="Save Changes">
           </span>
         </div>
       </div>
