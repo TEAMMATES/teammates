@@ -9,6 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
+CustomFeedbackPaths:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -383,12 +384,12 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $(`#recipienttype-${NEW_QUESTION}`).find('option').show().prop('disabled', false);
     $(`#questionTable-${NEW_QUESTION}`).find('.feedback-path-dropdown > button').removeClass('disabled');
     $(`#questionTable-${NEW_QUESTION}`).find('.visibility-options-dropdown .dropdown-menu li').removeClass('hidden');
-    
+
      // removes custom participant type option
     $(`#givertype-${NEW_QUESTION}`).find(
-            'option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+            `option[value="${CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM}"]`).remove();
     $(`#recipienttype-${NEW_QUESTION}`).find(
-            'option[value="' + CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM + '"]').remove();
+            `option[value="${CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM}"]`).remove();
 
     FeedbackPath.attachEvents();
 }
@@ -411,7 +412,7 @@ function toggleCustomFeedbackPathsDisplay(toggleLink) {
     if (!$customFeedbackPathsDisplay.find('.handsontable').length) {
         CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($questionForm);
     }
-    
+
     if ($customFeedbackPathsDisplay.is(':visible')) {
         $customFeedbackPathsDisplay.hide();
         $toggleLink.text('Show details and further customizations');
@@ -423,10 +424,10 @@ function toggleCustomFeedbackPathsDisplay(toggleLink) {
 
 function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
     const data = customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum];
-    const $questionForm = $('#form_editquestion-' + questionNum);
+    const $questionForm = $(`#form_editquestion-${questionNum}`);
     const $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
     $container.handsontable({
-        data: data,
+        data,
         minRows: 15,
         minCols: 2,
         minSpareRows: 1,
@@ -436,9 +437,9 @@ function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
         manualColumnResize: true,
         manualRowResize: true,
         stretchH: 'all',
-        afterChange: function() {
+        afterChange() {
             CustomFeedbackPaths.updateCustomFeedbackPathsSpreadsheetDataInput($questionForm);
-        }
+        },
     });
 }
 
@@ -666,15 +667,15 @@ function copyOptions(newType) {
     // Previous feedback path setup
     const $prevGiver = $('select[name="givertype"]').eq(-2);
     const $prevRecipient = $('select[name="recipienttype"]').eq(-2);
-    
+
     // If previous feedback path was custom, there's no need to copy
     if ($prevGiver.val() === 'CUSTOM' || $prevRecipient.val() === 'CUSTOM') {
         return;
     }
-    
+
     // New feedback path setup
     const $currGiver = $('select[name="givertype"]').last();
-	const $currRecipient = $('select[name="recipienttype"]').last();
+    const $currRecipient = $('select[name="recipienttype"]').last();
     $currGiver.val($prevGiver.val());
     $currRecipient.val($prevRecipient.val());
 
@@ -914,16 +915,16 @@ function showNewQuestionFrame(type) {
 
     copyOptions(type);
     prepareQuestionForm(type);
-    
+
     $(`#questionTable-${NEW_QUESTION}`).show();
     CustomFeedbackPaths.updateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
-    
+
     enableNewQuestion();
 
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    
+
     $(`#questionTable-${NEW_QUESTION} .custom-feedback-paths-display`).hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
 
