@@ -49,14 +49,15 @@ public class FeedbackQuestionFeedbackPathSettings {
     public void setCustomFeedbackPathsSpreadsheetData(List<FeedbackPathAttributes> feedbackPaths) {
         List<List<String>> customFeedbackPaths = new ArrayList<List<String>>();
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-            customFeedbackPaths.add(Arrays.asList(feedbackPath.getGiver(),
-                                                  feedbackPath.getRecipient()));
+            String sanitizedGiver = "&quot;" + SanitizationHelper.sanitizeForJs(feedbackPath.getGiver()) + "&quot;";
+            String sanitizedRecipient = "&quot;" + SanitizationHelper.sanitizeForJs(feedbackPath.getRecipient()) + "&quot;";
+            customFeedbackPaths.add(Arrays.asList(sanitizedGiver, sanitizedRecipient));
         }
         List<String> customFeedbackPathStrings = new ArrayList<String>();
         for (List<String> customFeedbackPath : customFeedbackPaths) {
-            customFeedbackPathStrings.add(SanitizationHelper.sanitizeListForCsv(customFeedbackPath).toString());
+            customFeedbackPathStrings.add(customFeedbackPath.toString());
         }
-        customFeedbackPathsSpreadsheetData = SanitizationHelper.sanitizeForHtml(customFeedbackPathStrings).toString();
+        customFeedbackPathsSpreadsheetData = customFeedbackPathStrings.toString();
     }
 
     public boolean isCommonPathSelected() {

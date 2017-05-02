@@ -1,19 +1,24 @@
 package teammates.common.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.joda.time.DateTimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -141,6 +146,11 @@ public class FieldValidator {
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
+    public static final String FEEDBACK_PATHS_PARTICIPANT_TYPE_ERROR_MESSAGE =
+            "Feedback path %s are not all of the same type.";
+    public static final String DUPLICATE_FEEDBACK_PATHS_ERROR_MESSAGE =
+            "Duplicate feedback paths exist.";
+
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -184,6 +194,8 @@ public class FieldValidator {
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
+    public static final String PARTICIPANT_TYPE_CUSTOM_ERROR_MESSAGE =
+            "Both the feedback giver and feedback recipient type have to be Custom.";
 
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
@@ -627,7 +639,52 @@ public class FieldValidator {
                     giverType.toDisplayGiverName()));
         }
 
+        if (giverType == FeedbackParticipantType.CUSTOM && recipientType != FeedbackParticipantType.CUSTOM
+                || recipientType == FeedbackParticipantType.CUSTOM && giverType != FeedbackParticipantType.CUSTOM) {
+            errors.add(PARTICIPANT_TYPE_CUSTOM_ERROR_MESSAGE);
+        }
+
         return errors;
+    }
+
+    public List<String> getInvalidityInfoForFeedbackPaths(List<FeedbackPathAttributes> feedbackPaths) {
+
+        Assumption.assertNotNull("Non-null value expected", feedbackPaths);
+
+        Set<String> errors = new TreeSet<String>();
+        Map<String, Set<String>> giverToRecipientsMap = new HashMap<String, Set<String>>();
+
+        if (!feedbackPaths.isEmpty()) {
+            FeedbackPathAttributes prevFeedbackPath = feedbackPaths.get(0);
+            giverToRecipientsMap.put(prevFeedbackPath.getGiver(),
+                                     new HashSet<String>(Arrays.asList(prevFeedbackPath.getRecipient())));
+
+            for (int i = 1; i < feedbackPaths.size(); i++) {
+                FeedbackPathAttributes currFeedbackPath = feedbackPaths.get(i);
+                if (!prevFeedbackPath.getFeedbackPathGiverType().equals(
+                        currFeedbackPath.getFeedbackPathGiverType())) {
+                    errors.add(String.format(FEEDBACK_PATHS_PARTICIPANT_TYPE_ERROR_MESSAGE, "givers"));
+                }
+
+                if (!prevFeedbackPath.getFeedbackPathRecipientType().equals(
+                        currFeedbackPath.getFeedbackPathRecipientType())) {
+                    errors.add(String.format(FEEDBACK_PATHS_PARTICIPANT_TYPE_ERROR_MESSAGE, "recipients"));
+                }
+
+                Set<String> recipientsForGiver = giverToRecipientsMap.get(currFeedbackPath.getGiver());
+
+                if (recipientsForGiver == null) {
+                    recipientsForGiver = new HashSet<String>();
+                } else if (recipientsForGiver.contains(currFeedbackPath.getRecipient())) {
+                    errors.add(DUPLICATE_FEEDBACK_PATHS_ERROR_MESSAGE);
+                }
+
+                recipientsForGiver.add(currFeedbackPath.getRecipient());
+                giverToRecipientsMap.put(currFeedbackPath.getGiver(), recipientsForGiver);
+            }
+        }
+
+        return new ArrayList<String>(errors);
     }
 
     public List<String> getValidityInfoForFeedbackResponseVisibility(

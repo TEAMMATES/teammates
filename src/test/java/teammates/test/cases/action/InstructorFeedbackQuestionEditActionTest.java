@@ -21,6 +21,7 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackQuestionEditAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -1406,6 +1407,342 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         details = fsLogic.getFeedbackSessionDetails(fs);
         assertEquals(numStudentRespondents + numInstructorRespondents - 1, details.stats.submittedTotal);
         assertEquals(totalStudents + numRemainingInstructorRespondents, details.stats.expectedTotal);
+    }
+
+    @Test
+    public void testExecuteAndPostProcessCustomFeedbackPathsQuestion() throws Exception {
+        removeAndRestoreTypicalDataBundle();
+
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
+                .inst()
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+
+        ______TS("Typical success case");
+        String spreadsheetData =
+                "[[\"student1InCourse1@gmail.tmt (Student)\","
+                + "\"student1InCourse1@gmail.tmt (Student)\"],"
+                + "[\"student5InCourse1@gmail.tmt (Student)\","
+                + "\"student5InCourse1@gmail.tmt (Student)\"]]";
+
+        String[] params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        InstructorFeedbackQuestionEditAction action = getAction(params);
+        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+                     result.getDestinationWithParams());
+
+        assertEquals("The changes to the question has been updated.", result.getStatusMessage());
+
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Feedback Question 1 for session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " edited.<br><span class=\"bold\">Essay question:</span> "
+                + "Question with custom feedback paths."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure: Different giver type");
+
+        spreadsheetData =
+                "[[\"student1InCourse1@gmail.tmt (Student)\","
+                + "\"student1InCourse1@gmail.tmt (Student)\"],"
+                + "[\"Team 1.2 (Team)\","
+                + "\"student5InCourse1@gmail.tmt (Student)\"]]";
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+                     result.getDestinationWithParams());
+
+        assertEquals("Feedback path givers are not all of the same type.", result.getStatusMessage());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Servlet Action Failure : Feedback path givers are not all of the same type."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure: Different recipient type");
+
+        spreadsheetData =
+                "[[\"student1InCourse1@gmail.tmt (Student)\","
+                + "\"student1InCourse1@gmail.tmt (Student)\"],"
+                + "[\"student5InCourse1@gmail.tmt (Student)\","
+                + "\"Team 1.2 (Team)\"]]";
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+                     result.getDestinationWithParams());
+
+        assertEquals("Feedback path recipients are not all of the same type.", result.getStatusMessage());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Servlet Action Failure : Feedback path recipients are not all of the same type."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure: Duplicate feedback paths");
+
+        spreadsheetData =
+                "[[\"student1InCourse1@gmail.tmt (Student)\","
+                + "\"student1InCourse1@gmail.tmt (Student)\"],"
+                + "[\"student1InCourse1@gmail.tmt (Student)\","
+                + "\"student1InCourse1@gmail.tmt (Student)\"]]";
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+                     result.getDestinationWithParams());
+
+        assertEquals("Duplicate feedback paths exist.", result.getStatusMessage());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Servlet Action Failure : Duplicate feedback paths exist."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure: Non-existent participant");
+
+        spreadsheetData =
+                "[[\"nonexistentstudent@gmail.tmt (Student)\", \"student1InCourse1@gmail.tmt (Student)\"]]";
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+                     result.getDestinationWithParams());
+
+        assertEquals("Unable to save question as the following feedback path participants do not exist: "
+                     + "nonexistentstudent@gmail.tmt (Student).",
+                     result.getStatusMessage());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Unable to save question as the following feedback path participants do not exist: "
+                + "nonexistentstudent@gmail.tmt (Student)."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure: Non-student participant type for contrib question");
+
+        spreadsheetData =
+                "[[\"Team 1.2 (Team)\", \"student1InCourse1@gmail.tmt (Student)\"]]";
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+                     result.getDestinationWithParams());
+
+        assertEquals("Both the giver and recipient must be a student.", result.getStatusMessage());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Both the giver and recipient must be a student."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure: Not all team members are givers and recipients for contrib question");
+
+        spreadsheetData =
+                "[[\"student1InCourse1@gmail.tmt (Student)\", \"student1InCourse1@gmail.tmt (Student)\"]]";
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.CUSTOM.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Question with custom feedback paths.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "-100",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA, spreadsheetData,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+                     result.getDestinationWithParams());
+
+        assertEquals("All the students in a team must be a giver. "
+                     + "The student must give feedback to all his/her team members including himself/herself.",
+                     result.getStatusMessage());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionEdit|||"
+                + "instructorFeedbackQuestionEdit|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "All the students in a team must be a giver. The student must give feedback to "
+                + "all his/her team members including himself/herself."
+                + "|||/page/instructorFeedbackQuestionEdit";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Override

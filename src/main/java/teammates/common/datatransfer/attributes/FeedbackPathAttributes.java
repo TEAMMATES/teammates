@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackPath;
 
@@ -49,7 +50,23 @@ public class FeedbackPathAttributes extends EntityAttributes {
 
     @Override
     public List<String> getInvalidityInfo() {
-        return new ArrayList<String>();
+        FieldValidator validator = new FieldValidator();
+        List<String> errors = new ArrayList<String>();
+        String error;
+
+        // Check for null fields.
+
+        error = validator.getValidityInfoForNonNullField("feedback giver", giver);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = validator.getValidityInfoForNonNullField("feedback recipient", recipient);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        return errors;
     }
 
     @Override
@@ -193,6 +210,28 @@ public class FeedbackPathAttributes extends EntityAttributes {
      */
     public boolean isFeedbackPathRecipientTheClass() {
         return isFeedbackPathParticipantTheClass(recipient);
+    }
+
+    public String getFeedbackPathGiverType() {
+        return getFeedbackPathParticipantType(giver);
+    }
+
+    public String getFeedbackPathRecipientType() {
+        return getFeedbackPathParticipantType(recipient);
+    }
+
+    private String getFeedbackPathParticipantType(String participant) {
+        if (isFeedbackPathParticipantAStudent(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_STUDENT;
+        } else if (isFeedbackPathParticipantAnInstructor(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR;
+        } else if (isFeedbackPathParticipantATeam(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_TEAM;
+        } else if (isFeedbackPathParticipantTheClass(participant)) {
+            return FEEDBACK_PARTICIPANT_CLASS;
+        } else {
+            return "";
+        }
     }
 
     private String getParticipantId(String participant) {
