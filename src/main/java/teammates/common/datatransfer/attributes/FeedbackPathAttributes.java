@@ -1,9 +1,8 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackPath;

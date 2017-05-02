@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackPathAttributes;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 import teammates.common.util.SanitizationHelper;
 
 
