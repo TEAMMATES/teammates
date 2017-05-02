@@ -90,7 +90,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
     private String validateQuestionFeedbackPathsParticipants(
             FeedbackQuestionAttributes question, List<StudentAttributes> students,
             List<InstructorAttributes> instructors) {
-        return InstructorFeedbackQuestionEditAction.validateQuestionFeedbackPathsParticipants(
+        return FeedbackQuestionAttributes.validateQuestionFeedbackPathsParticipants(
                 question, students, instructors);
     }
 
