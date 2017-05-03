@@ -698,7 +698,7 @@ public final class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
             String giver;
-            if (newQuestion.isFeedbackPathsGiverTypeTeams()) {
+            if (newQuestion.giverType.isCustom() && newQuestion.isFeedbackPathsGiverTypeTeams()) {
                 StudentAttributes studentGiver = studentsLogic.getStudentForEmail(response.courseId, response.giver);
                 giver = studentGiver.getTeam();
             } else {
