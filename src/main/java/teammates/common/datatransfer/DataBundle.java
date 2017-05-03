@@ -1,21 +1,38 @@
 package teammates.common.datatransfer;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 /**
  * Holds a bundle of *Attributes data transfer objects.
  * This class is mainly used for serializing JSON strings.
  */
 public class DataBundle {
-    public HashMap<String, AccountAttributes> accounts = new HashMap<String, AccountAttributes>();
-    public HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
-    public HashMap<String, CourseAttributes> courses = new HashMap<String, CourseAttributes>();
-    public HashMap<String, StudentAttributes> students = new HashMap<String, StudentAttributes>();
-    public HashMap<String, FeedbackSessionAttributes> feedbackSessions = new HashMap<String, FeedbackSessionAttributes>();
-    public HashMap<String, FeedbackQuestionAttributes> feedbackQuestions = new HashMap<String, FeedbackQuestionAttributes>();
-    public HashMap<String, FeedbackResponseAttributes> feedbackResponses = new HashMap<String, FeedbackResponseAttributes>();
-    public HashMap<String, FeedbackResponseCommentAttributes> feedbackResponseComments =
-            new HashMap<String, FeedbackResponseCommentAttributes>();
-    public HashMap<String, CommentAttributes> comments = new HashMap<String, CommentAttributes>();
-    public HashMap<String, StudentProfileAttributes> profiles = new HashMap<String, StudentProfileAttributes>();
+    public Map<String, AccountAttributes> accounts = new LinkedHashMap<String, AccountAttributes>();
+    public Map<String, CourseAttributes> courses = new LinkedHashMap<String, CourseAttributes>();
+    public Map<String, InstructorAttributes> instructors = new LinkedHashMap<String, InstructorAttributes>();
+    public Map<String, StudentAttributes> students = new LinkedHashMap<String, StudentAttributes>();
+    public Map<String, FeedbackSessionAttributes> feedbackSessions =
+            new LinkedHashMap<String, FeedbackSessionAttributes>();
+    public Map<String, FeedbackQuestionAttributes> feedbackQuestions =
+            new LinkedHashMap<String, FeedbackQuestionAttributes>();
+    public Map<String, FeedbackResponseAttributes> feedbackResponses =
+            new LinkedHashMap<String, FeedbackResponseAttributes>();
+    public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments =
+            new LinkedHashMap<String, FeedbackResponseCommentAttributes>();
+    public Map<String, CommentAttributes> comments = new LinkedHashMap<String, CommentAttributes>();
+    public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<String, StudentProfileAttributes>();
+    public Map<String, AdminEmailAttributes> adminEmails = new LinkedHashMap<>();
 }

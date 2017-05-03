@@ -30,16 +30,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         </init-param>
     </filter>
 
-
-    <filter>
-        <filter-name>DatastoreFilter</filter-name>
-        <filter-class>teammates.storage.datastore.DatastoreFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>DatastoreFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
     <servlet>
         <servlet-name>appstats</servlet-name>
         <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
@@ -102,126 +92,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </welcome-file-list>
     
     <servlet>
-        <servlet-name>EmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.EmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EmailWorkerServlet</servlet-name>
-        <url-pattern>/emailWorker</url-pattern>
-    </servlet-mapping>
-    
-    
-    <servlet>
-        <servlet-name>AdminEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.AdminEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminEmailWorkerServlet</servlet-name>
-        <url-pattern>/adminEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.AdminEmailPrepareTaskQueueWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
-        <url-pattern>/adminEmailPrepareTaskQueueWorker</url-pattern>
-    </servlet-mapping>
-    
-    
-    <servlet>
-        <servlet-name>SendEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SendEmailWorkerServlet</servlet-name>
-        <url-pattern>/sendEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    
-    
-    <servlet>
-        <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSubmissionAdjustmentWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
-        <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackRemindEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
-        <url-pattern>/feedbackRemindEmailWorker</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackRemindEmailParticularUsersWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
-        <url-pattern>/feedbackRemindEmailParticularUsersWorker</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>FeedbackSessionOpeningReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSessionOpeningReminders</servlet-name>
-        <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>FeedbackSessionClosingReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSessionClosingRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSessionClosingReminders</servlet-name>
-        <url-pattern>/feedbackSessionClosingReminders</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>FeedbackSessionClosedReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSessionClosedRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSessionClosedReminders</servlet-name>
-        <url-pattern>/feedbackSessionClosedReminders</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>FeedbackSessionPublishedReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.FeedbackSessionPublishedRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackSessionPublishedReminders</servlet-name>
-        <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>CompileLogs</servlet-name>
-        <servlet-class>teammates.logic.automated.CompileLogsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CompileLogs</servlet-name>
-        <url-pattern>/compileLogs</url-pattern>
-    </servlet-mapping>
-    
-	<servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
-        <servlet-class>teammates.logic.automated.EntityModifiedLogsServlet</servlet-class>
+        <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EntityModifiedLogs</servlet-name>
         <url-pattern>/entityModifiedLogs</url-pattern>
     </servlet-mapping>
-	
+    
     <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
@@ -236,15 +114,26 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <description>Servlet that handles all automated requests, e.g cron jobs and task queues</description>
+        <servlet-name>AutomatedServlet</servlet-name>
+        <servlet-class>teammates.ui.automated.AutomatedServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AutomatedServlet</servlet-name>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>PublicImageServlet</servlet-name>
-        <servlet-class>teammates.logic.publicresource.PublicImageServlet</servlet-class>
+        <servlet-class>teammates.ui.controller.PublicImageServlet</servlet-class>
     </servlet>
     
      <servlet-mapping>
         <servlet-name>PublicImageServlet</servlet-name>
         <url-pattern>/public/publicEmailImageServe</url-pattern>
+        <url-pattern>/public/publicImageServe</url-pattern>
     </servlet-mapping>
     
     <security-constraint>
@@ -258,23 +147,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>AutomatedEmails</web-resource-name>
-            <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
-            <url-pattern>/feedbackSessionClosingReminders</url-pattern>
-            <url-pattern>/feedbackSessionClosedReminders</url-pattern>
-            <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
-            <url-pattern>/emailWorker</url-pattern>
-        </web-resource-collection>
-         <web-resource-collection>
-            <web-resource-name>TaskQueue</web-resource-name>
-            <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
+            <web-resource-name>AutomatedActions</web-resource-name>
+            <description>Servlets that trigger automated actions</description>
+            <url-pattern>/auto/*</url-pattern>
+            <url-pattern>/worker/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-          </user-data-constraint>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -294,6 +177,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
             <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/entityModifiedLogs</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -301,6 +185,19 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
           </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>TestPages</web-resource-name>
+            <description>Page for testing use only</description>
+            <url-pattern>/dev/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <error-page>
         <error-code>401</error-code>

@@ -5,94 +5,91 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForResponseRate extends RemoteApiClient {
-    
+
     private Logic logic = new Logic();
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
-    // modify this value to choose to update respondants for all sessions or a specific session
+    // modify this value to choose to update respondents for all sessions or a specific session
     private boolean isForAllSession = true;
-    // if modifying all sessions, modify this value to only update sessions with no respondants
+    // if modifying all sessions, modify this value to only update sessions with no respondents
     private boolean isOnlyModifyingZeroResponseRate = true;
 
     // modify for preview
     private boolean isPreview = true;
-    
+
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
-        
+
         DataMigrationForResponseRate migrator = new DataMigrationForResponseRate();
         migrator.doOperationRemotely();
-        
+
         final long endTime = System.currentTimeMillis();
         System.out.println("Total execution time: " + (endTime - startTime) + "ms");
     }
-    
+
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-        
         if (isForAllSession) {
-            updateRespondantsForAllSessions();
+            updateRespondentsForAllSessions();
         } else {
-            updateRespondantsForSession("Feedback Session Name", "Course ID"); // feedback session info
+            updateRespondentsForSession("Feedback Session Name", "Course ID"); // feedback session info
         }
     }
 
     @SuppressWarnings("deprecation")
-    private void updateRespondantsForAllSessions() {
+    private void updateRespondentsForAllSessions() {
         List<FeedbackSessionAttributes> feedbackSessions;
-        
+
         feedbackSessions = isOnlyModifyingZeroResponseRate
                          ? getFeedbackSessionsWithZeroResponseRate()
                          : fsDb.getAllFeedbackSessions();
-        
+
         for (FeedbackSessionAttributes session : feedbackSessions) {
-            updateRespondantsForSession(session.getFeedbackSessionName(), session.getCourseId());
+            updateRespondentsForSession(session.getFeedbackSessionName(), session.getCourseId());
         }
     }
-    
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithZeroResponseRate() {
+
+    private List<FeedbackSessionAttributes> getFeedbackSessionsWithZeroResponseRate() {
         @SuppressWarnings("deprecation")
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
-        
-        List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondants = new ArrayList<FeedbackSessionAttributes>();
-        
+
+        List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondents = new ArrayList<FeedbackSessionAttributes>();
+
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             if (feedbackSession.getRespondingStudentList().size() != 0
                     || feedbackSession.getRespondingInstructorList().size() != 0) {
                 continue;
             }
-            
-            feedbackSessionsWithNoRespondants.add(feedbackSession);
+
+            feedbackSessionsWithNoRespondents.add(feedbackSession);
         }
-        
-        return feedbackSessionsWithNoRespondants;
+
+        return feedbackSessionsWithNoRespondents;
     }
-    
+
     /* Operation for a specific session */
-    private void updateRespondantsForSession(String feedbackSessionName, String courseId) {
+    private void updateRespondentsForSession(String feedbackSessionName, String courseId) {
         if (isPreview) {
             System.out.println("Modifying : [" + courseId + ": " + feedbackSessionName + "]");
             return;
         }
-        
+
         try {
-            logic.updateRespondants(feedbackSessionName, courseId);
+            logic.updateRespondents(feedbackSessionName, courseId);
             System.out.println("Successfully updated response rate for session " + feedbackSessionName
                                + " in course " + courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            System.out.println("ERROR Failed to update respondants for session " + feedbackSessionName
+            System.out.println("ERROR Failed to update respondents for session " + feedbackSessionName
                                + " in course " + courseId);
             e.printStackTrace();
         }
     }
-    
+
 }

@@ -45,23 +45,17 @@
             <div class="col-sm-4 col-lg-2">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <form id="download-form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
+                        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
                             <div id="feedbackDataButtons">
-                                <button id="button_download" type="submit" data-toggle="dropdown" class="btn btn-primary btn-block dropdown-toggle"
-                                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>">
-                                    Download Results <span class="caret"></span>
-                                </button>
-                                <ul id="download-result-dropdown" class="dropdown-menu download-type-list">
-                                    <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.CSV%>"><a>As spreadsheet without formatting (.csv file)</a></li>
-                                    <li data-downloadtype="<%=Const.FeedbackSessionResultsDownloadTypes.XLSX%>"><a>As normal spreadsheet (.xlsx file)</a></li>
-                                </ul>
+                                <input id="button_download" type="submit" class="btn btn-primary btn-block"
+                                       name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                                       value="Download Results">
                             </div>
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
                             <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
                             <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
-                            <input type="hidden" id="downloadType" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_DOWNLOAD_TYPE %>">
                             <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
                         </form>

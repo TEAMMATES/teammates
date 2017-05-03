@@ -1,0 +1,267 @@
+package teammates.test.cases.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.testng.annotations.Test;
+
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.util.SanitizationHelper;
+import teammates.test.cases.BaseTestCase;
+
+/**
+ * SUT: {@link SanitizationHelper}.
+ */
+public class SanitizationHelperTest extends BaseTestCase {
+
+    @Test
+    public void testSanitizeGoogleId() {
+        assertEquals("big-small.20_12", SanitizationHelper.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+        assertEquals("user@hotmail.com", SanitizationHelper.sanitizeGoogleId(" user@hotmail.com \t\n"));
+    }
+
+    @Test
+    public void testSanitizeEmail() {
+        String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
+        String normalEmail = "normal@email.com";
+
+        assertEquals(null, SanitizationHelper.sanitizeEmail(null));
+        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
+        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
+    }
+
+    @Test
+    public void testSanitizeName() {
+
+        String nameWithWhiteSpaces = "\t alice   bob \t\n";
+        String normalName = "alice bob";
+
+        assertEquals(null, SanitizationHelper.sanitizeName(null));
+        assertEquals(normalName, SanitizationHelper.sanitizeName(normalName));
+        assertEquals(normalName, SanitizationHelper.sanitizeName(nameWithWhiteSpaces));
+    }
+
+    @Test
+    public void testSanitizeTitle() {
+        // tested as name
+    }
+
+    @Test
+    public void testSanitizeTextField() {
+        // tested as email
+    }
+
+    @Test
+    public void testSanitizeForJs() {
+        sanitizeJs_receivesNull_returnsNull();
+        sanitizeJs_receivesUnsanitized_returnsSanitized();
+    }
+
+    private void sanitizeJs_receivesNull_returnsNull() {
+        assertEquals(null, SanitizationHelper.sanitizeForJs(null));
+    }
+
+    private void sanitizeJs_receivesUnsanitized_returnsSanitized() {
+        String unsanitized = "\\ \" ' #"; // i.e., [\ " ' #]
+        String expected = "\\\\ \\&quot; \\&#39; \\#"; // i.e., [\\ \&quot; \&#39; \#]
+        String sanitized = SanitizationHelper.sanitizeForJs(unsanitized);
+        assertEquals(expected, sanitized);
+    }
+
+    @Test
+    public void testSanitizeForHtml() {
+        sanitizeHtml_receivesNull_returnsNull();
+        sanitizeHtml_receivesCodeInjection_returnsSanitized();
+        sanitizeHtml_receivesSanitized_returnsUnchanged();
+    }
+
+    private void sanitizeHtml_receivesNull_returnsNull() {
+        assertEquals(null, SanitizationHelper.sanitizeForHtml((String) null));
+    }
+
+    private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
+        String unsanitized = "< > \" / ' &"
+                             + "<script>alert('injected');</script>";
+        String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
+                          + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
+        assertEquals(expected, sanitized);
+    }
+
+    private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
+        String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
+                           + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+        assertEquals(sanitized, SanitizationHelper.sanitizeForHtml(sanitized));
+    }
+
+    @Test
+    public void testDesanitizeFromHtml() {
+        desanitizeFromHtml_receivesNull_returnsNull();
+        desanitizeFromHtml_recievesEmpty_returnsEmpty();
+        desanitizeFromHtml_receivesSanitized_returnsDesanitized();
+    }
+
+    private void desanitizeFromHtml_receivesNull_returnsNull() {
+        assertEquals(null, SanitizationHelper.desanitizeFromHtml((String) null));
+    }
+
+    private void desanitizeFromHtml_recievesEmpty_returnsEmpty() {
+        String emptyString = "";
+        assertEquals(emptyString, SanitizationHelper.desanitizeFromHtml(emptyString));
+    }
+
+    private void desanitizeFromHtml_receivesSanitized_returnsDesanitized() {
+        String text = "<text><div> 'param' &&& \\//\\ \" <The quick brown fox jumps over the lazy dog.>";
+        String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
+        assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
+    }
+
+    @Test
+    public void testSanitizeForHtmlTag() {
+        sanitizeHtmlTag_receivesNull_returnsNull();
+        sanitizeHtmlTag_receivesHtml_returnsSanitized();
+    }
+
+    private void sanitizeHtmlTag_receivesHtml_returnsSanitized() {
+        String unsanitized = "<div><td>&lt;</td></div>";
+        String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
+        String sanitized = SanitizationHelper.sanitizeForHtmlTag(unsanitized);
+        assertEquals(expected, sanitized);
+    }
+
+    private void sanitizeHtmlTag_receivesNull_returnsNull() {
+        assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(null));
+    }
+
+    @Test
+    public void testSanitizeForRichText() {
+        assertEquals(null, SanitizationHelper.sanitizeForRichText((Text) null));
+        assertEquals(null, SanitizationHelper.sanitizeForRichText((String) null));
+        assertEquals("", SanitizationHelper.sanitizeForRichText(""));
+        assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
+        assertEquals("<p>spaces test</p>", SanitizationHelper.sanitizeForRichText("<p >spaces test</p >"));
+        String actualRichText = "<body onload=\"alert('onload');\">"
+                                + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
+                                + "<script>alert('fail');</script>"
+                                + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                + "<hr />"
+                                + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                + "<p style=\"text-align:center\"><strong>Content</strong></p>"
+                                + "<div onmouseover=\"alert('onmouseover');\"></div>"
+                                + "<iframe></iframe>"
+                                + "<input></input>"
+                                + "<span style=\"color:#339966\">Content</span>";
+        String expectedRichText = "<a href=\"https://teammatesv4.appspot.com\"></a>"
+                                  + "<h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6>"
+                                  + "<hr />"
+                                  + "<img src=\"https://teammatesv4.appspot.com/images/overview.png\" />"
+                                  + "<p style=\"text-align:center\"><strong>Content</strong></p>"
+                                  + "<div></div>"
+                                  + "<span style=\"color:#339966\">Content</span>";
+        String sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
+        assertEquals(expectedRichText, sanitized);
+
+        Text actualRichTextObj = new Text(actualRichText);
+        Text sanitizedTextObj = SanitizationHelper.sanitizeForRichText(actualRichTextObj);
+        assertEquals(expectedRichText, sanitizedTextObj.getValue());
+    }
+
+    @Test
+    public void testSanitizeForNextUrl() {
+        sanitizeForNextUrl_receivesNull_returnsNull();
+        sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl();
+    }
+
+    private void sanitizeForNextUrl_receivesNull_returnsNull() {
+        assertEquals(null, SanitizationHelper.sanitizeForNextUrl(null));
+    }
+
+    private void sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl() {
+        String url = "/page/studentCourseJoinAuthenticated?key=FF6266"
+                     + "&next=/page/studentHomePage%23/encodedHashHere%2B/encodedPlusHere";
+        String expected = "/page/studentCourseJoinAuthenticated?key=FF6266$"
+                          + "{amp}next=/page/studentHomePage${hash}/encodedHashHere${plus}/encodedPlusHere";
+        assertEquals(expected, SanitizationHelper.sanitizeForNextUrl(url));
+    }
+
+    @Test
+    public void testDesanitizeFromNextUrl() {
+        desanitizeFromNextUrl_receivesNull_returnsNull();
+        desanitizeFromNextUrl_receivesSanitized_returnsDesanitized();
+    }
+
+    private void desanitizeFromNextUrl_receivesNull_returnsNull() {
+        assertEquals(null, SanitizationHelper.desanitizeFromNextUrl(null));
+    }
+
+    private void desanitizeFromNextUrl_receivesSanitized_returnsDesanitized() {
+        String expected = "/page/studentCourseJoinAuthenticated?key=FF6266"
+                          + "&next=/page/studentHomePage%23/encodedHashHere%2B/encodedPlusHere";
+        String sanitizedUrl = SanitizationHelper.sanitizeForNextUrl(expected);
+        assertEquals(expected, SanitizationHelper.desanitizeFromNextUrl(sanitizedUrl));
+
+        sanitizedUrl = "/page/studentCourseDetailsPage?user=USERNAME"
+                       + "${amp}courseid=CS2103-Aug2016${hash}/encodedHashHere${plus}/encodedPlusHere"
+                       + " /plusHere";
+        expected = "/page/studentCourseDetailsPage?user=USERNAME"
+                   + "&courseid=CS2103-Aug2016%23/encodedHashHere%2B/encodedPlusHere"
+                   + "+/plusHere";
+        assertEquals(expected, SanitizationHelper.desanitizeFromNextUrl(sanitizedUrl));
+    }
+
+    @Test
+    public void testSanitizeForCsv() {
+        sanitizeCsv_receivesUnsanitized_returnsSanitized();
+    }
+
+    private void sanitizeCsv_receivesUnsanitized_returnsSanitized() {
+        String unsanitized = "aaa , bb\"b, c\"\"cc";
+        String expected = "\"aaa , bb\"\"b, c\"\"\"\"cc\"";
+        String sanitized = SanitizationHelper.sanitizeForCsv(unsanitized);
+        assertEquals(expected, sanitized);
+    }
+
+    @Test
+    public void testSanitizeListForCsv() {
+        sanitizeCsvList_receivesEmptyList_returnsEmptyList();
+        sanitizeCsvList_receivesUnsanitized_returnsSanitized();
+    }
+
+    private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
+        List<String> emptyList = new ArrayList<String>();
+        assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
+    }
+
+    private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
+        List<String> unsanitized = new ArrayList<String>();
+        unsanitized.add("aaa , bb\"b, c\"\"cc");
+        unsanitized.add("aaa , bb\"b, c\"\"cc");
+
+        List<String> expected = new ArrayList<String>();
+        expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
+        expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
+
+        assertEquals(expected, SanitizationHelper.sanitizeListForCsv(unsanitized));
+    }
+
+    @Test
+    public void testSanitizeStringForXPath() {
+        String text = "";
+        String expected = "''";
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
+
+        text = "Will o' The Wisp";
+        expected = "concat('Will o',\"'\",' The Wisp','')";
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
+
+        text = "'''''Will o''''' The''''' Wisp";
+        expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
+
+        text = "Team 1</td></div>'\"";
+        expected = "concat('Team 1</td></div>',\"'\",'\"','')";
+        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
+
+    }
+}

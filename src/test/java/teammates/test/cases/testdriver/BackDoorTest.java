@@ -1,66 +1,49 @@
 package teammates.test.cases.testdriver;
 
-import java.util.HashMap;
-
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 import teammates.test.driver.BackDoor;
-import teammates.test.util.Priority;
+import teammates.test.driver.Priority;
 
-import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
-
+/**
+ * SUT: {@link BackDoor}.
+ */
 @Priority(2)
-public class BackDoorTest extends BaseTestCase {
+public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
 
-    private static Gson gson = Utils.getTeammatesGson();
-    private static DataBundle dataBundle = getTypicalDataBundle();
-    private static String jsonString = gson.toJson(dataBundle);
+    private DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
-    public static void setUp() {
-        printTestClassHeader();
-        dataBundle = getTypicalDataBundle();
-        int retryLimit = 5;
-        String status = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
-        while (status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retryLimit > 0) {
-            status = BackDoor.removeAndRestoreDataBundleFromDb(dataBundle);
-            retryLimit--;
-        }
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-    }
+    public void classSetup() {
+        removeAndRestoreDataBundle(dataBundle);
 
-    @Priority(-2)
-    @Test
-    public void testPersistence() {
-        // typical bundle should be restored in the @BeforeClass method above
-        verifyPresentInDatastore(jsonString);
+        // verifies that typical bundle is restored by the above operation
+        verifyPresentInDatastore(dataBundle);
     }
 
     @Test
     public void testDeletion() {
-        
+
         // ----------deleting Instructor entities-------------------------
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor2OfCourse2");
         verifyPresentInDatastore(instructor1OfCourse1);
         String status = BackDoor.deleteInstructor(instructor1OfCourse1.courseId, instructor1OfCourse1.email);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(instructor1OfCourse1);
-        
+
         //try to delete again: should indicate as success because delete fails silently.
         status = BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
@@ -70,14 +53,14 @@ public class BackDoorTest extends BaseTestCase {
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
         fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
         fr = BackDoor.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
-        
+
         verifyPresentInDatastore(fr);
         status = BackDoor.deleteFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(fr);
-        
+
         // ----------deleting Feedback Question entities-------------------------
-        fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fq = dataBundle.feedbackQuestions.get("qn5InSession1InCourse1");
         verifyPresentInDatastore(fq);
         status = BackDoor.deleteFeedbackQuestion(fq.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
@@ -95,14 +78,14 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student2InCourse2 = dataBundle.students
                 .get("student2InCourse2");
         verifyAbsentInDatastore(student2InCourse2);
-        
+
         // #COURSE 1
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         verifyPresentInDatastore(course1);
         status = BackDoor.deleteCourse(course1.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(course1);
-        
+
         // check if related student entities are also deleted
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
@@ -114,58 +97,27 @@ public class BackDoorTest extends BaseTestCase {
         status = BackDoor.deleteCourse(courseNoEvals.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(courseNoEvals);
-        
+
         // ----------deleting Feedback Session entities-------------------------
         // TODO: do proper deletion test
-        BackDoor.deleteFeedbackSessions(dataBundle);
 
     }
-    
+
     @Test
-    public void testAccounts() {
-        
-        testCreateAccount();
-        testGetAccountAsJson();
-        testEditAccount();
-        testDeleteAccount();
-    }
-    
     public void testCreateAccount() {
         AccountAttributes newAccount = dataBundle.accounts.get("instructor1OfCourse1");
+
+        // Make sure not already inside
         BackDoor.deleteAccount(newAccount.googleId);
         verifyAbsentInDatastore(newAccount);
+
+        // Perform creation
         BackDoor.createAccount(newAccount);
         verifyPresentInDatastore(newAccount);
-    }
-    
-    public void testGetAccountAsJson() {
-        AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
-        verifyPresentInDatastore(testAccount);
-        String actualString = BackDoor.getAccountAsJson(testAccount.googleId);
-        AccountAttributes actualAccount = gson.fromJson(actualString, AccountAttributes.class);
-        actualAccount.createdAt = testAccount.createdAt;
-        assertEquals(gson.toJson(testAccount), gson.toJson(actualAccount));
-    }
-    
-    public void testEditAccount() {
-        AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
-        verifyPresentInDatastore(testAccount);
-        testAccount.name = "New name";
-        testAccount.institute = "TEAMMATES Test Institute 7";
-        BackDoor.editAccount(testAccount);
-        verifyPresentInDatastore(testAccount);
-    }
-    
-    public void testDeleteAccount() {
-        AccountAttributes testAccount = dataBundle.accounts.get("instructor2OfCourse1");
-        BackDoor.createAccount(testAccount);
-        verifyPresentInDatastore(testAccount);
-        BackDoor.deleteAccount(testAccount.googleId);
-        verifyAbsentInDatastore(testAccount);
-    }
 
-    public void testDeleteInstructors() {
-        // already tested by testPersistenceAndDeletion
+        // Clean up
+        BackDoor.deleteAccount(newAccount.googleId);
+        verifyAbsentInDatastore(newAccount);
     }
 
     @Test
@@ -179,11 +131,11 @@ public class BackDoorTest extends BaseTestCase {
         String email = "tmapitt@tci.tmt";
         @SuppressWarnings("deprecation")
         InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
-        
+
         // Make sure not already inside
         BackDoor.deleteInstructor(courseId, email);
         verifyAbsentInDatastore(instructor);
-        
+
         // Perform creation
         BackDoor.createInstructor(instructor);
         verifyPresentInDatastore(instructor);
@@ -194,18 +146,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(instructor);
     }
 
-    public void testGetInstructorAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    public void testDeleteInstructor() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    public void testEditInstructor() {
-        // method not implemented
-    }
-
     @Test
     public void testCreateCourse() {
         // only minimal testing because this is a wrapper method for
@@ -214,30 +154,18 @@ public class BackDoorTest extends BaseTestCase {
         String courseId = "tmapitt.tcc.course";
         CourseAttributes course = new CourseAttributes(courseId,
                 "Name of tmapitt.tcc.instructor", "UTC");
-        
+
         // Make sure not already inside
         BackDoor.deleteCourse(courseId);
         verifyAbsentInDatastore(course);
-        
+
         // Perform creation
         BackDoor.createCourse(course);
         verifyPresentInDatastore(course);
-        
+
         // Clean up
         BackDoor.deleteCourse(courseId);
         verifyAbsentInDatastore(course);
-    }
-
-    public void testGetCourseAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-    
-    public void testEditCourse() {
-        // not implemented
-    }
-
-    public void testDeleteCourse() {
-        // already tested by testPersistenceAndDeletion
     }
 
     @Test
@@ -262,9 +190,11 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student",
                                                           "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
-        String key = "[BACKDOOR_STATUS_FAILURE]";
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]")) {
+        String key = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        int retryLimit = 5;
+        while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retryLimit > 0) {
             key = BackDoor.getEncryptedKeyForStudent(student.course, student.email);
+            retryLimit--;
         }
 
         // The following is the google app engine description about generating
@@ -288,10 +218,6 @@ public class BackDoorTest extends BaseTestCase {
 
     }
 
-    public void testGetStudentAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-
     @Test
     public void testEditStudent() {
 
@@ -300,7 +226,7 @@ public class BackDoorTest extends BaseTestCase {
         // try to create the entity in case it does not exist
         BackDoor.createStudent(student);
         verifyPresentInDatastore(student);
-        
+
         String originalEmail = student.email;
         student.name = "New name";
         student.lastName = "name";
@@ -323,10 +249,6 @@ public class BackDoorTest extends BaseTestCase {
         verifyAbsentInDatastore(student);
     }
 
-    public void testDeleteStudent() {
-        // already tested by testPersistenceAndDeletion
-    }
-    
     @Test
     public void testCreateFeedbackResponse() {
 
@@ -359,170 +281,5 @@ public class BackDoorTest extends BaseTestCase {
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
         verifyAbsentInDatastore(fr);
     }
-    
-    private void verifyAbsentInDatastore(AccountAttributes account) {
-        assertEquals("null", BackDoor.getAccountAsJson(account.googleId));
-    }
-    
-    private void verifyAbsentInDatastore(CourseAttributes course) {
-        assertEquals("null", BackDoor.getCourseAsJson(course.getId()));
-    }
-    
-    private void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
-        assertEquals("null", BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId));
-    }
 
-    private void verifyAbsentInDatastore(StudentAttributes student) {
-        assertEquals("null",
-                BackDoor.getStudentAsJson(student.course, student.email));
-    }
-
-    private void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
-        assertEquals("null", BackDoor.getFeedbackQuestionForIdAsJson(fq.getId()));
-    }
-    
-    private void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
-        assertEquals("null", BackDoor.getFeedbackResponseAsJson(fr.feedbackQuestionId, fr.giver, fr.recipient));
-    }
-
-    private void verifyPresentInDatastore(String dataBundleJsonString) {
-        Gson gson = Utils.getTeammatesGson();
-
-        DataBundle data = gson.fromJson(dataBundleJsonString, DataBundle.class);
-        HashMap<String, AccountAttributes> accounts = data.accounts;
-        for (AccountAttributes expectedAccount : accounts.values()) {
-            verifyPresentInDatastore(expectedAccount);
-        }
-
-        HashMap<String, CourseAttributes> courses = data.courses;
-        for (CourseAttributes expectedCourse : courses.values()) {
-            verifyPresentInDatastore(expectedCourse);
-        }
-        
-        HashMap<String, InstructorAttributes> instructors = data.instructors;
-        for (InstructorAttributes expectedInstructor : instructors.values()) {
-            verifyPresentInDatastore(expectedInstructor);
-        }
-
-        HashMap<String, StudentAttributes> students = data.students;
-        for (StudentAttributes expectedStudent : students.values()) {
-            verifyPresentInDatastore(expectedStudent);
-        }
-
-    }
-
-    private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
-        String studentJsonString = "null";
-        while ("null".equals(studentJsonString)) {
-            studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
-        }
-        StudentAttributes actualStudent = gson.fromJson(studentJsonString,
-                StudentAttributes.class);
-        equalizeIrrelevantData(expectedStudent, actualStudent);
-        expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
-        assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
-    }
-
-    private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
-        String courseJsonString = "null";
-        while ("null".equals(courseJsonString)) {
-            courseJsonString = BackDoor.getCourseAsJson(expectedCourse.getId());
-        }
-        CourseAttributes actualCourse = gson.fromJson(courseJsonString,
-                CourseAttributes.class);
-        // Ignore time field as it is stamped at the time of creation in testing
-        actualCourse.createdAt = expectedCourse.createdAt;
-        assertEquals(gson.toJson(expectedCourse), gson.toJson(actualCourse));
-    }
-
-    private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
-        String instructorJsonString = "null";
-        while ("null".equals(instructorJsonString)) {
-            instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email,
-                                                                       expectedInstructor.courseId);
-        }
-        InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
-        
-        equalizeIrrelevantData(expectedInstructor, actualInstructor);
-        assertTrue(expectedInstructor.isEqualToAnotherInstructor(actualInstructor));
-    }
-    
-    private void verifyPresentInDatastore(AccountAttributes expectedAccount) {
-        String accountJsonString = BackDoor.getAccountAsJson(expectedAccount.googleId);
-        AccountAttributes actualAccount = gson.fromJson(accountJsonString, AccountAttributes.class);
-        // Ignore time field as it is stamped at the time of creation in testing
-        actualAccount.createdAt = expectedAccount.createdAt;
-        
-        if (expectedAccount.studentProfile == null) {
-            expectedAccount.studentProfile = new StudentProfileAttributes();
-            expectedAccount.studentProfile.googleId = expectedAccount.googleId;
-        }
-        expectedAccount.studentProfile.modifiedDate = actualAccount.studentProfile.modifiedDate;
-        assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
-    }
-
-    private void verifyPresentInDatastore(FeedbackQuestionAttributes expectedQuestion) {
-        String questionJsonString = BackDoor.getFeedbackQuestionAsJson(expectedQuestion.feedbackSessionName,
-                                                                       expectedQuestion.courseId,
-                                                                       expectedQuestion.questionNumber);
-        FeedbackQuestionAttributes actualQuestion = gson.fromJson(questionJsonString, FeedbackQuestionAttributes.class);
-        
-        // Match the id of the expected Feedback Question because it is not known in advance
-        equalizeId(expectedQuestion, actualQuestion);
-        assertEquals(gson.toJson(expectedQuestion), gson.toJson(actualQuestion));
-    }
-
-    private void verifyPresentInDatastore(FeedbackResponseAttributes expectedResponse) {
-        String responseJsonString = BackDoor.getFeedbackResponseAsJson(expectedResponse.feedbackQuestionId,
-                                                                       expectedResponse.giver,
-                                                                       expectedResponse.recipient);
-        FeedbackResponseAttributes actualResponse = gson.fromJson(responseJsonString, FeedbackResponseAttributes.class);
-
-        assertEquals(gson.toJson(expectedResponse), gson.toJson(actualResponse));
-    }
-
-    private void equalizeIrrelevantData(
-            StudentAttributes expectedStudent,
-            StudentAttributes actualStudent) {
-        
-        // For these fields, we consider null and "" equivalent.
-        if (expectedStudent.googleId == null && actualStudent.googleId.isEmpty()) {
-            actualStudent.googleId = null;
-        }
-        if (expectedStudent.team == null && actualStudent.team.isEmpty()) {
-            actualStudent.team = null;
-        }
-        if (expectedStudent.comments == null
-                && actualStudent.comments.isEmpty()) {
-            actualStudent.comments = null;
-        }
-
-        // pretend keys match because the key is generated on the server side
-        // and cannot be anticipated
-        if (actualStudent.key != null) {
-            expectedStudent.key = actualStudent.key;
-        }
-    }
-    
-    private void equalizeIrrelevantData(
-            InstructorAttributes expectedInstructor,
-            InstructorAttributes actualInstructor) {
-        
-        // pretend keys match because the key is generated only before storing into database
-        if (actualInstructor.key != null) {
-            expectedInstructor.key = actualInstructor.key;
-        }
-    }
-
-    private void equalizeId(
-            FeedbackQuestionAttributes expectedFeedbackQuestion,
-            FeedbackQuestionAttributes actualFeedbackQuestion) {
-
-        expectedFeedbackQuestion.setId(actualFeedbackQuestion.getId());
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        printTestClassFooter();
-    }
 }

@@ -35,7 +35,7 @@ public class AdminAccountManagementPage extends AppPage {
         switchToNewWindow();
         return changePageType(AdminAccountDetailsPage.class);
     }
-    
+
     public AdminActivityLogPage clickViewRecentActions(String instructorId) {
         WebElement button = browser.driver.findElement(By.id(instructorId + "_recentActions"));
         click(button);
@@ -63,7 +63,7 @@ public class AdminAccountManagementPage extends AppPage {
     private WebElement getDeleteAccountLink(String googleId) {
         return browser.driver.findElement(By.id(googleId + "_deleteAccount"));
     }
-    
+
     private WebElement getAccountTable() {
         List<WebElement> tables = browser.driver.findElements(By.cssSelector("table"));
         if (!tables.isEmpty()) {
@@ -71,7 +71,7 @@ public class AdminAccountManagementPage extends AppPage {
         }
         return null;
     }
-    
+
     public boolean isTableVisible() {
         WebElement accountTable = getAccountTable();
         if (accountTable != null) {
@@ -79,7 +79,7 @@ public class AdminAccountManagementPage extends AppPage {
         }
         return false;
     }
-    
+
     public List<String> getTableHeaders() {
         List<String> result = new ArrayList<String>();
         List<WebElement> tableHeaders = browser.driver.findElements(By.cssSelector("table > thead > tr > th"));

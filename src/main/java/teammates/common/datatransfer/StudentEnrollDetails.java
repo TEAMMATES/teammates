@@ -1,18 +1,16 @@
 package teammates.common.datatransfer;
 
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
-
 public class StudentEnrollDetails {
-    public StudentAttributes.UpdateStatus updateStatus;
+    public StudentUpdateStatus updateStatus;
     public String course;
     public String email;
     public String oldTeam;
     public String newTeam;
     public String oldSection;
     public String newSection;
-    
+
     public StudentEnrollDetails() {
-        updateStatus = UpdateStatus.UNKNOWN;
+        updateStatus = StudentUpdateStatus.UNKNOWN;
         course = null;
         email = null;
         oldTeam = null;
@@ -20,8 +18,8 @@ public class StudentEnrollDetails {
         oldSection = null;
         newSection = null;
     }
-    
-    public StudentEnrollDetails(StudentAttributes.UpdateStatus updateStatus, String course,
+
+    public StudentEnrollDetails(StudentUpdateStatus updateStatus, String course,
             String email, String oldTeam, String newTeam, String oldSection, String newSection) {
         this.updateStatus = updateStatus;
         this.course = course;

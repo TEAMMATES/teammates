@@ -21,9 +21,9 @@
                    value="${course.id}">
             <c:choose>
                 <c:when test="${course.id == data.courseId}">
-	                [<span class="text-color-red">${course.id}</span>] : ${course.name}
-	                <br>
-	                <span class="text-color-red small">{Session currently in this course}</span> 
+                    [<span class="text-color-red">${course.id}</span>] : ${course.name}
+                    <br>
+                    <span class="text-color-red small">{Session currently in this course}</span> 
                 </c:when>
                 <c:otherwise>
                     [${course.id}] : ${course.name}

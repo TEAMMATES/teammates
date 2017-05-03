@@ -5,20 +5,22 @@
            uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page import="teammates.common.util.Const" %>
-
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
-<c:set var="jsIncludes">
-    <link rel="stylesheet" href="/stylesheets/lib/handsontable.full.min.css" type="text/css" media="screen">
+<c:set var="cssIncludes">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/customFeedbackPaths.css" type="text/css" media="screen">
-    
-    <script type="text/javascript" src="/js/lib/tinymce.min.js"></script>
+</c:set>
+<c:set var="jsIncludes">
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
-    <script type="text/javascript" src="/js/lib/handsontable.full.min.js"></script>
+
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
@@ -40,7 +42,7 @@
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
  <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <feedbackEdit:customFeedbackPathsData sessionCreatorData="${data.creatorEmail}" studentsData="${data.studentsDataAsString}" instructorsData="${data.instructorsDataAsString}"/>
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
      

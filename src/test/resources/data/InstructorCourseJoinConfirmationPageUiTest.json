@@ -8,7 +8,6 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
   "courses": {
     "ICJConfirmationUiT.CS2104": {
       "id": "ICJConfirmationUiT.CS2104",
@@ -21,15 +20,15 @@
       "timeZone": "UTC"
     }
   },
-  
   "instructors": {
     "ICJConfirmationUiT.instr.CS2104": {
       "googleId": "${value.injected.in.testfile}",
       "courseId": "ICJConfirmationUiT.CS2104",
       "name": "Teammates Test 2",
       "email": "${value.injected.in.testfile}",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -49,12 +48,12 @@
       }
     },
     "ICJConfirmationUiT.instr.CS1101": {
-      "googleId": null,
       "courseId": "ICJConfirmationUiT.CS1101",
       "name": "Teammates Test 2",
       "email": "${value.injected.in.testfile}",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -78,8 +77,9 @@
       "courseId": "ICJConfirmationUiT.CS1101",
       "name": "Teammates Test",
       "email": "ICJConfirmationUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -98,5 +98,12 @@
         "sessionLevel": {}
       }
     }
-  }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

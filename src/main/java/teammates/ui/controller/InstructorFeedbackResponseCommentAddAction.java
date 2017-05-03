@@ -2,25 +2,25 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.datastore.Text;
+import teammates.common.util.StringHelper;
+import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 /**
- * Action: Create a new {@link FeedbackResponseCommentAttributes}
+ * Action: Create a new {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentAddAction extends Action {
 
@@ -36,21 +36,21 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull("null feedback response id", feedbackResponseId);
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertNotNull("null comment id", commentId);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
-        
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
+
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
+        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        
+
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
-        
+
         String giverEmail = response.giver;
         String recipientEmail = response.recipient;
         FeedbackSessionResultsBundle bundle =
@@ -72,11 +72,11 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             data.isError = true;
             return createAjaxResult(data);
         }
-        
+
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
                 feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
                 new Text(commentText), response.giverSection, response.recipientSection);
-        
+
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
@@ -94,12 +94,12 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        
+
         //Set up sending state
         if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
-        
+
         FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
@@ -109,7 +109,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             data.errorMessage = e.getMessage();
             data.isError = true;
         }
-        
+
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
                            + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
@@ -119,26 +119,15 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + feedbackResponseComment.createdAt + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
-        
+
         data.comment = createdComment;
         data.commentId = commentId;
-        data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
-        data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
+        data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
+        data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
-    private String joinParticipantTypes(List<FeedbackParticipantType> participants, String joiner) {
-        if (participants.isEmpty()) {
-            return "";
-        }
-        StringBuilder result = new StringBuilder();
-        for (FeedbackParticipantType fpt : participants) {
-            result.append(fpt).append(joiner);
-        }
-        return result.substring(0, result.length() - joiner.length());
-    }
-    
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return comment.isVisibleTo(FeedbackParticipantType.GIVER)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)

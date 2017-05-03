@@ -3,34 +3,36 @@ package teammates.logic.backdoor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CourseAttributes;
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.datatransfer.attributes.CommentAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.ThreadHelper;
-import teammates.common.util.Utils;
+import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.AdminEmailsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -40,10 +42,10 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
+/**
+ * Provides additional business logic for non-production usage (e.g. testing, client scripts).
+ */
 public class BackDoorLogic extends Logic {
-    private static final Logger log = Utils.getLogger();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -53,41 +55,26 @@ public class BackDoorLogic extends Logic {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
-    
-    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
-    private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
-    
-    public String putDocumentsForStudents(DataBundle dataBundle) {
-        for (StudentAttributes student : dataBundle.students.values()) {
-            student = getStudentForEmail(student.course, student.email);
-            putDocument(student);
-            ThreadHelper.waitFor(50);
-        }
-        
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-    
+    private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
+
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
      *  //Any existing copies of the data in the datastore will be overwritten.
-     *      - edit: use removeDataBundle/deleteExistingData to remove.
+     *      - edit: use removeDataBundle to remove.
      *              made this change for speed when deletion is not necessary.
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
-
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         if (dataBundle == null) {
             throw new InvalidParametersException(
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
-        
-        //deleteExistingData(dataBundle);
-        
-        HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
+
+        Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             if (account.studentProfile == null) {
                 account.studentProfile = new StudentProfileAttributes();
@@ -95,11 +82,11 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.createAccounts(accounts.values(), true);
-        
-        HashMap<String, CourseAttributes> courses = dataBundle.courses;
+
+        Map<String, CourseAttributes> courses = dataBundle.courses;
         coursesDb.createCourses(courses.values());
 
-        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
 
@@ -118,10 +105,10 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccounts(instructorAccounts, false);
         instructorsDb.createInstructorsWithoutSearchability(instructors.values());
 
-        HashMap<String, StudentAttributes> students = dataBundle.students;
+        Map<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
-            student.section = (student.section == null) ? "None" : student.section;
+            student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
                                                                   student.email, "TEAMMATES Test Institute 1");
@@ -134,61 +121,63 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.createAccounts(studentAccounts, false);
         studentsDb.createStudentsWithoutSearchability(students.values());
-        
 
-        HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
+        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
             cleanSessionData(session);
         }
         fbDb.createFeedbackSessions(sessions.values());
-        
-        HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
+
+        Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
-        
+
         for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
         }
         fqDb.createFeedbackQuestions(questionList);
-        
-        HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
+
+        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
             response = injectRealIds(response);
         }
         frDb.createFeedbackResponses(responses.values());
 
-        Set<String> sessionIds = new HashSet<>();
-        
+        Set<String> sessionIds = new HashSet<String>();
+
         for (FeedbackResponseAttributes response : responses.values()) {
-            
+
             String sessionId = response.feedbackSessionName + "%" + response.courseId;
-            
+
             if (!sessionIds.contains(sessionId)) {
-                updateRespondants(response.feedbackSessionName, response.courseId);
+                updateRespondents(response.feedbackSessionName, response.courseId);
                 sessionIds.add(sessionId);
             }
         }
-        
-        HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+
+        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            responseComment = injectRealIds(responseComment);
+            injectRealIds(responseComment);
         }
         fcDb.createFeedbackResponseComments(responseComments.values());
-        
-        HashMap<String, CommentAttributes> comments = dataBundle.comments;
+
+        Map<String, CommentAttributes> comments = dataBundle.comments;
         commentsDb.createComments(comments.values());
-        
+
+        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
+        for (AdminEmailAttributes email : adminEmails.values()) {
+            adminEmailsDb.createAdminEmail(email);
+        }
+
         // any Db can be used to commit the changes.
         // accountsDb is used as it is already used in the file
         accountsDb.commitOutstandingChanges();
 
-        
-        
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
     /**
-     * Checks if the role of {@code instructor} matches its privileges
-     * 
+     * Checks if the role of {@code instructor} matches its privileges.
+     *
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
      *            {@code null}
@@ -229,147 +218,139 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-     * Removes any and all occurrences of the entities in the given databundle
-     * from the database
-     * @param dataBundle
-     */
-    public void removeDataBundle(DataBundle dataBundle) {
-        deleteExistingData(dataBundle);
-    }
-    
-    /**
-     * create document for entities that have document--searchable
-     * @param dataBundle
+     * Creates document for entities that have document, i.e. searchable.
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
     public String putDocuments(DataBundle dataBundle) {
         // query the entity in db first to get the actual data and create document for actual entity
-        
-        HashMap<String, StudentAttributes> students = dataBundle.students;
+
+        Map<String, StudentAttributes> students = dataBundle.students;
         for (StudentAttributes student : students.values()) {
             StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
             studentsDb.putDocument(studentInDb);
-            ThreadHelper.waitFor(50);
         }
-        
-        HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        for (InstructorAttributes instructor : instructors.values()) {
+            InstructorAttributes instructorInDb =
+                    instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
+            instructorsDb.putDocument(instructorInDb);
+        }
+
+        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
                     responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
             fcDb.putDocument(fcInDb);
         }
-        
-        HashMap<String, CommentAttributes> comments = dataBundle.comments;
+
+        Map<String, CommentAttributes> comments = dataBundle.comments;
         for (CommentAttributes comment : comments.values()) {
             CommentAttributes commentInDb = commentsDb.getComment(comment);
             commentsDb.putDocument(commentInDb);
         }
-        
+
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
     public String getAccountAsJson(String googleId) {
         AccountAttributes accountData = getAccount(googleId, true);
-        return Utils.getTeammatesGson().toJson(accountData);
+        return JsonUtils.toJson(accountData);
     }
 
     public String getStudentProfileAsJson(String googleId) {
         StudentProfileAttributes profileData = getStudentProfile(googleId);
-        return Utils.getTeammatesGson().toJson(profileData);
+        return JsonUtils.toJson(profileData);
     }
-    
+
     public String getInstructorAsJsonById(String instructorId, String courseId) {
         InstructorAttributes instructorData = getInstructorForGoogleId(courseId, instructorId);
-        return Utils.getTeammatesGson().toJson(instructorData);
+        return JsonUtils.toJson(instructorData);
     }
-    
+
     public String getInstructorAsJsonByEmail(String instructorEmail, String courseId) {
         InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
-        return Utils.getTeammatesGson().toJson(instructorData);
+        return JsonUtils.toJson(instructorData);
     }
 
     public String getCourseAsJson(String courseId) {
         CourseAttributes course = getCourse(courseId);
-        return Utils.getTeammatesGson().toJson(course);
+        return JsonUtils.toJson(course);
     }
 
     public String getStudentAsJson(String courseId, String email) {
         StudentAttributes student = getStudentForEmail(courseId, email);
-        return Utils.getTeammatesGson().toJson(student);
+        return JsonUtils.toJson(student);
     }
-    
+
     public String getAllStudentsAsJson(String courseId) {
-        List<StudentAttributes> studentList = studentsLogic
-                .getStudentsForCourse(courseId);
-        return Utils.getTeammatesGson().toJson(studentList);
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+        return JsonUtils.toJson(studentList);
     }
-    
+
     public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
-        return Utils.getTeammatesGson().toJson(fs);
+        return JsonUtils.toJson(fs);
     }
-    
+
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
         FeedbackQuestionAttributes fq =
                 feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
-        return Utils.getTeammatesGson().toJson(fq);
+        return JsonUtils.toJson(fq);
     }
-    
+
     public String getFeedbackQuestionForIdAsJson(String questionId) {
-        FeedbackQuestionAttributes fq =
-                feedbackQuestionsLogic.getFeedbackQuestion(questionId);
-        return Utils.getTeammatesGson().toJson(fq);
+        FeedbackQuestionAttributes fq = feedbackQuestionsLogic.getFeedbackQuestion(questionId);
+        return JsonUtils.toJson(fq);
     }
 
     public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
         FeedbackResponseAttributes fq =
                 feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
-        return Utils.getTeammatesGson().toJson(fq);
+        return JsonUtils.toJson(fq);
     }
-    
+
     public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
         List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
-        return Utils.getTeammatesGson().toJson(responseList);
+        return JsonUtils.toJson(responseList);
     }
-    
+
     public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
         List<FeedbackResponseAttributes> responseList =
                 feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
-        return Utils.getTeammatesGson().toJson(responseList);
+        return JsonUtils.toJson(responseList);
     }
-    
+
     public void editAccountAsJson(String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
-        AccountAttributes account = Utils.getTeammatesGson().fromJson(newValues,
-                AccountAttributes.class);
+        AccountAttributes account = JsonUtils.fromJson(newValues, AccountAttributes.class);
         updateAccount(account);
     }
-    
+
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
-        StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
-                StudentAttributes.class);
-        student.section = (student.section == null) ? "None" : student.section;
+        StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
+        student.section = student.section == null ? "None" : student.section;
         updateStudentWithoutDocument(originalEmail, student);
     }
-    
+
     public void editFeedbackSessionAsJson(String feedbackSessionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession = Utils.getTeammatesGson().fromJson(
-                feedbackSessionJson, FeedbackSessionAttributes.class);
+        FeedbackSessionAttributes feedbackSession =
+                JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
         updateFeedbackSession(feedbackSession);
     }
-    
+
     public void editFeedbackQuestionAsJson(String feedbackQuestionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackQuestionAttributes feedbackQuestion = Utils.getTeammatesGson().fromJson(
-                                        feedbackQuestionJson, FeedbackQuestionAttributes.class);
+        FeedbackQuestionAttributes feedbackQuestion =
+                JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
         updateFeedbackQuestion(feedbackQuestion);
     }
-    
+
     /**
      * This method ensures consistency for private feedback sessions
      * between the type and visibility times. This allows easier creation
@@ -383,7 +364,7 @@ public class BackDoorLogic extends Logic {
         }
         return session;
     }
-                
+
     /**
     * This method is necessary to generate the feedbackQuestionId of the
     * question the response is for.<br>
@@ -398,21 +379,21 @@ public class BackDoorLogic extends Logic {
             throws EntityDoesNotExistException {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-        
+
             FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
                     response.feedbackSessionName, response.courseId, qnNumber);
             if (question == null) {
                 throw new EntityDoesNotExistException("question has not persisted yet");
             }
             response.feedbackQuestionId = question.getId();
-            
+
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-        
+
         return response;
     }
-    
+
     /**
     * This method is necessary to generate the feedbackQuestionId
     * and feedbackResponseId of the question and response the comment is for.<br>
@@ -424,10 +405,10 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/
-    private FeedbackResponseCommentAttributes injectRealIds(FeedbackResponseCommentAttributes responseComment) {
+    private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
-            
+
             responseComment.feedbackQuestionId =
                     feedbackQuestionsLogic.getFeedbackQuestion(
                             responseComment.feedbackSessionName,
@@ -436,22 +417,20 @@ public class BackDoorLogic extends Logic {
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-        
+
         String[] responseIdParam = responseComment.feedbackResponseId.split("%");
-        
+
         responseComment.feedbackResponseId =
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
-        
-        return responseComment;
     }
 
-    public void deleteExistingData(DataBundle dataBundle) {
-                
-        //TODO: questions and responses will be deleted automatically.
-        //  We don't attempt to delete them again, to save time.
+    public void removeDataBundle(DataBundle dataBundle) {
+
+        // Questions and responses will be deleted automatically.
+        // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
-        
+
         for (AccountAttributes account : dataBundle.accounts.values()) {
             if (account.studentProfile == null) {
                 account.studentProfile = new StudentProfileAttributes();
@@ -459,7 +438,16 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
-        //waitUntilDeletePersists(dataBundle);
+
+        for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
+            // Retrieve email by subject as fields emailId, createDate cannot be specified by dataBundle.
+            AdminEmailAttributes emailInDb = adminEmailsDb.getAdminEmailBySubject(email.subject);
+            // It is expected that email may not be in datastore yet, should fail silently.
+            if (emailInDb == null) {
+                continue;
+            }
+            adminEmailsDb.deleteEntity(emailInDb);
+        }
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
@@ -476,99 +464,6 @@ public class BackDoorLogic extends Logic {
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
             fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
-        }
-    }
-
-    //TODO: remove this when we confirm it is not needed
-    @SuppressWarnings("unused")
-    private void waitUntilDeletePersists(DataBundle dataBundle) {
-        
-        //TODO: this method has too much duplication.
-        for (AccountAttributes a : dataBundle.accounts.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getAccount(a.googleId);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + a.toString());
-            }
-        }
-        
-        for (CourseAttributes c : dataBundle.courses.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getCourse(c.getId());
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + c.toString());
-            }
-        }
-        
-        
-        for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getFeedbackSession(f.getCourseId(), f.getFeedbackSessionName());
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                if (retryCount % 10 == 0) {
-                    log.info("Waiting for delete to persist");
-                }
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + f.toString());
-            }
-        }
-        
-        //TODO: add missing entity types here
-        
-        
-        for (StudentAttributes s : dataBundle.students.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getStudentForEmail(s.course, s.email);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + s.toString());
-            }
-        }
-        
-        for (InstructorAttributes i : dataBundle.instructors.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while (retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING) {
-                retreived = this.getInstructorForEmail(i.courseId, i.email);
-                if (retreived == null) {
-                    break;
-                }
-                retryCount++;
-                ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-            }
-            if (retreived != null) {
-                log.warning("Object did not get deleted in time \n" + i.toString());
-            }
         }
     }
 

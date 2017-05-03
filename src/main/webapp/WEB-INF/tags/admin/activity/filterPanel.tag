@@ -1,10 +1,12 @@
 <%@ tag description="Filter Panel in Admin Activity Log Page" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="excludedLogRequestURIs" required="true" %>
 <%@ attribute name="actionListAsHtml" required="true" %>
 <%@ attribute name="ifShowAll" required="true" %>
 <%@ attribute name="ifShowTestData" required="true" %>
 <%@ attribute name="filterQuery" required="true" %>
+<%@ attribute name="queryKeywordsForInfo" required="true"%>
 
 <div class="well well-plain">
     <form class="form-horizontal" method="post" action="/admin/adminActivityLogPage" id="activityLogFilter" role="form">
@@ -21,7 +23,10 @@
                     </div>
                 </div>
             </div>
-
+            
+            <input id="query-keywords-default-for-info" type="hidden" value="<%= Const.ACTION_RESULT_FAILURE %>, <%= Const.ACTION_RESULT_SYSTEM_ERROR_REPORT %>">
+            <input id="query-keywords-for-info" type="hidden" value="${queryKeywordsForInfo}">
+            
             <div class="form-group">
                 <a href="#" class="btn btn-link center-block" onclick="toggleReference()">
                     <span id="referenceText"> Show Reference</span><br>
@@ -45,12 +50,10 @@
                             </ul>
                         </div>
                         
-                        <div class="alert alert-success">
-                            <p class="text-center">
-                                <span class="glyphicon glyphicon-filter"></span>
-                                A query is formed by a list of filters. Each filter is in the format
-                                <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
-                            </p>
+                        <div class="alert alert-info text-center">
+                            <span class="glyphicon glyphicon-filter"></span>
+                            A query is formed by a list of filters. Each filter is in the format
+                            <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
                         </div>
 
                         <p class="text-center">
@@ -190,13 +193,13 @@
         
         <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+        logs despite any action or change in the page unless the page is reloaded with "?all=false" 
         or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
         <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
+        unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}"> 
     </form>
     
@@ -207,13 +210,13 @@
         
         <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+        logs despite any action or change in the page unless the page is reloaded with "?all=false" 
         or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
         <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
+        unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}">
         
         <input type="hidden" id="filterQuery" name="filterQuery" value="${filterQuery}">

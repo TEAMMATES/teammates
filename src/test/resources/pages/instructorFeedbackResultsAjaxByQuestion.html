@@ -63,32 +63,15 @@
           <div class="col-sm-4 col-lg-2">
             <div class="form-group">
               <div class="col-md-12">
-                <form action="/page/instructorFeedbackResultsDownload" id="download-form" method="post">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
                   <div id="feedbackDataButtons">
-                    <button class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="button_download" name="fruploaddownloadbtn" type="submit">
-                      Download Results
-                      <span class="caret">
-                      </span>
-                    </button>
-                    <ul class="dropdown-menu download-type-list" id="download-result-dropdown">
-                      <li data-downloadtype="csv">
-                        <a>
-                          As spreadsheet without formatting (.csv file)
-                        </a>
-                      </li>
-                      <li data-downloadtype="xlsx">
-                        <a>
-                          As normal spreadsheet (.xlsx file)
-                        </a>
-                      </li>
-                    </ul>
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
                   </div>
                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
-                  <input id="downloadType" name="frdownloadtype" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
                   <input name="frindicatemissingresponses" type="hidden" value="false">
                 </form>
@@ -260,7 +243,7 @@
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
             <div class="pull-right" data-original-title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below." data-toggle="tooltip" style="display:inline-block;" title="">
-              <a class="btn btn-default btn-xs pull-right" disabled="" id="collapse-panels-button" onclick="toggleCollapse(this)">
+              <a class="btn btn-default btn-xs pull-right" disabled="" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)">
                 Expand Questions
               </a>
             </div>
@@ -278,7 +261,7 @@
       This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
     </div>
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
   </script>
   <br>
   <br>
@@ -299,9 +282,20 @@
         <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
-      <strong>
-        Question 1:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-1">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-1" name="fruploaddownloadbtn" title="" type="submit" value="Question 1:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="1">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Rate 3 other students' products
@@ -350,19 +344,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -382,19 +376,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -414,19 +408,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -446,19 +440,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -478,19 +472,51 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Fred Gabriel
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Charlie Dávis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break text-preserve-space">
+                  Fred's Response to Charlie.
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                    Charlie Dávis
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
                   Team 3
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Emily
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -510,19 +536,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Alice Betsy&lt;/td&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -542,19 +568,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -574,19 +600,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Drop out
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     Danny Engrid
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -602,38 +628,6 @@
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestionid" type="hidden" value="${question.id}">
                     <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
-                  </form>
-                </td>
-              </tr>
-              <tr>
-                <td class="middlealign">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Fred Gabriel
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="middlealign">
-                  Team 2
-                </td>
-                <td class="middlealign">
-                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Charlie Dávis
-                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                  </div>
-                </td>
-                <td class="word-wrap-break text-preserve-space">
-                  Fred's Response to Charlie.
-                </td>
-                <td>
-                  <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
-                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                    <input name="fsname" type="hidden" value="First Session">
-                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
-                    <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
                   </form>
                 </td>
               </tr>
@@ -660,9 +654,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 2:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-2">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-2" name="fruploaddownloadbtn" title="" type="submit" value="Question 2:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="2">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           What is the best selling point of your product?
@@ -696,9 +701,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 3:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-3">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-3" name="fruploaddownloadbtn" title="" type="submit" value="Question 3:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="3">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           My comments on the class
@@ -732,9 +748,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 4:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-4">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-4" name="fruploaddownloadbtn" title="" type="submit" value="Question 4:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="4">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Give feedback to 3 other teams.
@@ -768,9 +795,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 5:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-5">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-5" name="fruploaddownloadbtn" title="" type="submit" value="Question 5:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="5">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Give feedback to your team mates
@@ -804,9 +842,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 6:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-6">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-6" name="fruploaddownloadbtn" title="" type="submit" value="Question 6:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="6">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           This question should be hidden.
@@ -840,9 +889,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 7:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-7">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-7" name="fruploaddownloadbtn" title="" type="submit" value="Question 7:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="7">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           What is your extra feature? 
@@ -899,9 +959,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 8:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-8">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-8" name="fruploaddownloadbtn" title="" type="submit" value="Question 8:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="8">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           What is your extra feature? 
@@ -958,9 +1029,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 9:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-9">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-9" name="fruploaddownloadbtn" title="" type="submit" value="Question 9:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="9">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Who do you think is the most hardworking student? 
@@ -1005,9 +1087,20 @@
         <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
-      <strong>
-        Question 10:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-10">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-10" name="fruploaddownloadbtn" title="" type="submit" value="Question 10:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="10">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Which team do you think has the best feature? 
@@ -1035,8 +1128,55 @@
       </div>
     </div>
   </div>
-  <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_submit" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_submit" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-11" id="seeMore-11" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="question">
+        <input id="showStats-11" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="frgroupbysection" type="hidden" value="All">
+      </form>
+      <div class="display-icon pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
+        </span>
+      </div>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-11">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-11" name="fruploaddownloadbtn" title="" type="submit" value="Question 11:">
+        </div>
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="11">
+      </form>
+      <div class="inline panel-heading-text">
+        <span class="text-preserve-space">
+          This is a dummy question to test default sort
+        </span>
+      </div>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-11">
+      <div class="panel-body padding-0" id="questionBody-10">
+        <div class="col-sm-12 no-response">
+          <i class="text-muted">
+            There are no responses for this question or you may not have the permission to see the response
+          </i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading ajax-response-submit" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="First Session">
@@ -1049,7 +1189,7 @@
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-11">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-12">
     </div>
   </div>
 </div>

@@ -4,7 +4,9 @@
   <property name="severity" value="error"/>
   <module name="TreeWalker">
     <module name="FileContentsHolder"/>
-    <module name="UnusedImports"/>
+    <module name="UnusedImports">
+      <property name="processJavadoc" value="false"/>
+    </module>
     <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
       <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
@@ -112,10 +114,10 @@
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
     </module>
     <module name="ConstantName">
-      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle)$"/>
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation)$"/>
     </module>
     <module name="RegexpSinglelineJava">
-      <property name="format" value="((?!\*)\S|\* ) +$"/>
+      <property name="format" value="\s+$"/>
       <property name="message" value="Line has trailing spaces."/>
     </module>
     <module name="LineLength">
@@ -125,6 +127,45 @@
     </module>
     <module name="SingleSpaceSeparator">
       <property name="validateComments" value="true"/>
+    </module>
+    <module name="JavadocMethod">
+      <property name="allowedAnnotations" value="Test, Override, BeforeClass, BeforeTest, BeforeMethod, AfterClass, AfterTest, AfterMethod, PerformanceTest, BeforeGroups"/>
+      <property name="validateThrows" value="true"/>
+      <property name="scope" value="public"/>
+      <property name="allowUndeclaredRTE" value="true"/>
+      <property name="allowMissingParamTags" value="true"/>
+      <property name="allowMissingThrowsTags" value="true"/>
+      <property name="allowMissingReturnTag" value="true"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+      <property name="suppressLoadErrors" value="true"/>
+      <property name="tokens" value="METHOD_DEF"/>
+      <property name="ignoreMethodNamesRegex" value="main"/>
+    </module>
+    <module name="JavadocParagraph"/>
+    <module name="JavadocStyle">
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
+    <module name="NonEmptyAtclauseDescription"/>
+    <module name="JavadocType">
+      <property name="scope" value="public"/>
+    </module>
+    <module name="AtclauseOrder"/>
+    <module name="JavadocTagContinuationIndentation">
+      <property name="offset" value="8"/>
+    </module>
+    <module name="SingleLineJavadoc"/>
+    <module name="JavadocVariable">
+      <property name="scope" value="public"/>
+    </module>
+    <module name="CommentsIndentation"/>
+    <module name="ImportOrder">
+      <property name="option" value="top"/>
+      <property name="groups" value="java,javax,org,com,teammates"/>
+      <property name="separated" value="true"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
+    </module>
+    <module name="IllegalImport">
+      <property name="illegalPkgs" value="sun,com.google.appengine.repackaged,com.google.appengine.labs.repackaged"/>
     </module>
   </module>
   <module name="SuppressionFilter">
@@ -139,4 +180,5 @@
   <module name="NewlineAtEndOfFile">
     <property name="lineSeparator" value="lf_cr_crlf"/>
   </module>
+  <module name="JavadocPackage"/>
 </module>

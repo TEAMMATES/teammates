@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 public class StudentProfile {
     private String pictureUrl;
@@ -22,11 +22,11 @@ public class StudentProfile {
         this.nationality = student.nationality;
         this.moreInfo = student.moreInfo;
     }
-    
+
     public String getPictureUrl() {
         return pictureUrl;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -50,7 +50,7 @@ public class StudentProfile {
     public String getNationality() {
         return nationality;
     }
-    
+
     public String getMoreInfo() {
         return moreInfo;
     }

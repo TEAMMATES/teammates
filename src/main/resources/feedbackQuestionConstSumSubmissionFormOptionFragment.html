@@ -1,7 +1,7 @@
-<div class="form-group">
-    <label class="col-sm-4 col-md-2 control-label" ${constSumOptionVisibility}>${constSumOptionValue}</label>
-    <div class="col-sm-6 col-md-3">
-        <input type="number" class="form-control pointsBox" ${disabled} 
+<div class="margin-bottom-15px flex">
+    <label class="constSumOptionsLabel" ${constSumOptionVisibility}>${constSumOptionValue}</label>
+    <div class="${marginLeft}">
+        <input type="number" class="form-control pointsBox" ${disabled}
                id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}-${optionIdx}"
                name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
                value="${constSumOptionPoint}" onChange="updateConstSumMessageQn('${questionIndex}')"

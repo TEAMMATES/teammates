@@ -10,7 +10,7 @@ public class AdminFilter {
     private List<String> rangeEndHourOptions;
     private List<String> rangeEndMinuteOptions;
     private List<String> timeZoneOptions;
-    
+
     public AdminFilter(String rangeStart, List<String> rangeStartHourOptions,
                        List<String> rangeStartMinuteOptions, String rangeEnd,
                        List<String> rangeEndHourOptions, List<String> rangeEndMinuteOptions,
@@ -23,31 +23,31 @@ public class AdminFilter {
         this.rangeEndMinuteOptions = rangeEndMinuteOptions;
         this.timeZoneOptions = timeZoneOptions;
     }
-    
+
     public String getRangeStart() {
         return rangeStart;
     }
-    
+
     public List<String> getRangeStartHourOptions() {
         return rangeStartHourOptions;
     }
-    
+
     public List<String> getRangeStartMinuteOptions() {
         return rangeStartMinuteOptions;
     }
-    
+
     public String getRangeEnd() {
         return rangeEnd;
     }
-    
+
     public List<String> getRangeEndHourOptions() {
         return rangeEndHourOptions;
     }
-    
+
     public List<String> getRangeEndMinuteOptions() {
         return rangeEndMinuteOptions;
     }
-    
+
     public List<String> getTimeZoneOptions() {
         return timeZoneOptions;
     }

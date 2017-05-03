@@ -3,6 +3,8 @@ package teammates.common.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import teammates.common.util.Const;
+
 @SuppressWarnings("serial")
 public class TeammatesException extends Exception {
     public String errorCode;
@@ -20,9 +22,13 @@ public class TeammatesException extends Exception {
         errorCode = errorcode;
     }
 
+    public TeammatesException(Throwable cause) {
+        super(cause);
+    }
+
     public static String toStringWithStackTrace(Throwable e) {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
-        return "\n" + sw.toString();
+        return Const.EOL + sw.toString();
     }
 }

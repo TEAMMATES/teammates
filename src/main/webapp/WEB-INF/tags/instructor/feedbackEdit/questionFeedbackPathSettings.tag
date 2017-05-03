@@ -18,7 +18,7 @@
                     Please select a feedback path <span class="caret"></span>
                 </c:when>
                 <c:when test="${fqForm.feedbackPathSettings.commonPathSelected}">
-                    ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}</span>
+                    ${fqForm.feedbackPathSettings.selectedGiver.displayNameGiver} will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> ${fqForm.feedbackPathSettings.selectedRecipient.displayNameRecipient}
                 </c:when>
                 <c:otherwise>
                     Predefined combinations:
@@ -93,7 +93,7 @@
     </div>
     <div class="col-sm-12 row numberOfEntitiesElements">
         <label class="control-label col-sm-4 small">
-            The maximum number of <span class='number-of-entities-inner-text'></span> each respondant should give feedback to:
+            The maximum number of <span class='number-of-entities-inner-text'></span> each respondent should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
             <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

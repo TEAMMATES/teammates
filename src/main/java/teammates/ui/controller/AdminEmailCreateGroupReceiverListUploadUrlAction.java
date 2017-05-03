@@ -1,21 +1,21 @@
 package teammates.ui.controller;
 
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.logic.api.GateKeeper;
-
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import teammates.ui.pagedata.AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData;
 
 public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
-        new GateKeeper().verifyAdminPrivileges(account);
-        
+
+        gateKeeper.verifyAdminPrivileges(account);
+
         AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData data =
                 new AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData(account);
-        
+
         try {
             data.nextUploadUrl =
                     GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD);
@@ -25,9 +25,9 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
             isError = true;
             data.ajaxStatus = "An error occurred when creating upload URL, please try again";
         }
-          
+
         return createAjaxResult(data);
-        
+
     }
 
 }

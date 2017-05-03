@@ -18,7 +18,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     @FindBy(id = "button_save_comment")
     private WebElement saveCommentLink;
 
-    @FindBy(id = "commentText")
+    @FindBy(id = "commenttext")
     private WebElement commentTextBox;
 
     public InstructorStudentRecordsPage(Browser browser) {
@@ -42,7 +42,9 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public InstructorStudentRecordsPage addComment(String commentText) {
         click(addCommentLink);
-        commentTextBox.sendKeys(commentText);
+        waitForRichTextEditorToLoad("commenttext");
+        click(commentTextBox);
+        fillRichTextEditor(commentTextBox.getAttribute("id"), commentText);
         click(saveCommentLink);
         waitForPageToLoad();
         return this;
@@ -50,7 +52,9 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void addCommentWithVisibility(String commentText, int id) {
         click(addCommentLink);
-        commentTextBox.sendKeys(commentText);
+        waitForRichTextEditorToLoad("commenttext");
+        click(commentTextBox);
+        fillRichTextEditor(commentTextBox.getAttribute("id"), commentText);
         click(getVisibilityToggleLink(id));
         clickAllCheckboxes(id);
         click(saveCommentLink);
@@ -71,13 +75,15 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public InstructorStudentRecordsPage editComment(int id, String comment) {
         click(getCommentEditLink(id));
-        getCommentTextBox(id).clear();
-        getCommentTextBox(id).sendKeys(comment);
+        WebElement commentTextBox = getCommentTextBox(id);
+        waitForRichTextEditorToLoad("commentText" + id);
+        click(commentTextBox);
+        fillRichTextEditor(commentTextBox.getAttribute("id"), comment);
         click(getCommentSaveLink(id));
         waitForPageToLoad();
         return this;
     }
-    
+
     public void clickAllCheckboxes(int id) {
         List<WebElement> answerCheckboxes = browser.driver
                                             .findElement(By.id("visibility-options" + id))
@@ -89,25 +95,23 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public boolean verifyAddCommentButtonClick() {
         click(addCommentLink);
-        boolean display = commentTextBox.isDisplayed()
-                       && saveCommentLink.isDisplayed()
-                       && !addCommentLink.isDisplayed();
-        return display;
+        return commentTextBox.isDisplayed()
+                && saveCommentLink.isDisplayed()
+                && !addCommentLink.isDisplayed();
     }
 
     public boolean verifyEditCommentButtonClick(int id) {
         click(getCommentEditLink(id));
-        boolean display = getCommentTextBox(id).isEnabled()
-                       && getCommentSaveLink(id).isDisplayed()
-                       && !getCommentEditLink(id).isDisplayed();
-        return display;
+        return getCommentTextBox(id).isEnabled()
+                && getCommentSaveLink(id).isDisplayed()
+                && !getCommentEditLink(id).isDisplayed();
     }
-    
+
     public void clickEditCommentAndCancel(int id) {
         click(getCommentEditLink(id));
         click(getCommentEditCancelLink(id));
     }
-    
+
     public void verifyCommentEditBoxNotVisible(int id) {
         assertFalse(isElementVisible(By.id("commentTextEdit" + id)));
     }
@@ -132,57 +136,57 @@ public class InstructorStudentRecordsPage extends AppPage {
     private WebElement getCommentSaveLink(int id) {
         return browser.driver.findElement(By.id("commentsave-" + id));
     }
-    
+
     private WebElement getVisibilityToggleLink(int id) {
         return browser.driver.findElement(By.id("visibility-options-trigger" + id));
     }
 
     // Visibility options
-    
+
     public void clickVisibilityOptionsButton(int id) {
         click(getVisibilityOptions(id));
     }
-    
+
     public void clickAnswerCheckboxForCourse(int id) {
         click(getAnswerCheckboxForCourse(id));
     }
-    
+
     public void clickGiverCheckboxForCourse(int id) {
         click(getGiverCheckboxForCourse(id));
     }
-    
+
     public void clickRecipientCheckboxForCourse(int id) {
         click(getRecipientCheckboxForCourse(id));
     }
-    
+
     public boolean isAnswerCheckboxForCourseSelected(int id) {
         return getAnswerCheckboxForCourse(id).isSelected();
     }
-    
+
     public boolean isGiverCheckboxForCourseSelected(int id) {
         return getGiverCheckboxForCourse(id).isSelected();
     }
-    
+
     public boolean isRecipientCheckboxForCourseSelected(int id) {
         return getRecipientCheckboxForCourse(id).isSelected();
     }
-    
+
     private WebElement getVisibilityOptions(int id) {
         return browser.driver.findElement(By.id("visibility-options-trigger" + id));
     }
-    
+
     private WebElement getCourseVisibilityRow(int id) {
         return browser.driver.findElement(By.id("recipient-course" + id));
     }
-    
+
     private WebElement getAnswerCheckboxForCourse(int id) {
         return getCourseVisibilityRow(id).findElement(By.className("answerCheckbox"));
     }
-    
+
     private WebElement getGiverCheckboxForCourse(int id) {
         return getCourseVisibilityRow(id).findElement(By.className("giverCheckbox"));
     }
-    
+
     private WebElement getRecipientCheckboxForCourse(int id) {
         return getCourseVisibilityRow(id).findElement(By.className("recipientCheckbox"));
     }
@@ -205,7 +209,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     /**
-     * Checks if the body of all the record panels are hidden
+     * Checks if the body of all the record panels are hidden.
      * @return true if all record panel bodies are hidden
      */
     public boolean areRecordsHidden() {

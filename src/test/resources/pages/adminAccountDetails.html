@@ -6,26 +6,10 @@
 <link href="/favicon.png" rel="shortcut icon">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="/stylesheets/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="/stylesheets/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
-</script>
-<script src="/js/googleAnalytics.js" type="text/javascript">
-</script>
-<script src="${lib.path}/jquery.min.js" type="text/javascript">
-</script>
-<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
-</script>
-<script src="/js/lib/bootstrap.min.js" type="text/javascript">
-</script>
-<script src="/js/lib/bootbox.min.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <link href="/stylesheets/adminAccountDetails.css" rel="stylesheet" type="text/css">
-<script src="/js/administrator.js" type="text/javascript">
-</script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -42,8 +26,8 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.jsp">
-        TEAMMATES
+      <a class="navbar-brand" href="/">
+        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
       </a>
     </div>
     <div class="collapse navbar-collapse" id="contentLinks">
@@ -161,8 +145,6 @@
   </div>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
-  </script>
   <div class="page-header">
     <h2>
       Instructor For
@@ -285,7 +267,7 @@
       <div class="col-md-2">
         <span>
           [Send
-          <a class="link" href="/contact.jsp" target="_blank">
+          <a class="link" href="/contact.jsp" rel="noopener noreferrer" target="_blank">
             Feedback
           </a>
           ]
@@ -294,5 +276,25 @@
     </div>
   </div>
 </div>
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script src="/js/googleAnalytics.js" type="text/javascript">
+</script>
+<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
+</script>
+<script src="https://unpkg.com/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
+</script>
+<script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
+</script>
+<script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+</script>
+<script src="/js/const.js" type="text/javascript">
+</script>
+<script src="/js/common.js" type="text/javascript">
+</script>
+<script src="/js/administrator.js" type="text/javascript">
+</script>
+<script src="/js/adminAccountDetails.js" type="text/javascript">
+</script>
 </body>
 </html>

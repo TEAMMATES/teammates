@@ -3,16 +3,13 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
-
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.StringHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
     private static final boolean isPreview = true;
@@ -20,7 +17,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     private int numberOfSanitizedEmail;
     private int numberOfSanitizedGoogleId;
-    
+
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
         migrator.doOperationRemotely();
@@ -28,8 +25,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-
         List<StudentAttributes> allStudents = getAllStudents();
         if (isPreview) {
             System.out.println("Checking Sanitization for students...");
@@ -59,7 +54,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         boolean hasSanitizedData = checkStudentHasSanitizedData(student);
         if (hasSanitizedData) {
             System.out.println("Checking student having email: " + student.email);
-            
+
             if (isSanitizedString(student.comments)) {
                 System.out.println("comments: " + student.comments);
                 System.out.println("new comments: " + fixSanitization(student.comments));
@@ -112,21 +107,21 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         }
         return false;
     }
-    
+
     private String fixSanitization(String s) {
         if (isSanitizedString(s)) {
-            return StringHelper.recoverFromSanitizedText(s);
+            return SanitizationHelper.desanitizeFromHtml(s);
         }
         return s;
     }
-    
+
     private boolean checkStudentHasSanitizedData(StudentAttributes student) {
         return isSanitizedString(student.comments) || isSanitizedString(student.course)
                || isSanitizedString(student.email) || isSanitizedString(student.googleId)
                || isSanitizedString(student.lastName) || isSanitizedString(student.name)
                || isSanitizedString(student.section) || isSanitizedString(student.team);
     }
-    
+
     private void fixSanitizationForStudent(StudentAttributes student) {
         student.comments = fixSanitization(student.comments);
         student.course = fixSanitization(student.course);
@@ -137,7 +132,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         student.section = fixSanitization(student.section);
         student.team = fixSanitization(student.team);
     }
-    
+
     private void fixSanitizedDataForStudent(StudentAttributes student) {
         try {
             boolean hasSanitizedData = checkStudentHasSanitizedData(student);
@@ -154,26 +149,22 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         }
     }
 
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
-    }
-
     protected List<StudentAttributes> getAllStudents() {
         return studentsLogic.getAllStudents();
     }
-    
-    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
+
+    private void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
                                                                                       EntityDoesNotExistException {
         studentsDb.verifyStudentExists(student.course, originalEmail);
         StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
-        
+
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
-        
+
         if (!student.isValid()) {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
-        
+
         studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
                                  student.email, student.googleId, student.comments, true);
     }

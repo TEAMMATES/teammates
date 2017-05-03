@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
 public class StudentFeedbackSessionActions {
@@ -20,7 +20,7 @@ public class StudentFeedbackSessionActions {
         this.isSessionPublished = fs.isPublished();
         this.studentFeedbackResultsLink = feedbackResultsLink;
         this.studentFeedbackResponseEditLink = feedbackResponseEditLink;
-        
+
         if (hasSubmitted) {
             if (fs.isOpened()) {
                 this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE;

@@ -76,7 +76,7 @@
                         data-toggle="tooltip"
                         data-placement="top">
                         <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never">
-                            Never (this is a private session)
+                            Never
                         </label>
                         <input type="radio"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"

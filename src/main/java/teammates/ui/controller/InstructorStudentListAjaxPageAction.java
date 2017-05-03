@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 
 public class InstructorStudentListAjaxPageAction extends Action {
 
@@ -26,12 +26,12 @@ public class InstructorStudentListAjaxPageAction extends Action {
         String courseIndexString = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
         Assumption.assertNotNull("null course index", courseIndexString);
 
-        new GateKeeper().verifyInstructorPrivileges(account);
+        gateKeeper.verifyInstructorPrivileges(account);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
 
-        new GateKeeper().verifyAccessible(instructor, course);
+        gateKeeper.verifyAccessible(instructor, course);
 
         List<SectionDetailsBundle> courseSectionDetails = logic.getSectionsForCourse(courseId);
         int courseIndex = Integer.parseInt(courseIndexString);
@@ -62,7 +62,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
-        
+
         InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
                                                                                        hasSection, courseSectionDetails,
                                                                                        sectionPrivileges,

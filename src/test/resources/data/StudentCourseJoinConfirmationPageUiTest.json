@@ -15,7 +15,6 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
   "courses": {
     "SCJConfirmationUiT.CS2104": {
       "id": "SCJConfirmationUiT.CS2104",
@@ -33,15 +32,15 @@
       "timeZone": "UTC"
     }
   },
-  
   "instructors": {
     "SCJConfirmationUiT.instr.CS2104": {
       "googleId": "SCJConfirmationUiT.instr",
       "courseId": "SCJConfirmationUiT.CS2104",
       "name": "Teammates Test",
       "email": "SCJConfirmationUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -65,8 +64,9 @@
       "courseId": "SCJConfirmationUiT.CS1101",
       "name": "Teammates Test",
       "email": "SCJConfirmationUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -86,7 +86,6 @@
       }
     }
   },
-  
   "students": {
     "alice.tmms@SCJConfirmationUiT.CS2104": {
       "email": "${value.injected.in.testfile}",
@@ -110,5 +109,11 @@
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "team": "Team 1</td></div>'\""
     }
-  }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

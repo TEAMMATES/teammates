@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 
 public class StudentInfoTable {
     private String name;
@@ -50,7 +50,7 @@ public class StudentInfoTable {
     public boolean isAbleToAddComment() {
         return isAbleToAddComment;
     }
-    
+
     public boolean getHasSection() {
         return hasSection;
     }

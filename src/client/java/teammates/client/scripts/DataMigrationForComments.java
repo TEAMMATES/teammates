@@ -6,15 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.logic.core.InstructorsLogic;
-import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Comment;
 
 public class DataMigrationForComments extends RemoteApiClient {
@@ -26,8 +24,6 @@ public class DataMigrationForComments extends RemoteApiClient {
 
     @Override
     protected void doOperation() {
-        Datastore.initialize();
-
         List<InstructorAttributes> allInstructors = getAllInstructors();
         for (InstructorAttributes instructor : allInstructors) {
             updateCommentForInstructor(instructor);
@@ -61,12 +57,12 @@ public class DataMigrationForComments extends RemoteApiClient {
                 c.setShowRecipientNameTo(new ArrayList<CommentParticipantType>());
             }
         }
-        getPm().close();
+        PM.close();
     }
-    
-    protected List<Comment> getCommentEntitiesForInstructor(
+
+    private List<Comment> getCommentEntitiesForInstructor(
             InstructorAttributes instructor) {
-        Query q = getPm().newQuery(Comment.class);
+        Query q = PM.newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam");
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
 
@@ -76,12 +72,8 @@ public class DataMigrationForComments extends RemoteApiClient {
         return commentList;
     }
 
-    protected PersistenceManager getPm() {
-        return Datastore.getPersistenceManager();
-    }
-
     @SuppressWarnings("deprecation")
-    protected List<InstructorAttributes> getAllInstructors() {
+    private List<InstructorAttributes> getAllInstructors() {
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         return instructorsLogic.getAllInstructors();
     }

@@ -3,6 +3,7 @@ package teammates.storage.entity;
 import java.util.Date;
 
 import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -11,7 +12,13 @@ import javax.jdo.annotations.PrimaryKey;
  * Represents a unique user in the system.
  */
 @PersistenceCapable
-public class Account {
+public class Account extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Account.class);
 
     @PrimaryKey
     @Persistent
@@ -31,14 +38,14 @@ public class Account {
 
     @Persistent
     private Date createdAt;
-    
+
     @Persistent(dependent = "true", defaultFetchGroup = "false")
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private StudentProfile studentProfile;
 
     /**
      * Instantiates a new account.
-     * 
+     *
      * @param googleId
      *            the Google ID of the user.
      * @param name
@@ -116,13 +123,13 @@ public class Account {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public StudentProfile getStudentProfile() {
         return this.studentProfile;
     }
-    
+
     public void setStudentProfile(StudentProfile studentProfile) {
         this.studentProfile = studentProfile;
-        
+
     }
 }

@@ -5,16 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackPathAttributes;
-import teammates.common.util.Sanitizer;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
+import teammates.common.util.SanitizationHelper;
 
 
 /**
  * Data model for the settings common to all question types,
  * which are the feedback path and visibility settings for the
  * feedback question form.
- * 
- * Used on instructorFeedbackEdit.jsp
  */
 public class FeedbackQuestionFeedbackPathSettings {
 
@@ -22,7 +20,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     private FeedbackParticipantType selectedRecipient;
 
     private boolean isCommonPathSelected;
-    
+
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
 
@@ -43,7 +41,7 @@ public class FeedbackQuestionFeedbackPathSettings {
     public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
     }
-    
+
     public String getCustomFeedbackPathsSpreadsheetData() {
         return customFeedbackPathsSpreadsheetData;
     }
@@ -56,9 +54,9 @@ public class FeedbackQuestionFeedbackPathSettings {
         }
         List<String> customFeedbackPathStrings = new ArrayList<String>();
         for (List<String> customFeedbackPath : customFeedbackPaths) {
-            customFeedbackPathStrings.add(Sanitizer.sanitizeListForCsv(customFeedbackPath).toString());
+            customFeedbackPathStrings.add(SanitizationHelper.sanitizeListForCsv(customFeedbackPath).toString());
         }
-        customFeedbackPathsSpreadsheetData = Sanitizer.sanitizeForHtml(customFeedbackPathStrings).toString();
+        customFeedbackPathsSpreadsheetData = SanitizationHelper.sanitizeForHtml(customFeedbackPathStrings).toString();
     }
 
     public boolean isCommonPathSelected() {

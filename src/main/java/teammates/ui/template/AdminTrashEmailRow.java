@@ -7,7 +7,7 @@ public class AdminTrashEmailRow {
     private String groupReceiver;
     private String subject;
     private String date;
-    
+
     public AdminTrashEmailRow(String emailId, AdminTrashEmailActions actions, String addressReceiver,
                                     String groupReceiver, String subject, String date) {
         this.emailId = emailId;
@@ -17,27 +17,27 @@ public class AdminTrashEmailRow {
         this.subject = subject;
         this.date = date;
     }
-    
+
     public String getEmailId() {
         return emailId;
     }
-    
+
     public AdminTrashEmailActions getActions() {
         return actions;
     }
-    
+
     public String getAddressReceiver() {
         return addressReceiver;
     }
-    
+
     public String getGroupReceiver() {
         return groupReceiver;
     }
-    
+
     public String getSubject() {
         return subject;
     }
-    
+
     public String getDate() {
         return date;
     }

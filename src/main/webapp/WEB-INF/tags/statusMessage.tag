@@ -6,8 +6,6 @@
 <%@ attribute name="statusMessagesToUser" type="java.util.Collection" %>
 <%@ attribute name="doNotFocusToStatus" %>
 
-<c:set var="ERROR"><%= Const.ParamsNames.ERROR %></c:set>
-
 <c:choose>
     <c:when test="${fn:length(statusMessagesToUser) gt 0}">
         <div id="statusMessagesToUser">
@@ -17,13 +15,12 @@
                 </div>
             </c:forEach>
         </div>
+        <c:if test="${not doNotFocusToStatus}">
+            <script type="text/javascript" src="/js/statusMessage.js" defer></script>
+        </c:if>
     </c:when>
     <c:otherwise>
         <div id="statusMessagesToUser" style="display: none;">
         </div>
     </c:otherwise>
 </c:choose>
-
-<c:if test="${not doNotFocusToStatus}">
-    <script type="text/javascript" src="/js/statusMessage.js"></script>
-</c:if>

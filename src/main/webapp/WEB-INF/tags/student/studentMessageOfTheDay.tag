@@ -4,10 +4,8 @@
 <c:set var="motdUrl" value="<%= Config.STUDENT_MOTD_URL %>" />
 <c:if test="${not empty motdUrl}">
     <div id="student-motd-wrapper">
-        <script>
-            var motdUrl = window.location.origin + '/<c:out value="${motdUrl}" />';
-        </script>
-        <script type="text/javascript" src="/js/studentMotd.js"></script>
+        <input type="hidden" id="motd-url" value="<c:out value="${motdUrl}" />">
+        <script type="text/javascript" src="/js/studentMotd.js" defer></script>
         <div class="container theme-showcase" id="student-motd-container">
             <div class="row">
                 <div class="col-sm-12">
@@ -18,7 +16,7 @@
                                     <p class="padding-15px margin-0">
                                         <b class="text-color-gray">TEAMMATES Message of the day</b>
                                         &nbsp;
-                                        <button type="button" class="close" aria-label="Close" onclick="closeMotd();">
+                                        <button type="button" id="btn-close-motd" class="close" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </p>

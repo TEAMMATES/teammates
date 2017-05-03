@@ -7,7 +7,6 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentComments.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 </c:set>
 <ts:studentPage bodyTitle="Comments" pageTitle="TEAMMATES - Student" jsIncludes="${jsIncludes}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

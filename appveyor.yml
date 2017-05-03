@@ -1,0 +1,34 @@
+environment:
+  JAVA_HOME: C:\Program Files\Java\jdk1.7.0
+
+init:
+  - git config --global core.autocrlf true
+
+branches:
+  only:
+    - master
+    - release
+
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.txt'
+    - '**/*.png'
+    - '**/*.jpg'
+    - '**/*.gif'
+    - LICENSE
+    - docs/**/*
+
+install:
+  - choco install firefox -version 46.0
+  - npm install
+
+build_script:
+  - gradlew.bat createConfigs testClasses 
+
+test_script:
+  - npm run build
+  - gradlew.bat appengineRun ciTests
+
+on_finish:
+  - gradlew.bat appengineStop

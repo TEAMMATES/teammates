@@ -10,10 +10,10 @@ public final class StudentDataGenerator {
     private static final int LENGTH_OF_STUDENT_NAME = 8;
     private static final int LENGTH_OF_TEAM_SUFFIX = 3;
     private static final String RANDOM_ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-    
+
     private static int numberOfStudents;
     private static int numberOfTeams;
-    
+
     private StudentDataGenerator() {
         // script, not meant to be instantiated
     }
@@ -21,13 +21,13 @@ public final class StudentDataGenerator {
     public static void main(String[] args) {
 
         exitIfParametersMissing(args);
-        
+
         numberOfTeams = Integer.parseInt(args[1]);
         List<String> teamnames = generateTeamNames(numberOfTeams);
-        
+
         numberOfStudents = Integer.parseInt(args[0]);
         List<String> lines = generateEnrollText(numberOfStudents, teamnames);
-        
+
         print(lines);
 
     }
@@ -47,8 +47,7 @@ public final class StudentDataGenerator {
     }
 
     /**
-     * 
-     * @return Returns enroll lines, sorted by team name
+     * Returns enroll lines, sorted by team name.
      */
     private static List<String> generateEnrollText(int numberOfStudents,
             List<String> teamnames) {

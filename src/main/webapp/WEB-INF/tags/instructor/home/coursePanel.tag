@@ -1,5 +1,6 @@
 <%@ tag description="instructorHome - Course table panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseTable" type="teammates.ui.template.CourseTable" required="true" %>
 <%@ attribute name="index" required="true" %>
@@ -15,9 +16,30 @@
             <div class="mobile-margin-top-10px col-sm-6">
                 <span class="mobile-no-pull pull-right">
                     <c:forEach items="${courseTable.buttons}" var="button">
-                        <a data-toggle="tooltip" data-placement="top" ${button.attributesToString}>
-                            ${button.content}
-                        </a>
+                        <c:choose>
+                            <c:when test="${fn:length(button.nestedElements) gt 0}">
+                                <div class="dropdown courses-table-dropdown">
+                                    <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                                        ${button.content}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <c:forEach items="${button.nestedElements}" var="menuItem">
+                                            <li>
+                                                <a data-toggle="tooltip" data-placement="left" ${menuItem.attributesToString}>
+                                                    ${menuItem.content}
+                                                </a>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <a data-toggle="tooltip" data-placement="left" ${button.attributesToString}>
+                                    ${button.content}
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
                     </c:forEach>
                     <c:if test="${isNotLoaded}">
                         <span class="glyphicon glyphicon-chevron-down"></span>

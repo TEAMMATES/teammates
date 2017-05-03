@@ -63,32 +63,15 @@
           <div class="col-sm-4 col-lg-2">
             <div class="form-group">
               <div class="col-md-12">
-                <form action="/page/instructorFeedbackResultsDownload" id="download-form" method="post">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
                   <div id="feedbackDataButtons">
-                    <button class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="button_download" name="fruploaddownloadbtn" type="submit">
-                      Download Results
-                      <span class="caret">
-                      </span>
-                    </button>
-                    <ul class="dropdown-menu download-type-list" id="download-result-dropdown">
-                      <li data-downloadtype="csv">
-                        <a>
-                          As spreadsheet without formatting (.csv file)
-                        </a>
-                      </li>
-                      <li data-downloadtype="xlsx">
-                        <a>
-                          As normal spreadsheet (.xlsx file)
-                        </a>
-                      </li>
-                    </ul>
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
                   </div>
                   <input name="user" type="hidden" value="FRubricQnUiT.instructor">
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
                   <input id="filterTextForDownload" name="filtertext" type="hidden">
-                  <input id="downloadType" name="frdownloadtype" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
                   <input name="frindicatemissingresponses" type="hidden" value="false">
                 </form>
@@ -236,8 +219,8 @@
         </div>
         <div class="row">
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="toggleCollapse(this)" title="">
-              Collapse Questions
+            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+              Expand Questions
             </a>
           </div>
         </div>
@@ -250,8 +233,6 @@
   <br>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
-  </script>
   <br>
   <br>
   <div class="panel panel-info">
@@ -271,9 +252,20 @@
         <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
-      <strong>
-        Question 1:
-      </strong>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-1">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-1" name="fruploaddownloadbtn" title="" type="submit" value="Question 1:">
+        </div>
+        <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+        <input name="fsname" type="hidden" value="Second Session">
+        <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="filterTextForDownload" name="filtertext" type="hidden">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="1">
+      </form>
       <div class="inline panel-heading-text">
         <span class="text-preserve-space">
           Please choose the best choice for the following sub-questions. 
@@ -344,13 +336,13 @@
                         </p>
                       </td>
                       <td>
-                        100% (3)
+                        40% (2)
                       </td>
                       <td>
-                        0% (0)
+                        60% (3)
                       </td>
                       <td>
-                        1.01
+                        -0.19
                       </td>
                     </tr>
                     <tr>
@@ -360,13 +352,13 @@
                         </p>
                       </td>
                       <td>
-                        67% (2)
+                        75% (3)
                       </td>
                       <td>
-                        33% (1)
+                        25% (1)
                       </td>
                       <td>
-                        0.34
+                        0.51
                       </td>
                     </tr>
                   </tbody>
@@ -413,29 +405,74 @@
             </thead>
             <tbody>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  a) No
+                  <span class="color_neutral">
+                    <i>
+                      (Choice 2)
+                    </i>
+                  </span>
+                  <br>
+                  b)
+                  <span class="color_neutral">
+                    <i>
+                      No Response
+                    </i>
+                  </span>
+                  <br>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="word-wrap-break text-preserve-space">
-                  a) Yes
+                  a) No
                   <span class="color_neutral">
                     <i>
-                      (Choice 1)
+                      (Choice 2)
                     </i>
                   </span>
                   <br>
@@ -458,19 +495,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -503,19 +540,19 @@
                 </td>
               </tr>
               <tr>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
-                <td class="middlealign">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                     Benny Charles
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
@@ -547,14 +584,59 @@
                   </form>
                 </td>
               </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 2&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                    Colin Daniels
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 2&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                    Colin Daniels
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  a) No
+                  <span class="color_neutral">
+                    <i>
+                      (Choice 2)
+                    </i>
+                  </span>
+                  <br>
+                  b) Yes
+                  <span class="color_neutral">
+                    <i>
+                      (Choice 1)
+                    </i>
+                  </span>
+                  <br>
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+                    <input name="fsname" type="hidden" value="Second Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="colin.d.tmms@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
-  <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+  <div class="panel panel-default">
+    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">
@@ -562,15 +644,12 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon pull-right glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-      <div class="panel-body">
-        All students have responded to some questions in this session.
-      </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-2">
     </div>
   </div>
 </div>

@@ -10,8 +10,7 @@
   <br>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
-  </script>
+  <input id="show-comment-box" type="hidden" value="">
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12">
@@ -277,8 +276,10 @@
                         </table>
                       </div>
                       <div class="form-group">
-                        <textarea class="form-control" id="commentText" name="commenttext" placeholder="Your comment about this student" rows="3">
-                        </textarea>
+                        <div id="rich-text-toolbar-comment-container">
+                        </div>
+                        <div class="panel panel-default panel-body" id="commenttext">
+                        </div>
                       </div>
                       <div class="col-sm-offset-5">
                         <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save">
@@ -1819,6 +1820,49 @@
                               <span class="color_neutral">
                                 <i>
                                   (Choice 1)
+                                </i>
+                              </span>
+                              <br>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          Question 2:
+                          <span class="text-preserve-space">
+                            Please choose the best choice for the following sub-questions. Only first subquestion has responses 
+                            <span style=" white-space: normal;">
+                              <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-recipient-2-session-0" onclick="toggleAdditionalQuestionInfo('2-recipient-2-session-0')">
+                                [more]
+                              </a>
+                              <br>
+                              <span id="questionAdditionalInfo-2-recipient-2-session-0" style="display:none;">
+                                Rubric question sub-questions:
+                                <p>
+                                  a) This student has done a good job.
+                                  <br>
+                                  b) This student has tried his/her best.
+                                  <br>
+                                </p>
+                              </span>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="panel-body">
+                          <div style="clear:both; overflow: hidden">
+                            <div class="pull-left text-preserve-space">
+                              a) Yes
+                              <span class="color_neutral">
+                                <i>
+                                  (Choice 1)
+                                </i>
+                              </span>
+                              <br>
+                              b)
+                              <span class="color_neutral">
+                                <i>
+                                  No Response
                                 </i>
                               </span>
                               <br>

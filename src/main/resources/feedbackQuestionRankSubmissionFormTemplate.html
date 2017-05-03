@@ -1,14 +1,14 @@
 <div>
     ${rankSubmissionFormOptionFragments}
     <div id="rankInfo-${questionIndex}-${responseIndex}" class="form-group" ${rankOptionVisibility}>
-    	<div class="col-sm-2" ${rankOptionVisibility}>
-    	</div>
-    	<div class="col-sm-3">
-    		<hr class="margin-top-0">
-    		<p class="text-color-blue" id="rankMessage-${questionIndex}-${responseIndex}">
-    		</p>
-    		<hr>
-    	</div>
+        <div class="col-sm-2" ${rankOptionVisibility}>
+        </div>
+        <div class="col-sm-3">
+            <hr class="margin-top-0">
+            <p class="text-color-blue" id="rankMessage-${questionIndex}-${responseIndex}">
+            </p>
+            <hr>
+        </div>
     </div>
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionIndex}" value="${rankToRecipientsValue}">
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}-${questionIndex}" value="${rankNumOptionValue}">

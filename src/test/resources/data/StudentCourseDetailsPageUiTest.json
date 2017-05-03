@@ -1,12 +1,12 @@
 {
   "accounts": {
-  	"SCDetailsUiT.instr": {
-  	  "googleId": "SCDetailsUiT.instr",
-  	  "name": "Instructor",
-  	  "isInstructor": true,
-  	  "email": "tmms.test@gmail.tmt",
-  	  "institute": "TEAMMATES Test Institute 1"
-  	},
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "SCDetailsUiT.coord": {
       "googleId": "SCDetailsUiT.coord",
       "name": "Instructor",
@@ -16,25 +16,26 @@
     },
     "SCDetailsUiT.alice": {
       "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
-      "email": "SCDetailsUiT.alice@gmail.tmt",
       "name": "Alice Betsy",
       "isInstructor": false,
+      "email": "SCDetailsUiT.alice@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "SCDetailsUiT.charlie": {
       "googleId": "SCDetailsUiT.charlie",
-      "email": "SCDetailsUiT.charlie@gmail.tmt",
       "name": "Charlie Davis",
+      "isInstructor": false,
+      "email": "SCDetailsUiT.charlie@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "SCDetailsUiT.danny": {
       "googleId": "SCDetailsUiT.danny",
-      "email": "SCDetailsUiT.danny@gmail.tmt",
       "name": "Danny Engrid",
+      "isInstructor": false,
+      "email": "SCDetailsUiT.danny@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
   "courses": {
     "SCDetailsUiT.CS2104": {
       "id": "SCDetailsUiT.CS2104",
@@ -42,16 +43,15 @@
       "timeZone": "UTC"
     }
   },
-  
   "instructors": {
     "SCDetailsUiT.instr": {
       "googleId": "SCDetailsUiT.instr",
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "SCDetailsUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -75,9 +75,9 @@
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Coord",
       "email": "SCDetailsUiT.coord@gmail.tmt",
-      "role":"Co-owner",
-      "isDisplayedToStudents":false,
-      "displayedName":"Instructor",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -97,7 +97,6 @@
       }
     }
   },
-  
   "students": {
     "SCDetailsUiT.alice": {
       "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
@@ -123,5 +122,11 @@
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2"
     }
-  }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

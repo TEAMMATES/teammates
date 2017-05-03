@@ -15,15 +15,22 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
+  "courses": {
+    "AAMgtUiT.CS2104": {
+      "id": "AAMgtUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
   "instructors": {
     "AAMgtUiT.instr1": {
       "googleId": "AAMgtUiT.instr1",
       "courseId": "AAMgtUiT.CS2104",
       "name": "Teammates Instr1",
       "email": "AAMgtUiT.instr1@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -47,8 +54,9 @@
       "courseId": "AAMgtUiT.CS2104",
       "name": "Teammates Instr3",
       "email": "AAMgtUiT.instr2@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -68,13 +76,11 @@
       }
     }
   },
-
-  "courses": {
-    "AAMgtUiT.CS2104": {
-      "id": "AAMgtUiT.CS2104",
-      "name": "Programming Language Concepts",
-      "timeZone": "UTC"
-    }
-  }
-  
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

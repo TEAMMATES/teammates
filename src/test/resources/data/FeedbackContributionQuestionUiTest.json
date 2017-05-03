@@ -1,21 +1,20 @@
 {
   "accounts": {
-  	"instructor1": {
-  	  "googleId": "FContribQnUiT.instructor",
-  	  "name": "Teammates Test",
-  	  "isInstructor": true,
-  	  "email": "tmms.test@gmail.tmt",
-  	  "institute": "TEAMMATES Test Institute 1"
-  	},
-  	"alice.tmms": {
-  	  "googleId": "CFeedbackEditUiT.alice.tmms",
-  	  "name": "Alice Betsy",
-  	  "isInstructor": false,
-  	  "email": "alice.b.tmms@gmail.tmt",
-  	  "institute": "TEAMMATES Test Institute 1"
-  	}
+    "instructor1": {
+      "googleId": "FContribQnUiT.instructor",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "alice.tmms": {
+      "googleId": "CFeedbackEditUiT.alice.tmms",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "alice.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
   },
-
   "courses": {
     "course": {
       "id": "FContribQnUiT.CS2104",
@@ -23,15 +22,15 @@
       "timeZone": "UTC"
     }
   },
-  
   "instructors": {
     "teammates.test.instructor": {
       "googleId": "FContribQnUiT.instructor",
       "courseId": "FContribQnUiT.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -51,7 +50,6 @@
       }
     }
   },
-  
   "students": {
     "alice.tmms@FContribQnUiT.CS2104": {
       "googleId": "CFeedbackEditUiT.alice.tmms",
@@ -62,23 +60,34 @@
       "team": "Team </option><option value=\"dump\">1'"
     }
   },
-  
-  "feedbackSessions" : {  
+  "feedbackSessions": {
     "openSession": {
-      "feedbackSessionName" : "First Session",
-      "courseId" : "FContribQnUiT.CS2104",
-      "creatorEmail" : "tmms.test@gmail.tmt",
-      "instructions": {"value" : "Instructions for first session"},
-      "createdTime" : "2012-04-01 11:59 PM UTC",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime" : "2026-05-01 11:59 PM UTC",
-      "timeZone" : 2.0,
+      "feedbackSessionName": "First Session",
+      "courseId": "FContribQnUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
       "gracePeriod": 10,
-      "feedbackSessionType" : "STANDARD",
-      "sentOpenEmail" : true,
-      "sentPublishedEmail" : false
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
     }
-  }
+  },
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

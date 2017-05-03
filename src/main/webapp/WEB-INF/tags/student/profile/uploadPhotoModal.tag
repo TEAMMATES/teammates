@@ -40,7 +40,6 @@
                                 <button type="button"
                                         id="profileUploadPictureSubmit"
                                         class="btn btn-primary width-100-pc"
-                                        onclick="finaliseUploadPictureForm()"
                                         disabled>
                                     Upload Picture
                                 </button>
@@ -112,8 +111,7 @@
                                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
                                     <button type="button"
                                             id="profileEditPictureSubmit"
-                                            class="btn btn-primary"
-                                            onclick="finaliseEditPictureForm()">
+                                            class="btn btn-primary">
                                         Save Edited Photo
                                     </button>
                                 </form>

@@ -35,10 +35,7 @@
                             value="false" checked>
                     </div>
                     <div data-toggle="tooltip" data-placement="top"
-                        title="Respondents will have to distribute the total points specified here among the 
-                                ${optionRecipientDisplayName}. e.g. If you specify 100 points here and if there are 3 
-                                ${optionRecipientDisplayName}, respondents will have to distribute 100 points among 3 
-                                ${optionRecipientDisplayName}.">
+                        title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}">
                         <div class="col-xs-4 padding-0 col-sm-4">
                             <input type="number" disabled class="form-control width-100-pc pointsBox"
                                 name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}"
@@ -60,9 +57,7 @@
                             value="true"${perOptionChecked}>
                     </div>
                     <div data-toggle="tooltip" data-placement="top"
-                        title="The number of points to distribute will vary based on the number of options. e.g. 
-                                If you specify 100 points here and if there are 3 options, the total number of points to 
-                                distribute among 3 options will be 300 (i.e. 100 x 3)">
+                        title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}">
                         <div class="col-xs-4 padding-0">
                             <input type="number" disabled class="form-control width-100-pc pointsBox"
                                 name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}"
@@ -83,9 +78,7 @@
                             value="true"${perRecipientChecked}>
                     </div>
                     <div data-toggle="tooltip" data-placement="top"
-                        title="The number of points to distribute will vary based on the number of recipients. e.g. 
-                                If you specify 100 points here and if there are 3 recipients, the total number of points to 
-                                distribute among 3 recipients will be 300 (i.e. 100 x 3)">
+                        title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}">
                         <div class="col-xs-4 padding-0">
                             <input type="number" disabled
                                 class="form-control width-100-pc pointsBox"

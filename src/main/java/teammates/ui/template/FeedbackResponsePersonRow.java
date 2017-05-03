@@ -3,8 +3,8 @@ package teammates.ui.template;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 
 public class FeedbackResponsePersonRow {
 

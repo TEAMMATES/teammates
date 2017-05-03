@@ -33,7 +33,7 @@
       Go there to undo the archiving and bring the course back to the home page.
     </div>
   </div>
-  <script src="/js/statusMessage.js" type="text/javascript">
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
   </script>
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
@@ -106,24 +106,72 @@
         </div>
         <div class="mobile-margin-top-10px col-sm-6">
           <span class="mobile-no-pull pull-right">
-            <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&user=CHomeUiT.instructor.tmms" title="">
-              Enroll
-            </a>
-            <a class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS2104&user=CHomeUiT.instructor.tmms" title="">
-              View
-            </a>
-            <a class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&user=CHomeUiT.instructor.tmms" title="">
-              Edit
-            </a>
-            <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" data-original-title="Add a feedback session for the course" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms&courseid=CHomeUiT.CS2104" title="">
-              Add Session
-            </a>
-            <a class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" data-course-id="CHomeUiT.CS2104" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS2104&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
-              Archive
-            </a>
-            <a class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test course-delete-link" data-course-id="CHomeUiT.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
-              Delete
-            </a>
+            <div class="dropdown courses-table-dropdown">
+              <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                Students
+                <span class="caret">
+                </span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="btn-tm-actions course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=CHomeUiT.CS2104&user=CHomeUiT.instructor.tmms" title="">
+                    Enroll
+                  </a>
+                </li>
+                <li>
+                  <a class="btn-tm-actions course-view-for-test" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CHomeUiT.CS2104&user=CHomeUiT.instructor.tmms" title="">
+                    View / Edit
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="dropdown courses-table-dropdown">
+              <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                Instructors
+                <span class="caret">
+                </span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&user=CHomeUiT.instructor.tmms" title="">
+                    View / Edit
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="dropdown courses-table-dropdown">
+              <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                Sessions
+                <span class="caret">
+                </span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="btn-tm-actions course-add-eval-for-test" data-original-title="Add a feedback session for the course" data-placement="left" data-toggle="tooltip" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms&courseid=CHomeUiT.CS2104" title="">
+                    Add
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="dropdown courses-table-dropdown">
+              <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                Course
+                <span class="caret">
+                </span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="btn-tm-actions course-archive-for-test" data-course-id="CHomeUiT.CS2104" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS2104&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
+                    Archive
+                  </a>
+                </li>
+                <li>
+                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="CHomeUiT.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
+                    Delete
+                  </a>
+                </li>
+              </ul>
+            </div>
           </span>
         </div>
       </div>
@@ -179,8 +227,10 @@
               Open
             </span>
           </td>
-          <td class="session-response-for-test recent">
-            0 / 4
+          <td class="session-response-for-test">
+            <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=CHomeUiT.instructor.tmms" oncontextmenu="return false;">
+              Show
+            </a>
           </td>
           <td class="no-print text-nowrap padding-right-25px">
             <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=CHomeUiT.instructor.tmms" title="">
@@ -247,8 +297,10 @@
               Awaiting
             </span>
           </td>
-          <td class="session-response-for-test recent">
-            0 / 0
+          <td class="session-response-for-test">
+            <a href="/page/feedbackSessionStatsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=CHomeUiT.instructor.tmms" oncontextmenu="return false;">
+              Show
+            </a>
           </td>
           <td class="no-print text-nowrap padding-right-25px">
             <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=CHomeUiT.instructor.tmms" title="">
@@ -340,21 +392,21 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Third Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Third Feedback Session" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                   Remind
                 </a>
-                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
+                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
                   <span class="caret">
                   </span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Third Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
+                    <a class="session-remind-inner-for-test" data-fsname="Third Feedback Session" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                       Remind all students
                     </a>
                   </li>
                   <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Third Feedback Session" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
+                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Third Feedback Session" data-target="#remindModal" data-toggle="modal" href="#">
                       Remind particular students
                     </a>
                   </li>

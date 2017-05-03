@@ -43,7 +43,6 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
   "courses": {
     "CCDetailsUiT.CS2104": {
       "id": "CCDetailsUiT.CS2104",
@@ -61,16 +60,15 @@
       "timeZone": "UTC"
     }
   },
-  
   "instructors": {
     "CCDetailsUiT.instr": {
       "googleId": "CCDetailsUiT.instr",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "CCDetailsUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -94,9 +92,9 @@
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Coord",
       "email": "CCDetailsUiT.coord@gmail.tmt",
-      "role":"Co-owner",
-      "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -120,9 +118,9 @@
       "courseId": "CCDetailsUiT.CS2103",
       "name": "Teammates Test 2",
       "email": "CCDetailsUiT.instr2@gmail.tmt",
-      "role":"Co-owner",
-      "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -146,9 +144,9 @@
       "courseId": "CCDetailsUiT.CS2103",
       "name": "Teammates Test 2",
       "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
-      "role":"Custom",
-      "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
@@ -172,9 +170,9 @@
       "courseId": "CCDetailsUiT.CourseWithoutStudents",
       "name": "Teammates Test",
       "email": "CCDetailsUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "isDisplayedToStudents":true,
-      "displayedName":"Instructor",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -194,7 +192,6 @@
       }
     }
   },
-  
   "students": {
     "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104": {
       "googleId": "${value.injected.in.testfile}",
@@ -255,5 +252,11 @@
       "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Tut Group 1"
     }
-  }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

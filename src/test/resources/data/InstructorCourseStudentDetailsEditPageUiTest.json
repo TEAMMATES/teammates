@@ -8,7 +8,6 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
-
   "courses": {
     "CCSDEditUiT.CS2104": {
       "id": "CCSDEditUiT.CS2104",
@@ -16,15 +15,15 @@
       "timeZone": "UTC"
     }
   },
-
   "instructors": {
     "CCSDEditUiT.instr": {
       "googleId": "CCSDEditUiT.instr",
       "courseId": "CCSDEditUiT.CS2104",
       "name": "Teammates Test",
       "email": "CCSDEditUiT.instr@gmail.tmt",
-      "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -44,7 +43,6 @@
       }
     }
   },
-  
   "students": {
     "registeredStudent": {
       "googleId": "CCSDEditUiT.jose.tmms",
@@ -62,5 +60,11 @@
       "comments": "This student's name is Benny Charles",
       "team": "Team 1</td></div>'\""
     }
-  }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "comments": {},
+  "profiles": {}
 }

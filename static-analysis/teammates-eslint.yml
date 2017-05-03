@@ -2,6 +2,10 @@ env:
     browser: true
     jquery: true
     qunit: true
+
+plugins:
+    - json
+
 rules:
 
     #################################################################################
@@ -15,6 +19,12 @@ rules:
     #################################################################################
 
     # Possible Errors
+
+    # disallow await inside of loops
+    # no-await-in-loop: "off"
+
+    # disallow comparing against -0
+    # no-compare-neg-zero: "off"
 
     # disallow assignment operators in conditional expressions
     no-cond-assign: ["error", "except-parens"]
@@ -40,11 +50,11 @@ rules:
     # disallow duplicate case labels
     no-duplicate-case: "error"
 
-    # disallow empty block statements
-    no-empty: "error"
-
     # disallow empty character classes in regular expressions
     no-empty-character-class: "error"
+
+    # disallow empty block statements
+    no-empty: "error"
 
     # disallow reassigning exceptions in catch clauses
     no-ex-assign: "error"
@@ -70,9 +80,6 @@ rules:
     # disallow irregular whitespace outside of strings and comments
     no-irregular-whitespace: "error"
 
-    # disallow negating the left operand in in expressions
-    no-negated-in-lhs: "error"
-
     # disallow calling global object properties as functions
     no-obj-calls: "error"
 
@@ -85,6 +92,9 @@ rules:
     # disallow sparse arrays
     no-sparse-arrays: "error"
 
+    # Disallow template literal placeholder syntax in regular strings
+    # no-template-curly-in-string: "off"
+
     # disallow confusing multiline expressions
     no-unexpected-multiline: "error"
 
@@ -93,6 +103,9 @@ rules:
 
     # disallow control flow statements in finally blocks
     no-unsafe-finally: "error"
+
+    # disallow negating the left operand of relational operators
+    no-unsafe-negation: "error"
 
     # require calls to isNaN() when checking for NaN
     use-isnan: "error"
@@ -113,6 +126,9 @@ rules:
 
     # enforce the use of variables within the scope they are defined
     block-scoped-var: "error"
+
+    # enforce that class methods utilize this
+    # class-methods-use-this: "off"
 
     # enforce a maximum cyclomatic complexity allowed in a program
     # complexity: "off"
@@ -180,6 +196,12 @@ rules:
     # disallow leading or trailing decimal points in numeric literals
     # no-floating-decimal: "off"
 
+    # disallow assignments to native objects or read-only global variables
+    no-global-assign: "error"
+
+    # no-return-await
+    # no-return-await: "off"
+
     # disallow shorthand type conversions
     no-implicit-coercion: "error"
 
@@ -213,23 +235,20 @@ rules:
     # disallow multiline strings
     # no-multi-str: "off"
 
-    # disallow reassigning native objects
-    no-native-reassign: "error"
-
-    # disallow new operators outside of assignments or comparisons
-    no-new: "error"
-
     # disallow new operators with the Function object
     no-new-func: "error"
 
     # disallow new operators with the String, Number, and Boolean objects
     no-new-wrappers: "error"
 
-    # disallow octal literals
-    no-octal: "error"
+    # disallow new operators outside of assignments or comparisons
+    no-new: "error"
 
     # disallow octal escape sequences in string literals
     # no-octal-escape: "off"
+
+    # disallow octal literals
+    no-octal: "error"
 
     # disallow reassigning function parameters
     no-param-reassign: ["error", { "props": false }]
@@ -240,8 +259,14 @@ rules:
     # disallow var redeclaration
     no-redeclare: "error"
 
+    # disallow certain properties on certain objects
+    # no-restricted-properties: "off"
+
     # disallow assignment operators in return statements
     # no-return-assign: "off"
+
+    # disallow unnecessary return await
+    # no-return-await: "off"
 
     # disallow javascript: urls
     # no-script-url: "off"
@@ -256,7 +281,7 @@ rules:
     # no-sequences: "off"
 
     # disallow throwing literals as exceptions
-    # no-throw-literal: "off"
+    no-throw-literal: "error"
 
     # disallow unmodified loop conditions
     # no-unmodified-loop-condition: "off"
@@ -276,6 +301,9 @@ rules:
     # disallow unnecessary escape characters
     no-useless-escape: "error"
 
+    # disallow redundant return statements
+    no-useless-return: "error"
+
     # disallow void operators
     # no-void: "off"
 
@@ -285,8 +313,14 @@ rules:
     # disallow with statements
     # no-with: "off"
 
+    # require using Error objects as Promise rejection reasons
+    # prefer-promise-reject-errors: "off"
+
     # enforce the consistent use of the radix argument when using parseInt()
     radix: "off" # recommended by Airbnb and Google
+
+    # disallow async functions which have no await expression
+    # require-await: "off"
 
     # require var declarations be placed at the top of their containing scope
     vars-on-top: "off" # recommended by Airbnb
@@ -300,7 +334,7 @@ rules:
     # Strict Mode
 
     # require or disallow strict mode directives
-    strict: "off" # recommended by Airbnb
+    strict: ["error", "global"]
 
     # Variables
 
@@ -319,20 +353,20 @@ rules:
     # disallow specified global variables
     # no-restricted-globals: "off"
 
-    # disallow declaration of variables already declared in the outer scope
-    no-shadow: "off" # recommended by Airbnb
-
     # disallow identifiers from shadowing restricted names
     # no-shadow-restricted-names: "off"
 
-    # disallow the use of undeclared variables unless mentioned in /*global */ comments
-    no-undef: "off" # recommended by ESLint, Airbnb, and Google
+    # disallow declaration of variables already declared in the outer scope
+    no-shadow: "off" # recommended by Airbnb
 
     # disallow initializing variables to undefined
     no-undef-init: "error"
 
+    # disallow the use of undeclared variables unless mentioned in /*global */ comments
+    no-undef: "off" # recommended by ESLint, Airbnb, and Google
+
     # disallow the use of undefined as an identifier
-    # no-undefined: "off"
+    no-undefined: "off" # recommended by Airbnb
 
     # disallow unused variables
     no-unused-vars: ["error", "local"]
@@ -354,6 +388,9 @@ rules:
     # enforce camelcase naming convention
     camelcase: "error"
 
+    # enforce or disallow capitalization of the first letter of a comment
+    # capitalized-comments: "off"
+
     # require or disallow trailing commas
     comma-dangle: ["error", "never"]
 
@@ -371,6 +408,12 @@ rules:
 
     # enforce at least one newline at the end of files
     eol-last: "error"
+
+    # require or disallow spacing between function identifiers and their invocations
+    func-call-spacing: "error"
+
+    # require function names to match the name of the variable or property to which they are assigned
+    # func-name-matching: "off"
 
     # enforce named function expressions
     func-names: "off" # recommended by Airbnb
@@ -399,11 +442,17 @@ rules:
     # enforce consistent spacing before and after keywords
     keyword-spacing: "error"
 
+    # enforce position of line comments
+    # line-comment-position: "off"
+
     # enforce consistent linebreak style
     # linebreak-style: "off"
 
     # require empty lines around comments
     # lines-around-comment: "off"
+
+    # require or disallow newlines around directives
+    # lines-around-directive: "off"
 
     # enforce a maximum depth that blocks can be nested
     # max-depth: "off"
@@ -420,11 +469,14 @@ rules:
     # enforce a maximum number of parameters in function definitions
     # max-params: "off"
 
+    # enforce a maximum number of statements allowed per line
+    max-statements-per-line: "error"
+
     # enforce a maximum number of statements allowed in function blocks
     # max-statements: "off"
 
-    # enforce a maximum number of statements allowed per line
-    max-statements-per-line: "error"
+    # enforce newlines between operands of ternary expressions
+    # multiline-ternary: "off"
 
     # require constructor function names to begin with a capital letter
     new-cap: "error"
@@ -460,7 +512,10 @@ rules:
     # no-mixed-operators: "off"
 
     # disallow mixed spaces and tabs for indentation
-    no-mixed-spaces-and-tabs: "error"
+    # no-mixed-spaces-and-tabs: "off"
+
+    # disallow use of chained assignment expressions
+    # no-multi-assign: "off"
 
     # disallow multiple empty lines
     no-multiple-empty-lines: ["error", { "max": 1, "maxBOF": 0, "maxEOF": 1}]
@@ -480,14 +535,14 @@ rules:
     # disallow specified syntax
     no-restricted-syntax: "off" # recommended by Airbnb
 
-    # disallow spacing between function identifiers and their applications
-    no-spaced-func: "error"
+    # Disallow tabs in file
+    no-tabs: "error"
 
     # disallow ternary operators
     # no-ternary: "off"
 
     # disallow trailing whitespace at the end of lines
-    no-trailing-spaces: ["error", { "skipBlankLines": true }]
+    no-trailing-spaces: "error"
 
     # disallow dangling underscores in identifiers
     no-underscore-dangle: "error"
@@ -498,6 +553,9 @@ rules:
     # disallow whitespace before properties
     no-whitespace-before-property: "error"
 
+    # enforce the location of single-line statements
+    # nonblock-statement-body-position: "off"
+
     # enforce consistent line breaks inside braces
     # object-curly-newline: "off"
 
@@ -507,11 +565,11 @@ rules:
     # enforce placing object properties on separate lines
     object-property-newline: "error"
 
-    # enforce variables to be declared either together or separately in functions
-    one-var: ["error", "never"]
-
     # require or disallow newlines around var declarations
     # one-var-declaration-per-line: "off"
+
+    # enforce variables to be declared either together or separately in functions
+    one-var: ["error", "never"]
 
     # require or disallow assignment operator shorthand where possible
     # operator-assignment: "off"
@@ -531,11 +589,14 @@ rules:
     # require JSDoc comments
     require-jsdoc: "off" # recommended by Google
 
+    # enforce consistent spacing before and after semicolons
+    semi-spacing: "error"
+
     # require or disallow semicolons instead of ASI
     semi: "error"
 
-    # enforce consistent spacing before and after semicolons
-    semi-spacing: "error"
+    # requires object keys to be sorted
+    # sort-keys: "off"
 
     # require variables within the same declaration block to be sorted
     # sort-vars: "off"
@@ -558,15 +619,11 @@ rules:
     # enforce consistent spacing after the // or /* in a comment
     spaced-comment: ["error", "always"]
 
+    # require or disallow spacing between template tags and their literals
+    # template-tag-spacing: "off"
+
     # require or disallow Unicode BOM
     # unicode-bom: "off"
 
     # require parenthesis around regex literals
     # wrap-regex: "off"
-
-    # ES6 and Node.js features, irrelevant for us; they are turned off to suppress warnings given by Airbnb configs
-    no-var: "off"
-    object-shorthand: "off"
-    prefer-arrow-callback: "off"
-    prefer-rest-params: "off"
-    prefer-template: "off"

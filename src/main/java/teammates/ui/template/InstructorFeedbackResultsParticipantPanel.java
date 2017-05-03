@@ -4,18 +4,18 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
     protected boolean isGiver; // if false, then participant is a recipient
     protected String participantIdentifier; // email, team name, or %GENERAL%
     protected String name;
-    
+
     protected boolean isHasResponses;
     protected boolean isEmailValid;
-    
+
     protected String profilePictureLink;
-    
+
     protected InstructorFeedbackResultsModerationButton moderationButton;
-    
+
     public String getParticipantIdentifier() {
         return participantIdentifier;
     }
-    
+
     public void setParticipantIdentifier(String participantIdentifier) {
         this.participantIdentifier = participantIdentifier;
     }
@@ -43,7 +43,7 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
     public void setHasResponses(boolean isHasResponses) {
         this.isHasResponses = isHasResponses;
     }
-    
+
     public boolean isEmailValid() {
         return isEmailValid;
     }
@@ -76,5 +76,5 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         }
         return 0;
     }
-    
+
 }

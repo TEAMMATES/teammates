@@ -1,17 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
+<c:set var="cssIncludes">
+    <link type="text/css" href="/stylesheets/omniComment.css" rel="stylesheet">
+</c:set>
 <c:set var="jsIncludes">
-    <link href="/stylesheets/omniComment.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
-    <script src="/js/omniComment.js"></script>
+    <script type="text/javascript" src="/js/instructorComments.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <comments:search instructorSearchLink="${data.instructorSearchLink}" displayArchive="${data.displayArchive}" instructorCommentsLink="${data.instructorCommentsLink}" commentsForStudentsTables="${data.commentsForStudentsTables}" feedbackSessions="${data.feedbackSessions}" />
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
