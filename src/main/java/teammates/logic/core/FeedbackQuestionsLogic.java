@@ -669,6 +669,9 @@ public final class FeedbackQuestionsLogic {
      */
     public void updateFeedbackQuestionsForDeletedInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
+        if (instructor == null || instructor.email == null) {
+            return;
+        }
 
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(instructor.getCourseId());
 
