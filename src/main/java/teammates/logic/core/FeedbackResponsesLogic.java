@@ -730,7 +730,7 @@ public final class FeedbackResponsesLogic {
                 boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
                     if (isInstructor) {
-                        fsLogic.deleteInstructorRespondant(email,
+                        fsLogic.deleteInstructorRespondent(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     } else {
