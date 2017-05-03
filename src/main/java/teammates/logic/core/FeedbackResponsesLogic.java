@@ -685,12 +685,12 @@ public final class FeedbackResponsesLogic {
         frcLogic.deleteFeedbackResponseCommentsForResponse(responseToDelete.getId());
         frDb.deleteEntity(responseToDelete);
     }
-    
+
     public void deleteFeedbackResponsesForQuestionAndCascade(
             FeedbackQuestionAttributes oldQuestion, FeedbackQuestionAttributes newQuestion,
             boolean hasResponseRateUpdate) {
         String feedbackQuestionId = oldQuestion.getId();
-        
+
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
 
@@ -704,9 +704,9 @@ public final class FeedbackResponsesLogic {
             } else {
                 giver = response.giver;
             }
-            
+
             String recipient = response.recipient;
-            
+
             if (!newQuestion.giverType.isCustom()
                     || !newQuestion.getFeedbackPathsGiverType().equals(oldQuestion.getFeedbackPathsGiverType())
                     || !newQuestion.getFeedbackPathsRecipientType().equals(oldQuestion.getFeedbackPathsRecipientType())

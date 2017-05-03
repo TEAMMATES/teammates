@@ -31,7 +31,8 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         if (hasAlternativeInstructor(courseId, instructorEmail)) {
             try {
                 logic.deleteInstructor(courseId, instructorEmail);
-                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED,
+                                                   StatusMessageColor.SUCCESS));
                 statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                     + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
             } catch (InvalidParametersException | EntityDoesNotExistException e) {

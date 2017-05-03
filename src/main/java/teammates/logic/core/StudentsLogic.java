@@ -218,7 +218,7 @@ public final class StudentsLogic {
         if (!originalStudent.email.equals(finalEmail)) {
             commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
         }
-        
+
         // adjust submissions and custom feedback paths if moving to a different team
 
         if (isTeamChanged(originalStudent.team, student.team)) {

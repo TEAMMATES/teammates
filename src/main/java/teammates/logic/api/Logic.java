@@ -190,13 +190,11 @@ public class Logic {
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws InvalidParametersException
-     * @throws EntityDoesNotExistException
      */
     public void deleteAccount(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         Assumption.assertNotNull(googleId);
-        
+
         accountsLogic.deleteAccountCascade(googleId);
     }
 
@@ -516,14 +514,12 @@ public class Logic {
      * Fails silently if no match found.<br>
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public void downgradeInstructorToStudentCascade(String googleId)
             throws InvalidParametersException, EntityDoesNotExistException {
-    
+
         Assumption.assertNotNull(googleId);
-        
+
         accountsLogic.downgradeInstructorToStudentCascade(googleId);
     }
 
@@ -531,12 +527,10 @@ public class Logic {
      * Fails silently if no match found.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public void deleteInstructor(String courseId, String email)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
+
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(email);
 
@@ -1035,10 +1029,9 @@ public class Logic {
      * Fails silently if no match found. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws InvalidParametersException
      */
     public void deleteStudent(String courseId, String studentEmail) throws InvalidParametersException {
-        
+
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
 
@@ -1047,7 +1040,7 @@ public class Logic {
 
     public void deleteStudentWithoutDocument(String courseId, String studentEmail)
             throws InvalidParametersException {
-        
+
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
 

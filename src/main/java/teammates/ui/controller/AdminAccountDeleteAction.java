@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -75,7 +74,7 @@ public class AdminAccountDeleteAction extends Action {
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             setStatusForException(e);
         }
-        
+
         return createRedirectResult(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE + "?instructorid=" + instructorId);
     }
 

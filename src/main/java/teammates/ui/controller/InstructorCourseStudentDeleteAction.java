@@ -21,7 +21,7 @@ public class InstructorCourseStudentDeleteAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        
+
         try {
             logic.deleteStudent(courseId, studentEmail);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_DELETED, StatusMessageColor.SUCCESS));

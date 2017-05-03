@@ -797,8 +797,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return false;
     }
 
-    /** 
-     * Returns question's feedback paths giver type
+    /**
+     * Returns question's feedback paths giver type.
      */
     public String getFeedbackPathsGiverType() {
         if (!feedbackPaths.isEmpty()) {
@@ -807,8 +807,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return "";
     }
 
-    /** 
-     * Returns question's feedback paths recipient type
+    /**
+     * Returns question's feedback paths recipient type.
      */
     public String getFeedbackPathsRecipientType() {
         if (!feedbackPaths.isEmpty()) {
@@ -935,23 +935,23 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return false;
     }
 
-    /** 
-     * Updates feedback paths containing the old student email to the new student email
+    /**
+     * Updates feedback paths containing the old student email to the new student email.
      */
     public void updateStudentEmailInFeedbackPaths(String oldEmail, String newEmail) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
             if (feedbackPath.isStudentFeedbackPathGiver(oldEmail)) {
                 feedbackPath.setStudentGiver(newEmail);
             }
-            
+
             if (feedbackPath.isStudentFeedbackPathRecipient(oldEmail)) {
                 feedbackPath.setStudentRecipient(newEmail);
             }
         }
     }
 
-    /** 
-     * Updates feedback paths containing the old instructor email to the new instructor email
+    /**
+     * Updates feedback paths containing the old instructor email to the new instructor email.
      */
     public void updateInstructorEmailInFeedbackPaths(String oldEmail, String newEmail) {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
@@ -965,8 +965,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
     }
 
-    /** 
-     * Deletes feedback paths containing the student email
+    /**
+     * Deletes feedback paths containing the student email.
      */
     public void deleteFeedbackPathsContainingStudentEmail(String studentEmail) {
         Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
@@ -979,8 +979,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
     }
 
-    /** 
-     * Deletes feedback paths containing the instructor email
+    /**
+     * Deletes feedback paths containing the instructor email.
      */
     public void deleteFeedbackPathsContainingInstructorEmail(String instructorEmail) {
         Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
@@ -993,8 +993,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
     }
 
-    /** 
-     * Deletes feedback paths containing the team name
+    /**
+     * Deletes feedback paths containing the team name.
      */
     public void deleteFeedbackPathsContainingTeamName(String teamName) {
         Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
