@@ -23,7 +23,6 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
     private AdminEmailPage emailPage;
-    private String groupListFileKey;
 
     @Override
     protected void prepareTestData() {
@@ -86,7 +85,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clearRecipientBox();
         emailPage.clearSubjectBox();
         emailPage.inputGroupRecipient("validGroupList.txt");
-        groupListFileKey = emailPage.getGroupListFileKey();
+        String groupListFileKey = emailPage.getGroupListFileKey();
         emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
         emailPage.verifyGroupListFileKey(groupListFileKey);
         emailPage.clickSendButton();
