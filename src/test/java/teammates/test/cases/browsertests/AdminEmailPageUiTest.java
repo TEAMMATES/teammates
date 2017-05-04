@@ -75,25 +75,37 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         ______TS("send email to group - invalid file type");
 
+        emailPage.clearContentBox();
         emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
         emailPage.inputGroupRecipient("invalidGroupList.xlxs");
         emailPage.verifyStatus("Group receiver list upload failed. Please try again.");
 
         ______TS("send email to group - no subject");
 
-        emailPage.inputContent("Email Content");
+        emailPage.clearContentBox();
         emailPage.clearRecipientBox();
         emailPage.clearSubjectBox();
         emailPage.inputGroupRecipient("validGroupList.txt");
+        emailPage.inputContent("Email Content");
         String groupListFileKey = emailPage.getGroupListFileKey();
         emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
         emailPage.verifyGroupListFileKey(groupListFileKey);
         emailPage.clickSendButton();
         assertTrue(hasStatusMessageNoSubject());
+        emailPage.deleteGroupListFile(groupListFileKey);
 
         ______TS("send email to group - success");
 
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.clearContentBox();
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        emailPage.verifyGroupListFileKey(groupListFileKey);
         emailPage.inputSubject("Email Subject");
+        emailPage.inputContent("Email Content");
         emailPage.clickSendButton();
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
@@ -102,6 +114,9 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         ______TS("send email to groupmode and addressmode - no subject");
 
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.clearContentBox();
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.inputContent("Email Content");
         emailPage.inputGroupRecipient("validGroupList.txt");
@@ -111,10 +126,20 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();
         assertTrue(hasStatusMessageNoSubject());
+        emailPage.deleteGroupListFile(groupListFileKey);
 
         ______TS("send email to groupmode and addressmode - success");
 
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.clearContentBox();
+        emailPage.inputRecipient("recipient@email.tmt");
         emailPage.inputSubject("Email Subject");
+        emailPage.inputContent("Email Content");
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        emailPage.verifyGroupListFileKey(groupListFileKey);
         emailPage.clickSendButton();
         emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.\n"
                 + "Email will be sent within an hour to recipient@email.tmt");

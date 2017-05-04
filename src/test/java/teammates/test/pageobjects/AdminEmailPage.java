@@ -52,7 +52,7 @@ public class AdminEmailPage extends AppPage {
 
     public void inputContent(String content) {
         browser.driver.switchTo().frame("adminEmailBox_ifr");
-        WebElement contentBox = browser.driver.findElement(By.cssSelector("body"));
+        WebElement contentBox = this.getContentBox();
         contentBox.sendKeys(content);
         browser.driver.switchTo().defaultContent();
     }
@@ -75,6 +75,13 @@ public class AdminEmailPage extends AppPage {
     public void clearSubjectBox() {
         WebElement subjectBox = this.getSubjectBox();
         subjectBox.clear();
+    }
+
+    public void clearContentBox() {
+        browser.driver.switchTo().frame("adminEmailBox_ifr");
+        WebElement contentBox = this.getContentBox();
+        contentBox.clear();
+        browser.driver.switchTo().defaultContent();
     }
 
     public void clickSentTab() {
@@ -106,6 +113,10 @@ public class AdminEmailPage extends AppPage {
 
     private WebElement getSubjectBox() {
         return browser.driver.findElement(By.name("emailsubject"));
+    }
+
+    private WebElement getContentBox() {
+        return browser.driver.findElement(By.cssSelector("body"));
     }
 
     private WebElement getSendButton() {
