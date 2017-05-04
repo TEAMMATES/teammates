@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 
 public class AdminEmailPage extends AppPage {
@@ -33,16 +34,15 @@ public class AdminEmailPage extends AppPage {
     }
 
     /**
-     *This method makes the groupReceiverListUploadBox visible, uploads file and makes it invisible again.
+     * Makes the groupReceiverListUploadBox visible, uploads file and makes it invisible again.
      * @param fileName to be uploaded
      */
     public void inputGroupRecipient(String fileName) {
         executeScript("arguments[0].style.display = 'inline'", groupReceiverListUploadBox);
-        File file = new File(TestProperties.TEST_DATA_FOLDER + "/" + fileName);
+        File file = new File(TestProperties.TEST_EMAILS_FOLDER + File.separator + fileName);
         inputFieldForGroupList.sendKeys(file.getAbsolutePath());
         executeScript("arguments[0].style.display = 'none'", groupReceiverListUploadBox);
         waitForAjaxLoaderGifToDisappear();
-
     }
 
     public void inputSubject(String subject) {
@@ -134,7 +134,11 @@ public class AdminEmailPage extends AppPage {
      *  @param key in which a particular subString has to be checked
      */
     public void verifyGroupListFileKey(String key) {
-        assertTrue(key.contains("L2dzL3RlYW1tYXRlcy1qb2huLmFwcHNwb3QuY29tL"));
+        assertTrue(BackDoor.isGroupListFileKeyPresentInGcs(key));
+    }
+
+    public void deleteGroupListFile(String key) {
+        BackDoor.deleteGroupListFile(key);
     }
 
 }

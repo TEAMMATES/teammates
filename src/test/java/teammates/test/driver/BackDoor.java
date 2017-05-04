@@ -470,4 +470,22 @@ public final class BackDoor {
         dataBundle.adminEmails = new HashMap<>();
     }
 
+    /**
+     * Checks if a group recipient's file is present in GCS with specified Key.
+     */
+    public static boolean isGroupListFileKeyPresentInGcs(String groupListFileKey) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_VERIFY_GROUP_LIST_FILE_KEY);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
+        return Boolean.parseBoolean(makePostRequest(params));
+    }
+
+    /**
+     * Deletes the uploaded test file for testing email using group mode.
+     */
+    public static String deleteGroupListFile(String groupListFileKey) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_GROUP_LIST_FILE);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
+        return makePostRequest(params);
+    }
+
 }

@@ -23,6 +23,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
     private AdminEmailPage emailPage;
+    private String groupListFileKey;
 
     @Override
     protected void prepareTestData() {
@@ -85,8 +86,9 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clearRecipientBox();
         emailPage.clearSubjectBox();
         emailPage.inputGroupRecipient("validGroupList.txt");
-        emailPage.verifyGroupListFileKey(emailPage.getGroupListFileKey());
+        groupListFileKey = emailPage.getGroupListFileKey();
         emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        emailPage.verifyGroupListFileKey(groupListFileKey);
         emailPage.clickSendButton();
         assertTrue(hasStatusMessageNoSubject());
 
@@ -97,14 +99,16 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
         emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.");
+        emailPage.deleteGroupListFile(groupListFileKey);
 
         ______TS("send email to groupmode and addressmode - no subject");
 
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.inputContent("Email Content");
         emailPage.inputGroupRecipient("validGroupList.txt");
-        emailPage.verifyGroupListFileKey(emailPage.getGroupListFileKey());
+        groupListFileKey = emailPage.getGroupListFileKey();
         emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        emailPage.verifyGroupListFileKey(groupListFileKey);
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();
         assertTrue(hasStatusMessageNoSubject());
@@ -115,6 +119,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clickSendButton();
         emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.\n"
                 + "Email will be sent within an hour to recipient@email.tmt");
+        emailPage.deleteGroupListFile(groupListFileKey);
 
         ______TS("save email - success");
 
