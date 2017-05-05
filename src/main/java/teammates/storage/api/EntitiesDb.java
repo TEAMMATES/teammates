@@ -69,12 +69,11 @@ public abstract class EntitiesDb {
 
         // TODO: Do we really need special identifiers? Can just use ToString()?
         // Answer: Yes. We can use toString.
-        Object existingEntity = getEntity(entityToAdd);
-        if (existingEntity != null) {
+        if (hasEntity(entityToAdd)) {
             String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
                     + entityToAdd.getIdentificationString();
             log.info(error);
-            throw new EntityAlreadyExistsException(error, existingEntity);
+            throw new EntityAlreadyExistsException(error);
         }
 
         Object entity = entityToAdd.toEntity();
@@ -84,13 +83,11 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         int elapsedTime = 0;
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-            Object createdEntity = getEntity(entityToAdd);
-            while (createdEntity == null
+            while (!hasEntity(entityToAdd)
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                createdEntity = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
-                if (createdEntity == null) {
+                if (!hasEntity(entityToAdd)) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
@@ -122,10 +119,10 @@ public abstract class EntitiesDb {
                 throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
             }
 
-            if (getEntity(entityToAdd) == null) {
-                entities.add(entityToAdd.toEntity());
-            } else {
+            if (hasEntity(entityToAdd)) {
                 entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
             }
 
             log.info(entityToAdd.getBackupIdentifier());
@@ -162,13 +159,11 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
-            Object entityCheck = getEntity(entityToAdd);
-            while (entityCheck == null
+            while (!hasEntity(entityToAdd)
                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                entityCheck = getEntity(entityToAdd);
                 //check before incrementing to avoid boundary case problem
-                if (entityCheck == null) {
+                if (!hasEntity(entityToAdd)) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
@@ -193,26 +188,18 @@ public abstract class EntitiesDb {
     public void deleteEntity(EntityAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
-        Object entity = getEntity(entityToDelete);
-
-        if (entity == null) {
-            return;
-        }
-
-        getPm().deletePersistent(entity);
-        getPm().flush();
+        getEntityKeyOnlyQuery(entityToDelete)
+            .deletePersistentAll();
 
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
-            Object entityCheck = getEntity(entityToDelete);
-            boolean isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+            boolean isEntityDeleted = !hasEntity(entityToDelete);
             while (!isEntityDeleted
                     && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
                 ThreadHelper.waitBriefly();
-                entityCheck = getEntity(entityToDelete);
 
-                isEntityDeleted = entityCheck == null || JDOHelper.isDeleted(entityCheck);
+                isEntityDeleted = !hasEntity(entityToDelete);
                 //check before incrementing to avoid boundary case problem
                 if (!isEntityDeleted) {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
@@ -230,17 +217,11 @@ public abstract class EntitiesDb {
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
-        List<Object> entities = new ArrayList<Object>();
         for (EntityAttributes entityToDelete : entitiesToDelete) {
-            Object entity = getEntity(entityToDelete);
-            if (entity != null) {
-                entities.add(entity);
-                log.info(entityToDelete.getBackupIdentifier());
-            }
+            log.info(entityToDelete.getBackupIdentifier());
+            getEntityKeyOnlyQuery(entityToDelete)
+                .deletePersistentAll();
         }
-
-        getPm().deletePersistentAll(entities);
-        getPm().flush();
     }
 
     public void commitOutstandingChanges() {
@@ -265,6 +246,14 @@ public abstract class EntitiesDb {
      *             does not already exist in the Datastore.
      */
     protected abstract Object getEntity(EntityAttributes attributes);
+
+    protected abstract QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes);
+
+    public boolean hasEntity(EntityAttributes attributes) {
+        QueryWithParams q = getEntityKeyOnlyQuery(attributes);
+        List<?> results = q.execute();
+        return !results.isEmpty();
+    }
 
     protected PersistenceManager getPm() {
         PersistenceManager pm = PER_THREAD_PM.get();

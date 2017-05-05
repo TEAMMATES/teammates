@@ -45,12 +45,12 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                 FeedbackParticipantType.INSTRUCTORS
         };
 
-        Map<FeedbackParticipantType, Boolean> responseVisiblities = new HashMap<>();
+        Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
         for (FeedbackParticipantType type : relevantTypes) {
-            responseVisiblities.put(type, true);
+            responseVisibilities.put(type, true);
         }
 
-        return responseVisiblities;
+        return responseVisibilities;
     }
 
     public String[] getCommentIds() {

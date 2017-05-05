@@ -53,6 +53,14 @@ The following plugins are needed:
      * ORM Enhancement: `App Engine → ORM` → clear all the entries, and add the following entry: `src/main/java/teammates/storage/entity/*.java`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
+   * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
+
+       ![setupguide-7.png](images/setupguide-7.png)
+
+   * Compiler compliance: `Java Compiler` → tick `Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'`.
+
+       ![setupguide-8.png](images/setupguide-8.png)
+
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
@@ -76,12 +84,6 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
 1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
 
-1. Run this command to get necessary configuration files for IntelliJ:
-
-   ```sh
-   ./gradlew setupIntellij
-   ```
-
 1. Configure IntelliJ as follows:
    * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `Configure → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
@@ -96,5 +98,11 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    * Click `Finish`.
 
 1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
+
+1. Run this command to set up the necessary configuration files for IntelliJ:
+
+   ```sh
+   ./gradlew setupIntellij
+   ```
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).

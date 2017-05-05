@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
+import javax.jdo.Query;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Key;
@@ -218,5 +219,19 @@ public class ProfilesDb extends EntitiesDb {
     protected Object getEntity(EntityAttributes attributes) {
         // this method is never used and is here only for future expansion and completeness
         return getStudentProfileEntityFromDb(((StudentProfileAttributes) attributes).googleId);
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = StudentProfile.class;
+        String primaryKeyName = StudentProfile.PRIMARY_KEY_NAME;
+        StudentProfileAttributes spa = (StudentProfileAttributes) attributes;
+        String id = spa.googleId;
+
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+
+        return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
     }
 }
