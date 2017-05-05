@@ -8,6 +8,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -19,8 +21,6 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles CRUD operations for emails sent by the admin.
@@ -346,6 +346,29 @@ public class AdminEmailsDb extends EntitiesDb {
 
         return getAdminEmailEntity(adminEmailToGet.getSubject(),
                                    adminEmailToGet.getCreateDate());
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = AdminEmail.class;
+        String primaryKeyName = AdminEmail.PRIMARY_KEY_NAME;
+        AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
+        String id = aea.emailId;
+
+        Query q = getPm().newQuery(entityClass);
+        Object[] params;
+
+        if (id == null) {
+            q.declareParameters("String subjectParam, java.util.Date createDateParam");
+            q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
+            params = new Object[] {aea.subject, aea.createDate};
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            params = new Object[] {id};
+        }
+
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 
 }

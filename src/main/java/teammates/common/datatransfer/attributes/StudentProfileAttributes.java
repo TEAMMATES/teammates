@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -11,9 +14,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * The data transfer object for StudentProfile entities.
@@ -94,47 +94,28 @@ public class StudentProfileAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForGoogleId(googleId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
 
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!shortName.isEmpty()) {
-            error = validator.getInvalidityInfoForPersonName(shortName);
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            addNonEmptyError(validator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
         if (!email.isEmpty()) {
-            error = validator.getInvalidityInfoForEmail(email);
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
         }
 
         if (!institute.isEmpty()) {
-            error = validator.getInvalidityInfoForInstituteName(institute);
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
         if (!nationality.isEmpty()) {
-            error = validator.getInvalidityInfoForNationality(nationality);
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        error = validator.getInvalidityInfoForGender(gender);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForGender(gender), errors);
 
         Assumption.assertNotNull(this.pictureKey);
 

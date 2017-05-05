@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.exception.TeammatesException;
-import teammates.common.util.Logger;
-
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
+
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.Logger;
 
 @SuppressWarnings("serial")
 public class EntityModifiedLogsServlet extends HttpServlet {

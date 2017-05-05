@@ -5,10 +5,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -20,8 +22,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Edit or delete the {@link CommentAttributes} based on the given editType (edit|delete).
@@ -49,9 +49,8 @@ public class InstructorStudentCommentEditAction extends Action {
         try {
             if ("edit".equals(editType)) {
                 CommentAttributes updatedComment = logic.updateComment(comment);
-                //TODO: move putDocument to task queue
-                logic.putDocument(updatedComment);
-
+                taskQueuer.scheduleSearchableDocumentsProductionForComments(
+                        Long.toString(updatedComment.getCommentId()));
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_EDITED, StatusMessageColor.SUCCESS));
                 statusToAdmin = "Edited Comment for Student:<span class=\"bold\">("
                         + comment.recipients + ")</span> for Course <span class=\"bold\">["

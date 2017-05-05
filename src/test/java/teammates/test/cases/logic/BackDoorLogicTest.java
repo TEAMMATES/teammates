@@ -2,14 +2,14 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 
 /**
- * SUT: {@link BackDoorLogic}.
+ * SUT: {@link teammates.logic.backdoor.BackDoorLogic}.
  */
 public class BackDoorLogicTest extends BaseLogicTest {
 
