@@ -468,17 +468,44 @@ public class EmailGenerator {
 
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail) {
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
+    	
+    	String template;
+    	boolean isInstructor;
+    	
+    	//Check if the given name and email correspond to an Instructor or Student and then use the corresponding template.
+    	if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, userName)) {
+    		template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED_INSTRUCTORS;
+    		isInstructor = true;
+    	} else {
+    		template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED_STUDENTS;
+    		isInstructor = false;
+    	}
+    	
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-
-        String emailBody = Templates.populateTemplate(template,
-                "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
-
+        
+        String emailBody;
+        
+        //Based on the identity of the user (Instructor or Student) the corresponding fields of the template are populated.
+        if (isInstructor) {
+        	emailBody = Templates.populateTemplate(template,
+                    "${userName}", SanitizationHelper.sanitizeForHtml(userName),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                    "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+        } else {
+        	emailBody = Templates.populateTemplate(template,
+                    "${userName}", SanitizationHelper.sanitizeForHtml(userName),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                    "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+        }
+        
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
         email.setContent(emailBody);
