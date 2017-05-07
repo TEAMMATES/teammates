@@ -52,9 +52,16 @@ public class AdminEmailPage extends AppPage {
 
     public void inputContent(String content) {
         browser.driver.switchTo().frame("adminEmailBox_ifr");
-        WebElement contentBox = this.getContentBox();
+        WebElement contentBox = browser.driver.findElement(By.cssSelector("body"));
         contentBox.sendKeys(content);
         browser.driver.switchTo().defaultContent();
+    }
+
+    public void inputEmailContent(String content) {
+        WebElement textEditor = browser.driver.findElement(By.id("adminEmailMainForm"));
+        WebElement editorElement = textEditor.findElement(By.name("emailcontent"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), content);
     }
 
     public void clickSendButton() {
@@ -75,13 +82,6 @@ public class AdminEmailPage extends AppPage {
     public void clearSubjectBox() {
         WebElement subjectBox = this.getSubjectBox();
         subjectBox.clear();
-    }
-
-    public void clearContentBox() {
-        browser.driver.switchTo().frame("adminEmailBox_ifr");
-        WebElement contentBox = this.getContentBox();
-        contentBox.clear();
-        browser.driver.switchTo().defaultContent();
     }
 
     public void clickSentTab() {
@@ -115,10 +115,6 @@ public class AdminEmailPage extends AppPage {
         return browser.driver.findElement(By.name("emailsubject"));
     }
 
-    private WebElement getContentBox() {
-        return browser.driver.findElement(By.cssSelector("body"));
-    }
-
     private WebElement getSendButton() {
         return browser.driver.findElement(By.id("composeSubmitButton"));
     }
@@ -140,9 +136,7 @@ public class AdminEmailPage extends AppPage {
     }
 
     /**
-     * Verifies a substring in encoded key which remains same for a particular file type.
-     *
-     *  @param key in which a particular subString has to be checked
+     * Verifies encoded key.
      */
     public void verifyGroupListFileKey(String key) {
         assertTrue(BackDoor.isGroupListFileKeyPresentInGcs(key));
