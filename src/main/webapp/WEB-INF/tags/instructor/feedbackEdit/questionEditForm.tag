@@ -44,14 +44,14 @@
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT %>-${fqForm.questionIndex}">
-                            <span class="glyphicon glyphicon-floppy-save"></span> Save Changes
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Save
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             onclick="discardChanges(${fqForm.questionIndex})"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_DISCARDCHANGES %>">
-                            <span class="glyphicon glyphicon-remove"></span> Discard Changes
+                            <span class="glyphicon glyphicon-floppy-remove"></span> Discard
                         </a>
                         <a class="btn btn-primary btn-xs"
                             onclick="deleteQuestion(${fqForm.questionIndex})"

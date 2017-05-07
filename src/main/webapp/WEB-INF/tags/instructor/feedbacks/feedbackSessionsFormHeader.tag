@@ -47,7 +47,7 @@
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
                 <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
-                    <span class="glyphicon glyphicon-floppy-save"></span> Save Changes
+                    <span class="glyphicon glyphicon-floppy-saved"></span> Save
                 </button>
                 <a href="${fsForm.fsDeleteLink}"
                     data-course-id="${fsForm.courseId}"
