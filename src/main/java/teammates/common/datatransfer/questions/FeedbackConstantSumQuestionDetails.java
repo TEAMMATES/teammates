@@ -603,18 +603,17 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
         return pointsReceived.toString();
     }
-    
+
     private int computeTotal(List<Integer> points) {
-    	int total = 0;
-    	for (Integer point : points) {
-    		total += point;
-    	}
-    	return total;
+        int total = 0;
+        for (Integer point : points) {
+            total += point;
+        }
+        return total;
     }
-    
+
     private double computeAverage(List<Integer> points) {
-        double average = (double)computeTotal(points) / points.size();
-        return average;
+        return (double) computeTotal(points) / points.size();
     }
 
     @Override
