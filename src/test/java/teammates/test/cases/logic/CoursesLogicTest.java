@@ -438,12 +438,22 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(2, courseList.size());
 
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertEquals(course1.getId(), courseList.get(0).getId());
-        assertEquals(course1.getName(), courseList.get(0).getName());
 
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(course2.getId(), courseList.get(1).getId());
-        assertEquals(course2.getName(), courseList.get(1).getName());
+
+        boolean isCourse1Present = false;
+        boolean isCourse2Present = false;
+
+        for (CourseAttributes course : courseList) {
+            if (course.compareTo(course1) == 0) {
+                isCourse1Present = true;
+            } else if (course.compareTo(course2) == 0) {
+                isCourse2Present = true;
+            }
+        }
+
+        assertTrue(isCourse1Present);
+        assertTrue(isCourse2Present);
 
         ______TS("student having one course");
 
