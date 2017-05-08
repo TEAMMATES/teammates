@@ -1105,7 +1105,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                                                    StudentsLogic.inst(), new Object[] { student, false });
     }
 
-    @AfterClass()
+    @AfterClass
     public void classTearDown() throws Exception {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
     }
