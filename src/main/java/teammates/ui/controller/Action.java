@@ -338,12 +338,12 @@ public abstract class Action {
     }
 
     private boolean doesUserNeedToLogin(UserType currentUser) {
-        boolean userNeedsGoogleAccountForPage =
+        boolean shouldUserNeedGoogleAccountForPage =
                 !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
-        boolean userIsNotLoggedIn = currentUser == null;
-        boolean noRegkeyGiven = regkey == null;
+        boolean isUserNotLoggedIn = currentUser == null;
+        boolean hasNoRegkey = getRegkeyFromRequest() == null;
 
-        if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
+        if (isUserNotLoggedIn && (shouldUserNeedGoogleAccountForPage || hasNoRegkey)) {
             setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return true;
         }

@@ -267,71 +267,71 @@ public final class FeedbackResponseCommentsLogic {
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                  || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
 
-        boolean userIsInstructor = role == UserRole.INSTRUCTOR;
-        boolean userIsStudent = role == UserRole.STUDENT;
+        boolean isUserInstructor = role == UserRole.INSTRUCTOR;
+        boolean isUserStudent = role == UserRole.STUDENT;
 
         boolean isVisibleToUser = isVisibleToUser(userEmail, response, relatedQuestion, relatedComment,
-                isVisibleToGiver, userIsInstructor, userIsStudent);
+                isVisibleToGiver, isUserInstructor, isUserStudent);
 
         boolean isVisibleToUserTeam = isVisibleToUserTeam(student, studentsEmailInTeam, response,
-                relatedQuestion, relatedComment, userIsStudent);
+                relatedQuestion, relatedComment, isUserStudent);
 
         return isVisibleToUser || isVisibleToUserTeam;
     }
 
     private boolean isVisibleToUserTeam(StudentAttributes student, Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response, FeedbackQuestionAttributes relatedQuestion,
-            FeedbackResponseCommentAttributes relatedComment, boolean userIsStudent) {
+            FeedbackResponseCommentAttributes relatedComment, boolean isUserStudent) {
 
-        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients =
-                userIsStudent
+        boolean isUserInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients =
+                isUserStudent
                 && relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                 && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
                 && response.recipient.equals(student.team);
 
-        boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
+        boolean isUserInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
                 && studentsEmailInTeam.contains(response.giver);
 
-        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers =
+        boolean isUserInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                            FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && studentsEmailInTeam.contains(response.recipient);
 
-        return userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients
-                || userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers
-                || userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers;
+        return isUserInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients
+                || isUserInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers
+                || isUserInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers;
     }
 
     private boolean isVisibleToUser(String userEmail, FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, FeedbackResponseCommentAttributes relatedComment,
-            boolean isVisibleToGiver, boolean userIsInstructor, boolean userIsStudent) {
+            boolean isVisibleToGiver, boolean userIsInstructor, boolean isUserStudent) {
 
-        boolean userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors =
+        boolean isUserInstructorAndRelatedResponseCommentIsVisibleToInstructors =
                 userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                                                FeedbackParticipantType.INSTRUCTORS);
 
-        boolean userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients =
+        boolean isUserResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients =
                 response.recipient.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.RECEIVER);
 
-        boolean userIsResponseGiverAndRelatedResponseCommentIsVisibleToGivers =
+        boolean isUserResponseGiverAndRelatedResponseCommentIsVisibleToGivers =
                 response.giver.equals(userEmail) && isVisibleToGiver;
 
-        boolean userIsRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
+        boolean isUserRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
 
-        boolean userIsStudentAndRelatedResponseCommentIsVisibleToStudents =
-                userIsStudent && isResponseCommentVisibleTo(relatedQuestion,
+        boolean isUserStudentAndRelatedResponseCommentIsVisibleToStudents =
+                isUserStudent && isResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.STUDENTS);
 
-        return userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors
-                || userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients
-                || userIsResponseGiverAndRelatedResponseCommentIsVisibleToGivers
-                || userIsRelatedResponseCommentGiver
-                || userIsStudentAndRelatedResponseCommentIsVisibleToStudents;
+        return isUserInstructorAndRelatedResponseCommentIsVisibleToInstructors
+                || isUserResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients
+                || isUserResponseGiverAndRelatedResponseCommentIsVisibleToGivers
+                || isUserRelatedResponseCommentGiver
+                || isUserStudentAndRelatedResponseCommentIsVisibleToStudents;
     }
 
     private boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes relatedQuestion,

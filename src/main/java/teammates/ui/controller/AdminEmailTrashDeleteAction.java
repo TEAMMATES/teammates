@@ -13,9 +13,9 @@ public class AdminEmailTrashDeleteAction extends Action {
 
         gateKeeper.verifyAdminPrivileges(account);
 
-        boolean emptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
+        boolean shouldEmptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
 
-        if (emptyTrashBin) {
+        if (shouldEmptyTrashBin) {
             try {
                 logic.deleteAllEmailsInTrashBin();
                 statusToAdmin = "All emails in trash bin has been deleted";
