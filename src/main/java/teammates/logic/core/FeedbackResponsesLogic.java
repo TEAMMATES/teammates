@@ -686,6 +686,11 @@ public final class FeedbackResponsesLogic {
         frDb.deleteEntity(responseToDelete);
     }
 
+    /**
+     * Deletes feedback responses for an updated question.
+     * newQuestion is compared with oldQuestion to determine the
+     * responses to be deleted based on the changes in feedback paths.
+     */
     public void deleteFeedbackResponsesForQuestionAndCascade(
             FeedbackQuestionAttributes oldQuestion, FeedbackQuestionAttributes newQuestion,
             boolean hasResponseRateUpdate) {
