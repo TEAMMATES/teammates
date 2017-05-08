@@ -5,7 +5,6 @@ jdk:
 branches:
   only:
     - master
-    - 7226-Closed-Email-Add-Premable-for-Instructors
     - release
 
 notifications:
