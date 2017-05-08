@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -13,6 +14,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
@@ -86,12 +88,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        InstructorAttributes instructorInBackend = BackDoor.getInstructorByEmail(instructor.email, demoCourseId);
+        InstructorAttributes instructorInBackend = getInstructorFromBackDoor(demoCourseId, instructor.email);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
 
-        String encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        String encryptedKey = getKeyFromBackDoor(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -133,7 +135,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.createInstructor(shortName, instructor, institute);
 
-        encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        encryptedKey = getKeyFromBackDoor(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -145,11 +147,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.logout();
         //verify the instructor and the demo course have been created
-        assertNotNull(BackDoor.getCourse(demoCourseId));
-        assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
+        assertNotNull(getCourseFromBackDoor(demoCourseId));
+        assertNotNull(getInstructorFromBackDoor(demoCourseId, instructor.email));
 
         //get the joinURL which sent to the requester's email
-        String regkey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        String regkey = getKeyFromBackDoor(demoCourseId, instructor.email);
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
@@ -336,6 +338,39 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(dangerousDemoCourseId);
         BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
 
+    }
+
+    private String getKeyFromBackDoor(String courseId, String instructorEmail) {
+        int numberOfRemainingRetries = 100;
+        String key = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && numberOfRemainingRetries > 0) {
+            key = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+            numberOfRemainingRetries--;
+            ThreadHelper.waitFor(3000);
+        }
+        return key;
+    }
+
+    private InstructorAttributes getInstructorFromBackDoor(String courseId, String instructorEmail) {
+        int numberOfRemainingRetries = 100;
+        InstructorAttributes instructor = BackDoor.getInstructorByEmail(instructorEmail, courseId);
+        while (instructor == null && numberOfRemainingRetries > 0) {
+            instructor = BackDoor.getInstructorByEmail(instructorEmail, courseId);
+            numberOfRemainingRetries--;
+            ThreadHelper.waitFor(3000);
+        }
+        return instructor;
+    }
+
+    private CourseAttributes getCourseFromBackDoor(String courseId) {
+        int numberOfRemainingRetries = 100;
+        CourseAttributes course = BackDoor.getCourse(courseId);
+        while (course == null && numberOfRemainingRetries > 0) {
+            course = BackDoor.getCourse(courseId);
+            numberOfRemainingRetries--;
+            ThreadHelper.waitFor(3000);
+        }
+        return course;
     }
 
 }
