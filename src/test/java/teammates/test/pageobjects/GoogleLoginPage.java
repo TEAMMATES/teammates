@@ -90,8 +90,7 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void submitCredentials(String username, String password) {
-        waitForElementVisibility(identifierTextBox);
-        fillTextBox(identifierTextBox, username);
+        completeFillIdentifierSteps(username);
         click(identifierNextButton);
 
         waitForElementVisibility(passwordTextBox);
@@ -99,6 +98,22 @@ public class GoogleLoginPage extends LoginPage {
 
         click(passwordNextButton);
         waitForPageToLoad();
+    }
+
+    private void completeFillIdentifierSteps(String identifier) {
+        By switchAccountButtonBy = By.cssSelector("*[aria-label='Switch account']");
+        By useAnotherAccountButtonBy = By.id("identifierLink");
+
+        if (isElementPresent(switchAccountButtonBy)) {
+            click(switchAccountButtonBy);
+            click(waitForElementPresence(useAnotherAccountButtonBy));
+
+        } else if (isElementPresent(useAnotherAccountButtonBy)) {
+            click(useAnotherAccountButtonBy);
+        }
+
+        waitForElementVisibility(identifierTextBox);
+        fillTextBox(identifierTextBox, identifier);
     }
 
     @Override
