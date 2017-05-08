@@ -23,6 +23,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
+    
     private InstructorFeedbackResultsPage resultsPage;
 
     @Override
