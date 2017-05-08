@@ -323,8 +323,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         // or if feedback paths have been deleted
         // then we need to cascade delete the responses
         if (newAttributes.giverType.isCustom()) {
+            Set<FeedbackPathAttributes> newCustomFeedbackPaths =
+                    new HashSet<FeedbackPathAttributes>(newAttributes.feedbackPaths);
             for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
-                if (!newAttributes.containsFeedbackPath(feedbackPath.getGiver(), feedbackPath.getRecipient())) {
+                if (!newCustomFeedbackPaths.contains(feedbackPath)) {
                     return true;
                 }
             }

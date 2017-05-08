@@ -2,6 +2,7 @@ package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -82,6 +83,22 @@ public class FeedbackPathAttributes extends EntityAttributes {
                 + "courseId=" + courseId
                 + ", giver=" + giver
                 + ", recipient=" + recipient + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof FeedbackPathAttributes)) {
+            return false;
+        }
+        FeedbackPathAttributes feedbackPath = (FeedbackPathAttributes) o;
+        return courseId.equals(feedbackPath.courseId)
+                && giver.equals(feedbackPath.getGiver())
+                && recipient.equals(feedbackPath.getRecipient());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseId, giver, recipient);
     }
 
     @Override
