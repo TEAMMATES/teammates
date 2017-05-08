@@ -908,6 +908,7 @@ public abstract class AppPage {
             try {
                 return verifyHtmlPart(MAIN_CONTENT, filePath);
             } catch (AssertionError e) {
+                // continue the retry process
             }
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
             reloadPage();
