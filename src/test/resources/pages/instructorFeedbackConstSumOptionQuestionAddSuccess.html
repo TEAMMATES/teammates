@@ -5,6 +5,12 @@
     Edit Feedback Session
   </h1>
   <br>
+  <div data-session-creator="tmms.test@gmail.tmt" id="session-creator-data">
+  </div>
+  <div data-students="{&quot;alice.b.tmms@gmail.tmt&quot;:&quot;Team 1<\/td><\/div>'\&quot;&quot;}" id="students-data">
+  </div>
+  <div data-instructors="[&quot;tmms.test@gmail.tmt&quot;]" id="instructors-data">
+  </div>
   <div class="well well-plain">
     <form action="/page/instructorFeedbackEditSave" class="form-group" id="form_feedbacksession" method="post">
       <div class="row">
@@ -1143,6 +1149,61 @@
               </div>
             </div>
           </div>
+          <div class="row custom-feedback-paths-row" style="display: none;">
+            <input class="custom-feedback-paths-spreadsheet-data-input" disabled="" hidden="" name="custom-feedback-paths-spreadsheet-data" value="[]">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  <a class="toggle-custom-feedback-paths-display-link" onclick="toggleCustomFeedbackPathsDisplay(this)">
+                    Show details and further customizations
+                  </a>
+                </div>
+              </div>
+              <div class="row custom-feedback-paths-display margin-top-15px" style="display: none;">
+                <div class="col-sm-3">
+                  <p class="text-muted">
+                    <strong>
+                      How to use:
+                    </strong>
+                  </p>
+                  <p class="text-muted">
+                    The spreadsheet to the right shows the current feedback paths according to the chosen options
+                  </p>
+                  <p class="text-muted">
+                    Each row represents the feedback path of a single giver to a single recipient.
+                  </p>
+                  <p class="text-muted">
+                    The first column contains the feedback giver and the second column contains the feedback recipient.
+                  </p>
+                  <p class="text-muted">
+                    You can fully customize the paths by clicking on the button below.
+                  </p>
+                  <button class="btn btn-primary btn-block customize-button" disabled="" type="button">
+                    Customize
+                  </button>
+                </div>
+                <div class="col-sm-9">
+                  <div class="row margin-bottom-15px">
+                    <div class="col-sm-12">
+                      <div class="custom-feedback-paths-spreadsheet">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="pull-right">
+                        <button class="btn btn-primary add-rows-button" disabled="" type="button">
+                          Add
+                        </button>
+                        <input class="form-control add-rows-input" disabled="" type="number" value="10">
+                        more rows at bottom
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
@@ -2174,6 +2235,61 @@
                   <span class="">
                     Unlimited
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row custom-feedback-paths-row">
+            <input class="custom-feedback-paths-spreadsheet-data-input" hidden="" name="custom-feedback-paths-spreadsheet-data" value="">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  <a class="toggle-custom-feedback-paths-display-link" onclick="toggleCustomFeedbackPathsDisplay(this)">
+                    Show details and further customizations
+                  </a>
+                </div>
+              </div>
+              <div class="row custom-feedback-paths-display margin-top-15px">
+                <div class="col-sm-3">
+                  <p class="text-muted">
+                    <strong>
+                      How to use:
+                    </strong>
+                  </p>
+                  <p class="text-muted">
+                    The spreadsheet to the right shows the current feedback paths according to the chosen options
+                  </p>
+                  <p class="text-muted">
+                    Each row represents the feedback path of a single giver to a single recipient.
+                  </p>
+                  <p class="text-muted">
+                    The first column contains the feedback giver and the second column contains the feedback recipient.
+                  </p>
+                  <p class="text-muted">
+                    You can fully customize the paths by clicking on the button below.
+                  </p>
+                  <button class="btn btn-primary btn-block customize-button" type="button">
+                    Customize
+                  </button>
+                </div>
+                <div class="col-sm-9">
+                  <div class="row margin-bottom-15px">
+                    <div class="col-sm-12">
+                      <div class="custom-feedback-paths-spreadsheet">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="pull-right">
+                        <button class="btn btn-primary add-rows-button" type="button">
+                          Add
+                        </button>
+                        <input class="form-control add-rows-input" type="number" value="10">
+                        more rows at bottom
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

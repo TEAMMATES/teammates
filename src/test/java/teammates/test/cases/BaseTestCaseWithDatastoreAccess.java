@@ -204,6 +204,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     }
 
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
+        if (fq.getId() != null) {
+            return BackDoor.getFeedbackQuestion(fq.getId());
+        }
         return BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
     }
 

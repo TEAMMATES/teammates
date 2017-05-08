@@ -9,7 +9,10 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -92,7 +95,27 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
 
-        if (questionDetailsErrors.isEmpty()) {
+        if (!questionDetailsErrors.isEmpty()) {
+            statusToUser.addAll(questionDetailsErrorsMessages);
+            isError = true;
+        }
+
+        String feedbackPathsParticipantsError = "";
+        if (updatedQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && updatedQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+            feedbackPathsParticipantsError =
+                    validateQuestionCustomFeedbackPathsParticipants(updatedQuestion);
+
+            if (!feedbackPathsParticipantsError.isEmpty()) {
+                StatusMessage feedbackPathsParticipantsErrorMessage =
+                        new StatusMessage(feedbackPathsParticipantsError, StatusMessageColor.DANGER);
+                statusToUser.add(feedbackPathsParticipantsErrorMessage);
+                statusToAdmin = feedbackPathsParticipantsError;
+                isError = true;
+            }
+        }
+
+        if (questionDetailsErrors.isEmpty() && feedbackPathsParticipantsError.isEmpty()) {
             logic.updateFeedbackQuestionNumber(updatedQuestion);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
@@ -103,9 +126,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                           + "<span class=\"bold\">"
                           + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
                           + updatedQuestionDetails.getQuestionText();
-        } else {
-            statusToUser.addAll(questionDetailsErrorsMessages);
-            isError = true;
         }
     }
 
@@ -139,6 +159,12 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
 
         return errorMsg;
+    }
+
+    private String validateQuestionCustomFeedbackPathsParticipants(FeedbackQuestionAttributes question) {
+        List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(question.getCourseId());
+        List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(question.getCourseId());
+        return question.validateCustomFeedbackPathsParticipants(studentsInCourse, instructorsInCourse);
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData() {
@@ -195,6 +221,17 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
+        newQuestion.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+            String customFeedbackPathsSpreadsheetData =
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA);
+
+            newQuestion.feedbackPaths =
+                    FeedbackQuestionAttributes.getFeedbackPathsFromSpreadsheetData(
+                            newQuestion.courseId, customFeedbackPathsSpreadsheetData);
+        }
+
         newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
@@ -229,5 +266,4 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         return "custom".equals(nEntityTypes);
     }
-
 }

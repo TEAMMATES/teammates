@@ -61,10 +61,12 @@
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if>
                     onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-                    <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">
-                        <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
-                            ${giverType.displayNameGiver}
-                        </option>
+                    <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">                        
+                        <c:if test="${not giverType.custom || fqForm.feedbackPathSettings.selectedGiver.custom}">
+                            <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
+                                ${giverType.displayNameGiver}
+                            </option>
+                        </c:if>
                     </c:forEach>
                 </select>
             </div>
@@ -80,9 +82,11 @@
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                     <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
                     <c:forEach items="<%= FeedbackParticipantType.RECIPIENTS %>" var="recipientType">
-                        <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
-                            ${recipientType.displayNameRecipient}
-                        </option>
+                        <c:if test="${!recipientType.custom || fqForm.feedbackPathSettings.selectedRecipient.custom}">
+                            <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
+                                ${recipientType.displayNameRecipient}
+                            </option>
+                        </c:if>
                     </c:forEach>
                 </select>
         </div>
@@ -109,6 +113,45 @@
                         value="max" <c:if test="${!fqForm.editable}">disabled</c:if>>
                     <span class="">Unlimited</span>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row custom-feedback-paths-row">
+        <input hidden class="custom-feedback-paths-spreadsheet-data-input"
+               name="custom-feedback-paths-spreadsheet-data"
+               value="${fqForm.feedbackPathSettings.customFeedbackPathsSpreadsheetData}">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a class="toggle-custom-feedback-paths-display-link"
+                       onclick="toggleCustomFeedbackPathsDisplay(this)">Show details and further customizations</a>
+                </div>   
+            </div>
+            <div class="row custom-feedback-paths-display margin-top-15px">
+                <div class="col-sm-3">
+                    <p class="text-muted"><strong>How to use:</strong></p>
+                    <p class="text-muted">The spreadsheet to the right shows the current feedback paths according to the chosen options</p>
+                    <p class="text-muted">Each row represents the feedback path of a single giver to a single recipient.</p>
+                    <p class="text-muted">The first column contains the feedback giver and the second column contains the feedback recipient.</p>
+                    <p class="text-muted">You can fully customize the paths by clicking on the button below.</p>
+                    <button type="button" class="btn btn-primary btn-block customize-button">Customize</button>
+                </div>
+                <div class="col-sm-9">
+                    <div class="row margin-bottom-15px">
+                        <div class="col-sm-12">
+                            <div class="custom-feedback-paths-spreadsheet"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="pull-right">                                    
+                                <button class="btn btn-primary add-rows-button" type="button">Add</button>
+                                <input type="number" class="form-control add-rows-input" value="10">
+                                more rows at bottom                                
+                            </div>
+                        </div>
+                    </div>
+                </div>               
             </div>
         </div>
     </div>

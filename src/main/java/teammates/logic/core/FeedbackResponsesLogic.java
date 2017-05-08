@@ -836,8 +836,10 @@ public final class FeedbackResponsesLogic {
         }
 
         StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, studentEmail);
-        if (question.recipientType.isTeam()
+
+        if (question.isRecipientATeam()
                 && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(

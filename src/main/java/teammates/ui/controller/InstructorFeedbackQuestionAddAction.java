@@ -6,8 +6,10 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.InvalidParametersException;
@@ -48,6 +50,23 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             return redirectResult;
         }
 
+        if (feedbackQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && feedbackQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+
+            String feedbackPathsParticipantsError =
+                    validateQuestionCustomFeedbackPathsParticipants(feedbackQuestion);
+
+            if (!feedbackPathsParticipantsError.isEmpty()) {
+                StatusMessage feedbackPathsParticipantsErrorMessage =
+                        new StatusMessage(feedbackPathsParticipantsError, StatusMessageColor.DANGER);
+                statusToUser.add(feedbackPathsParticipantsErrorMessage);
+                statusToAdmin = feedbackPathsParticipantsError;
+                isError = true;
+
+                return redirectResult;
+            }
+        }
+
         String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
 
         if (!err.isEmpty()) {
@@ -74,6 +93,12 @@ public class InstructorFeedbackQuestionAddAction extends Action {
 
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
+    }
+
+    private String validateQuestionCustomFeedbackPathsParticipants(FeedbackQuestionAttributes question) {
+        List<StudentAttributes> studentsInCourse = logic.getStudentsForCourse(question.getCourseId());
+        List<InstructorAttributes> instructorsInCourse = logic.getInstructorsForCourse(question.getCourseId());
+        return question.validateCustomFeedbackPathsParticipants(studentsInCourse, instructorsInCourse);
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
@@ -112,6 +137,17 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
         } else {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+        }
+
+        newQuestion.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+            String customFeedbackPathsSpreadsheetData =
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SPREADSHEETDATA);
+
+            newQuestion.feedbackPaths =
+                    FeedbackQuestionAttributes.getFeedbackPathsFromSpreadsheetData(
+                            newQuestion.getCourseId(), customFeedbackPathsSpreadsheetData);
         }
 
         newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(

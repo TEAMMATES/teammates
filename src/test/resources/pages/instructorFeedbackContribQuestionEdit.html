@@ -5,6 +5,12 @@
     Edit Feedback Session
   </h1>
   <br>
+  <div data-session-creator="tmms.test@gmail.tmt" id="session-creator-data">
+  </div>
+  <div data-students="{&quot;alice.b.tmms@gmail.tmt&quot;:&quot;Team <\/option><option value=\&quot;dump\&quot;>1'&quot;}" id="students-data">
+  </div>
+  <div data-instructors="[&quot;tmms.test@gmail.tmt&quot;]" id="instructors-data">
+  </div>
   <div class="well well-plain">
     <form action="/page/instructorFeedbackEditSave" class="form-group" id="form_feedbacksession" method="post">
       <div class="row">
@@ -982,28 +988,28 @@
               </label>
               <div class="col-sm-8 col-lg-7">
                 <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-                  <option disabled="" style="display: block;" value="SELF">
+                  <option disabled="" style="display: none;" value="SELF">
                     Giver (Self feedback)
                   </option>
-                  <option disabled="" style="display: block;" value="STUDENTS">
+                  <option disabled="" style="display: none;" value="STUDENTS">
                     Other students in the course
                   </option>
-                  <option disabled="" style="display: block;" value="INSTRUCTORS">
+                  <option disabled="" style="display: none;" value="INSTRUCTORS">
                     Instructors in the course
                   </option>
-                  <option disabled="" style="display: block;" value="TEAMS">
+                  <option disabled="" style="display: none;" value="TEAMS">
                     Other teams in the course
                   </option>
-                  <option disabled="" style="display: block;" value="OWN_TEAM">
+                  <option disabled="" style="display: none;" value="OWN_TEAM">
                     Giver's team
                   </option>
-                  <option disabled="" style="display: block;" value="OWN_TEAM_MEMBERS">
+                  <option disabled="" style="display: none;" value="OWN_TEAM_MEMBERS">
                     Giver's team members
                   </option>
                   <option selected="" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
                     Giver's team members and Giver
                   </option>
-                  <option disabled="" style="display: block;" value="NONE">
+                  <option disabled="" style="display: none;" value="NONE">
                     Nobody specific (For general class feedback)
                   </option>
                 </select>
@@ -1026,6 +1032,61 @@
                   <span class="">
                     Unlimited
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row custom-feedback-paths-row" style="display: block;">
+            <input class="custom-feedback-paths-spreadsheet-data-input" hidden="" name="custom-feedback-paths-spreadsheet-data" value="[]">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  <a class="toggle-custom-feedback-paths-display-link" onclick="toggleCustomFeedbackPathsDisplay(this)">
+                    Show details and further customizations
+                  </a>
+                </div>
+              </div>
+              <div class="row custom-feedback-paths-display margin-top-15px" style="display: none;">
+                <div class="col-sm-3">
+                  <p class="text-muted">
+                    <strong>
+                      How to use:
+                    </strong>
+                  </p>
+                  <p class="text-muted">
+                    The spreadsheet to the right shows the current feedback paths according to the chosen options
+                  </p>
+                  <p class="text-muted">
+                    Each row represents the feedback path of a single giver to a single recipient.
+                  </p>
+                  <p class="text-muted">
+                    The first column contains the feedback giver and the second column contains the feedback recipient.
+                  </p>
+                  <p class="text-muted">
+                    You can fully customize the paths by clicking on the button below.
+                  </p>
+                  <button class="btn btn-primary btn-block customize-button" type="button">
+                    Customize
+                  </button>
+                </div>
+                <div class="col-sm-9">
+                  <div class="row margin-bottom-15px">
+                    <div class="col-sm-12">
+                      <div class="custom-feedback-paths-spreadsheet">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="pull-right">
+                        <button class="btn btn-primary add-rows-button" type="button">
+                          Add
+                        </button>
+                        <input class="form-control add-rows-input" type="number" value="10">
+                        more rows at bottom
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2067,6 +2128,61 @@
                   <span class="">
                     Unlimited
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row custom-feedback-paths-row">
+            <input class="custom-feedback-paths-spreadsheet-data-input" hidden="" name="custom-feedback-paths-spreadsheet-data" value="">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  <a class="toggle-custom-feedback-paths-display-link" onclick="toggleCustomFeedbackPathsDisplay(this)">
+                    Show details and further customizations
+                  </a>
+                </div>
+              </div>
+              <div class="row custom-feedback-paths-display margin-top-15px">
+                <div class="col-sm-3">
+                  <p class="text-muted">
+                    <strong>
+                      How to use:
+                    </strong>
+                  </p>
+                  <p class="text-muted">
+                    The spreadsheet to the right shows the current feedback paths according to the chosen options
+                  </p>
+                  <p class="text-muted">
+                    Each row represents the feedback path of a single giver to a single recipient.
+                  </p>
+                  <p class="text-muted">
+                    The first column contains the feedback giver and the second column contains the feedback recipient.
+                  </p>
+                  <p class="text-muted">
+                    You can fully customize the paths by clicking on the button below.
+                  </p>
+                  <button class="btn btn-primary btn-block customize-button" type="button">
+                    Customize
+                  </button>
+                </div>
+                <div class="col-sm-9">
+                  <div class="row margin-bottom-15px">
+                    <div class="col-sm-12">
+                      <div class="custom-feedback-paths-spreadsheet">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="pull-right">
+                        <button class="btn btn-primary add-rows-button" type="button">
+                          Add
+                        </button>
+                        <input class="form-control add-rows-input" type="number" value="10">
+                        more rows at bottom
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

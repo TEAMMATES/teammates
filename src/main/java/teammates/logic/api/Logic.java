@@ -1015,10 +1015,10 @@ public class Logic {
         return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
     }
 
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, StudentAttributes student) {
         Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(userEmail);
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
+        Assumption.assertNotNull(student);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, student);
     }
 
     /**
@@ -1358,12 +1358,12 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail) {
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, StudentAttributes student) {
 
         Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertNotNull(student);
 
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, student);
     }
 
     /**

@@ -9,6 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
+CustomFeedbackPaths:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -38,6 +39,7 @@ const CONFIRM_EDIT_DELETE_RESPONSES =
         + '<p>Are you sure you want to continue?</p>';
 
 const questionsBeforeEdit = [];
+const customFeedbackPathsDataForEachQuestionBeforeEdit = [];
 
 function getCustomDateTimeFields() {
     return $(`#${FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${FEEDBACK_SESSION_PUBLISHTIME}`)
@@ -139,6 +141,10 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).hide();
+    $currentQuestionTable.find('.custom-feedback-paths-row').hide();
+    $currentQuestionTable.find('.custom-feedback-paths-display').hide();
+    $currentQuestionTable.find('.toggle-custom-feedback-paths-display-link')
+                         .text('Show details and further customizations');
 
     moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
@@ -202,6 +208,8 @@ function enableEditFS() {
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
                                        || $(`#questionTable-${questionNum} > .panel-body`).html();
+    customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum] =
+            $(`#questionTable-${questionNum} .custom-feedback-paths-spreadsheet`).handsontable('getData');
 }
 
 /**
@@ -235,6 +243,7 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).show();
+    $currentQuestionTable.find('.custom-feedback-paths-row').show();
 
     if ($(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
         $(`#mcqChoiceTable-${questionNum}`).hide();
@@ -375,6 +384,13 @@ function hideNewQuestionAndShowNewQuestionForm() {
     $(`#recipienttype-${NEW_QUESTION}`).find('option').show().prop('disabled', false);
     $(`#questionTable-${NEW_QUESTION}`).find('.feedback-path-dropdown > button').removeClass('disabled');
     $(`#questionTable-${NEW_QUESTION}`).find('.visibility-options-dropdown .dropdown-menu li').removeClass('hidden');
+
+     // removes custom participant type option
+    $(`#givertype-${NEW_QUESTION}`).find(
+            `option[value="${CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM}"]`).remove();
+    $(`#recipienttype-${NEW_QUESTION}`).find(
+            `option[value="${CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM}"]`).remove();
+
     FeedbackPath.attachEvents();
 }
 
@@ -386,6 +402,45 @@ function getQuestionNum($elementInQuestionForm) {
     }
     const splitCssId = cssId.split('-');
     return splitCssId[splitCssId.length - 1];
+}
+
+function toggleCustomFeedbackPathsDisplay(toggleLink) {
+    const $toggleLink = $(toggleLink);
+    const $customFeedbackPathsDisplay = $toggleLink.closest('.custom-feedback-paths-row')
+                                                   .find('.custom-feedback-paths-display');
+    const $questionForm = $customFeedbackPathsDisplay.closest('.form_question');
+    if (!$customFeedbackPathsDisplay.find('.handsontable').length) {
+        CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($questionForm);
+    }
+
+    if ($customFeedbackPathsDisplay.is(':visible')) {
+        $customFeedbackPathsDisplay.hide();
+        $toggleLink.text('Show details and further customizations');
+    } else {
+        $customFeedbackPathsDisplay.show();
+        $toggleLink.text('Hide details and further customizations');
+    }
+}
+
+function regenerateCustomFeedbackPathsSpreadsheet(questionNum) {
+    const data = customFeedbackPathsDataForEachQuestionBeforeEdit[questionNum];
+    const $questionForm = $(`#form_editquestion-${questionNum}`);
+    const $container = $questionForm.find('.custom-feedback-paths-spreadsheet');
+    $container.handsontable({
+        data,
+        minRows: 15,
+        minCols: 2,
+        minSpareRows: 1,
+        rowHeaders: true,
+        colHeaders: ['Feedback giver', 'Feedback recipient'],
+        columns: [{ readOnly: true }, { readOnly: true }],
+        manualColumnResize: true,
+        manualRowResize: true,
+        stretchH: 'all',
+        afterChange() {
+            CustomFeedbackPaths.updateCustomFeedbackPathsSpreadsheetDataInput($questionForm);
+        },
+    });
 }
 
 /**
@@ -446,6 +501,7 @@ function restoreOriginal(questionNum) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
         $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
+        regenerateCustomFeedbackPathsSpreadsheet(questionNum);
 
         $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
         $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
@@ -592,7 +648,8 @@ function prepareQuestionForm(type) {
 
 /**
  * Copy options (Feedback giver, recipient, and all check boxes)
- * from the previous question
+ * from the previous question.
+ * Will not copy if previous question's options were custom.
  */
 function copyOptions(newType) {
     // If there is one or less questions, there's no need to copy.
@@ -607,16 +664,19 @@ function copyOptions(newType) {
         return;
     }
 
-    // Feedback giver setup
+    // Previous feedback path setup
     const $prevGiver = $('select[name="givertype"]').eq(-2);
-    const $currGiver = $('select[name="givertype"]').last();
-
-    $currGiver.val($prevGiver.val());
-
-    // Feedback recipient setup
     const $prevRecipient = $('select[name="recipienttype"]').eq(-2);
-    const $currRecipient = $('select[name="recipienttype"]').last();
 
+    // If previous feedback path was custom, there's no need to copy
+    if ($prevGiver.val() === 'CUSTOM' || $prevRecipient.val() === 'CUSTOM') {
+        return;
+    }
+
+    // New feedback path setup
+    const $currGiver = $('select[name="givertype"]').last();
+    const $currRecipient = $('select[name="recipienttype"]').last();
+    $currGiver.val($prevGiver.val());
     $currRecipient.val($prevRecipient.val());
 
     // Hide other feedback path options and update common feedback path dropdown text if a common option is selected
@@ -805,6 +865,7 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     const recipientType = $recipientSelect.val();
     switch (giverType) {
     case 'STUDENTS':
+    case 'CUSTOM':
         // all recipientType options enabled
         break;
     case 'SELF':
@@ -830,7 +891,7 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
 function bindParticipantSelectChangeEvents() {
     $('body').on('change', 'select[name="givertype"]', function () {
         const $recipientSelect = $(this).closest('.form_question').find('select[name="recipienttype"]');
-        $recipientSelect.find('option').show();
+        $recipientSelect.find('option').not(':disabled').show();
         hideInvalidRecipientTypeOptions($(this));
     });
 }
@@ -849,16 +910,22 @@ function hideInvalidRecipientTypeOptionsForNewlyAddedQuestion() {
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type) {
+    CustomFeedbackPaths.generateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
     $('#questiontype').val(type);
 
     copyOptions(type);
     prepareQuestionForm(type);
+
     $(`#questionTable-${NEW_QUESTION}`).show();
+    CustomFeedbackPaths.updateFeedbackPathsSpreadsheet($('form[name="form_addquestions"]'));
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
+
     enableNewQuestion();
 
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
+
+    $(`#questionTable-${NEW_QUESTION} .custom-feedback-paths-display`).hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
 
     getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
@@ -964,6 +1031,8 @@ $(document).ready(() => {
     bindParticipantSelectChangeEvents();
     updateUncommonSettingsInfo();
     showUncommonPanelsIfNotInDefaultValues();
+    CustomFeedbackPaths.initializeCustomFeedbackPathsData();
+    CustomFeedbackPaths.bindEventHandlers();
     FeedbackPath.attachEvents();
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();

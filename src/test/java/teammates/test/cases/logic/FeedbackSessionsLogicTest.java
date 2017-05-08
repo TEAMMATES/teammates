@@ -1988,7 +1988,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student));
     }
 
     private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {

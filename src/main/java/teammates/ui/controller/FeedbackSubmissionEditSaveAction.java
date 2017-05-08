@@ -140,8 +140,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     // deletes the response since answer is empty
                     addToPendingResponses(response);
                 } else {
-                    response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
-                                                                                : userEmailForCourse;
+                    response.giver = questionAttributes.isGiverATeam() ? userTeamForCourse
+                                                                       : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }

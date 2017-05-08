@@ -736,16 +736,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
 
-        // giver type can only be STUDENTS
-        if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
+        // giver type can be STUDENTS or CUSTOM
+        if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS
+                && feedbackQuestionAttributes.giverType != FeedbackParticipantType.CUSTOM) {
             log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType
                        + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
             errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
 
-        // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
-        if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+        // recipient type can be OWN_TEAM_MEMBERS_INCLUDING_SELF or CUSTOM
+        if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+                && feedbackQuestionAttributes.recipientType != FeedbackParticipantType.CUSTOM) {
             log.severe("Unexpected recipientType for contribution question: "
                        + feedbackQuestionAttributes.recipientType
                        + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");

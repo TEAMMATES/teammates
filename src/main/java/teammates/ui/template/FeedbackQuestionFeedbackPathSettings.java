@@ -1,6 +1,13 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
+import teammates.common.util.SanitizationHelper;
+
 
 /**
  * Data model for the settings common to all question types,
@@ -17,6 +24,8 @@ public class FeedbackQuestionFeedbackPathSettings {
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
 
+    private String customFeedbackPathsSpreadsheetData;
+
     public boolean isNumberOfEntitiesToGiveFeedbackToChecked() {
         return isNumberOfEntitiesToGiveFeedbackToChecked;
     }
@@ -31,6 +40,24 @@ public class FeedbackQuestionFeedbackPathSettings {
 
     public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
+    }
+
+    public String getCustomFeedbackPathsSpreadsheetData() {
+        return customFeedbackPathsSpreadsheetData;
+    }
+
+    public void setCustomFeedbackPathsSpreadsheetData(List<FeedbackPathAttributes> feedbackPaths) {
+        List<List<String>> customFeedbackPaths = new ArrayList<List<String>>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            String sanitizedGiver = "&quot;" + SanitizationHelper.sanitizeForJs(feedbackPath.getGiver()) + "&quot;";
+            String sanitizedRecipient = "&quot;" + SanitizationHelper.sanitizeForJs(feedbackPath.getRecipient()) + "&quot;";
+            customFeedbackPaths.add(Arrays.asList(sanitizedGiver, sanitizedRecipient));
+        }
+        List<String> customFeedbackPathStrings = new ArrayList<String>();
+        for (List<String> customFeedbackPath : customFeedbackPaths) {
+            customFeedbackPathStrings.add(customFeedbackPath.toString());
+        }
+        customFeedbackPathsSpreadsheetData = customFeedbackPathStrings.toString();
     }
 
     public boolean isCommonPathSelected() {

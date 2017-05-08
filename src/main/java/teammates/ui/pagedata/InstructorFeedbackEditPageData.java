@@ -2,8 +2,11 @@ package teammates.ui.pagedata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONObject;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -18,6 +21,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
@@ -34,6 +38,9 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackSessionPreviewForm previewForm;
     private String statusForAjax;
     private boolean hasError;
+    private Map<String, String> studentsData;
+    private List<String> instructorsData;
+    private String creatorEmail;
 
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
@@ -44,6 +51,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
         Assumption.assertNotNull(feedbackSession);
+        populateCustomFeedbackPathsData(feedbackSession.getCreatorEmail(), studentList, instructorList);
 
         buildFsForm(feedbackSession);
 
@@ -249,6 +257,8 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                            .contains(question.recipientType);
         settings.setCommonPathSelected(isCommonPath);
 
+        settings.setCustomFeedbackPathsSpreadsheetData(question.feedbackPaths);
+
         return settings;
     }
 
@@ -274,6 +284,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         }
 
         return options;
+    }
+
+    private void populateCustomFeedbackPathsData(
+            String creatorEmail, List<StudentAttributes> students, List<InstructorAttributes> instructors) {
+        setCreatorEmail(creatorEmail);
+        studentsData = new HashMap<String, String>();
+        for (StudentAttributes student : students) {
+            studentsData.put(student.getEmail(), student.getTeam());
+        }
+        instructorsData = new LinkedList<String>();
+        for (InstructorAttributes instructor : instructors) {
+            instructorsData.add(instructor.getEmail());
+        }
     }
 
     /**
@@ -361,5 +384,23 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public void setHasError(boolean value) {
         this.hasError = value;
+    }
+
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+
+    public void setCreatorEmail(String creatorEmail) {
+        this.creatorEmail = creatorEmail;
+    }
+
+    public String getStudentsDataAsString() {
+        // studentsData is converted to a JSONObject to obtain its JSON string representation
+        JSONObject json = new JSONObject(studentsData);
+        return SanitizationHelper.sanitizeForHtml(json.toString());
+    }
+
+    public String getInstructorsDataAsString() {
+        return SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeListForCsv(instructorsData)).toString();
     }
 }
