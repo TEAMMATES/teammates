@@ -52,23 +52,23 @@ public class InstructorStudentCommentEditAction extends Action {
                 taskQueuer.scheduleSearchableDocumentsProductionForComments(
                         Long.toString(updatedComment.getCommentId()));
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_EDITED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Edited Comment for Student:<span class=\"bold\">("
+                statusToAdmin.add("Edited Comment for Student:<span class=\"bold\">("
                         + comment.recipients + ")</span> for Course <span class=\"bold\">["
                         + comment.courseId + "]</span><br>"
-                        + "<span class=\"bold\">Comment:</span> " + comment.commentText;
+                        + "<span class=\"bold\">Comment:</span> " + comment.commentText);
             } else if ("delete".equals(editType)) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_DELETED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">("
+                statusToAdmin.add("Deleted Comment for Student:<span class=\"bold\">("
                         + comment.recipients + ")</span> for Course <span class=\"bold\">["
                         + comment.courseId + "]</span><br>"
-                        + "<span class=\"bold\">Comment:</span> " + comment.commentText;
+                        + "<span class=\"bold\">Comment:</span> " + comment.commentText);
             }
         } catch (InvalidParametersException e) {
             // TODO: add a test to cover this path
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin = e.getMessage();
+            statusToAdmin.add(e.getMessage());
             isError = true;
         }
 

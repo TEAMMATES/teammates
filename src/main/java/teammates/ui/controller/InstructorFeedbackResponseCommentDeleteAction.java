@@ -38,9 +38,9 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         logic.deleteDocument(feedbackResponseComment);
         logic.deleteFeedbackResponseComment(feedbackResponseComment);
 
-        statusToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
+        statusToAdmin.add("InstructorFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
-                + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
+                + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>");
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account);

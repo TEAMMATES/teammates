@@ -47,7 +47,7 @@ public class InstructorStudentListPageAction extends Action {
                                                StatusMessageColor.WARNING));
         }
 
-        statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
+        statusToAdmin.add("instructorStudentList Page Load<br>" + "Total Courses: " + courses.size());
 
         List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
         for (CourseAttributes course : courses) {

@@ -22,8 +22,8 @@ public class StudentProfileEditSaveAction extends Action {
             account.studentProfile = extractProfileData();
             logic.updateStudentProfile(account.studentProfile);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId
-                          + ")</span> edited.<br>" + account.studentProfile.toString();
+            statusToAdmin.add("Student Profile for <span class=\"bold\">(" + account.googleId
+                          + ")</span> edited.<br>" + account.studentProfile.toString());
         } catch (InvalidParametersException ipe) {
             setStatusForException(ipe);
         }

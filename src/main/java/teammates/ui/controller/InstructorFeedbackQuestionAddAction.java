@@ -58,15 +58,15 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         try {
             logic.createFeedbackQuestion(feedbackQuestion);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">("
+            statusToAdmin.add("Created Feedback Question for Feedback Session:<span class=\"bold\">("
                           + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                           + feedbackQuestion.courseId + "]</span> created.<br>"
                           + "<span class=\"bold\">"
                           + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                          + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
+                          + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText());
         } catch (InvalidParametersException e) {
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin = e.getMessage();
+            statusToAdmin.add(e.getMessage());
             isError = true;
         }
         return redirectResult;

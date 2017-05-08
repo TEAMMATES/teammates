@@ -21,7 +21,7 @@ public class InstructorHomePageAction extends Action {
         if (!account.isInstructor && isPersistenceIssue()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE,
                                                StatusMessageColor.WARNING));
-            statusToAdmin = "instructorHome " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE;
+            statusToAdmin.add("instructorHome " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, new InstructorHomePageData(account));
         }
 
@@ -49,7 +49,7 @@ public class InstructorHomePageAction extends Action {
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
         data.init(index, course, instructor, pendingCommentsCount);
 
-        statusToAdmin = "instructorHome Course Load:<br>" + courseToLoad;
+        statusToAdmin.add("instructorHome Course Load:<br>" + courseToLoad);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
@@ -70,7 +70,7 @@ public class InstructorHomePageAction extends Action {
         if (logic.isNewInstructor(account.googleId)) {
             statusToUser.add(new StatusMessage(StatusMessages.HINT_FOR_NEW_INSTRUCTOR, StatusMessageColor.INFO));
         }
-        statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
+        statusToAdmin.add("instructorHome Page Load<br>" + "Total Courses: " + courseList.size());
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
     }

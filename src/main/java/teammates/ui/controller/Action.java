@@ -58,7 +58,7 @@ public abstract class Action {
     protected Map<String, String[]> requestParameters;
 
     /** Execution status info to be shown to he admin (in 'activity log'). */
-    protected String statusToAdmin; // TODO: make this a list?
+    protected List<String> statusToAdmin = new ArrayList<String>();
 
     /** Execution status info to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
@@ -331,7 +331,7 @@ public abstract class Action {
 
     private void setRedirectPage(String redirectUrl) {
         authenticationRedirectUrl = redirectUrl;
-        statusToAdmin = "Redirecting user to " + redirectUrl;
+        statusToAdmin.add("Redirecting user to " + redirectUrl);
     }
 
     public String getAuthenticationRedirectUrl() {
@@ -543,7 +543,7 @@ public abstract class Action {
         String errorMessage = "You are not registered in the course " + SanitizationHelper.sanitizeForHtml(courseId);
         statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
         isError = true;
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
+        statusToAdmin.add(Const.ACTION_RESULT_FAILURE + " : " + errorMessage);
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
@@ -564,7 +564,7 @@ public abstract class Action {
 
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
         statusToUser.add(new StatusMessage(exceptionMessageForHtml, StatusMessageColor.DANGER));
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
+        statusToAdmin.add(Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml);
     }
 
     /**
@@ -580,7 +580,7 @@ public abstract class Action {
         statusToUser.add(new StatusMessage(statusMessageForHtml, StatusMessageColor.DANGER));
 
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
+        statusToAdmin.add(Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml);
     }
 
     protected boolean isInMasqueradeMode() {

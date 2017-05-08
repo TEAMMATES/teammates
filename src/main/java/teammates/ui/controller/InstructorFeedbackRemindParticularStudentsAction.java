@@ -31,12 +31,12 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName, usersToRemind);
 
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Email sent out to the selected user(s): ";
+        statusToAdmin.add("Email sent out to the selected user(s): ");
         for (String user : usersToRemind) {
-            statusToAdmin += "<br>" + user;
+            statusToAdmin.add("<br>" + user);
         }
-        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
-                         + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin.add("<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
+                         + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>");
 
         return createRedirectResult(nextUrl);
     }

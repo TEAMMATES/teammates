@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -107,11 +108,10 @@ public class InstructorCourseRemindAction extends Action {
 
     }
 
-    private String generateStatusToAdmin(Map<String, JoinEmailData> emailDataMap, String courseId) {
-        StringBuilder statusToAdmin = new StringBuilder(200);
-        statusToAdmin.append("Registration Key sent to the following users in Course <span class=\"bold\">[")
-                     .append(courseId)
-                     .append("]</span>:<br>");
+    private List<String> generateStatusToAdmin(Map<String, JoinEmailData> emailDataMap, String courseId) {
+        List<String> statusToAdmin = new ArrayList<String>();
+        statusToAdmin.add("Registration Key sent to the following users in Course <span class=\"bold\">["
+                     + courseId + "]</span>:<br>");
 
         Set<Entry<String, JoinEmailData>> entries = emailDataMap.entrySet();
 
@@ -120,12 +120,11 @@ public class InstructorCourseRemindAction extends Action {
             String userEmail = entry.getKey();
             JoinEmailData joinEmailData = entry.getValue();
 
-            statusToAdmin.append(joinEmailData.userName)
-                         .append("<span class=\"bold\"> (").append(userEmail).append(")</span>.<br>")
-                         .append(joinEmailData.regKey).append("<br>");
+            statusToAdmin.add(joinEmailData.userName + "<span class=\"bold\"> (" + userEmail + ")</span>.<br>"
+                         + joinEmailData.regKey + "<br>");
         }
 
-        return statusToAdmin.toString();
+        return statusToAdmin;
     }
 
     private String extractStudentRegistrationKey(StudentAttributes student) {

@@ -27,17 +27,17 @@ public class StudentProfileCreateFormUrlAction extends Action {
         try {
             String uploadUrl =
                     GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD);
-            statusToAdmin = "Created Url successfully: " + uploadUrl;
+            statusToAdmin.add("Created Url successfully: " + uploadUrl);
             return uploadUrl;
         } catch (BlobstoreFailureException e) {
             isError = true;
-            statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
+            statusToAdmin.add("Failed to create profile picture upload-url: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             // This branch is not tested as this error can and should never occur
             isError = true;
             log.severe(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD
                        + " was found to be illegal success path. Error: " + e.getMessage());
-            statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
+            statusToAdmin.add("Failed to create profile picture upload-url: " + e.getMessage());
         }
         return "";
     }

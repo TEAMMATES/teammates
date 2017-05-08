@@ -69,7 +69,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (!addressModeOn && !groupModeOn) {
             isError = true;
-            statusToAdmin = "Error : No receiver address or file given";
+            statusToAdmin.add("Error : No receiver address or file given");
             statusToUser.add(new StatusMessage("Error : No receiver address or file given", StatusMessageColor.DANGER));
         }
 
@@ -124,7 +124,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
 
-        statusToAdmin += "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
+        statusToAdmin.add("<br/>" + "Group receiver's list " + groupReceiverListFileKey);
         statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
                      StatusMessageColor.SUCCESS));
     }
@@ -135,7 +135,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
 
-        statusToAdmin += "<br/>" + "Recipient: " + addressReceiverListString;
+        statusToAdmin.add("<br/>" + "Recipient: " + addressReceiverListString);
         statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
                      StatusMessageColor.SUCCESS));
     }
@@ -158,7 +158,7 @@ public class AdminEmailComposeSendAction extends Action {
             setStatusForException(e, e.getMessage());
             return;
         }
-        statusToAdmin = "Email queued for sending.";
+        statusToAdmin.add("Email queued for sending.");
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();

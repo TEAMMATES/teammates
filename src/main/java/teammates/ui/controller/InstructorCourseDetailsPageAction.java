@@ -37,8 +37,9 @@ public class InstructorCourseDetailsPageAction extends Action {
             String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, account.googleId);
             data.setStudentListHtmlTableAsString(StringHelper.csvToHtmlTable(courseStudentListAsCsv));
 
-            statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>"
-                            + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
+            statusToAdmin.add("instructorCourseDetails Page Ajax Html table Load<br>"
+                            + "Viewing Student List Table for Course <span class=\"bold\">["
+                            + courseId + "]</span>");
 
             return createAjaxResult(data);
         }
@@ -54,8 +55,9 @@ public class InstructorCourseDetailsPageAction extends Action {
             statusToUser.add(new StatusMessage(message, StatusMessageColor.WARNING));
         }
 
-        statusToAdmin = "instructorCourseDetails Page Load<br>"
-                        + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin.add("instructorCourseDetails Page Load<br>"
+                        + "Viewing Course Details for Course <span class=\"bold\">["
+                        + courseId + "]</span>");
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
     }

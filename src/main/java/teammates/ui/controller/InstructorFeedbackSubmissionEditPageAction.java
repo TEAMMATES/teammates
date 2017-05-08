@@ -53,9 +53,9 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show instructor feedback submission edit page<br>"
+        statusToAdmin.add("Show instructor feedback submission edit page<br>"
                         + "Session Name: " + feedbackSessionName + "<br>"
-                        + "Course ID: " + courseId;
+                        + "Course ID: " + courseId);
     }
 
     @Override

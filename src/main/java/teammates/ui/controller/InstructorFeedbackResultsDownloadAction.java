@@ -47,15 +47,15 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                         isMissingResponsesShown, isStatsShown, questionId);
 
                 fileName = courseId + "_" + feedbackSessionName + questionName;
-                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
-                              + " in Course " + courseId + " was downloaded";
+                statusToAdmin.add("Summary data for Feedback Session " + feedbackSessionName
+                              + " in Course " + courseId + " was downloaded");
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                         courseId, feedbackSessionName, instructor.email, section,
                         questionId, filterText, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
-                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
-                              + " in Course " + courseId + " within " + section + " was downloaded";
+                statusToAdmin.add("Summary data for Feedback Session " + feedbackSessionName
+                              + " in Course " + courseId + " within " + section + " was downloaded");
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

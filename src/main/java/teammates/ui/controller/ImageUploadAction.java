@@ -42,7 +42,7 @@ public class ImageUploadAction extends Action {
             data.isFileUploaded = false;
             data.fileSrcUrl = null;
             log.warning("Image Upload Failed");
-            statusToAdmin = "Image Upload Failed";
+            statusToAdmin.add("Image Upload Failed");
 
             return data;
         }
@@ -56,8 +56,8 @@ public class ImageUploadAction extends Action {
         data.fileSrcUrl = fileSrcUrl.toString();
 
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
-        statusToAdmin = "New Image Uploaded : " + "<a href=" + data.fileSrcUrl + " target=\"_blank\">"
-                + absoluteFileSrcUrl + "</a>";
+        statusToAdmin.add("New Image Uploaded : " + "<a href=" + data.fileSrcUrl + " target=\"_blank\">"
+                + absoluteFileSrcUrl + "</a>");
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
         return data;
@@ -114,11 +114,11 @@ public class ImageUploadAction extends Action {
         try {
             deleteUploadedFile(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
+            statusToAdmin.add(Const.ACTION_RESULT_FAILURE
                     + " : Unable to delete picture (possible unused picture with key: "
                     + blobKey.getKeyString()
                     + " || Error Message: "
-                    + bfe.getMessage() + Const.EOL;
+                    + bfe.getMessage() + Const.EOL);
         }
     }
 
