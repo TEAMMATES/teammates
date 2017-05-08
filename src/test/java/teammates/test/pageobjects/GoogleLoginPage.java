@@ -90,6 +90,7 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void submitCredentials(String username, String password) {
+        waitForElementVisibility(identifierTextBox);
         fillTextBox(identifierTextBox, username);
         click(identifierNextButton);
 
