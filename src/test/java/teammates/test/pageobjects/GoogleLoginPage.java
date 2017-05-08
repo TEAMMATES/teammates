@@ -7,17 +7,20 @@ import org.openqa.selenium.support.FindBy;
 
 public class GoogleLoginPage extends LoginPage {
 
-    @FindBy(id = "Email")
-    private WebElement usernameTextBox;
+    private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in - Google Accounts";
+    private static final String EXPECTED_SNIPPET_APPROVAL = "requesting permission to access your Google Account";
 
-    @FindBy(id = "Passwd")
+    @FindBy(id = "identifierId")
+    private WebElement identifierTextBox;
+
+    @FindBy(id = "identifierNext")
+    private WebElement identifierNextButton;
+
+    @FindBy(css = "#password input[type=password]")
     private WebElement passwordTextBox;
 
-    @FindBy(id = "signIn")
-    private WebElement loginButton;
-
-    @FindBy(id = "PersistentCookie")
-    private WebElement staySignedCheckbox;
+    @FindBy(id = "passwordNext")
+    private WebElement passwordNextButton;
 
     public GoogleLoginPage(Browser browser) {
         super(browser);
@@ -25,7 +28,7 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Sign in with your Google Account");
+        return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN);
     }
 
     @Override
@@ -77,7 +80,8 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void handleApprovalPageIfAny() {
-        boolean isPageRequestingAccessApproval = isElementPresent(By.id("approve_button"));
+        waitForPageToLoad();
+        boolean isPageRequestingAccessApproval = getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
         if (isPageRequestingAccessApproval) {
             click(By.id("persist_checkbox"));
             click(By.id("approve_button"));
@@ -86,16 +90,13 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void submitCredentials(String username, String password) {
-        fillTextBox(usernameTextBox, username);
-        click(By.id("next"));
+        fillTextBox(identifierTextBox, username);
+        click(identifierNextButton);
+
         waitForElementVisibility(passwordTextBox);
         fillTextBox(passwordTextBox, password);
 
-        if (staySignedCheckbox.isSelected()) {
-            click(staySignedCheckbox);
-        }
-
-        click(loginButton);
+        click(passwordNextButton);
         waitForPageToLoad();
     }
 
