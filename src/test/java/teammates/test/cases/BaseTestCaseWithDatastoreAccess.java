@@ -254,7 +254,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     }
 
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return getInstructor(instructor.email, instructor.courseId);
+        return getInstructor(instructor.courseId, instructor.email);
     }
 
     protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
