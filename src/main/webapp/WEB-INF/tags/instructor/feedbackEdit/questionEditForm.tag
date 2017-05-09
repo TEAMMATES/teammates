@@ -44,7 +44,7 @@
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT %>-${fqForm.questionIndex}">
-                            <span class="glyphicon glyphicon-floppy-saved"></span> Save
+                            <span class="glyphicon glyphicon-ok"></span> Save
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             onclick="discardChanges(${fqForm.questionIndex})"
