@@ -24,10 +24,10 @@ import teammates.common.util.ThreadHelper;
  */
 public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
-    private static final int DATASTORE_VERIFICATION_RETRY_COUNT = 5;
-    private static final int DATASTORE_VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    private static final int BACKDOOR_OPERATION_RETRY_COUNT = 5;
-    private static final int BACKDOOR_OPERATION_RETRY_DELAY_IN_MS = 1000;
+    private static final int VERIFICATION_RETRY_COUNT = 5;
+    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
+    private static final int OPERATION_RETRY_COUNT = 5;
+    private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
 
     protected void verifyPresentInDatastore(DataBundle data) {
         Map<String, AccountAttributes> accounts = data.accounts;
@@ -85,22 +85,22 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     }
 
     protected void verifyAbsentInDatastore(EntityAttributes entity) {
-        int retryLimit = DATASTORE_VERIFICATION_RETRY_COUNT;
+        int retryLimit = VERIFICATION_RETRY_COUNT;
         EntityAttributes actual = getEntity(entity);
         while (actual != null && retryLimit > 0) {
             retryLimit--;
-            ThreadHelper.waitFor(DATASTORE_VERIFICATION_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
             actual = getEntity(entity);
         }
         assertNull(actual);
     }
 
     protected void verifyPresentInDatastore(EntityAttributes expected) {
-        int retryLimit = DATASTORE_VERIFICATION_RETRY_COUNT;
+        int retryLimit = VERIFICATION_RETRY_COUNT;
         EntityAttributes actual = getEntity(expected);
         while (actual == null && retryLimit > 0) {
             retryLimit--;
-            ThreadHelper.waitFor(DATASTORE_VERIFICATION_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
             actual = getEntity(expected);
         }
         verifyEquals(expected, actual);
@@ -249,12 +249,12 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     }
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
-        int retryLimit = BACKDOOR_OPERATION_RETRY_COUNT;
+        int retryLimit = OPERATION_RETRY_COUNT;
         String backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
         while (!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS) && retryLimit > 0) {
             retryLimit--;
             print("Re-trying removeAndRestoreDataBundle - " + backDoorOperationStatus);
-            ThreadHelper.waitFor(BACKDOOR_OPERATION_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
             backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
         }
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
@@ -263,12 +263,12 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
-        int retryLimit = BACKDOOR_OPERATION_RETRY_COUNT;
+        int retryLimit = OPERATION_RETRY_COUNT;
         String backDoorOperationStatus = doPutDocuments(testData);
         while (!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS) && retryLimit > 0) {
             retryLimit--;
             print("Re-trying putDocuments - " + backDoorOperationStatus);
-            ThreadHelper.waitFor(BACKDOOR_OPERATION_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
             backDoorOperationStatus = doPutDocuments(testData);
         }
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
