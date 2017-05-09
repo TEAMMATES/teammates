@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="features">
     <div class="container">
@@ -77,7 +78,7 @@
                 <h2 class="color_orange col-xs-12">Different question types</h2>
                 <img class="img-responsive col-xs-12" src="images/feature-differentquestiontypes.png" alt="Different question types">
                 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    Essay questions, MCQ questions, Multiple select questions, Numeric scale questions, ‘Distribute a fixed number of points among options’ questions, questions measuring contribution in team projects, and more choices coming soon...
+                    Essay questions, MCQ questions, Multiple select questions, Numeric scale questions, âDistribute a fixed number of points among optionsâ questions, questions measuring contribution in team projects, and more choices coming soon...
                     <br><br>
                     You can even generate MCQ options from student names, as illustrated in the above example.
                 </div>
@@ -147,8 +148,8 @@
                     Such extra data can help you remember current/past students better.
                     <span class="tiny-text"> [<a href="https://www.flickr.com/photos/meatheadmovers">photo source</a>]</span>
                     <br><br>
-                    You can access all data about a student in one page, just by typing a part of the student’s name in our search box. In a single page you can see,<br>
-                    * Student’s profile<br>
+                    You can access all data about a student in one page, just by typing a part of the studentâs name in our search box. In a single page you can see,<br>
+                    * Studentâs profile<br>
                     * All feedback given/received by the student<br>
                     * All comments received by the student
                 </div>

@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:helpPage>
     <h1>Help for Instructors</h1>
@@ -32,7 +33,7 @@
                             <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
                         </li>
                         <li>
-                            <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+                            <a href="#faq7a">How do I interpret/use contribution values in the results of âTeam contributionâ type questions?</a>
                         </li>
                         <li>
                             <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
@@ -41,7 +42,7 @@
                             <a href="#faq9">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
                         </li>
                         <li>
-                            <a href="#faq10">Can a student influence his ‘perceived contribution’ value by awarding himself a larger contribution?</a>
+                            <a href="#faq10">Can a student influence his âperceived contributionâ value by awarding himself a larger contribution?</a>
                         </li>
                         <li>
                             <a href="#faq11">How are the contribution numbers calculated?</a>
@@ -50,7 +51,7 @@
                             <a href="#faq12">Is it compulsory for students to use Google accounts?</a>
                         </li>
                          <li>
-                            <a href="#faq13">What if my course doesn’t have teams?</a>
+                            <a href="#faq13">What if my course doesnât have teams?</a>
                         </li>
                          <li>
                             <a href="#faq14">Is there a size limit for a course?</a>
@@ -174,7 +175,7 @@
                 <span class="text-bold">Create a course
                 </span>
                 <div class="helpSectionContent">
-                    Go to the ‘Courses’ page and create a course.
+                    Go to the âCoursesâ page and create a course.
                     <br>Some of the elements in the user interface (e.g., text boxes) have hover over tips to tell you what the element does.
                     <br>
                 </div>
@@ -209,7 +210,7 @@
                 <br>
                 <span class="text-bold">Adding more instructors</span>
                 <div class="helpSectionContent">
-                    More instructors (e.g. tutors) can be added to a course by going to the ‘edit’ link of the course.
+                    More instructors (e.g. tutors) can be added to a course by going to the âeditâ link of the course.
                     <br>Note that you can set the access control levels for these instructors.
                     <br>
                     <br>
@@ -222,10 +223,10 @@
                     Enroll students by doing one of the following options:
                     <ul>
                         <li>
-                            Go to the ‘Home’ page, click on the ‘Students‘ button on the corresponding course, and choose ‘Enroll’
+                            Go to the âHomeâ page, click on the âStudentsâ button on the corresponding course, and choose âEnrollâ
                         </li>
                         <li>
-                            Go to the ‘Courses’ page and click the ‘Enroll‘ button of the corresponding course
+                            Go to the âCoursesâ page and click the âEnrollâ button of the corresponding course
                         </li>
                     </ul>
                     <br>
@@ -236,7 +237,7 @@
                 <span class="text-bold">Create a session
                 </span>
                 <div class="helpSectionContent">
-                    Go to the ‘Sessions’ page and create a session (there are different session types to choose from).
+                    Go to the âSessionsâ page and create a session (there are different session types to choose from).
                     <br>
                     <br>
 
@@ -310,7 +311,7 @@
             <li>
                 <span class="text-bold">When sessions open</span>
                 <div class="helpSectionContent">
-                    When it is time to open the session (based on the ‘opening time’ you specified), TEAMMATES automatically emails students instructions for accessing the session. A copy of that email will be sent to you as well.
+                    When it is time to open the session (based on the âopening timeâ you specified), TEAMMATES automatically emails students instructions for accessing the session. A copy of that email will be sent to you as well.
                     <br>
                     <br> If you would like students to access TEAMMATES sooner (e.g. you would like them to fill in their profile page in advance), you can go to the 'View' link of the course and click the 'Remind Students to Join' button, which will send them 'access instructions' immediately.
                     <br>
@@ -321,11 +322,11 @@
             <li>
                 <span class="text-bold">While the session is open</span>
                 <div class="helpSectionContent">
-                    You can view responses any time after the session is open, even when the session is still ongoing. Just go to the ‘Sessions’ page and click the corresponding ‘View results/responses’ link.
+                    You can view responses any time after the session is open, even when the session is still ongoing. Just go to the âSessionsâ page and click the corresponding âView results/responsesâ link.
                     <a href="#sessionTypes">Session Types
                     </a> section has more information about the reports available for different session types.
                     <br>
-                    <br>Students will be sent a reminder 24 hours before the closing time of a session. In addition, you can send further reminders to students any time while a session is open using the ‘remind’ link.
+                    <br>Students will be sent a reminder 24 hours before the closing time of a session. In addition, you can send further reminders to students any time while a session is open using the âremindâ link.
                     <br>
                     <br>
                 </div>
@@ -333,7 +334,7 @@
             <li>
                 <span class="text-bold">After the session is closed</span>
                 <div class="helpSectionContent">
-                    You can publish results (i.e. make it visible to students) using the ‘publish’ link in the ‘Sessions’ page.
+                    You can publish results (i.e. make it visible to students) using the âpublishâ link in the âSessionsâ page.
                     <br>
                     <br>Results of sessions can be downloaded in spreadsheet format.
                     <br>
@@ -343,7 +344,7 @@
             <li>
                 <span class="text-bold">Any time</span>
                 <div class="helpSectionContent">
-                    You can use the ‘Students’ page any time to do these things:
+                    You can use the âStudentsâ page any time to do these things:
                     <div style="margin: 0 auto; padding: 0 50px;">
                         <ul>
                             <li>
@@ -399,7 +400,7 @@
                         </a>
                     </b>
                     <div class="helpSectionContent">
-                        Go to the ‘Courses’ page, click ‘View’ for the relevant course.
+                        Go to the âCoursesâ page, click âViewâ for the relevant course.
                         <br>
                         <br>
                     </div>
@@ -410,7 +411,7 @@
                         </a>
                     </b>
                     <div class="helpSectionContent">
-                        Choose to ‘Edit’ a student from the student list (see ‘How do I view a list of students in a course?’ given above).
+                        Choose to âEditâ a student from the student list (see âHow do I view a list of students in a course?â given above).
                         <br>
                         <br>Note: Moving a student to a different team (i.e. changing a students team id) will affect all existing sessions in that course.
                         <br>
@@ -422,7 +423,7 @@
                         <a name="faq3" id="question">How do I add more students to a course?</a>
                     </b>
                     <div class="helpSectionContent">
-                        You can use the ‘Enrol’ feature to add more students. If a student you are adding has the same email address as an existing student in the class, they will be considered the same student and the name, team name and the comment will be updated to the new values.
+                        You can use the âEnrolâ feature to add more students. If a student you are adding has the same email address as an existing student in the class, they will be considered the same student and the name, team name and the comment will be updated to the new values.
                         <br>
                         <br>
                     </div>
@@ -432,7 +433,7 @@
                         <a name="faq4" id="question">How do I delete students from a course?</a>
                     </b>
                     <div class="helpSectionContent">
-                        The ‘Delete’ link is available from the student list (see ‘How do I view a list of students in a course?’ given above).
+                        The âDeleteâ link is available from the student list (see âHow do I view a list of students in a course?â given above).
                         <br>
                         <br>
                     </div>
@@ -461,27 +462,27 @@
                 </li>
                 <li>
                     <b>
-                        <a name="faq7a" id="question">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+                        <a name="faq7a" id="question">How do I interpret/use contribution values in the results of âTeam contributionâ type questions?</a>
                     </b>
                     <br>
                     <div class="helpSectionContent">
                         <ul>
                             <li>
-                                <span class="text-bold gray">E (Equal share)</span> is a relative measure. e.g. For a 3-person team, an ‘Equal share’ means ‘a third of the total work done’.</li>
+                                <span class="text-bold gray">E (Equal share)</span> is a relative measure. e.g. For a 3-person team, an âEqual shareâ means âa third of the total work doneâ.</li>
                             <li>
                                 <span class="text-bold gray">CC (Claimed Contribution)</span> : This is what the student claimed he contributed.</li>
                             <li>
                                 <span class="text-bold gray">Ratings Received </span>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.</li>
                             <li>
-                                <span class="text-bold gray">PC (Perceived Contribution)</span>: This is the average value of the ‘Ratings Received’. This can be considered as the
-                                <span class="italic">team’s perception of how much the student contributed</span>.</li>
+                                <span class="text-bold gray">PC (Perceived Contribution)</span>: This is the average value of the âRatings Receivedâ. This can be considered as the
+                                <span class="italic">teamâs perception of how much the student contributed</span>.</li>
                             <li>
                                 <span class="text-bold gray">Diff</span> : The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
                             </li>
                         </ul>
                     </div>
                     <div class="helpSectionContent">
-                        <br> The above values can be used to identify relative contribution levels of students in a team. If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
+                        <br> The above values can be used to identify relative contribution levels of students in a team. If you use these values for grading, also refer the âInterpret contribution numbers with careâ caveat in the
                         <a href="#tips">Tips for conducting 'team peer evaluation' sessions</a> section below.
                         <br>
                         <br>
@@ -505,8 +506,8 @@
                         </a>
                     </b>
                     <div class="helpSectionContent">
-                        This is because the system ‘normalizes’ those values so that there is no artificial inflation of contribution. For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalize it to ‘Equal share’ because in reality that is what the student means.
-                        <br>‘Normalize’ here means scale up/down the values so that the (sum of contributions) = (
+                        This is because the system ânormalizesâ those values so that there is no artificial inflation of contribution. For example, if a student says everyone contributed âEqual share + 10%â, the system automatically normalize it to âEqual shareâ because in reality that is what the student means.
+                        <br>âNormalizeâ here means scale up/down the values so that the (sum of contributions) = (
                         <span class="italic">n</span> x Equal Share) where
                         <span class="italic">n</span> is the number of students being reviewed.
                         <br>
@@ -515,7 +516,7 @@
                 </li>
                 <li>
                     <b>
-                        <a name="faq10" id="question">Can a student influence his ‘perceived contribution’ value by awarding himself a larger contribution?</a>
+                        <a name="faq10" id="question">Can a student influence his âperceived contributionâ value by awarding himself a larger contribution?</a>
                     </b>
                     <div class="helpSectionContent">
                         No. The perceived contribution is calculated based on what his team members perceive as his contribution. His own opinion about his own contribution is not considered for the calculation.
@@ -557,10 +558,10 @@
                 </li>
                 <li>
                     <b>
-                        <a name="faq13" id="question">What if my course doesn’t have teams?</a>
+                        <a name="faq13" id="question">What if my course doesnât have teams?</a>
                     </b>
                     <div class="helpSectionContent">
-                        They can use a dummy value for the ‘Team’ column.
+                        They can use a dummy value for the âTeamâ column.
                         <br>
                         <br>
                     </div>
@@ -620,10 +621,10 @@
                         <br>
                     </span>
                     <div class="helpSectionContent">
-                        If you use ‘Team contribution’ type questions in your peer evaluations, keep in mind the contribution numbers reported by TEAMMATES are based on student perceptions and may not reflect the real contribution of a student. Therefore, use those numbers primarily to identify cases that need further investigation.
+                        If you use âTeam contributionâ type questions in your peer evaluations, keep in mind the contribution numbers reported by TEAMMATES are based on student perceptions and may not reflect the real contribution of a student. Therefore, use those numbers primarily to identify cases that need further investigation.
                         <br> You may ignore minor variations in the contribution numbers reported by TEAMMATES. The difference between [Equal share] and [Equal share - 2%] is not significant and can very well be due to rounding off within the system.
-                        <br> Keep in mind that it is human nature for one to downplay the value of contributions from others when one’s own contribution is being compared to that of others. As a result, it is common for the ‘perceived contribution’ to be somewhat lower than what the student actually did.
-                        <br> When taking further actions based on evaluation reports, also pay attention to the team’s consensus level about the contribution of a student. For example, you can take further actions with more confidence if all team members rated a certain student’s contribution low.
+                        <br> Keep in mind that it is human nature for one to downplay the value of contributions from others when oneâs own contribution is being compared to that of others. As a result, it is common for the âperceived contributionâ to be somewhat lower than what the student actually did.
+                        <br> When taking further actions based on evaluation reports, also pay attention to the teamâs consensus level about the contribution of a student. For example, you can take further actions with more confidence if all team members rated a certain studentâs contribution low.
                         <br>
                         <br>
                     </div>
@@ -722,7 +723,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">
-                                                <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" disabled="" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</label>
+                                                <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" disabled="" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for âauditingâ your course"> Display to students as:</label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" type="text" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor" data-toggle="tooltip" data-placement="top" disabled="" title="Specify the role of this instructor in this course as shown to the students">
                                             </div>
@@ -787,7 +788,7 @@
                                         <div id="accessControlEditDivForInstr2">
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">
-                                                    <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</label>
+                                                    <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for âauditingâ your course"> Display to students as:</label>
                                                 <div class="col-sm-9">
                                                     <input class="form-control" type="text" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" data-toggle="tooltip" data-placement="top" title="Specify the role of this instructor in this course as shown to the students">
                                                 </div>
@@ -917,7 +918,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">
-                                                <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</label>
+                                                <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for âauditingâ your course"> Display to students as:</label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" type="text" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor" data-toggle="tooltip" data-placement="top" title="Specify the role of this instructor in this course as shown to the students">
                                             </div>
@@ -1353,13 +1354,13 @@
                                                             <option value="-9.5">(UTC -09:30) Marquesas Islands</option>
                                                             <option value="-9">(UTC -09:00) Gambier Islands, Alaska</option>
                                                             <option value="-8">(UTC -08:00) Los Angeles, Vancouver, Tijuana</option>
-                                                            <option value="-7">(UTC -07:00) Phoenix, Calgary, Ciudad Juárez</option>
-                                                            <option value="-6">(UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg</option>
-                                                            <option value="-5">(UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston</option>
+                                                            <option value="-7">(UTC -07:00) Phoenix, Calgary, Ciudad JuÃ¡rez</option>
+                                                            <option value="-6">(UTC -06:00) Chicago, Guatemala City, Mexico City, San JosÃ©, San Salvador, Tegucigalpa, Winnipeg</option>
+                                                            <option value="-5">(UTC -05:00) New York, Lima, Toronto, BogotÃ¡, Havana, Kingston</option>
                                                             <option value="-4.5">(UTC -04:30) Caracas</option>
                                                             <option value="-4">(UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax</option>
                                                             <option value="-3.5">(UTC -03:30) St. John's</option>
-                                                            <option value="-3">(UTC -03:00) Buenos Aires, Montevideo, São Paulo</option>
+                                                            <option value="-3">(UTC -03:00) Buenos Aires, Montevideo, SÃ£o Paulo</option>
                                                             <option value="-2">(UTC -02:00) Fernando de Noronha, South Georgia and the South Sandwich Islands</option>
                                                             <option value="-1">(UTC -01:00) Cape Verde, Greenland, Azores islands</option>
                                                             <option value="0">(UTC) Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London</option>
@@ -1836,7 +1837,7 @@
                         <span class="text-muted"> - you can select a common feedback path from the dropdown menu, or choose "Other predefined combinations..." to select the Feedback Giver and Recipient separately.</span>
                         <ul><li>
                                 <b>Feedback Giver</b>
-                                <span class="text-muted"> - who gives the response (If you choose a ‘team’ as the giver, any member can submit the response on behalf of the team.)</span>
+                                <span class="text-muted"> - who gives the response (If you choose a âteamâ as the giver, any member can submit the response on behalf of the team.)</span>
                             </li>
                             <li>
                                 <b>Feedback Recipient</b>
@@ -8791,7 +8792,7 @@
                 </span>
                 <div class="row">
                     <br> Go to the
-                    <b>‘Students’</b> page, click the panel heading for the relevant course. You will see a list of students similar to the following table.
+                    <b>âStudentsâ</b> page, click the panel heading for the relevant course. You will see a list of students similar to the following table.
                     <br> Click
                     <b>'Add Comment'</b> button in the last column, then you can comment on the student, his/her team, or his/her tutorial group.
                     <br>
@@ -8835,7 +8836,7 @@
                         </table>
                     </div>
                     <br> To create comments for the whole course, go to the
-                    <b>‘Courses’</b> page, click
+                    <b>âCoursesâ</b> page, click
                     <b>'View'</b> for the relevant course.
                     <br> Click the
                     <b>'Add'</b>
@@ -8893,7 +8894,7 @@
 
                                 <div class="form-group">
                                     <div class="align-center">
-                                        <input type="button" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" value="Remind Students to Join" tabindex="1" title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile">
+                                        <input type="button" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" value="Remind Students to Join" tabindex="1" title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without âjoiningâ, but a joined student can access extra features e.g. set up a user profile">
                                         <form method="post" style="display:inline;">
                                             <input id="button_download" type="submit" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List ">
                                         </form>
@@ -8914,7 +8915,7 @@
                                         Show Visibility Options</a>
                                 </div>
                                 <p class="form-group text-muted">
-                                    The default visibility for your comment is private. You may change it using the ‘show visibility options’ button above.
+                                    The default visibility for your comment is private. You may change it using the âshow visibility optionsâ button above.
                                 </p>
                                 <div id="visibility-options" class="panel panel-default" style="display: none;">
                                     <div class="panel-heading">Visibility Options</div>
@@ -8975,7 +8976,7 @@
                 </span>
                 <div class="row">
                     <br> To create comments for response, go to the
-                    <b>‘Sessions’</b> page, click
+                    <b>âSessionsâ</b> page, click
                     <b>'View Results'</b> for the relevant session.
                     <br> Change the view type to
                     <b>'Group by - Giver &gt; Recipient &gt; Question'</b> or
