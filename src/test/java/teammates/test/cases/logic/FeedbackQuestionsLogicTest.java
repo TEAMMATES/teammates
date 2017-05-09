@@ -21,6 +21,7 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.test.driver.AssertHelper;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -36,6 +37,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testGetFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForStudents();
         testGetFeedbackQuestionsForStudent();
+        testGetFeedbackQuestionsWithCustomFeedbackPaths();
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testUpdateQuestionNumber();
@@ -648,6 +650,25 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         actualQuestions = fqLogic.getFeedbackQuestionsForStudent(allQuestions, student);
 
         assertEquals(actualQuestions, expectedQuestions);
+    }
+
+    private void testGetFeedbackQuestionsWithCustomFeedbackPaths() {
+        List<FeedbackQuestionAttributes> expectedQuestions;
+        List<FeedbackQuestionAttributes> actualQuestions;
+
+        ______TS("Get questions with custom feedback paths from session");
+        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.student.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.student1tostudent5.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.student5tostudent1.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.instructor.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.team.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question"));
+
+        actualQuestions = fqLogic.getFeedbackQuestionsWithCustomFeedbackPaths(
+                "First feedback session", "idOfTypicalCourse1");
+
+        AssertHelper.assertSameContentIgnoreOrder(expectedQuestions, actualQuestions);
     }
 
     private void testIsQuestionHasResponses() {

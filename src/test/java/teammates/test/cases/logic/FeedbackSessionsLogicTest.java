@@ -67,11 +67,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testGetFeedbackSessionQuestionsForInstructor();
         testGetFeedbackSessionResultsForUser();
         testGetFeedbackSessionResultsSummaryAsCsv();
-        testIsFeedbackSessionViewableToStudents();
 
         testCreateAndDeleteFeedbackSession();
         testCopyFeedbackSession();
 
+        testIsFeedbackSessionViewableToStudent();
         testUpdateFeedbackSession();
         testPublishUnpublishFeedbackSession();
 
@@ -1838,25 +1838,35 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                                                         dataBundle.students.get(studentKey).name);
     }
 
-    private void testIsFeedbackSessionViewableToStudents() {
+    private void testIsFeedbackSessionViewableToStudent() {
+        FeedbackSessionAttributes session;
+
         ______TS("Session with questions for students to answer");
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        session = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudent(session, "student1InCourse1@gmail.tmt"));
 
         ______TS("Session without questions for students, but with visible responses");
         session = dataBundle.feedbackSessions.get("archiveCourse.session1");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudent(session, "student1InCourse1@gmail.tmt"));
 
         session = dataBundle.feedbackSessions.get("session2InCourse2");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudent(session, "student1InCourse1@gmail.tmt"));
 
         ______TS("private session");
         session = dataBundle.feedbackSessions.get("session1InCourse2");
-        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudent(session, "student1InCourse1@gmail.tmt"));
 
         ______TS("empty session");
         session = dataBundle.feedbackSessions.get("empty.session");
-        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudent(session, "student1InCourse1@gmail.tmt"));
+
+        ______TS("Session where student 5 is the only giver and student 1 is the only recipient."
+                 + "Response visible to recipient team members");
+        session = dataBundle.feedbackSessions.get("session.with.custom.participants");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudent(session, "student5InCourse1@gmail.tmt"));
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudent(session, "student1InCourse1@gmail.tmt"));
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudent(session, "student2InCourse1@gmail.tmt"));
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudent(session, "student6InCourse1@gmail.tmt"));
     }
 
     private void testUpdateFeedbackSession() throws Exception {
