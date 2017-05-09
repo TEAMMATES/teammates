@@ -209,6 +209,16 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
+     * Gets questions with custom feedback paths from the given session.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsWithCustomFeedbackPaths(
+            String feedbackSessionName, String courseId) {
+
+        return fqDb.getFeedbackQuestionsForGiverType(
+                feedbackSessionName, courseId, FeedbackParticipantType.CUSTOM);
+    }
+
+    /**
      * Gets a {@code List} of all questions for the given session for an
      * instructor to view/submit.
      */
@@ -851,4 +861,5 @@ public final class FeedbackQuestionsLogic {
             return feedbackPathRecipientId;
         }
     }
+
 }

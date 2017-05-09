@@ -724,6 +724,30 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     /**
+     * Returns true if the given student is a recipient in the question's feedback paths.
+     */
+    public boolean hasStudentAsRecipientInFeedbackPaths(String studentEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathRecipient(studentEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given team is a giver in the question's feedback paths.
+     */
+    public boolean hasTeamAsRecipientInFeedbackPaths(String teamName) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isTeamFeedbackPathRecipient(teamName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns true if whether the class is a recipient in the question's feedback paths.
      */
     public boolean hasClassAsRecipientInFeedbackPaths() {
@@ -765,6 +789,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public boolean isFeedbackPathsGiverTypeTeams() {
         for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
             if (feedbackPath.isFeedbackPathGiverATeam()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the question's feedback paths recipient type is Students.
+     */
+    public boolean isFeedbackPathsRecipientTypeStudents() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientAStudent()) {
                 return true;
             }
         }
