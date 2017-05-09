@@ -8,7 +8,6 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -40,7 +39,6 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.CourseStudent;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
@@ -76,7 +74,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         testValidateSections();
         testupdateStudentCascadeWithoutDocument();
-        testKeyGeneration();
         testEnrollLinesChecking();
         testEnrollStudents();
 
@@ -311,17 +308,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // delete student from db
 
-    }
-
-    private void testKeyGeneration() {
-
-        ______TS("key generation");
-
-        long key = 5;
-        String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
-        long reverseKey = KeyFactory.stringToKey(longKey).getId();
-        assertEquals(key, reverseKey);
-        assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
     }
 
     private void testAdjustFeedbackResponseForEnrollments() throws Exception {
