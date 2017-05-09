@@ -88,7 +88,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        InstructorAttributes instructorInBackend = getInstructorFromBackDoor(demoCourseId, instructor.email);
+        InstructorAttributes instructorInBackend = getInstructorWithRetry(demoCourseId, instructor.email);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
@@ -148,7 +148,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(getCourseFromBackDoor(demoCourseId));
-        assertNotNull(getInstructorFromBackDoor(demoCourseId, instructor.email));
+        assertNotNull(getInstructorWithRetry(demoCourseId, instructor.email));
 
         //get the joinURL which sent to the requester's email
         String regkey = getKeyFromBackDoor(demoCourseId, instructor.email);
@@ -356,17 +356,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
             ThreadHelper.waitFor(3000);
         }
         return key;
-    }
-
-    private InstructorAttributes getInstructorFromBackDoor(String courseId, String instructorEmail) {
-        int numberOfRemainingRetries = 100;
-        InstructorAttributes instructor = BackDoor.getInstructorByEmail(instructorEmail, courseId);
-        while (instructor == null && numberOfRemainingRetries > 0) {
-            instructor = BackDoor.getInstructorByEmail(instructorEmail, courseId);
-            numberOfRemainingRetries--;
-            ThreadHelper.waitFor(3000);
-        }
-        return instructor;
     }
 
     private CourseAttributes getCourseFromBackDoor(String courseId) {

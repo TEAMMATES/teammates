@@ -232,8 +232,23 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         expected.setRespondingStudentList(actual.getRespondingStudentList());
     }
 
+    protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
+        return BackDoor.getInstructorByEmail(instructorEmail, courseId);
+    }
+
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return BackDoor.getInstructorByEmail(instructor.email, instructor.courseId);
+        return getInstructor(instructor.email, instructor.courseId);
+    }
+
+    protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
+        InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
+        int retriesRemaining = 100;
+        while (instructor == null && retriesRemaining > 0) {
+            ThreadHelper.waitFor(3000);
+            instructor = getInstructor(courseId, instructorEmail);
+            retriesRemaining--;
+        }
+        return instructor;
     }
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
