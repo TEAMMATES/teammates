@@ -1111,20 +1111,6 @@ public final class FeedbackSessionsLogic {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName) != null;
     }
 
-    public boolean isFeedbackSessionHasQuestionForStudents(
-            String feedbackSessionName,
-            String courseId) throws EntityDoesNotExistException {
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
-                        courseId);
-
-        return !allQuestions.isEmpty();
-    }
-
     public boolean isFeedbackSessionCompletedByStudent(
             FeedbackSessionAttributes fsa, StudentAttributes student) {
         Assumption.assertNotNull(fsa);
@@ -2300,29 +2286,6 @@ public final class FeedbackSessionsLogic {
             }
         }
         return new String[] { giverRecipientName, giverRecipientLastName, teamName };
-    }
-
-    public boolean isFeedbackSessionFullyCompletedByStudent(
-            String feedbackSessionName,
-            String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
-                        courseId);
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
-                // If any question is not completely answered, session is not
-                // completed
-                return false;
-            }
-        }
-        return true;
     }
 
     private boolean isFeedbackSessionFullyCompletedByInstructor(
