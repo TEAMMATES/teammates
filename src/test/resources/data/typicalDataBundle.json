@@ -737,6 +737,29 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
+    "session.with.custom.participants": {
+      "feedbackSessionName": "Session With Custom Participants",
+      "courseId": "idOfTypicalCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
     "archiveCourse.session1": {
       "feedbackSessionName": "session without student questions",
       "courseId": "idOfArchivedCourse",
@@ -1298,6 +1321,31 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
+      ]
+    },
+    "custom.giver.to.custom.recipient":{
+      "feedbackSessionName":"Session With Custom Participants",
+      "courseId":"idOfTypicalCourse1",
+      "creatorEmail":"instructor1@course1.tmt",
+      "questionMetaData":{
+        "value":"A particular student's feedback about another student's progress"
+      },
+      "questionNumber": 1,
+      "questionType":"TEXT",
+      "giverType":"CUSTOM",
+      "recipientType":"CUSTOM",
+      "numberOfEntitiesToGiveFeedbackTo":-100,
+      "showResponsesTo":[
+        "RECEIVER"
+      ],
+      "showGiverNameTo":[
+        "RECEIVER"
+      ],
+      "showRecipientNameTo":[
+        "RECEIVER"
+      ],
+      "feedbackPaths":[
+        {"courseId":"idOfTypicalCourse1","giver":"student5InCourse1@gmail.tmt (Student)","recipient":"student1InCourse1@gmail.tmt (Student)"}
       ]
     },
     "qn1InSession1InCourse2": {
