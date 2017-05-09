@@ -51,7 +51,7 @@
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_DISCARDCHANGES %>">
-                            <span class="glyphicon glyphicon-floppy-remove"></span> Discard
+                            <span class="glyphicon glyphicon-ban-circle"></span> Discard
                         </a>
                         <a class="btn btn-primary btn-xs"
                             onclick="deleteQuestion(${fqForm.questionIndex})"
