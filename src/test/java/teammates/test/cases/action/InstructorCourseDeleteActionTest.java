@@ -44,7 +44,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         InstructorCourseDeleteAction deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("The course idOfTypicalCourse1 has been deleted.", redirectResult.getStatusMessage());
@@ -69,7 +69,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("The course icdct.tpa.id1 has been deleted.", redirectResult.getStatusMessage());
@@ -90,7 +90,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("The course icdct.tpa.id2 has been deleted.", redirectResult.getStatusMessage());

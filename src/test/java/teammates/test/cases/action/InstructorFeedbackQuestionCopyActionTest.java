@@ -114,8 +114,8 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "Second+feedback+session", instructor1ofCourse1.googleId, true),
                      rr.getDestinationWithParams());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
@@ -145,8 +145,8 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "Second+feedback+session", instructor1ofCourse1.googleId, false),
                      rr.getDestinationWithParams());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
@@ -165,5 +165,10 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     @Override
     protected InstructorFeedbackQuestionCopyAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String viewUri, String courseId, String fsname,
+            String userId, boolean error) {
+        return viewUri + "?courseid=" + courseId + "&fsname=" + fsname + "&user=" + userId + "&error=" + error;
     }
 }

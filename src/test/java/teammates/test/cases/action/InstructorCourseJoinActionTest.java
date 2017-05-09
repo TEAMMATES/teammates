@@ -45,9 +45,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorCourseJoinAction confirmAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(confirmAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
-                + "?error=false&user=idOfInstructor1OfCourse1"
-                + "&key=" + invalidEncryptedKey, pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
+                false, "idOfInstructor1OfCourse1", invalidEncryptedKey), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -98,10 +97,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = getShowPageResult(confirmAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
-                     + "?error=false&user=ICJAT.instr"
-                     + "&key=" + StringHelper.encrypt(newInstructor.key),
-                     pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
+                false, "ICJAT.instr", StringHelper.encrypt(newInstructor.key)), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -114,5 +111,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseJoinAction getAction(String... params) {
         return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String viewUri, boolean error, String userId, String key) {
+        return viewUri + "?error=" + error + "&user=" + userId + "&key=" + key;
     }
 }

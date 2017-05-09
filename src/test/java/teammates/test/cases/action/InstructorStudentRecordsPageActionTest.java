@@ -84,7 +84,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorStudentRecordsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfInstructor3",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfInstructor3"),
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -124,7 +124,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfHelperOfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfHelperOfCourse1"),
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "

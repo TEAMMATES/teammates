@@ -71,9 +71,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         joinAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(joinAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "?" + Const.ParamsNames.ERROR + "=false"
-                + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
+        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, false, idOfNewStudent),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED

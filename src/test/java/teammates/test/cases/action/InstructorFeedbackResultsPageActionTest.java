@@ -120,9 +120,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         InstructorFeedbackResultsPageAction action = getAction(paramsWithoutSortType);
         ShowPageResult result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -131,9 +130,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeQuestion);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -142,9 +140,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeGiverRecipientQuestion);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -153,9 +150,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeRecipientGiverQuestion);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -164,9 +160,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeGiverQuestionRecipient);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -175,8 +170,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeRecipientQuestionGiver);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER
-                     + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER,
+                     false, "idOfInstructor1OfCourse1"),
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
@@ -186,8 +181,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithSortTypeUndefined);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                     false, "idOfInstructor1OfCourse1"),
                      result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
@@ -196,9 +191,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsWithStartIndex);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -206,9 +200,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsNeedAjax);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -216,9 +209,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsQuestionNumberOne);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -226,9 +218,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsSectionOneByQuestion);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -236,9 +227,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsSectionOneByGrq);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -246,9 +236,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsSectionOneByRgq);
         result = getShowPageResult(action);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION,
+                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
@@ -256,7 +245,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsNeedHtmlTableAllSections);
         AjaxResult ajaxResult = getAjaxResult(action);
 
-        assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination("", false, "idOfInstructor1OfCourse1"),
+                ajaxResult.getDestinationWithParams());
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
 
@@ -264,7 +254,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsNeedHtmlTableSectionOne);
         ajaxResult = getAjaxResult(action);
 
-        assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination("", false, "idOfInstructor1OfCourse1"),
+                ajaxResult.getDestinationWithParams());
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
 

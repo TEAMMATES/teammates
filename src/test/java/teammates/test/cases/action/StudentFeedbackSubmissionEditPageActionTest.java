@@ -105,9 +105,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT + "?error=false&"
-                     + Const.ParamsNames.USER_ID + "=" + student1InCourse1.googleId,
-                     pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
+                student1InCourse1.googleId), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -126,7 +125,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         redirectResult = getRedirectResult(pageAction);
 
-        assertEquals("/page/studentHomePage?error=false&user=student1InCourse1",
+        assertEquals(getPageResultDestination("/page/studentHomePage", false, "student1InCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
@@ -179,9 +178,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT + "?error=false&"
-                     + Const.ParamsNames.USER_ID + "=" + student1InCourse1.googleId,
-                     pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
+                student1InCourse1.googleId), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -192,9 +190,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT + "?error=false&"
-                     + Const.ParamsNames.USER_ID + "=" + student1InCourse1.googleId,
-                     pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
+                student1InCourse1.googleId), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -213,7 +210,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         redirectResult = getRedirectResult(pageAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, "student1InCourse1"),
                      redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You are not registered in the course " + session1InCourse1.getCourseId(),

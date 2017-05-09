@@ -73,9 +73,9 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                     + "?error=" + "false&user=idOfInstructor1OfCourse1&"
-                     + "courseid=" + "idOfTypicalCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                     false, "idOfInstructor1OfCourse1",
+                     "idOfTypicalCourse1"),
                      r.getDestinationWithParams());
 
         assertFalse(r.isError);
@@ -119,9 +119,9 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
         RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                     + "?error=" + "false&user=idOfInstructor1OfCourse1&"
-                     + "courseid=" + "idOfTypicalCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                     false, "idOfInstructor1OfCourse1",
+                     "idOfTypicalCourse1"),
                      rToBeTrimmed.getDestinationWithParams());
 
         assertFalse(rToBeTrimmed.isError);
@@ -158,9 +158,9 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT
-                     + "?error=" + "true"
-                     + "&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                     true,
+                     "idOfInstructor1OfCourse1"),
                      result.getDestinationWithParams());
 
         assertTrue(result.isError);
@@ -199,9 +199,9 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         result = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT
-                + "?error=" + "true"
-                + "&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                true,
+                "idOfInstructor1OfCourse1"),
                 result.getDestinationWithParams());
 
         assertTrue(result.isError);
@@ -239,10 +239,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                + "?error=" + "true"
-                + "&user=" + instructorId
-                + "&courseid=" + instructor1OfCourse1.courseId,
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                true,
+                instructorId,
+                instructor1OfCourse1.courseId),
                 redirectResult.getDestinationWithParams());
 
         assertTrue(redirectResult.isError);
@@ -288,6 +288,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     @Override
     protected InstructorCourseStudentDetailsEditSaveAction getAction(String... params) {
         return (InstructorCourseStudentDetailsEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String viewUri, boolean error, String userId, String courseId) {
+        return viewUri + "?error=" + error + "&user=" + userId + "&courseid=" + courseId;
     }
 
 }

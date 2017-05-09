@@ -40,8 +40,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?" + "error=false&user=instructorWithoutCourses",
-                                         r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(getPageResultDestination("/jsp/instructorHome.jsp", false,
+                "instructorWithoutCourses"), r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
 
@@ -77,7 +77,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
+        assertEquals(getPageResultDestination("/jsp/instructorHome.jsp", false, instructorWithMultipleCourses),
                       r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -111,7 +111,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
+        assertEquals(getPageResultDestination("/jsp/instructorHome.jsp", false, instructorWithMultipleCourses),
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -152,7 +152,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
+        assertEquals(getPageResultDestination("/jsp/instructorHome.jsp", false, instructorWithMultipleCourses),
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());

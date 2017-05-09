@@ -77,10 +77,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student1InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCourseinstr", "IESFPTCourse",
+                     "First+feedback+session"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -107,10 +107,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student1InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCourseinstr", "IESFPTCourse",
+                     "First+feedback+session"),
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -135,10 +135,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student1InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCourseinstr", "IESFPTCourse",
+                     "First+feedback+session"),
                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -160,10 +160,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student1InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCourseinstr", "IESFPTCourse",
+                     "First+feedback+session"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
@@ -327,10 +327,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCoursehelper1&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student2InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCoursehelper1", "IESFPTCourse",
+                     "First+feedback+session"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -391,10 +391,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCoursehelper2&courseid=IESFPTCourse"
-                     + "&fsname=Another+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student2InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCoursehelper2", "IESFPTCourse",
+                     "Another+feedback+session"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -428,10 +428,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCoursehelper3&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student2InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCoursehelper3", "IESFPTCourse",
+                     "First+feedback+session"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -599,10 +599,10 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=Closed+feedback+session",
+        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
+                     false, "student1InIESFPTCourse%40gmail.tmt",
+                     "IESFPTCourseinstr", "IESFPTCourse",
+                     "Closed+feedback+session"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
@@ -610,5 +610,11 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     protected InstructorEditStudentFeedbackSaveAction getAction(String... params) {
         return (InstructorEditStudentFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String viewUri, boolean error, String moderaredPerson, String userId,
+            String courseId, String fsName) {
+        return viewUri + "?error=" + error + "&moderatedperson=" + moderaredPerson + "&user=" + userId
+                + "&courseid=" + courseId + "&fsname=" + fsName;
     }
 }

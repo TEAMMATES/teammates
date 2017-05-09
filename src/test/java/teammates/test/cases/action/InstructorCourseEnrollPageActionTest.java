@@ -50,7 +50,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, false, "idOfInstructor4"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -77,7 +77,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, false, "idOfInstructor1OfCourse1"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS, pageResult.getStatusMessage());
@@ -107,7 +107,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, false, "idOfInstructor4"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());

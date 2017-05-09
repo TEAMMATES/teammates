@@ -50,7 +50,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS + "?error=false&user=student1InCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_COURSE_DETAILS, false, "student1InCourse1"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -94,7 +94,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction redirectAction = getAction(submissionParams);
         RedirectResult redirectResult = this.getRedirectResult(redirectAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, "student1InCourse1"),
                      redirectResult.getDestinationWithParams());
 
         assertTrue(redirectResult.isError);

@@ -71,8 +71,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -113,8 +113,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -158,8 +158,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -215,8 +215,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -257,8 +257,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -303,8 +303,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -354,8 +354,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -411,8 +411,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -465,8 +465,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -517,8 +517,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
@@ -557,8 +557,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, true),
                      result.getDestinationWithParams());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
@@ -620,8 +620,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
@@ -730,8 +730,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -753,8 +753,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -778,8 +778,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -803,8 +803,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -834,8 +834,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, false),
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
@@ -857,8 +857,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = getRedirectResult(action);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId, "First+feedback+session", instructor1ofCourse1.googleId, true),
                      result.getDestinationWithParams());
 
         assertEquals("NONE is not a valid feedback giver.", result.getStatusMessage());
@@ -903,5 +903,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     @Override
     protected InstructorFeedbackQuestionAddAction getAction(String... params) {
         return (InstructorFeedbackQuestionAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String viewUri, String courseId, String fsname,
+            String userId, boolean error) {
+        return viewUri + "?courseid=" + courseId + "&fsname=" + fsname + "&user=" + userId + "&error=" + error;
     }
 }

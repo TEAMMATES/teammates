@@ -39,7 +39,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
         assertNull(AccountsLogic.inst().getAccount(instructor1OfCourse1.googleId));
         assertEquals(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, result.getStatusMessage());
-        assertEquals("/admin/adminAccountManagementPage?error=false&user=admin.user",
+        assertEquals(getPageResultDestination("/admin/adminAccountManagementPage", false, "admin.user"),
                      result.getDestinationWithParams());
 
     }

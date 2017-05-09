@@ -43,7 +43,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                                                         Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         ShowPageResult pageResult = getShowPageResult(addAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, true, "idOfInstructor1OfCourse1"),
                      pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
@@ -95,7 +95,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = getShowPageResult(addAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, true, "idOfInstructor1OfCourse1"),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
@@ -120,7 +120,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = getShowPageResult(addAction);
 
-        String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
+        String expectedDestination = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false,
+                "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         String expectedStatus = "The course has been added. Click <a href=\"/page/instructorCourseEnrollPage?"

@@ -133,11 +133,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
         verifySpecifiedTasksAdded(a, TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME, 1);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -202,11 +202,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -237,10 +237,10 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                "idOfTypicalCourse1",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -270,11 +270,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -304,11 +304,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -338,11 +338,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -372,11 +372,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -407,11 +407,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -442,11 +442,11 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
-                + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student3InCourse1%40gmail.tmt&"
-                + "user=idOfInstructor3&"
-                + "error=false",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                "idOfTypicalCourse1",
+                "student3InCourse1%40gmail.tmt",
+                "idOfInstructor3",
+                false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -467,5 +467,15 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
     @Override
     protected InstructorStudentCommentAddAction getAction(String... params) {
         return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String viewUri, String courseId, String studentEmail,
+            String userId, boolean error) {
+        return viewUri + "?courseid=" + courseId + "&studentemail=" + studentEmail + "&user=" + userId + "&error=" + error;
+    }
+
+    protected String getPageResultDestination(String iewUri, String courseId,
+            String userId, boolean error) {
+        return iewUri + "?courseid=" + courseId + "&user=" + userId + "&error=" + error;
     }
 }

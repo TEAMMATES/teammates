@@ -39,7 +39,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         InstructorStudentRecordsAjaxPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX + "?error=false&user=idOfInstructor3",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfInstructor3"),
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -61,7 +61,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX + "?error=false&user=idOfHelperOfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfHelperOfCourse1"),
                      r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());

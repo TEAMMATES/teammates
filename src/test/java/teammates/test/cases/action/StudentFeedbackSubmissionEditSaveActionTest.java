@@ -71,7 +71,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/studentHomePage?error=" + r.isError + "&user=student1InCourse1",
+        assertEquals(getPageResultDestination("/page/studentHomePage", r.isError, "student1InCourse1"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
