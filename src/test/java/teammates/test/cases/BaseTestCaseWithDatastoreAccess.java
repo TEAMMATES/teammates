@@ -27,6 +27,8 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
+    private static final int BACKDOOR_GET_RETRY_COUNT = 100;
+    private static final int BACKDOOR_GET_RETRY_DELAY_IN_MS = 3000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
 
@@ -242,9 +244,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
     protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
         InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
-        int retriesRemaining = 100;
+        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
         while (instructor == null && retriesRemaining > 0) {
-            ThreadHelper.waitFor(3000);
+            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
             instructor = getInstructor(courseId, instructorEmail);
             retriesRemaining--;
         }
@@ -257,9 +259,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
         String key = getKeyForInstructor(courseId, instructorEmail);
-        int retriesRemaining = 100;
+        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
         while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && retriesRemaining > 0) {
-            ThreadHelper.waitFor(3000);
+            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
             key = getKeyForInstructor(courseId, instructorEmail);
             retriesRemaining--;
         }
