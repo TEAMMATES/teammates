@@ -275,7 +275,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
         String key = getKeyForInstructor(courseId, instructorEmail);
         int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && retriesRemaining > 0) {
+        while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retriesRemaining > 0) {
             ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
             key = getKeyForInstructor(courseId, instructorEmail);
             retriesRemaining--;
