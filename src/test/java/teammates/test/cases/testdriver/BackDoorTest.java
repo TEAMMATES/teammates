@@ -14,7 +14,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 
@@ -22,7 +22,7 @@ import teammates.test.driver.Priority;
  * SUT: {@link BackDoor}.
  */
 @Priority(2)
-public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
+public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
     private DataBundle dataBundle = getTypicalDataBundle();
 

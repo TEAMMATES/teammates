@@ -18,17 +18,14 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.test.driver.BackDoor;
 
 /**
- * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
+ * Base class for all test cases which are allowed to access the Datastore.
  */
 public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
     private static final int DATASTORE_VERIFICATION_RETRY_COUNT = 5;
     private static final int DATASTORE_VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    private static final int BACKDOOR_GET_RETRY_COUNT = 100;
-    private static final int BACKDOOR_GET_RETRY_DELAY_IN_MS = 3000;
     private static final int BACKDOOR_OPERATION_RETRY_COUNT = 5;
     private static final int BACKDOOR_OPERATION_RETRY_DELAY_IN_MS = 1000;
 
@@ -173,9 +170,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected AccountAttributes getAccount(AccountAttributes account) {
-        return BackDoor.getAccount(account.googleId);
-    }
+    protected abstract AccountAttributes getAccount(AccountAttributes account);
 
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
@@ -192,96 +187,37 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected CommentAttributes getComment(CommentAttributes comment) {
-        throw new UnsupportedOperationException("Method not used");
-    }
+    protected abstract CommentAttributes getComment(CommentAttributes comment);
 
-    protected CourseAttributes getCourse(String courseId) {
-        return BackDoor.getCourse(courseId);
-    }
-
-    protected CourseAttributes getCourse(CourseAttributes course) {
-        return getCourse(course.getId());
-    }
-
-    protected CourseAttributes getCourseWithRetry(String courseId) {
-        CourseAttributes course = getCourse(courseId);
-        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
-        while (course == null && retriesRemaining > 0) {
-            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
-            course = getCourse(courseId);
-            retriesRemaining--;
-        }
-        return course;
-    }
+    protected abstract CourseAttributes getCourse(CourseAttributes course);
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
     }
 
-    protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
-    }
+    protected abstract FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq);
 
     private void equalizeIrrelevantData(FeedbackQuestionAttributes expected, FeedbackQuestionAttributes actual) {
         expected.setId(actual.getId());
     }
 
-    protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        throw new UnsupportedOperationException("Method not used");
-    }
+    protected abstract FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc);
 
-    protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
-    }
+    protected abstract FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr);
 
     private void equalizeIrrelevantData(FeedbackResponseAttributes expected, FeedbackResponseAttributes actual) {
         expected.setId(actual.getId());
     }
 
-    protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
-        return BackDoor.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
-    }
+    protected abstract FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs);
 
     private void equalizeIrrelevantData(FeedbackSessionAttributes expected, FeedbackSessionAttributes actual) {
         expected.setRespondingInstructorList(actual.getRespondingInstructorList());
         expected.setRespondingStudentList(actual.getRespondingStudentList());
     }
 
-    protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
-        return BackDoor.getInstructorByEmail(instructorEmail, courseId);
-    }
-
-    protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return getInstructor(instructor.courseId, instructor.email);
-    }
-
-    protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
-        InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
-        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
-        while (instructor == null && retriesRemaining > 0) {
-            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
-            instructor = getInstructor(courseId, instructorEmail);
-            retriesRemaining--;
-        }
-        return instructor;
-    }
-
-    protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
-    }
-
-    protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
-        String key = getKeyForInstructor(courseId, instructorEmail);
-        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
-        while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retriesRemaining > 0) {
-            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
-            key = getKeyForInstructor(courseId, instructorEmail);
-            retriesRemaining--;
-        }
-        return key;
-    }
+    protected abstract InstructorAttributes getInstructor(InstructorAttributes instructor);
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
         // pretend keys match because the key is generated only before storing into database
@@ -290,9 +226,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected StudentAttributes getStudent(StudentAttributes student) {
-        return BackDoor.getStudent(student.course, student.email);
-    }
+    protected abstract StudentAttributes getStudent(StudentAttributes student);
 
     private void equalizeIrrelevantData(StudentAttributes expected, StudentAttributes actual) {
         // For these fields, we consider null and "" equivalent.
@@ -326,9 +260,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) {
-        return BackDoor.removeAndRestoreDataBundle(testData);
-    }
+    protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = BACKDOOR_OPERATION_RETRY_COUNT;
@@ -342,8 +274,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    protected String doPutDocuments(DataBundle testData) {
-        return BackDoor.putDocuments(testData);
-    }
+    protected abstract String doPutDocuments(DataBundle testData);
 
 }
