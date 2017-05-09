@@ -251,6 +251,21 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         return instructor;
     }
 
+    protected String getKeyForInstructor(String courseId, String instructorEmail) {
+        return BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+    }
+
+    protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
+        String key = getKeyForInstructor(courseId, instructorEmail);
+        int retriesRemaining = 100;
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && retriesRemaining > 0) {
+            ThreadHelper.waitFor(3000);
+            key = getKeyForInstructor(courseId, instructorEmail);
+            retriesRemaining--;
+        }
+        return key;
+    }
+
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
         // pretend keys match because the key is generated only before storing into database
         if (actual.key != null) {

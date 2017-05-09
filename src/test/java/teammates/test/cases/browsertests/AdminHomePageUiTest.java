@@ -93,7 +93,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
 
-        String encryptedKey = getKeyFromBackDoor(demoCourseId, instructor.email);
+        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -135,7 +135,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.createInstructor(shortName, instructor, institute);
 
-        encryptedKey = getKeyFromBackDoor(demoCourseId, instructor.email);
+        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -151,7 +151,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         assertNotNull(getInstructorWithRetry(demoCourseId, instructor.email));
 
         //get the joinURL which sent to the requester's email
-        String regkey = getKeyFromBackDoor(demoCourseId, instructor.email);
+        String regkey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
@@ -345,17 +345,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(dangerousDemoCourseId);
         BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
 
-    }
-
-    private String getKeyFromBackDoor(String courseId, String instructorEmail) {
-        int numberOfRemainingRetries = 100;
-        String key = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
-        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && numberOfRemainingRetries > 0) {
-            key = BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
-            numberOfRemainingRetries--;
-            ThreadHelper.waitFor(3000);
-        }
-        return key;
     }
 
     private CourseAttributes getCourseFromBackDoor(String courseId) {
