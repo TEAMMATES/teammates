@@ -22,9 +22,13 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     private static final int BACKDOOR_GET_RETRY_COUNT = 100;
     private static final int BACKDOOR_GET_RETRY_DELAY_IN_MS = 3000;
 
+    protected AccountAttributes getAccount(String googleId) {
+        return BackDoor.getAccount(googleId);
+    }
+
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return BackDoor.getAccount(account.googleId);
+        return getAccount(account.googleId);
     }
 
     @Override
@@ -67,9 +71,13 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
     }
 
+    protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
+        return BackDoor.getFeedbackSession(courseId, feedbackSessionName);
+    }
+
     @Override
     protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
-        return BackDoor.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+        return getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
     }
 
     protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {

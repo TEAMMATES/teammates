@@ -177,7 +177,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         }
 
         //check a account has been created for the requester successfully
-        assertNotNull(BackDoor.getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
+        assertNotNull(getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
 
         //verify sample course is accessible for newly joined instructor as an instructor
 
@@ -235,8 +235,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickEditSessionButton();
 
-        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession(demoCourseId,
-                                                                                "Second team feedback session");
+        FeedbackSessionAttributes feedbackSession = getFeedbackSession(demoCourseId, "Second team feedback session");
         feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
                                              feedbackSession.getEndTime(),
                                              new Text("updated instructions"),
