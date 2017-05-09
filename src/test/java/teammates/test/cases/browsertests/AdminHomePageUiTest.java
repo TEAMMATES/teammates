@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -14,7 +13,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
@@ -147,7 +145,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.logout();
         //verify the instructor and the demo course have been created
-        assertNotNull(getCourseFromBackDoor(demoCourseId));
+        assertNotNull(getCourseWithRetry(demoCourseId));
         assertNotNull(getInstructorWithRetry(demoCourseId, instructor.email));
 
         //get the joinURL which sent to the requester's email
@@ -345,17 +343,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(dangerousDemoCourseId);
         BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
 
-    }
-
-    private CourseAttributes getCourseFromBackDoor(String courseId) {
-        int numberOfRemainingRetries = 100;
-        CourseAttributes course = BackDoor.getCourse(courseId);
-        while (course == null && numberOfRemainingRetries > 0) {
-            course = BackDoor.getCourse(courseId);
-            numberOfRemainingRetries--;
-            ThreadHelper.waitFor(3000);
-        }
-        return course;
     }
 
 }

@@ -196,8 +196,23 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         throw new UnsupportedOperationException("Method not used");
     }
 
+    protected CourseAttributes getCourse(String courseId) {
+        return BackDoor.getCourse(courseId);
+    }
+
     protected CourseAttributes getCourse(CourseAttributes course) {
-        return BackDoor.getCourse(course.getId());
+        return getCourse(course.getId());
+    }
+
+    protected CourseAttributes getCourseWithRetry(String courseId) {
+        CourseAttributes course = getCourse(courseId);
+        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
+        while (course == null && retriesRemaining > 0) {
+            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
+            course = getCourse(courseId);
+            retriesRemaining--;
+        }
+        return course;
     }
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
