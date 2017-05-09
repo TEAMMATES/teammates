@@ -63,8 +63,8 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
         action = getAction();
         action.execute();
 
-        // 5 students and 5 instructors in course1
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 20);
+        // 6 students and 5 instructors in course1
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 22);
 
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();

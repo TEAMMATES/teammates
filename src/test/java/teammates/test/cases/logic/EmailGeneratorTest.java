@@ -66,7 +66,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session opening emails");
 
         List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
                                        course.getName(), session.getFeedbackSessionName());
@@ -87,7 +87,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session reminders");
 
         emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructors);
-        assertEquals(15, emails.size());
+        assertEquals(16, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -110,23 +110,22 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closing alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
-        assertEquals(8, emails.size());
+        assertEquals(10, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        // student1 has completed the feedback session and closing alert is only sent for those who are
-        // yet to complete, so we resort to student5
-        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
+        // student2 has completed the feedback session and should not be sent closing alert
+        StudentAttributes student2 = studentsLogic.getStudentForEmail(course.getId(), "student2InCourse1@gmail.tmt");
 
         hasStudent1ReceivedEmail = false; // use the same checker variable for brevity
         hasInstructor1ReceivedEmail = false;
         for (EmailWrapper email : emails) {
-            if (email.getRecipient().equals(student5.email)) {
-                verifyEmail(email, student5.email, subject, "/sessionClosingEmailForStudent.html");
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject, "/sessionClosingEmailForStudent.html");
                 hasStudent1ReceivedEmail = true;
-            } else if (email.getRecipient().equals(student1.email)) {
-                fail("student1 has completed the session and are not supposed to receive email");
+            } else if (email.getRecipient().equals(student2.email)) {
+                fail("student2 has completed the session and are not supposed to receive email");
             } else if (email.getRecipient().equals(instructor1.email)) {
                 verifyEmail(email, instructor1.email, subject, "/sessionClosingEmailForInstructor.html");
                 hasInstructor1ReceivedEmail = true;
@@ -138,7 +137,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closed alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -160,7 +159,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session published alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -182,7 +181,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session unpublished alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());

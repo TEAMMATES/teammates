@@ -155,12 +155,13 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session.with.custom.participants").toString() + Const.EOL;
 
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertEquals(6, sessions.size());
+        assertEquals(7, sessions.size());
 
         ______TS("null params");
 
@@ -199,7 +200,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
-        assertEquals(6, fsaList.size());
+        assertEquals(7, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosingEmail());
             assertTrue(fsa.isClosingEmailEnabled());
@@ -213,7 +214,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
-        assertEquals(6, fsaList.size());
+        assertEquals(7, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosedEmail());
             assertTrue(fsa.isClosingEmailEnabled());
@@ -227,7 +228,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(8, fsaList.size());
+        assertEquals(9, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());

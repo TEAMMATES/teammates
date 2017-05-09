@@ -1305,7 +1305,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         int numStudentRespondents = 4;
         int numInstructorRespondents = 2;
 
-        int totalStudents = 5;
+        int totalStudents = 6;
         int totalInstructors = 5;
 
         ______TS("Check response rate before editing question 1");

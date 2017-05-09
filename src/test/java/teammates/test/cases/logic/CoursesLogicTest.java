@@ -217,8 +217,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(course.getId(), courseSummary.course.getId());
         assertEquals(course.getName(), courseSummary.course.getName());
 
-        assertEquals(2, courseSummary.stats.teamsTotal);
-        assertEquals(5, courseSummary.stats.studentsTotal);
+        assertEquals(3, courseSummary.stats.teamsTotal);
+        assertEquals(6, courseSummary.stats.studentsTotal);
         assertEquals(0, courseSummary.stats.unregisteredTotal);
 
         assertEquals(1, courseSummary.sections.get(0).teams.size());
@@ -333,8 +333,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(course.getName(), courseDetails.course.getName());
         assertEquals(course.getTimeZone(), courseDetails.course.getTimeZone());
 
-        assertEquals(2, courseDetails.stats.teamsTotal);
-        assertEquals(5, courseDetails.stats.studentsTotal);
+        assertEquals(3, courseDetails.stats.teamsTotal);
+        assertEquals(6, courseDetails.stats.studentsTotal);
         assertEquals(0, courseDetails.stats.unregisteredTotal);
 
         assertEquals(1, courseDetails.sections.get(0).teams.size());
@@ -388,9 +388,10 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(course.getId());
 
-        assertEquals(2, teams.size());
+        assertEquals(3, teams.size());
         assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
         assertEquals("Team 1.2", teams.get(1).name);
+        assertEquals("Team 1.3", teams.get(2).name);
 
         ______TS("course without students");
 
@@ -617,6 +618,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
                 "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
+                "\"Section 2\",\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"Joined\",\"student6InCourse1@gmail.tmt\"",
                 ""
                 // CHECKSTYLE.ON:LineLength
         };

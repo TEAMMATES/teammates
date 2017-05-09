@@ -508,12 +508,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String expected =
                 dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session.with.custom.participants").toString() + Const.EOL;
 
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertEquals(3, actualSessions.size());
+        assertEquals(4, actualSessions.size());
 
         // Course 2 only has an instructor session and a private session.
         // The private session is not viewable to students,
@@ -534,12 +535,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
                 + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL
+                + dataBundle.feedbackSessions.get("session.with.custom.participants").toString() + Const.EOL;
 
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertEquals(6, actualSessions.size());
+        assertEquals(7, actualSessions.size());
 
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
@@ -1118,6 +1120,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+                "\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"No Response\"",
                 "",
                 "",
                 "Question 2,\"Rate 1 other student's product\"",
@@ -1173,6 +1176,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
                 "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
+                "\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"No Response\"",
+                "\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"No Response\"",
+                "\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"No Response\"",
+                "\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+                "\"Team 1.3\",\"student6 In Course1\",\"Course1\",\"student6InCourse1@gmail.tmt\",\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"No Response\"",
                 "",
                 "",
                 ""

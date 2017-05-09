@@ -48,14 +48,14 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
-        assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals(7, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
         assertEquals(null, pageData.getNewFsForm().getCourseId());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
                 + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
+                + "instr1@course1.tmt|||Number of feedback sessions: 7|||/page/instructorFeedbacksPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("0 sessions");

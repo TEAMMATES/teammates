@@ -217,9 +217,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("Typical case");
 
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
+        studentList.add(new StudentAttributes("Section 3", "Team 1.4", "New Student", "emailNew@com", "", courseId));
         studentList.add(
-                new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
+                new StudentAttributes("Section 2", "Team 1.5", "student2 In Course1",
                                       "student2InCourse1@gmail.tmt", "", courseId));
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
@@ -937,7 +937,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
         List<StudentAttributes> studentList = studentsLogic
                 .getStudentsForCourse(course1OfInstructor1.getId());
-        assertEquals(5, studentList.size());
+        assertEquals(6, studentList.size());
         for (StudentAttributes s : studentList) {
             assertEquals(course1OfInstructor1.getId(), s.course);
         }
