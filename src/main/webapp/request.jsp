@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 
 <t:staticPage>
@@ -12,7 +11,6 @@
         Request for an Account
     </h1>
     
-
 	<h4> Dear Instructor, <br>
 	We are glad that you are thinking of joining the TEAMMATES team.<br>
 	Please complete the form below and we will get back to you as soon as possible. 
@@ -53,5 +51,5 @@
 	</form>
 
    </div>
-   
+ 
 </t:staticPage>
