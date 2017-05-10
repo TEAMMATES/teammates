@@ -20,7 +20,7 @@
     <div class="panel panel-primary">
         <div class="panel-body fill-plain">
             <div class="text-muted">
-                <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more than <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
+                <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
             </div>
             <br>
             <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
