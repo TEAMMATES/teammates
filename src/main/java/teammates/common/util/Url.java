@@ -29,6 +29,13 @@ public class Url {
     }
 
     /**
+     * Returns The first part of the URL, from the protocol to the authority but before the path.
+     */
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    /**
      * Returns The value of the {@code parameterName} parameter. Null if no such parameter.
      */
     public String get(String parameterName) {

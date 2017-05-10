@@ -22,6 +22,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -86,6 +87,7 @@ public abstract class Action {
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
         authenticateUser();
+        performCsrfValidationIfRequired();
     }
 
     @SuppressWarnings("unchecked")
@@ -321,6 +323,24 @@ public abstract class Action {
                 && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotRegistered = user.createdAt == null;
         return userNeedsRegistrationForPage && userIsNotRegistered;
+    }
+
+    private void performCsrfValidationIfRequired() {
+        if (!Const.SystemParams.PAGES_REQUIRING_CSRF_VALIDATION.contains(request.getRequestURI())) {
+            return;
+        }
+
+        String referrer = request.getHeader("referer");
+
+        if (referrer == null) {
+            throw new UnauthorizedAccessException("Missing HTTP referer");
+        }
+
+        String origin = new Url(referrer).getBaseUrl();
+        String target = new Url(request.getRequestURL().toString()).getBaseUrl();
+        if (!origin.equals(target)) {
+            throw new UnauthorizedAccessException("Invalid HTTP referer");
+        }
     }
 
     // These methods are used for CRUD operations on urls used for redirecting users to login page
