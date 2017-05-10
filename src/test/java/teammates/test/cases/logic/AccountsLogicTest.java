@@ -360,8 +360,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but account already exists");
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns = InstructorAttributes.builder()
-                .courseId(instructor.courseId).name(nonInstrAccount.name).email(nonInstrAccount.email)
+        InstructorAttributes newIns = InstructorAttributes
+                .builder(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -378,9 +378,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = InstructorAttributes.builder()
-                .courseId(instructor.courseId).name("anInstructorWithoutGoogleId")
-                .email("anInstructorWithoutGoogleId@gmail.com")
+        newIns = InstructorAttributes
+                .builder(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -389,8 +388,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = InstructorAttributes.builder()
-                .courseId(instructor.courseId).name(nonInstrAccount.name).email(nonInstrAccount.email)
+        newIns = InstructorAttributes.builder(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
                 .build();
 
         instructorsLogic.createInstructor(newIns);

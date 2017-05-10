@@ -129,9 +129,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         CourseAttributes newCourse = new CourseAttributes("newIns.wit-demo", "Sample Course 101", "UTC");
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
-        InstructorAttributes instr = InstructorAttributes.builder()
-                .googleId("CHomeUiT.instructor.tmms.new").courseId("newIns.wit-demo")
-                .name("Teammates Test New Instructor With Sample").email("CHomeUiT.instructor.tmms@gmail.tmt")
+        InstructorAttributes instr = InstructorAttributes
+                .builder("newIns.wit-demo", "Teammates Test New Instructor With Sample",
+                        "CHomeUiT.instructor.tmms@gmail.tmt")
+                .withGoogleId("CHomeUiT.instructor.tmms.new")
                 .build();
         BackDoor.createInstructor(instr);
 

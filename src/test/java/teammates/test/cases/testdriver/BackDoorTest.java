@@ -130,8 +130,8 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(instructorId).courseId(courseId).name(name).email(email)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(instructorId)
                 .build();
 
         // Make sure not already inside

@@ -271,9 +271,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String regkey = "skxxxxxxxxxks";
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId("googleId").courseId("courseId").name("Instructor Name")
-                .email(instructorEmail).key(regkey)
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("courseId", "Instructor Name", instructorEmail)
+                .withGoogleId("googleId")
+                .withKey(regkey)
                 .build();
 
         AccountAttributes inviter = new AccountAttributes();

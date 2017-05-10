@@ -20,9 +20,9 @@ public class InstructorAttributesTest extends BaseTestCase {
     @Test
     public void testConstructor() {
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId("valid.google.id").courseId("valid-course-id")
-                .name("valid name").email("valid@email.com")
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("valid-course-id", "valid name", "valid@email.com")
+                .withGoogleId("valid.google.id")
                 .build();
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
@@ -33,27 +33,28 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertEquals(displayedName, instructor.displayedName);
         assertEquals(privileges, instructor.privileges);
 
-        InstructorAttributes instructor1 = InstructorAttributes.builder()
-                .googleId(instructor.googleId).courseId(instructor.courseId).name(instructor.name)
-                .email(instructor.email).role(instructor.role).displayedName(instructor.displayedName)
-                .privileges(instructor.getTextFromInstructorPrivileges())
+        InstructorAttributes instructor1 = InstructorAttributes
+                .builder(instructor.courseId, instructor.name, instructor.email)
+                .withGoogleId(instructor.googleId).withRole(instructor.role).withDisplayedName(instructor.displayedName)
+                .withPrivileges(instructor.getTextFromInstructorPrivileges())
                 .build();
 
         assertEquals(privileges, instructor1.privileges);
 
-        InstructorAttributes instructor2 = InstructorAttributes.builder()
-                .googleId(instructor.googleId).courseId(instructor.courseId).name(instructor.name)
-                .email(instructor.email).role(instructor.role).displayedName(instructor.displayedName)
-                .privileges(instructor1.privileges)
+        InstructorAttributes instructor2 = InstructorAttributes
+                .builder(instructor.courseId, instructor.name, instructor.email)
+                .withGoogleId(instructor.googleId).withDisplayedName(instructor.displayedName)
+                .withRole(instructor.role).withPrivileges(instructor1.privileges)
                 .build();
 
         assertEquals(instructor1.privileges, instructor2.privileges);
 
-        InstructorAttributes instructorNew = InstructorAttributes.builder()
-                .googleId(instructor.googleId).courseId(instructor.courseId).name(instructor.name)
-                .email(instructor.email).role(instructor.role).displayedName(instructor.displayedName)
-                .privileges(instructor1.privileges)
-                .isDisplayedToStudents(false)
+        InstructorAttributes instructorNew = InstructorAttributes
+                .builder(instructor.courseId, instructor.name, instructor.email)
+                .withGoogleId(instructor.googleId).withRole(instructor.role)
+                .withDisplayedName(instructor.displayedName)
+                .withPrivileges(instructor1.privileges)
+                .withIsDisplayedToStudents(false)
                 .build();
 
         assertFalse(instructorNew.isDisplayedToStudents);
@@ -87,9 +88,9 @@ public class InstructorAttributesTest extends BaseTestCase {
     @Test
     public void testIsRegistered() {
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId("valid.google.id").courseId("valid-course-id")
-                .name("valid name").email("valid@email.com")
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("valid-course-id", "valid name", "valid@email.com")
+                .withGoogleId("valid.google.id")
                 .build();
 
         assertTrue(instructor.isRegistered());
@@ -108,9 +109,9 @@ public class InstructorAttributesTest extends BaseTestCase {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleName)
-                .displayedName(displayedName).privileges(privileges)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(googleId).withRole(roleName)
+                .withDisplayedName(displayedName).withPrivileges(privileges)
                 .build();
         String key = "randomKey";
         instructor.key = key;
@@ -123,9 +124,8 @@ public class InstructorAttributesTest extends BaseTestCase {
     public void testGetInvalidityInfo() throws Exception {
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = InstructorAttributes.builder()
-                .googleId("valid.google.id").courseId("valid-course-id")
-                .name("valid name").email("valid@email.com")
+        InstructorAttributes i = InstructorAttributes.builder("valid-course-id", "valid name", "valid@email.com")
+                .withGoogleId("valid.google.id")
                 .build();
 
         assertTrue(i.isValid());
@@ -184,9 +184,9 @@ public class InstructorAttributesTest extends BaseTestCase {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleName)
-                .displayedName(displayedName).privileges(privileges)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(googleId).withRole(roleName)
+                .withDisplayedName(displayedName).withPrivileges(privileges)
                 .build();
 
         instructor.sanitizeForSaving();
@@ -209,9 +209,9 @@ public class InstructorAttributesTest extends BaseTestCase {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleName)
-                .displayedName(displayedName).privileges(privileges)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(googleId).withRole(roleName)
+                .withDisplayedName(displayedName).withPrivileges(privileges)
                 .build();
 
         assertFalse(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
@@ -243,15 +243,15 @@ public class InstructorAttributesTest extends BaseTestCase {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleName)
-                .displayedName(displayedName).privileges(privileges)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(googleId).withRole(roleName)
+                .withDisplayedName(displayedName).withPrivileges(privileges)
                 .build();
         InstructorPrivileges privileges2 =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor2 = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email).role(roleName)
-                .displayedName(displayedName).privileges(privileges2)
+        InstructorAttributes instructor2 = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(googleId).withRole(roleName)
+                .withDisplayedName(displayedName).withPrivileges(privileges2)
                 .build();
 
         assertTrue(instructor.isEqualToAnotherInstructor(instructor2));

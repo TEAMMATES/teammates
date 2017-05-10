@@ -235,10 +235,10 @@ public class Logic {
             accountsLogic.createAccount(account);
         }
 
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .googleId(googleId).courseId(courseId).name(name).email(email)
-                .role(roleParam).displayedName(displayedNameParam).privileges(privileges)
-                .isDisplayedToStudents(isDisplayedToStudents).isArchived(isArchived)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withGoogleId(googleId).withRole(roleParam).withDisplayedName(displayedNameParam)
+                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
+                .withIsArchived(isArchived)
                 .build();
 
         if (privileges == null && roleParam != null) {
@@ -261,9 +261,8 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor = InstructorAttributes.builder()
-                .courseId(courseId).name(name).email(email)
-                .role(role).privileges(new InstructorPrivileges(role))
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, name, email)
+                .withRole(role).withPrivileges(new InstructorPrivileges(role))
                 .build();
         instructorsLogic.createInstructor(instructor);
     }
