@@ -88,7 +88,7 @@ public class InstructorsDb extends EntitiesDb {
 
     /**
      * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * visibility according to the logged-in user's google ID. This is used by amdin to
      * search instructors in the whole system.
      * @return null if no result found
      */
