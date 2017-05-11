@@ -199,6 +199,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>PartialHelpPages</web-resource-name>
+            <description>Partial help pages cannot be accessed</description>
+            <url-pattern>/help/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
     <error-page>
         <error-code>401</error-code>
         <location>/unauthorized.jsp</location>
