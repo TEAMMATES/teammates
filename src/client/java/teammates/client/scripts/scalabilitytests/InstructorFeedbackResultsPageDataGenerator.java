@@ -12,6 +12,8 @@ import org.kohsuke.randname.RandomNameGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.TreeSet;
+import java.util.Set;
 /**
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
@@ -191,21 +193,17 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-        //Number of students and questions for each data set.
-        int[] studentNums = {10, 20};
-        int[] questionNums = {1, 5, 10};
+        // One set of maximum number of students and questions to create single data set for all tests
+        int studentNumsMax = 20;
+        int questionNumsMax = 10;
         String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
         new File(folderPath).mkdir();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        for (int studentNum : studentNums) {
-            for (int questionNum : questionNums) {
-                Writer writer = new FileWriter(
-                        folderPath
-                        + "InstructorFeedbackResultsPageScaleTest-" + studentNum
-                        + "Students" + questionNum + "Questions.json");
-                gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
-                writer.close();
-            }
-        }
+        Writer writer = new FileWriter(
+                folderPath
+                + "InstructorFeedbackResultsPageScaleTest-" + studentNumsMax
+                + "Students" + questionNumsMax + "Questions.json");
+        gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNumsMax, studentNumsMax), writer);
+        writer.close();
     }
 }

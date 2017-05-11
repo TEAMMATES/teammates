@@ -1,8 +1,16 @@
 package teammates.client.scripts.scalabilitytests;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Set;
+
 import org.testng.annotations.Test;
 
 import teammates.client.scripts.util.Stopwatch;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -18,6 +26,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
     private static final String DATA_FOLDER_PATH = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
     private static final Logger log = Logger.getLogger();
+    private static DataBundle testDataMax;
 
     @Override
     protected void prepareTestData() {
@@ -25,13 +34,132 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void refreshTestData(int numStudents, int numQuestions) {
-        refreshTestData(
-                "InstructorFeedbackResultsPageScaleTest-" + numStudents + "Students" + numQuestions + "Questions.json");
+
+        // modify set of students for each test according to its requirements
+        if (testData.students.size() == 0) { // if current collection of students is empty
+            IncreaseNumOfStudents(numStudents);
+        } else if (testData.students.size() < numStudents) { // current number of students is below required
+            IncreaseNumOfStudents(numStudents - testData.students.size());
+        } else if (testData.students.size() > numStudents) { // current number of students is above required
+            DecreaseNumOfStudents(numStudents);
+        }
+
+        // modify set of questions for each test according to its requirements
+        if (testData.feedbackQuestions.size() == 0) { // if current collection of questions is empty
+            IncreaseNumOfQuestions(numQuestions);
+        } else if (testData.feedbackQuestions.size() < numQuestions) { // current number of questions is below required
+            IncreaseNumOfQuestions(numQuestions - testData.feedbackQuestions.size());
+        } else if (testData.feedbackQuestions.size() > numQuestions) { // current number of questions is above required
+            DecreaseNumOfQuestions(numQuestions);
+        }
+
+        // modify set of responses for each test according to its sets of students and questions
+        // obtain set of emails for current set of students
+        Set<String> studentsEmails = new HashSet<>(testData.students.size());
+        for (StudentAttributes student : testData.students.values()) {
+            studentsEmails.add(student.email);
+        }
+
+        // obtain set of keys for current Map of questions
+        Set<Integer> questionsNumbers = new HashSet<>(testData.feedbackQuestions.size());
+        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
+            questionsNumbers.add(question.questionNumber);
+        }
+
+        // collect feedbackResponses for selected students and questions
+        Set<String> feedbackResponsesKeys = testDataMax.feedbackResponses.keySet();
+        String giver, recipient, questionId;
+        for (String key : feedbackResponsesKeys) {
+            giver = testDataMax.feedbackResponses.get(key).giver;
+            recipient = testDataMax.feedbackResponses.get(key).recipient;
+            questionId = testDataMax.feedbackResponses.get(key).feedbackQuestionId;
+            
+            if (!studentsEmails.contains(giver)
+                    || !studentsEmails.contains(recipient)
+                    || !questionsNumbers.contains(questionId)) {
+                if (testData.feedbackResponses.containsKey(key)) {
+                    testData.feedbackResponses.remove(key);
+                }
+                continue;
+            }
+            if (testData.feedbackResponses.containsKey(key)) {
+                continue;
+            }
+            testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
+        }
+        
+        removeAndRestoreDataBundle(testData);
     }
 
-    private void refreshTestData(String filename) {
-        testData = loadDataBundle(DATA_FOLDER_PATH + filename);
-        removeAndRestoreDataBundle(testData);
+    private void IncreaseNumOfStudents(int numStudentsToAdd) {
+        int countLimit = 0;
+        for (String key : testDataMax.students.keySet()) {
+            if (countLimit >= numStudentsToAdd) {
+                return;
+            }
+            if (testData.students.containsKey(key)) {
+                continue;
+            }
+            testData.students.put(key, testDataMax.students.get(key));
+            countLimit++;
+        }
+        countLimit = 0;
+    }
+    
+    private void DecreaseNumOfStudents(int remainingNumOfStudents) {
+        Set<String> studentsNames = testData.students.keySet();
+        for (String key : studentsNames) {
+            if (testData.students.size() == remainingNumOfStudents) {
+                return;
+            }
+            testData.students.remove(key);
+        }
+    }
+    
+    private void IncreaseNumOfQuestions(int numQuestionsToAdd) {
+        int countLimit = 0;
+        for (String key : testDataMax.feedbackQuestions.keySet()) {
+            if (countLimit >= numQuestionsToAdd) {
+                return;
+            }
+            if (testData.feedbackQuestions.containsKey(key)) {
+                continue;
+            }
+            testData.feedbackQuestions.put(key, testDataMax.feedbackQuestions.get(key));
+            countLimit++;
+        }
+        countLimit = 0;
+    }
+    
+    private void DecreaseNumOfQuestions(int remainingNumOfQuestions) {
+        Set<String> questionsKeys = testData.feedbackQuestions.keySet();
+        for (String key : questionsKeys) {
+            if (testData.feedbackQuestions.size() == remainingNumOfQuestions) {
+                return;
+            }
+            testData.feedbackQuestions.remove(key);
+        }
+    }
+
+    private void loadTestData(int numStudentsMax, int numQuestionsMax) {
+        // load maximum test data
+        testDataMax = loadDataBundle(
+                DATA_FOLDER_PATH + "InstructorFeedbackResultsPageScaleTest-" + numStudentsMax
+                + "Students" + numQuestionsMax + "Questions.json");
+
+        // prepare non-modified test data
+        testData = new DataBundle();
+        testData.accounts = testDataMax.accounts;
+        testData.courses = testDataMax.courses;
+        testData.instructors = testDataMax.instructors;
+        testData.students = new LinkedHashMap<String, StudentAttributes>();
+        testData.feedbackSessions = testDataMax.feedbackSessions;
+        testData.feedbackQuestions = new LinkedHashMap<String, FeedbackQuestionAttributes>();
+        testData.feedbackResponses = new LinkedHashMap<String, FeedbackResponseAttributes>();
+        testData.feedbackResponseComments = testDataMax.feedbackResponseComments;
+        testData.comments = testDataMax.comments;
+        testData.profiles = testDataMax.profiles;
+        testData.adminEmails = testDataMax.adminEmails;
     }
 
     @Test
@@ -39,6 +167,13 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         //Number of students and questions for each case.
         int[] studentLoads = {10, 20};
         int[] questionLoads = {1, 5, 10};
+
+        // Maximum number of students and questions for all cases.
+        int studentNumsMax = 20;
+        int questionNumsMax = 10;
+
+        // load single test data for all tests with maximum number of students and questions
+        loadTestData(studentNumsMax, questionNumsMax);
 
         for (int studentLoad : studentLoads) {
             for (int questionLoad : questionLoads) {
