@@ -1065,7 +1065,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testDeleteStudent() {
+    private void testDeleteStudent() throws Exception {
 
         ______TS("typical delete");
 
@@ -1106,7 +1106,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     }
 
     @AfterClass
-    public void classTearDown() {
+    public void classTearDown() throws Exception {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
     }
 

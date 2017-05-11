@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
@@ -27,11 +29,15 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
         /* Process deleting an instructor and setup status to be shown to user and admin */
         if (hasAlternativeInstructor(courseId, instructorEmail)) {
-            logic.deleteInstructor(courseId, instructorEmail);
-
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
-                + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+            try {
+                logic.deleteInstructor(courseId, instructorEmail);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED,
+                                                   StatusMessageColor.SUCCESS));
+                statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
+                    + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                this.setStatusForException(e);
+            }
         } else {
             isError = true;
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED,

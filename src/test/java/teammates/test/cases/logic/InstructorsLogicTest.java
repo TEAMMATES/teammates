@@ -28,7 +28,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws Exception {
         instructorsLogic.deleteInstructorCascade("FSQTT.idOfTypicalCourse1", "instructor3@course1.tmt");
     }
 

@@ -2,6 +2,7 @@ package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -47,6 +48,30 @@ public class FeedbackPathAttributes extends EntityAttributes {
         return recipient;
     }
 
+    public void setGiver(String giver) {
+        this.giver = giver;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public void setStudentGiver(String giver) {
+        setGiver(giver + " " + FEEDBACK_PARTICIPANT_TYPE_STUDENT);
+    }
+
+    public void setStudentRecipient(String recipient) {
+        setRecipient(recipient + " " + FEEDBACK_PARTICIPANT_TYPE_STUDENT);
+    }
+
+    public void setInstructorGiver(String giver) {
+        setGiver(giver + " " + FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR);
+    }
+
+    public void setInstructorRecipient(String recipient) {
+        setRecipient(recipient + " " + FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR);
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         return new ArrayList<String>();
@@ -58,6 +83,22 @@ public class FeedbackPathAttributes extends EntityAttributes {
                 + "courseId=" + courseId
                 + ", giver=" + giver
                 + ", recipient=" + recipient + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof FeedbackPathAttributes)) {
+            return false;
+        }
+        FeedbackPathAttributes feedbackPath = (FeedbackPathAttributes) o;
+        return courseId.equals(feedbackPath.courseId)
+                && giver.equals(feedbackPath.getGiver())
+                && recipient.equals(feedbackPath.getRecipient());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseId, giver, recipient);
     }
 
     @Override
@@ -193,6 +234,28 @@ public class FeedbackPathAttributes extends EntityAttributes {
      */
     public boolean isFeedbackPathRecipientTheClass() {
         return isFeedbackPathParticipantTheClass(recipient);
+    }
+
+    public String getFeedbackPathGiverType() {
+        return getFeedbackPathParticipantType(giver);
+    }
+
+    public String getFeedbackPathRecipientType() {
+        return getFeedbackPathParticipantType(recipient);
+    }
+
+    private String getFeedbackPathParticipantType(String participant) {
+        if (isFeedbackPathParticipantAStudent(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_STUDENT;
+        } else if (isFeedbackPathParticipantAnInstructor(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_INSTRUCTOR;
+        } else if (isFeedbackPathParticipantATeam(participant)) {
+            return FEEDBACK_PARTICIPANT_TYPE_TEAM;
+        } else if (isFeedbackPathParticipantTheClass(participant)) {
+            return FEEDBACK_PARTICIPANT_CLASS;
+        } else {
+            return "";
+        }
     }
 
     private String getParticipantId(String participant) {

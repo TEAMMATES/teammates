@@ -74,7 +74,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @AfterClass
-    public void classTearDown() {
+    public void classTearDown() throws Exception {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
 
@@ -274,7 +274,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void testInstructorCourseInstructorAdd() {
+    public void testInstructorCourseInstructorAdd() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",

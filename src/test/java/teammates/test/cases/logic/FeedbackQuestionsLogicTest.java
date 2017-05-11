@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -401,6 +402,136 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
         assertEquals(frLogic.getFeedbackResponsesForQuestion(
                 questionToUpdate.getId()).size(), 0);
+
+        ______TS("cascading update for changed student email");
+
+        questionToUpdate = fqLogic.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 8);
+        assertEquals(1, questionToUpdate.feedbackPaths.size());
+
+        String questionFeedbackPathsGiver = questionToUpdate.feedbackPaths.get(0).getGiver();
+        String questionFeedbackPathsRecipient = questionToUpdate.feedbackPaths.get(0).getRecipient();
+        assertEquals("student5InCourse1@gmail.tmt (Student)", questionFeedbackPathsGiver);
+        assertEquals("student5InCourse1@gmail.tmt (Student)", questionFeedbackPathsRecipient);
+
+        StudentAttributes updatedStudent = dataBundle.students.get("student5InCourse1");
+        updatedStudent.email = "updatedStudentEmail@gmail.tmt";
+
+        fqLogic.updateFeedbackQuestionsForChangingStudentEmail("student5InCourse1@gmail.tmt", updatedStudent);
+
+        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        assertEquals(1, updatedQuestion.feedbackPaths.size());
+
+        String updatedQuestionFeedbackPathsGiver = updatedQuestion.feedbackPaths.get(0).getGiver();
+        String updatedQuestionFeedbackPathsRecipient = updatedQuestion.feedbackPaths.get(0).getRecipient();
+        assertEquals("updatedStudentEmail@gmail.tmt (Student)", updatedQuestionFeedbackPathsGiver);
+        assertEquals("updatedStudentEmail@gmail.tmt (Student)", updatedQuestionFeedbackPathsRecipient);
+
+        // Revert change to question
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
+
+        ______TS("cascading update for changed instructor email");
+
+        questionToUpdate = fqLogic.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 9);
+        assertEquals(1, questionToUpdate.feedbackPaths.size());
+
+        questionFeedbackPathsGiver = questionToUpdate.feedbackPaths.get(0).getGiver();
+        questionFeedbackPathsRecipient = questionToUpdate.feedbackPaths.get(0).getRecipient();
+        assertEquals("instructor2@course1.tmt (Instructor)", questionFeedbackPathsGiver);
+        assertEquals("instructor2@course1.tmt (Instructor)", questionFeedbackPathsRecipient);
+
+        InstructorAttributes updatedInstructor = dataBundle.instructors.get("instructor2OfCourse1");
+        updatedInstructor.email = "updatedInstructorEmail@gmail.tmt";
+
+        fqLogic.updateFeedbackQuestionsForChangingInstructorEmail("instructor2@course1.tmt", updatedInstructor);
+
+        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        assertEquals(1, updatedQuestion.feedbackPaths.size());
+
+        updatedQuestionFeedbackPathsGiver = updatedQuestion.feedbackPaths.get(0).getGiver();
+        updatedQuestionFeedbackPathsRecipient = updatedQuestion.feedbackPaths.get(0).getRecipient();
+        assertEquals("updatedInstructorEmail@gmail.tmt (Instructor)", updatedQuestionFeedbackPathsGiver);
+        assertEquals("updatedInstructorEmail@gmail.tmt (Instructor)", updatedQuestionFeedbackPathsRecipient);
+
+        // Revert change to question
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
+
+        ______TS("cascading update for deleted student");
+
+        questionToUpdate = fqLogic.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 8);
+        assertEquals(1, questionToUpdate.feedbackPaths.size());
+
+        questionFeedbackPathsGiver = questionToUpdate.feedbackPaths.get(0).getGiver();
+        questionFeedbackPathsRecipient = questionToUpdate.feedbackPaths.get(0).getRecipient();
+        assertEquals("student5InCourse1@gmail.tmt (Student)", questionFeedbackPathsGiver);
+        assertEquals("student5InCourse1@gmail.tmt (Student)", questionFeedbackPathsRecipient);
+
+        FeedbackResponseAttributes responseForQuestion =
+                frLogic.getFeedbackResponse(questionToUpdate.getFeedbackQuestionId(),
+                        "student5InCourse1@gmail.tmt", "student5InCourse1@gmail.tmt");
+        assertNotNull(responseForQuestion);
+
+        fqLogic.updateFeedbackQuestionsForDeletedStudent("idOfTypicalCourse1", "student5InCourse1@gmail.tmt");
+
+        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        assertEquals(0, updatedQuestion.feedbackPaths.size());
+
+        responseForQuestion =
+                frLogic.getFeedbackResponse(questionToUpdate.getFeedbackQuestionId(),
+                        "student5InCourse1@gmail.tmt", "student5InCourse1@gmail.tmt");
+        assertNull(responseForQuestion);
+
+        ______TS("cascading update for deleted instructor");
+
+        questionToUpdate = fqLogic.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 9);
+        assertEquals(1, questionToUpdate.feedbackPaths.size());
+
+        questionFeedbackPathsGiver = questionToUpdate.feedbackPaths.get(0).getGiver();
+        questionFeedbackPathsRecipient = questionToUpdate.feedbackPaths.get(0).getRecipient();
+        assertEquals("instructor2@course1.tmt (Instructor)", questionFeedbackPathsGiver);
+        assertEquals("instructor2@course1.tmt (Instructor)", questionFeedbackPathsRecipient);
+
+        InstructorAttributes deletedInstructor = dataBundle.instructors.get("instructor2OfCourse1");
+        deletedInstructor.email = "instructor2@course1.tmt";
+
+        responseForQuestion =
+                frLogic.getFeedbackResponse(questionToUpdate.getFeedbackQuestionId(),
+                        "instructor2@course1.tmt", "instructor2@course1.tmt");
+        assertNotNull(responseForQuestion);
+
+        fqLogic.updateFeedbackQuestionsForDeletedInstructor(deletedInstructor);
+
+        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        assertEquals(0, updatedQuestion.feedbackPaths.size());
+
+        responseForQuestion =
+                frLogic.getFeedbackResponse(questionToUpdate.getFeedbackQuestionId(),
+                        "instructor2@course1.tmt", "instructor2@course1.tmt");
+        assertNull(responseForQuestion);
+
+        ______TS("cascading update for deleted team");
+
+        questionToUpdate = fqLogic.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 10);
+        assertEquals(1, questionToUpdate.feedbackPaths.size());
+
+        questionFeedbackPathsGiver = questionToUpdate.feedbackPaths.get(0).getGiver();
+        questionFeedbackPathsRecipient = questionToUpdate.feedbackPaths.get(0).getRecipient();
+        assertEquals("Team 1.2 (Team)", questionFeedbackPathsGiver);
+        assertEquals("Team 1.2 (Team)", questionFeedbackPathsRecipient);
+
+        responseForQuestion =
+                frLogic.getFeedbackResponse(questionToUpdate.getFeedbackQuestionId(),
+                                            "student5InCourse1@gmail.tmt", "Team 1.2");
+        assertNotNull(responseForQuestion);
+
+        fqLogic.updateFeedbackQuestionsForDeletedTeam("idOfTypicalCourse1", "Team 1.2");
+
+        updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
+        assertEquals(0, updatedQuestion.feedbackPaths.size());
+
+        responseForQuestion =
+                frLogic.getFeedbackResponse(questionToUpdate.getFeedbackQuestionId(),
+                                            "student5InCourse1@gmail.tmt", "Team 1.2");
+        assertNull(responseForQuestion);
 
         ______TS("failure: question does not exist");
 

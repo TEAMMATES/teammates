@@ -40,6 +40,7 @@ public final class StudentsLogic {
 
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
@@ -218,9 +219,13 @@ public final class StudentsLogic {
             commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
         }
 
-        // adjust submissions if moving to a different team
+        // adjust submissions and custom feedback paths if moving to a different team
+
         if (isTeamChanged(originalStudent.team, student.team)) {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
+            if (getStudentsForTeam(originalStudent.getTeam(), student.course).isEmpty()) {
+                fqLogic.updateFeedbackQuestionsForDeletedTeam(student.course, originalStudent.getTeam());
+            }
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {
@@ -256,6 +261,7 @@ public final class StudentsLogic {
 
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
+            fqLogic.updateFeedbackQuestionsForChangingStudentEmail(originalEmail, student);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
             fsLogic.updateRespondentsForStudent(originalEmail, student.email, student.course);
         }
@@ -462,20 +468,24 @@ public final class StudentsLogic {
         return errorMessage.toString();
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail) {
+    public void deleteStudentCascade(String courseId, String studentEmail)
+            throws InvalidParametersException {
         deleteStudentCascade(courseId, studentEmail, true);
     }
 
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
+    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail)
+            throws InvalidParametersException {
         deleteStudentCascade(courseId, studentEmail, false);
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
+    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument)
+            throws InvalidParametersException {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
+        fqLogic.updateFeedbackQuestionsForDeletedStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -494,7 +504,7 @@ public final class StudentsLogic {
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
 
-    public void deleteStudentsForGoogleIdAndCascade(String googleId) {
+    public void deleteStudentsForGoogleIdAndCascade(String googleId) throws InvalidParametersException {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
 
         // Cascade delete students

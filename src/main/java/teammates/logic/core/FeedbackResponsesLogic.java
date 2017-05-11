@@ -686,6 +686,70 @@ public final class FeedbackResponsesLogic {
         frDb.deleteEntity(responseToDelete);
     }
 
+    /**
+     * Deletes feedback responses for an updated question.
+     * newQuestion is compared with oldQuestion to determine the
+     * responses to be deleted based on the changes in feedback paths.
+     */
+    public void deleteFeedbackResponsesForQuestionAndCascade(
+            FeedbackQuestionAttributes oldQuestion, FeedbackQuestionAttributes newQuestion,
+            boolean hasResponseRateUpdate) {
+        String feedbackQuestionId = oldQuestion.getId();
+
+        List<FeedbackResponseAttributes> responsesForQuestion =
+                getFeedbackResponsesForQuestion(feedbackQuestionId);
+
+        Set<String> emails = new HashSet<String>();
+
+        for (FeedbackResponseAttributes response : responsesForQuestion) {
+            String giver;
+            if (newQuestion.giverType.isCustom() && newQuestion.isFeedbackPathsGiverTypeTeams()) {
+                StudentAttributes studentGiver = studentsLogic.getStudentForEmail(response.courseId, response.giver);
+                giver = studentGiver.getTeam();
+            } else {
+                giver = response.giver;
+            }
+
+            String recipient = response.recipient;
+
+            if (!newQuestion.giverType.isCustom()
+                    || !newQuestion.getFeedbackPathsGiverType().equals(oldQuestion.getFeedbackPathsGiverType())
+                    || !newQuestion.getFeedbackPathsRecipientType().equals(oldQuestion.getFeedbackPathsRecipientType())
+                    || !newQuestion.containsGiverAndRecipientIdsInFeedbackPath(giver, recipient)) {
+                deleteFeedbackResponseAndCascade(response);
+                emails.add(response.giver);
+            }
+        }
+
+        if (!hasResponseRateUpdate) {
+            return;
+        }
+
+        try {
+            FeedbackQuestionAttributes question = fqLogic
+                    .getFeedbackQuestion(feedbackQuestionId);
+            boolean isInstructor = question.giverType == FeedbackParticipantType.SELF
+                                   || question.giverType == FeedbackParticipantType.INSTRUCTORS
+                                   || question.giverType.isCustom() && question.isFeedbackPathsGiverTypeInstructors();
+            for (String email : emails) {
+                boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
+                if (!hasResponses) {
+                    if (isInstructor) {
+                        fsLogic.deleteInstructorRespondent(email,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    } else {
+                        fsLogic.deleteStudentFromRespondentList(email,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    }
+                }
+            }
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            Assumption.fail("Fail to delete respondant");
+        }
+    }
+
     public void deleteFeedbackResponsesForQuestionAndCascade(
             String feedbackQuestionId, boolean hasResponseRateUpdate) {
         List<FeedbackResponseAttributes> responsesForQuestion =
