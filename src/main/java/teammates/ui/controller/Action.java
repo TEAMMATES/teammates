@@ -134,21 +134,21 @@ public abstract class Action {
             throw new InvalidOriginException("Missing HTTP referrer");
         }
 
-        validateHttpReferrer(referrer);
+        if (!isHttpReferrerValid(referrer)) {
+            throw new InvalidOriginException("Invalid HTTP referrer");
+        }
     }
 
-    private void validateHttpReferrer(String referrer) {
+    private boolean isHttpReferrerValid(String referrer) {
         String origin;
         try {
             origin = new Url(referrer).getBaseUrl();
         } catch (AssertionError e) { // due to MalformedURLException
-            throw new InvalidOriginException("Invalid HTTP referrer");
+            return false;
         }
 
         String target = new Url(request.getRequestURL().toString()).getBaseUrl();
-        if (!origin.equals(target)) {
-            throw new InvalidOriginException("Invalid HTTP referrer");
-        }
+        return origin.equals(target);
     }
 
     // These methods are used for user authentication
