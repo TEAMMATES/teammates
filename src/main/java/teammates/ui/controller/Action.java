@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidOriginException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
@@ -333,13 +334,13 @@ public abstract class Action {
         String referrer = request.getHeader("referer");
 
         if (referrer == null) {
-            throw new UnauthorizedAccessException("Missing HTTP referer");
+            throw new InvalidOriginException("Missing HTTP referer");
         }
 
         String origin = new Url(referrer).getBaseUrl();
         String target = new Url(request.getRequestURL().toString()).getBaseUrl();
         if (!origin.equals(target)) {
-            throw new UnauthorizedAccessException("Invalid HTTP referer");
+            throw new InvalidOriginException("Invalid HTTP referer");
         }
     }
 
