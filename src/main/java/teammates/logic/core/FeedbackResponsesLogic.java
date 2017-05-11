@@ -888,7 +888,8 @@ public final class FeedbackResponsesLogic {
         }
 
         if (question.giverType == FeedbackParticipantType.TEAMS
-                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.giverType.isCustom() && question.hasTeamAsGiverInFeedbackPaths(student.getTeam())) {
             addNewResponses(viewableResponses,
                     getFeedbackResponsesFromTeamForQuestion(
                             question.getId(), question.courseId, student.team));
