@@ -157,6 +157,8 @@ public final class Const {
                         ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
                         ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD,
                         ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
+                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
+                        ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
@@ -190,6 +192,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING,
                         ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
                         ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
