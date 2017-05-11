@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -656,27 +657,25 @@ public class FeedbackResponsesDb extends EntitiesDb {
     public void deleteFeedbackResponsesForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<String> courseIds = new ArrayList<String>();
-        courseIds.add(courseId);
-        deleteFeedbackResponsesForCourses(courseIds);
-
+        deleteFeedbackResponsesForCourses(Arrays.asList(courseId));
     }
 
     public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        List<FeedbackResponse> feedbackResponses = getFeedbackResponseEntitiesForCourses(courseIds);
+        getFeedbackResponsesForCoursesQuery(courseIds)
+            .deletePersistentAll();
+    }
 
-        getPm().deletePersistentAll(feedbackResponses);
-        getPm().flush();
+    private QueryWithParams getFeedbackResponsesForCoursesQuery(List<String> courseIds) {
+        Query q = getPm().newQuery(FeedbackResponse.class);
+        q.setFilter(":p.contains(courseId)");
+        return new QueryWithParams(q, new Object[] {courseIds});
     }
 
     @SuppressWarnings("unchecked")
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
-        Query q = getPm().newQuery(FeedbackResponse.class);
-        q.setFilter(":p.contains(courseId)");
-
-        return (List<FeedbackResponse>) q.execute(courseIds);
+        return (List<FeedbackResponse>) getFeedbackResponsesForCoursesQuery(courseIds).execute();
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
@@ -1129,5 +1128,29 @@ public class FeedbackResponsesDb extends EntitiesDb {
             feedbackResponseToGet.feedbackQuestionId,
             feedbackResponseToGet.giver,
             feedbackResponseToGet.recipient);
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = FeedbackResponse.class;
+        String primaryKeyName = FeedbackResponse.PRIMARY_KEY_NAME;
+        FeedbackResponseAttributes fra = (FeedbackResponseAttributes) attributes;
+        String id = fra.getId();
+
+        Query q = getPm().newQuery(entityClass);
+        Object[] params;
+
+        if (id == null) {
+            q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String receiverParam");
+            q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam && "
+                        + "receiver == receiverParam");
+            params = new Object[] {fra.feedbackQuestionId, fra.giver, fra.recipient};
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            params = new Object[] {id};
+        }
+
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 }

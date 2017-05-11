@@ -86,7 +86,8 @@ dependencies {
                     "httpunit:httpunit:1.7",
                     "javax.mail:mail:1.4.7",
                     "org.seleniumhq.selenium:selenium-java:2.53.1",
-                    "org.testng:testng:6.9.4"
+                    "org.testng:testng:6.9.4",
+                    "org.kohsuke:wordnet-random-name:1.3"
 
     testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
 

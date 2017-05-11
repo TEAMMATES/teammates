@@ -6,8 +6,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: prepares admin email to be sent via task queue in address mode,

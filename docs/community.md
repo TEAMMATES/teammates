@@ -48,6 +48,7 @@ Core team members are expected to:
 * Contribute (i.e. pledge at least one issue) to almost every release cycle, thereby helping to maintain the project velocity.
   They are also strongly encouraged to pick at least one high priority issue for each release cycle.
 * Respond to community members trying to reach the project team members, e.g. requesting for help or introducing themselves.
+* Cover all of [maintainer's duties](maintainer-guide.md).
 
 Core team members can progress through various ranks, with different duties involved in those ranks.
 
@@ -79,13 +80,9 @@ Project leads have the following additional privileges:
 * Have "admin" access to the main repository.
 * Can merge any approved PRs reviewed by anyone as they see fit.
 
-Project leads have the following duties, which can also be shared with other team members:
-* Assign reviewers for PRs (if nobody volunteers to be a reviewer), based on the issue label.
-* Manage issue and PR tracker, e.g. close PRs that are abandoned for long.
-* Manage weekly release (i.e. act as Release Lead).
-* Invite new committers/core team members to the relevant teams in GitHub.
-* Ensure no unnecessary branches remain in the main repository.
-* Ensure that there are sufficient beginner-level issues (`d.FirstTimers` and `d.Contributors`) to last for at least 7 days (considering the current level of activity) at any time.
+Project leads have the following duties:
+* Manage weekly release (i.e. act as Release Lead). Can also be delegated to other team members.
+* Make sure that all of maintainer's duties are covered by the team.
 
 ### Project Mentor
 
