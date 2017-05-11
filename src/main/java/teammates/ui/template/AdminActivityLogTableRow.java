@@ -23,36 +23,36 @@ public class AdminActivityLogTableRow {
     // --------------- Additional generated fields ---------------
 
     public String getUserHomeLink() {
-        switch (activityLog.getRoleWithoutMasquerade()) {
+        switch (activityLog.getUserRole()) {
         case Const.ActivityLog.ROLE_STUDENT:
             return Url.addParamToUrl(Const.ActionURIs.STUDENT_HOME_PAGE,
-                                     Const.ParamsNames.USER_ID, activityLog.getGoogleId());
+                                     Const.ParamsNames.USER_ID, activityLog.getUserGoogleId());
         case Const.ActivityLog.ROLE_INSTRUCTOR:
             return Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
-                                     Const.ParamsNames.USER_ID, activityLog.getGoogleId());
+                                     Const.ParamsNames.USER_ID, activityLog.getUserGoogleId());
         default:
             return null;
         }
     }
 
     public boolean getHasUserHomeLink() {
-        return activityLog.getRoleWithoutMasquerade().contains(Const.ActivityLog.ROLE_STUDENT)
-                || activityLog.getRoleWithoutMasquerade().contains(Const.ActivityLog.ROLE_INSTRUCTOR);
+        return activityLog.getUserRole().contains(Const.ActivityLog.ROLE_STUDENT)
+                || activityLog.getUserRole().contains(Const.ActivityLog.ROLE_INSTRUCTOR);
     }
 
     public String getUserIdentity() {
-        String googleId = activityLog.getGoogleId();
+        String googleId = activityLog.getUserGoogleId();
         if (!googleId.contentEquals(Const.ActivityLog.AUTH_NOT_LOGIN)
                 && !googleId.contentEquals(Const.ActivityLog.UNKNOWN)) {
             return googleId;
         }
 
-        String email = activityLog.getEmail();
+        String email = activityLog.getUserEmail();
         if (email != null && !email.contentEquals(Const.ActivityLog.UNKNOWN)) {
             return email;
         }
 
-        String name = activityLog.getName();
+        String name = activityLog.getUserName();
         if (name != null && !name.contentEquals(Const.ActivityLog.UNKNOWN)) {
             return name;
         }
@@ -61,94 +61,95 @@ public class AdminActivityLogTableRow {
     }
 
     public boolean getHasUserEmail() {
-        return !Const.ActivityLog.UNKNOWN.contentEquals(activityLog.getEmail());
+        return !Const.ActivityLog.UNKNOWN.contentEquals(activityLog.getUserEmail());
     }
 
     // --------------- 'is' fields to determine CSS classes ---------------
 
     public boolean getIsUserAdmin() {
-        return activityLog.getRole().contains(Const.ActivityLog.ROLE_ADMIN);
+        return activityLog.getUserRole().contains(Const.ActivityLog.ROLE_ADMIN);
     }
 
     public boolean getIsUserInstructor() {
-        return activityLog.getRole().contains(Const.ActivityLog.ROLE_INSTRUCTOR);
+        return activityLog.getUserRole().contains(Const.ActivityLog.ROLE_INSTRUCTOR);
     }
 
     public boolean getIsUserStudent() {
-        return activityLog.getRole().contains(Const.ActivityLog.ROLE_STUDENT);
+        return activityLog.getUserRole().contains(Const.ActivityLog.ROLE_STUDENT);
     }
 
     public boolean getIsUserAuto() {
-        return activityLog.getRole().contains(Const.ActivityLog.ROLE_AUTO);
+        return activityLog.getUserRole().contains(Const.ActivityLog.ROLE_AUTO);
     }
 
     public boolean getIsUserUnregistered() {
-        return activityLog.getRole().contains(Const.ActivityLog.ROLE_UNREGISTERED);
+        return activityLog.getUserRole().contains(Const.ActivityLog.ROLE_UNREGISTERED);
     }
 
     public boolean getIsActionTimeTakenModerate() {
-        return activityLog.getTimeTaken() >= Const.ActivityLog.TIME_TAKEN_EXPECTED
-                && activityLog.getTimeTaken() <= Const.ActivityLog.TIME_TAKEN_MODERATE;
+        return activityLog.getActionTimeTaken() >= Const.ActivityLog.TIME_TAKEN_EXPECTED
+                && activityLog.getActionTimeTaken() <= Const.ActivityLog.TIME_TAKEN_MODERATE;
     }
 
     public boolean getIsActionTimeTakenSlow() {
-        return activityLog.getTimeTaken() > Const.ActivityLog.TIME_TAKEN_MODERATE;
+        return activityLog.getActionTimeTaken() > Const.ActivityLog.TIME_TAKEN_MODERATE;
     }
 
     public boolean getIsActionFailure() {
-        return activityLog.getAction().contains(Const.ACTION_RESULT_FAILURE);
+        return activityLog.getActionName().contains(Const.ACTION_RESULT_FAILURE);
     }
 
     public boolean getIsActionErrorReport() {
-        return activityLog.getAction().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT);
+        return activityLog.getActionName().contains(Const.ACTION_RESULT_SYSTEM_ERROR_REPORT);
     }
 
     // --------------- Enhancement to the fields ---------------
 
     public String getDisplayedActionUrl() {
-        return Url.addParamToUrl(activityLog.getUrl(),
-                                 Const.ParamsNames.USER_ID, activityLog.getGoogleId());
+        return Url.addParamToUrl(activityLog.getActionUrl(),
+                                 Const.ParamsNames.USER_ID, activityLog.getUserGoogleId());
     }
 
     public String getDisplayedLogTime() {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone(Const.DEFAULT_TIMEZONE));
-        appCal.setTimeInMillis(activityLog.getTime());
+        appCal.setTimeInMillis(activityLog.getLogTime());
         appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
         return TimeHelper.calendarToString(appCal);
     }
 
     public String getDisplayedRole() {
-        return activityLog.getRole();
+        return activityLog.getUserRole()
+                + (activityLog.isMasqueradeUserRole() ? Const.ActivityLog.ROLE_MASQUERADE_POSTFIX : "");
     }
 
     public String getDisplayedLogTimeTaken() {
-        return TimeHelper.convertToStandardDuration(activityLog.getTimeTaken());
+        return TimeHelper.convertToStandardDuration(activityLog.getActionTimeTaken());
     }
 
     // --------------- Forwarding activityLog methods ---------------
 
     public String getUserGoogleId() {
-        return activityLog.getGoogleId();
+        return activityLog.getUserGoogleId();
     }
 
     public String getUserName() {
-        return activityLog.getName();
+        return activityLog.getUserName();
     }
 
     public String getUserEmail() {
-        return activityLog.getEmail();
+        return activityLog.getUserEmail();
     }
 
     public String getLogId() {
-        return activityLog.getId();
+        return activityLog.getLogId();
     }
 
     public String getActionName() {
-        return activityLog.getAction();
+        return activityLog.getActionName();
     }
 
     public String getLogTime() {
-        return String.valueOf(activityLog.getTime());
+        return String.valueOf(activityLog.getLogTime());
     }
 
     public boolean getIsMasqueradeUserRole() {
@@ -156,7 +157,7 @@ public class AdminActivityLogTableRow {
     }
 
     public String getMessage() {
-        return activityLog.getMessage();
+        return activityLog.getLogMessage();
     }
 
 }

@@ -120,9 +120,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             return Arrays.asList(students, instructors, sessions, courses);
         }
 
-        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span>"
-                                + "<span class=\"glyphicon glyphicon-comment\"></span>"
-                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
+        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span> "
+                                + "<span class=\"glyphicon glyphicon-comment\"></span> "
+                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span> "
                                 + "<span class=\"glyphicon glyphicon-envelope\"></span>";
         String plural = pendingCommentsCount > 1 ? "s" : "";
 

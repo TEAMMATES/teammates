@@ -165,6 +165,29 @@ public class SanitizationHelperTest extends BaseTestCase {
         Text actualRichTextObj = new Text(actualRichText);
         Text sanitizedTextObj = SanitizationHelper.sanitizeForRichText(actualRichTextObj);
         assertEquals(expectedRichText, sanitizedTextObj.getValue());
+
+        actualRichText = "<table cellspacing = \"5\" onmouseover=\"alert('onmouseover');\">"
+                + "<thead><tr><td>No.</td><td colspan = \"2\">People</td></tr></thead>"
+                + "<caption> Table with caption</caption>"
+                + "<tbody><tr><td>1</td><td>Amy</td><td><strong>Smith</strong></td></tr>"
+                + "<tr><td>2</td><td>Bob</td><td><strong>Tan</strong></td></tr>"
+                + "</tbody></table>"
+                + "<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"
+                + "</td></option></div> invalid closing tags"
+                + "f(x) = x<sup>2</sup>"
+                + "<code>System.out.println(\"Hello World\");</code>";
+        expectedRichText = "<table cellspacing=\"5\">"
+                + "<thead><tr><td>No.</td><td colspan=\"2\">People</td></tr></thead>"
+                + "<caption> Table with caption</caption>"
+                + "<tbody><tr><td>1</td><td>Amy</td><td><strong>Smith</strong></td></tr>"
+                + "<tr><td>2</td><td>Bob</td><td><strong>Tan</strong></td></tr>"
+                + "</tbody></table>"
+                + "<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"
+                + " invalid closing tags"
+                + "f(x) &#61; x<sup>2</sup>"
+                + "<code>System.out.println(&#34;Hello World&#34;);</code>";
+        sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
+        assertEquals(expectedRichText, sanitized);
     }
 
     @Test

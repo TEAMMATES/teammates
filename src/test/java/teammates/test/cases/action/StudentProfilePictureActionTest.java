@@ -325,7 +325,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + account.name + "|||" + account.googleId + "|||" + student.email
                                   + "|||Requested Profile Picture by student directly|||/page/studentProfilePic";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, actualLogMessage);
+        AssertHelper.assertLogMessageEqualsIgnoreLogId(expectedLogMessage, actualLogMessage);
     }
 
     @Override
