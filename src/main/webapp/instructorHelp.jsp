@@ -570,7 +570,7 @@
                         <a name="faq14" id="question">Is there a size limit for a course?</a>
                     </b>
                     <div class="helpSectionContent">
-                        No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go.
+                        No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go. 
                         <br>
                         <br>
                     </div>
@@ -1918,6 +1918,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <br>
                                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -1935,15 +1936,15 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <a class="feedback-path-dropdown-option" href="javascript:;" data-giver-type="SELF" data-recipient-type="NONE" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)">
-                                                        Nobody specific (For general class feedback)
+                                                            Nobody specific (For general class feedback)
                                                         </a>
 
                                                         <a class="feedback-path-dropdown-option" href="javascript:;" data-giver-type="SELF" data-recipient-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Giver (Self feedback)">
-                                                        Giver (Self feedback)
+                                                            Giver (Self feedback)
                                                         </a>
 
                                                         <a class="feedback-path-dropdown-option" href="javascript:;" data-giver-type="SELF" data-recipient-type="INSTRUCTORS" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Instructors in the course">
-                                                        Instructors in the course
+                                                            Instructors in the course
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -3194,7 +3195,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -3610,7 +3611,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="display: none;">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -3988,7 +3989,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -4515,7 +4516,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -5113,7 +5114,7 @@
                                               </ul>
                                           </div>
                                           <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                              <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                              <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                   <label class="col-sm-4 col-lg-5 control-label">
                                                       Who will give the feedback:
                                                   </label>
@@ -5713,7 +5714,7 @@
                                               </ul>
                                           </div>
                                           <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                              <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                              <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                   <label class="col-sm-4 col-lg-5 control-label">
                                                       Who will give the feedback:
                                                   </label>
@@ -6077,7 +6078,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -7343,7 +7344,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -7653,15 +7654,15 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="row">
                     <div class="col-sm-12">
                         <a name="fbRankOptions">
                             <h4>Rank Options question</h4>
                         </a>
-                        Rank options questions are question where the students rank options that are created by you.
+                        Rank options questions are question where the students rank options that are created by you. 
                         <br>
-
+                    
                         <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
                         <br>
                         <br>
@@ -7674,11 +7675,11 @@
                                                 <span>
                                                     <strong>Question</strong>
                                                     <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
-
+                                                        
                                                             <option value="1">
                                                                 1
                                                             </option>
-
+                                                        
                                                     </select>
                                                     &nbsp;Rank (options) question
                                                 </span>
@@ -7863,7 +7864,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -8091,7 +8092,7 @@
                                 <input type="hidden" name="user" value="inst@email.com">
                             </form>
                         </div>
-
+                        
 
                 </div>
                 <div class="row">
@@ -8099,9 +8100,9 @@
                         <a name="fbRankRecipients">
                             <h4>Rank Recipients question</h4>
                         </a>
-                        Rank recipients questions are questions where the students are to rank students, teams, or instructors.
+                        Rank recipients questions are questions where the students are to rank students, teams, or instructors. 
                         <br>
-                        <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
+                        <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times. 
                         <br>
                         <br>
                         <div class="bs-example">
@@ -8113,11 +8114,11 @@
                                                 <span>
                                                     <strong>Question</strong>
                                                     <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
-
+                                                        
                                                             <option value="1">
                                                                 1
                                                             </option>
-
+                                                        
                                                     </select>
                                                     &nbsp;Rank (recipients) question
                                                 </span>
@@ -8244,7 +8245,7 @@
                                                 </ul>
                                             </div>
                                             <div class="feedback-path-others margin-top-7px" style="">
-                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
+                                                <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
                                                     <label class="col-sm-4 col-lg-5 control-label">
                                                         Who will give the feedback:
                                                     </label>
@@ -8470,9 +8471,9 @@
                                 <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
                                 <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
                                 <input type="hidden" name="user" value="inst@email.com">
-                            </form>
+                            </form>  
                         </div>
-
+                        
                         <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}.
                         <br>
                         <br>
@@ -8506,7 +8507,7 @@
                                     Team 1
                                 </td>
                                 <td>
-
+                                    
                                 </td>
                                 <td>
                                     1 , 1 , 2
@@ -8519,7 +8520,7 @@
                                     Team 2
                                 </td>
                                 <td>
-
+                                    
                                 </td>
                                 <td>
                                     1 , 2
@@ -8532,7 +8533,7 @@
                                     Team 3
                                 </td>
                                 <td>
-
+                                    
                                 </td>
                                 <td>
                                     1 , 2
