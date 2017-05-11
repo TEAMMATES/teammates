@@ -61,7 +61,9 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode, delete last course, redirect to Courses page");
 
-        gaeSimulation.loginAsAdmin("admin.user");
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -80,9 +82,10 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, deleteAction.getLogMessage(), adminUserId);
 
         ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
+
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course", "UTC");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
@@ -101,7 +104,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course deleted: icdct.tpa.id2|||/page/instructorCourseDelete";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, deleteAction.getLogMessage(), adminUserId);
 
     }
 
