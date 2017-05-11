@@ -181,7 +181,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // load page structure without responses
 
-                data.setLargeNumberOfRespondents(needAjax != null);
+                data.setLargeNumberOfRespondents(true);
 
                 // all sections and all questions for question view
                 // set up question tables, responses to load by ajax
