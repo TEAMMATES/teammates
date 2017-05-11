@@ -152,8 +152,8 @@ public abstract class Action {
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://mail.google.com/mail/u/0/
      *
-     * Target: teammatesv4.appspot.com
-     * Origin: mail.google.com
+     * Target: https://teammatesv4.appspot.com
+     * Origin: https://mail.google.com
      * </pre>
      * Origin does not match target. This request is invalid.</p>
      *
@@ -162,8 +162,8 @@ public abstract class Action {
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
      *
-     * Target: teammatesv4.appspot.com
-     * Origin: teammatesv4.appspot.com
+     * Target: https://teammatesv4.appspot.com
+     * Origin: https://teammatesv4.appspot.com
      * </pre>
      * Origin matches target. This request is valid.</p>
      */
