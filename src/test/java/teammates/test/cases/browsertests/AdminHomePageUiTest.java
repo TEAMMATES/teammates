@@ -170,7 +170,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         try {
             confirmationPage.clickConfirmButton();
         } catch (Exception e) {
-            if (!confirmationPage.getPageSource().contains("TEAMMATES could not locate what you were trying to access.")) {
+            if (!confirmationPage.isPageUri(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE)) {
                 throw e;
             }
             // persistence issue can be ignored

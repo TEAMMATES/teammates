@@ -29,6 +29,23 @@ public class Url {
     }
 
     /**
++     * Returns The relative part (path) of the URL, after the
++     * authority (host name + port number if specified) but before the query.<br>
++     * Example:
++     * <ul>
++     * <li><code>new Url("http://localhost:8888/index.jsp").getRelativeUrl()</code>
++     * returns <code>/index.jsp</code></li>
++     * <li><code>new Url("http://google.com").getRelativeUrl()</code>
++     * returns <i>[empty string]</i></li>
++     * <li><code>new Url("https://teammatesv4.appspot.com/page/studentHomePage?user=abc").getRelativeUrl()</code>
++     * returns <code>/page/studentHomePage</code></li>
++     * </ul>
+     */
+    public String getRelativeUrl() {
+        return relativeUrl;
+    }
+
+    /**
      * Returns The value of the {@code parameterName} parameter. Null if no such parameter.
      */
     public String get(String parameterName) {

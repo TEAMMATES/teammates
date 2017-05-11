@@ -173,6 +173,19 @@ public abstract class AppPage {
     }
 
     /**
+     * Checks whether the URL currently loaded in the browser corresponds to the given page {@code uri}.
+     */
+    public boolean isPageUri(String uri) {
+        Url currentPageUrl;
+        try {
+            currentPageUrl = new Url(browser.driver.getCurrentUrl());
+        } catch (AssertionError e) { // due to MalformedURLException
+            return false;
+        }
+        return currentPageUrl.getRelativeUrl().equals(uri);
+    }
+
+    /**
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
