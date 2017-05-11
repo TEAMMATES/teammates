@@ -122,6 +122,31 @@ public abstract class Action {
         this.emailSender = emailSender;
     }
 
+    // These methods are used for Cross-Site Request Forgery (CSRF) prevention
+
+    private void validateOriginIfRequired() {
+        if (!Const.SystemParams.PAGES_REQUIRING_CSRF_VALIDATION.contains(request.getRequestURI())) {
+            return;
+        }
+
+        String referrer = request.getHeader("referer");
+        if (referrer == null) {
+            throw new InvalidOriginException("Missing HTTP referrer");
+        }
+
+        validateHttpReferrer(referrer);
+    }
+
+    private void validateHttpReferrer(String referrer) {
+        String origin = new Url(referrer).getBaseUrl();
+        String target = new Url(request.getRequestURL().toString()).getBaseUrl();
+        if (!origin.equals(target)) {
+            throw new InvalidOriginException("Invalid HTTP referrer");
+        }
+    }
+
+    // These methods are used for user authentication
+
     protected void authenticateUser() {
         UserType currentUser = gateKeeper.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
@@ -324,24 +349,6 @@ public abstract class Action {
                 && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotRegistered = user.createdAt == null;
         return userNeedsRegistrationForPage && userIsNotRegistered;
-    }
-
-    private void validateOriginIfRequired() {
-        if (!Const.SystemParams.PAGES_REQUIRING_CSRF_VALIDATION.contains(request.getRequestURI())) {
-            return;
-        }
-
-        String referrer = request.getHeader("referer");
-
-        if (referrer == null) {
-            throw new InvalidOriginException("Missing HTTP referer");
-        }
-
-        String origin = new Url(referrer).getBaseUrl();
-        String target = new Url(request.getRequestURL().toString()).getBaseUrl();
-        if (!origin.equals(target)) {
-            throw new InvalidOriginException("Invalid HTTP referer");
-        }
     }
 
     // These methods are used for CRUD operations on urls used for redirecting users to login page
