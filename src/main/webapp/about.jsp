@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="about">
     <div class="container">
@@ -974,7 +973,7 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
-                    <td>BartÅomej Weber</td>
+                    <td>Bartłomej Weber</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ABedol"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
@@ -1048,7 +1047,7 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
-                    <td>GonÃ§alo Garcia</td>
+                    <td>Gonçalo Garcia</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AGGfpc"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
@@ -1117,7 +1116,7 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
-                    <td>JoÃ£o Victor</td>
+                    <td>João Victor</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AJvsierra"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
@@ -1225,7 +1224,7 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
-                    <td>Miguel AraÃºjo</td>
+                    <td>Miguel Araújo</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amiguelarauj1o"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
