@@ -68,7 +68,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
                 + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt|||studentComments "
                 + "Page Load<br>Viewing <span class=\"bold\">student2InCourse1's</span> comment records for "
                 + "Course <span class=\"bold\">[idOfTypicalCourse2]</span>|||/page/studentCommentsPage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, action.getLogMessage(), adminUserId);
     }
 
     @Override
