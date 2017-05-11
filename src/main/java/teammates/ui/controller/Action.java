@@ -138,7 +138,13 @@ public abstract class Action {
     }
 
     private void validateHttpReferrer(String referrer) {
-        String origin = new Url(referrer).getBaseUrl();
+        String origin;
+        try {
+            origin = new Url(referrer).getBaseUrl();
+        } catch (AssertionError e) { // due to MalformedURLException
+            throw new InvalidOriginException("Invalid HTTP referrer");
+        }
+
         String target = new Url(request.getRequestURL().toString()).getBaseUrl();
         if (!origin.equals(target)) {
             throw new InvalidOriginException("Invalid HTTP referrer");
