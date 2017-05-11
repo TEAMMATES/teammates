@@ -37,24 +37,24 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // modify set of students for each test according to its requirements
         if (testData.students.size() == 0) { // if current collection of students is empty
-            IncreaseNumOfStudents(numStudents);
+            increaseNumOfStudents(numStudents);
         } else if (testData.students.size() < numStudents) { // current number of students is below required
-            IncreaseNumOfStudents(numStudents - testData.students.size());
+            increaseNumOfStudents(numStudents - testData.students.size());
         } else if (testData.students.size() > numStudents) { // current number of students is above required
-            DecreaseNumOfStudents(numStudents);
+            decreaseNumOfStudents(numStudents);
         }
 
         // modify set of questions for each test according to its requirements
         if (testData.feedbackQuestions.size() == 0) { // if current collection of questions is empty
-            IncreaseNumOfQuestions(numQuestions);
+            increaseNumOfQuestions(numQuestions);
         } else if (testData.feedbackQuestions.size() < numQuestions) { // current number of questions is below required
-            IncreaseNumOfQuestions(numQuestions - testData.feedbackQuestions.size());
+            increaseNumOfQuestions(numQuestions - testData.feedbackQuestions.size());
         } else if (testData.feedbackQuestions.size() > numQuestions) { // current number of questions is above required
-            DecreaseNumOfQuestions(numQuestions);
+            decreaseNumOfQuestions(numQuestions);
         }
 
         // modify set of responses for each test according to its sets of students and questions
-        // obtain set of emails for current set of students
+        // obtain set of e-mails for current set of students
         Set<String> studentsEmails = new HashSet<>(testData.students.size());
         for (StudentAttributes student : testData.students.values()) {
             studentsEmails.add(student.email);
@@ -68,12 +68,14 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // collect feedbackResponses for selected students and questions
         Set<String> feedbackResponsesKeys = testDataMax.feedbackResponses.keySet();
-        String giver, recipient, questionId;
+        String giver;
+        String recipient;
+        String questionId;
         for (String key : feedbackResponsesKeys) {
             giver = testDataMax.feedbackResponses.get(key).giver;
             recipient = testDataMax.feedbackResponses.get(key).recipient;
             questionId = testDataMax.feedbackResponses.get(key).feedbackQuestionId;
-            
+
             if (!studentsEmails.contains(giver)
                     || !studentsEmails.contains(recipient)
                     || !questionsNumbers.contains(questionId)) {
@@ -87,11 +89,11 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             }
             testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
         }
-        
+
         removeAndRestoreDataBundle(testData);
     }
 
-    private void IncreaseNumOfStudents(int numStudentsToAdd) {
+    private void increaseNumOfStudents(int numStudentsToAdd) {
         int countLimit = 0;
         for (String key : testDataMax.students.keySet()) {
             if (countLimit >= numStudentsToAdd) {
@@ -105,8 +107,8 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         }
         countLimit = 0;
     }
-    
-    private void DecreaseNumOfStudents(int remainingNumOfStudents) {
+
+    private void decreaseNumOfStudents(int remainingNumOfStudents) {
         Set<String> studentsNames = testData.students.keySet();
         for (String key : studentsNames) {
             if (testData.students.size() == remainingNumOfStudents) {
@@ -115,8 +117,8 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             testData.students.remove(key);
         }
     }
-    
-    private void IncreaseNumOfQuestions(int numQuestionsToAdd) {
+
+    private void increaseNumOfQuestions(int numQuestionsToAdd) {
         int countLimit = 0;
         for (String key : testDataMax.feedbackQuestions.keySet()) {
             if (countLimit >= numQuestionsToAdd) {
@@ -130,8 +132,8 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         }
         countLimit = 0;
     }
-    
-    private void DecreaseNumOfQuestions(int remainingNumOfQuestions) {
+
+    private void decreaseNumOfQuestions(int remainingNumOfQuestions) {
         Set<String> questionsKeys = testData.feedbackQuestions.keySet();
         for (String key : questionsKeys) {
             if (testData.feedbackQuestions.size() == remainingNumOfQuestions) {

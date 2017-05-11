@@ -12,13 +12,12 @@ import org.kohsuke.randname.RandomNameGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.TreeSet;
-import java.util.Set;
 /**
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
 @SuppressWarnings("PMD.UnusedPrivateField")//Inner classes and their fields are only used for JSON object generation.
 public class InstructorFeedbackResultsPageDataGenerator {
+
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
     private Map<String, Instructor> instructors = new HashMap<>();
