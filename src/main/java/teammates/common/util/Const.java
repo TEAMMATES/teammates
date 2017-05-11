@@ -143,7 +143,7 @@ public final class Const {
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
-        public static final List<String> PAGES_REQUIRING_CSRF_VALIDATION = Collections.unmodifiableList(
+        public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
                         ActionURIs.ADMIN_ACCOUNT_DELETE,
                         ActionURIs.ADMIN_EMAIL_COMPOSE_SAVE,

@@ -125,7 +125,7 @@ public abstract class Action {
     // These methods are used for Cross-Site Request Forgery (CSRF) prevention
 
     private void validateOriginIfRequired() {
-        if (!Const.SystemParams.PAGES_REQUIRING_CSRF_VALIDATION.contains(request.getRequestURI())) {
+        if (!Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(request.getRequestURI())) {
             return;
         }
 
