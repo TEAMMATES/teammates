@@ -139,6 +139,34 @@ public abstract class Action {
         }
     }
 
+    /**
+     * Validates the HTTP referrer against the request URL. The origin is the
+     * base URL of the HTTP referrer, which includes the protocol and authority
+     * (host name + port number if specified). Similarly, the target is the base
+     * URL of the requested action URL. For the referrer to be considered valid,
+     * origin and target must match exactly. Otherwise, the request is likely to
+     * be a CSRF attack, and is considered invalid.
+     *
+     * Example of malicious request originating from embedded image in email:
+     *
+     * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
+     * Referrer:    https://mail.google.com/mail/u/0/
+     *
+     * Target: teammatesv4.appspot.com
+     * Origin: mail.google.com
+     *
+     * Origin does not match target. This request is invalid.
+     *
+     * Example of legitimate request originating from instructor courses page:
+     *
+     * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
+     * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
+     *
+     * Target: teammatesv4.appspot.com
+     * Origin: teammatesv4.appspot.com
+     *
+     * Origin matches target. This request is valid.
+     */
     private boolean isHttpReferrerValid(String referrer) {
         String origin;
         try {
@@ -147,7 +175,9 @@ public abstract class Action {
             return false;
         }
 
-        String target = new Url(request.getRequestURL().toString()).getBaseUrl();
+        String requestUrl = request.getRequestURL().toString();
+        String target = new Url(requestUrl).getBaseUrl();
+
         return origin.equals(target);
     }
 

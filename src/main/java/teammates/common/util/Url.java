@@ -29,7 +29,15 @@ public class Url {
     }
 
     /**
-     * Returns The first part of the URL, from the protocol to the authority but before the path.
+     * Returns The first part of the URL, including the protocol and
+     * authority (host name + port number if specified) but not the path.<br>
+     * Example:
+     * <ul>
+     * <li><code>new Url("http://localhost:8888/index.jsp").getBaseUrl()</code>
+     * returns <code>http://localhost:8888</code></li>
+     * <li><code>new Url("https://teammatesv4.appspot.com/index.jsp").getBaseUrl()</code>
+     * returns <code>https://teammatesv4.appspot.com</code></li>
+     * </ul>
      */
     public String getBaseUrl() {
         return baseUrl;
