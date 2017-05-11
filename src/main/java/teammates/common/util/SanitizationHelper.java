@@ -32,9 +32,13 @@ public final class SanitizationHelper {
                 .allowAttributes("align")
                     .matching(true, "center", "left", "right", "justify", "char")
                     .onElements("p")
+                .allowAttributes("colspan", "rowspan").onElements("td", "th")
+                .allowAttributes("cellspacing").onElements("table")
                 .allowElements(
                     "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong", "hr",
-                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span")
+                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span",
+                    "table", "tr", "td", "th", "tbody", "tfoot", "thead", "caption", "colgroup",
+                    "sup", "sub", "code")
                 .allowElements("quote", "ecode")
                 .allowStyling()
                 .toFactory();

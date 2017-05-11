@@ -18,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -424,12 +423,10 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("successful get feedback response comment for courses");
 
-        List<FeedbackResponseComment> actualFrcs =
-                frcDb.getFeedbackResponseCommentEntitiesForCourses(courseIds);
         List<FeedbackResponseCommentAttributes> actualFrcas =
                 new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : actualFrcs) {
-            actualFrcas.add(new FeedbackResponseCommentAttributes(frc));
+        for (String courseId : courseIds) {
+            actualFrcas.addAll(frcDb.getFeedbackResponseCommentsForCourse(courseId));
         }
 
         verifyListsContainSameResponseCommentAttributes(expectedFrcas, actualFrcas);
@@ -437,8 +434,9 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("successful delete feedback response comment for courses");
 
         frcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
-        actualFrcs = frcDb.getFeedbackResponseCommentEntitiesForCourses(courseIds);
-        assertTrue(actualFrcs.isEmpty());
+        for (String courseId : courseIds) {
+            assertTrue(frcDb.getFeedbackResponseCommentsForCourse(courseId).isEmpty());
+        }
     }
 
     private void verifyListsContainSameResponseCommentAttributes(
