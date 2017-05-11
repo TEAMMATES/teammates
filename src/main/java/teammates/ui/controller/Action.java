@@ -147,25 +147,25 @@ public abstract class Action {
      * origin and target must match exactly. Otherwise, the request is likely to
      * be a CSRF attack, and is considered invalid.
      *
-     * Example of malicious request originating from embedded image in email:
-     *
+     * <p>Example of malicious request originating from embedded image in email:
+     * <pre>
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://mail.google.com/mail/u/0/
      *
      * Target: teammatesv4.appspot.com
      * Origin: mail.google.com
+     * </pre>
+     * Origin does not match target. This request is invalid.</p>
      *
-     * Origin does not match target. This request is invalid.
-     *
-     * Example of legitimate request originating from instructor courses page:
-     *
+     * <p>Example of legitimate request originating from instructor courses page:
+     * <pre>
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
      *
      * Target: teammatesv4.appspot.com
      * Origin: teammatesv4.appspot.com
-     *
-     * Origin matches target. This request is valid.
+     * </pre>
+     * Origin matches target. This request is valid.</p>
      */
     private boolean isHttpReferrerValid(String referrer) {
         String origin;
