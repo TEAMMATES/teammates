@@ -476,6 +476,69 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         assertEquals(responses.size(), 1);
 
+        ______TS("success: GetViewableResponsesForQuestion - Custom student giver");
+
+        student = dataBundle.students.get("student5InCourse1");
+        fq = getQuestionFromDatastore("custom.feedback.paths.student5tostudent1.question");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - Custom student recipient");
+
+        student = dataBundle.students.get("student1InCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - Student is not custom giver or recipient");
+
+        student = dataBundle.students.get("student6InCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+
+        assertEquals(responses.size(), 0);
+
+        ______TS("success: GetViewableResponsesForQuestion - Custom team giver");
+        student = dataBundle.students.get("student1InCourse1");
+        fq = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - Custom team recipient");
+        student = dataBundle.students.get("student5InCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - Team is not custom giver or recipient");
+        student = dataBundle.students.get("student6InCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
+
+        assertEquals(responses.size(), 0);
+
+        ______TS("success: GetViewableResponsesForQuestion - Custom instructor giver");
+        instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        fq = getQuestionFromDatastore("custom.feedback.paths.instructor2toinstructor3.question");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserRole.INSTRUCTOR, null);
+
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - Custom instructor recipient");
+        instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserRole.INSTRUCTOR, null);
+
+        assertEquals(responses.size(), 1);
+
+        ______TS("success: GetViewableResponsesForQuestion - Instructor is not custom giver or recipient");
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                fq, instructor.email, UserRole.INSTRUCTOR, null);
+
+        assertEquals(responses.size(), 0);
+
         ______TS("success: Null student in response, should skip over null student");
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);

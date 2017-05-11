@@ -1088,6 +1088,31 @@
             {"courseId":"idOfTypicalCourse1","giver":"instructor2@course1.tmt (Instructor)","recipient":"instructor2@course1.tmt (Instructor)"}
         ]
     },
+    "custom.feedback.paths.instructor2toinstructor3.question":{
+        "feedbackSessionName":"First feedback session",
+        "courseId":"idOfTypicalCourse1",
+        "creatorEmail":"instructor1@course1.tmt",
+        "questionMetaData":{
+            "value":"A particular instructor's feedback about another instructor"
+        },
+        "questionNumber": 10,
+        "questionType":"TEXT",
+        "giverType":"CUSTOM",
+        "recipientType":"CUSTOM",
+        "numberOfEntitiesToGiveFeedbackTo":-100,
+        "showResponsesTo":[
+            "RECEIVER"
+        ],
+        "showGiverNameTo":[
+            "RECEIVER"
+        ],
+        "showRecipientNameTo":[
+            "RECEIVER"
+        ],
+        "feedbackPaths":[
+            {"courseId":"idOfTypicalCourse1","giver":"instructor2@course1.tmt (Instructor)","recipient":"instructor3@course1.tmt (Instructor)"}
+        ]
+    },
     "custom.feedback.paths.team.question":{
         "feedbackSessionName":"First feedback session",
         "courseId":"idOfTypicalCourse1",
@@ -1095,7 +1120,7 @@
         "questionMetaData":{
             "value":"A particular team's feedback about their own progress"
         },
-        "questionNumber": 10,
+        "questionNumber": 11,
         "questionType":"TEXT",
         "giverType":"CUSTOM",
         "recipientType":"CUSTOM",
@@ -1129,7 +1154,7 @@
         "questionMetaData":{
             "value":"A particular team's feedback about another team's progress"
         },
-        "questionNumber": 11,
+        "questionNumber": 12,
         "questionType":"TEXT",
         "giverType":"CUSTOM",
         "recipientType":"CUSTOM",
@@ -1144,7 +1169,7 @@
             "RECEIVER"
         ],
         "feedbackPaths":[
-            {"courseId":"idOfTypicalCourse1","giver":"Team 1.1 (Team)","recipient":"Team 1.2 (Team)"}
+            {"courseId":"idOfTypicalCourse1","giver":"Team 1.1</td></div>'\" (Team)","recipient":"Team 1.2 (Team)"}
         ]
     },
     "team.feedback": {
@@ -1492,6 +1517,19 @@
         "recipientSection":"Section 2" 
         
     },
+    "response1ForQ8S1C1":{
+        "feedbackSessionName":"First feedback session",
+        "courseId":"idOfTypicalCourse1",
+        "feedbackQuestionId":"8",
+        "feedbackQuestionType":"TEXT",
+        "giver":"student5InCourse1@gmail.tmt",
+        "recipient":"student1InCourse1@gmail.tmt",
+        "responseMetaData":{
+            "value":"Student response to another student."
+        },
+        "giverSection":"Section 2",
+        "recipientSection":"Section 1" 
+    },
     "response1ForQ9S1C1":{
         "feedbackSessionName":"First feedback session",
         "courseId":"idOfTypicalCourse1",
@@ -1504,21 +1542,45 @@
         },
         "giverSection":"None",
         "recipientSection":"None" 
-        
     },
     "response1ForQ10S1C1":{
         "feedbackSessionName":"First feedback session",
         "courseId":"idOfTypicalCourse1",
         "feedbackQuestionId":"10",
         "feedbackQuestionType":"TEXT",
-        "giver":"student5InCourse1@gmail.tmt",
+        "giver":"instructor2@course1.tmt",
+        "recipient":"instructor3@course1.tmt",
+        "responseMetaData":{
+            "value":"Instructor response to another instructor."
+        },
+        "giverSection":"None",
+        "recipientSection":"None" 
+    },
+    "response1ForQ11S1C1":{
+        "feedbackSessionName":"First feedback session",
+        "courseId":"idOfTypicalCourse1",
+        "feedbackQuestionId":"11",
+        "feedbackQuestionType":"TEXT",
+        "giver":"Team 1.2",
         "recipient":"Team 1.2",
         "responseMetaData":{
             "value":"Team response to self."
         },
         "giverSection":"Section 2",
-        "recipientSection":"Section 2" 
-        
+        "recipientSection":"Section 2"
+    },
+    "response1ForQ12S1C1":{
+        "feedbackSessionName":"First feedback session",
+        "courseId":"idOfTypicalCourse1",
+        "feedbackQuestionId":"12",
+        "feedbackQuestionType":"TEXT",
+        "giver":"Team 1.1</td></div>'\"",
+        "recipient":"Team 1.2",
+        "responseMetaData":{
+            "value":"Team response to another team."
+        },
+        "giverSection":"Section 1",
+        "recipientSection":"Section 2"
     },
     "response1ForQ1S2C1": {
       "feedbackSessionName": "Second feedback session",
