@@ -78,8 +78,9 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
             errorMessage = e.getMessage();
         }
 
-        assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                Const.ParamsNames.COURSE_ID), errorMessage);
+        assertEquals(
+                String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
+                errorMessage);
 
         ______TS("Unsuccessful case 2: params with null feedback session name");
 
@@ -93,8 +94,9 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
             errorMessage = e.getMessage();
         }
 
-        assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME), errorMessage);
+        assertEquals(
+                String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                errorMessage);
 
         ______TS("Unsuccessful case 3: trying to publish a session not currently unpublished");
 
