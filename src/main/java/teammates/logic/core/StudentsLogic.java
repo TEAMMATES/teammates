@@ -806,15 +806,16 @@ public final class StudentsLogic {
         for (StudentAttributes studentInCourse : studentsInCourse) {
             for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
                 String studentEmail = studentInCourse.getEmail();
+                String studentTeam = studentInCourse.getTeam();
                 boolean isQuestionForStudentToAnswer =
                         feedbackQuestion.giverType == FeedbackParticipantType.STUDENTS
                         || feedbackQuestion.giverType == FeedbackParticipantType.TEAMS
                         || feedbackQuestion.giverType == FeedbackParticipantType.CUSTOM
                         && (feedbackQuestion.hasStudentAsGiverInFeedbackPaths(studentEmail)
-                                || feedbackQuestion.hasTeamAsGiverInFeedbackPaths(studentInCourse.getTeam()));
-
+                                || feedbackQuestion.hasTeamAsGiverInFeedbackPaths(studentTeam));
+                String giver = feedbackQuestion.isGiverATeam() ? studentTeam : studentEmail;
                 if (isQuestionForStudentToAnswer
-                        && !fqLogic.isQuestionFullyAnsweredByUser(feedbackQuestion, studentEmail)) {
+                        && !fqLogic.isQuestionFullyAnsweredByUser(feedbackQuestion, giver)) {
                     studentsWithUnansweredQuestions.add(studentInCourse);
                     break;
                 }
