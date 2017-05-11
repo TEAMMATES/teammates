@@ -874,7 +874,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode");
 
-        gaeSimulation.loginAsAdmin("admin.user");
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.getFeedbackSessionName());
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
@@ -897,7 +898,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Essay question:</span> "
                              + "question|||/page/instructorFeedbackQuestionAdd";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, action.getLogMessage(), adminUserId);
     }
 
     @Override

@@ -166,7 +166,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode");
 
-        gaeSimulation.loginAsAdmin("admin.user");
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, "masquerade session", 3);
@@ -194,7 +195,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: >|||/page/instructorFeedbackAdd";
-        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
         ______TS("Unsuccessful case: test null course ID parameter");
