@@ -731,8 +731,19 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String userId) {
-        return viewUri + "?error=" + error + "&user=" + userId;
+    protected String getPageResultDestination(String parentUri, boolean error, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
+    }
+
+    protected static String addParamToUrl(String url, String key, String value) {
+        if (key == null || key.isEmpty() || value == null || value.isEmpty()
+                || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
+            return url;
+        }
+        return url + (url.contains("?") ? "&" : "?") + key + "=" + value;
     }
 
 }

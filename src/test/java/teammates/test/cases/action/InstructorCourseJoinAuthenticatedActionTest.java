@@ -174,13 +174,21 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         return (InstructorCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String userId, String key) {
-        return viewUri + "?error=" + error + "&user=" + userId + "&key=" + key;
+    protected String getPageResultDestination(String parentUri, boolean error, String userId, String key) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
     }
 
-    protected String getPageResultDestination(String viewUri, String persistenceCourse, boolean error,
+    protected String getPageResultDestination(String parentUri, String persistenceCourse, boolean error,
             String userId, String key) {
-        return viewUri + "?persistencecourse=" + persistenceCourse + "&error=" + error + "&user="
-            + userId + "&key=" + key;
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, persistenceCourse);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
     }
 }

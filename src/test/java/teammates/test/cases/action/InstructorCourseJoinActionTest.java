@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
@@ -113,7 +114,11 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String userId, String key) {
-        return viewUri + "?error=" + error + "&user=" + userId + "&key=" + key;
+    protected String getPageResultDestination(String parentUri, boolean error, String userId, String key) {
+        String pageDestination = parentUri;
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
     }
 }

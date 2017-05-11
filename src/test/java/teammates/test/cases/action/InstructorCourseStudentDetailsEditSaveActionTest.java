@@ -10,6 +10,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
@@ -159,8 +160,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         ShowPageResult result = getShowPageResult(a);
 
         assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
-                     true,
-                     "idOfInstructor1OfCourse1"),
+                                              true,
+                                              "idOfInstructor1OfCourse1"),
                      result.getDestinationWithParams());
 
         assertTrue(result.isError);
@@ -290,8 +291,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         return (InstructorCourseStudentDetailsEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String userId, String courseId) {
-        return viewUri + "?error=" + error + "&user=" + userId + "&courseid=" + courseId;
+    protected String getPageResultDestination(String parentUri, boolean error, String userId, String courseId) {
+        String pageDestination = parentUri;
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        return pageDestination;
     }
 
 }

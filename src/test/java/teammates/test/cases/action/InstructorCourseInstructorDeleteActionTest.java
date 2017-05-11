@@ -67,9 +67,9 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(submissionParams);
         redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false,
-                "idOfInstructor1OfCourse1"),
-                        redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
@@ -113,7 +113,11 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         return (InstructorCourseInstructorDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String userId, String courseId) {
-        return viewUri + "?error=" + error + "&user=" + userId + "&courseid=" + courseId;
+    protected String getPageResultDestination(String parentUri, boolean error, String userId, String courseId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        return pageDestination;
     }
 }

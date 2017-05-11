@@ -42,7 +42,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(unregUserId);
         StudentHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex(getPageResultDestination("/jsp/studentHome.jsp", false, "unreg.user"),
+        AssertHelper.assertContainsRegex(getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, "unreg.user"),
                                         r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(

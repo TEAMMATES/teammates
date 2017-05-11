@@ -163,7 +163,11 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         return (InstructorCourseEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String userId, String courseId) {
-        return viewUri + "?error=" + error + "&user=" + userId + "&courseid=" + courseId;
+    protected String getPageResultDestination(String parentUri, boolean error, String userId, String courseId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        return pageDestination;
     }
 }

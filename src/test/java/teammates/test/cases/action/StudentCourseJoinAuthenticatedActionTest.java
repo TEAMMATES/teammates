@@ -276,7 +276,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, String persistenceCourse, boolean error, String userId) {
-        return viewUri + "?persistencecourse=" + persistenceCourse + "&error=" + error + "&user=" + userId;
+    protected String getPageResultDestination(String parentUri, String persistenceCourse, boolean error, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, persistenceCourse);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
     }
 }

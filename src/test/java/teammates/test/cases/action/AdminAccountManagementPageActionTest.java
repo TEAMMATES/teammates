@@ -37,7 +37,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         ShowPageResult result = getShowPageResult(action);
 
         assertEquals("", result.getStatusMessage());
-        assertEquals(getPageResultDestination("/jsp/adminAccountManagement.jsp", false, "admin.user"),
+        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, false, adminUserId),
                      result.getDestinationWithParams());
         assertFalse(result.isError);
 

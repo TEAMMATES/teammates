@@ -109,8 +109,9 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(submissionParams);
         RedirectResult rr = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false,
-                     instructor.googleId), rr.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, instructor.googleId),
+                rr.getDestinationWithParams());
         assertFalse(rr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
                      rr.getStatusMessage());

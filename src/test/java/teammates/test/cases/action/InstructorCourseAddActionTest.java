@@ -120,8 +120,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         pageResult = getShowPageResult(addAction);
 
-        String expectedDestination = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false,
-                "idOfInstructor1OfCourse1");
+        String expectedDestination = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES,
+                                                              false,
+                                                              "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         String expectedStatus = "The course has been added. Click <a href=\"/page/instructorCourseEnrollPage?"

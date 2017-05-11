@@ -525,13 +525,22 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         return (InstructorStudentCommentEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, String courseId, String studentEmail,
+    protected String getPageResultDestination(String parentUri, String courseId, String studentEmail,
             String userId, boolean error) {
-        return viewUri + "?courseid=" + courseId + "&studentemail=" + studentEmail + "&user=" + userId + "&error=" + error;
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        return pageDestination;
     }
 
-    protected String getPageResultDestination(String viewUri, String courseId,
+    protected String getPageResultDestination(String parentUri, String courseId,
             String userId, boolean error) {
-        return viewUri + "?courseid=" + courseId + "&user=" + userId + "&error=" + error;
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        return pageDestination;
     }
 }

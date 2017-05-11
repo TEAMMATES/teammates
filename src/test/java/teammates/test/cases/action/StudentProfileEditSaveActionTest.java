@@ -46,8 +46,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         RedirectResult result = getRedirectResult(action);
 
         assertTrue(result.isError);
-        AssertHelper.assertContains(getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, true,
-                student.googleId), result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, true, student.googleId),
+                result.getDestinationWithParams());
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         expectedErrorMessages.add(
@@ -82,8 +83,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedProfile.googleId = student.googleId;
 
         assertFalse(result.isError);
-        AssertHelper.assertContains(getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, false,
-                student.googleId), result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, false, student.googleId),
+                result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
 
         verifyLogMessage(student, action, expectedProfile, false);
@@ -103,8 +105,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         assertFalse(result.isError);
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
-        AssertHelper.assertContains(getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, false,
-                student.googleId), result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, false, student.googleId),
+                result.getDestinationWithParams());
         verifyLogMessage(student, action, expectedProfile, true);
     }
 

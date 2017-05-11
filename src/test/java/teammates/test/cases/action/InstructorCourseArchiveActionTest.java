@@ -45,8 +45,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false,
-                "idOfInstructor1OfCourse1"), redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId),
                      redirectResult.getStatusMessage());

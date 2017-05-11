@@ -40,8 +40,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex(getPageResultDestination("/jsp/instructorHome.jsp", false,
-                "instructorWithoutCourses"), r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, "instructorWithoutCourses"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
 

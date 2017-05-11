@@ -52,8 +52,11 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         editInstructorFpAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editInstructorFpAction);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false,
-                instructor.googleId), showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT,
+                                         false,
+                                         instructor.googleId),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"

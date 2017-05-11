@@ -47,8 +47,9 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         InstructorFeedbackPreviewAsStudentAction paia = getAction(submissionParams);
         ShowPageResult showPageResult = getShowPageResult(paia);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
-                idOfInstructor), showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
         AssertHelper.assertLogMessageEquals(

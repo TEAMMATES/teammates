@@ -44,8 +44,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         InstructorCourseEditPageAction editAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(editAction);
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false,
-                "idOfInstructor1OfCourse1"), pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false, "idOfInstructor1OfCourse1"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 

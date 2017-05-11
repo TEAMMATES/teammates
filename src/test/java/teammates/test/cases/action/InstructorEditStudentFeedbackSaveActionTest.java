@@ -612,9 +612,16 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         return (InstructorEditStudentFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String viewUri, boolean error, String moderaredPerson, String userId,
-            String courseId, String fsName) {
-        return viewUri + "?error=" + error + "&moderatedperson=" + moderaredPerson + "&user=" + userId
-                + "&courseid=" + courseId + "&fsname=" + fsName;
+    protected String getPageResultDestination(String parentUri, boolean error, String moderatedPerson, String userId,
+            String courseId, String fsname) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination,
+                                        Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON,
+                                        moderatedPerson);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
+        return pageDestination;
     }
 }

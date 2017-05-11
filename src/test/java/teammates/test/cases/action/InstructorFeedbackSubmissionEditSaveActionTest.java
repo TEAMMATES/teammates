@@ -109,7 +109,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 

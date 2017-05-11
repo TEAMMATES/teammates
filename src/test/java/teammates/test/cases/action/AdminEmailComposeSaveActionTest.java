@@ -183,8 +183,8 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
                 Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
-        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, "admin.user"),
-                pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, adminUserId),
+                     pageResult.getDestinationWithParams());
 
         expectedLogSegment = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
                 + "Subject: valid subject &lt;b&gt;To check sanitization&lt;&#x2f;b&gt;";

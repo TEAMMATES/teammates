@@ -120,8 +120,11 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         InstructorFeedbackResultsPageAction action = getAction(paramsWithoutSortType);
         ShowPageResult result = getShowPageResult(action);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
-                     false, "idOfInstructor1OfCourse1"), result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                                         false,
+                                         "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
