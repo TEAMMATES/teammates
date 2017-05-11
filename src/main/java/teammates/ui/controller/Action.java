@@ -86,7 +86,7 @@ public abstract class Action {
      */
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
-        performCsrfValidationIfRequired();
+        performOriginValidationIfRequired();
         authenticateUser();
     }
 
@@ -325,7 +325,7 @@ public abstract class Action {
         return userNeedsRegistrationForPage && userIsNotRegistered;
     }
 
-    private void performCsrfValidationIfRequired() {
+    private void performOriginValidationIfRequired() {
         if (!Const.SystemParams.PAGES_REQUIRING_CSRF_VALIDATION.contains(request.getRequestURI())) {
             return;
         }
