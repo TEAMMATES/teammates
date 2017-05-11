@@ -34,7 +34,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+        return fq.getId() == null ? BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber)
+                                  : BackDoor.getFeedbackQuestion(fq.getId());
     }
 
     @Override
