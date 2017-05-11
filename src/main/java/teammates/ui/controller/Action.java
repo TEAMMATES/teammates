@@ -86,8 +86,8 @@ public abstract class Action {
      */
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
-        authenticateUser();
         performCsrfValidationIfRequired();
+        authenticateUser();
     }
 
     @SuppressWarnings("unchecked")
