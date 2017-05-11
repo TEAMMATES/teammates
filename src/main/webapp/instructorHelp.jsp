@@ -164,10 +164,10 @@
     <div class="separate-content-holder">
         <hr>
     </div>
-    <jsp:include page="help/instructorHelpGettingStarted.jsp"/>
-    <jsp:include page="help/instructorHelpFAQ.jsp"/>
-    <jsp:include page="help/instructorHelpTips.jsp"/>
-    <jsp:include page="help/instructorHelpAddEditInstructors.jsp"/>
-    <jsp:include page="help/instructorHelpSessions.jsp"/>
-    <jsp:include page="help/instructorHelpComments.jsp"/>
+    <jsp:include page="partials/instructorHelpGettingStarted.jsp"/>
+    <jsp:include page="partials/instructorHelpFAQ.jsp"/>
+    <jsp:include page="partials/instructorHelpTips.jsp"/>
+    <jsp:include page="partials/instructorHelpAddEditInstructors.jsp"/>
+    <jsp:include page="partials/instructorHelpSessions.jsp"/>
+    <jsp:include page="partials/instructorHelpComments.jsp"/>
 </t:helpPage>
