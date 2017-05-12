@@ -6,6 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.TaskWrapper;
@@ -72,12 +73,14 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
         try {
             publishAction.executeAndPostProcess();
-            signalFailureToDetectException("AssertionError expected");
-        } catch (AssertionError e) {
+            signalFailureToDetectException("NullPostParameterException expected");
+        } catch (NullPostParameterException e) {
             errorMessage = e.getMessage();
         }
 
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, errorMessage);
+        assertEquals(
+                String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
+                errorMessage);
 
         ______TS("Unsuccessful case 2: params with null feedback session name");
 
@@ -86,12 +89,14 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
         try {
             publishAction.executeAndPostProcess();
-            signalFailureToDetectException("AssertionError expected");
-        } catch (AssertionError e) {
+            signalFailureToDetectException("NullPostParameterException expected");
+        } catch (NullPostParameterException e) {
             errorMessage = e.getMessage();
         }
 
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, errorMessage);
+        assertEquals(
+                String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                errorMessage);
 
         ______TS("Unsuccessful case 3: trying to publish a session not currently unpublished");
 

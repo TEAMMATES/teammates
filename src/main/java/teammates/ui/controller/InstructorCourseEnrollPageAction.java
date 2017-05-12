@@ -17,7 +17,7 @@ public class InstructorCourseEnrollPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
 
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(

@@ -16,10 +16,10 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
