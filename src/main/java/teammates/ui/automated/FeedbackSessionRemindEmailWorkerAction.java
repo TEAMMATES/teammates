@@ -33,10 +33,10 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String feedbackSessionName = getRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
 
         String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_COURSE, courseId);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
