@@ -1,7 +1,6 @@
 package teammates.client.scripts.scalabilitytests;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Set;
 
 import org.testng.annotations.Test;
@@ -9,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.client.scripts.util.Stopwatch;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
