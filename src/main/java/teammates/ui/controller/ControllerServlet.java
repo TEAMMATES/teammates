@@ -95,7 +95,8 @@ public class ControllerServlet extends HttpServlet {
             resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
 
         } catch (InvalidOriginException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.INVALID_ORIGIN);
 
