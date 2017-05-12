@@ -16,8 +16,8 @@ public class InstructorFeedbackUnpublishAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

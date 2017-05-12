@@ -59,10 +59,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
         ______TS("Masquerade mode, Course with no student");
-
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
-
+        gaeSimulation.loginAsAdmin("admin.user");
         InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor4.courseId
@@ -92,7 +89,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                              + "instr4@coursenoevals.tmt|||instructorCourseDetails Page Load<br>Viewing Course "
                              + "Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
                              + "/page/instructorCourseDetailsPage";
-        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, pageAction.getLogMessage(), adminUserId);
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
         ______TS("HTML Table needed");
         instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");

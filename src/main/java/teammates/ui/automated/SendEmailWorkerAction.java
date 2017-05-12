@@ -26,21 +26,21 @@ public class SendEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String emailSubject = getRequestParamValue(ParamsNames.EMAIL_SUBJECT);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_SUBJECT, emailSubject);
+        Assumption.assertNotNull(emailSubject);
 
         String emailContent = getRequestParamValue(ParamsNames.EMAIL_CONTENT);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_CONTENT, emailContent);
+        Assumption.assertNotNull(emailContent);
 
         String emailSenderEmail = getRequestParamValue(ParamsNames.EMAIL_SENDER);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_SENDER, emailSenderEmail);
+        Assumption.assertNotNull(emailSenderEmail);
 
         String emailSenderName = getRequestParamValue(ParamsNames.EMAIL_SENDERNAME);
 
         String emailReceiver = getRequestParamValue(ParamsNames.EMAIL_RECEIVER);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_RECEIVER, emailReceiver);
+        Assumption.assertNotNull(emailReceiver);
 
         String emailReply = getRequestParamValue(ParamsNames.EMAIL_REPLY_TO_ADDRESS);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReply);
+        Assumption.assertNotNull(emailReply);
 
         EmailWrapper message = new EmailWrapper();
         message.setRecipient(emailReceiver);

@@ -53,7 +53,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals(0, data.getCourseTables().size());
 
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage"
-                                    + "|||true|||Unregistered|||Unknown|||unreg.user|||Unknown"
+                                    + "|||true|||Unregistered|||null|||unreg.user|||null"
                                     + "|||Servlet Action Failure :Student with Google ID "
                                     + "unreg.user does not exist|||/page/studentHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -120,7 +120,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||student2InCourse1@gmail.tmt"
                              + "|||studentHome Page Load<br>Total courses: 2"
                              + "|||/page/studentHomePage";
-        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("New student with no existing course, course join affected by eventual consistency");
         submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,

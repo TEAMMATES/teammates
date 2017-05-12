@@ -141,8 +141,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
 
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
+        gaeSimulation.loginAsAdmin("admin.user");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
@@ -171,7 +170,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
 
     @Override

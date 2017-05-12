@@ -13,11 +13,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -139,7 +139,7 @@ public abstract class Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         if (currentUser == null) {
-            Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
+            Assumption.assertNotNull(regkey);
             loggedInUser = authenticateNotLoggedInUser(email, courseId);
         } else {
             loggedInUser = logic.getAccount(currentUser.id);
@@ -427,9 +427,16 @@ public abstract class Action {
      * Returns The log message in the special format used for generating the 'activity log' for the Admin.
      */
     public String getLogMessage() {
-        UserType currUser = gateKeeper.getCurrentUser();
-        return new LogMessageGenerator().generatePageActionLogMessage(requestUrl, requestParameters, currUser,
-                                                                      account, student, statusToAdmin);
+        UserType currentUser = gateKeeper.getCurrentUser();
+
+        ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
+                                                                 isInMasqueradeMode(),
+                                                                 statusToAdmin,
+                                                                 requestUrl,
+                                                                 student,
+                                                                 currentUser);
+
+        return activityLogEntry.generateLogMessage();
     }
 
     /**
@@ -574,6 +581,13 @@ public abstract class Action {
 
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
+    }
+
+    protected boolean isInMasqueradeMode() {
+        if (loggedInUser != null && loggedInUser.googleId != null && account != null) {
+            return !loggedInUser.googleId.equals(account.googleId);
+        }
+        return false;
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {

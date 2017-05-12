@@ -26,13 +26,13 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull(courseId);
 
         String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
+        Assumption.assertNotNull(fsName);
 
         String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_INDEX, fsIndexString);
+        Assumption.assertNotNull(fsIndexString);
         int fsIndex = 0;
         try {
             fsIndex = Integer.parseInt(fsIndexString);

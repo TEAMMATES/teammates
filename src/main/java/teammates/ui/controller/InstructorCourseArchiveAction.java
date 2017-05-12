@@ -11,9 +11,9 @@ public class InstructorCourseArchiveAction extends Action {
     protected ActionResult execute() {
 
         String idOfCourseToArchive = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, idOfCourseToArchive);
+        Assumption.assertNotNull(idOfCourseToArchive);
         String archiveStatus = getRequestParamValue(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ARCHIVE_STATUS, archiveStatus);
+        Assumption.assertNotNull(archiveStatus);
         boolean isArchive = Boolean.parseBoolean(archiveStatus);
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),

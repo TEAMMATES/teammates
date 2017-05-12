@@ -30,10 +30,10 @@ public class FeedbackSessionUnpublishedEmailWorkerAction extends AutomatedAction
     @Override
     public void execute() {
         String feedbackSessionName = getRequestParamValue(ParamsNames.EMAIL_FEEDBACK);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
+        Assumption.assertNotNull(feedbackSessionName);
 
         String courseId = getRequestParamValue(ParamsNames.EMAIL_COURSE);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_COURSE, courseId);
+        Assumption.assertNotNull(courseId);
 
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {

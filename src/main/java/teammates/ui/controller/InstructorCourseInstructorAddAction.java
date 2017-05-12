@@ -19,11 +19,11 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
     protected ActionResult execute() {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull(courseId);
         String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
+        Assumption.assertNotNull(instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
+        Assumption.assertNotNull(instructorEmail);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
@@ -65,7 +65,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
      */
     private InstructorAttributes extractCompleteInstructor(String courseId, String instructorName, String instructorEmail) {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_ROLE_NAME, instructorRole);
+        Assumption.assertNotNull(instructorRole);
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
         if (displayedName == null || displayedName.isEmpty()) {

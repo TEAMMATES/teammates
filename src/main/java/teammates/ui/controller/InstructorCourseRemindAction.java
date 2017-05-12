@@ -26,7 +26,7 @@ public class InstructorCourseRemindAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull(courseId);
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {

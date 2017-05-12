@@ -26,11 +26,11 @@ public class InstructorCourseAddAction extends Action {
     @Override
     public ActionResult execute() {
         String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, newCourseId);
+        Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_NAME, newCourseName);
+        Assumption.assertNotNull(newCourseName);
         String newCourseTimeZone = getRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_TIME_ZONE, newCourseTimeZone);
+        Assumption.assertNotNull(newCourseTimeZone);
 
         /* Check if user has the right to execute the action */
         gateKeeper.verifyInstructorPrivileges(account);

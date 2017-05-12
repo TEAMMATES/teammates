@@ -21,10 +21,10 @@ public class InstructorStudentListAjaxPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull("null course id", courseId);
 
         String courseIndexString = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_INDEX, courseIndexString);
+        Assumption.assertNotNull("null course index", courseIndexString);
 
         gateKeeper.verifyInstructorPrivileges(account);
 

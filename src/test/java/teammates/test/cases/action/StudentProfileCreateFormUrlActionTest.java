@@ -66,7 +66,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||" + student.name
                                   + "|||" + student.googleId + "|||" + student.email + "|||Created Url successfully: "
                                   + data.formUrl + "|||/page/studentProfileCreateFormUrl";
-        AssertHelper.assertLogMessageEqualsIgnoreLogId(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Override

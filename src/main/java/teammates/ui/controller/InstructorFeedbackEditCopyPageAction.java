@@ -14,10 +14,10 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
     @Override
     protected ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull(courseId);
 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertNotNull(feedbackSessionName);
 
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
         Assumption.assertNotNull(instructors);
