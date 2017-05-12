@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - release
+    - csrf-protection
 
 notifications:
   email: false
