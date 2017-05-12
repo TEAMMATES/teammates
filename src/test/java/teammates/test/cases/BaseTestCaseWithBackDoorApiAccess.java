@@ -45,12 +45,11 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected CourseAttributes getCourseWithRetry(String courseId) {
         CourseAttributes course = getCourse(courseId);
-        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
-        while (course == null && retriesRemaining > 0) {
-            print("Re-trying getCourse...");
-            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
+        for (int delay = 1; course == null
+                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
+            print("Backdoor getCourse failed; waiting " + delay + "s before retry");
+            ThreadHelper.waitFor(delay * 1000);
             course = getCourse(courseId);
-            retriesRemaining--;
         }
         return course;
     }
@@ -90,12 +89,11 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
         InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
-        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
-        while (instructor == null && retriesRemaining > 0) {
-            print("Re-trying getInstructorByEmail...");
-            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
+        for (int delay = 1; instructor == null
+                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
+            print("Backdoor getInstructorByEmail failed; waiting " + delay + "s before retry");
+            ThreadHelper.waitFor(delay * 1000);
             instructor = getInstructor(courseId, instructorEmail);
-            retriesRemaining--;
         }
         return instructor;
     }
@@ -106,12 +104,11 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
         String key = getKeyForInstructor(courseId, instructorEmail);
-        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
-        while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retriesRemaining > 0) {
-            print("Re-trying getEncryptedKeyForInstructor...");
-            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
+        for (int delay = 1; key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE)
+                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
+            print("Backdoor getEncryptedKeyForInstructor failed; waiting " + delay + "s before retry");
+            ThreadHelper.waitFor(delay * 1000);
             key = getKeyForInstructor(courseId, instructorEmail);
-            retriesRemaining--;
         }
         return key;
     }

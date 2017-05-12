@@ -917,13 +917,14 @@ public abstract class AppPage {
     }
 
     public AppPage verifyHtmlMainContentWithReloadRetry(String filePath) throws IOException {
-        for (int i = 0; i < TestProperties.PERSISTENCE_RETRY_COUNT; i++) {
+        for (int delay = 1; delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
             try {
                 return verifyHtmlPart(MAIN_CONTENT, filePath);
             } catch (AssertionError e) {
                 // continue the retry process
             }
-            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
+            System.out.println("Wrong HTML content; waiting " + delay + "s before retry");
+            ThreadHelper.waitFor(delay * 1000);
             reloadPage();
         }
         return verifyHtmlPart(MAIN_CONTENT, filePath);

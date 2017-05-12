@@ -30,12 +30,12 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
 
     public InstructorHomePage clickConfirmButtonWithRetry() {
         clickConfirmButtonAndWaitForPageToLoad();
-        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
-        while (!isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) && retriesRemaining > 0) {
-            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
+        for (int delay = 1; !isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
+            System.out.println("Course join failed; waiting " + delay + "s before retry");
+            ThreadHelper.waitFor(delay * 1000);
             browser.driver.navigate().back();
             clickConfirmButtonAndWaitForPageToLoad();
-            retriesRemaining--;
         }
         return changePageType(InstructorHomePage.class);
     }
