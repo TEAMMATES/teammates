@@ -13,14 +13,12 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
  */
 public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWithDatastoreAccess {
-
-    private static final int BACKDOOR_GET_RETRY_COUNT = 100;
-    private static final int BACKDOOR_GET_RETRY_DELAY_IN_MS = 3000;
 
     protected AccountAttributes getAccount(String googleId) {
         return BackDoor.getAccount(googleId);
@@ -47,10 +45,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected CourseAttributes getCourseWithRetry(String courseId) {
         CourseAttributes course = getCourse(courseId);
-        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
+        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
         while (course == null && retriesRemaining > 0) {
             print("Re-trying getCourse...");
-            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
             course = getCourse(courseId);
             retriesRemaining--;
         }
@@ -92,10 +90,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
         InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
-        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
+        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
         while (instructor == null && retriesRemaining > 0) {
             print("Re-trying getInstructorByEmail...");
-            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
             instructor = getInstructor(courseId, instructorEmail);
             retriesRemaining--;
         }
@@ -108,10 +106,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
         String key = getKeyForInstructor(courseId, instructorEmail);
-        int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
+        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
         while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retriesRemaining > 0) {
             print("Re-trying getEncryptedKeyForInstructor...");
-            ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
             key = getKeyForInstructor(courseId, instructorEmail);
             retriesRemaining--;
         }

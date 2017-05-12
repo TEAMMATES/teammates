@@ -3,6 +3,9 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
+
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
     private WebElement confirmButton;
@@ -20,9 +23,23 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButton() {
+        clickConfirmButtonAndWaitForPageToLoad();
+        return changePageType(InstructorHomePage.class);
+    }
+
+    public InstructorHomePage clickConfirmButtonWithRetry() {
+        clickConfirmButtonAndWaitForPageToLoad();
+        for (int i = 0; !isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) && i < 100; i++) {
+            ThreadHelper.waitFor(3000);
+            browser.driver.navigate().back();
+            clickConfirmButtonAndWaitForPageToLoad();
+        }
+        return changePageType(InstructorHomePage.class);
+    }
+
+    private void clickConfirmButtonAndWaitForPageToLoad() {
         click(confirmButton);
         waitForPageToLoad();
-        return changePageType(InstructorHomePage.class);
     }
 
     public HomePage clickCancelButton() {

@@ -917,13 +917,13 @@ public abstract class AppPage {
     }
 
     public AppPage verifyHtmlMainContentWithReloadRetry(String filePath) throws IOException {
-        for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+        for (int i = 0; i < TestProperties.PERSISTENCE_RETRY_COUNT; i++) {
             try {
                 return verifyHtmlPart(MAIN_CONTENT, filePath);
             } catch (AssertionError e) {
                 // continue the retry process
             }
-            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
+            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
             reloadPage();
         }
         return verifyHtmlPart(MAIN_CONTENT, filePath);

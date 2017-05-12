@@ -74,6 +74,12 @@ public final class TestProperties {
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
+    /** Number of times verifications should be retried due to persistence delays. */
+    public static final int PERSISTENCE_RETRY_COUNT = 100;
+
+    /** Time to wait between verification retries due to persistence delays. */
+    public static final int PERSISTENCE_RETRY_DELAY_IN_MS = 3000;
+
     static {
         Properties prop = new Properties();
         try {

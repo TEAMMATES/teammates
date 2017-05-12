@@ -167,14 +167,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
-        try {
-            confirmationPage.clickConfirmButton();
-        } catch (Exception e) {
-            if (!confirmationPage.isPageUri(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE)) {
-                throw e;
-            }
-            // persistence issue can be ignored
-        }
+        confirmationPage.clickConfirmButtonWithRetry();
 
         //check a account has been created for the requester successfully
         assertNotNull(getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
