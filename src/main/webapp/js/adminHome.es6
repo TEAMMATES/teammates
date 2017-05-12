@@ -16,7 +16,15 @@
  * @param {String} status
  * @returns {String} a HTML row of action result table
  */
+ /**
+* Substring used to check if join link was created
+*/
+let successStatus = "successfully created with join link:";
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
+  let linkIndex = status.indexOf(successStatus);
+  if(linkIndex!=-1){
+    let link = status.slice(linkIndex+successStatus.length).replace(/<br>/g, '');
+    status = status.slice(0,linkIndex+successStatus.length)+" ";
     return `
     <tr class="${isSuccess ? 'success' : 'danger'}">
         <td>${encodeHtmlString(shortName)}</td>
@@ -24,9 +32,21 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
         <td>${encodeHtmlString(email)}</td>
         <td>${encodeHtmlString(institution)}</td>
         <td>${isSuccess ? 'Success' : 'Fail'}</td>
-        <td>${status}</td>
+        <td class="td-responsive-wrap">${status}<a href="${link}">link</a></td>
     </tr>
     `;
+  }else{
+    return `
+    <tr class="${isSuccess ? 'success' : 'danger'}">
+        <td>${encodeHtmlString(shortName)}</td>
+        <td>${encodeHtmlString(name)}</td>
+        <td>${encodeHtmlString(email)}</td>
+        <td>${encodeHtmlString(institution)}</td>
+        <td>${isSuccess ? 'Success' : 'Fail'}</td>
+        <td class="td-responsive-wrap">${status}</td>
+    </tr>
+    `;
+  }
 }
 
 let paramsCounter = 0;
