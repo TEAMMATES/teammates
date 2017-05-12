@@ -49,6 +49,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         CourseAttributes course = getCourse(courseId);
         int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
         while (course == null && retriesRemaining > 0) {
+            print("Re-trying getCourse...");
             ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
             course = getCourse(courseId);
             retriesRemaining--;
@@ -93,6 +94,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
         int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
         while (instructor == null && retriesRemaining > 0) {
+            print("Re-trying getInstructorByEmail...");
             ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
             instructor = getInstructor(courseId, instructorEmail);
             retriesRemaining--;
@@ -108,6 +110,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         String key = getKeyForInstructor(courseId, instructorEmail);
         int retriesRemaining = BACKDOOR_GET_RETRY_COUNT;
         while (key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retriesRemaining > 0) {
+            print("Re-trying getEncryptedKeyForInstructor...");
             ThreadHelper.waitFor(BACKDOOR_GET_RETRY_DELAY_IN_MS);
             key = getKeyForInstructor(courseId, instructorEmail);
             retriesRemaining--;
