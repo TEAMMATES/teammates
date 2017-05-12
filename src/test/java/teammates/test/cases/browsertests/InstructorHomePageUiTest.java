@@ -12,6 +12,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.UrlExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -386,7 +387,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         AppUrl urlToArchive;
         try {
             // the link returned here might be absolute; make it relative first
-            urlToArchive = createUrl(AppUrl.getRelativePath(archiveLinkString));
+            urlToArchive = createUrl(UrlExtension.getRelativePath(archiveLinkString));
         } catch (MalformedURLException e) {
             // the link is already relative
             urlToArchive = createUrl(archiveLinkString);

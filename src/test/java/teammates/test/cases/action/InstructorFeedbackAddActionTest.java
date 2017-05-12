@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -84,7 +84,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 
         ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
 
-        String longFsName = StringHelper.generateStringOfLength(39);
+        String longFsName = StringHelperExtension.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, longFsName, 0);
         a = getAction(params);
@@ -166,7 +166,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode");
 
-        gaeSimulation.loginAsAdmin("admin.user");
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, "masquerade session", 3);
@@ -194,7 +195,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: >|||/page/instructorFeedbackAdd";
-        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
         ______TS("Unsuccessful case: test null course ID parameter");

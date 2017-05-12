@@ -1500,17 +1500,26 @@ public final class Const {
         public static final String ROLE_STUDENT = "Student";
         public static final String ROLE_AUTO = "Auto";
         public static final String ROLE_UNREGISTERED = "Unregistered";
-        public static final String ROLE_UNKNOWN = "Unknown";
         public static final String ROLE_MASQUERADE_POSTFIX = "(M)";
 
-        public static final String AUTH_NOT_LOGIN = "Unregistered";
+        public static final String PREFIX_STUDENT_PAGE = "student";
+        public static final String PREFIX_INSTRUCTOR_PAGE = "instructor";
+        public static final String PREFIX_AUTO_PAGE = "/auto";
+
+        public static final String AUTH_NOT_LOGIN = "Unknown";
 
         public static final String FIELD_SEPARATOR = "|||";
+        public static final String FIELD_CONNECTOR = "%";
 
-        public static final String TEST_DATA_POSTFIX = ".tmt";
+        public static final String TIME_FORMAT_LOGID = "yyyyMMddHHmmssSS";
+
+        public static final String TESTING_DATA_EMAIL_POSTFIX = ".tmt";
 
         public static final int TIME_TAKEN_EXPECTED = 10000;
         public static final int TIME_TAKEN_MODERATE = 20000;
+
+        public static final String MESSAGE_ERROR_ACTION_NAME = "Error when getting ActionName for requestUrl : %1$s";
+        public static final String MESSAGE_ERROR_LOG_MESSAGE_FORMAT = "Log message format not as expected: %1$s";
     }
 
     /**
