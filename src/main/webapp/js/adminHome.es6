@@ -19,23 +19,24 @@
  /**
 * Substring used to check if join link was created
 */
-let successStatus = "successfully created with join link:";
+const successStatus = 'successfully created with join link:';
+/* eslint-disable no-param-reassign */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
-  let linkIndex = status.indexOf(successStatus);
-  if(linkIndex!=-1){
-    let link = status.slice(linkIndex+successStatus.length).replace(/<br>/g, '');
-    status = status.slice(0,linkIndex+successStatus.length)+" ";
-    return `
-    <tr class="${isSuccess ? 'success' : 'danger'}">
-        <td>${encodeHtmlString(shortName)}</td>
-        <td>${encodeHtmlString(name)}</td>
-        <td>${encodeHtmlString(email)}</td>
-        <td>${encodeHtmlString(institution)}</td>
-        <td>${isSuccess ? 'Success' : 'Fail'}</td>
-        <td class="td-responsive-wrap">${status}<a href="${link}">link</a></td>
-    </tr>
-    `;
-  }else{
+    const linkIndex = status.indexOf(successStatus);
+    if (linkIndex !== -1) {
+        const link = status.slice(linkIndex + successStatus.length).replace(/<br>/g, '');
+        status = status.slice(0, linkIndex + successStatus.length);
+        return `
+        <tr class="${isSuccess ? 'success' : 'danger'}">
+            <td>${encodeHtmlString(shortName)}</td>
+            <td>${encodeHtmlString(name)}</td>
+            <td>${encodeHtmlString(email)}</td>
+            <td>${encodeHtmlString(institution)}</td>
+            <td>${isSuccess ? 'Success' : 'Fail'}</td>
+            <td class="td-responsive-wrap">${status} <a href="${link}">link</a></td>
+        </tr>
+        `;
+    }
     return `
     <tr class="${isSuccess ? 'success' : 'danger'}">
         <td>${encodeHtmlString(shortName)}</td>
@@ -44,10 +45,10 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
         <td>${encodeHtmlString(institution)}</td>
         <td>${isSuccess ? 'Success' : 'Fail'}</td>
         <td class="td-responsive-wrap">${status}</td>
-    </tr>
-    `;
-  }
+      </tr>
+      `;
 }
+/* eslint-enable no-param-reassign */
 
 let paramsCounter = 0;
 let paramsList = [];    // list of parameter strings that will be sent via ajax
