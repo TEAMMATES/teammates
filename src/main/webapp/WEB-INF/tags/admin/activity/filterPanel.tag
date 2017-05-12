@@ -50,12 +50,10 @@
                             </ul>
                         </div>
                         
-                        <div class="alert alert-success">
-                            <p class="text-center">
-                                <span class="glyphicon glyphicon-filter"></span>
-                                A query is formed by a list of filters. Each filter is in the format
-                                <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
-                            </p>
+                        <div class="alert alert-info text-center">
+                            <span class="glyphicon glyphicon-filter"></span>
+                            A query is formed by a list of filters. Each filter is in the format
+                            <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
                         </div>
 
                         <p class="text-center">

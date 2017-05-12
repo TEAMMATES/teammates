@@ -47,7 +47,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("send email - no recipient");
 
         emailPage.clickSendButton();
-        emailPage.verifyStatus("Error : No reciver address or file given");
+        emailPage.verifyStatus("Error : No receiver address or file given");
 
         ______TS("send email - recipient email format error");
 
@@ -59,6 +59,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         ______TS("send email - no subject");
 
+        emailPage.clearRecipientBox();
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();
@@ -70,6 +71,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clickSendButton();
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
+        emailPage.verifyStatus("Email will be sent within an hour to recipient@email.tmt");
 
         ______TS("save email - success");
 

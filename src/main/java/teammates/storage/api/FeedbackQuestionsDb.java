@@ -1,14 +1,15 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -211,28 +212,20 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     public void deleteFeedbackQuestionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<String> courseIds = new ArrayList<String>();
-        courseIds.add(courseId);
-        deleteFeedbackQuestionsForCourses(courseIds);
+        deleteFeedbackQuestionsForCourses(Arrays.asList(courseId));
     }
 
     public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        List<FeedbackQuestion> feedbackQuestionList = getFeedbackQuestionEntitiesForCourses(courseIds);
-
-        getPm().deletePersistentAll(feedbackQuestionList);
-        getPm().flush();
+        getFeedbackQuestionsForCoursesQuery(courseIds)
+            .deletePersistentAll();
     }
 
-    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourses(List<String> courseIds) {
+    private QueryWithParams getFeedbackQuestionsForCoursesQuery(List<String> courseIds) {
         Query q = getPm().newQuery(FeedbackQuestion.class);
         q.setFilter(":p.contains(courseId)");
-
-        @SuppressWarnings("unchecked")
-        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseIds);
-
-        return feedbackQuestionList;
+        return new QueryWithParams(q, new Object[] {courseIds});
     }
 
     // Gets a question entity if it's Key (feedbackQuestionId) is known.
@@ -329,5 +322,30 @@ public class FeedbackQuestionsDb extends EntitiesDb {
                 feedbackQuestionToGet.feedbackSessionName,
                 feedbackQuestionToGet.courseId,
                 feedbackQuestionToGet.questionNumber);
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = FeedbackQuestion.class;
+        String primaryKeyName = FeedbackQuestion.PRIMARY_KEY_NAME;
+        FeedbackQuestionAttributes fqa = (FeedbackQuestionAttributes) attributes;
+        String id = fqa.getId();
+
+        Query q = getPm().newQuery(entityClass);
+        Object[] params;
+
+        if (id == null) {
+            q.declareParameters("String feedbackSessionNameParam, String courseIdParam, int questionNumberParam");
+            q.setFilter("feedbackSessionName == feedbackSessionNameParam && "
+                        + "courseId == courseIdParam && "
+                        + "questionNumber == questionNumberParam");
+            params = new Object[] {fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber};
+        } else {
+            q.declareParameters("String idParam");
+            q.setFilter(primaryKeyName + " == idParam");
+            params = new Object[] {id};
+        }
+
+        return new QueryWithParams(q, params, primaryKeyName);
     }
 }

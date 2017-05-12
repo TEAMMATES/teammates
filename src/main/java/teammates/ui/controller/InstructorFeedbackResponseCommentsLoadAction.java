@@ -8,10 +8,10 @@ import java.util.Map;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -26,13 +26,13 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(fsName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
 
         String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
-        Assumption.assertNotNull(fsIndexString);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_INDEX, fsIndexString);
         int fsIndex = 0;
         try {
             fsIndex = Integer.parseInt(fsIndexString);

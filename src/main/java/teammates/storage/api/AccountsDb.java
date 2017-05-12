@@ -8,6 +8,10 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -20,10 +24,6 @@ import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 /**
  * Handles CRUD operations for accounts.
@@ -237,5 +237,19 @@ public class AccountsDb extends EntitiesDb {
     @Override
     protected Object getEntity(EntityAttributes entity) {
         return getAccountEntity(((AccountAttributes) entity).googleId);
+    }
+
+    @Override
+    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
+        Class<?> entityClass = Account.class;
+        String primaryKeyName = Account.PRIMARY_KEY_NAME;
+        AccountAttributes aa = (AccountAttributes) attributes;
+        String id = aa.googleId;
+
+        Query q = getPm().newQuery(entityClass);
+        q.declareParameters("String idParam");
+        q.setFilter(primaryKeyName + " == idParam");
+
+        return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
     }
 }

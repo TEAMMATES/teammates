@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -18,8 +20,6 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Version;
 import teammates.ui.pagedata.AdminActivityLogPageData;
-
-import com.google.appengine.api.log.AppLogLine;
 
 public class AdminActivityLogPageAction extends Action {
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
@@ -141,7 +141,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         //  if the search space is limited to a certain log
         if (logs.size() >= RELEVANT_LOGS_PER_PAGE && earliestLogChecked != null) {
-            earliestSearchTime = earliestLogChecked.getTime();
+            earliestSearchTime = earliestLogChecked.getLogTime();
         }
 
         double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
@@ -257,7 +257,7 @@ public class AdminActivityLogPageAction extends Action {
                 continue;
             }
 
-            ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
+            ActivityLogEntry activityLogEntry = ActivityLogEntry.buildFromAppLog(appLog);
             boolean isToShow = data.filterLog(activityLogEntry)
                     && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
 

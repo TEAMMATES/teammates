@@ -8,9 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
@@ -33,10 +33,10 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String feedbackSessionName = getRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
 
         String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_COURSE, courseId);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

@@ -1,8 +1,6 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -14,7 +12,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.ui.pagedata.PageData;
 
 /**
- * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
+ * Action: Clear pending student comments and response comments,
  * and set up notification emails in the EmailsQueue.
  */
 public class InstructorStudentCommentClearPendingAction extends Action {
@@ -24,7 +22,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),

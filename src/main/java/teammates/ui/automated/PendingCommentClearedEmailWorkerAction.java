@@ -6,9 +6,9 @@ import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
@@ -31,7 +31,7 @@ public class PendingCommentClearedEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String courseId = getRequestParamValue(ParamsNames.EMAIL_COURSE);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_COURSE, courseId);
 
         List<EmailWrapper> emailsToBeSent = new EmailGenerator().generatePendingCommentsClearedEmails(courseId);
         try {
