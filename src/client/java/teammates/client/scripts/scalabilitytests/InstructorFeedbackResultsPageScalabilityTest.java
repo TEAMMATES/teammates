@@ -154,10 +154,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         testData.accounts = testDataMax.accounts;
         testData.courses = testDataMax.courses;
         testData.instructors = testDataMax.instructors;
-        testData.students = new LinkedHashMap<String, StudentAttributes>();
         testData.feedbackSessions = testDataMax.feedbackSessions;
-        testData.feedbackQuestions = new LinkedHashMap<String, FeedbackQuestionAttributes>();
-        testData.feedbackResponses = new LinkedHashMap<String, FeedbackResponseAttributes>();
         testData.feedbackResponseComments = testDataMax.feedbackResponseComments;
         testData.comments = testDataMax.comments;
         testData.profiles = testDataMax.profiles;
