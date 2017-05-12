@@ -14,9 +14,9 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String previewStudentEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, courseId);
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, previewStudentEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PREVIEWAS, previewStudentEmail);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
