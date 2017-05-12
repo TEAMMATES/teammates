@@ -12,8 +12,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
-import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -133,42 +132,21 @@ public final class AssertHelper {
      * and that the actual log message's ID contains the expected google ID.
      */
     public static void assertLogMessageEquals(String expected, String actual) {
-        String expectedGoogleId =
-                expected.split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6]; // GoogleId is at position 6
+        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
 
-        assertLogMessageEqualsIgnoreLogId(expected, actual);
-        assertLogIdContainsUserId(actual, expectedGoogleId);
+        assertLogMessageEquals(expected, actual, expectedGoogleId);
     }
 
-    /**
-     * Assert that the actual log message contains userId in its id field.
-     */
-    public static void assertLogIdContainsUserId(String actualMessage, String userIdentifier) {
-        int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
-        String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
-        assertTrue("expected actual message's id to contain " + userIdentifier
-                   + " but was " + actualId,
-                   actualId.contains(userIdentifier));
-    }
-
-    /**
-     * Assert that the actual log message, excluding its ID, is equal to the expected log message.
-     */
-    public static void assertLogMessageEqualsIgnoreLogId(String expected, String actual) {
-        int endIndex = actual.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
+    private static void assertLogMessageEquals(String expected, String actual, String userIdentifier) {
+        int endIndex = actual.lastIndexOf("|||");
         String actualLogWithoutId = actual.substring(0, endIndex);
 
         assertEquals(expected, actualLogWithoutId);
-    }
 
-    /**
-     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
-     * and that the actual log message's ID contains information of the google id of admin.
-     */
-    public static void assertLogMessageEqualsInMasqueradeMode(String expected,
-            String actual, String adminGoogleId) {
-        assertLogMessageEqualsIgnoreLogId(expected, actual);
-        assertLogIdContainsUserId(actual, adminGoogleId);
+        String actualId = actual.substring(endIndex + "|||".length());
+        assertTrue("expected actual message's id to contain " + userIdentifier
+                   + " but was " + actualId,
+                   actualId.contains(userIdentifier));
     }
 
     /**
@@ -177,9 +155,7 @@ public final class AssertHelper {
      */
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
-        assertLogMessageEqualsIgnoreLogId(expected, actual);
-        assertLogIdContainsUserId(actual,
-                StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
+        assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
 
     /**

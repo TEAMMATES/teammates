@@ -62,8 +62,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_ID
         };
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
+        gaeSimulation.loginAsAdmin("admin.user");
 
         //access page in masquerade mode
         String instructorWithMultipleCourses = dataBundle.accounts.get("instructor3").googleId;
@@ -101,7 +100,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                               + "|||idOfInstructor3|||instr3@course1n2.tmt"
                               + "|||instructorHome Page Load<br>Total Courses: 3"
                               + "|||/page/instructorHomePage";
-        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("instructor with multiple courses, sort by course name, masquerade mode");
 

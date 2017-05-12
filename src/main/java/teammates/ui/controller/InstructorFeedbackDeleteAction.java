@@ -14,8 +14,8 @@ public class InstructorFeedbackDeleteAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
 
         if (nextUrl == null) {
             nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;

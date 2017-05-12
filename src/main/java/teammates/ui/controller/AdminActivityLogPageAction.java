@@ -141,7 +141,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         //  if the search space is limited to a certain log
         if (logs.size() >= RELEVANT_LOGS_PER_PAGE && earliestLogChecked != null) {
-            earliestSearchTime = earliestLogChecked.getLogTime();
+            earliestSearchTime = earliestLogChecked.getTime();
         }
 
         double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
@@ -257,7 +257,7 @@ public class AdminActivityLogPageAction extends Action {
                 continue;
             }
 
-            ActivityLogEntry activityLogEntry = ActivityLogEntry.buildFromAppLog(appLog);
+            ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
             boolean isToShow = data.filterLog(activityLogEntry)
                     && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
 

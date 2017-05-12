@@ -131,8 +131,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                                                    .inst()
                                                    .getFeedbackQuestion(session1.getFeedbackSessionName(),
                                                                         session1.getCourseId(), 3);
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
+        gaeSimulation.loginAsAdmin("admin.user");
 
         params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
@@ -160,7 +159,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                              + "created.<br><span class=\"bold\">"
                              + "Essay question:</span> My comments on the class|||"
                              + "/page/instructorFeedbackQuestionCopy";
-        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
     @Override

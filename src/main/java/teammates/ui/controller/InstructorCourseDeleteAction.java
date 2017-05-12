@@ -14,7 +14,7 @@ public class InstructorCourseDeleteAction extends Action {
     public ActionResult execute() {
 
         String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, idOfCourseToDelete);
+        Assumption.assertNotNull(idOfCourseToDelete);
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
                                     logic.getCourse(idOfCourseToDelete),

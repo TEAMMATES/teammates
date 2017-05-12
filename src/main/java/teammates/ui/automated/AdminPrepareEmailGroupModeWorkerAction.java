@@ -36,10 +36,10 @@ public class AdminPrepareEmailGroupModeWorkerAction extends AutomatedAction {
         log.info("Preparing admin email task queue in group mode...");
 
         String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ID, emailId);
+        Assumption.assertNotNull(emailId);
 
         String groupReceiverListFileKey = getRequestParamValue(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
-        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
+        Assumption.assertNotNull(groupReceiverListFileKey);
 
         String indexOfEmailListToResumeAsString =
                 getRequestParamValue(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX);

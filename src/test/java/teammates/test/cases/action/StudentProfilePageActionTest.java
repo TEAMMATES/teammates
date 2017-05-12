@@ -85,7 +85,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
                                   + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||studentProfile Page Load <br> Profile: "
                                   + student.studentProfile.toString() + "|||/page/studentProfilePage";
-        AssertHelper.assertLogMessageEqualsIgnoreLogId(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Override

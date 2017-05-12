@@ -32,14 +32,14 @@ public class InstructorStudentCommentEditAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull(courseId);
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         Boolean isFromCommentPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
 
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
+        Assumption.assertNotNull(commentId);
 
         verifyAccessibleByInstructor(courseId, commentId);
 
@@ -139,7 +139,7 @@ public class InstructorStudentCommentEditAction extends Action {
 
         String commentTextString = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT);
         if (!"delete".equals(editType)) {
-            Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_TEXT, commentTextString);
+            Assumption.assertNotNull(commentTextString);
             Assumption.assertNotEmpty(commentTextString);
         }
 

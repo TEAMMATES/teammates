@@ -27,15 +27,15 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotNull("null course id", courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertNotNull("null feedback session name", feedbackSessionName);
         String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
+        Assumption.assertNotNull("null feedback question id", feedbackQuestionId);
         String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
+        Assumption.assertNotNull("null feedback response id", feedbackResponseId);
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
+        Assumption.assertNotNull("null comment id", commentId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -66,7 +66,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
         //Set up comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, commentText);
+        Assumption.assertNotNull("null comment text", commentText);
         if (commentText.trim().isEmpty()) {
             data.errorMessage = Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY;
             data.isError = true;
