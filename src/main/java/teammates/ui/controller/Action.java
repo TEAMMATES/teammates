@@ -139,7 +139,7 @@ public abstract class Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         if (currentUser == null) {
-            Assumption.assertNotNull(regkey);
+            Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
             loggedInUser = authenticateNotLoggedInUser(email, courseId);
         } else {
             loggedInUser = logic.getAccount(currentUser.id);
