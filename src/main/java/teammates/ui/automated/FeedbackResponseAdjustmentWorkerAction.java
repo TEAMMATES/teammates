@@ -37,13 +37,13 @@ public class FeedbackResponseAdjustmentWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.COURSE_ID, courseId);
 
         String sessionName = getRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(sessionName);
+        Assumption.assertPostParamNotNull(ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
 
         String enrollmentDetails = getRequestParamValue(ParamsNames.ENROLLMENT_DETAILS);
-        Assumption.assertNotNull(enrollmentDetails);
+        Assumption.assertPostParamNotNull(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
 
         log.info("Adjusting submissions for feedback session :" + sessionName + "in course : " + courseId);
 
