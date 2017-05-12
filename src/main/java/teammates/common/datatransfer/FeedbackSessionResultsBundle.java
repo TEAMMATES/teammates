@@ -1709,6 +1709,10 @@ public class FeedbackSessionResultsBundle {
         return sortedMap;
     }
 
+    /**
+     * Returns an ordered Map with {@code recipientTeam} name as key
+     * sorted by {@code compareByTeamQuestionRecipientTeamGiver} comparator.
+     */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
@@ -1742,6 +1746,10 @@ public class FeedbackSessionResultsBundle {
         return sortedMap;
     }
 
+    /**
+     * Returns an ordered Map with {@code giverTeam} name as key
+     * sorted by {@code compareByTeamQuestionGiverTeamRecipient} comparator.
+     */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
