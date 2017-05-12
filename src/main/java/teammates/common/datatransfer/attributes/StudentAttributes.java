@@ -167,51 +167,22 @@ public class StudentAttributes extends EntityAttributes {
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
         if (isRegistered()) {
-            error = validator.getInvalidityInfoForGoogleId(googleId);
-
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        error = validator.getInvalidityInfoForCourseId(course);
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(course), errors);
 
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
 
-        error = validator.getInvalidityInfoForEmail(email);
+        addNonEmptyError(validator.getInvalidityInfoForTeamName(team), errors);
 
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForSectionName(section), errors);
 
-        error = validator.getInvalidityInfoForTeamName(team);
+        addNonEmptyError(validator.getInvalidityInfoForStudentRoleComments(comments), errors);
 
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = validator.getInvalidityInfoForSectionName(section);
-
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = validator.getInvalidityInfoForStudentRoleComments(comments);
-
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = validator.getInvalidityInfoForPersonName(name);
-
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
 
         return errors;
     }

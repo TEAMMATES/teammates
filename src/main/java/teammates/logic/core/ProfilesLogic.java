@@ -1,11 +1,11 @@
 package teammates.logic.core;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ProfilesDb;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Handles the logic related to student profiles.

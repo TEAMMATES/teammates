@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -14,8 +16,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.

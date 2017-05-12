@@ -11,18 +11,25 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents a feedback question.
  */
 @PersistenceCapable
-public class FeedbackQuestion implements StoreCallback {
+public class FeedbackQuestion extends Entity implements StoreCallback {
+
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackQuestion.class);
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set

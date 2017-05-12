@@ -68,7 +68,7 @@ public class AdminSessionsPageData extends PageData {
         return totalWaitToOpenStatusSessions;
     }
 
-    public int gettotalInstitutes() {
+    public int getTotalInstitutes() {
         return totalInstitutes;
     }
 

@@ -162,6 +162,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(student1.name);
         studentCommentsPage.verifyIsCorrectPage(student1.email);
         studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
+        studentCommentsPage = detailsPage.clickAddCommentStudentViaAddCommentButton(student1.name);
+        studentCommentsPage.verifyIsCorrectPage(student1.email);
+        studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: download student list");
 

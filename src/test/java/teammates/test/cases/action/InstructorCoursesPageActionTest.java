@@ -78,9 +78,12 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode, 0 courses");
 
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
+
         CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        gaeSimulation.loginAsAdmin("admin.user");
+
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
@@ -101,7 +104,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 + "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
                 + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0"
                 + "|||/page/instructorCoursesPage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
     }
 
     @Override

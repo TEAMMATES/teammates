@@ -3,6 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -30,8 +32,6 @@ import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_HOME_PAGE}.
@@ -218,8 +218,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can view feedbackSession result of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session")
-                          .expandPanels();
+        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
 
         ______TS("new instructor can edit feedbackSession of sample course");

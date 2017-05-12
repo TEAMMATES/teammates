@@ -57,4 +57,18 @@ public abstract class EntityAttributes {
      * e.g. trim strings
      */
     public abstract void sanitizeForSaving();
+
+    /**
+     * Adds {@code error} to {@code errors} if {@code error} is a non-empty string.
+     *
+     * @param error An error message, possibly empty.
+     * @param errors A List of errors, to add {@code error} to.
+     */
+    public void addNonEmptyError(String error, List<String> errors) {
+        if (error.isEmpty()) {
+            return;
+        }
+
+        errors.add(error);
+    }
 }
