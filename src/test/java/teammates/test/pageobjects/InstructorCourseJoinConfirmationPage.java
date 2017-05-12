@@ -5,6 +5,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.test.driver.TestProperties;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
@@ -29,10 +30,12 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
 
     public InstructorHomePage clickConfirmButtonWithRetry() {
         clickConfirmButtonAndWaitForPageToLoad();
-        for (int i = 0; !isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) && i < 100; i++) {
-            ThreadHelper.waitFor(3000);
+        int retriesRemaining = TestProperties.PERSISTENCE_RETRY_COUNT;
+        while (!isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) && retriesRemaining > 0) {
+            ThreadHelper.waitFor(TestProperties.PERSISTENCE_RETRY_DELAY_IN_MS);
             browser.driver.navigate().back();
             clickConfirmButtonAndWaitForPageToLoad();
+            retriesRemaining--;
         }
         return changePageType(InstructorHomePage.class);
     }
