@@ -28,14 +28,14 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String receiverEmail = getRequestParamValue(ParamsNames.ADMIN_EMAIL_RECEIVER);
-        Assumption.assertNotNull(receiverEmail);
+        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_RECEIVER, receiverEmail);
 
         String emailContent = getRequestParamValue(ParamsNames.ADMIN_EMAIL_CONTENT);
         String emailSubject = getRequestParamValue(ParamsNames.ADMIN_EMAIL_SUBJECT);
 
         if (emailContent == null || emailSubject == null) {
             String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
-            Assumption.assertNotNull(emailId);
+            Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ID, emailId);
 
             log.info("Sending large email. Going to retrieve email content and subject from datastore.");
             AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
