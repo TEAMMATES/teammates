@@ -1,7 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import java.io.File;
 
 import org.openqa.selenium.By;
@@ -9,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 
 public class AdminEmailPage extends AppPage {
@@ -133,14 +130,6 @@ public class AdminEmailPage extends AppPage {
 
     private WebElement getTrashTab() {
         return browser.driver.findElement(By.cssSelector("a[href='" + Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE + "']"));
-    }
-
-    public void verifyGroupListFileKey(String key) {
-        assertTrue(BackDoor.isGroupListFileKeyPresentInGcs(key));
-    }
-
-    public void deleteGroupListFile(String key) {
-        BackDoor.deleteGroupListFile(key);
     }
 
 }
