@@ -445,9 +445,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         boolean isCourse2Present = false;
 
         for (CourseAttributes course : courseList) {
-            if (course.compareTo(course1) == 0) {
+            if (course.getId().equals(course1.getId()) && course.getName().equals(course1.getName())) {
                 isCourse1Present = true;
-            } else if (course.compareTo(course2) == 0) {
+            } else if (course.getId().equals(course2.getId()) && course.getName().equals(course2.getName())) {
                 isCourse2Present = true;
             }
         }
