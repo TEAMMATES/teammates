@@ -4,8 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.common.util.RetryManager;
-import teammates.common.util.RetryableTask;
+import teammates.test.driver.RetryManager;
+import teammates.test.driver.RetryableTask;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")

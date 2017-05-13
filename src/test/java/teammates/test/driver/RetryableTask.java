@@ -1,4 +1,4 @@
-package teammates.common.util;
+package teammates.test.driver;
 
 public class RetryableTask implements Retryable {
     protected String name;

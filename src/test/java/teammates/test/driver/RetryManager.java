@@ -1,5 +1,6 @@
-package teammates.common.util;
+package teammates.test.driver;
 
+import teammates.common.util.ThreadHelper;
 import teammates.test.driver.TestProperties;
 
 public class RetryManager {

@@ -27,13 +27,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import teammates.common.util.RetryManager;
-import teammates.common.util.RetryableTaskWithResult;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
+import teammates.test.driver.RetryManager;
+import teammates.test.driver.RetryableTaskWithResult;
 import teammates.test.driver.TestProperties;
 
 /**

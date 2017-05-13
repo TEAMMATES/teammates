@@ -1,4 +1,4 @@
-package teammates.common.util;
+package teammates.test.driver;
 
 public class RetryableTaskWithResult<ResultType> extends RetryableTask implements RetryableWithResult<ResultType> {
     private ResultType result;
