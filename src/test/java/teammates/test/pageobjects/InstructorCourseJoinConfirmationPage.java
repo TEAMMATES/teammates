@@ -29,7 +29,7 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButtonWithRetry() {
-        RetryManager.runWithRetry(new RetryableTask() {
+        RetryManager.runWithRetry(new RetryableTask("Course join") {
             @Override
             public boolean run() {
                 clickConfirmButtonAndWaitForPageToLoad();

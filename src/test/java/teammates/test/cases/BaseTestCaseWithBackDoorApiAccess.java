@@ -44,7 +44,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourseWithRetry(final String courseId) {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<CourseAttributes>() {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<CourseAttributes>("getCourse") {
             @Override
             public boolean run() {
                 setResult(getCourse(courseId));
@@ -87,7 +87,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<InstructorAttributes>() {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<InstructorAttributes>("getInstructor") {
             @Override
             public boolean run() {
                 setResult(getInstructor(courseId, instructorEmail));
@@ -101,7 +101,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<String>() {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<String>("getKeyForInstructor") {
             @Override
             public boolean run() {
                 setResult(getKeyForInstructor(courseId, instructorEmail));

@@ -919,7 +919,7 @@ public abstract class AppPage {
     }
 
     public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<AppPage>() {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<AppPage>("HTML verification") {
             @Override
             public boolean run() {
                 try {
