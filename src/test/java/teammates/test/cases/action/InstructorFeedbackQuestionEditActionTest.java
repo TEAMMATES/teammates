@@ -1302,7 +1302,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        int numStudentRespondents = 4;
+        int numStudentRespondents = 6;
         int numInstructorRespondents = 2;
 
         int totalStudents = 6;

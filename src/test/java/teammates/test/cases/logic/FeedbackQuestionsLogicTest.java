@@ -139,10 +139,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         q8.questionNumber = 8;
         FeedbackQuestionAttributes q9 = getQuestionFromDatastore("custom.feedback.paths.instructor.question");
         q9.questionNumber = 9;
-        FeedbackQuestionAttributes q10 = getQuestionFromDatastore("custom.feedback.paths.team.question");
+        FeedbackQuestionAttributes q10 = getQuestionFromDatastore("custom.feedback.paths.instructor2toinstructor3.question");
         q10.questionNumber = 10;
-        FeedbackQuestionAttributes q11 = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
+        FeedbackQuestionAttributes q11 = getQuestionFromDatastore("custom.feedback.paths.team.question");
         q11.questionNumber = 11;
+        FeedbackQuestionAttributes q12 = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
+        q12.questionNumber = 12;
 
         expectedList.add(q3);
         expectedList.add(q1);
@@ -155,6 +157,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q9);
         expectedList.add(q10);
         expectedList.add(q11);
+        expectedList.add(q12);
 
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
@@ -188,10 +191,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         q8.questionNumber = 8;
         q9 = getQuestionFromDatastore("custom.feedback.paths.instructor.question");
         q9.questionNumber = 9;
-        q10 = getQuestionFromDatastore("custom.feedback.paths.team.question");
+        q10 = getQuestionFromDatastore("custom.feedback.paths.instructor2toinstructor3.question");
         q10.questionNumber = 10;
-        q11 = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
+        q11 = getQuestionFromDatastore("custom.feedback.paths.team.question");
         q11.questionNumber = 11;
+        q12 = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
+        q12.questionNumber = 12;
 
         expectedList.add(q1);
         expectedList.add(q2);
@@ -204,6 +209,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q9);
         expectedList.add(q10);
         expectedList.add(q11);
+        expectedList.add(q12);
 
         questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 3;
@@ -261,12 +267,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         q8.questionNumber = 8;
         FeedbackQuestionAttributes q9 = getQuestionFromDatastore("custom.feedback.paths.instructor.question");
         q9.questionNumber = 9;
-        FeedbackQuestionAttributes q10 = getQuestionFromDatastore("custom.feedback.paths.team.question");
+        FeedbackQuestionAttributes q10 = getQuestionFromDatastore("custom.feedback.paths.instructor2toinstructor3.question");
         q10.questionNumber = 10;
-        FeedbackQuestionAttributes q11 = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
+        FeedbackQuestionAttributes q11 = getQuestionFromDatastore("custom.feedback.paths.team.question");
         q11.questionNumber = 11;
-        FeedbackQuestionAttributes q12 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes q12 = getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question");
         q12.questionNumber = 12;
+        FeedbackQuestionAttributes q13 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        q13.questionNumber = 13;
 
         expectedList.add(q1);
         expectedList.add(q2);
@@ -280,10 +288,11 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q10);
         expectedList.add(q11);
         expectedList.add(q12);
+        expectedList.add(q13);
 
         //Appends a question to the back of the current question list
         FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
-        newQuestion.questionNumber = 12;
+        newQuestion.questionNumber = 13;
 
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
@@ -298,9 +307,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("add new question to the front of the list");
 
-        FeedbackQuestionAttributes q13 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q14 = getQuestionFromDatastore("qn4InSession1InCourse1");
 
-        q13.questionNumber = 1;
+        q14.questionNumber = 1;
         q1.questionNumber = 2;
         q2.questionNumber = 3;
         q3.questionNumber = 4;
@@ -313,8 +322,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         q10.questionNumber = 11;
         q11.questionNumber = 12;
         q12.questionNumber = 13;
+        q13.questionNumber = 14;
 
-        expectedList.add(0, q13);
+        expectedList.add(0, q14);
 
         //Add a question to session1course1 and sets its number to 1
         newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -331,9 +341,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("add new question inbetween 2 existing questions");
 
-        FeedbackQuestionAttributes q14 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q15 = getQuestionFromDatastore("qn4InSession1InCourse1");
 
-        q14.questionNumber = 3;
+        q15.questionNumber = 3;
         q2.questionNumber = 4;
         q3.questionNumber = 5;
         q4.questionNumber = 6;
@@ -345,8 +355,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         q10.questionNumber = 12;
         q11.questionNumber = 13;
         q12.questionNumber = 14;
+        q13.questionNumber = 15;
 
-        expectedList.add(2, q14);
+        expectedList.add(2, q15);
 
         //Add a question to session1course1 and place it between existing question 2 and 3
         newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
@@ -523,6 +534,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.instructor.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.instructor2toinstructor3.question"));
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
                                                           "instructor2@course1.tmt");
@@ -696,6 +708,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.student1tostudent5.question"));
         expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.student5tostudent1.question"));
         expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.instructor.question"));
+        expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.instructor2toinstructor3.question"));
         expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.team.question"));
         expectedQuestions.add(getQuestionFromDatastore("custom.feedback.paths.team1.1toteam1.2.question"));
 

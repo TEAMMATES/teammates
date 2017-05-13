@@ -387,7 +387,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
-        assertEquals(responsesForReceiver.size(), 2);
+        assertEquals(responsesForReceiver.size(), 3);
         assertEquals(responsesFromGiver.size(), 2);
         assertEquals(responseCommentsForStudent.size(), 2);
 
@@ -418,7 +418,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responseCommentsForStudent =
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
-        assertEquals(responsesForReceiver.size(), 2);
+        assertEquals(responsesForReceiver.size(), 3);
         assertEquals(responsesFromGiver.size(), 2);
         assertEquals(responseCommentsForStudent.size(), 2);
 
@@ -564,7 +564,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(responses.size(), 4);
 
         ______TS("failure: GetViewableResponsesForQuestion invalid role");
-
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
         try {
             frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, instructor.email, UserRole.ADMIN, null);
             signalFailureToDetectException();
