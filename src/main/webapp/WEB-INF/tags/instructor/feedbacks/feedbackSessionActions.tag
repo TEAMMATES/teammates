@@ -3,13 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
-<!-- <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
-   href="${actions.resultsLink}"
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
-   data-toggle="tooltip"
-   data-placement="top">
-    View Results
-</a>-->
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px"
    href="${actions.editLink}" 
    title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
