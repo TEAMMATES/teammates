@@ -4,8 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
-import teammates.test.driver.TestProperties;
+import teammates.common.util.RetryManager;
+import teammates.common.util.RetryableTask;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
@@ -29,14 +29,17 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButtonWithRetry() {
-        clickConfirmButtonAndWaitForPageToLoad();
-        for (int delay = 1; !isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
-                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
-            System.out.println("Course join failed; waiting " + delay + "s before retry");
-            ThreadHelper.waitFor(delay * 1000);
-            browser.driver.navigate().back();
-            clickConfirmButtonAndWaitForPageToLoad();
-        }
+        RetryManager.runWithRetry(new RetryableTask() {
+            @Override
+            public boolean run() {
+                clickConfirmButtonAndWaitForPageToLoad();
+                return isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            }
+            @Override
+            public void beforeRetry() {
+                browser.driver.navigate().back();
+            }
+        });
         return changePageType(InstructorHomePage.class);
     }
 

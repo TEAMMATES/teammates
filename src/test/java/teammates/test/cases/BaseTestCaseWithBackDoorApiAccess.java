@@ -11,9 +11,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.common.util.RetryManager;
+import teammates.common.util.RetryableTaskWithResult;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -43,15 +43,14 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getCourse(course.getId());
     }
 
-    protected CourseAttributes getCourseWithRetry(String courseId) {
-        CourseAttributes course = getCourse(courseId);
-        for (int delay = 1; course == null
-                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
-            print("Backdoor getCourse failed; waiting " + delay + "s before retry");
-            ThreadHelper.waitFor(delay * 1000);
-            course = getCourse(courseId);
-        }
-        return course;
+    protected CourseAttributes getCourseWithRetry(final String courseId) {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<CourseAttributes>() {
+            @Override
+            public boolean run() {
+                setResult(getCourse(courseId));
+                return getResult() != null;
+            }
+        });
     }
 
     @Override
@@ -87,30 +86,28 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getInstructor(instructor.courseId, instructor.email);
     }
 
-    protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail) {
-        InstructorAttributes instructor = getInstructor(courseId, instructorEmail);
-        for (int delay = 1; instructor == null
-                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
-            print("Backdoor getInstructorByEmail failed; waiting " + delay + "s before retry");
-            ThreadHelper.waitFor(delay * 1000);
-            instructor = getInstructor(courseId, instructorEmail);
-        }
-        return instructor;
+    protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<InstructorAttributes>() {
+            @Override
+            public boolean run() {
+                setResult(getInstructor(courseId, instructorEmail));
+                return getResult() != null;
+            }
+        });
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
         return BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
     }
 
-    protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail) {
-        String key = getKeyForInstructor(courseId, instructorEmail);
-        for (int delay = 1; key.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE)
-                && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
-            print("Backdoor getEncryptedKeyForInstructor failed; waiting " + delay + "s before retry");
-            ThreadHelper.waitFor(delay * 1000);
-            key = getKeyForInstructor(courseId, instructorEmail);
-        }
-        return key;
+    protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<String>() {
+            @Override
+            public boolean run() {
+                setResult(getKeyForInstructor(courseId, instructorEmail));
+                return !getResult().startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE);
+            }
+        });
     }
 
     @Override

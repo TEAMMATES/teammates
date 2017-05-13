@@ -27,6 +27,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import teammates.common.util.RetryManager;
+import teammates.common.util.RetryableTaskWithResult;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -916,18 +918,22 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
-    public AppPage verifyHtmlMainContentWithReloadRetry(String filePath) throws IOException {
-        for (int delay = 1; delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
-            try {
-                return verifyHtmlPart(MAIN_CONTENT, filePath);
-            } catch (AssertionError e) {
-                // continue the retry process
+    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
+        return RetryManager.runWithRetry(new RetryableTaskWithResult<AppPage>() {
+            @Override
+            public boolean run() {
+                try {
+                    setResult(verifyHtmlPart(MAIN_CONTENT, filePath));
+                } catch (AssertionError | IOException e) {
+                    return false;
+                }
+                return true;
             }
-            System.out.println("Wrong HTML content; waiting " + delay + "s before retry");
-            ThreadHelper.waitFor(delay * 1000);
-            reloadPage();
-        }
-        return verifyHtmlPart(MAIN_CONTENT, filePath);
+            @Override
+            public void beforeRetry() {
+                reloadPage();
+            }
+        });
     }
 
     /**
