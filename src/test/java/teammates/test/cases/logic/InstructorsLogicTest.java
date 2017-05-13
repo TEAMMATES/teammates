@@ -65,7 +65,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instr = InstructorAttributes.builder(courseId, name, email)
+        InstructorAttributes instr = InstructorAttributes.builder(null, courseId, name, email)
                 .withRole(role)
                 .withDisplayedName(displayedName)
                 .withPrivileges(privileges)

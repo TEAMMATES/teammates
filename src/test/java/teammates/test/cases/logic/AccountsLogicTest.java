@@ -361,7 +361,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         InstructorAttributes newIns = InstructorAttributes
-                .builder(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -379,7 +379,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         instructor = dataBundle.instructors.get("instructor4");
         newIns = InstructorAttributes
-                .builder(instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
+                .builder(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -388,7 +388,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = InstructorAttributes.builder(instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+        newIns = InstructorAttributes.builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
                 .build();
 
         instructorsLogic.createInstructor(newIns);

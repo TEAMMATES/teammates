@@ -169,8 +169,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true,
                                                                  "unregIns@unregcourse.com", "unregInstitute"));
         InstructorAttributes instructor = InstructorAttributes
-                .builder(course, "unregName", "unregIns@unregcourse.com")
-                .withGoogleId("unregInsId")
+                .builder("unregInsId", course, "unregName", "unregIns@unregcourse.com")
                 .build();
 
         InstructorsLogic.inst().createInstructor(instructor);

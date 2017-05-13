@@ -93,8 +93,7 @@ public class CourseRosterTest extends BaseTestCase {
         for (int i = 0; i < instructorData.length; i += 2) {
             @SuppressWarnings("deprecation")
             InstructorAttributes instructor = InstructorAttributes
-                    .builder("courseId", instructorData[i], instructorData[i + 1])
-                    .withGoogleId("googleId")
+                    .builder("googleId", "courseId", instructorData[i], instructorData[i + 1])
                     .build();
             instructors.add(instructor);
         }

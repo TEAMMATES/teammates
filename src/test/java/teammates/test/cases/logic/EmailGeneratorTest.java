@@ -272,8 +272,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         @SuppressWarnings("deprecation")
         InstructorAttributes instructor = InstructorAttributes
-                .builder("courseId", "Instructor Name", instructorEmail)
-                .withGoogleId("googleId")
+                .builder("googleId", "courseId", "Instructor Name", instructorEmail)
                 .withKey(regkey)
                 .build();
 

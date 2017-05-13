@@ -20,12 +20,12 @@ public class InstructorAttributes extends EntityAttributes {
     // Note: be careful when changing these variables as their names are used in *.json files.
 
     /** Required fields. */
+    public String googleId;
     public String courseId;
     public String name;
     public String email;
 
     /** Optional fields. */
-    public String googleId;
     public String key;
     public String role;
     public String displayedName;
@@ -33,14 +33,14 @@ public class InstructorAttributes extends EntityAttributes {
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
+
     /** Return new builder instance. */
-    public static Builder builder(String courseId, String name, String email) {
-        return new Builder(courseId, name, email);
+    public static Builder builder(String googleId, String courseId, String name, String email) {
+        return new Builder(googleId, courseId, name, email);
     }
 
     public static InstructorAttributes valueOf(Instructor instructor) {
-        return builder(instructor.getCourseId(), instructor.getName(), instructor.getEmail())
-                .withGoogleId(instructor.getGoogleId())
+        return builder(instructor.getGoogleId(), instructor.getCourseId(), instructor.getName(), instructor.getEmail())
                 .withKey(instructor.getRegistrationKey())
                 .withRole(instructor.getRole())
                 .withDisplayedName(instructor.getDisplayedName())
@@ -50,12 +50,9 @@ public class InstructorAttributes extends EntityAttributes {
                 .build();
     }
 
-    // Do we really need that method? It creates only shallow copy of object.
-    // If we need exactly that behavior and not deep copy of object we can implement cloneable interface
-    // and use clone() method instead.
     public InstructorAttributes getCopy() {
-        return builder(courseId, name, email)
-                .withGoogleId(googleId).withKey(key).withRole(role).withDisplayedName(displayedName)
+        return builder(googleId, courseId, name, email)
+                .withKey(key).withRole(role).withDisplayedName(displayedName)
                 .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents).withIsArchived(isArchived)
                 .build();
     }
@@ -248,9 +245,10 @@ public class InstructorAttributes extends EntityAttributes {
     public static class Builder {
         private final InstructorAttributes instructorAttributes;
 
-        public Builder(String courseId, String name, String email) {
+        public Builder(String googleId, String courseId, String name, String email) {
             instructorAttributes = new InstructorAttributes();
 
+            instructorAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
             instructorAttributes.courseId = SanitizationHelper.sanitizeTitle(courseId);
             instructorAttributes.name = SanitizationHelper.sanitizeName(name);
             instructorAttributes.email = email;
@@ -260,11 +258,6 @@ public class InstructorAttributes extends EntityAttributes {
             instructorAttributes.isArchived = false;
             instructorAttributes.isDisplayedToStudents = true;
             instructorAttributes.privileges = new InstructorPrivileges(instructorAttributes.role);
-        }
-
-        public Builder withGoogleId(String googleId) {
-            instructorAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            return this;
         }
 
         public Builder withKey(String key) {

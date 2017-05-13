@@ -770,8 +770,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles");
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = InstructorAttributes.builder(c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
-                .withGoogleId("instructor-for-tccai")
+        InstructorAttributes i = InstructorAttributes
+                .builder("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
                 .build();
 
         try {
