@@ -35,6 +35,7 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
                 clickConfirmButtonAndWaitForPageToLoad();
                 return isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             }
+
             @Override
             public void beforeRetry() {
                 browser.driver.navigate().back();

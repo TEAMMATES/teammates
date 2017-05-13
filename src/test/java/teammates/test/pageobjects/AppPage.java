@@ -929,6 +929,7 @@ public abstract class AppPage {
                 }
                 return true;
             }
+
             @Override
             public void beforeRetry() {
                 reloadPage();

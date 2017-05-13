@@ -1,5 +1,13 @@
 package teammates.test.driver;
 
-public interface RetryableWithResult<ResultType> extends Retryable {
-    public ResultType getResult();
+/**
+ * Represents a {@link Retryable} task that returns a result.
+ * @param <T> Result type.
+ */
+public interface RetryableWithResult<T> extends Retryable {
+
+    /**
+     * Returns the task result.
+     */
+    T getResult();
 }
