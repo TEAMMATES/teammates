@@ -474,7 +474,7 @@ public final class BackDoor {
      * Checks if a group recipient's file is present in GCS with specified Key.
      */
     public static boolean isGroupListFileKeyPresentInGcs(String groupListFileKey) {
-        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_VERIFY_GROUP_LIST_FILE_KEY);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS);
         params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
         return Boolean.parseBoolean(makePostRequest(params));
     }

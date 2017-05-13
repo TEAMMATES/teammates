@@ -135,9 +135,6 @@ public class AdminEmailPage extends AppPage {
         return browser.driver.findElement(By.cssSelector("a[href='" + Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE + "']"));
     }
 
-    /**
-     * Verifies encoded key.
-     */
     public void verifyGroupListFileKey(String key) {
         assertTrue(BackDoor.isGroupListFileKeyPresentInGcs(key));
     }

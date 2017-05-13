@@ -99,7 +99,7 @@ public enum BackDoorOperation {
     OPERATION_REMOVE_DATABUNDLE,
 
     /** Operation type: verifying uploaded group list key. */
-    OPERATION_VERIFY_GROUP_LIST_FILE_KEY,
+    OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS,
 
     /** Operation type: removing group list file. */
     OPERATION_DELETE_GROUP_LIST_FILE;
