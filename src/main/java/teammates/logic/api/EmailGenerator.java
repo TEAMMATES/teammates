@@ -474,7 +474,7 @@ public class EmailGenerator {
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail) {
 
-    	String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
 
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
 
@@ -483,7 +483,7 @@ public class EmailGenerator {
         /*Check if the given userName and userEmail correspond
         to an Instructor or a Student. */
         if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, userName)) {
-        	emailBody = Templates.populateTemplate(template,
+            emailBody = Templates.populateTemplate(template,
             		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
             		"${instructorFragment}",
             			    "<p>The email below has been sent to students of course: "
@@ -497,7 +497,7 @@ public class EmailGenerator {
                     "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
                     "${supportEmail}", Config.SUPPORT_EMAIL);
         } else {
-        	emailBody = Templates.populateTemplate(template,
+            emailBody = Templates.populateTemplate(template,
             		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
             		"${instructorFragment}", "",
                     "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
