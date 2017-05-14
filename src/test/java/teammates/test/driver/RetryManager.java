@@ -26,7 +26,7 @@ public final class RetryManager {
     public static <E extends Throwable> void runWithRetry(Retryable<E> task) throws E {
         boolean isSuccessful = task.run();
         for (int delay = 1; !isSuccessful && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
-            System.out.println(task + " failed; waiting " + delay + "s before retry");
+            System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
             isSuccessful = task.run();

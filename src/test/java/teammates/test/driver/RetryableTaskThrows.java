@@ -22,7 +22,7 @@ public abstract class RetryableTaskThrows<E extends Throwable> implements Retrya
     }
 
     @Override
-    public String toString() {
+    public String getName() {
         return name;
     }
 }

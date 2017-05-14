@@ -16,4 +16,9 @@ public interface Retryable<E extends Throwable> {
      * Performs additional steps required before each retry of the task.
      */
     void beforeRetry() throws E;
+
+    /**
+     * Returns the name of the task.
+     */
+    String getName();
 }
