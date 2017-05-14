@@ -465,15 +465,15 @@ public class EmailGenerator {
 
         return emails;
     }
-    
+
     /**
-     * Generates the feedback session closed email for both 
-     * the instructors and the students with the given 
+     * Generates the feedback session closed email for both
+     * the instructors and the students with the given
      * {@code userName} and {@code userEmail}.
      */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail) {
-    	
+
     	String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
 
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
@@ -487,7 +487,7 @@ public class EmailGenerator {
             		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
             		"${instructorFragment}",
             			    "<p>The email below has been sent to students of course: "
-            			    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", " 
+            			    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
             			    + SanitizationHelper.sanitizeForHtml(course.getName())
             			    + ".<br>" + Const.EOL + "<br>" + Const.EOL
             			    + "=== Email message as seen by the students ===</p>" + Const.EOL,
