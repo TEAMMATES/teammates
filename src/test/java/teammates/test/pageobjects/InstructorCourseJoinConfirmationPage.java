@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
 import teammates.test.driver.RetryManager;
-import teammates.test.driver.RetryableTask;
+import teammates.test.driver.RetryableTaskUnchecked;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
@@ -29,7 +29,7 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButtonWithRetry() {
-        RetryManager.runWithRetry(new RetryableTask("Course join") {
+        RetryManager.runWithRetry(new RetryableTaskUnchecked("Course join") {
             @Override
             public boolean run() {
                 clickConfirmButtonAndWaitForPageToLoad();

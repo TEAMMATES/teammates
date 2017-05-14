@@ -15,15 +15,15 @@ public final class RetryManager {
      * Runs {@code task} and retries if needed.
      * Returns {@code task} result.
      */
-    public static <T> T runWithRetry(RetryableWithResult<T> task) {
-        runWithRetry((Retryable) task);
+    public static <T, E extends Throwable> T runWithRetry(RetryableWithResult<T, E> task) throws E {
+        runWithRetry((Retryable<E>) task);
         return task.getResult();
     }
 
     /**
      * Runs {@code task} and retries if needed.
      */
-    public static void runWithRetry(Retryable task) {
+    public static <E extends Throwable> void runWithRetry(Retryable<E> task) throws E {
         boolean isSuccessful = task.run();
         for (int delay = 1; !isSuccessful && delay <= TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2; delay *= 2) {
             System.out.println(task + " failed; waiting " + delay + "s before retry");
