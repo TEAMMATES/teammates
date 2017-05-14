@@ -109,7 +109,7 @@
                 <li>
                     <a href="${actions.resultsLink}"
                        class="session-remind-inner-for-test">
-                        View Result
+                        View Results
                     </a>
                 </li>
                 <li>
