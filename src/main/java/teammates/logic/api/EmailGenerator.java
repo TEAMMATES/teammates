@@ -484,7 +484,7 @@ public class EmailGenerator {
         to an Instructor or a Student. */
         if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, userName)) {
             emailBody = Templates.populateTemplate(template,
-            		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
+                    "${userName}", SanitizationHelper.sanitizeForHtml(userName),
             		"${instructorFragment}",
             			    "<p>The email below has been sent to students of course: "
             			    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
