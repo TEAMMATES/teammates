@@ -7,7 +7,7 @@ package teammates.test.driver;
 public interface Retryable<E extends Throwable> {
 
     /**
-     * Run the task once and check its status.
+     * Runs the task once and checks its status.
      * Returns true if task ran successfully; false otherwise.
      */
     boolean run() throws E;

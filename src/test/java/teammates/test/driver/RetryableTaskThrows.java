@@ -1,10 +1,10 @@
 package teammates.test.driver;
 
 /**
- * Default implementation of a {@link Retryable} task for easy extending through anonymous classes.
+ * Abstract implementation of a {@link Retryable} task for easy extending through anonymous classes.
  * @param <E> Throwable type.
  */
-public class RetryableTaskThrows<E extends Throwable> implements Retryable<E> {
+public abstract class RetryableTaskThrows<E extends Throwable> implements Retryable<E> {
 
     protected String name;
 
@@ -13,13 +13,12 @@ public class RetryableTaskThrows<E extends Throwable> implements Retryable<E> {
     }
 
     @Override
-    public boolean run() throws E {
-        return true;
-    }
+    public abstract boolean run() throws E;
 
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     @Override
     public void beforeRetry() throws E {
-        // Default implementation does nothing.
+        // Does nothing by default so that it can be skipped entirely in anonymous classes when not used.
     }
 
     @Override
