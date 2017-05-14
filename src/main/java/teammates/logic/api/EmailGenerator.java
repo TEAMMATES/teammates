@@ -457,66 +457,56 @@ public class EmailGenerator {
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
         for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionClosedEmailForInstructors(course, session, instructor.name, instructor.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email));
         }
         for (StudentAttributes student : students) {
-            emails.add(generateFeedbackSessionClosedEmailForStudents(course, session, student.name, student.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email));
         }
 
         return emails;
     }
     
     /**
-     * Generates the feedback session closed email for the students with the given {@code userName} and {@code userEmail}.
+     * Generates the feedback session closed email for both 
+     * the instructors and the students with the given 
+     * {@code userName} and {@code userEmail}.
      */
-    private EmailWrapper generateFeedbackSessionClosedEmailForStudents(CourseAttributes course,
+    private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail) {
     	
     	String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
-    	
+
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-        
-        String emailBody = Templates.populateTemplate(template,
-        		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
-        		"${instructorFragment}", "",
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
-        
-        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
-        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody);
-        return email;
-    }
-    
-    /**
-     * Generates the feedback session closed email for the instructors with the given {@code userName} and {@code userEmail}.
-     */
-    private EmailWrapper generateFeedbackSessionClosedEmailForInstructors(CourseAttributes course,
-            FeedbackSessionAttributes session, String userName, String userEmail) {
-    	
-    	String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
-    	
-        String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-        
-        String emailBody = Templates.populateTemplate(template,
-        		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
-        		"${instructorFragment}",
-        			    "<p>The email below has been sent to students of course: "
-        			    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", " 
-        			    + SanitizationHelper.sanitizeForHtml(course.getName())
-        			    + ".<br>" + Const.EOL + "<br>" + Const.EOL
-        			    + "=== Email message as seen by the students ===</p>" + Const.EOL,
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
-        
+
+        String emailBody;
+
+        /*Check if the given userName and userEmail correspond
+        to an Instructor or a Student. */
+        if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, userName)) {
+        	emailBody = Templates.populateTemplate(template,
+            		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
+            		"${instructorFragment}",
+            			    "<p>The email below has been sent to students of course: "
+            			    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", " 
+            			    + SanitizationHelper.sanitizeForHtml(course.getName())
+            			    + ".<br>" + Const.EOL + "<br>" + Const.EOL
+            			    + "=== Email message as seen by the students ===</p>" + Const.EOL,
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                    "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+        } else {
+        	emailBody = Templates.populateTemplate(template,
+            		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
+            		"${instructorFragment}", "",
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                    "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
+        }
+
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
         email.setContent(emailBody);
