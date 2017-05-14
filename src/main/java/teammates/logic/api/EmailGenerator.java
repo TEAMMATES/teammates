@@ -485,12 +485,12 @@ public class EmailGenerator {
         if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, userName)) {
             emailBody = Templates.populateTemplate(template,
                     "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-            		"${instructorFragment}",
-            			    "<p>The email below has been sent to students of course: "
-            			    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
-            			    + SanitizationHelper.sanitizeForHtml(course.getName())
-            			    + ".<br>" + Const.EOL + "<br>" + Const.EOL
-            			    + "=== Email message as seen by the students ===</p>" + Const.EOL,
+                    "${instructorFragment}",
+                            "<p>The email below has been sent to students of course: "
+                            + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
+                            + SanitizationHelper.sanitizeForHtml(course.getName())
+                            + ".<br>" + Const.EOL + "<br>" + Const.EOL
+                            + "=== Email message as seen by the students ===</p>" + Const.EOL,
                     "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                     "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                     "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
@@ -498,7 +498,7 @@ public class EmailGenerator {
                     "${supportEmail}", Config.SUPPORT_EMAIL);
         } else {
             emailBody = Templates.populateTemplate(template,
-            		"${userName}", SanitizationHelper.sanitizeForHtml(userName),
+                    "${userName}", SanitizationHelper.sanitizeForHtml(userName),
             		"${instructorFragment}", "",
                     "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                     "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
