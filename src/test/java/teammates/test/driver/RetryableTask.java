@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
-public class RetryableTaskUnchecked extends RetryableTask<RuntimeException> {
-    public RetryableTaskUnchecked(String name) {
+public class RetryableTask extends RetryableTaskThrows<RuntimeException> {
+    public RetryableTask(String name) {
         super(name);
     }
 }

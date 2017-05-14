@@ -4,11 +4,11 @@ package teammates.test.driver;
  * Default implementation of a {@link RetryableWithResult} task for easy extending through anonymous classes.
  * @param <T> Result type.
  */
-public class RetryableTaskWithResult<T, E extends Throwable> extends RetryableTask<E> implements RetryableWithResult<T, E> {
+public class RetryableTaskWithResultThrows<T, E extends Throwable> extends RetryableTaskThrows<E> implements RetryableWithResult<T, E> {
 
     private T result;
 
-    public RetryableTaskWithResult(String name) {
+    public RetryableTaskWithResultThrows(String name) {
         super(name);
     }
 
