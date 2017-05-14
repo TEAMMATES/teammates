@@ -97,7 +97,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
                href="${actions.resultsLink}"
                data-fsname="${actions.fsName}">
-                Result
+                Results
             </a>
             <button type="button"
                     class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
