@@ -1178,12 +1178,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
-        waitForElementVisibility(visibilityMessageDiv);
-        List<WebElement> visibilityMessages = visibilityMessageDiv.findElements(By.cssSelector("ul > li"));
-        boolean isLoadVisibilityMessageAjaxError =
-                visibilityMessages.get(0).getText().equals("Error loading visibility hint. Click here to retry.");
-        return !visibilityMessages.isEmpty() && !isLoadVisibilityMessageAjaxError;
+        By firstMessageBy = By.cssSelector("#visibilityMessage-" + questionNumber + " ul > li");
+        WebElement firstMessage = waitForElementPresence(firstMessageBy);
+        return !firstMessage.getText().equals("Error loading visibility hint. Click here to retry.");
     }
 
     public boolean verifyVisibilityMessageIsDisplayedForNewQuestion() {
