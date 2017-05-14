@@ -28,18 +28,21 @@
    <c:if test="${not actions.allowedToDelete}">disabled</c:if>>
     Delete
 </a>
-<a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
-   href="#" 
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>"
-   data-actionlink="${actions.editCopyLink}"
-   data-courseid="${actions.courseId}"
-   data-fsname="${actions.fsName}"
-   data-toggle="modal"
-   data-target="#fsCopyModal"
-   data-placement="top"
-   id="button_fscopy-${actions.courseId}-${actions.fsName}">
-    Copy
-</a>
+<div title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>" 
+     data-toggle="tooltip"
+     data-placement="top" 
+     style="display: inline-block; padding-right: 5px;">
+    <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
+       href="#"
+       data-actionlink="${actions.editCopyLink}"
+       data-courseid="${actions.courseId}"
+       data-fsname="${actions.fsName}"
+       data-toggle="modal"
+       data-target="#fsCopyModal"
+       id="button_fscopy-${actions.courseId}-${actions.fsName}">
+        Copy
+    </a>
+</div>
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_SUBMIT %>"
      data-toggle="tooltip"
      data-placement="top"
