@@ -2,6 +2,7 @@ package teammates.test.driver;
 
 /**
  * Default implementation of a {@link Retryable} task for easy extending through anonymous classes.
+ * @param <E> Throwable type.
  */
 public class RetryableTaskThrows<E extends Throwable> implements Retryable<E> {
 

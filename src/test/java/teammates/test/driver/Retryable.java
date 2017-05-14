@@ -1,7 +1,8 @@
 package teammates.test.driver;
 
 /**
- * Represents a task that can be retried.
+ * Represents a task that can be retried and throws a throwable.
+ * @param <E> Throwable type.
  */
 public interface Retryable<E extends Throwable> {
 
