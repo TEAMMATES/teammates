@@ -499,7 +499,7 @@ public class EmailGenerator {
         } else {
             emailBody = Templates.populateTemplate(template,
                     "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-            		"${instructorFragment}", "",
+                    "${instructorFragment}", "",
                     "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                     "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                     "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
