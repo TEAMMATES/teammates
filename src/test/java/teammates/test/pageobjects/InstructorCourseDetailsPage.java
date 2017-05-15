@@ -84,6 +84,15 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
+    public InstructorCourseStudentDetailsViewPage clickAddCommentStudentViaAddCommentButton(String studentName) {
+        int rowId = getStudentRowId(studentName);
+        click(getAddCommentButton(rowId));
+        click(getAddCommentToStudentLink(rowId));
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorCourseStudentDetailsViewPage.class);
+    }
+
     public void submitCommentToCourse(String comment) {
         clickAddCommentToCourseButton();
         WebElement textarea = browser.driver.findElement(By.id("commenttext"));
@@ -180,6 +189,11 @@ public class InstructorCourseDetailsPage extends AppPage {
     private WebElement getAddCommentDropDownLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > a.dropdown-toggle"));
+    }
+
+    private WebElement getAddCommentButton(int studentNum) {
+        WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > a.cursor-default"));
     }
 
     private WebElement getAddCommentToStudentLink(int studentNum) {

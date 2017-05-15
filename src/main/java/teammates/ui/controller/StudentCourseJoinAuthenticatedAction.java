@@ -44,7 +44,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         } else {
             nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         }
-        Assumption.assertNotNull(nextUrl);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.NEXT_URL, nextUrl);
         nextUrl = SanitizationHelper.desanitizeFromNextUrl(nextUrl);
 
         ensureStudentExists();
