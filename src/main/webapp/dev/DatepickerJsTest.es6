@@ -19,18 +19,21 @@ QUnit.test('triggerDatepickerOnClick(datepickerDivs)', (assert) => {
 QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', (assert) => {
     assert.expect(5);
 
-    const laterDate = new Date(2017, 3, 19, 2, 31, 0, 0);
-    const earlierDate = new Date(2017, 3, 19, 2, 30, 0, 0);
+    let startDate = new Date(2017, 3, 19, 2, 31, 0, 0);
+    const publishDate = new Date(2017, 3, 19, 2, 30, 0, 0);
 
-    assert.equal(getMaxDateForVisibleDate(laterDate, null), laterDate,
+    assert.equal(getMaxDateForVisibleDate(startDate, null), startDate,
             'Returns startDate when publishDate is null');
-    assert.equal(getMaxDateForVisibleDate(laterDate, undefined), laterDate,
+    assert.equal(getMaxDateForVisibleDate(startDate, undefined), startDate,
             'Returns startDate when publishDate is undefined');
-    assert.equal(getMaxDateForVisibleDate(laterDate, earlierDate), earlierDate,
+    assert.equal(getMaxDateForVisibleDate(startDate, publishDate), publishDate,
             'Returns publishDate when startDate > publishDate');
-    assert.equal(getMaxDateForVisibleDate(laterDate, laterDate), laterDate,
+    assert.equal(getMaxDateForVisibleDate(startDate, startDate), startDate,
             'Returns startDate when startDate = publishDate');
-    assert.equal(getMaxDateForVisibleDate(earlierDate, laterDate), earlierDate,
+
+	startDate = new Date(2017, 3, 19, 2, 29, 0, 0);
+
+    assert.equal(getMaxDateForVisibleDate(startDate, publishDate), startDate,
             'Returns startDate when startDate < publishDate');
 });
 
