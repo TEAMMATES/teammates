@@ -24,6 +24,7 @@
     <div class="panel-body fill-plain">
         <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post" id="formEditcourse" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${course.id}">
+            <input type="hidden" name=""<%=Const.ParamsNames.SESSION_TOKEN%> value="${data.sessionToken}">
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${data.account.googleId}">
             
             <div class="form-group">
