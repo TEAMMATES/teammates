@@ -36,7 +36,7 @@ public class InstructorStudentListAjaxPageData extends PageData {
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             sectionsDetails.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                            isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
-                                                           emailPhotoUrlMapping, account.googleId));
+                                                           emailPhotoUrlMapping, account.googleId, getSessionToken()));
         }
         this.sections = sectionsDetails;
     }
