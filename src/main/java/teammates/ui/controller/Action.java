@@ -17,6 +17,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.CryptoHelper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.SanitizationHelper;
@@ -137,6 +138,15 @@ public abstract class Action {
         if (!isHttpReferrerValid(referrer)) {
             throw new InvalidOriginException("Invalid HTTP referrer");
         }
+
+        String sessionToken = getRequestParamValue(Const.ParamsNames.SESSION_TOKEN);
+        if (sessionToken == null) {
+            throw new InvalidOriginException("Missing session token");
+        }
+
+        if (!isSessionTokenValid(sessionToken)) {
+            throw new InvalidOriginException("Invalid session token");
+        }
     }
 
     /**
@@ -179,6 +189,13 @@ public abstract class Action {
         String target = new Url(requestUrl).getBaseUrl();
 
         return origin.equals(target);
+    }
+
+    private boolean isSessionTokenValid(String actualToken) {
+        String sessionId = session.getId();
+        String expectedToken = CryptoHelper.computeSessionToken(sessionId);
+
+        return actualToken.equals(expectedToken);
     }
 
     // These methods are used for user authentication
