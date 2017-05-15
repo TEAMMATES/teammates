@@ -31,7 +31,7 @@ QUnit.test('getMaxDateForVisibleDate(startDate, publishDate)', (assert) => {
     assert.equal(getMaxDateForVisibleDate(startDate, startDate), startDate,
             'Returns startDate when startDate = publishDate');
 
-	startDate = new Date(2017, 3, 19, 2, 29, 0, 0);
+    startDate = new Date(2017, 3, 19, 2, 29, 0, 0);
 
     assert.equal(getMaxDateForVisibleDate(startDate, publishDate), startDate,
             'Returns startDate when startDate < publishDate');
