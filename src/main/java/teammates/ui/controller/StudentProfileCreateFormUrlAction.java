@@ -19,7 +19,7 @@ public class StudentProfileCreateFormUrlAction extends Action {
     @Override
     protected ActionResult execute() {
         StudentProfileCreateFormUrlAjaxPageData data =
-                new StudentProfileCreateFormUrlAjaxPageData(account, getUploadUrl(), isError);
+                new StudentProfileCreateFormUrlAjaxPageData(account, sessionToken, getUploadUrl(), isError);
         return createAjaxResult(data);
     }
 

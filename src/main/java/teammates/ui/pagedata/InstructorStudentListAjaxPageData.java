@@ -16,11 +16,12 @@ public class InstructorStudentListAjaxPageData extends PageData {
     private boolean hasSection;
     private List<StudentListSectionData> sections;
 
-    public InstructorStudentListAjaxPageData(AccountAttributes account, String courseId, int courseIndex,
+    public InstructorStudentListAjaxPageData(AccountAttributes account, String sessionToken,
+                                             String courseId, int courseIndex,
                                              boolean hasSection, List<SectionDetailsBundle> sections,
                                              Map<String, Map<String, Boolean>> sectionPrivileges,
                                              Map<String, String> emailPhotoUrlMapping) {
-        super(account);
+        super(account, sessionToken);
         this.courseId = courseId;
         this.courseIndex = courseIndex;
         this.hasSection = hasSection;

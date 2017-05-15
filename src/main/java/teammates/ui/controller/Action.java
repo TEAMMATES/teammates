@@ -75,6 +75,9 @@ public abstract class Action {
     /** Session that contains status message information. */
     protected HttpSession session;
 
+    /** Session token used in forms/links to actions requiring origin validation. */
+    protected String sessionToken;
+
     /** This is to get the blobInfo for any file upload from prev pages. */
     protected HttpServletRequest request;
 
@@ -102,7 +105,7 @@ public abstract class Action {
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
-
+        sessionToken = CryptoHelper.computeSessionToken(session.getId());
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
     }

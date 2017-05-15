@@ -36,7 +36,7 @@ public class InstructorCourseAddAction extends Action {
         gateKeeper.verifyInstructorPrivileges(account);
 
         /* Create a new course in the database */
-        data = new InstructorCoursesPageData(account);
+        data = new InstructorCoursesPageData(account, sessionToken);
         CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
         createCourse(newCourse);
 

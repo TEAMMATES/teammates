@@ -17,10 +17,10 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsInstructorCourseListTableRow> instructorCourseListTable;
     private List<AdminAccountDetailsStudentCourseListTableRow> studentCourseListTable;
 
-    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation,
+    public AdminAccountDetailsPageData(AccountAttributes account, String sessionToken, AccountAttributes accountInformation,
                                        List<CourseDetailsBundle> instructorCourseList,
                                        List<CourseAttributes> studentCourseList) {
-        super(account);
+        super(account, sessionToken);
         this.accountInformation = accountInformation;
         this.instructorCourseListTable = createInstructorCourseListTable(instructorCourseList);
         this.studentCourseListTable = createStudentCourseListTable(studentCourseList);

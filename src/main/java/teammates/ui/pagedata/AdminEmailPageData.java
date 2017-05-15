@@ -24,8 +24,8 @@ public abstract class AdminEmailPageData extends PageData {
         COMPOSE, SENT, TRASH, DRAFT
     }
 
-    protected AdminEmailPageData(AccountAttributes account) {
-        super(account);
+    protected AdminEmailPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init() {

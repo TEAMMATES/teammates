@@ -10,8 +10,8 @@ import teammates.common.util.Url;
 public class AdminEmailTrashPageData extends AdminEmailPageData {
     public List<AdminEmailAttributes> adminTrashEmailList;
 
-    public AdminEmailTrashPageData(AccountAttributes account) {
-        super(account);
+    public AdminEmailTrashPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
         this.state = AdminEmailPageState.TRASH;
     }
 

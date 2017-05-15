@@ -41,14 +41,14 @@ public class PageData {
 
     private String sessionToken;
 
-    public PageData(AccountAttributes account) {
-        this.account = account;
-        this.student = null;
+    public PageData(AccountAttributes account, String sessionToken) {
+        this(account, null, sessionToken);
     }
 
-    public PageData(AccountAttributes account, StudentAttributes student) {
+    public PageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         this.account = account;
         this.student = student;
+        this.sessionToken = sessionToken;
     }
 
     public AccountAttributes getAccount() {

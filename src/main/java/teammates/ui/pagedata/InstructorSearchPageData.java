@@ -50,8 +50,8 @@ public class InstructorSearchPageData extends PageData {
     private List<SearchCommentsForResponsesTable> searchCommentsForResponsesTables;
     private List<SearchStudentsTable> searchStudentsTables;
 
-    public InstructorSearchPageData(AccountAttributes account) {
-        super(account);
+    public InstructorSearchPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(CommentSearchResultBundle commentSearchResultBundle,

@@ -17,7 +17,7 @@ public class CreateImageUploadUrlAction extends Action {
     }
 
     protected final CreateImageUploadUrlAjaxPageData getCreateImageUploadUrlPageData() {
-        CreateImageUploadUrlAjaxPageData data = new CreateImageUploadUrlAjaxPageData(account);
+        CreateImageUploadUrlAjaxPageData data = new CreateImageUploadUrlAjaxPageData(account, sessionToken);
 
         try {
             data.nextUploadUrl = getUploadUrl();

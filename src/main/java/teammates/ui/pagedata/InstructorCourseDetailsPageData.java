@@ -29,8 +29,8 @@ public class InstructorCourseDetailsPageData extends PageData {
     private List<StudentListSectionData> sections;
     private boolean hasSection;
 
-    public InstructorCourseDetailsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorCourseDetailsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,

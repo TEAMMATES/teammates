@@ -31,7 +31,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
 
         /* Setup page data for the "Course Details" page */
-        InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
+        InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account, sessionToken);
 
         if (isHtmlTableNeeded) {
             String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, account.googleId);

@@ -16,11 +16,11 @@ public class AdminAccountManagementPageData extends PageData {
     // By default the testing accounts should not be shown
     private boolean isToShowAll;
 
-    public AdminAccountManagementPageData(AccountAttributes account,
+    public AdminAccountManagementPageData(AccountAttributes account, String sessionToken,
                                           Map<String, AccountAttributes> instructorAccountsTable,
                                           Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable,
                                           boolean isToShowAll) {
-        super(account);
+        super(account, sessionToken);
         this.isToShowAll = isToShowAll;
         accountTable = createAccountTable(instructorAccountsTable, instructorCoursesTable);
     }

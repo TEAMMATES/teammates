@@ -41,7 +41,7 @@ public class AdminInstructorAccountAddAction extends Action {
 
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminHomePageData data = new AdminHomePageData(account);
+        AdminHomePageData data = new AdminHomePageData(account, sessionToken);
 
         data.instructorDetailsSingleLine = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS_SINGLE_LINE);
         data.instructorShortName = "";

@@ -24,7 +24,7 @@ public class StudentProfilePageAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
 
-        StudentProfilePageData data = new StudentProfilePageData(account, isEditingPhoto);
+        StudentProfilePageData data = new StudentProfilePageData(account, sessionToken, isEditingPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
 
         return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);

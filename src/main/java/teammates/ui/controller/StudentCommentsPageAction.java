@@ -77,7 +77,7 @@ public class StudentCommentsPageAction extends Action {
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }
 
-        StudentCommentsPageData data = new StudentCommentsPageData(account);
+        StudentCommentsPageData data = new StudentCommentsPageData(account, sessionToken);
         data.init(courseId, courseName, coursePaginationList, comments, roster,
                   studentEmail, feedbackResultBundles);
 
