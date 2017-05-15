@@ -39,6 +39,8 @@ public class PageData {
 
     private List<StatusMessage> statusMessagesToUser;
 
+    private String sessionToken;
+
     public PageData(AccountAttributes account) {
         this.account = account;
         this.student = null;
@@ -51,6 +53,10 @@ public class PageData {
 
     public AccountAttributes getAccount() {
         return account;
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
     }
 
     public boolean isUnregisteredStudent() {
