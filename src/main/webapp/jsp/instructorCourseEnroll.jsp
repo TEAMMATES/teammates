@@ -12,6 +12,9 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js"></script>
 </c:set>
+<c:set var="SESSION_TOKEN">
+    <%=Const.ParamsNames.SESSION_TOKEN%>
+</c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <div class="instructionImg">
@@ -25,7 +28,7 @@
             </div>
             <br>
             <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
-                <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
+                <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="instructions" class="col-sm-1 control-label">Student data:</label>
