@@ -5,6 +5,7 @@
 <%@ attribute name="studentInfoTable" type="teammates.ui.template.StudentInfoTable" required="true" %>
 <%@ attribute name="newEmail" required="true" %>
 <%@ attribute name="openOrPublishedEmailSentForTheCourse" required="true" %>
+<%@ attribute name="sessionToken" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">
@@ -12,7 +13,8 @@
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <input type="hidden" name="<%=Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK %>" value="false">
             <input type="hidden" id="<%=Const.ParamsNames.OPEN_OR_PUBLISHED_EMAIL_SEND_CHECK %>" name="openorpublishedemailsent" value="${openOrPublishedEmailSentForTheCourse}">
-            <div class="form-group"> 
+            <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${sessionToken}">
+            <div class="form-group">
                 <label class="col-sm-1 control-label">Student Name:</label>
                 <div class="col-sm-11">
                     <input class="form-control" name="<%=Const.ParamsNames.STUDENT_NAME%>" 

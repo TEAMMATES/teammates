@@ -71,7 +71,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             this.sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                          isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
-                                                         emailPhotoUrlMapping, account.googleId));
+                                                         emailPhotoUrlMapping, account.googleId, getSessionToken()));
         }
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);

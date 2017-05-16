@@ -75,6 +75,10 @@ public class InstructorCommentsPageData extends PageData {
         return commentsForStudentsTables;
     }
 
+    public String getStudentCommentClearPendingLink() {
+        return getInstructorStudentCommentClearPendingLink(courseId);
+    }
+
     public boolean isDisplayArchive() {
         return isDisplayArchive;
     }
