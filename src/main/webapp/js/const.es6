@@ -16,8 +16,4 @@ const Const = {
 
     },
 
-    Security: {
-        SESSION_TOKEN: 'token',
-    },
-
 };
