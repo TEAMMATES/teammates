@@ -97,8 +97,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
-                     + expectedjoinUrl, homePage.getMessageFromResultTable(2));
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link: link"
+                     , homePage.getMessageFromResultTable(2));
+        assertEquals(expectedjoinUrl, homePage.getLinkUrl("link"));
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();

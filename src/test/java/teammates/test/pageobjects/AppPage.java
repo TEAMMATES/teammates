@@ -583,6 +583,16 @@ public abstract class AppPage {
     public String getStatus() {
         return statusMessage == null ? "" : statusMessage.getText();
     }
+    
+    /**
+     * Returns the url passed to the href for the given link. "linkText" is the hyperlink text from
+     *         user's perspective
+     */
+    public String getLinkUrl(String linkText) {
+        WebElement link = browser.driver.findElement(By.linkText(linkText));
+        String url = link.getText();
+        return url;
+    }
 
     /**
      * Returns the value of the cell located at {@code (row, column)}
