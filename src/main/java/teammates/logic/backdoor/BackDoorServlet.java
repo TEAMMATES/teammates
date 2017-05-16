@@ -201,6 +201,14 @@ public class BackDoorServlet extends HttpServlet {
             dataBundle = JsonUtils.fromJson(dataBundleJsonString, DataBundle.class);
             backDoorLogic.removeDataBundle(dataBundle);
             break;
+        case OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS:
+            String groupListKey = req.getParameter(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY);
+            return String.valueOf(backDoorLogic.isGroupListFilePresentInGcs(groupListKey));
+        case OPERATION_DELETE_GROUP_LIST_FILE:
+            String groupListFileKey = req.getParameter(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY);
+            backDoorLogic.deleteGroupListFile(groupListFileKey);
+            break;
+
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
