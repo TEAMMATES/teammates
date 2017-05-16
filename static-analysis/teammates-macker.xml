@@ -1,45 +1,487 @@
 <?xml version="1.0"?>
 <macker>
-    <ruleset name="Test cases should not be dependent on each other">
-        <var name="testCasesPackage" value="teammates.test.cases" />
-        <access-rule>
-            <deny>
-                <from class="${testCasesPackage}.**" />
-                <to class="${testCasesPackage}.**" />
-                <allow>
-                    <!-- allow dependency from inner class -->
-                    <from class="${testCasesPackage}.**$**" />
-                </allow>
-                <allow>
-                    <!-- allow dependency to inner class -->
-                    <to class="${testCasesPackage}.**$**" />
-                </allow>
-                <allow>
-                    <!-- allow dependency to base class -->
-                    <to class="${testCasesPackage}.**Base**" />
-                </allow>
-                <allow>
-                    <!-- allow dependency from Feedback*QuestionUiTest to FeedbackQuestionUiTest -->
-                    <from class="${testCasesPackage}.browsertests.Feedback*QuestionUiTest" />
-                    <to class="${testCasesPackage}.browsertests.FeedbackQuestionUiTest" />
-                </allow>
-            </deny>
-        </access-rule>
-    </ruleset>
-    <ruleset name="Only UI tests can access page object classes">
-        <access-rule>
-            <deny>
-                <from class="teammates.test.**" />
-                <to class="teammates.test.pageobjects.*" />
-                <allow>
-                    <!-- allow dependency within the package -->
-                    <from class="teammates.test.pageobjects.*" />
-                </allow>
-                <allow>
-                    <!-- allow dependency from UI tests -->
-                    <from class="teammates.test.cases.browsertests.*" />
-                </allow>
-            </deny>
-        </access-rule>
+    <ruleset name="Architectural rules for TEAMMATES">
+        <var name="ui" value="teammates.ui" />
+        <var name="logic" value="teammates.logic" />
+        <var name="storage" value="teammates.storage" />
+        <var name="common" value="teammates.common" />
+        <var name="test" value="teammates.test" />
+        <var name="testCases" value="teammates.test.cases" />
+        <var name="client" value="teammates.client" />
+
+        <ruleset name="Architectural rules for production code">
+            <ruleset name="PackageDiagram: UI should not touch Storage">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" />
+                        <to class="${storage}.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: Logic should not touch UI">
+                <access-rule>
+                    <deny>
+                        <from class="${logic}.**" />
+                        <to class="${ui}.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: Storage should not touch Logic">
+                <access-rule>
+                    <deny>
+                        <from class="${storage}.**" />
+                        <to class="${logic}.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: Storage should not touch UI">
+                <access-rule>
+                    <deny>
+                        <from class="${storage}.**" />
+                        <to class="${ui}.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: Common should not have dependencies to any packages except storage::entity">
+                <access-rule>
+                    <deny>
+                        <from class="${common}.**" />
+                        <to class="teammates.**" >
+                            <exclude class="${common}.**" /> <!-- allow dependency within the package -->
+                        </to>
+                        <allow>
+                            <from class="${common}.datatransfer.**" />
+                            <to class="${storage}.entity.**" />
+                        </allow>
+                        <allow>
+                            <from>
+                                <!-- violations that need fixing -->
+                                <include class="${common}.datatransfer.questions.FeedbackConstantSumQuestionDetails" />
+                                <include class="${common}.datatransfer.questions.FeedbackMcqQuestionDetails" />
+                                <include class="${common}.datatransfer.questions.FeedbackMsqQuestionDetails" />
+                                <include class="${common}.datatransfer.questions.FeedbackRankOptionsQuestionDetails" />
+                                <include class="${common}.datatransfer.questions.FeedbackRankRecipientsQuestionDetails" />
+                                <include class="${common}.datatransfer.questions.FeedbackRankRecipientsQuestionDetails**$**" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+
+            <ruleset name="UiComponent: Only *Action can touch Logic API">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" />
+                        <to class="${logic}.**" />
+                        <allow>
+                            <from>
+                                <include class="${ui}.controller.**" />
+                                <include class="${ui}.automated.**" />
+                            </from>
+                            <to class="${logic}.api.**" />
+                        </allow>
+                        <allow>
+                            <!-- to import sample data, need to be changed -->
+                            <from class="${ui}.controller.AdminInstructorAccountAddAction" />
+                            <to class="${logic}.backdoor.BackDoorLogic" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: Templates are only used in PageData">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" >
+                            <exclude class="${ui}.template.**" /> <!-- allow dependency within the package -->
+                        </from>
+                        <to class="${ui}.template.**" />
+                        <allow>
+                            <from class="${ui}.pagedata.**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: PageData is only used in Controller">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" >
+                            <exclude class="${ui}.pagedata.**" /> <!-- allow dependency within the package -->
+                        </from>
+                        <to class="${ui}.pagedata.**" />
+                        <allow>
+                            <from>
+                                <include class="${ui}.controller.**" />
+
+                                <!-- violations that need fixing -->
+                                <include class="${ui}.template.AdminAccountDetailsInstructorCourseListTableRow" />
+                                <include class="${ui}.template.AdminAccountDetailsStudentCourseListTableRow" />
+                                <include class="${ui}.template.AdminAccountManagementAccountTableRow" />
+                                <include class="${ui}.template.FeedbackSessionPublishButton" />
+                                <include class="${ui}.template.FeedbackSessionsAdditionalSettingsFormSegment" />
+                                <include class="${ui}.template.FeedbackSessionsForm" />
+                                <include class="${ui}.template.InstructorFeedbackSessionActions" />
+                                <include class="${ui}.template.StudentProfileEditBox" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: Controller should be self-contained">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" />
+                        <to class="${ui}.controller.**" />
+                        <allow>
+                            <from class="${ui}.controller.**" /> <!-- allow dependency within the package -->
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: Automated actions should be self-contained">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.**" />
+                        <to class="${ui}.automated.**" />
+                        <allow>
+                            <from class="${ui}.automated.**" /> <!-- allow dependency within the package -->
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="UiComponent: Automated actions should not have dependencies to anything within the UI component">
+                <access-rule>
+                    <deny>
+                        <from class="${ui}.automated.**" />
+                        <to class="${ui}.**" />
+                        <allow>
+                            <to class="${ui}.automated.**" /> <!-- allow dependency within the package -->
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+
+            <ruleset name="LogicComponent: Logic classes can only access storage::api">
+                <access-rule>
+                    <deny>
+                        <from class="${logic}.**" />
+                        <to class="${storage}.**" />
+                        <allow>
+                            <from>
+                                <include class="${logic}.core.**" />
+                                <include class="${logic}.backdoor.BackDoorLogic" />
+                            </from>
+                            <to class="${storage}.api.**" />
+                        </allow>
+                        <allow>
+                            <!-- violation that needs fixing -->
+                            <from class="${logic}.core.FeedbackResponsesLogic" />
+                            <to class="${storage}.entity.FeedbackResponse" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="LogicComponent: Each logic can only access its corresponding DB (e.g. AccountsLogic -> AccountsDb)">
+                <foreach var="logicModule" class="${logic}.core.(*)Logic">
+                    <pattern name="DbModule" class="${storage}.api.${logicModule}Db" />
+
+                    <access-rule>
+                        <message>${logicModule} can only access ${logicModule}Db</message>
+                        <deny>
+                            <from class="${logic}.core.${logicModule}Logic" />
+                            <to class="${storage}.api.**" />
+                            <allow>
+                                <to pattern="DbModule" />
+                            </allow>
+                        </deny>
+                    </access-rule>
+                </foreach>
+            </ruleset>
+            <ruleset name="LogicComponent: BackDoorServlet should not access logic::core/logic::api">
+                <access-rule>
+                    <deny>
+                        <from class="${logic}.backdoor.BackDoorServlet" />
+                        <to>
+                            <include class="${logic}.core.**" />
+                            <include class="${logic}.api.**" />
+                        </to>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="LogicComponent: logic::core should not access logic::api">
+                <access-rule>
+                    <deny>
+                        <from class="${logic}.core.**" />
+                        <to class="${logic}.api.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="LogicComponent: logic::api/logic::core should not access logic::backdoor">
+                <access-rule>
+                    <deny>
+                        <from>
+                            <include class="${logic}.api.**" />
+                            <include class="${logic}.core.**" />
+                        </from>
+                        <to class="${logic}.backdoor.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+
+            <ruleset name="StorageComponent: storage::search should not touch storage::entity">
+                <access-rule>
+                    <deny>
+                        <from class="${storage}.search.**" />
+                        <to class="${storage}.entity.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="StorageComponent: storage::entity should not depend on anything within the storage component">
+                <access-rule>
+                    <deny>
+                        <from class="${storage}.entity.**" />
+                        <to class="${storage}.**" />
+                        <allow>
+                            <to class="${storage}.entity.**" /> <!-- allow dependency within the package -->
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+        </ruleset>
+
+        <ruleset name="Architectural rules for test code">
+            <ruleset name="TestDriverComponent: Test cases should not be dependent on each other">
+                <access-rule>
+                    <deny>
+                        <from class="${testCases}.**" />
+                        <to class="${testCases}.**" />
+                        <allow>
+                            <!-- allow dependency from inner class -->
+                            <from class="${testCases}.**$**" />
+                        </allow>
+                        <allow>
+                            <to>
+                                <!-- allow dependency to inner class -->
+                                <include class="${testCases}.**$**" />
+                                <!-- allow dependency to base class -->
+                                <include class="${testCases}.**Base**" />
+                            </to>
+                        </allow>
+                        <allow>
+                            <!-- allow dependency from Feedback*QuestionUiTest to FeedbackQuestionUiTest -->
+                            <from class="${testCases}.browsertests.Feedback*QuestionUiTest" />
+                            <to class="${testCases}.browsertests.FeedbackQuestionUiTest" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="TestDriverComponent: Only UI tests can access page object classes">
+                <access-rule>
+                    <deny>
+                        <from class="${test}.**" >
+                            <exclude class="${test}.pageobjects.**" /> <!-- allow dependency within the package -->
+                        </from>
+                        <to class="${test}.pageobjects.**" />
+                        <allow>
+                            <from class="${testCases}.browsertests.**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="TestDriverComponent: Only certain test cases can test storage:entity">
+                <access-rule>
+                    <deny>
+                        <from class="${test}.**" />
+                        <to class="${storage}.entity.**" />
+                        <allow>
+                            <from>
+                                <include class="${testCases}.datatransfer.**" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="TestDriverComponent: Only certain test cases can access GaeSimulation/BackDoorLogic">
+                <access-rule>
+                    <deny>
+                        <from class="${test}.**" />
+                        <to>
+                            <include class="${test}.driver.GaeSimulation" />
+                            <include class="${logic}.backdoor.BackDoorLogic" />
+                        </to>
+                        <allow>
+                            <from>
+                                <include class="${testCases}.storage.**" />
+                                <include class="${testCases}.logic.**" />
+                                <include class="${testCases}.action.**" />
+                                <include class="${testCases}.automated.**" />
+                                <include class="${testCases}.search.**" />
+                                <include class="${testCases}.BaseComponentTestCase" />
+
+                                <!-- violation that needs fixing -->
+                                <include class="${testCases}.pagedata.StudentFeedbackResultsPageDataTest" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="TestDriverComponent: BackDoor test driver is only for browser test">
+                <access-rule>
+                    <deny>
+                        <to class="${test}.driver.BackDoor" />
+                        <allow>
+                            <from>
+                                <include class="${test}.driver.BackDoor**$**" /> <!-- allow dependency to inner class -->
+                                <include class="${testCases}.browsertests.**" />
+                                <include class="${testCases}.testdriver.BackDoorTest" />
+                                <include class="${testCases}.BaseTestCaseWithBackDoorApiAccess" />
+
+                                <include class="${client}.scripts.ImportData" />
+                                <include class="${client}.scripts.PerformanceProfiler" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+        </ruleset>
+
+        <ruleset name="Architectural rules for client code">
+            <ruleset name="PackageDiagram: Client scripts should be self-contained">
+                <access-rule>
+                    <deny>
+                        <to class="${client}.**" />
+                        <allow>
+                            <from class="${client}.**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: Client should not touch UI">
+                <access-rule>
+                    <deny>
+                        <from class="${client}.**" />
+                        <to class="${ui}.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: client::remoteapi should not depend on client::scripts">
+                <access-rule>
+                    <deny>
+                        <from class="${client}.remoteapi.**" />
+                        <to class="${client}.scripts.**" />
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="PackageDiagram: client::util should not have dependencies to anything within the client package">
+                <access-rule>
+                    <deny>
+                        <from class="${client}.util.**" />
+                        <to class="${client}.**" />
+                        <allow>
+                            <to class="${client}.util.**" /> <!-- allow dependency within the package -->
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+        </ruleset>
+
+        <ruleset name="Architectural rules for external API calls">
+            <ruleset name="Java Logging API can only be accessed via Logger">
+                <access-rule>
+                    <deny>
+                        <to class="java.util.logging.**" />
+                        <allow>
+                            <from class="${common}.util.Logger" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Search API can only be accessed via storage::api and storage::search">
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.api.search.**" />
+                        <allow>
+                            <from>
+                                <include class="${storage}.api.**" />
+                                <include class="${storage}.search.**" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Java Persistence API can only be applied to storage::entity">
+                <access-rule>
+                    <deny>
+                        <to>
+                            <include class="javax.jdo.annotations.**" />
+                            <include class="javax.jdo.listener.**" />
+                        </to>
+                        <allow>
+                            <from class="${storage}.entity.**" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Google Cloud Storage API can only be accessed via GoogleCloudStorageHelper">
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.tools.cloudstorage.**" />
+                        <allow>
+                            <from class="${common}.util.GoogleCloudStorageHelper" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Task Queue API can only be accessed via TaskQueuesLogic">
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.api.taskqueue.**" />
+                        <allow>
+                            <from class="${logic}.core.TaskQueuesLogic" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Remote API can only be accessed via RemoteApiClient">
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.tools.remoteapi.**" />
+                        <allow>
+                            <from class="${client}.remoteapi.RemoteApiClient" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="JDO API can only be accessed via storage::api and client scripts">
+                <access-rule>
+                    <deny>
+                        <to class="javax.jdo.*" />
+                        <allow>
+                            <from>
+                                <include class="${storage}.api.**" />
+                                <include class="${client}.remoteapi.**" />
+                                <include class="${client}.scripts.**" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+            <ruleset name="Servlet API can only be accessed via Servlet classes, GaeSimulation, and selected utility classes">
+                <access-rule>
+                    <deny>
+                        <to class="javax.servlet.**" />
+                        <allow>
+                            <from>
+                                <include class="${common}.util.ActivityLogEntry" />
+                                <include class="${common}.util.HttpRequestHelper" />
+                                <include class="${logic}.backdoor.BackDoorServlet" />
+                                <include class="${ui}.automated.**" />
+                                <include class="${ui}.controller.**" />
+                                <include class="${test}.driver.GaeSimulation" />
+                            </from>
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
+        </ruleset>
     </ruleset>
 </macker>

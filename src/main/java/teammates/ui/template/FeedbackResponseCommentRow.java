@@ -50,33 +50,33 @@ public class FeedbackResponseCommentRow {
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
                                       String giverName, String recipientName, String showCommentToString,
                                       String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this(frc, giverDisplay);
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisiblities);
+                                showCommentToString, showGiverNameToString, responseVisibilities);
     }
 
     // for adding comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
                                       String giverName, String recipientName, String showCommentToString,
                                       String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisiblities);
+                                showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
             String giverName, String recipientName,
             String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
 
         this.showCommentTo = frc.showCommentTo;
         this.showGiverNameTo = frc.showGiverNameTo;
 
-        this.responseVisibilities = responseVisiblities;
+        this.responseVisibilities = responseVisibilities;
 
         // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
