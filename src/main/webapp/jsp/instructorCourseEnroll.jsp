@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
@@ -24,6 +25,7 @@
             </div>
             <br>
             <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
+                <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="instructions" class="col-sm-1 control-label">Student data:</label>
