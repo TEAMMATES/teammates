@@ -18,8 +18,7 @@ import teammates.test.cases.BaseTestCase;
 public class InstructorAttributesTest extends BaseTestCase {
 
     @Test
-    public void testConstructor() {
-        @SuppressWarnings("deprecation")
+    public void testBuilder() {
         InstructorAttributes instructor = InstructorAttributes
                 .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
                 .build();
@@ -28,9 +27,12 @@ public class InstructorAttributesTest extends BaseTestCase {
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
+        // Check default values for optional params
         assertEquals(roleName, instructor.role);
         assertEquals(displayedName, instructor.displayedName);
         assertEquals(privileges, instructor.privileges);
+        assertFalse(instructor.isArchived);
+        assertTrue(instructor.isDisplayedToStudents);
 
         InstructorAttributes instructor1 = InstructorAttributes
                 .builder(instructor.googleId, instructor.courseId, instructor.name, instructor.email)
