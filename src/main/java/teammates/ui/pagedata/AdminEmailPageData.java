@@ -111,7 +111,7 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
 
-        return new AdminSentEmailRow(emailId, new AdminEmailActions(emailId, "sentpage"), addressReceiver,
+        return new AdminSentEmailRow(emailId, new AdminEmailActions(emailId, "sentpage", getSessionToken()), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
 
@@ -144,8 +144,8 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
 
-        return new AdminDraftEmailRow(emailId, new AdminEmailActions(emailId, "draftpage"), addressReceiver,
-                                        groupReceiver, ae.getSubject(), ae.getCreateDateForDisplay());
+        return new AdminDraftEmailRow(emailId, new AdminEmailActions(emailId, "draftpage", getSessionToken()),
+                                      addressReceiver, groupReceiver, ae.getSubject(), ae.getCreateDateForDisplay());
     }
 
     // Trash email table
@@ -185,7 +185,7 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
 
-        return new AdminTrashEmailRow(emailId, new AdminTrashEmailActions(emailId), addressReceiver,
+        return new AdminTrashEmailRow(emailId, new AdminTrashEmailActions(emailId, getSessionToken()), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
 }
