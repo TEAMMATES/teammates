@@ -1,4 +1,4 @@
-/* global highlightSearchResult:false StatusType:false setStatusMessage:false */
+/* global highlightSearchResult:false StatusType:false setStatusMessage:false makeCsrfTokenParam:false */
 
 $(document).ready(() => {
     $('.fslink').hide();
@@ -59,7 +59,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
     const params = `studentemail=${studentEmail
                   }&courseid=${studentCourseId
                   }&googleid=${wrongGoogleId
-                  }&token=${getCookie(Const.Security.SESSION_TOKEN)}`;
+                  }&${makeCsrfTokenParam()}`;
 
     const googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     const originalButton = $(button).html();
