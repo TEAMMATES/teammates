@@ -33,20 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-5">
-                    <div class="form-group">
-                        <label for="viewSelect" class="col-sm-2 control-label">
-                            Filter:
-                        </label>
-                        <div id="filter-box-parent-div" class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
-                            <div class="input-group">
-                                <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT%>" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
-                                <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+                <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
                   <div data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
