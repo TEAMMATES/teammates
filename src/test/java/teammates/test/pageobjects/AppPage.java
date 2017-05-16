@@ -590,7 +590,7 @@ public abstract class AppPage {
      */
     public String getLinkUrl(String linkText) {
         WebElement link = browser.driver.findElement(By.linkText(linkText));
-        return link.getText();
+        return link.getAttribute("href");
     }
 
     /**
