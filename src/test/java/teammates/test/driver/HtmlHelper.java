@@ -449,7 +449,7 @@ public final class HtmlHelper {
                                    " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
                                    + " type=\"hidden\" value=\"\\${sessionToken}\"")
                       // sessionToken in URL parameters
-                      .replaceAll("(\\?|&)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
+                      .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
                                   "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
                       // top HTML tag with xmlns defined
                       // TODO check if this is necessary
