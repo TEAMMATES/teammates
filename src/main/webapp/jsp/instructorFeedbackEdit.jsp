@@ -33,6 +33,13 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionContrib.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionRubric.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionRank.js"></script>
+    <script>
+        $(function () {
+            $(".first-level-dropdown-option").hover(function() {
+                $(this).siblings(".dropdown-menu").tooltip("show");
+            });
+        });
+    </script>
 </c:set>
 
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">

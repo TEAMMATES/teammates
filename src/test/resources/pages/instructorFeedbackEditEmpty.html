@@ -1585,10 +1585,10 @@
                 Common feedback path combinations
               </li>
               <li class="dropdown-submenu">
-                <a>
+                <a class="first-level-dropdown-option">
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1603,10 +1603,10 @@
                 </ul>
               </li>
               <li class="dropdown-submenu">
-                <a>
+                <a class="first-level-dropdown-option">
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1627,10 +1627,10 @@
                 </ul>
               </li>
               <li class="dropdown-submenu">
-                <a>
+                <a class="first-level-dropdown-option">
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2073,6 +2073,9 @@
 <script src="/js/instructorFeedbackEdit/questionRubric.js" type="text/javascript">
 </script>
 <script src="/js/instructorFeedbackEdit/questionRank.js" type="text/javascript">
+</script>
+<script>
+  $(function () { $(".first-level-dropdown-option").hover(function() { $(this).siblings(".dropdown-menu").tooltip("show"); }); });
 </script>
 <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div">
 </div>

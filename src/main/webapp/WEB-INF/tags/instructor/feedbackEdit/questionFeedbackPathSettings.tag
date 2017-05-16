@@ -30,8 +30,8 @@
             <c:forEach items="<%= Const.FeedbackQuestion.COMMON_FEEDBACK_PATHS %>" var="commonPath">
                 <li class="dropdown-submenu">
                     <c:set var="commonGiver" value="${commonPath.key}" />
-                    <a>${commonGiver.displayNameGiver} will give feedback on...</a>
-                    <ul class="dropdown-menu">
+                    <a class="first-level-dropdown-option">${commonGiver.displayNameGiver} will give feedback on...</a>
+                    <ul class="dropdown-menu" data-toggle="tooltip" data-placement="top" data-container="body" title="Choose an option">
                         <li>
                             <c:forEach items="${commonPath.value}" var="commonRecipient">
                                 <a class="feedback-path-dropdown-option" href="javascript:;"
