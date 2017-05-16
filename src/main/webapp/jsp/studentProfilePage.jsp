@@ -16,5 +16,5 @@
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <tsp:uploadPhotoModal modal="${data.uploadPhotoModal}" />
-    <tsp:studentProfileDiv profile="${data.profileEditBox}" />
+    <tsp:studentProfileDiv profile="${data.profileEditBox}" sessionToken="${data.sessionToken}" />
 </ts:studentPage>
