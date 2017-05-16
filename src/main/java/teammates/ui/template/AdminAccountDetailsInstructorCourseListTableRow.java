@@ -14,8 +14,8 @@ public class AdminAccountDetailsInstructorCourseListTableRow {
             String sessionToken) {
         this.instructorId = instructorId;
         this.courseDetails = courseDetails;
-        this.removeFromCourseButton = createRemoveButton();
         this.sessionToken = sessionToken;
+        this.removeFromCourseButton = createRemoveButton();
     }
 
     public CourseDetailsBundle getCourseDetails() {
@@ -28,15 +28,15 @@ public class AdminAccountDetailsInstructorCourseListTableRow {
 
     private ElementTag createRemoveButton() {
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>Remove From Course";
-        String href = getAdminDeleteInstructorFromCourseLink(instructorId, courseDetails.course.getId());
+        String href = getAdminDeleteInstructorFromCourseLink();
         return new ElementTag(content, "id", "instructor_" + courseDetails.course.getId(), "class",
                               "btn btn-danger btn-sm", "href", href);
     }
 
-    private String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId) {
+    private String getAdminDeleteInstructorFromCourseLink() {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.getId());
         link = Url.addParamToUrl(link, Const.ParamsNames.SESSION_TOKEN, sessionToken);
 
         return link;
