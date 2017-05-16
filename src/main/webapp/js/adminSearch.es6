@@ -59,7 +59,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
     const params = `studentemail=${studentEmail
                   }&courseid=${studentCourseId
                   }&googleid=${wrongGoogleId
-                  }&token={getCookie(Const.Security.SESSION_TOKEN)}`;
+                  }&token=${getCookie(Const.Security.SESSION_TOKEN)}`;
 
     const googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     const originalButton = $(button).html();
