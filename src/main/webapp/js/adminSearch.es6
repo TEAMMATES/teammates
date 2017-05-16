@@ -58,8 +58,7 @@ $(document).ready(() => {
 function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button) {
     const params = `studentemail=${studentEmail
                   }&courseid=${studentCourseId
-                  }&googleid=${wrongGoogleId
-                  }&${makeCsrfTokenParam()}`;
+                  }&googleid=${wrongGoogleId}`;
 
     const googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     const originalButton = $(button).html();
@@ -68,7 +67,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
 
     $.ajax({
         type: 'POST',
-        url: `/admin/adminStudentGoogleIdReset?${params}`,
+        url: `/admin/adminStudentGoogleIdReset?${makeCsrfTokenParam()}&${params}`,
         beforeSend() {
             $(button).html("<img src='/images/ajax-loader.gif'/>");
         },
