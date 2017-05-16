@@ -16,8 +16,9 @@ public class AdminEmailTrashPageData extends AdminEmailPageData {
     }
 
     public String getEmptyTrashBinActionUrl() {
-        return Url.addParamToUrl(Const.ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
-                                 Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN,
-                                 "true");
+        String url = Const.ActionURIs.ADMIN_EMAIL_TRASH_DELETE;
+        url = Url.addParamToUrl(url, Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN, "true");
+        url = addSessionTokenToUrl(url);
+        return url;
     }
 }
