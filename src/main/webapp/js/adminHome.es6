@@ -1,4 +1,4 @@
-/* global encodeHtmlString:false */
+/* global encodeHtmlString:false makeCsrfTokenParam:false */
 /**
  * Functions defined and used in `/adminHome`
  */
@@ -96,7 +96,7 @@ function addInstructorAjax(isError, data) {
 function addInstructorByAjaxRecursively() {
     $.ajax({
         type: 'POST',
-        url: `/admin/adminInstructorAccountAdd?${paramsList[paramsCounter]}`,
+        url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${paramsList[paramsCounter]}`,
         beforeSend: disableAddInstructorForm,
         error() {
             addInstructorAjax(true, null);
