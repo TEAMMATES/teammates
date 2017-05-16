@@ -79,7 +79,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(2, courseList.size());
-        
+
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";

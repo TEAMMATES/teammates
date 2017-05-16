@@ -529,16 +529,6 @@ public abstract class Action {
     }
 
     /**
-     * Generates a {@link RedirectResult} with the information in this object.
-     */
-    public RedirectResult createRedirectResult(String destination, PageData pageData) {
-        return new RedirectResult(destination,
-                                  account,
-                                  pageData,
-                                  statusToUser);
-    }
-
-    /**
      * Generates a {@link FileDownloadResult} with the information in this object.
      */
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
