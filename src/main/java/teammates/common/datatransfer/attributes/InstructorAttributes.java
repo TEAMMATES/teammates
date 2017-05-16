@@ -34,7 +34,16 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorPrivileges privileges;
 
 
-    /** Return new builder instance. */
+    /**
+     * Return new builder instance with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * {@code false} for {@code isArchived}
+     * {@code true} for {@code isDisplayedForStudents}
+     * {@code DEFAULT_DISPLAYED_NAME} for {@code displayedName}
+     * {@code INSTRUCTOR_PERMISSION_ROLE_COOWNER} for {@code role}
+     * {@code new InstructorPrivileges(role)} for {@code privileges}
+     */
     public static Builder builder(String googleId, String courseId, String name, String email) {
         return new Builder(googleId, courseId, name, email);
     }
@@ -240,7 +249,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
-     * Builder class to simplify creation of object.
+     * A Builder class for {@link InstructorAttributes}.
      */
     public static class Builder {
         private final InstructorAttributes instructorAttributes;
