@@ -79,7 +79,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(2, courseList.size());
-
+        
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
@@ -137,7 +137,6 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
-
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa2.id<br>Total courses: 1|||/page/instructorCourseAdd";
@@ -159,7 +158,6 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(2, courseList.size());
-
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse|||"
                              + "instructorOfArchiveCourse@archiveCourse.tmt|||Course added : ticac.tpa2.id<br>"
