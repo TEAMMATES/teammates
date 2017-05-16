@@ -22,7 +22,7 @@
 const successStatus = 'successfully created with join link:';
 /* eslint-disable no-param-reassign */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
-    /*check if status is successful*/
+    /* check if status is successful */
     const linkIndex = status.indexOf(successStatus);
     const isSuccessStatus = linkIndex !== -1;
     if (isSuccessStatus) {
