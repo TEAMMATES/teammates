@@ -10,6 +10,7 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_GUILLOTINE %>"></script>
     <script type="text/javascript" src="/js/student.js"></script>
+    <script type="text/javascript" src="/js/crypto.js"></script>
     <script type="text/javascript" src="/js/studentProfile.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student Profile" bodyTitle="Student Profile" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
