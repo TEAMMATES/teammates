@@ -18,6 +18,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Logger;
+import teammates.storage.entity.BaseEntity;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
@@ -25,7 +26,7 @@ import teammates.storage.search.SearchQuery;
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
  */
-public abstract class OfyEntitiesDb<T extends EntityAttributes> {
+public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttributes> {
 
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
@@ -48,7 +49,7 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
      * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public Object createEntity(T entityToAdd)
+    public E createEntity(A entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         Assumption.assertNotNull(
@@ -69,7 +70,8 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
             throw new EntityAlreadyExistsException(error);
         }
 
-        Object entity = entityToAdd.toEntity();
+        E entity = entityToAdd.toEntity();
+
         ofy().save().entity(entity).now();
 
         log.info(entityToAdd.getBackupIdentifier());
@@ -77,16 +79,16 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
         return entity;
     }
 
-    public List<T> createEntities(Collection<? extends T> entitiesToAdd)
+    public List<A> createEntities(Collection<? extends A> entitiesToAdd)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
-        List<T> entitiesToUpdate = new ArrayList<T>();
-        List<Object> entities = new ArrayList<Object>();
+        List<A> entitiesToUpdate = new ArrayList<A>();
+        List<E> entities = new ArrayList<E>();
 
-        for (T entityToAdd : entitiesToAdd) {
+        for (A entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
 
             if (!entityToAdd.isValid()) {
@@ -96,7 +98,8 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
             if (hasEntity(entityToAdd)) {
                 entitiesToUpdate.add(entityToAdd);
             } else {
-                entities.add(entityToAdd.toEntity());
+                E entity = entityToAdd.toEntity();
+                entities.add(entity);
             }
 
             log.info(entityToAdd.getBackupIdentifier());
@@ -114,7 +117,7 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
      * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public Object createEntityWithoutExistenceCheck(T entityToAdd)
+    public E createEntityWithoutExistenceCheck(A entityToAdd)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
@@ -125,7 +128,7 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
         }
 
-        Object entity = entityToAdd.toEntity();
+        E entity = entityToAdd.toEntity();
         ofy().save().entity(entity).now();
 
         log.info(entityToAdd.getBackupIdentifier());
@@ -140,7 +143,7 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
      * <br> Preconditions:
      * <br> * {@code courseId} is not null.
      */
-    public void deleteEntity(T entityToDelete) {
+    public void deleteEntity(A entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
         ofy().delete().entity(entityToDelete.toEntity()).now();
@@ -148,12 +151,13 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
         log.info(entityToDelete.getBackupIdentifier());
     }
 
-    public void deleteEntities(Collection<? extends T> entityAttributesToDelete) {
+    public void deleteEntities(Collection<? extends A> entityAttributesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityAttributesToDelete);
 
-        ArrayList<Object> entitiesToDelete = new ArrayList<Object>();
-        for (T entityAttributeToDelete : entityAttributesToDelete) {
-            entitiesToDelete.add(entityAttributeToDelete.toEntity());
+        ArrayList<E> entitiesToDelete = new ArrayList<E>();
+        for (A entityAttributeToDelete : entityAttributesToDelete) {
+            E entityToDelete = entityAttributeToDelete.toEntity();
+            entitiesToDelete.add(entityToDelete);
             log.info(entityAttributeToDelete.getBackupIdentifier());
         }
 
@@ -171,9 +175,9 @@ public abstract class OfyEntitiesDb<T extends EntityAttributes> {
      *             based on the default key identifiers. Returns null if it
      *             does not already exist in the Datastore.
      */
-    protected abstract Object getEntity(T attributes);
+    protected abstract E getEntity(A attributes);
 
-    public abstract boolean hasEntity(T attributes);
+    public abstract boolean hasEntity(A attributes);
 
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document) {

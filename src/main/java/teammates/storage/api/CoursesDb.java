@@ -23,7 +23,7 @@ import teammates.storage.entity.Course;
  * @see Course
  * @see CourseAttributes
  */
-public class CoursesDb extends OfyEntitiesDb<CourseAttributes> {
+public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
 
     /*
      * Explanation: Based on our policies for the storage component, this class does not handle cascading.
@@ -142,7 +142,7 @@ public class CoursesDb extends OfyEntitiesDb<CourseAttributes> {
     }
 
     @Override
-    protected Object getEntity(CourseAttributes attributes) {
+    protected Course getEntity(CourseAttributes attributes) {
         return getCourseEntity(attributes.getId());
     }
 
