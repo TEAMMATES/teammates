@@ -9,18 +9,15 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
-
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.Logger;
-import teammates.common.util.ThreadHelper;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
@@ -74,24 +71,6 @@ public abstract class OfyEntitiesDb {
 
         Object entity = entityToAdd.toEntity();
         ofy().save().entity(entity).now();
-
-        // Wait for the operation to persist
-        int elapsedTime = 0;
-        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-            while (!hasEntity(entityToAdd)
-                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                ThreadHelper.waitBriefly();
-                //check before incrementing to avoid boundary case problem
-                if (!hasEntity(entityToAdd)) {
-                    elapsedTime += ThreadHelper.WAIT_DURATION;
-                }
-            }
-            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                log.info("Operation did not persist in time: create"
-                        + entityToAdd.getEntityTypeAsString() + "->"
-                        + entityToAdd.getIdentificationString());
-            }
-        }
 
         log.info(entityToAdd.getBackupIdentifier());
 
@@ -149,23 +128,6 @@ public abstract class OfyEntitiesDb {
         Object entity = entityToAdd.toEntity();
         ofy().save().entity(entity).now();
 
-        // Wait for the operation to persist
-        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-            int elapsedTime = 0;
-            while (!hasEntity(entityToAdd)
-                   && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                ThreadHelper.waitBriefly();
-                //check before incrementing to avoid boundary case problem
-                if (!hasEntity(entityToAdd)) {
-                    elapsedTime += ThreadHelper.WAIT_DURATION;
-                }
-            }
-            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                log.info("Operation did not persist in time: create"
-                         + entityToAdd.getEntityTypeAsString() + "->"
-                         + entityToAdd.getIdentificationString());
-            }
-        }
         log.info(entityToAdd.getBackupIdentifier());
 
         return entity;
@@ -181,40 +143,21 @@ public abstract class OfyEntitiesDb {
     public void deleteEntity(EntityAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
-        getEntityKeyOnlyQuery(entityToDelete)
-            .deletePersistentAll(); // TODO: Objectify
+        ofy().delete().entity(entityToDelete.toEntity()).now();
 
-        // wait for the operation to persist
-        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
-            int elapsedTime = 0;
-            boolean isEntityDeleted = !hasEntity(entityToDelete);
-            while (!isEntityDeleted
-                    && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                ThreadHelper.waitBriefly();
-
-                isEntityDeleted = !hasEntity(entityToDelete);
-                //check before incrementing to avoid boundary case problem
-                if (!isEntityDeleted) {
-                    elapsedTime += ThreadHelper.WAIT_DURATION;
-                }
-            }
-            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                log.info("Operation did not persist in time: delete"
-                        + entityToDelete.getEntityTypeAsString() + "->"
-                        + entityToDelete.getIdentificationString());
-            }
-        }
         log.info(entityToDelete.getBackupIdentifier());
     }
 
-    public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
+    public void deleteEntities(Collection<? extends EntityAttributes> entityAttributesToDelete) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityAttributesToDelete);
 
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
-        for (EntityAttributes entityToDelete : entitiesToDelete) {
-            log.info(entityToDelete.getBackupIdentifier());
-            getEntityKeyOnlyQuery(entityToDelete)
-                .deletePersistentAll(); // TODO: Objectify
+        ArrayList<Object> entitiesToDelete = new ArrayList<Object>();
+        for (EntityAttributes entityAttributeToDelete : entityAttributesToDelete) {
+            entitiesToDelete.add(entityAttributeToDelete.toEntity());
+            log.info(entityAttributeToDelete.getBackupIdentifier());
         }
+
+        ofy().delete().entities(entitiesToDelete).now();
     }
 
     public void deletePicture(BlobKey key) {
@@ -230,13 +173,7 @@ public abstract class OfyEntitiesDb {
      */
     protected abstract Object getEntity(EntityAttributes attributes);
 
-    protected abstract QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes); // TODO: Objectify
-
-    public boolean hasEntity(EntityAttributes attributes) {
-        QueryWithParams q = getEntityKeyOnlyQuery(attributes); // TODO: Objectify
-        List<?> results = q.execute();
-        return !results.isEmpty();
-    }
+    public abstract boolean hasEntity(EntityAttributes attributes);
 
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document) {
