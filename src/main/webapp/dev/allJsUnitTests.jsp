@@ -22,9 +22,11 @@
     <button id="test-bootbox-button"></button>
     <div id="test-bootbox-modal-stub"></div>
     <div id="visible">Visible</div>
-    
+    <input type="text" id="date-picker-div">
+
     <!-- Library scripts -->
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
@@ -57,6 +59,7 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js" data-cover></script>
     <script type="text/javascript" src="/js/instructorStudentList.js" data-cover></script>
     <script type="text/javascript" src="/js/student.js" data-cover></script>
+    <script type="text/javascript" src="/js/datepicker.js" data-cover></script>
 
     <div id="test-scripts">
         <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
@@ -67,6 +70,7 @@
         <script type="text/javascript" src="/dev/InstructorJsTest.js"></script>
         <script type="text/javascript" src="/dev/StudentJsTest.js"></script>
         <script type="text/javascript" src="/dev/SubmissionCountJsTest.js"></script>
+        <script type="text/javascript" src="/dev/DatepickerJsTest.js"></script>
     </div>
 </body>
 </html>
