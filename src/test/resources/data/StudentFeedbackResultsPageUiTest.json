@@ -425,7 +425,7 @@
       },
       "questionNumber": 5,
       "questionType": "TEXT",
-      "giverType": "STUDENTS",
+-      "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
@@ -1068,7 +1068,7 @@
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "RECEIVER",
