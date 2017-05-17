@@ -475,9 +475,7 @@ public class EmailGenerator {
             FeedbackSessionAttributes session, String userName, String userEmail) {
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
-
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-
         String emailBody;
 
         /*Check if the given userName and userEmail correspond
