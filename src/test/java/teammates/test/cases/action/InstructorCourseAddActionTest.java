@@ -137,7 +137,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa2.id<br>Total courses: 1|||/page/instructorCourseAdd";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, addAction.getLogMessage(), adminUserId);
 
         // delete the new course
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa2.id");
