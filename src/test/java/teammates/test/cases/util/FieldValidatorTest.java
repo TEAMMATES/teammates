@@ -378,7 +378,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Invalid gender should return appropriate error stirng",
+        assertEquals("Invalid gender should return appropriate error string",
                      String.format(GENDER_ERROR_MESSAGE, invalidGender),
                      actual);
 
