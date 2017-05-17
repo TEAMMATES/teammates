@@ -10,7 +10,6 @@ import com.googlecode.objectify.cmd.QueryKeys;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -24,7 +23,7 @@ import teammates.storage.entity.Course;
  * @see Course
  * @see CourseAttributes
  */
-public class CoursesDb extends OfyEntitiesDb {
+public class CoursesDb extends OfyEntitiesDb<CourseAttributes> {
 
     /*
      * Explanation: Based on our policies for the storage component, this class does not handle cascading.
@@ -36,10 +35,8 @@ public class CoursesDb extends OfyEntitiesDb {
     private static final Logger log = Logger.getLogger();
 
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException {
-
-        List<EntityAttributes> coursesToUpdate = createEntities(coursesToAdd);
-        for (EntityAttributes entity : coursesToUpdate) {
-            CourseAttributes course = (CourseAttributes) entity;
+        List<CourseAttributes> coursesToUpdate = createEntities(coursesToAdd);
+        for (CourseAttributes course : coursesToUpdate) {
             try {
                 updateCourse(course);
             } catch (EntityDoesNotExistException e) {
@@ -145,14 +142,13 @@ public class CoursesDb extends OfyEntitiesDb {
     }
 
     @Override
-    protected Object getEntity(EntityAttributes attributes) {
-        return getCourseEntity(((CourseAttributes) attributes).getId());
+    protected Object getEntity(CourseAttributes attributes) {
+        return getCourseEntity(attributes.getId());
     }
 
     @Override
-    public boolean hasEntity(EntityAttributes attributes) {
-        String id = ((CourseAttributes) attributes).getId();
-        Key<Course> keyToFind = Key.create(Course.class, id);
+    public boolean hasEntity(CourseAttributes attributes) {
+        Key<Course> keyToFind = Key.create(Course.class, attributes.getId());
         QueryKeys<Course> keysOnlyQuery = ofy().load().type(Course.class).filterKey(keyToFind).keys();
         return keysOnlyQuery.first().now() != null;
     }
