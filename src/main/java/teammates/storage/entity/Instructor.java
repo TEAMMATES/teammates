@@ -15,7 +15,7 @@ import com.google.appengine.api.datastore.Text;
  * --> [is an instructor for] --> Course.
  */
 @PersistenceCapable
-public class Instructor extends Entity {
+public class Instructor extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

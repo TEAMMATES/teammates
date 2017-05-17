@@ -12,7 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
  * Represents a unique user in the system.
  */
 @PersistenceCapable
-public class Account extends Entity {
+public class Account extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

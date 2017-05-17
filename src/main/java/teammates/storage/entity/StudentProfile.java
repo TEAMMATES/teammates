@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
  * account entity.
  */
 @PersistenceCapable
-public class StudentProfile extends Entity {
+public class StudentProfile extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

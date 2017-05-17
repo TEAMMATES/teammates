@@ -20,7 +20,7 @@ import teammates.common.util.StringHelper;
  * [enrolled in] --> Course.
  */
 @PersistenceCapable
-public class CourseStudent extends Entity implements StoreCallback {
+public class CourseStudent extends BaseEntity implements StoreCallback {
 
     /**
      * The name of the primary key of this entity type.

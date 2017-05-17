@@ -21,7 +21,7 @@ import teammates.common.util.Const;
  * Represents a feedback question.
  */
 @PersistenceCapable
-public class FeedbackQuestion extends Entity implements StoreCallback {
+public class FeedbackQuestion extends BaseEntity implements StoreCallback {
 
     // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
 

@@ -15,7 +15,7 @@ import teammates.common.util.Const;
  * Represents a course entity.
  */
 @PersistenceCapable
-public class Course extends Entity {
+public class Course extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

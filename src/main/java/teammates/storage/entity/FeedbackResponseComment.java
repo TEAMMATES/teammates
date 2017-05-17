@@ -22,7 +22,7 @@ import teammates.common.util.SanitizationHelper;
  * Currently giver is restricted only to Instructors.
  */
 @PersistenceCapable
-public class FeedbackResponseComment extends Entity {
+public class FeedbackResponseComment extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

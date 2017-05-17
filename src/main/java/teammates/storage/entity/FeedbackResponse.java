@@ -17,7 +17,7 @@ import teammates.common.util.Const;
  * Represents a feedback response.
  */
 @PersistenceCapable
-public class FeedbackResponse extends Entity implements StoreCallback {
+public class FeedbackResponse extends BaseEntity implements StoreCallback {
 
     /**
      * The name of the primary key of this entity type.

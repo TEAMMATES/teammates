@@ -10,7 +10,7 @@ import teammates.common.util.Assumption;
  * Base class for all entities persisted to the Datastore.
  */
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
-public abstract class Entity {
+public abstract class BaseEntity {
     protected static String getFieldWithPrimaryKeyAnnotation(Class<?> cls) {
         Field[] fs = cls.getDeclaredFields();
         for (Field f : fs) {

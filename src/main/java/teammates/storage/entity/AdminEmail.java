@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Text;
  * Represents emails composed by Admin.
  */
 @PersistenceCapable
-public class AdminEmail extends Entity {
+public class AdminEmail extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

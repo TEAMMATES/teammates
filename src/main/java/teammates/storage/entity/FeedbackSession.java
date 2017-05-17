@@ -19,7 +19,7 @@ import teammates.common.util.Const;
  * Represents an instructor-created Feedback Session.
  */
 @PersistenceCapable
-public class FeedbackSession extends Entity {
+public class FeedbackSession extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.

@@ -25,7 +25,7 @@ import teammates.common.util.SanitizationHelper;
  * receiver is restricted to Student.
  */
 @PersistenceCapable
-public class Comment extends Entity {
+public class Comment extends BaseEntity {
 
     /**
      * The name of the primary key of this entity type.
