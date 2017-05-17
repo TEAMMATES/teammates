@@ -62,7 +62,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public AdminEmail toEntity() {
         return new AdminEmail(addressReceiver, groupReceiver, subject, content, sendDate);
     }
 

@@ -131,7 +131,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
                                   new Text(moreInfo), new BlobKey(this.pictureKey));
     }
