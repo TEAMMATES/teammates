@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -47,8 +45,6 @@ public abstract class OfyEntitiesDb {
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
             "Trying to make an non-existent account an Instructor :";
 
-    private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
-    private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
     private static final Logger log = Logger.getLogger();
 
     /**
@@ -77,8 +73,7 @@ public abstract class OfyEntitiesDb {
         }
 
         Object entity = entityToAdd.toEntity();
-        getPm().makePersistent(entity);
-        getPm().flush();
+        ofy().save().entity(entity).now();
 
         // Wait for the operation to persist
         int elapsedTime = 0;
@@ -128,8 +123,7 @@ public abstract class OfyEntitiesDb {
             log.info(entityToAdd.getBackupIdentifier());
         }
 
-        getPm().makePersistentAll(entities);
-        getPm().flush();
+        ofy().save().entities(entities).now();
 
         return entitiesToUpdate;
 
@@ -153,8 +147,7 @@ public abstract class OfyEntitiesDb {
         }
 
         Object entity = entityToAdd.toEntity();
-        getPm().makePersistent(entity);
-        getPm().flush();
+        ofy().save().entity(entity).now();
 
         // Wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -189,7 +182,7 @@ public abstract class OfyEntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
 
         getEntityKeyOnlyQuery(entityToDelete)
-            .deletePersistentAll();
+            .deletePersistentAll(); // TODO: Objectify
 
         // wait for the operation to persist
         if (Config.PERSISTENCE_CHECK_DURATION > 0) {
@@ -220,17 +213,7 @@ public abstract class OfyEntitiesDb {
         for (EntityAttributes entityToDelete : entitiesToDelete) {
             log.info(entityToDelete.getBackupIdentifier());
             getEntityKeyOnlyQuery(entityToDelete)
-                .deletePersistentAll();
-        }
-    }
-
-    public void commitOutstandingChanges() {
-        closePm();
-    }
-
-    protected void closePm() {
-        if (!getPm().isClosed()) {
-            getPm().close();
+                .deletePersistentAll(); // TODO: Objectify
         }
     }
 
@@ -247,26 +230,12 @@ public abstract class OfyEntitiesDb {
      */
     protected abstract Object getEntity(EntityAttributes attributes);
 
-    protected abstract QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes);
+    protected abstract QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes); // TODO: Objectify
 
     public boolean hasEntity(EntityAttributes attributes) {
-        QueryWithParams q = getEntityKeyOnlyQuery(attributes);
+        QueryWithParams q = getEntityKeyOnlyQuery(attributes); // TODO: Objectify
         List<?> results = q.execute();
         return !results.isEmpty();
-    }
-
-    protected PersistenceManager getPm() {
-        PersistenceManager pm = PER_THREAD_PM.get();
-        if (pm != null && !pm.isClosed()) {
-            return pm;
-        }
-
-        if (pm != null && pm.isClosed()) {
-            PER_THREAD_PM.remove();
-        }
-        pm = PMF.getPersistenceManager();
-        PER_THREAD_PM.set(pm);
-        return pm;
     }
 
     //the followings APIs are used by Teammates' search engine
