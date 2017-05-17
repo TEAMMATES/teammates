@@ -15,6 +15,7 @@ import com.google.apphosting.api.DeadlineExceededException;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
+import teammates.common.exception.InvalidOriginException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
@@ -92,6 +93,12 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
             resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
+
+        } catch (InvalidOriginException e) {
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
+            cleanUpStatusMessageInSession(req);
+            resp.sendRedirect(Const.ViewURIs.INVALID_ORIGIN);
 
         } catch (UnauthorizedAccessException e) {
             log.warning(new LogMessageGenerator()
