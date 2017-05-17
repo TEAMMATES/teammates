@@ -944,6 +944,16 @@ function readyFeedbackEditPage() {
     bindFeedbackSessionEditFormSubmission();
 }
 
+/**
+ * Adds hover event handler on menu options which
+ * toggles a tooltip over the submenu options
+ */
+function setTooltipTriggerOnFeedbackPathMenuOptions() {
+    $(".dropdown-submenu").hover(function() {
+    	$(this).children(".dropdown-menu").tooltip("toggle");
+    });
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -968,6 +978,7 @@ $(document).ready(() => {
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
+    setTooltipTriggerOnFeedbackPathMenuOptions();
 });
 
 /* exported
