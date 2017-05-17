@@ -52,41 +52,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         }
 
         // modify set of responses for each test according to its sets of students and questions
-        // obtain set of e-mails for current set of students
-        Set<String> studentsEmails = new HashSet<>(testData.students.size());
-        for (StudentAttributes student : testData.students.values()) {
-            studentsEmails.add(student.email);
-        }
-
-        // obtain set of keys for current Map of questions
-        Set<Integer> questionsNumbers = new HashSet<>(testData.feedbackQuestions.size());
-        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
-            questionsNumbers.add(question.questionNumber);
-        }
-
-        // collect feedbackResponses for selected students and questions
-        Set<String> feedbackResponsesKeys = testDataMax.feedbackResponses.keySet();
-        String giver;
-        String recipient;
-        String questionId;
-        for (String key : feedbackResponsesKeys) {
-            giver = testDataMax.feedbackResponses.get(key).giver;
-            recipient = testDataMax.feedbackResponses.get(key).recipient;
-            questionId = testDataMax.feedbackResponses.get(key).feedbackQuestionId;
-
-            if (!studentsEmails.contains(giver)
-                    || !studentsEmails.contains(recipient)
-                    || !questionsNumbers.contains(questionId)) {
-                if (testData.feedbackResponses.containsKey(key)) {
-                    testData.feedbackResponses.remove(key);
-                }
-                continue;
-            }
-            if (testData.feedbackResponses.containsKey(key)) {
-                continue;
-            }
-            testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
-        }
+        updateFeedbackResponses();
 
         removeAndRestoreDataBundle(testData);
     }
@@ -138,6 +104,44 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
                 return;
             }
             testData.feedbackQuestions.remove(key);
+        }
+    }
+
+    private void updateFeedbackResponses() {
+
+        // obtain set of e-mails for current set of students
+        Set<String> studentsEmails = new HashSet<>(testData.students.size());
+        for (StudentAttributes student : testData.students.values()) {
+            studentsEmails.add(student.email);
+        }
+
+        // obtain set of keys for current Map of questions
+        Set<Integer> questionsNumbers = new HashSet<>(testData.feedbackQuestions.size());
+        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
+            questionsNumbers.add(question.questionNumber);
+        }
+
+        Set<String> feedbackResponsesKeys = testDataMax.feedbackResponses.keySet();
+        String giver;
+        String recipient;
+        String questionId;
+        for (String key : feedbackResponsesKeys) {
+            giver = testDataMax.feedbackResponses.get(key).giver;
+            recipient = testDataMax.feedbackResponses.get(key).recipient;
+            questionId = testDataMax.feedbackResponses.get(key).feedbackQuestionId;
+
+            if (!studentsEmails.contains(giver)
+                    || !studentsEmails.contains(recipient)
+                    || !questionsNumbers.contains(questionId)) {
+                if (testData.feedbackResponses.containsKey(key)) {
+                    testData.feedbackResponses.remove(key);
+                }
+                continue;
+            }
+            if (testData.feedbackResponses.containsKey(key)) {
+                continue;
+            }
+            testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
         }
     }
 
