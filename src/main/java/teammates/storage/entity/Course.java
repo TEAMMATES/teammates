@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 
 import teammates.common.util.Const;
@@ -15,12 +14,6 @@ import teammates.common.util.Const;
 @Entity
 @Index
 public class Course extends BaseEntity {
-
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @Ignore
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Course.class);
 
     @Id
     private String id;
