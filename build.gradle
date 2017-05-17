@@ -48,6 +48,7 @@ dependencies {
     compile         "com.google.appengine.tools:appengine-gcs-client:0.4.4",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.8.0",
+                    "com.googlecode.objectify:objectify:5.1.17",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
                     "com.mailjet:mailjet-client:4.0.5",
                     "com.sendgrid:sendgrid-java:2.2.2",
