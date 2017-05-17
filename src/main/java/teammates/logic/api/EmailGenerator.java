@@ -113,7 +113,7 @@ public class EmailGenerator {
         String joinFragmentValue = isYetToJoinCourse(student)
                                    ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
                                            "${joinUrl}", joinUrl,
-                                           "${courseName}", course.getName())
+                                           "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()))
                                    : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
@@ -152,7 +152,7 @@ public class EmailGenerator {
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
                 "${userName}", student.name,
                 "${userEmail}", student.email,
-                "${courseName}", course.getName(),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", course.getId(),
                 "${joinFragment}", joinFragmentValue,
                 "${linksFragment}", linksFragmentValue.toString(),
