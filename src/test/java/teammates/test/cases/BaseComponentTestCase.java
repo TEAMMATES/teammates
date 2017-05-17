@@ -6,6 +6,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
 import com.google.appengine.api.blobstore.BlobKey;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -21,6 +23,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.entity.Course;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.GaeSimulation;
 
@@ -32,6 +35,19 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
+
+    private Closeable closeable;
+
+    @BeforeTest
+    public void setup() {
+        ObjectifyService.register(Course.class);
+        closeable = ObjectifyService.begin();
+    }
+
+    @AfterTest
+    public void tearDown() {
+        closeable.close();
+    }
 
     @BeforeTest
     public void testSetup() {
