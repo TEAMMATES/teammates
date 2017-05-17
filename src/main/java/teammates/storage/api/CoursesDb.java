@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.Query;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.QueryKeys;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
@@ -22,7 +24,7 @@ import teammates.storage.entity.Course;
  * @see Course
  * @see CourseAttributes
  */
-public class CoursesDb extends EntitiesDb {
+public class CoursesDb extends OfyEntitiesDb {
 
     /*
      * Explanation: Based on our policies for the storage component, this class does not handle cascading.
@@ -72,9 +74,7 @@ public class CoursesDb extends EntitiesDb {
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
         // TODO add method to get List<CourseAttributes> from List<Course>
         for (Course c : courses) {
-            if (!JDOHelper.isDeleted(c)) {
-                courseAttributes.add(new CourseAttributes(c));
-            }
+            courseAttributes.add(new CourseAttributes(c));
         }
         return courseAttributes;
     }
@@ -86,17 +86,11 @@ public class CoursesDb extends EntitiesDb {
      */
     @Deprecated
     public List<CourseAttributes> getAllCourses() {
-
-        Query q = getPm().newQuery(Course.class);
-
-        @SuppressWarnings("unchecked")
-        List<Course> courseList = (List<Course>) q.execute();
+        List<Course> courseList = ofy().load().type(Course.class).list();
 
         List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
         for (Course c : courseList) {
-            if (!JDOHelper.isDeleted(c)) {
-                courseDataList.add(new CourseAttributes(c));
-            }
+            courseDataList.add(new CourseAttributes(c));
         }
 
         return courseDataList;
@@ -129,8 +123,9 @@ public class CoursesDb extends EntitiesDb {
         courseEntityToUpdate.setName(courseToUpdate.getName());
         courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
 
+        ofy().save().entity(courseEntityToUpdate).now();
+
         log.info(courseToUpdate.getBackupIdentifier());
-        getPm().close();
     }
 
     /**
@@ -155,32 +150,15 @@ public class CoursesDb extends EntitiesDb {
     }
 
     @Override
-    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
-        Class<?> entityClass = Course.class;
-        String primaryKeyName = Course.PRIMARY_KEY_NAME;
-        CourseAttributes ca = (CourseAttributes) attributes;
-        String id = ca.getId();
-
-        Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
-
-        return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
+    public boolean hasEntity(EntityAttributes attributes) {
+        String id = ((CourseAttributes) attributes).getId();
+        Key<Course> keyToFind = Key.create(Course.class, id);
+        QueryKeys<Course> keysOnlyQuery = ofy().load().type(Course.class).filterKey(keyToFind).keys();
+        return keysOnlyQuery.first().now() != null;
     }
 
     private Course getCourseEntity(String courseId) {
-        Query q = getPm().newQuery(Course.class);
-        q.declareParameters("String courseIdParam");
-        q.setFilter("ID == courseIdParam");
-
-        @SuppressWarnings("unchecked")
-        List<Course> courseList = (List<Course>) q.execute(courseId);
-
-        if (courseList.isEmpty() || JDOHelper.isDeleted(courseList.get(0))) {
-            return null;
-        }
-
-        return courseList.get(0);
+        return ofy().load().type(Course.class).id(courseId).now();
     }
 
     private List<Course> getCourseEntities(List<String> courseIds) {
@@ -188,12 +166,6 @@ public class CoursesDb extends EntitiesDb {
             return new ArrayList<Course>();
         }
 
-        Query q = getPm().newQuery(Course.class);
-        q.setFilter(":p.contains(ID)");
-
-        @SuppressWarnings("unchecked")
-        List<Course> courses = (List<Course>) q.execute(courseIds);
-
-        return courses;
+        return new ArrayList<Course>(ofy().load().type(Course.class).ids(courseIds).values());
     }
 }
