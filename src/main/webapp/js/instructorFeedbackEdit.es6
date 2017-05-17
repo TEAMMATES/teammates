@@ -949,8 +949,8 @@ function readyFeedbackEditPage() {
  * toggles a tooltip over the submenu options
  */
 function setTooltipTriggerOnFeedbackPathMenuOptions() {
-    $(".dropdown-submenu").hover(function() {
-    	$(this).children(".dropdown-menu").tooltip("toggle");
+    $('.dropdown-submenu').hover(function () {
+        $(this).children('.dropdown-menu').tooltip('toggle');
     });
 }
 
