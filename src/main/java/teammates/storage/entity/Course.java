@@ -7,8 +7,6 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 
-import com.google.gson.annotations.SerializedName;
-
 import teammates.common.util.Const;
 
 /**
@@ -25,10 +23,7 @@ public class Course extends BaseEntity {
     public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Course.class);
 
     @Id
-    @SerializedName("id")
-    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
-    private String ID;
-    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
+    private String id;
 
     private String name;
 
@@ -52,11 +47,11 @@ public class Course extends BaseEntity {
     }
 
     public String getUniqueId() {
-        return ID;
+        return id;
     }
 
     public void setUniqueId(String uniqueId) {
-        this.ID = uniqueId.trim();
+        this.id = uniqueId.trim();
     }
 
     public String getName() {
