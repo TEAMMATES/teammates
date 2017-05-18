@@ -54,6 +54,8 @@ Of course we are happy to guide you if you encounter any difficulties when doing
 
 ### **Phase C**: Tinker with the code
 
+> You are recommended to refer to [the _Development Guidelines_ document](development.md) for this phase.
+
 1. Create a branch named `tinker`.
 1. In that branch, do a small change to the code that makes a visible change to TEAMMATES UI. Preferably, your change should improve the UI in some way, or at least not make it worse.
 1. Deploy the changed version to your staging server.

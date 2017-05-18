@@ -199,7 +199,8 @@ public class GaeSimulation {
 
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
 
-        WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
+        WebRequest request = new PostMethodWebRequest("http://localhost" + uri);
+        request.setHeaderField("referer", "http://localhost" + uri);
 
         Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
         for (int i = 0; i < parameters.length; i = i + 2) {
