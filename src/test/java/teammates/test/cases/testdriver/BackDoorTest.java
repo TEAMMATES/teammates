@@ -24,14 +24,17 @@ import teammates.test.driver.Priority;
 @Priority(2)
 public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
-    private DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle;
 
     @BeforeClass
     public void classSetup() {
+        dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 
         // verifies that typical bundle is restored by the above operation
-        verifyPresentInDatastore(dataBundle);
+        DataBundle expected = getTypicalDataBundle();
+        expected.sanitizeForSaving();
+        verifyPresentInDatastore(expected);
     }
 
     @Test
