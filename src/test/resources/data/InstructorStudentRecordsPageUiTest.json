@@ -51,6 +51,30 @@
         "moreInfo": "This is a lot of info!",
         "pictureKey": ""
       }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "ISR.sanitizationInstruct",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "ISR.instruct@sanitization.tmt",
+      "institute": "inst\"</td></div>"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "ISR.sanitizationStudent",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "ISR.stud@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "ISR.sanitizationStudent",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
@@ -67,6 +91,12 @@
     "NoEvalCourse": {
       "id": "ISR.NoEval",
       "name": "No Eval Course",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "ISR.sanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -200,6 +230,33 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "ISR.teammates.instr",
+      "courseId": "ISR.sanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "ISR.instruct@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -207,9 +264,9 @@
       "googleId": "ISR.teammates.test",
       "email": "teammates.test@gmail.tmt",
       "course": "ISR.CS2104",
-      "name": "Teammates Test</option></td></div>'\"",
-      "comments": "This student's name is Teammates Test</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "name": "Teammates Test",
+      "comments": "This student's name is Teammates Test",
+      "team": "Team 1"
     },
     "benny.c.tmms@ISR.CS2104": {
       "googleId": "ISR.benny.c.tmms",
@@ -217,7 +274,7 @@
       "course": "ISR.CS2104",
       "name": "Benny Charlés",
       "comments": "This student's name is Benny Charlés",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1"
     },
     "charlie.d.tmms@ISR.CS2104": {
       "googleId": "ISR.charlie.d.tmms",
@@ -225,7 +282,7 @@
       "course": "ISR.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1"
     },
     "alice.b.tmms@ISR.CS2104": {
       "googleId": "ISR.alice.b.tmms",
@@ -249,7 +306,7 @@
       "course": "ISR.CS1101",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1"
     },
     "benny.c.tmms@ISR.CS1101": {
       "googleId": "ISR.benny.c.tmms",
@@ -257,7 +314,7 @@
       "course": "ISR.CS1101",
       "name": "Benny Charlés",
       "comments": "This student's name is Benny Charlés",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1"
     },
     "charlie.d.tmms@ISR.CS1101": {
       "googleId": "ISR.charlie.d.tmms",
@@ -281,7 +338,16 @@
       "course": "ISR.NoEval",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "ISR.sanitizationStudent",
+      "email": "ISR.stud@sanitization.tmt",
+      "course": "ISR.sanitizationCourse",
+      "name": "Stud1\"</td></div><script>alert('hi!');</script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags</td></div>'\"",
+      "section": "Section\"</td></div>"
     }
   },
   "feedbackSessions": {
@@ -779,6 +845,28 @@
       "createdAt": "2012-05-01 9:10 AM UTC",
       "commentText": {
         "value": "Comment from ISR.CS1101 teammates.instr Instructor to Teammates Test, viewable by instructors"
+      }
+    },
+    "commentTestingSanitization": {
+      "courseId": "ISR.sanitizationCourse",
+      "giverEmail": "ISR.instruct@sanitization.tmt",
+      "recipientType": "PERSON",
+      "recipients": [
+        "ISR.stud@sanitization.tmt"
+      ],
+      "status": "FINAL",
+      "showCommentTo": [
+        "INSTRUCTOR"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTOR"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTOR"
+      ],
+      "createdAt": "2012-05-01 9:10 AM UTC",
+      "commentText": {
+        "value": "I am just a comment :P <script> alert('hi!'); </script>"
       }
     }
   },

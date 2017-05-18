@@ -3,6 +3,7 @@ package teammates.ui.template;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.PageData;
 
@@ -36,6 +37,14 @@ public class StudentProfileEditBox {
         this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;
         this.pictureUrl = pictureUrl;
+
+        // TODO: remove after StudentProfileAttributes are desanitized
+        this.shortName = SanitizationHelper.desanitizeIfHtmlSanitized(this.shortName);
+        this.gender = SanitizationHelper.desanitizeIfHtmlSanitized(this.gender);
+        this.email = SanitizationHelper.desanitizeIfHtmlSanitized(this.email);
+        this.institute = SanitizationHelper.desanitizeIfHtmlSanitized(this.institute);
+        this.nationality = SanitizationHelper.desanitizeIfHtmlSanitized(this.nationality);
+        this.moreInfo = SanitizationHelper.desanitizeIfHtmlSanitized(this.moreInfo);
     }
 
     public String getName() {

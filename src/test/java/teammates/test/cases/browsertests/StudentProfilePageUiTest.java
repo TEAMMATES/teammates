@@ -92,6 +92,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.verifyHtmlPart(By.id("editProfileDiv"), "/studentProfileEditDivExistingValues.html");
 
+        ______TS("Typical case: existing profile with attempted script injection");
+        profilePage = getProfilePageForStudent("student1InTestingSanitizationCourse");
+        profilePage.verifyHtmlPart(
+                By.id("editProfileDiv"), "/studentProfilePageWithAttemptedScriptInjection.html");
+
         ______TS("Typical case: edit profile picture modal (without existing picture)");
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.showPictureEditor();
@@ -122,6 +127,19 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                           "male", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
+        ______TS("Typical case: attempted script injection");
+
+        StudentProfileAttributes spa =
+                new StudentProfileAttributes("valid.id", "name<script>alert(\"Hello world!\");</script>",
+                        "e@email.tmt", " inst<script>alert(\"Hello world!\");</script>", "American",
+                        "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>", "");
+        profilePage.editProfileThroughUi(
+                spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
+        profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
+                "e@email.tmt", "inst<script>alert(\"Hello world!\");</script>", "American",
+                "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+
         ______TS("Typical case: changing genders for complete coverage");
 
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "other",
@@ -133,12 +151,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                          "female", "this is enough!$%&*</>");
 
-        ______TS("Failure case: script injection");
+        ______TS("Failure case: invalid institute with attempted script injection");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id",
-                                                                    "<script>alert(\"Hello world!\");</script>",
-                                                                    "e@email.tmt", " inst", "American",
-                                                                    "male", "this is enough!$%&*</>", "");
+        spa = new StudentProfileAttributes("valid.id", "short.name", "e@email.tmt",
+                                            "<script>alert(\"Hello world!\");</script>",
+                                            "American", "male", "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
