@@ -55,12 +55,13 @@ public final class RetryManager {
         return result;
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
     private static <T, E extends Throwable, C extends Throwable> T doRetry(
             Retryable<T, E> task, Class<C> exceptionType) throws E {
         for (int delay = 1; delay <= MAX_DELAY_IN_S; delay *= 2) {
             try {
                 return task.run_internal();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 if (!exceptionType.isInstance(e)) {
                     throw e;
                 }
