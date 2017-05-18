@@ -117,7 +117,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 */
         ______TS("join course with no feedback sessions, profile is empty");
         AccountAttributes studentWithEmptyProfile = dataBundle.accounts.get("noFSStudent");
-        studentWithEmptyProfile = accountsDb.getAccount(studentWithEmptyProfile.googleId, true);
+        studentWithEmptyProfile = accountsDb.getAccount(studentWithEmptyProfile.googleId);
         assertNotNull(studentWithEmptyProfile.studentProfile);
         assertEquals("", studentWithEmptyProfile.studentProfile.pictureKey);
         assertEquals("", studentWithEmptyProfile.studentProfile.shortName);
@@ -157,7 +157,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         ______TS("join course with no feedback sessions, profile has only one missing field");
         AccountAttributes studentWithoutProfilePicture = dataBundle.accounts.get("noFSStudent2");
-        studentWithoutProfilePicture = accountsDb.getAccount(studentWithoutProfilePicture.googleId, true);
+        studentWithoutProfilePicture = accountsDb.getAccount(studentWithoutProfilePicture.googleId);
         assertNotNull(studentWithoutProfilePicture.studentProfile);
         assertEquals("", studentWithoutProfilePicture.studentProfile.pictureKey);
         assertFalse(studentWithoutProfilePicture.studentProfile.nationality.isEmpty());
@@ -199,7 +199,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         ______TS("join course with no feedback sessions, profile has no missing field");
         AccountAttributes studentWithFullProfile = dataBundle.accounts.get("noFSStudent3");
 
-        studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId, true);
+        studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId);
         assertNotNull(studentWithFullProfile.studentProfile);
         assertFalse(studentWithFullProfile.studentProfile.pictureKey.isEmpty());
         assertFalse(studentWithoutProfilePicture.studentProfile.nationality.isEmpty());
