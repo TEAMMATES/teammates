@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -61,6 +62,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
         testGetStudentsForCourse();
+        testGetStudentsWithQuestionsToAnswer();
+        testGetStudentsWhoCanViewSession();
+        testGetStudentsWithUnansweredQuestions();
         testGetEncryptedKeyForStudent();
         testIsStudentInAnyCourse();
         testIsStudentInCourse();
@@ -210,9 +214,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("Typical case");
 
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
+        studentList.add(new StudentAttributes("Section 3", "Team 1.4", "New Student", "emailNew@com", "", courseId));
         studentList.add(
-                new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
+                new StudentAttributes("Section 2", "Team 1.5", "student2 In Course1",
                                       "student2InCourse1@gmail.tmt", "", courseId));
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
@@ -919,7 +923,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
         List<StudentAttributes> studentList = studentsLogic
                 .getStudentsForCourse(course1OfInstructor1.getId());
-        assertEquals(5, studentList.size());
+        assertEquals(6, studentList.size());
         for (StudentAttributes s : studentList) {
             assertEquals(course1OfInstructor1.getId(), s.course);
         }
@@ -944,6 +948,90 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentList = studentsLogic.getStudentsForCourse("non-existent");
         assertEquals(0, studentList.size());
 
+    }
+
+    private void testGetStudentsWithQuestionsToAnswer() {
+        List<StudentAttributes> expectedStudentList;
+        List<StudentAttributes> actualStudentList;
+        FeedbackSessionAttributes session;
+
+        ______TS("All students in course have questions to answer");
+        session = dataBundle.feedbackSessions.get("session1InCourse1");
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student1InCourse1"),
+                                            dataBundle.students.get("student2InCourse1"),
+                                            dataBundle.students.get("student3InCourse1"),
+                                            dataBundle.students.get("student4InCourse1"),
+                                            dataBundle.students.get("student5InCourse1"),
+                                            dataBundle.students.get("student6InCourse1"));
+        actualStudentList = studentsLogic.getStudentsWithQuestionsToAnswer(session);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentList, actualStudentList);
+
+        ______TS("Only one student in course has a question to answer");
+        session = dataBundle.feedbackSessions.get("session.with.custom.participants");
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student5InCourse1"));
+        actualStudentList = studentsLogic.getStudentsWithQuestionsToAnswer(session);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentList, actualStudentList);
+
+        ______TS("Session does not contain students");
+        session = dataBundle.feedbackSessions.get("closedSession");
+        actualStudentList = studentsLogic.getStudentsWithQuestionsToAnswer(session);
+        assertTrue(actualStudentList.isEmpty());
+
+    }
+
+    private void testGetStudentsWhoCanViewSession() {
+        List<StudentAttributes> expectedStudentList;
+        List<StudentAttributes> actualStudentList;
+        FeedbackSessionAttributes session;
+
+        ______TS("All students in course can view session");
+        session = dataBundle.feedbackSessions.get("session1InCourse1");
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student1InCourse1"),
+                                            dataBundle.students.get("student2InCourse1"),
+                                            dataBundle.students.get("student3InCourse1"),
+                                            dataBundle.students.get("student4InCourse1"),
+                                            dataBundle.students.get("student5InCourse1"),
+                                            dataBundle.students.get("student6InCourse1"));
+        actualStudentList = studentsLogic.getStudentsWhoCanViewSession(session);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentList, actualStudentList);
+
+        ______TS("Only some students in course can view session");
+        session = dataBundle.feedbackSessions.get("session.with.custom.participants");
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student1InCourse1"),
+                                            dataBundle.students.get("student5InCourse1"));
+        actualStudentList = studentsLogic.getStudentsWhoCanViewSession(session);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentList, actualStudentList);
+
+        ______TS("Session does not contain students");
+        session = dataBundle.feedbackSessions.get("closedSession");
+        actualStudentList = studentsLogic.getStudentsWhoCanViewSession(session);
+        assertTrue(actualStudentList.isEmpty());
+    }
+
+    private void testGetStudentsWithUnansweredQuestions() throws Exception {
+        List<StudentAttributes> expectedStudentList;
+        List<StudentAttributes> actualStudentList;
+        FeedbackSessionAttributes session;
+
+        ______TS("All students in course have unanswered questions except student 1 and student 2");
+        session = dataBundle.feedbackSessions.get("session1InCourse1");
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student3InCourse1"),
+                                            dataBundle.students.get("student4InCourse1"),
+                                            dataBundle.students.get("student5InCourse1"),
+                                            dataBundle.students.get("student6InCourse1"));
+        actualStudentList = studentsLogic.getStudentsWithUnansweredQuestions(session);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentList, actualStudentList);
+
+        ______TS("Only one student who is a custom giver for a question in the session has an unanswered question");
+        session = dataBundle.feedbackSessions.get("session.with.custom.participants");
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student5InCourse1"));
+        actualStudentList = studentsLogic.getStudentsWithQuestionsToAnswer(session);
+        AssertHelper.assertSameContentIgnoreOrder(expectedStudentList, actualStudentList);
+
+        ______TS("Session does not contain students");
+        session = dataBundle.feedbackSessions.get("closedSession");
+        actualStudentList = studentsLogic.getStudentsWithUnansweredQuestions(session);
+        assertTrue(actualStudentList.isEmpty());
     }
 
     private void testGetEncryptedKeyForStudent() throws Exception {

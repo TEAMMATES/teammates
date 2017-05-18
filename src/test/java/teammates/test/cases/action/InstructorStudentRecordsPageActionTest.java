@@ -98,7 +98,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(instructorId, actualData.account.googleId);
         assertEquals(instructor.courseId, actualData.getCourseId());
         assertEquals(1, actualData.getCommentsForStudentTable().get(0).getRows().size());
-        assertEquals(6, actualData.getSessionNames().size());
+        assertEquals(7, actualData.getSessionNames().size());
         assertEquals(student.googleId, actualData.spa.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
@@ -106,7 +106,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                                   + "|||instr3@course1n2.tmt|||instructorStudentRecords Page Load<br>"
                                   + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
                                   + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
-                                  + "Number of sessions: 6<br>"
+                                  + "Number of sessions: 7<br>"
                                   + "Student Profile: " + expectedProfile.toString()
                                   + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());

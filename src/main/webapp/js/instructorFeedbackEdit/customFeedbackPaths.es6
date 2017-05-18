@@ -1,5 +1,5 @@
 /* global
-enableAllRows:false, hideInvalidRecipientTypeOptions:false
+enableAllRows:false, hideInvalidRecipientTypeOptions:false, getVisibilityMessage:false, updateVisibilityCheckboxesDiv:false
 
 FEEDBACK_QUESTION_GIVERTYPE:false, FEEDBACK_QUESTION_RECIPIENTTYPE:false
 */
@@ -388,6 +388,7 @@ const CustomFeedbackPaths = {
             CustomFeedbackPaths.appendCustomOptionsIfNecessary($questionForm);
             enableAllRows($questionForm);
             CustomFeedbackPaths.updateColumnsForFeedbackPathsSpreadsheet($questionForm);
+            getVisibilityMessage(this);
         });
     },
 
@@ -404,6 +405,7 @@ const CustomFeedbackPaths = {
             $giverSelect.find(`option[value="${CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM}"]`).remove();
             $recipientSelect.find(`option[value="${CustomFeedbackPaths.FEEDBACK_PARTICIPANT_TYPE_CUSTOM}"]`).remove();
             hideInvalidRecipientTypeOptions($giverSelect);
+            updateVisibilityCheckboxesDiv($questionForm);
         }
     },
 

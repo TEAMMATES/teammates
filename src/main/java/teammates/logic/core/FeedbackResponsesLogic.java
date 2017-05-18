@@ -10,6 +10,7 @@ import java.util.Set;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -212,7 +213,9 @@ public final class FeedbackResponsesLogic {
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student) {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.giverType == FeedbackParticipantType.TEAMS
+                || question.giverType == FeedbackParticipantType.CUSTOM
+                && question.isFeedbackPathsGiverTypeTeams()) {
             return getFeedbackResponsesFromTeamForQuestion(
                     question.getId(), question.courseId, student.team);
         }
@@ -351,7 +354,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Returns true if the responses of the question are visible to students.
      */
-    public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
+    public boolean isResponseOfFeedbackQuestionVisibleToStudents(FeedbackQuestionAttributes question) {
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             return true;
         }
@@ -367,10 +370,48 @@ public final class FeedbackResponsesLogic {
             return true;
         }
         if (question.giverType == FeedbackParticipantType.TEAMS
-                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                        && question.giverType.equals(FeedbackParticipantType.STUDENTS)) {
             return true;
         }
-        return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && question.giverType.equals(FeedbackParticipantType.STUDENTS);
+    }
+
+    /**
+     * Return true if the responses of the question are visible to the student.
+     */
+    public boolean isResponseOfFeedbackQuestionVisibleToStudent(
+            FeedbackQuestionAttributes question, StudentAttributes student) {
+        if (isResponseOfFeedbackQuestionVisibleToStudents(question)) {
+            return true;
+        }
+
+        if (question.recipientType.equals(FeedbackParticipantType.CUSTOM)) {
+            if ((question.hasStudentAsRecipientInFeedbackPaths(student.getEmail())
+                    || question.hasTeamAsRecipientInFeedbackPaths(student.getTeam()))
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+                return true;
+            }
+
+            TeamDetailsBundle studentTeamDetails = studentsLogic.getTeamDetailsForStudent(student);
+            if (question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                for (StudentAttributes teamMember : studentTeamDetails.students) {
+                    if (question.hasStudentAsGiverInFeedbackPaths(teamMember.getEmail())) {
+                        return true;
+                    }
+                }
+            }
+
+            if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
+                for (StudentAttributes teamMember : studentTeamDetails.students) {
+                    if (question.hasStudentAsRecipientInFeedbackPaths(teamMember.getEmail())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public boolean hasResponsesForCourse(String courseId) {
@@ -911,7 +952,8 @@ public final class FeedbackResponsesLogic {
         }
 
         if (question.giverType == FeedbackParticipantType.TEAMS
-                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.giverType.isCustom() && question.hasTeamAsGiverInFeedbackPaths(student.getTeam())) {
             addNewResponses(viewableResponses,
                     getFeedbackResponsesFromTeamForQuestion(
                             question.getId(), question.courseId, student.team));
