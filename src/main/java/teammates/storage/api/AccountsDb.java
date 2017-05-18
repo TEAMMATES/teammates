@@ -31,6 +31,7 @@ import teammates.storage.entity.StudentProfile;
 public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
 
     private static final Logger log = Logger.getLogger();
+    private ProfilesDb profilesDb = new ProfilesDb();
 
     /**
      * Preconditions:
@@ -46,6 +47,8 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
                 accountToAdd.studentProfile.googleId = accountToAdd.googleId;
             }
             createEntity(accountToAdd);
+            profilesDb.createEntity(accountToAdd.studentProfile);
+
         } catch (EntityAlreadyExistsException e) {
             // We update the account instead if it already exists. This is due to how
             // adding of instructor accounts work.

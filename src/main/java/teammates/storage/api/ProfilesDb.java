@@ -10,6 +10,7 @@ import com.googlecode.objectify.cmd.QueryKeys;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -25,6 +26,11 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfileAttributes
  */
 public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttributes> {
+
+    public void createStudentProfile(StudentProfileAttributes newSpa)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        createEntity(newSpa);
+    }
 
     /**
      * Gets the datatransfer (*Attributes) version of the profile
@@ -194,7 +200,8 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
     // TODO: update this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityFromDb(String googleId) {
         Key<Account> parentKey = Key.create(Account.class, googleId);
-        StudentProfile profile = ofy().load().type(StudentProfile.class).parent(parentKey).id(googleId).now();
+        Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, googleId);
+        StudentProfile profile = ofy().load().key(childKey).now();
 
         if (profile == null) {
             return getStudentProfileEntityForLegacyData(googleId);
