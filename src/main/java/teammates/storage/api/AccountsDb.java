@@ -186,16 +186,29 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        AccountAttributes accountToDelete = getAccount(googleId, true);
+        AccountAttributes accountToDelete = getAccount(googleId);
 
         if (accountToDelete == null) {
             return;
         }
 
-        if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
-            deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+        if (accountToDelete.studentProfile != null) {
+            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
+                deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            }
+            profilesDb.deleteEntity(accountToDelete.studentProfile);
         }
+
         deleteEntity(accountToDelete);
+    }
+
+    @Override // delete without checking for student profile
+    public void deleteEntity(AccountAttributes accountToDelete) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, accountToDelete);
+
+        ofy().delete().key(Key.create(Account.class, accountToDelete.googleId)).now();
+
+        log.info(accountToDelete.getBackupIdentifier());
     }
 
     public void deleteAccounts(Collection<AccountAttributes> accounts) {
