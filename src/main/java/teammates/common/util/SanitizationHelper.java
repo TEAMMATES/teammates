@@ -384,9 +384,6 @@ public final class SanitizationHelper {
      * Returns the desanitized {@code string} if it is sanitized, otherwise returns the unchanged string.
      */
     public static String desanitizeIfHtmlSanitized(String string) {
-        if (!isSanitizedHtml(string)) {
-            return string;
-        }
-        return desanitizeFromHtml(string);
+        return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
     }
 }
