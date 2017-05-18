@@ -133,11 +133,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
 
         verifySpecifiedTasksAdded(a, TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME, 1);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
-                "idOfTypicalCourse1",
-                "student3InCourse1%40gmail.tmt",
-                "idOfInstructor3",
-                false),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                        "idOfTypicalCourse1",
+                        "student3InCourse1%40gmail.tmt",
+                        "idOfInstructor3",
+                        false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
@@ -237,10 +239,12 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
-                "idOfTypicalCourse1",
-                "idOfInstructor3",
-                false),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        "idOfTypicalCourse1",
+                        "idOfInstructor3",
+                        false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),

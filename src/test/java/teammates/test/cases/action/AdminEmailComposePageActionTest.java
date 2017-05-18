@@ -43,8 +43,9 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         ______TS("compose new email : typical values given : success");
         AdminEmailComposePageAction action = getAction();
         ShowPageResult pageResult = getShowPageResult(action);
-        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, adminUserId),
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, adminUserId),
+                pageResult.getDestinationWithParams());
 
         String normalLogSegment = "adminEmailComposePage Page Load";
         AssertHelper.assertContains(normalLogSegment, action.getLogMessage());

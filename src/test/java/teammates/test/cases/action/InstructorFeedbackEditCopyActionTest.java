@@ -384,8 +384,8 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         ajaxResult = getAjaxResult(a);
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=false&user=" + instructor.googleId;
+        expectedString = getPageResultDestination(
+                                 Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, false, instructor.googleId);
         assertEquals(expectedString, editCopyData.redirectUrl);
 
         expectedString = "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||"

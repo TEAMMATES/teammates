@@ -83,9 +83,11 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         InstructorFeedbackQuestionCopyAction a = getAction(params);
         RedirectResult rr = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
-                     + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
-                     rr.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE, instructor1ofCourse1.courseId,
+                        "Second+feedback+session", instructor1ofCourse1.googleId, false),
+                rr.getDestinationWithParams());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
                                     + "instructorFeedbackQuestionCopy|||true|||"
@@ -114,9 +116,11 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                instructor1ofCourse1.courseId, "Second+feedback+session", instructor1ofCourse1.googleId, true),
-                     rr.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId, "Second+feedback+session", instructor1ofCourse1.googleId, true),
+                rr.getDestinationWithParams());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
                              + "instructorFeedbackQuestionCopy|||true|||"

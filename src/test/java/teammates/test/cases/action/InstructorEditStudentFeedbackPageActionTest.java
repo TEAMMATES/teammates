@@ -53,9 +53,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
         ShowPageResult showPageResult = getShowPageResult(editPageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
-                + "?error=false"
-                + "&user=" + idOfInstructor,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor),
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 

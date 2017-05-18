@@ -37,8 +37,9 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         ShowPageResult result = getShowPageResult(action);
 
         assertEquals("", result.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, false, adminUserId),
-                     result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, false, adminUserId),
+                result.getDestinationWithParams());
         assertFalse(result.isError);
 
         AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) result.data;

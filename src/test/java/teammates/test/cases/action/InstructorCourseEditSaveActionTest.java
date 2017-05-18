@@ -51,9 +51,9 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         // get updated results and compare
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                     false, instructorId, courseId),
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, instructorId, courseId),
+                redirectResult.getDestinationWithParams());
 
         ______TS("Typical case: edit course name with valid characters");
         String courseNameWithValidCharacters = courseName + " valid";

@@ -40,8 +40,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         InstructorFeedbacksPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 

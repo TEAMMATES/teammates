@@ -44,8 +44,11 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         InstructorCourseInstructorDeleteAction deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false,
-                "idOfInstructor1OfCourse1", "idOfTypicalCourse1"), redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, "idOfInstructor1OfCourse1",
+                        "idOfTypicalCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 

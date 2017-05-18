@@ -74,10 +74,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
-                     false, "idOfInstructor1OfCourse1",
-                     "idOfTypicalCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        false, "idOfInstructor1OfCourse1",
+                        "idOfTypicalCourse1"),
+                r.getDestinationWithParams());
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT, r.getStatusMessage());
@@ -160,10 +162,11 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
-                                              true,
-                                              "idOfInstructor1OfCourse1"),
-                     result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                                         true,
+                                         "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
 
         assertTrue(result.isError);
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,

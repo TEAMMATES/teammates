@@ -42,8 +42,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(unregUserId);
         StudentHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex(getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, "unreg.user"),
-                                        r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(
+                getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, "unreg.user"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(
                 "Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",

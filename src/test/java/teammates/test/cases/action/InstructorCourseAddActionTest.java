@@ -43,8 +43,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                                                         Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         ShowPageResult pageResult = getShowPageResult(addAction);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, true, "idOfInstructor1OfCourse1"),
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, true, "idOfInstructor1OfCourse1"),
+                pageResult.getDestinationWithParams());
 
         assertTrue(pageResult.isError);
         assertEquals(getPopulatedErrorMessage(
@@ -83,9 +84,11 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         String expected = Const.StatusMessages.COURSE_ADDED
                   .replace("${courseEnrollLink}",
-                           "/page/instructorCourseEnrollPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1")
+                          getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE, "ticac.tpa1.id",
+                                  "idOfInstructor1OfCourse1"))
                   .replace("${courseEditLink}",
-                           "/page/instructorCourseEditPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1");
+                          getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, "ticac.tpa1.id",
+                                  "idOfInstructor1OfCourse1"));
         assertEquals(expected, pageResult.getStatusMessage());
 
         ______TS("Error: Try to add the same course again");
@@ -166,14 +169,23 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         expected = Const.StatusMessages.COURSE_ADDED
                 .replace("${courseEnrollLink}",
-                         "/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse")
+                        getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE, "ticac.tpa2.id",
+                                "idOfInstructorOfArchivedCourse"))
                 .replace("${courseEditLink}",
-                         "/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse");
+                        getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, "ticac.tpa2.id",
+                                "idOfInstructorOfArchivedCourse"));
         assertEquals(expected, pageResult.getStatusMessage());
     }
 
     @Override
     protected InstructorCourseAddAction getAction(String... params) {
         return (InstructorCourseAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, String courseId, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
     }
 }

@@ -43,8 +43,10 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         InstructorCourseJoinAuthenticatedAction joinAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
-                true, "idOfInstructor1OfCourse1", invalidEncryptedKey),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        true, "idOfInstructor1OfCourse1", invalidEncryptedKey),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link: "
@@ -66,8 +68,10 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor.courseId,
-                true, "idOfInstructor1OfCourse1", StringHelper.encrypt(instructor.key)),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor.courseId,
+                        true, "idOfInstructor1OfCourse1", StringHelper.encrypt(instructor.key)),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(instructor.googleId + " has already joined this course", redirectResult.getStatusMessage());

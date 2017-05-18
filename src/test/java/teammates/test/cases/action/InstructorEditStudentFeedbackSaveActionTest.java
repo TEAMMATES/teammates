@@ -77,11 +77,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
-                     false, "student1InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCourseinstr", "IESFPTCourse",
-                     "First+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        "/page/instructorEditStudentFeedbackPage",
+                        false, "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr", "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email not sent if parameter does not exist
@@ -327,11 +329,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
-                     false, "student2InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCoursehelper1", "IESFPTCourse",
-                     "First+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        "/page/instructorEditStudentFeedbackPage",
+                        false, "student2InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCoursehelper1", "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("failure case: privileges sufficient for section BUT insufficient for a session");
@@ -599,11 +603,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorEditStudentFeedbackPage",
-                     false, "student1InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCourseinstr", "IESFPTCourse",
-                     "Closed+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        "/page/instructorEditStudentFeedbackPage",
+                        false, "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr", "IESFPTCourse",
+                        "Closed+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 

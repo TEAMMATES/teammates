@@ -89,11 +89,13 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         InstructorStudentCommentEditAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
-                "idOfTypicalCourse1",
-                "student2InCourse1%40gmail.tmt",
-                "idOfInstructor3",
-                false),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                        "idOfTypicalCourse1",
+                        "student2InCourse1%40gmail.tmt",
+                        "idOfInstructor3",
+                        false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
@@ -319,10 +321,12 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
-                "idOfTypicalCourse1",
-                "idOfInstructor3",
-                false),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
+                        "idOfTypicalCourse1",
+                        "idOfInstructor3",
+                        false),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());

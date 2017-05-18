@@ -74,8 +74,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?error=true&user=" + student1InCourse1.googleId,
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, student1InCourse1.googleId),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You (student1InCourse1) have already joined this course",
