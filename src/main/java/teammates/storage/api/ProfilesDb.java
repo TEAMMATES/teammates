@@ -165,9 +165,7 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
         List<StudentProfile> entities = getStudentProfileEntities();
 
         for (StudentProfile student : entities) {
-            if (!JDOHelper.isDeleted(student)) {
-                list.add(new StudentProfileAttributes(student));
-            }
+            list.add(new StudentProfileAttributes(student));
         }
         return list;
     }
@@ -247,10 +245,7 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
      * Retrieves all student profile entities. This function is not scalable.
      */
     @Deprecated
-    @SuppressWarnings("unchecked")
     private List<StudentProfile> getStudentProfileEntities() {
-        Query q = getPm().newQuery(StudentProfile.class);
-
-        return (List<StudentProfile>) q.execute();
+        return ofy().load().type(StudentProfile.class).list();
     }
 }

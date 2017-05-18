@@ -10,7 +10,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.StringHelperExtension;
 
