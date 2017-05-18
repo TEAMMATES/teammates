@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.RequestPageData;
@@ -24,11 +23,7 @@ public class InstructorRequestAccountPageAction extends Action {
         Assumption.assertNotNull(university);
         Assumption.assertNotNull(email);
 
-        //InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        //gateKeeper.verifyAccessible(
-          //      instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-
-        /* Setup page data for 'Request Account' page for an instructor */
+        //Setup page data for 'Request Account' page for an instructor 
         RequestPageData pageData = new RequestPageData(name, university, country, url, email, comments);
        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_ACCOUNT_REQUEST, pageData);
