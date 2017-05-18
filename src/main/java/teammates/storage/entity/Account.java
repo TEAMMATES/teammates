@@ -5,6 +5,7 @@ import java.util.Date;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 
 /**
@@ -28,6 +29,9 @@ public class Account extends BaseEntity {
     private Date createdAt;
 
     private Ref<StudentProfile> studentProfile;
+
+    @Ignore // used in local attribute tests that give a shell student profile (empty googleId)
+    private StudentProfile localStudentProfile = null;
 
     /**
      * Instantiates a new account.
@@ -111,10 +115,26 @@ public class Account extends BaseEntity {
     }
 
     public StudentProfile getStudentProfile() {
-        return this.studentProfile.get();
+        if (localStudentProfile != null && localStudentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
+            return localStudentProfile;
+        }
+        if (studentProfile == null) {
+            return null;
+        }
+        return studentProfile.get();
     }
 
     public void setStudentProfile(StudentProfile studentProfile) {
+        if (studentProfile == null) {
+            this.studentProfile = null;
+            this.localStudentProfile = null;
+            return;
+        }
+        if (studentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
+            this.studentProfile = null;
+            this.localStudentProfile = studentProfile;
+            return;
+        }
         this.studentProfile = Ref.create(studentProfile);
     }
 }
