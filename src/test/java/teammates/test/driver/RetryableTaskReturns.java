@@ -1,7 +1,7 @@
 package teammates.test.driver;
 
 /**
- * Convenience subclass of {link RetryableTaskWithResultThrows} for when checked exceptions are not thrown.
+ * Convenience subclass of {link RetryableTaskReturnsThrows} for when checked exceptions are not thrown.
  * @param <T> Result type.
  */
 public abstract class RetryableTaskReturns<T> extends RetryableTaskReturnsThrows<T, RuntimeException> {

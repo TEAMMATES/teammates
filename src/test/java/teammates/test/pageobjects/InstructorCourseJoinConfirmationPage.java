@@ -29,10 +29,14 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButtonWithRetry() {
-        RetryManager.runWithRetry(new RetryableTask("Course join") {
+        RetryManager.runUntilSuccessful(new RetryableTask("Course join") {
             @Override
-            public boolean run() {
+            public void run() {
                 clickConfirmButtonAndWaitForPageToLoad();
+            }
+
+            @Override
+            public boolean isSuccessful() {
                 return isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             }
 

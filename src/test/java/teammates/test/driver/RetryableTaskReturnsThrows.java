@@ -1,12 +1,11 @@
 package teammates.test.driver;
 
 /**
- * Abstract implementation of a {@link RetryableReturns} task for easy extending through anonymous classes.
+ * Abstract implementation of a {@link Retryable} task that returns a result, for easy extending through anonymous classes.
  * @param <T> Result type.
  * @param <E> Throwable type.
  */
-public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends RetryableTaskThrows<E>
-        implements RetryableReturns<T, E> {
+public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends Retryable<T, E> {
 
     private T result;
 
@@ -14,15 +13,26 @@ public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends
         super(name);
     }
 
+    /**
+     * Runs the task once and returns the result.
+     */
+    public abstract T run() throws E;
+
     @Override
-    public T getResult() {
+    protected final T run_internal() throws E {
+        result = run();
         return result;
     }
 
     /**
-     * Sets the result that is returned by {@code run()}.
+     * Checks whether the task succeeded.
      */
-    protected void setResult(T result) {
-        this.result = result;
+    public boolean isSuccessful(T result) throws E {
+        return true;
+    }
+
+    @Override
+    protected final boolean isSuccessful_internal() throws E {
+        return isSuccessful(result);
     }
 }

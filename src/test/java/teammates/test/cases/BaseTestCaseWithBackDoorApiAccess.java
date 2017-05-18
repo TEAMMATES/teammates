@@ -44,11 +44,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourseWithRetry(final String courseId) {
-        return RetryManager.runWithRetry(new RetryableTaskReturns<CourseAttributes>("getCourse") {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
             @Override
-            public boolean run() {
-                setResult(getCourse(courseId));
-                return getResult() != null;
+            public CourseAttributes run() {
+                return getCourse(courseId);
             }
         });
     }
@@ -87,11 +86,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runWithRetry(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
             @Override
-            public boolean run() {
-                setResult(getInstructor(courseId, instructorEmail));
-                return getResult() != null;
+            public InstructorAttributes run() {
+                return getInstructor(courseId, instructorEmail);
             }
         });
     }
@@ -101,11 +99,15 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runWithRetry(new RetryableTaskReturns<String>("getKeyForInstructor") {
+        return RetryManager.runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
             @Override
-            public boolean run() {
-                setResult(getKeyForInstructor(courseId, instructorEmail));
-                return !getResult().startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE);
+            public String run() {
+                return getKeyForInstructor(courseId, instructorEmail);
+            }
+
+            @Override
+            public boolean isSuccessful(String result) {
+                return !result.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE);
             }
         });
     }
