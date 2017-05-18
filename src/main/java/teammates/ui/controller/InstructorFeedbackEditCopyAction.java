@@ -27,9 +27,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String originalCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
-        Assumption.assertNotNull("null course id", originalCourseId);
-        Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
-        Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, originalCourseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, newFeedbackSessionName);
 
         if (nextUrl == null) {
             nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;

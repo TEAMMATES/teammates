@@ -39,7 +39,7 @@ let isInputFromFirstPanel;
 let instructorDetailsList;
 
 QUnit.module('addInstructorAjax', {
-    afterEach() {
+    beforeEach() {
         paramsCounter = 0;
         paramsList = [];
         isInputFromFirstPanel = false;

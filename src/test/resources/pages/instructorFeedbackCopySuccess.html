@@ -17,16 +17,24 @@
         <div class="col-sm-12">
           <span class="pull-right">
             <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+              <span class="glyphicon glyphicon-pencil">
+              </span>
               Edit
             </a>
             <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
-              Save Changes
+              <span class="glyphicon glyphicon-ok">
+              </span>
+              Save
             </button>
             <a class="btn btn-primary btn-sm" data-course-id="CFeedbackUiT.CS1101" data-feedback-session-name="New Session ## (Copied)" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=New+Session+%23%23+%28Copied%29&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.instructor" id="fsDeleteLink" title="">
+              <span class="glyphicon glyphicon-trash">
+              </span>
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
               <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session ## (Copied)" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                <span class="glyphicon glyphicon-file">
+                </span>
                 Copy
               </a>
             </span>

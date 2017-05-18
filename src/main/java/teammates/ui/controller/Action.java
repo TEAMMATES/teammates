@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidOriginException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -22,6 +23,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -85,6 +87,7 @@ public abstract class Action {
      */
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
+        validateOriginIfRequired();
         authenticateUser();
     }
 
@@ -119,6 +122,67 @@ public abstract class Action {
         this.emailSender = emailSender;
     }
 
+    // These methods are used for Cross-Site Request Forgery (CSRF) prevention
+
+    private void validateOriginIfRequired() {
+        if (!Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(request.getRequestURI())) {
+            return;
+        }
+
+        String referrer = request.getHeader("referer");
+        if (referrer == null) {
+            throw new InvalidOriginException("Missing HTTP referrer");
+        }
+
+        if (!isHttpReferrerValid(referrer)) {
+            throw new InvalidOriginException("Invalid HTTP referrer");
+        }
+    }
+
+    /**
+     * Validates the HTTP referrer against the request URL. The origin is the
+     * base URL of the HTTP referrer, which includes the protocol and authority
+     * (host name + port number if specified). Similarly, the target is the base
+     * URL of the requested action URL. For the referrer to be considered valid,
+     * origin and target must match exactly. Otherwise, the request is likely to
+     * be a CSRF attack, and is considered invalid.
+     *
+     * <p>Example of malicious request originating from embedded image in email:
+     * <pre>
+     * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
+     * Referrer:    https://mail.google.com/mail/u/0/
+     *
+     * Target: https://teammatesv4.appspot.com
+     * Origin: https://mail.google.com
+     * </pre>
+     * Origin does not match target. This request is invalid.</p>
+     *
+     * <p>Example of legitimate request originating from instructor courses page:
+     * <pre>
+     * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
+     * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
+     *
+     * Target: https://teammatesv4.appspot.com
+     * Origin: https://teammatesv4.appspot.com
+     * </pre>
+     * Origin matches target. This request is valid.</p>
+     */
+    private boolean isHttpReferrerValid(String referrer) {
+        String origin;
+        try {
+            origin = new Url(referrer).getBaseUrl();
+        } catch (AssertionError e) { // due to MalformedURLException
+            return false;
+        }
+
+        String requestUrl = request.getRequestURL().toString();
+        String target = new Url(requestUrl).getBaseUrl();
+
+        return origin.equals(target);
+    }
+
+    // These methods are used for user authentication
+
     protected void authenticateUser() {
         UserType currentUser = gateKeeper.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
@@ -139,7 +203,7 @@ public abstract class Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         if (currentUser == null) {
-            Assumption.assertNotNull(regkey);
+            Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
             loggedInUser = authenticateNotLoggedInUser(email, courseId);
         } else {
             loggedInUser = logic.getAccount(currentUser.id);

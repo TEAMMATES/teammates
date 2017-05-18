@@ -12,6 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -107,7 +108,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                                   + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
                                   + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
                                   + "Number of sessions: 7<br>"
-                                  + "Student Profile: " + expectedProfile.toString()
+                                  + "Student Profile: " + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
                                   + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
@@ -165,6 +166,41 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         AssertHelper.assertContains("No records were found for this student", r.getStatusMessage());
 
+        ______TS("Typical case: student has profile with script injection");
+
+        instructor = dataBundle.instructors.get("instructor1OfTestingSanitizationCourse");
+        instructorId = instructor.googleId;
+        String studentId = "student1InTestingSanitizationCourse";
+        student = dataBundle.students.get(studentId);
+        expectedProfile = dataBundle.accounts.get(studentId).studentProfile;
+
+        gaeSimulation.loginAsInstructor(instructorId);
+
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student.email
+        };
+
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+        actualData = (InstructorStudentRecordsPageData) r.data;
+        expectedProfile.modifiedDate = actualData.spa.modifiedDate;
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=" + instructorId,
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        assertEquals(1, actualData.getCommentsForStudentTable().get(0).getRows().size());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
+                + "|||true|||Instructor|||Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;"
+                + "|||" + instructorId
+                + "|||instructor1@sanitization.tmt|||instructorStudentRecords Page Load<br>"
+                + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
+                + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
+                + "Number of sessions: 0<br>"
+                + "Student Profile: " + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
+                + "|||/page/instructorStudentRecordsPage";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
     private StudentAttributes createStudentInTypicalDataBundleForCourseWithNoSession()
