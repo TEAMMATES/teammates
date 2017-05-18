@@ -4,15 +4,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     version="2.5">
-    
-    <!-- This jsp-config element tag must be put above other tags or else it might cause all error pages to be non-accessible -->
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <page-encoding>UTF-8</page-encoding>
-        </jsp-property-group>
-    </jsp-config>
-    
+
     <filter>
         <filter-name>appstats</filter-name>
         <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
