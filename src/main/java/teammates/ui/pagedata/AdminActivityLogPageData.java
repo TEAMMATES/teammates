@@ -170,7 +170,7 @@ public class AdminActivityLogPageData extends PageData {
         }
 
         for (String uri : excludedLogRequestURIs) {
-            if (logEntry.getUrl() != null && logEntry.getUrl().contains(uri)) {
+            if (logEntry.getActionUrl() != null && logEntry.getActionUrl().contains(uri)) {
                 return false;
             }
         }
@@ -195,33 +195,33 @@ public class AdminActivityLogPageData extends PageData {
         }
 
         //Filter based on what is in the query
-        if (q.isRequestInQuery && !arrayContains(q.requestValues, logEntry.getServletName())) {
+        if (q.isRequestInQuery && !arrayContains(q.requestValues, logEntry.getActionName())) {
             return false;
         }
-        if (q.isResponseInQuery && !arrayContains(q.responseValues, logEntry.getAction())) {
+        if (q.isResponseInQuery && !arrayContains(q.responseValues, logEntry.getActionResponse())) {
             return false;
         }
         if (q.isPersonInQuery
-                && !logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase())
-                && !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
-                && !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
+                && !logEntry.getUserName().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getUserGoogleId().toLowerCase().contains(q.personValue.toLowerCase())
+                && !logEntry.getUserEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
             return false;
         }
-        if (q.isRoleInQuery && !arrayContains(q.roleValues, logEntry.getRole())) {
+        if (q.isRoleInQuery && !arrayContains(q.roleValues, logEntry.getUserRole())) {
             return false;
         }
-
-        if (q.isCutoffInQuery && (logEntry.getTimeTaken() == 0 || logEntry.getTimeTaken() < q.cutoffValue)) {
+        if (q.isCutoffInQuery
+                && (logEntry.getActionTimeTaken() == 0 || logEntry.getActionTimeTaken() < q.cutoffValue)) {
             return false;
         }
         if (q.isInfoInQuery) {
             for (String keyString : q.infoValues) {
-                if (!logEntry.getMessage().toLowerCase().contains(keyString.toLowerCase())) {
+                if (!logEntry.getLogMessage().toLowerCase().contains(keyString.toLowerCase())) {
                     return false;
                 }
             }
         }
-        if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getId())) {
+        if (q.isIdInQuery && !arrayContains(q.idValues, logEntry.getLogId())) {
             return false;
         }
 

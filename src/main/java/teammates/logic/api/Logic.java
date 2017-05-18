@@ -191,7 +191,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteAccount(String googleId) {
+    public void deleteAccount(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(googleId);
 
@@ -515,7 +515,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void downgradeInstructorToStudentCascade(String googleId) {
+    public void downgradeInstructorToStudentCascade(String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(googleId);
 
@@ -527,7 +528,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteInstructor(String courseId, String email) {
+    public void deleteInstructor(String courseId, String email)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(email);
@@ -1028,7 +1030,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteStudent(String courseId, String studentEmail) {
+    public void deleteStudent(String courseId, String studentEmail) throws InvalidParametersException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
@@ -1036,7 +1038,8 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
+    public void deleteStudentWithoutDocument(String courseId, String studentEmail)
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);

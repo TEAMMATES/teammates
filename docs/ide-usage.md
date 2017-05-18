@@ -68,8 +68,9 @@ The following plugins are needed:
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
-   * Validation: We do not validate HTML, JSP, and XML.<br>
-     `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
+   * Validation: 
+     * We do not validate HTML, JSP, and XML. `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
+     * Disable JavaScript validation for `node_modules` folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
 
 1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 

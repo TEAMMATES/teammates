@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -195,6 +196,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
+        newQuestion.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
         if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
                 && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
             String customFeedbackPathsSpreadsheetData =
