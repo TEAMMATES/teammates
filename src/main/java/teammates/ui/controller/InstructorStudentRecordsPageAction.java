@@ -18,6 +18,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorStudentRecordsPageData;
@@ -101,8 +102,9 @@ public class InstructorStudentRecordsPageAction extends Action {
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
                       + "Number of sessions: " + sessions.size() + "<br>"
-                      + "Student Profile: " + (studentProfile == null ? "No Profile"
-                                                                      : studentProfile.toString());
+                      + "Student Profile: "
+                      + (studentProfile == null ? "No Profile"
+                                                : SanitizationHelper.sanitizeForHtmlTag(studentProfile.toString()));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }
