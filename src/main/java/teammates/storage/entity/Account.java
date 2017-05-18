@@ -2,46 +2,32 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 /**
  * Represents a unique user in the system.
  */
-@PersistenceCapable
+@Entity
+@Index
 public class Account extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Account.class);
-
-    @PrimaryKey
-    @Persistent
+    @Id
     private String googleId;
 
-    @Persistent
     private String name;
 
-    @Persistent
     private boolean isInstructor;
 
-    @Persistent
     private String email;
 
-    @Persistent
     private String institute;
 
-    @Persistent
     private Date createdAt;
 
-    @Persistent(dependent = "true", defaultFetchGroup = "false")
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private StudentProfile studentProfile;
+    private Ref<StudentProfile> studentProfile;
 
     /**
      * Instantiates a new account.
@@ -125,11 +111,10 @@ public class Account extends BaseEntity {
     }
 
     public StudentProfile getStudentProfile() {
-        return this.studentProfile;
+        return this.studentProfile.get();
     }
 
     public void setStudentProfile(StudentProfile studentProfile) {
-        this.studentProfile = studentProfile;
-
+        this.studentProfile = Ref.create(studentProfile);
     }
 }

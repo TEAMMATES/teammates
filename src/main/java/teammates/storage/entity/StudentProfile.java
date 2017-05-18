@@ -2,12 +2,10 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
@@ -16,57 +14,30 @@ import com.google.appengine.api.datastore.Text;
  * Represents profile details for student entities associated with an
  * account entity.
  */
-@PersistenceCapable
+@Entity
+@Unindex
 public class StudentProfile extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(StudentProfile.class);
-
-    // PMD.UnusedPrivateField is suppressed as profileId is persisted to the database
-    @SuppressWarnings("PMD.UnusedPrivateField")
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private String profileId;
-
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.pk-name", value = "true")
+    @Id
     private String googleId;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String shortName;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String email;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String institute;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String nationality;
 
-    @Persistent
     /* only accepts "male", "female" or "other" */
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String gender;
 
-    @Persistent
     /* must be html sanitized before saving */
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Text moreInfo;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private BlobKey pictureKey;
 
-    @Persistent
+    @Index
     private Date modifiedDate;
 
     /**
