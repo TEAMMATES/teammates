@@ -23,7 +23,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.StudentProfile;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.GaeSimulation;
 
@@ -40,7 +42,9 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     @BeforeTest
     public void setup() {
+        ObjectifyService.register(Account.class);
         ObjectifyService.register(Course.class);
+        ObjectifyService.register(StudentProfile.class);
         closeable = ObjectifyService.begin();
     }
 

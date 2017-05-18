@@ -33,15 +33,10 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testGetAccount() throws Exception {
         AccountAttributes a = createNewAccount();
 
-        ______TS("typical success case without");
+        ______TS("typical success case");
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
-        assertNull(retrieved.studentProfile);
-
-        ______TS("typical success with student profile");
-        retrieved = accountsDb.getAccount(a.googleId, true);
-        assertNotNull(retrieved);
-        assertNotNull(a.studentProfile);
+        assertNotNull(retrieved.studentProfile);
 
         ______TS("expect null for non-existent account");
         retrieved = accountsDb.getAccount("non.existent");
