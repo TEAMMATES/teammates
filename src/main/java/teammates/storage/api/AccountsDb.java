@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.Query;
-
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.QueryKeys;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -31,7 +28,7 @@ import teammates.storage.entity.StudentProfile;
  * @see Account
  * @see AccountAttributes
  */
-public class AccountsDb extends EntitiesDb {
+public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
@@ -66,10 +63,10 @@ public class AccountsDb extends EntitiesDb {
     public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
             throws InvalidParametersException {
 
-        List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
+        List<AccountAttributes> accountsToUpdate = createEntities(accountsToAdd);
         if (updateAccount) {
-            for (EntityAttributes entity : accountsToUpdate) {
-                AccountAttributes account = (AccountAttributes) entity;
+            for (AccountAttributes entity : accountsToUpdate) {
+                AccountAttributes account = entity;
                 try {
                     updateAccount(account, true);
                 } catch (EntityDoesNotExistException e) {
@@ -82,27 +79,28 @@ public class AccountsDb extends EntitiesDb {
     }
 
     /**
-     * Gets the data transfer version of the account. Does not retrieve the profile
-     * if the given parameter is false<br>
+     * Gets the data transfer version of the account. With the new Objectify API, the StudentProfile
+     * is retrieved when it is first accessed via its getter. Hence, the parameter retrieveStudentProfile
+     * is now obsolete, and not used (but maintained here for backward compatibility).
      * Preconditions:
      * <br> * All parameters are non-null.
      * @return Null if not found.
      */
+    @Deprecated
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
+        return getAccount(googleId);
+    }
+
+    public AccountAttributes getAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        Account a = getAccountEntity(googleId, retrieveStudentProfile);
+        Account a = getAccountEntity(googleId);
 
         if (a == null) {
             return null;
         }
-        closePm();
 
         return new AccountAttributes(a);
-    }
-
-    public AccountAttributes getAccount(String googleId) {
-        return getAccount(googleId, false);
     }
 
     /**
@@ -110,18 +108,12 @@ public class AccountsDb extends EntitiesDb {
      *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
-        Query q = getPm().newQuery(Account.class);
-        q.setFilter("isInstructor == true");
-
-        @SuppressWarnings("unchecked")
-        List<Account> accountsList = (List<Account>) q.execute();
+        List<Account> accountsList = ofy().load().type(Account.class).filter("isInstructor =", true).list();
 
         List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
 
         for (Account a : accountsList) {
-            if (!JDOHelper.isDeleted(a)) {
-                instructorsAccountData.add(new AccountAttributes(a));
-            }
+            instructorsAccountData.add(new AccountAttributes(a));
         }
 
         return instructorsAccountData;
@@ -139,7 +131,7 @@ public class AccountsDb extends EntitiesDb {
             throw new InvalidParametersException(a.getInvalidityInfo());
         }
 
-        Account accountToUpdate = getAccountEntity(a.googleId, updateStudentProfile);
+        Account accountToUpdate = getAccountEntity(a.googleId);
 
         if (accountToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
@@ -153,17 +145,24 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setInstitute(a.institute);
 
         if (updateStudentProfile) {
-            StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
+            StudentProfile existingStudentProfile = accountToUpdate.getStudentProfile();
+            if (existingStudentProfile == null) {
+                existingStudentProfile = new StudentProfile(a.studentProfile.googleId);
+            }
+
+            StudentProfileAttributes existingProfile = new StudentProfileAttributes(existingStudentProfile);
             a.studentProfile.modifiedDate = existingProfile.modifiedDate;
 
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
             if (!existingProfile.toString().equals(a.studentProfile.toString())) {
-                accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
+                StudentProfile updatedStudentProfile = a.studentProfile.toEntity();
+                accountToUpdate.setStudentProfile(updatedStudentProfile);
+                ofy().save().entity(updatedStudentProfile).now();
             }
         }
         log.info(a.getBackupIdentifier());
-        closePm();
+        ofy().save().entity(accountToUpdate).now();
     }
 
     public void updateAccount(AccountAttributes a)
@@ -194,7 +193,6 @@ public class AccountsDb extends EntitiesDb {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
-        closePm();
     }
 
     public void deleteAccounts(Collection<AccountAttributes> accounts) {
@@ -205,51 +203,26 @@ public class AccountsDb extends EntitiesDb {
             }
         }
         deleteEntities(accounts);
-        closePm();
-    }
-
-    private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
-
-        try {
-            Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = getPm().getObjectById(Account.class, key);
-
-            if (JDOHelper.isDeleted(account)) {
-                return null;
-            } else if (retrieveStudentProfile && account.getStudentProfile() == null) {
-                // This situation cannot be reproduced and hence not tested
-                // This only happens when existing data in the store do not have a profile
-                account.setStudentProfile(new StudentProfile(account.getGoogleId()));
-            }
-
-            return account;
-        } catch (IllegalArgumentException iae) {
-            return null;
-        } catch (JDOObjectNotFoundException je) {
-            return null;
-        }
     }
 
     private Account getAccountEntity(String googleId) {
-        return getAccountEntity(googleId, false);
+        Account account = ofy().load().type(Account.class).id(googleId).now();
+        if (account == null) {
+            return null;
+        }
+
+        return account;
     }
 
     @Override
-    protected Object getEntity(EntityAttributes entity) {
-        return getAccountEntity(((AccountAttributes) entity).googleId);
+    protected Account getEntity(AccountAttributes entity) {
+        return getAccountEntity(entity.googleId);
     }
 
     @Override
-    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
-        Class<?> entityClass = Account.class;
-        String primaryKeyName = Account.PRIMARY_KEY_NAME;
-        AccountAttributes aa = (AccountAttributes) attributes;
-        String id = aa.googleId;
-
-        Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
-
-        return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
+    public boolean hasEntity(AccountAttributes attributes) {
+        Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
+        QueryKeys<Account> keysOnlyQuery = ofy().load().type(Account.class).filterKey(keyToFind).keys();
+        return keysOnlyQuery.first().now() != null;
     }
 }

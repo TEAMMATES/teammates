@@ -2,16 +2,13 @@ package teammates.storage.api;
 
 import java.util.Date;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.Query;
-
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.attributes.EntityAttributes;
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -27,7 +24,7 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfile
  * @see StudentProfileAttributes
  */
-public class ProfilesDb extends EntitiesDb {
+public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttributes> {
 
     /**
      * Gets the datatransfer (*Attributes) version of the profile
@@ -60,7 +57,6 @@ public class ProfilesDb extends EntitiesDb {
         }
 
         updateProfileWithNewValues(newSpa, profileToUpdate);
-        closePm();
     }
 
     private void validateNewProfile(StudentProfileAttributes newSpa)
@@ -97,6 +93,8 @@ public class ProfilesDb extends EntitiesDb {
         if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
+
+        ofy().save().entity(profileToUpdate).now();
     }
 
     /**
@@ -113,12 +111,14 @@ public class ProfilesDb extends EntitiesDb {
         boolean hasNewNonEmptyPictureKey = !newPictureKey.isEmpty()
                 && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
 
-        if (hasNewNonEmptyPictureKey) {
-            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
-            profileToUpdate.setModifiedDate(new Date());
+        if (!hasNewNonEmptyPictureKey) {
+            return;
         }
 
-        closePm();
+        profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+        profileToUpdate.setModifiedDate(new Date());
+
+        ofy().save().entity(profileToUpdate).now();
     }
 
     private void validateParametersForUpdatePicture(String googleId,
@@ -143,7 +143,7 @@ public class ProfilesDb extends EntitiesDb {
             sp.setModifiedDate(new Date());
         }
 
-        closePm();
+        ofy().save().entity(sp).now();
     }
 
     //-------------------------------------------------------------------------------------------------------
@@ -173,22 +173,16 @@ public class ProfilesDb extends EntitiesDb {
      */
     // TODO: remove this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityForLegacyData(String googleId) {
-        Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-        try {
-            // This method is not testable as loading legacy data into
-            // current database is restricted by new validity checks
-            Account account = getPm().getObjectById(Account.class, key);
-            if (account == null
-                    || JDOHelper.isDeleted(account)) {
-                return null;
-            }
+        Account account = ofy().load().type(Account.class).id(googleId).now();
 
-            account.setStudentProfile(new StudentProfile(account.getGoogleId()));
-            return account.getStudentProfile();
-
-        } catch (JDOObjectNotFoundException je) {
+        if (account == null) {
             return null;
         }
+
+        StudentProfile profile = new StudentProfile(account.getGoogleId());
+        account.setStudentProfile(profile);
+
+        return profile;
     }
 
     /**
@@ -199,39 +193,26 @@ public class ProfilesDb extends EntitiesDb {
      */
     // TODO: update this function once legacy data have been ported over
     private StudentProfile getStudentProfileEntityFromDb(String googleId) {
-        Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), googleId)
-                                 .getChild(StudentProfile.class.getSimpleName(), googleId);
+        Key<Account> parentKey = Key.create(Account.class, googleId);
+        StudentProfile profile = ofy().load().type(StudentProfile.class).parent(parentKey).id(googleId).now();
 
-        try {
-            StudentProfile profile = getPm().getObjectById(StudentProfile.class, childKey);
-            if (profile == null
-                    || JDOHelper.isDeleted(profile)) {
-                return null;
-            }
-
-            return profile;
-        } catch (JDOObjectNotFoundException je) {
+        if (profile == null) {
             return getStudentProfileEntityForLegacyData(googleId);
         }
+
+        return profile;
     }
 
     @Override
-    protected Object getEntity(EntityAttributes attributes) {
+    protected StudentProfile getEntity(StudentProfileAttributes attributes) {
         // this method is never used and is here only for future expansion and completeness
-        return getStudentProfileEntityFromDb(((StudentProfileAttributes) attributes).googleId);
+        return getStudentProfileEntityFromDb(attributes.googleId);
     }
 
     @Override
-    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
-        Class<?> entityClass = StudentProfile.class;
-        String primaryKeyName = StudentProfile.PRIMARY_KEY_NAME;
-        StudentProfileAttributes spa = (StudentProfileAttributes) attributes;
-        String id = spa.googleId;
-
-        Query q = getPm().newQuery(entityClass);
-        q.declareParameters("String idParam");
-        q.setFilter(primaryKeyName + " == idParam");
-
-        return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
+    public boolean hasEntity(StudentProfileAttributes attributes) {
+        Key<StudentProfile> keyToFind = Key.create(StudentProfile.class, attributes.googleId);
+        QueryKeys<StudentProfile> keysOnlyQuery = ofy().load().type(StudentProfile.class).filterKey(keyToFind).keys();
+        return keysOnlyQuery.first().now() != null;
     }
 }
