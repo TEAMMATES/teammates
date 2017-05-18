@@ -75,4 +75,9 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     protected FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

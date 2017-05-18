@@ -173,4 +173,9 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 submissionParams);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

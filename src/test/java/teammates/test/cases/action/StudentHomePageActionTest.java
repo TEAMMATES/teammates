@@ -165,4 +165,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         return (StudentHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

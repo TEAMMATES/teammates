@@ -611,4 +611,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     protected InstructorFeedbackSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

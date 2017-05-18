@@ -59,4 +59,9 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     protected InstructorFeedbackRemindAction getAction(String... params) {
         return (InstructorFeedbackRemindAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

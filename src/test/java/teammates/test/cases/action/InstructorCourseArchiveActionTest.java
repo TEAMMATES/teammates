@@ -187,4 +187,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         return (InstructorCourseArchiveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

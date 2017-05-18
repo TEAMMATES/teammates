@@ -182,4 +182,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     protected InstructorCourseJoinAuthenticatedAction getAction(String... params) {
         return (InstructorCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

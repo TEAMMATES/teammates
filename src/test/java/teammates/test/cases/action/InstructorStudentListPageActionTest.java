@@ -133,4 +133,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         return (InstructorStudentListPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

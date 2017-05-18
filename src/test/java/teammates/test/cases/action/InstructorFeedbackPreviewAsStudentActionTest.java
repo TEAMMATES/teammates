@@ -109,4 +109,9 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
     protected InstructorFeedbackPreviewAsStudentAction getAction(String... params) {
         return (InstructorFeedbackPreviewAsStudentAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

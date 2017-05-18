@@ -75,4 +75,9 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     protected StudentCommentsPageAction getAction(String... params) {
         return (StudentCommentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

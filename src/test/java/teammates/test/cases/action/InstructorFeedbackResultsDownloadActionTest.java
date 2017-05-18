@@ -436,4 +436,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

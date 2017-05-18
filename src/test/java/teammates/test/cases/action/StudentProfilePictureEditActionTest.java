@@ -221,4 +221,9 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

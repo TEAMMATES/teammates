@@ -76,4 +76,9 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

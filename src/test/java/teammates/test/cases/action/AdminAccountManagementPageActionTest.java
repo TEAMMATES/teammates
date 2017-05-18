@@ -48,4 +48,9 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         return (AdminAccountManagementPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

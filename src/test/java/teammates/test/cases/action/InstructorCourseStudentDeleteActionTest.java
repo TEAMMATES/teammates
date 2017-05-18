@@ -54,4 +54,9 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         return (InstructorCourseStudentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

@@ -50,4 +50,9 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     protected InstructorFeedbackDeleteAction getAction(String... params) {
         return (InstructorFeedbackDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

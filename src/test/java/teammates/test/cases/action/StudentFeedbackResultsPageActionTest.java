@@ -213,4 +213,9 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     protected StudentFeedbackResultsPageAction getAction(String... params) {
         return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

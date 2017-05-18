@@ -468,4 +468,9 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
     protected InstructorStudentCommentAddAction getAction(String... params) {
         return (InstructorStudentCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

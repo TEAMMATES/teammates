@@ -194,4 +194,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 + "-demo";
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

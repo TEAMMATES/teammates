@@ -32,4 +32,9 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         return (AdminExceptionTestAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

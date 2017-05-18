@@ -86,4 +86,9 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         return (InstructorCourseStudentDetailsEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

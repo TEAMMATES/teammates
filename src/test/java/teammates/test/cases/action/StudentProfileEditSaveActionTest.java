@@ -145,4 +145,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

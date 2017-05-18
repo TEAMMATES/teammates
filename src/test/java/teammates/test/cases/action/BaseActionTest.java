@@ -41,6 +41,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected abstract void testExecuteAndPostProcess() throws Exception;
 
+    protected abstract void testAccessControl() throws Exception;
+
     @BeforeClass
     public void baseClassSetup() {
         prepareTestData();

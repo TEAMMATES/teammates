@@ -71,4 +71,9 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
     protected InstructorFeedbackEditCopyPageAction getAction(String... params) {
         return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

@@ -48,4 +48,9 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
     protected AdminAccountDeleteAction getAction(String... params) {
         return (AdminAccountDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

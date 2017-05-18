@@ -194,4 +194,9 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
     protected InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) {
         return (InstructorFeedbackQuestionVisibilityMessageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

@@ -147,4 +147,9 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     protected InstructorFeedbackUnpublishAction getAction(String... params) {
         return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

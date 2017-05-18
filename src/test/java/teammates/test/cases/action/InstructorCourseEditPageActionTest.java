@@ -137,4 +137,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
             assertEquals(list1.get(i).toString(), list2.get(i).getInstructor().toString());
         }
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

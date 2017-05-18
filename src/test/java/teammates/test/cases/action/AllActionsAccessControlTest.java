@@ -1159,4 +1159,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         }
         return list.toArray(new String[list.size()]);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

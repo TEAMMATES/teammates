@@ -204,4 +204,9 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         return (InstructorCourseRemindAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }
