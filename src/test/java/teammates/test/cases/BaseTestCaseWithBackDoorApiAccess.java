@@ -13,7 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.RetryManager;
-import teammates.test.driver.RetryableTaskWithResult;
+import teammates.test.driver.RetryableTaskReturns;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -44,7 +44,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourseWithRetry(final String courseId) {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<CourseAttributes>("getCourse") {
+        return RetryManager.runWithRetry(new RetryableTaskReturns<CourseAttributes>("getCourse") {
             @Override
             public boolean run() {
                 setResult(getCourse(courseId));
@@ -87,7 +87,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<InstructorAttributes>("getInstructor") {
+        return RetryManager.runWithRetry(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
             @Override
             public boolean run() {
                 setResult(getInstructor(courseId, instructorEmail));
@@ -101,7 +101,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runWithRetry(new RetryableTaskWithResult<String>("getKeyForInstructor") {
+        return RetryManager.runWithRetry(new RetryableTaskReturns<String>("getKeyForInstructor") {
             @Override
             public boolean run() {
                 setResult(getKeyForInstructor(courseId, instructorEmail));

@@ -33,7 +33,7 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.RetryManager;
-import teammates.test.driver.RetryableTaskWithResultThrows;
+import teammates.test.driver.RetryableTaskReturnsThrows;
 import teammates.test.driver.TestProperties;
 
 /**
@@ -919,7 +919,7 @@ public abstract class AppPage {
     }
 
     public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
-        return RetryManager.runWithRetry(new RetryableTaskWithResultThrows<AppPage, IOException>("HTML verification") {
+        return RetryManager.runWithRetry(new RetryableTaskReturnsThrows<AppPage, IOException>("HTML verification") {
             @Override
             public boolean run() throws IOException {
                 try {

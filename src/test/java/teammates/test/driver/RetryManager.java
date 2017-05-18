@@ -17,7 +17,7 @@ public final class RetryManager {
      * Runs {@code task} and retries if needed using exponential backoff.
      * Returns {@code task} result.
      */
-    public static <T, E extends Throwable> T runWithRetry(RetryableWithResult<T, E> task) throws E {
+    public static <T, E extends Throwable> T runWithRetry(RetryableReturns<T, E> task) throws E {
         runWithRetry((Retryable<E>) task);
         return task.getResult();
     }
