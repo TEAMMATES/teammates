@@ -159,12 +159,6 @@ public class StudentProfileAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(this.googleId);
-        this.shortName = SanitizationHelper.sanitizeForHtml(this.shortName);
-        this.email = SanitizationHelper.sanitizeForHtml(this.email);
-        this.institute = SanitizationHelper.sanitizeForHtml(this.institute);
-        this.nationality = SanitizationHelper.sanitizeForHtml(this.nationality);
-        this.gender = SanitizationHelper.sanitizeForHtml(this.gender);
-        this.moreInfo = SanitizationHelper.sanitizeForHtml(this.moreInfo);
     }
 
 }
