@@ -110,22 +110,23 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closing alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
-        assertEquals(10, emails.size());
+        assertEquals(9, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        // student2 has completed the feedback session and should not be sent closing alert
-        StudentAttributes student2 = studentsLogic.getStudentForEmail(course.getId(), "student2InCourse1@gmail.tmt");
+        // student1 has completed the feedback session and closing alert is only sent for those who are
+        // yet to complete, so we resort to student5
+        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
 
         hasStudent1ReceivedEmail = false; // use the same checker variable for brevity
         hasInstructor1ReceivedEmail = false;
         for (EmailWrapper email : emails) {
-            if (email.getRecipient().equals(student1.email)) {
-                verifyEmail(email, student1.email, subject, "/sessionClosingEmailForStudent.html");
+            if (email.getRecipient().equals(student5.email)) {
+                verifyEmail(email, student5.email, subject, "/sessionClosingEmailForStudent.html");
                 hasStudent1ReceivedEmail = true;
-            } else if (email.getRecipient().equals(student2.email)) {
-                fail("student2 has completed the session and are not supposed to receive email");
+            } else if (email.getRecipient().equals(student1.email)) {
+                fail("student1 has completed the session and are not supposed to receive email");
             } else if (email.getRecipient().equals(instructor1.email)) {
                 verifyEmail(email, instructor1.email, subject, "/sessionClosingEmailForInstructor.html");
                 hasInstructor1ReceivedEmail = true;

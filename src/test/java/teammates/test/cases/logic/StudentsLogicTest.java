@@ -1013,10 +1013,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         List<StudentAttributes> actualStudentList;
         FeedbackSessionAttributes session;
 
-        ______TS("All students in course have unanswered questions except student 2");
+        ______TS("All students in course have unanswered questions except student 1 and student 2");
         session = dataBundle.feedbackSessions.get("session1InCourse1");
-        expectedStudentList = Arrays.asList(dataBundle.students.get("student1InCourse1"),
-                                            dataBundle.students.get("student3InCourse1"),
+        expectedStudentList = Arrays.asList(dataBundle.students.get("student3InCourse1"),
                                             dataBundle.students.get("student4InCourse1"),
                                             dataBundle.students.get("student5InCourse1"),
                                             dataBundle.students.get("student6InCourse1"));

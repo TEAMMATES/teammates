@@ -370,7 +370,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     private void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
 
-        // Student 1 currently has 2 responses to him and 2 from himself.
+        // Student 1 currently has 3 responses to him and 3 from himself.
         // Student 1 currently has 1 response comment for responses to him
         // and 1 response comment from responses from himself.
         StudentAttributes studentToUpdate = dataBundle.students.get("student1InCourse1");
@@ -388,7 +388,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
         assertEquals(responsesForReceiver.size(), 3);
-        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responsesFromGiver.size(), 3);
         assertEquals(responseCommentsForStudent.size(), 2);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -419,7 +419,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
 
         assertEquals(responsesForReceiver.size(), 3);
-        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responsesFromGiver.size(), 3);
         assertEquals(responseCommentsForStudent.size(), 2);
 
         frLogic.updateFeedbackResponsesForChangingEmail(
@@ -496,7 +496,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         student = dataBundle.students.get("student6InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
 
-        assertEquals(responses.size(), 0);
+        assertTrue(responses.isEmpty());
 
         ______TS("success: GetViewableResponsesForQuestion - Custom team giver");
         student = dataBundle.students.get("student1InCourse1");
@@ -515,7 +515,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         student = dataBundle.students.get("student6InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null);
 
-        assertEquals(responses.size(), 0);
+        assertTrue(responses.isEmpty());
 
         ______TS("success: GetViewableResponsesForQuestion - Custom instructor giver");
         instructor = dataBundle.instructors.get("instructor2OfCourse1");
@@ -537,7 +537,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
                 fq, instructor.email, UserRole.INSTRUCTOR, null);
 
-        assertEquals(responses.size(), 0);
+        assertTrue(responses.isEmpty());
 
         ______TS("success: Null student in response, should skip over null student");
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");

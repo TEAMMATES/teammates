@@ -1515,7 +1515,19 @@
         },
         "giverSection":"Section 2",
         "recipientSection":"Section 2" 
-        
+    },
+    "response1ForQ7S1C1":{
+        "feedbackSessionName":"First feedback session",
+        "courseId":"idOfTypicalCourse1",
+        "feedbackQuestionId":"7",
+        "feedbackQuestionType":"TEXT",
+        "giver":"student1InCourse1@gmail.tmt",
+        "recipient":"student5InCourse1@gmail.tmt",
+        "responseMetaData":{
+            "value":"Student response to another student."
+        },
+        "giverSection":"Section 1",
+        "recipientSection":"Section 2"
     },
     "response1ForQ8S1C1":{
         "feedbackSessionName":"First feedback session",
