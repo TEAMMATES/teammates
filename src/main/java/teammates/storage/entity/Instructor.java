@@ -2,11 +2,10 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -14,61 +13,49 @@ import com.google.appengine.api.datastore.Text;
  * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
  */
-@PersistenceCapable
+@Entity
+@Index
 public class Instructor extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Instructor.class);
+    @SuppressWarnings("unused") // required by Objectify
+    private Instructor() {
+    }
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
-    @PrimaryKey
-    @Persistent
+    @Id
     private String id;
 
     /**
      * The Google id of the instructor, used as the foreign key to locate the Account object.
      */
-    @Persistent
     private String googleId;
 
     /** The foreign key to locate the Course object. */
-    @Persistent
     private String courseId;
 
     /** new attribute. Default value: Old Entity--null  New Entity--false*/
-    @Persistent
     private Boolean isArchived;
 
     /** The instructor's name used for this course. */
-    @Persistent
     private String name;
 
     /** The instructor's email used for this course. */
-    @Persistent
     private String email;
 
     /** The instructor's registration key used for joining. */
-    @Persistent
     private String registrationKey;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private String role;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Boolean isDisplayedToStudents;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private String displayedName;
 
-    @Persistent
     private Text instructorPrivilegesAsText;
 
     public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
