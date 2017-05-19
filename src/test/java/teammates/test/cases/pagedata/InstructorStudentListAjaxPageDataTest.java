@@ -52,10 +52,6 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)
                                       .booleanValue(),
                      section.isAllowedToModifyStudent());
-        assertEquals(sectionPrivileges.get(sampleSection.name)
-                                      .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)
-                                      .booleanValue(),
-                     section.isAllowedToGiveCommentInSection());
         for (StudentListTeamData team : section.getTeams()) {
             testTeamContent(team);
         }
@@ -110,7 +106,6 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, true);
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, false);
-        sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, true);
         sectionPrivileges.put(sampleSection.name, sectionPrivilege);
 
         Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();

@@ -60,10 +60,8 @@ public class InstructorCourseDetailsPageData extends PageData {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             boolean isAllowedToModifyStudent = currentInstructor.isAllowedForPrivilege(section.name,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isAllowedToGiveCommentInSection = currentInstructor.isAllowedForPrivilege(section.name,
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             this.sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                         isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
+                                                         isAllowedToModifyStudent,
                                                          emailPhotoUrlMapping, account.googleId));
         }
         if (sections.size() == 1) {
@@ -84,10 +82,6 @@ public class InstructorCourseDetailsPageData extends PageData {
 
     public List<InstructorAttributes> getInstructors() {
         return instructors;
-    }
-
-    public ElementTag getGiveCommentButton() {
-        return giveCommentButton;
     }
 
     public ElementTag getCourseRemindButton() {

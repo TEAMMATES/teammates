@@ -64,15 +64,11 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
 
         ______TS("test current instructor doesn't have any permission for the course");
         String[] allPrivileges = {
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS

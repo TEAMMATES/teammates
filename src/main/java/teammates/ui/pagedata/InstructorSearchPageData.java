@@ -228,11 +228,8 @@ public class InstructorSearchPageData extends PageData {
             boolean isAllowedToModifyStudent =
                     instructor.isAllowedForPrivilege(
                             section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isAllowedToGiveCommentInSection =
-                    instructor.isAllowedForPrivilege(
-                            section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
+                                                isAllowedToModifyStudent,
                                                 emailToPhotoUrlMap, account.googleId));
         }
         return rows;

@@ -636,10 +636,6 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
 
         public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS = "canviewcommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS = "cangivecommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS = "canmodifycommentinsection";
-
         public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
         public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS =
