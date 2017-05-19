@@ -2,17 +2,12 @@ package teammates.test.cases.action;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -23,13 +18,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -43,7 +36,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
 
     private static String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
-    private final CommentsDb commentsDb = new CommentsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -826,63 +818,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         };
 
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
-    }
-
-    @Test
-    public void testInstructorStudentCommentAdd() {
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD;
-        CommentAttributes comment = dataBundle.comments.get("comment1FromI1C1toS1C1");
-        comment.commentText = new Text("New Comment");
-        String recipient = dataBundle.students.get("student4InCourse1").email;
-        comment.recipients.clear();
-        comment.recipients.add(recipient);
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COMMENT_TEXT, comment.commentText.getValue(),
-                Const.ParamsNames.COURSE_ID, comment.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, recipient,
-                Const.ParamsNames.RECIPIENT_TYPE, comment.recipientType.toString(),
-                Const.ParamsNames.RECIPIENTS, recipient
-        };
-        verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsCanAccess(submissionParams);
-
-        List<CommentAttributes> list =
-                commentsDb.getCommentsForReceiver(comment.courseId, comment.recipientType, recipient);
-        for (CommentAttributes c : list) {
-            commentsDb.deleteEntity(c);
-        }
-    }
-
-    @Test
-    public void testInstructorStudentCommentEdit() throws Exception {
-        uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        List<CommentAttributes> comments =
-                CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON,
-                                                            student.email);
-        Iterator<CommentAttributes> iterator = comments.iterator();
-        while (iterator.hasNext()) {
-            CommentAttributes commentAttributes = iterator.next();
-            if (!commentAttributes.giverEmail.equals(instructor.email)) {
-                iterator.remove();
-            }
-        }
-        assertEquals(2, comments.size());
-        CommentAttributes comment = comments.get(0);
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COMMENT_ID, comment.getCommentId().toString(),
-                Const.ParamsNames.COMMENT_EDITTYPE, "edit",
-                Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 1 to Student 1 in course 1",
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
-        };
-        verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsCanAccess(submissionParams);
-
-        // restore the comment Txt
-        commentsDb.updateComment(comment);
     }
 
     @Test

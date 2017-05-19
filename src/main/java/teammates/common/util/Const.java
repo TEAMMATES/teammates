@@ -188,9 +188,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING,
-                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
@@ -924,8 +922,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
-        public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
-        public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
         public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
 
         public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
