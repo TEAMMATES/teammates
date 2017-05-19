@@ -33,10 +33,15 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testGetAccount() throws Exception {
         AccountAttributes a = createNewAccount();
 
-        ______TS("typical success case");
+        ______TS("typical success case without");
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
-        assertNotNull(retrieved.studentProfile);
+        assertNull(retrieved.studentProfile);
+
+        ______TS("typical success with student profile");
+        retrieved = accountsDb.getAccount(a.googleId, true);
+        assertNotNull(retrieved);
+        assertNotNull(a.studentProfile);
 
         ______TS("expect null for non-existent account");
         retrieved = accountsDb.getAccount("non.existent");
@@ -124,7 +129,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountsDb.createAccount(a);
 
         ______TS("test persistence of latest entry");
-        AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId);
+        AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId, true);
 
         assertEquals(spa.shortName, accountDataTest.studentProfile.shortName);
         assertEquals(spa.gender, accountDataTest.studentProfile.gender);
@@ -138,7 +143,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountDataTest.studentProfile.gender = Const.GenderTypes.FEMALE;
         accountsDb.createAccount(accountDataTest);
         // Re-retrieve
-        accountDataTest = accountsDb.getAccount(a.googleId);
+        accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
         assertEquals(Const.GenderTypes.FEMALE, accountDataTest.studentProfile.gender);
 
@@ -177,7 +182,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile = null;
         accountsDb.updateAccount(a);
 
-        AccountAttributes actualAccount = accountsDb.getAccount(a.googleId);
+        AccountAttributes actualAccount = accountsDb.getAccount(a.googleId, true);
 
         assertEquals(a.name, actualAccount.name);
 
@@ -186,7 +191,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.shortName = "Edite";
         accountsDb.updateAccount(a, true);
 
-        actualAccount = accountsDb.getAccount(a.googleId);
+        actualAccount = accountsDb.getAccount(a.googleId, true);
         assertEquals(a.studentProfile.shortName, actualAccount.studentProfile.shortName);
 
         ______TS("success: profile not modified in the default case");
@@ -198,7 +203,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         actualAccount.institute = "newer institute";
 
         accountsDb.updateAccount(actualAccount);
-        a = accountsDb.getAccount(a.googleId);
+        a = accountsDb.getAccount(a.googleId, true);
 
         // ensure update was successful
         assertEquals(actualAccount.institute, a.institute);
@@ -208,11 +213,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("success: modified date does not change if profile is not changed");
 
-        actualAccount = accountsDb.getAccount(a.googleId);
+        actualAccount = accountsDb.getAccount(a.googleId, true);
         actualAccount.institute = "new institute";
 
         accountsDb.updateAccount(actualAccount);
-        a = accountsDb.getAccount(a.googleId);
+        a = accountsDb.getAccount(a.googleId, true);
 
         // ensure update was successful
         assertEquals(actualAccount.institute, a.institute);

@@ -82,28 +82,26 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     }
 
     /**
-     * Gets the data transfer version of the account. With the new Objectify API, the StudentProfile
-     * is retrieved when it is first accessed via its getter. Hence, the parameter retrieveStudentProfile
-     * is now obsolete, and not used (but maintained here for backward compatibility).
+     * Gets the data transfer version of the account. Does not retrieve the profile
+     * if the given parameter is false<br>
      * Preconditions:
      * <br> * All parameters are non-null.
      * @return Null if not found.
      */
-    @Deprecated
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
-        return getAccount(googleId);
-    }
-
-    public AccountAttributes getAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        Account a = getAccountEntity(googleId);
+        Account a = getAccountEntity(googleId, retrieveStudentProfile);
 
         if (a == null) {
             return null;
         }
 
         return new AccountAttributes(a);
+    }
+
+    public AccountAttributes getAccount(String googleId) {
+        return getAccount(googleId, false);
     }
 
     /**
@@ -134,7 +132,7 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
             throw new InvalidParametersException(a.getInvalidityInfo());
         }
 
-        Account accountToUpdate = getAccountEntity(a.googleId);
+        Account accountToUpdate = getAccountEntity(a.googleId, updateStudentProfile);
 
         if (accountToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
@@ -186,7 +184,7 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        AccountAttributes accountToDelete = getAccount(googleId);
+        AccountAttributes accountToDelete = getAccount(googleId, true);
 
         if (accountToDelete == null) {
             return;
@@ -221,13 +219,21 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
         deleteEntities(accounts);
     }
 
-    private Account getAccountEntity(String googleId) {
+    private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
         Account account = ofy().load().type(Account.class).id(googleId).now();
         if (account == null) {
             return null;
         }
 
+        if (!retrieveStudentProfile) {
+            account.setStudentProfile(null);
+        }
+
         return account;
+    }
+
+    private Account getAccountEntity(String googleId) {
+        return getAccountEntity(googleId, false);
     }
 
     @Override

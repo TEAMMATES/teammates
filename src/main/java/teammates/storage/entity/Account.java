@@ -114,6 +114,11 @@ public class Account extends BaseEntity {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Fetches the student profile from the datastore the first time this is called. Returns null if student profile was
+     * explicitly set to null (e.g. when the student profile is intentionally not retrieved). If a shell student profile
+     * with an empty Google ID was set, simply returns this shell student profile without interacting with the datastore.
+     */
     public StudentProfile getStudentProfile() {
         if (localStudentProfile != null && localStudentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
             return localStudentProfile;
@@ -124,6 +129,12 @@ public class Account extends BaseEntity {
         return studentProfile.get();
     }
 
+    /**
+     * Sets a reference to {@code studentProfile} which subsequent calls to {@code getStudentProfile()} will use to fetch
+     * from. To disable this behaviour (e.g. when the student profile is intentionally not retrieved), set to null. If a
+     * shell student profile with an empty Google ID is set, subsequent calls to {@code getStudentProfile()} will simply
+     * return the shell student profile without interacting with the datastore.
+     */
     public void setStudentProfile(StudentProfile studentProfile) {
         if (studentProfile == null) {
             this.studentProfile = null;
