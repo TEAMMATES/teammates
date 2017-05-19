@@ -476,4 +476,12 @@ public class BackDoorLogic extends Logic {
         String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
     }
+
+    public boolean isGroupListFilePresentInGcs(String groupListKey) {
+        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(groupListKey));
+    }
+
+    public void deleteGroupListFile(String groupListFileKey) {
+        GoogleCloudStorageHelper.deleteFile(new BlobKey(groupListFileKey));
+    }
 }

@@ -571,4 +571,24 @@ public final class StringHelper {
         return result.toString();
     }
 
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    public static boolean isTextContainingAny(String text, String... strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.length == 0) {
+            return true;
+        }
+
+        for (String string : strings) {
+            if (text.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

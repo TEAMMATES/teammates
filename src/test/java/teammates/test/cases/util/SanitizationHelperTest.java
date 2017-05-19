@@ -165,6 +165,29 @@ public class SanitizationHelperTest extends BaseTestCase {
         Text actualRichTextObj = new Text(actualRichText);
         Text sanitizedTextObj = SanitizationHelper.sanitizeForRichText(actualRichTextObj);
         assertEquals(expectedRichText, sanitizedTextObj.getValue());
+
+        actualRichText = "<table cellspacing = \"5\" onmouseover=\"alert('onmouseover');\">"
+                + "<thead><tr><td>No.</td><td colspan = \"2\">People</td></tr></thead>"
+                + "<caption> Table with caption</caption>"
+                + "<tbody><tr><td>1</td><td>Amy</td><td><strong>Smith</strong></td></tr>"
+                + "<tr><td>2</td><td>Bob</td><td><strong>Tan</strong></td></tr>"
+                + "</tbody></table>"
+                + "<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"
+                + "</td></option></div> invalid closing tags"
+                + "f(x) = x<sup>2</sup>"
+                + "<code>System.out.println(\"Hello World\");</code>";
+        expectedRichText = "<table cellspacing=\"5\">"
+                + "<thead><tr><td>No.</td><td colspan=\"2\">People</td></tr></thead>"
+                + "<caption> Table with caption</caption>"
+                + "<tbody><tr><td>1</td><td>Amy</td><td><strong>Smith</strong></td></tr>"
+                + "<tr><td>2</td><td>Bob</td><td><strong>Tan</strong></td></tr>"
+                + "</tbody></table>"
+                + "<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"
+                + " invalid closing tags"
+                + "f(x) &#61; x<sup>2</sup>"
+                + "<code>System.out.println(&#34;Hello World&#34;);</code>";
+        sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
+        assertEquals(expectedRichText, sanitized);
     }
 
     @Test
@@ -263,5 +286,45 @@ public class SanitizationHelperTest extends BaseTestCase {
         expected = "concat('Team 1</td></div>',\"'\",'\"','')";
         assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
 
+    }
+
+    @Test
+    public void testIsSanitizedHtml() {
+        assertFalse("should return false if string is null",
+                SanitizationHelper.isSanitizedHtml(null));
+        assertFalse("should return false if empty string",
+                SanitizationHelper.isSanitizedHtml(""));
+
+        assertFalse("should return false for string with no special characters",
+                SanitizationHelper.isSanitizedHtml("This is an normal string."));
+
+        String sanitized = SanitizationHelper.sanitizeForHtml("<script>alert('hi');</script>");
+        assertTrue("should return true if string is sanitized",
+                SanitizationHelper.isSanitizedHtml(sanitized));
+
+        String unsanitized = "<not sanitized>" + sanitized;
+        assertFalse("should return false if string contains unsanitized characters",
+                SanitizationHelper.isSanitizedHtml(unsanitized));
+    }
+
+    @Test
+    public void testDesanitizeIfSanitized() {
+        assertNull("should return null if given null", SanitizationHelper.desanitizeIfHtmlSanitized(null));
+
+        String unsanitized = "This is a normal string...";
+        assertEquals("should return same unsanitized string if given unsanitized with normal characters",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+
+        unsanitized = "<script>alert('hi');</script>";
+        assertEquals("should return same unsanitized string if given unsanitized with special characters",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+
+        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
+        assertEquals("should desanitize string if given sanitized",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(sanitized));
+
+        unsanitized = "\"not sanitized\"" + sanitized;
+        assertEquals("should return same unsanitized string if given unsanitized string containing sanitized sequences",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
     }
 }
