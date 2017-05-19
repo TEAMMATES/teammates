@@ -190,7 +190,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responseToUpdate.recipient = "Team 1.1";
 
         assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "Team 1.1", "Team 1.2"));
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
@@ -236,7 +236,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.email).size(), 1);
+                teamQuestion.getId(), "Team 1.1").size(), 1);
 
         // Add one more non-team response
         FeedbackResponseAttributes responseToAdd =

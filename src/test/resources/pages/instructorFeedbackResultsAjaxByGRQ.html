@@ -334,22 +334,12 @@
         <div class="panel panel-primary">
           <div class="panel-heading" data-target="#panelBodyCollapse-1-1" id="panelHeading-1-1" style="cursor: pointer;">
             From:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+            <div class="inline panel-heading-text">
               <strong>
-                Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                Team 1
               </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
-                [CFResultsUiT.alice.b@gmail.tmt]
-              </a>
             </div>
             <div class="pull-right">
-              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                <input name="fsname" type="hidden" value="First Session">
-                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
-              </form>
                
               <div class="display-icon" style="display:inline;">
                 <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -363,34 +353,27 @@
                 <div class="col-md-2">
                   <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                     To:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      <strong>
-                        Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      </strong>
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
+                    <strong>
+                      Team 2
+                    </strong>
                   </div>
                   <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                     <br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
+                    From: Team 1
                   </div>
                 </div>
                 <div class="col-md-10">
                   <div class="panel panel-info">
                     <div class="panel-heading">
-                      Question 2:
+                      Question 4:
                       <span class="text-preserve-space">
-                        What is the best selling point of your product?
+                        Give feedback to 3 other teams.
                       </span>
                     </div>
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
-                          Alice self feedback.
+                          Response from team 1 (by alice) to team 2.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -403,9 +386,9 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Giver: Team 1
                                   <br>
-                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Recipient: Team 2
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -445,30 +428,17 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
-                                  <tr id="response-giver-team-1-1-0-1">
+                                  <tr id="response-recipient-1-1-0-1">
                                     <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
+                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Recipient(s)
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                     <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-1-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-1-1-0-1">
@@ -502,1126 +472,12 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="responseid" type="hidden" value="${question.id}%Team 1%Team 2">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 7:
-                      <span class="text-preserve-space">
-                        What is your extra feature? 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('7-section-1-giver-0-recipient-1')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-7-section-1-giver-0-recipient-1" style="display:none;">
-                            Multiple-choice (single answer) question options:
-                            <ul style="list-style-type: disc;margin-left: 20px;">
-                              <li>
-                                FlexiCommand
-                              </li>
-                              <li>
-                                PowerSearch
-                              </li>
-                              <li>
-                                GoodUI
-                              </li>
-                              <li>
-                                Google Integration
-                              </li>
-                            </ul>
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          PowerSearch
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,2, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-1-0-2" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-0-2" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-0-2" onclick="toggleVisibilityAddForm(1,0,2, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-1-0-2" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-1-0-2">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-1-0-2">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-1-0-2">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-1-0-2">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-0-2">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-0-2">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-0-2" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,2, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 8:
-                      <span class="text-preserve-space">
-                        What is your extra feature? 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('8-section-1-giver-0-recipient-1')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-8-section-1-giver-0-recipient-1" style="display:none;">
-                            Multiple-choice (multiple answers) question options:
-                            <ul style="list-style-type: disc;margin-left: 20px;">
-                              <li>
-                                FlexiCommand
-                              </li>
-                              <li>
-                                PowerSearch
-                              </li>
-                              <li>
-                                GoodUI
-                              </li>
-                              <li>
-                                Google Integration
-                              </li>
-                            </ul>
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          <ul class="selectedOptionsList">
-                            <li>
-                              PowerSearch
-                            </li>
-                            <li>
-                              GoodUI
-                            </li>
-                          </ul>
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,3, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-1-0-3" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-0-3" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-0-3" onclick="toggleVisibilityAddForm(1,0,3, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-1-0-3" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-1-0-3">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-1-0-3">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-1-0-3">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-1-0-3">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-0-3">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-0-3">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-0-3" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,3, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 9:
-                      <span class="text-preserve-space">
-                        Who do you think is the most hardworking student? 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-9-section-1-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('9-section-1-giver-0-recipient-1')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-9-section-1-giver-0-recipient-1" style="display:none;">
-                            Multiple-choice (single answer) question options:
-                            <br>
-                            The options for this question is automatically generated from the list of all students in this course.
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          Danny
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,4, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-1-0-4" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-0-4" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-0-4" onclick="toggleVisibilityAddForm(1,0,4, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-1-0-4" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-1-0-4">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-1-0-4">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-1-0-4">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-1-0-4">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-0-4">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-0-4">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-0-4" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,4, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 10:
-                      <span class="text-preserve-space">
-                        Which team do you think has the best feature? 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('10-section-1-giver-0-recipient-1')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-10-section-1-giver-0-recipient-1" style="display:none;">
-                            Multiple-choice (single answer) question options:
-                            <br>
-                            The options for this question is automatically generated from the list of all teams in this course.
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          Team 1
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,5, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-1-0-5" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-0-5" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-0-5" onclick="toggleVisibilityAddForm(1,0,5, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-1-0-5" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-1-0-5">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-1-0-5">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-1-0-5">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-1-0-5">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-0-5">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-0-5">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-0-5" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,5, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      <strong>
-                        Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      </strong>
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
-                    <br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 1:
-                      <span class="text-preserve-space">
-                        Rate 3 other students' products
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          2 Response to Benny.
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,0,1, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-2-0-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-0-1" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-2-0-1" onclick="toggleVisibilityAddForm(2,0,1, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-2-0-1" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-2-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-recipient-1-2-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Recipient(s)
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-2-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-2-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-2-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-2-0-1">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-2-0-1">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-0-1" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,0,1, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="2">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      <strong>
-                        Drop out (Team 2)
-                      </strong>
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
-                    <br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 1:
-                      <span class="text-preserve-space">
-                        Rate 3 other students' products
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          Response to Dropout.
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(3,0,1, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-3-0-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-3-0-1" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Drop out (Team 2)
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-3-0-1" onclick="toggleVisibilityAddForm(3,0,1, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-3-0-1" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-3-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-recipient-1-3-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Recipient(s)
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-3-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-3-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-3-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-3-0-1">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-3-0-1">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-0-1" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,0,1, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="3">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%drop.out@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      <strong>
-                        Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      </strong>
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
-                    <br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 11:
-                      <span class="text-preserve-space">
-                        This is a dummy question to test default sort
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          Alice to Danny.
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(4,0,1, { sectionIndex: 1 })" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-4-0-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-4-0-1" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                  <br>
-                                  Recipient: Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-4-0-1" onclick="toggleVisibilityAddForm(4,0,1, { sectionIndex: 1 })">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-4-0-1" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see this comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see comment giver's name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-4-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-recipient-1-4-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Recipient(s)
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-giver-team-1-4-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver's Team Members
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-students-1-4-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Other students in this course
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-4-0-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-4-0-1">
-                              </div>
-                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-4-0-1">
-                              </div>
-                              <input name="responsecommenttext" type="hidden">
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-4-0-1" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,0,1, { sectionIndex: 1 });" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="4">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.fred.g@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                           </form>
                         </li>
                       </ul>
@@ -1637,11 +493,11 @@
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
-                [CFResultsUiT.benny.c@gmail.tmt]
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
+                [CFResultsUiT.alice.b@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
@@ -1649,7 +505,7 @@
                 <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="First Session">
-                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -1666,7 +522,7 @@
                     To:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                       <strong>
-                        Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                        Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       </strong>
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
@@ -1675,7 +531,7 @@
                     <br class="hidden-xs hidden-sm">
                     From:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
                   </div>
@@ -1683,37 +539,15 @@
                 <div class="col-md-10">
                   <div class="panel panel-info">
                     <div class="panel-heading">
-                      Question 8:
+                      Question 2:
                       <span class="text-preserve-space">
-                        What is your extra feature? 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('8-section-1-giver-1-recipient-1')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-8-section-1-giver-1-recipient-1" style="display:none;">
-                            Multiple-choice (multiple answers) question options:
-                            <ul style="list-style-type: disc;margin-left: 20px;">
-                              <li>
-                                FlexiCommand
-                              </li>
-                              <li>
-                                PowerSearch
-                              </li>
-                              <li>
-                                GoodUI
-                              </li>
-                              <li>
-                                Google Integration
-                              </li>
-                            </ul>
-                          </span>
-                        </span>
+                        What is the best selling point of your product?
                       </span>
                     </div>
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
+                          Alice self feedback.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -1726,9 +560,9 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                   <br>
-                                  Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -1825,7 +659,614 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 7:
+                      <span class="text-preserve-space">
+                        What is your extra feature? 
+                        <span style=" white-space: normal;">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('7-section-1-giver-1-recipient-1')">
+                            [more]
+                          </a>
+                          <br>
+                          <span id="questionAdditionalInfo-7-section-1-giver-1-recipient-1" style="display:none;">
+                            Multiple-choice (single answer) question options:
+                            <ul style="list-style-type: disc;margin-left: 20px;">
+                              <li>
+                                FlexiCommand
+                              </li>
+                              <li>
+                                PowerSearch
+                              </li>
+                              <li>
+                                GoodUI
+                              </li>
+                              <li>
+                                Google Integration
+                              </li>
+                            </ul>
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          PowerSearch
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,2, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-1-1-2" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1-2" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1-2" onclick="toggleVisibilityAddForm(1,1,2, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-1-1-2" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-1-1-2">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-1-1-2">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-1-1-2">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-1-1-2">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-1-1-2">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-1-2">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1-2" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,2, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 8:
+                      <span class="text-preserve-space">
+                        What is your extra feature? 
+                        <span style=" white-space: normal;">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('8-section-1-giver-1-recipient-1')">
+                            [more]
+                          </a>
+                          <br>
+                          <span id="questionAdditionalInfo-8-section-1-giver-1-recipient-1" style="display:none;">
+                            Multiple-choice (multiple answers) question options:
+                            <ul style="list-style-type: disc;margin-left: 20px;">
+                              <li>
+                                FlexiCommand
+                              </li>
+                              <li>
+                                PowerSearch
+                              </li>
+                              <li>
+                                GoodUI
+                              </li>
+                              <li>
+                                Google Integration
+                              </li>
+                            </ul>
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          <ul class="selectedOptionsList">
+                            <li>
+                              PowerSearch
+                            </li>
+                            <li>
+                              GoodUI
+                            </li>
+                          </ul>
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,3, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-1-1-3" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1-3" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1-3" onclick="toggleVisibilityAddForm(1,1,3, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-1-1-3" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-1-1-3">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-1-1-3">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-1-1-3">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-1-1-3">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-1-1-3">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-1-3">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1-3" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,3, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 9:
+                      <span class="text-preserve-space">
+                        Who do you think is the most hardworking student? 
+                        <span style=" white-space: normal;">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-9-section-1-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('9-section-1-giver-1-recipient-1')">
+                            [more]
+                          </a>
+                          <br>
+                          <span id="questionAdditionalInfo-9-section-1-giver-1-recipient-1" style="display:none;">
+                            Multiple-choice (single answer) question options:
+                            <br>
+                            The options for this question is automatically generated from the list of all students in this course.
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          Danny
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,4, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-1-1-4" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1-4" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1-4" onclick="toggleVisibilityAddForm(1,1,4, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-1-1-4" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-1-1-4">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-1-1-4">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-1-1-4">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-1-1-4">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-1-1-4">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-1-4">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1-4" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,4, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 10:
+                      <span class="text-preserve-space">
+                        Which team do you think has the best feature? 
+                        <span style=" white-space: normal;">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-giver-1-recipient-1" onclick="toggleAdditionalQuestionInfo('10-section-1-giver-1-recipient-1')">
+                            [more]
+                          </a>
+                          <br>
+                          <span id="questionAdditionalInfo-10-section-1-giver-1-recipient-1" style="display:none;">
+                            Multiple-choice (single answer) question options:
+                            <br>
+                            The options for this question is automatically generated from the list of all teams in this course.
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          Team 1
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,5, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-1-1-5" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1-5" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1-5" onclick="toggleVisibilityAddForm(1,1,5, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-1-1-5" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-1-1-5">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-1-1-5">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-1-1-5">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-1-1-5">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-1-1-5">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-1-5">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1-5" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,5, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
@@ -1844,7 +1285,7 @@
                     To:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                       <strong>
-                        Charlie Dávis (Team 2)
+                        Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       </strong>
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
@@ -1853,7 +1294,7 @@
                     <br class="hidden-xs hidden-sm">
                     From:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
                   </div>
@@ -1869,7 +1310,7 @@
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
-                          4 Response to Charlie.
+                          2 Response to Benny.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -1882,9 +1323,9 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                   <br>
-                                  Recipient: Charlie Dávis (Team 2)
+                                  Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -1994,7 +1435,7 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="2">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
@@ -2013,7 +1454,7 @@
                     To:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                       <strong>
-                        Danny Engrid (Team 2)
+                        Drop out (Team 2)
                       </strong>
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
@@ -2022,7 +1463,7 @@
                     <br class="hidden-xs hidden-sm">
                     From:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
                   </div>
@@ -2038,7 +1479,7 @@
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
-                          1 Response to Danny.
+                          Response to Dropout.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(3,1,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -2051,9 +1492,9 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                   <br>
-                                  Recipient: Danny Engrid (Team 2)
+                                  Recipient: Drop out (Team 2)
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -2163,7 +1604,176 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="3">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%drop.out@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row border-top-gray">
+                <div class="col-md-2">
+                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                    To:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      <strong>
+                        Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      </strong>
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
+                  </div>
+                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                    <br class="hidden-xs hidden-sm">
+                    From:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-10">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 11:
+                      <span class="text-preserve-space">
+                        This is a dummy question to test default sort
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          Alice to Danny.
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(4,1,1, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-4-1-1" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-4-1-1" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-4-1-1" onclick="toggleVisibilityAddForm(4,1,1, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-4-1-1" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-4-1-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-recipient-1-4-1-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Recipient(s)
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-4-1-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-4-1-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-4-1-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-4-1-1">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-4-1-1">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-4-1-1" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="4">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.fred.g@gmail.tmt">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
@@ -2184,11 +1794,11 @@
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.fred.g@gmail.tmt">
-                [CFResultsUiT.fred.g@gmail.tmt]
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
+                [CFResultsUiT.benny.c@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
@@ -2196,7 +1806,7 @@
                 <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="First Session">
-                <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2213,7 +1823,7 @@
                     To:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                       <strong>
-                        Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                        Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       </strong>
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
@@ -2222,7 +1832,7 @@
                     <br class="hidden-xs hidden-sm">
                     From:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
                   </div>
@@ -2230,15 +1840,37 @@
                 <div class="col-md-10">
                   <div class="panel panel-info">
                     <div class="panel-heading">
-                      Question 11:
+                      Question 8:
                       <span class="text-preserve-space">
-                        This is a dummy question to test default sort
+                        What is your extra feature? 
+                        <span style=" white-space: normal;">
+                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-giver-2-recipient-1" onclick="toggleAdditionalQuestionInfo('8-section-1-giver-2-recipient-1')">
+                            [more]
+                          </a>
+                          <br>
+                          <span id="questionAdditionalInfo-8-section-1-giver-2-recipient-1" style="display:none;">
+                            Multiple-choice (multiple answers) question options:
+                            <ul style="list-style-type: disc;margin-left: 20px;">
+                              <li>
+                                FlexiCommand
+                              </li>
+                              <li>
+                                PowerSearch
+                              </li>
+                              <li>
+                                GoodUI
+                              </li>
+                              <li>
+                                Google Integration
+                              </li>
+                            </ul>
+                          </span>
+                        </span>
                       </span>
                     </div>
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
-                          Danny to Alice.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -2251,9 +1883,9 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                   <br>
-                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -2291,19 +1923,6 @@
                                     </td>
                                     <td>
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-recipient-1-1-2-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Recipient(s)
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-giver-team-1-1-2-1">
@@ -2363,12 +1982,12 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.fred.g@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                           </form>
                         </li>
                       </ul>
@@ -2391,7 +2010,7 @@
                     <br class="hidden-xs hidden-sm">
                     From:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
                   </div>
@@ -2407,7 +2026,7 @@
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
-                          Fred's Response to Charlie.
+                          4 Response to Charlie.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,2,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -2420,7 +2039,7 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                   <br>
                                   Recipient: Charlie Dávis (Team 2)
                                 </p>
@@ -2532,7 +2151,176 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="2">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.fred.g@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row border-top-gray">
+                <div class="col-md-2">
+                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                    To:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      <strong>
+                        Danny Engrid (Team 2)
+                      </strong>
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
+                  </div>
+                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                    <br class="hidden-xs hidden-sm">
+                    From:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-10">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 1:
+                      <span class="text-preserve-space">
+                        Rate 3 other students' products
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          1 Response to Danny.
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(3,2,1, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-3-2-1" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-3-2-1" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Danny Engrid (Team 2)
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-3-2-1" onclick="toggleVisibilityAddForm(3,2,1, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-3-2-1" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-3-2-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-recipient-1-3-2-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Recipient(s)
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-3-2-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-3-2-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-3-2-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-3-2-1">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-3-2-1">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-2-1" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="3">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
@@ -2551,17 +2339,21 @@
         <div class="panel panel-primary">
           <div class="panel-heading" data-target="#panelBodyCollapse-1-4" id="panelHeading-1-4" style="cursor: pointer;">
             From:
-            <div class="inline panel-heading-text">
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Team 1&lt;/td&gt;&lt;/div&gt;'"
+                Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
               </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.fred.g@gmail.tmt">
+                [CFResultsUiT.fred.g@gmail.tmt]
+              </a>
             </div>
             <div class="pull-right">
               <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                 <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="First Session">
-                <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2576,27 +2368,34 @@
                 <div class="col-md-2">
                   <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                     To:
-                    <strong>
-                      Team 2
-                    </strong>
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      <strong>
+                        Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      </strong>
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
                   </div>
                   <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                     <br class="hidden-xs hidden-sm">
-                    From: Team 1&lt;/td&gt;&lt;/div&gt;'"
+                    From:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-10">
                   <div class="panel panel-info">
                     <div class="panel-heading">
-                      Question 4:
+                      Question 11:
                       <span class="text-preserve-space">
-                        Give feedback to 3 other teams.
+                        This is a dummy question to test default sort
                       </span>
                     </div>
                     <div class="panel-body">
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
-                          Response from team 1 (by alice) to team 2.
+                          Danny to Alice.
                         </div>
                         <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,3,1, { sectionIndex: 1 })" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -2609,9 +2408,9 @@
                             <div class="form-group form-inline">
                               <div class="form-group text-muted">
                                 <p>
-                                  Giver: Team 1&lt;/td&gt;&lt;/div&gt;'"
+                                  Giver: Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                   <br>
-                                  Recipient: Team 2
+                                  Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -2664,6 +2463,32 @@
                                       <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
+                                  <tr id="response-giver-team-1-1-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-1-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
                                   <tr id="response-instructors-1-1-3-1">
                                     <td class="text-left">
                                       <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
@@ -2695,12 +2520,181 @@
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%Team 2">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.fred.g@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row border-top-gray">
+                <div class="col-md-2">
+                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                    To:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      <strong>
+                        Charlie Dávis (Team 2)
+                      </strong>
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
+                  </div>
+                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                    <br class="hidden-xs hidden-sm">
+                    From:
+                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                      Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-10">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      Question 1:
+                      <span class="text-preserve-space">
+                        Rate 3 other students' products
+                      </span>
+                    </div>
+                    <div class="panel-body">
+                      <div style="clear:both; overflow: hidden">
+                        <div class="pull-left text-preserve-space">
+                          Fred's Response to Charlie.
+                        </div>
+                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,3,1, { sectionIndex: 1 })" title="" type="button">
+                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                          </span>
+                        </button>
+                      </div>
+                      <ul class="list-group" id="responseCommentTable-1-2-3-1" style="display:none">
+                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-3-1" style="display: none;">
+                          <form class="responseCommentAddForm">
+                            <div class="form-group form-inline">
+                              <div class="form-group text-muted">
+                                <p>
+                                  Giver: Fred Gabriel (Team 1&lt;/td&gt;&lt;/div&gt;'")
+                                  <br>
+                                  Recipient: Charlie Dávis (Team 2)
+                                </p>
+                                You may change comment's visibility using the visibility options on the right hand side.
+                              </div>
+                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-2-3-1" onclick="toggleVisibilityAddForm(2,3,1, { sectionIndex: 1 })">
+                                <span class="glyphicon glyphicon-eye-close">
+                                </span>
+                                Show Visibility Options
+                              </a>
+                            </div>
+                            <div class="panel panel-default" id="visibility-options-1-2-3-1" style="display: none;">
+                              <div class="panel-heading">
+                                Visibility Options
+                              </div>
+                              <table class="table text-center" style="color: #000;">
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center">
+                                      User/Group
+                                    </th>
+                                    <th class="text-center">
+                                      Can see this comment
+                                    </th>
+                                    <th class="text-center">
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                  <tr id="response-giver-1-2-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-recipient-1-2-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Recipient(s)
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-giver-team-1-2-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Response Giver's Team Members
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-students-1-2-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Other students in this course
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                    </td>
+                                  </tr>
+                                  <tr id="response-instructors-1-2-3-1">
+                                    <td class="text-left">
+                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                        Instructors
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                    <td>
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="form-group">
+                              <div id="rich-text-toolbar-comment-container-1-2-3-1">
+                              </div>
+                              <div class="panel panel-default panel-body" id="responseCommentAddForm-1-2-3-1">
+                              </div>
+                              <input name="responsecommenttext" type="hidden">
+                            </div>
+                            <div class="col-sm-offset-5">
+                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-3-1" type="button">
+                                Add
+                              </a>
+                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,3,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                            </div>
+                            <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="2">
+                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.fred.g@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                            <input name="fsname" type="hidden" value="First Session">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                           </form>
                         </li>
                       </ul>

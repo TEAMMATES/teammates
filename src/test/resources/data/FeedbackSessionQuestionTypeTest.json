@@ -1651,7 +1651,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "RANK_OPTIONS",
-      "giver": "student4InCourse1@gmail.tmt",
+      "giver": "Team 1.1",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
         "value": "{\"answers\":[3,-999,2,1],\"questionType\":\"RANK_OPTIONS\"}"
