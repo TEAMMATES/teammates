@@ -29,7 +29,6 @@ public class FeedbackResponseCommentRow {
 
     private String whoCanSeeComment;
     private boolean withVisibilityIcon;
-    private boolean withNotificationIcon;
     private boolean withLinkToCommentsPage;
     private String linkToCommentsPage;
 
@@ -153,10 +152,6 @@ public class FeedbackResponseCommentRow {
 
     public boolean isWithVisibilityIcon() {
         return withVisibilityIcon;
-    }
-
-    public boolean isWithNotificationIcon() {
-        return withNotificationIcon;
     }
 
     public boolean isWithLinkToCommentsPage() {
@@ -284,10 +279,6 @@ public class FeedbackResponseCommentRow {
     public void enableVisibilityIcon(String whoCanSeeComment) {
         this.withVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
-    }
-
-    public void enableNotificationIcon() {
-        this.withNotificationIcon = true;
     }
 
     public FeedbackResponseCommentRow setLinkToCommentsPage(String linkToCommentsPage) {

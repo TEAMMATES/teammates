@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.CourseRoster;
@@ -1971,19 +1970,6 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-            String courseId, CommentSendingState state)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForSendingState(courseId, state);
-    }
-
-    /**
      * Creates or updates document for the given comment.
      *
      * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)
@@ -2034,22 +2020,6 @@ public class Logic {
 
         Assumption.assertNotNull(feedbackResponseComment);
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void updateFeedbackResponseCommentsSendingState(String courseId,
-                                                           CommentSendingState oldState,
-                                                           CommentSendingState newState)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(oldState);
-        Assumption.assertNotNull(newState);
-
-        feedbackResponseCommentsLogic.updateFeedbackResponseCommentsSendingState(courseId, oldState, newState);
     }
 
     /**

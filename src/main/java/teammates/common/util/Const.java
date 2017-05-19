@@ -1073,11 +1073,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
 
-        public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
-                "pending-comment-cleared-email-queue";
-        public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
-                "/worker/pendingCommentClearedEmail";
-
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
 

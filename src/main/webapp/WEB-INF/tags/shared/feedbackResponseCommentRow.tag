@@ -37,12 +37,6 @@
                   style="margin-left: 5px;"
                   title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
         </c:if>
-        <c:if test="${frc.withNotificationIcon}">
-            <span class="glyphicon glyphicon-bell"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="This comment is pending to notify recipients"></span>
-        </c:if>
         <c:if test="${frc.withLinkToCommentsPage}">
             <a type="button"
                href="${frc.linkToCommentsPage}"

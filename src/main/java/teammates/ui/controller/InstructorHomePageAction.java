@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -39,15 +38,8 @@ public class InstructorHomePageAction extends Action {
         CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(instructor);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
 
-        int commentsForSendingStateCount =
-                logic.getCommentsForSendingState(courseToLoad, CommentSendingState.PENDING).size();
-        int feedbackResponseCommentsForSendingStateCount =
-                logic.getFeedbackResponseCommentsForSendingState(courseToLoad, CommentSendingState.PENDING)
-                     .size();
-        int pendingCommentsCount = commentsForSendingStateCount + feedbackResponseCommentsForSendingStateCount;
-
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
-        data.init(index, course, instructor, pendingCommentsCount);
+        data.init(index, course, instructor);
 
         statusToAdmin = "instructorHome Course Load:<br>" + courseToLoad;
 

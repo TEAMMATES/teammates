@@ -235,11 +235,8 @@ public class InstructorSearchPageData extends PageData {
             if (!"Anonymous".equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
-            String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "="
-                              + frc.courseId + "#" + frc.getId();
 
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver);
-            frcDiv.setLinkToCommentsPage(link);
 
             rows.add(frcDiv);
         }
