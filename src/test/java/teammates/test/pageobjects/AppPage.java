@@ -74,9 +74,6 @@ public abstract class AppPage {
     @FindBy(id = "studentProfileNavLink")
     private WebElement studentProfileTab;
 
-    @FindBy(id = "studentCommentsNavLink")
-    private WebElement studentCommentsTab;
-
     @FindBy(id = "studentHelpLink")
     private WebElement studentHelpTab;
 
@@ -414,16 +411,6 @@ public abstract class AppPage {
         click(studentHomeTab);
         waitForPageToLoad();
         return changePageType(StudentHomePage.class);
-    }
-
-    /**
-     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page
-     */
-    public StudentCommentsPage loadStudentCommentsTab() {
-        click(studentCommentsTab);
-        waitForPageToLoad();
-        return changePageType(StudentCommentsPage.class);
     }
 
     /**

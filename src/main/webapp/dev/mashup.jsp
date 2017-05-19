@@ -96,7 +96,6 @@
                                 <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
                                 <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
                                 <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
-                                <li><a href="#studentCommentsPage">Student Comments Page</a></li>
                             </ul>
                         <td>
                         </td>
@@ -250,10 +249,6 @@
 
                 <div class="pageinfo">Student Feedback Results Page</div>
                 <div id="studentFeedbackResultsPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Student Comments Page</div>
-                <div id="studentCommentsPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -392,7 +387,6 @@
                 $('#studentFeedbackSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
 
                 $('#studentFeedbackResultsPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
-                $('#studentCommentsPage').load('<%=Const.ActionURIs.STUDENT_COMMENTS_PAGE%>?user=alice.b.tmms&courseid=CS2104 #mainContent');
                 $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #mainContent');
                 $('#adminSearchPage').load('<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
                 $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #mainContent');

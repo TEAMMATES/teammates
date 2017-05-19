@@ -835,12 +835,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void testStudentCommentsPage() {
-        uri = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
-        verifyAnyRegisteredUserCanAccess(submissionParams);
-    }
-
-    @Test
     public void testStudentCourseDetailsPage() {
         uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         String idOfCourseOfStudent = dataBundle.students

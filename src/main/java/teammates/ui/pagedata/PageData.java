@@ -246,25 +246,6 @@ public class PageData {
         return link;
     }
 
-    /**
-     * Returns The relative path to the student comments page. Defaults to whether the student is unregistered.
-     */
-    public String getStudentCommentsLink() {
-        return getStudentCommentsLink(isUnregisteredStudent());
-    }
-
-    /**
-     * Returns The relative path to the student comments page. The user Id is encoded in the url as a parameter.
-     */
-    public String getStudentCommentsLink(boolean isUnregistered) {
-        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
-        link = addUserIdToUrl(link);
-        if (isUnregistered) {
-            link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
-        }
-        return link;
-    }
-
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
