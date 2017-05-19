@@ -45,12 +45,12 @@ public final class RetryManager {
 
     private static <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition)
             throws E {
-        T result = task.run_();
+        T result = task.runExec();
         for (int delay = 1; !isSuccessful(task, condition) && delay <= MAX_DELAY_IN_S; delay *= 2) {
             logFailure(task, delay);
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
-            result = task.run_();
+            result = task.runExec();
         }
         return result;
     }
@@ -60,7 +60,7 @@ public final class RetryManager {
             Retryable<T, E> task, Class<C> exceptionType) throws E {
         for (int delay = 1; delay <= MAX_DELAY_IN_S; delay *= 2) {
             try {
-                return task.run_();
+                return task.runExec();
             } catch (Throwable e) {
                 if (!exceptionType.isInstance(e)) {
                     throw e;
@@ -71,7 +71,7 @@ public final class RetryManager {
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
         }
-        return task.run_();
+        return task.runExec();
     }
 
     private static <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task, SuccessCondition condition)
@@ -79,7 +79,7 @@ public final class RetryManager {
         if (condition.equals(SuccessCondition.NOT_NULL)) {
             return task != null;
         }
-        return task.isSuccessful_();
+        return task.isSuccessfulExec();
     }
 
     private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
