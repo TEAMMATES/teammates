@@ -86,7 +86,6 @@
             <class name="teammates.test.cases.browsertests.StudentFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorCourseDetailsPageUiTest" />
-            <class name="teammates.test.cases.browsertests.InstructorCommentsPageUiTest" />
             <class name="teammates.test.cases.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSessionsPageUiTest" />

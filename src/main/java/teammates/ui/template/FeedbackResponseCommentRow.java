@@ -29,8 +29,6 @@ public class FeedbackResponseCommentRow {
 
     private String whoCanSeeComment;
     private boolean withVisibilityIcon;
-    private boolean withLinkToCommentsPage;
-    private String linkToCommentsPage;
 
     private boolean editDeleteEnabled;
     private boolean editDeleteEnabledOnlyOnHover;
@@ -110,10 +108,6 @@ public class FeedbackResponseCommentRow {
         return commentText;
     }
 
-    public String getLinkToCommentsPage() {
-        return linkToCommentsPage;
-    }
-
     public String getFeedbackResponseId() {
         return feedbackResponseId;
     }
@@ -152,10 +146,6 @@ public class FeedbackResponseCommentRow {
 
     public boolean isWithVisibilityIcon() {
         return withVisibilityIcon;
-    }
-
-    public boolean isWithLinkToCommentsPage() {
-        return withLinkToCommentsPage;
     }
 
     public boolean isEditDeleteEnabled() {
@@ -279,11 +269,5 @@ public class FeedbackResponseCommentRow {
     public void enableVisibilityIcon(String whoCanSeeComment) {
         this.withVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
-    }
-
-    public FeedbackResponseCommentRow setLinkToCommentsPage(String linkToCommentsPage) {
-        this.withLinkToCommentsPage = true;
-        this.linkToCommentsPage = linkToCommentsPage;
-        return this;
     }
 }

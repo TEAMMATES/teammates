@@ -164,12 +164,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void testInstructorCommentsPage() {
-        uri = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
-        verifyOnlyInstructorsCanAccess(submissionParams);
-    }
-
-    @Test
     public void testInstructorCourseAdd() {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ADD;
         String[] submissionParams = new String[]{

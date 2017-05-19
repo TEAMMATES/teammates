@@ -212,8 +212,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("new instructor can access sample course students page");
         coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
-        ______TS("new instructor can access sample course comments page");
-        coursesPage.loadInstructorCommentsTab().verifyHtmlMainContent("/newlyJoinedInstructorCommentsPage.html");
 
         ______TS("new instructor can view feedbackSession result of sample course");
         coursesPage.loadInstructorHomeTab();

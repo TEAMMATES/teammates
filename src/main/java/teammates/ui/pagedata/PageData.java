@@ -547,12 +547,6 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCommentsLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
     public String getInstructorCourseRemindLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

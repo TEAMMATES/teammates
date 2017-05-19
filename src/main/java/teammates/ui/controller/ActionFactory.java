@@ -106,7 +106,6 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
-        map(INSTRUCTOR_COMMENTS_PAGE, InstructorCommentsPageAction.class);
 
         map(STUDENT_COMMENTS_PAGE, StudentCommentsPageAction.class);
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
