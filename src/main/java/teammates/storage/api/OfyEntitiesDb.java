@@ -1,5 +1,7 @@
 package teammates.storage.api;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +11,6 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
-import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -25,6 +26,8 @@ import teammates.storage.search.SearchQuery;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
+ * @param <E> Specific entity class
+ * @param <A> Specific attributes class
  */
 public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttributes> {
 

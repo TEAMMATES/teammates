@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
@@ -32,6 +33,11 @@ import teammates.storage.entity.StudentProfile;
  */
 public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
+    private static final int VERIFICATION_RETRY_COUNT = 5;
+    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
+    private static final int OPERATION_RETRY_COUNT = 5;
+    private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
+
     private Closeable closeable;
 
     @BeforeClass
@@ -46,11 +52,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     public void tearDownObjectify() {
         closeable.close();
     }
-
-    private static final int VERIFICATION_RETRY_COUNT = 5;
-    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    private static final int OPERATION_RETRY_COUNT = 5;
-    private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
 
     protected void verifyPresentInDatastore(DataBundle data) {
         Map<String, AccountAttributes> accounts = data.accounts;

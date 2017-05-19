@@ -2,6 +2,9 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -9,9 +12,6 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Unindex;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents profile details for student entities associated with an
@@ -22,7 +22,7 @@ import com.google.appengine.api.datastore.Text;
 public class StudentProfile extends BaseEntity {
 
     @Parent
-    private Key<Account> account;
+    private Key<Account> account; // NOPMD - specifies parent as Account; used by Objectify
 
     @Id
     private String googleId;
@@ -46,6 +46,10 @@ public class StudentProfile extends BaseEntity {
 
     @Index
     private Date modifiedDate;
+
+    @SuppressWarnings("unused") // required by Objectify
+    private StudentProfile() {
+    }
 
     /**
      * Instantiates a new account.

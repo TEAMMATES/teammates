@@ -24,6 +24,10 @@ public class Course extends BaseEntity {
 
     private String timeZone;
 
+    @SuppressWarnings("unused") // required by Objectify
+    private Course() {
+    }
+
     public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
