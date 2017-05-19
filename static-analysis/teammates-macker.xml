@@ -295,6 +295,7 @@
                         <allow>
                             <from>
                                 <include class="${testCases}.datatransfer.**" />
+                                <include class="${testCases}.BaseTestCaseWithObjectifyAccess" />
                             </from>
                         </allow>
                     </deny>
