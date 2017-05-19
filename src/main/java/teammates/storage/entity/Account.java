@@ -33,6 +33,8 @@ public class Account extends BaseEntity {
     @Ignore // used in local attribute tests that give a shell student profile (empty googleId)
     private StudentProfile localStudentProfile = null;
 
+    private boolean isStudentProfileEnabled = true;
+
     /**
      * Instantiates a new account.
      *
@@ -120,11 +122,11 @@ public class Account extends BaseEntity {
      * with an empty Google ID was set, simply returns this shell student profile without interacting with the datastore.
      */
     public StudentProfile getStudentProfile() {
+        if (!isStudentProfileEnabled) {
+            return null;
+        }
         if (localStudentProfile != null && localStudentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
             return localStudentProfile;
-        }
-        if (studentProfile == null) {
-            return null;
         }
         return studentProfile.get();
     }
@@ -137,15 +139,23 @@ public class Account extends BaseEntity {
      */
     public void setStudentProfile(StudentProfile studentProfile) {
         if (studentProfile == null) {
-            this.studentProfile = null;
-            this.localStudentProfile = null;
+            setIsStudentProfileEnabled(false);
             return;
         }
+        setIsStudentProfileEnabled(true);
         if (studentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
-            this.studentProfile = null;
             this.localStudentProfile = studentProfile;
             return;
         }
         this.studentProfile = Ref.create(studentProfile);
+    }
+
+    /**
+     * Sets whether or not the student profile fetch should be enabled. When the entity is fetched from the local cache,
+     * this value might be outdated as it is preserved from the previous session. Hence, this property should be set on
+     * every new session (every call that gets the entity).
+     */
+    public void setIsStudentProfileEnabled(boolean isStudentProfileEnabled) {
+        this.isStudentProfileEnabled = isStudentProfileEnabled;
     }
 }

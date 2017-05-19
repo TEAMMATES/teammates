@@ -225,9 +225,7 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
             return null;
         }
 
-        if (!retrieveStudentProfile) {
-            account.setStudentProfile(null);
-        }
+        account.setIsStudentProfileEnabled(retrieveStudentProfile);
 
         return account;
     }
