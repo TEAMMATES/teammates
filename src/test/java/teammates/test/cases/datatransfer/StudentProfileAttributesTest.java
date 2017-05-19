@@ -14,14 +14,14 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
  */
-public class StudentProfileAttributesTest extends BaseTestCase {
+public class StudentProfileAttributesTest extends BaseTestCaseWithBackDoorApiAccess {
 
     private StudentProfileAttributes profile;
 
@@ -55,7 +55,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testGetJsonString() throws Exception {
-        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = new StudentProfileAttributes(profile.toEntity());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
@@ -131,7 +131,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
         StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
-        StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
+        StudentProfile actualEntity = testProfile.toEntity();
 
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
         assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
@@ -146,7 +146,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = new StudentProfileAttributes(profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
 
         // the toString must be unique to the values in the object
