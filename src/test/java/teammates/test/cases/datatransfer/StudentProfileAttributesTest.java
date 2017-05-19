@@ -14,14 +14,14 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.test.cases.BaseTestCaseWithMinimalGaeEnvironment;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
  */
-public class StudentProfileAttributesTest extends BaseTestCaseWithBackDoorApiAccess {
+public class StudentProfileAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment {
 
     private StudentProfileAttributes profile;
 

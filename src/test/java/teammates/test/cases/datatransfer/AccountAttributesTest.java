@@ -10,13 +10,13 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.test.cases.BaseTestCaseWithMinimalGaeEnvironment;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AccountAttributes}.
  */
-public class AccountAttributesTest extends BaseTestCaseWithBackDoorApiAccess {
+public class AccountAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment {
 
     //TODO: test toString() method
 
