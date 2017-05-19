@@ -43,9 +43,15 @@ function highlightKeywordsInEmailLogMessages() {
 
 $(document).ready(() => {
     bindClickAction();
+    enableOnclicks();
     highlightKeywordsInEmailLogMessages();
     $('#filterReference').toggle();
 });
+
+function enableOnclicks() {
+    const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+    submitFormAjax(nextEndTimeToSearch);
+}
 
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
