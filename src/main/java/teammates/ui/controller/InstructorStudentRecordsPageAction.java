@@ -2,20 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
-import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -26,7 +19,7 @@ import teammates.ui.pagedata.InstructorStudentRecordsPageData;
 public class InstructorStudentRecordsPageAction extends Action {
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
+    public ActionResult execute() {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
@@ -45,19 +38,6 @@ public class InstructorStudentRecordsPageAction extends Action {
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
-
-        String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
-
-        List<CommentAttributes> comments =
-                logic.getCommentsForReceiverVisibleToInstructor(
-                        courseId, CommentParticipantType.PERSON, studentEmail, instructor.email);
-
-        CommentAttributes.sortCommentsByCreationTimeDescending(comments);
-
-        Map<String, List<CommentAttributes>> giverEmailToCommentsMap =
-                mapCommentsToGiverEmail(comments, instructor);
-
-        Map<String, String> giverEmailToGiverNameMap = mapGiverNameToGiverEmail(courseId, giverEmailToCommentsMap.keySet());
 
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
@@ -83,7 +63,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
         }
 
-        if (sessions.isEmpty() && comments.isEmpty()) {
+        if (sessions.isEmpty()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS,
                                                StatusMessageColor.WARNING));
         }
@@ -94,9 +74,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
 
         InstructorStudentRecordsPageData data =
-                new InstructorStudentRecordsPageData(
-                        account, student, courseId, showCommentBox, studentProfile,
-                        giverEmailToCommentsMap, giverEmailToGiverNameMap, sessionNames, instructor);
+                new InstructorStudentRecordsPageData(account, student, courseId, studentProfile, sessionNames);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
@@ -120,56 +98,6 @@ public class InstructorStudentRecordsPageAction extends Action {
                 iterFs.remove();
             }
         }
-    }
-
-    /**
-     * Maps emails of instructors to the comments they gave.
-     * @return A map with instructor email => comments mappings.
-     */
-    private Map<String, List<CommentAttributes>> mapCommentsToGiverEmail(
-            List<CommentAttributes> comments, InstructorAttributes instructor) {
-        Map<String, List<CommentAttributes>> giverEmailToCommentsMap =
-                new TreeMap<String, List<CommentAttributes>>();
-        // add an element representing the current instructor to allow "no comments" to display correctly
-        giverEmailToCommentsMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
-                                    new ArrayList<CommentAttributes>());
-
-        for (CommentAttributes comment : comments) {
-            boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
-            String key = isCurrentInstructorGiver
-                       ? InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST
-                       : comment.giverEmail;
-
-            List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
-            if (commentList == null) {
-                commentList = new ArrayList<CommentAttributes>();
-                giverEmailToCommentsMap.put(key, commentList);
-            }
-            commentList.add(comment);
-        }
-        return giverEmailToCommentsMap;
-    }
-
-    /**
-     * Maps emails of instructors giving the comments to their names.
-     * @return A map with instructor email => instructor name mappings.
-     */
-    private Map<String, String> mapGiverNameToGiverEmail(String courseId, Set<String> giverEmails) {
-        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
-        giverEmailToGiverNameMap.put(InstructorStudentRecordsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST,
-                                     Const.DISPLAYED_NAME_FOR_SELF_IN_COMMENTS);
-
-        // keep the original naming of an anonymous giver
-        giverEmailToGiverNameMap.put(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT,
-                                     Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT);
-        for (String giverEmail : giverEmails) {
-            if (!giverEmailToGiverNameMap.containsKey(giverEmail)) {
-                InstructorAttributes giverInstructor = logic.getInstructorForEmail(courseId, giverEmail);
-                Assumption.assertNotNull(giverInstructor);
-                giverEmailToGiverNameMap.put(giverEmail, giverInstructor.displayedName + " " + giverInstructor.name);
-            }
-        }
-        return giverEmailToGiverNameMap;
     }
 
 }
