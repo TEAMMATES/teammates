@@ -128,7 +128,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         redirectResult = getRedirectResult(pageAction);
 
-        assertEquals(getPageResultDestination("/page/studentHomePage", false, "student1InCourse1"),
+        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,

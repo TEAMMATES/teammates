@@ -76,9 +76,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         a = getAction(params);
         ShowPageResult pr = getShowPageResult(a);
-        expectedString = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS,
-                         true,
-                         "idOfInstructor1OfCourse1");
+        expectedString = getPageResultDestination(
+                                 Const.ViewURIs.INSTRUCTOR_FEEDBACKS,
+                                 true,
+                                 "idOfInstructor1OfCourse1");
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
@@ -90,9 +91,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          instructor1ofCourse1.courseId, longFsName, 0);
         a = getAction(params);
         pr = getShowPageResult(a);
-        expectedString = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS,
-                         true,
-                         "idOfInstructor1OfCourse1");
+        expectedString = getPageResultDestination(
+                                 Const.ViewURIs.INSTRUCTOR_FEEDBACKS,
+                                 true,
+                                 "idOfInstructor1OfCourse1");
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
 
@@ -111,8 +113,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                instructor1ofCourse1.courseId, "Course+with+extra+space", instructor1ofCourse1.googleId, false);
+        expectedString = getPageResultDestination(
+                                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                                 instructor1ofCourse1.courseId,
+                                 "Course+with+extra+space",
+                                 instructor1ofCourse1.googleId,
+                                 false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -139,9 +145,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                instructor1ofCourse1.courseId, "Course+with+minute+offset+timezone", instructor1ofCourse1.googleId,
-                false);
+        expectedString = getPageResultDestination(
+                                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                                 instructor1ofCourse1.courseId,
+                                 "Course+with+minute+offset+timezone",
+                                 instructor1ofCourse1.googleId,
+                                 false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -172,11 +181,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                         instructor1ofCourse1.courseId,
-                         "masquerade+session",
-                         instructor1ofCourse1.googleId,
-                         false);
+        expectedString = getPageResultDestination(
+                                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                                 instructor1ofCourse1.courseId,
+                                 "masquerade+session",
+                                 instructor1ofCourse1.googleId,
+                                 false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =

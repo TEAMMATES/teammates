@@ -81,8 +81,12 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentWithoutCourses.googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex(getPageResultDestination("/jsp/studentHome.jsp", false,
-                studentWithoutCourses.googleId), r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(
+                getPageResultDestination(
+                        Const.ViewURIs.STUDENT_HOME,
+                        false,
+                        studentWithoutCourses.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(
                 "Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",
@@ -107,8 +111,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(studentId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination("/jsp/studentHome.jsp", false, studentId),
-                                        r.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, studentId),
+                     r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 

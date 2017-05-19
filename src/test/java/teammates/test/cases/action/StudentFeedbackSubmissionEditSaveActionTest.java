@@ -843,7 +843,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "unregisteredStudentInCourse2%40gmail.tmt",
                         redirectResult.isError, unregisteredStudent.course,
                         "Unregistered+Student+Session", studentKey),
-                     redirectResult.getDestinationWithParams());
+                redirectResult.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
 

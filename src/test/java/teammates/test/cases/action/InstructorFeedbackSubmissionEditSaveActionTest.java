@@ -170,8 +170,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email not sent if parameter is not "on"
@@ -194,8 +196,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: edit response, did not specify recipient");
@@ -224,8 +228,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: new response, did not specify recipient");
@@ -245,8 +251,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: private session");
@@ -275,8 +283,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Unsuccessful case: modified recipient to invalid recipient");
@@ -297,8 +307,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         r = getRedirectResult(a);
 
         assertTrue(r.isError);
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "instructor1InCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, "invalid_recipient_email"));
 
         // submission confirmation email not sent if the action is an error, even with submission parameter "on"
@@ -336,8 +348,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: mcq: question skipped");
@@ -357,8 +371,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: msq: typical case");
@@ -390,8 +406,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful csae: msq: question skipped");
@@ -411,8 +429,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: numerical scale: typical case");
@@ -449,8 +469,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: numerical scale: question skipped");
@@ -474,8 +496,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: const sum: typical case");
@@ -521,8 +545,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient));
 
@@ -544,8 +570,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination("/page/instructorHomePage", r.isError, "FSQTT.idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: contrib qn: typical case");

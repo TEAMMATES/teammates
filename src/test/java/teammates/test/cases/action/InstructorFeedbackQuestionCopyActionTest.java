@@ -150,9 +150,14 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                instructor1ofCourse1.courseId, "Second+feedback+session", instructor1ofCourse1.googleId, false),
-                     rr.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "Second+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                rr.getDestinationWithParams());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
                              + "instructorFeedbackQuestionCopy|||true|||"

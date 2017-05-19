@@ -68,9 +68,13 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(confirmAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                        + "?key=" + StringHelper.encrypt(instructor.key)
-                        + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
+                        StringHelper.encrypt(instructor.key),
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
 
@@ -122,6 +126,14 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
+    }
+
+    protected String getPageResultDestination(String parentUri, String key, boolean error, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }
 }
