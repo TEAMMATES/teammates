@@ -63,19 +63,17 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             if (countLimit >= numStudentsToAdd) {
                 return;
             }
-            if (testData.students.containsKey(key)) {
-                continue;
+            if (!testData.students.containsKey(key)) {
+                testData.students.put(key, testDataMax.students.get(key));
+                countLimit++;
             }
-            testData.students.put(key, testDataMax.students.get(key));
-            countLimit++;
         }
-        countLimit = 0;
     }
 
     private void decreaseNumOfStudents(int remainingNumOfStudents) {
         Set<String> studentsNames = testData.students.keySet();
         for (String key : studentsNames) {
-            if (testData.students.size() == remainingNumOfStudents) {
+            if (testData.students.size() <= remainingNumOfStudents) {
                 return;
             }
             testData.students.remove(key);
@@ -88,19 +86,17 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             if (countLimit >= numQuestionsToAdd) {
                 return;
             }
-            if (testData.feedbackQuestions.containsKey(key)) {
-                continue;
+            if (!testData.feedbackQuestions.containsKey(key)) {
+                testData.feedbackQuestions.put(key, testDataMax.feedbackQuestions.get(key));
+                countLimit++;
             }
-            testData.feedbackQuestions.put(key, testDataMax.feedbackQuestions.get(key));
-            countLimit++;
         }
-        countLimit = 0;
     }
 
     private void decreaseNumOfQuestions(int remainingNumOfQuestions) {
         Set<String> questionsKeys = testData.feedbackQuestions.keySet();
         for (String key : questionsKeys) {
-            if (testData.feedbackQuestions.size() == remainingNumOfQuestions) {
+            if (testData.feedbackQuestions.size() <= remainingNumOfQuestions) {
                 return;
             }
             testData.feedbackQuestions.remove(key);
@@ -108,7 +104,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void updateFeedbackResponses() {
-
         // obtain set of e-mails for current set of students
         Set<String> studentsEmails = new HashSet<>(testData.students.size());
         for (StudentAttributes student : testData.students.values()) {
@@ -121,27 +116,27 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             questionsNumbers.add(question.questionNumber);
         }
 
+        // obtain set of keys for all feedback responses
         Set<String> feedbackResponsesKeys = testDataMax.feedbackResponses.keySet();
         String giver;
         String recipient;
         String questionId;
+
+        // check every feedback response if it should be included to test or excluded from it
         for (String key : feedbackResponsesKeys) {
             giver = testDataMax.feedbackResponses.get(key).giver;
             recipient = testDataMax.feedbackResponses.get(key).recipient;
             questionId = testDataMax.feedbackResponses.get(key).feedbackQuestionId;
 
-            if (!studentsEmails.contains(giver)
-                    || !studentsEmails.contains(recipient)
-                    || !questionsNumbers.contains(questionId)) {
-                if (testData.feedbackResponses.containsKey(key)) {
-                    testData.feedbackResponses.remove(key);
+            if (studentsEmails.contains(giver)
+                    && studentsEmails.contains(recipient)
+                    && questionsNumbers.contains(questionId)) {
+                if (!testData.feedbackResponses.containsKey(key)) {
+                    testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
                 }
-                continue;
+            } else if (testData.feedbackResponses.containsKey(key)) {
+                testData.feedbackResponses.remove(key);
             }
-            if (testData.feedbackResponses.containsKey(key)) {
-                continue;
-            }
-            testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
         }
     }
 
