@@ -14,12 +14,20 @@ import teammates.storage.entity.StudentProfile;
  * Setup in web.xml to register Objectify at application startup.
  **/
 public class OfyHelper implements ServletContextListener {
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
+
+    /**
+     * Register entity classes in Objectify service.
+     */
+    public static void registerEntityClasses() {
         ObjectifyService.register(Account.class);
         ObjectifyService.register(Course.class);
         ObjectifyService.register(Instructor.class);
         ObjectifyService.register(StudentProfile.class);
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        registerEntityClasses();
     }
 
     @Override
