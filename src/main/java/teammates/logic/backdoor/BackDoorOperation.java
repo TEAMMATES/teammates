@@ -96,7 +96,13 @@ public enum BackDoorOperation {
     OPERATION_REMOVE_AND_RESTORE_DATABUNDLE,
 
     /** Operation type: removing data bundle from the datastore. */
-    OPERATION_REMOVE_DATABUNDLE;
+    OPERATION_REMOVE_DATABUNDLE,
+
+    /** Operation type: verifying uploaded group list key. */
+    OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS,
+
+    /** Operation type: removing group list file. */
+    OPERATION_DELETE_GROUP_LIST_FILE;
 
     // CHECKSTYLE.OFF:JavadocVariable self-explanatory variables
     public static final String PARAMETER_BACKDOOR_KEY = "PARAMETER_BACKDOOR_KEY";
@@ -114,6 +120,7 @@ public enum BackDoorOperation {
     public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
     public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
     public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
+    public static final String PARAMETER_GROUP_LIST_FILE_KEY = "PARAMETER_GROUP_LIST_FILE_KEY";
     // CHECKSTYLE.ON:JavadocVariable
 
 }

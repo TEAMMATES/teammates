@@ -143,6 +143,60 @@ public final class Const {
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
+        public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
+                Arrays.asList(
+                        ActionURIs.ADMIN_ACCOUNT_DELETE,
+                        ActionURIs.ADMIN_EMAIL_COMPOSE_SAVE,
+                        ActionURIs.ADMIN_EMAIL_COMPOSE_SEND,
+                        ActionURIs.ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL,
+                        ActionURIs.ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL,
+                        ActionURIs.ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD,
+                        ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD,
+                        ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
+                        ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
+                        ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
+                        ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD,
+                        ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
+                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
+                        ActionURIs.IMAGE_UPLOAD,
+                        ActionURIs.INSTRUCTOR_COURSE_ADD,
+                        ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
+                        ActionURIs.INSTRUCTOR_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
+                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_REMIND,
+                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE,
+                        ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_COPY,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_DELETE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
+                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD,
+                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING,
+                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT,
+                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
+                        ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
+                        ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
+                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
+
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
                 Arrays.asList(
                         ActionURIs.STUDENT_COURSE_JOIN,
@@ -1122,6 +1176,7 @@ public final class Const {
 
         public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp";
         public static final String ENABLE_JS = "/enableJs.jsp";
+        public static final String INVALID_ORIGIN = "/invalidOrigin.jsp";
         public static final String UNAUTHORIZED = "/unauthorized.jsp";
         public static final String ERROR_PAGE = "/errorPage.jsp";
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp";
