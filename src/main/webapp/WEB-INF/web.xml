@@ -13,6 +13,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <listener>
+        <listener-class>teammates.storage.api.OfyHelper</listener-class>
+    </listener>
 
     <filter>
         <filter-name>appstats</filter-name>

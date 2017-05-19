@@ -475,6 +475,7 @@
                                 <include class="${common}.util.ActivityLogEntry" />
                                 <include class="${common}.util.HttpRequestHelper" />
                                 <include class="${logic}.backdoor.BackDoorServlet" />
+                                <include class="${storage}.api.OfyHelper" />
                                 <include class="${ui}.automated.**" />
                                 <include class="${ui}.controller.**" />
                                 <include class="${test}.driver.GaeSimulation" />
