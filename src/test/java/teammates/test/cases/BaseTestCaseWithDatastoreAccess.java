@@ -2,6 +2,11 @@ package teammates.test.cases;
 
 import java.util.Map;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.util.Closeable;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CommentAttributes;
@@ -18,11 +23,29 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.StudentProfile;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore.
  */
 public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
+
+    private Closeable closeable;
+
+    @BeforeClass
+    public void setupObjectify() {
+        ObjectifyService.register(Account.class);
+        ObjectifyService.register(Course.class);
+        ObjectifyService.register(StudentProfile.class);
+        closeable = ObjectifyService.begin();
+    }
+
+    @AfterClass
+    public void tearDownObjectify() {
+        closeable.close();
+    }
 
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
