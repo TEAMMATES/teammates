@@ -10,7 +10,6 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
-import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Unindex;
 
 /**
@@ -41,7 +40,6 @@ public class StudentProfile extends BaseEntity {
     /* must be html sanitized before saving */
     private Text moreInfo;
 
-    @Serialize
     private BlobKey pictureKey;
 
     @Index
@@ -102,6 +100,9 @@ public class StudentProfile extends BaseEntity {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+        if (googleId.isEmpty()) { // only in local attribute tests
+            return;
+        }
         this.account = Key.create(Account.class, googleId);
     }
 
