@@ -638,7 +638,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
         verifyAbsentInDatastore(instructorDeleted);
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("typical case: delete a non-existent instructor");
 
@@ -675,8 +674,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertTrue(instructorList.isEmpty());
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
 
         ______TS("typical case: delete an non-existent googleId");
 

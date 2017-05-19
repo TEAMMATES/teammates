@@ -916,9 +916,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("non-existent");
 

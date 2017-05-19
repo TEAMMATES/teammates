@@ -38,12 +38,10 @@ public class PendingCommentClearedEmailWorkerAction extends AutomatedAction {
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             logic.updateFeedbackResponseCommentsSendingState(
                     courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
-            logic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.SENT);
         } catch (Exception e) {
             try {
                 logic.updateFeedbackResponseCommentsSendingState(
                         courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
-                logic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
             } catch (EntityDoesNotExistException ednee) {
                 log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(ednee));
             }

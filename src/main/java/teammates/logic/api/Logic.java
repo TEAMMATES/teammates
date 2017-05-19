@@ -4,12 +4,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
-import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
@@ -28,7 +25,6 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -48,7 +44,6 @@ import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
-import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -69,7 +64,6 @@ public class Logic {
     protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final CommentsLogic commentsLogic = CommentsLogic.inst();
     protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
@@ -2065,217 +2059,6 @@ public class Logic {
     public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
         Assumption.assertNotNull(feedbackResponseComment);
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
-    }
-
-    /**
-     * Create a comment, and return the created comment
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public CommentAttributes createComment(CommentAttributes comment)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(comment);
-        return commentsLogic.createComment(comment);
-    }
-
-    public CommentAttributes getComment(Long commentId) {
-        Assumption.assertNotNull(commentId);
-        return commentsLogic.getComment(commentId);
-    }
-
-    public CommentAttributes getComment(CommentAttributes comment) {
-        Assumption.assertNotNull(comment);
-        return commentsLogic.getComment(comment);
-    }
-
-    /**
-     * Creates or updates document for comment.
-     *
-     * @see CommentsLogic#putDocument(CommentAttributes)
-     */
-    public void putDocument(CommentAttributes comment) {
-        commentsLogic.putDocument(comment);
-    }
-
-    /**
-     * Batch creates or updates documents for comments.
-     *
-     * @see CommentsLogic#putDocuments(List)
-     */
-    public void putCommentDocuments(List<CommentAttributes> comments) {
-        commentsLogic.putDocuments(comments);
-    }
-
-    /**
-     * Removes document for the given comment.
-     *
-     * @see CommentsLogic#deleteDocument(CommentAttributes)
-     */
-    public void deleteDocument(CommentAttributes comment) {
-        commentsLogic.deleteDocument(comment);
-    }
-
-    /**
-     * Search for Comment. Preconditions: all parameters are non-null.
-     * @param instructors   a list of InstructorAttributes associated to a googleId,
-     *                      used for filtering of search result
-     * @return Null if no match found
-     */
-    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors) {
-        Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(instructors);
-        return commentsLogic.searchComment(queryString, instructors);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public Set<String> getRecipientEmailsForSendingComments(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        return commentsLogic.getRecipientEmailsForSendingComments(courseId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(oldState);
-        Assumption.assertNotNull(newState);
-        commentsLogic.updateCommentsSendingState(courseId, oldState, newState);
-    }
-
-    /**
-     * Update a comment, and return the updated comment
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public CommentAttributes updateComment(CommentAttributes comment)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(comment);
-        return commentsLogic.updateComment(comment);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteComment(CommentAttributes comment) {
-        Assumption.assertNotNull(comment);
-        commentsLogic.deleteComment(comment);
-    }
-
-    /**
-     * Currently giver is limited to instructors only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver.
-     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
-     */
-    public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverEmail);
-        return commentsLogic.getCommentsForGiver(courseId, giverEmail);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver.
-     * @throws EntityDoesNotExistException when the student's course doesn't exist
-     */
-    public List<CommentAttributes> getCommentsForStudent(StudentAttributes student)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(student);
-        return commentsLogic.getCommentsForStudent(student);
-    }
-
-    /**
-     * Currently giver is limited to instructors only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver that have the specified comment status.
-     * @throws EntityDoesNotExistException when the instructor doesn't exist
-     */
-    public List<CommentAttributes> getCommentsForInstructor(InstructorAttributes instructor)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(instructor);
-        return commentsLogic.getCommentsForInstructor(instructor);
-    }
-
-    /**
-     * Currently giver is limited to instructors only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver that are drafts.
-     */
-    public List<CommentAttributes> getCommentDrafts(String giverEmail) {
-        Assumption.assertNotNull(giverEmail);
-        return commentsLogic.getCommentDrafts(giverEmail);
-    }
-
-    /**
-     * Currently receiver is limited to students only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments for the receiver.
-     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
-     */
-    public List<CommentAttributes> getCommentsForReceiver(String courseId,
-            CommentParticipantType recipientType, String receiver) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(recipientType);
-        Assumption.assertNotNull(receiver);
-        return commentsLogic.getCommentsForReceiver(courseId, recipientType, receiver);
-    }
-
-    /**
-     * Currently receiver is limited to students only
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments for the receiver.
-     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
-     */
-    public List<CommentAttributes> getCommentsForReceiver(String courseId, String giverEmail,
-            CommentParticipantType recipientType, String receiver) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(recipientType);
-        Assumption.assertNotNull(receiver);
-        return commentsLogic.getCommentsForReceiver(courseId, giverEmail, recipientType, receiver);
-    }
-
-    public List<CommentAttributes> getCommentsForReceiverVisibleToInstructor(
-            String courseId, CommentParticipantType recipientType, String receiver, String instructorEmail)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(recipientType);
-        Assumption.assertNotNull(receiver);
-        Assumption.assertNotNull(instructorEmail);
-        return commentsLogic.getCommentsForReceiverVisibleToInstructor(courseId, recipientType, receiver, instructorEmail);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of comments from the giver.
-     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
-     */
-    public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
 
     /**

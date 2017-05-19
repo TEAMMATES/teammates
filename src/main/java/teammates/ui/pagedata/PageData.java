@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -678,56 +676,6 @@ public class PageData {
                                                                                 String returnUrl,
                                                                                 InstructorAttributes instructor) {
         return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
-    }
-
-    /**
-     * Returns the type of people that can view the comment.
-     */
-    public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder(100);
-        for (int i = 0; i < comment.showCommentTo.size(); i++) {
-            CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
-                peopleCanView.append("and ");
-            }
-
-            switch (commentViewer) {
-            case PERSON:
-                peopleCanView.append("recipient, ");
-                break;
-            case TEAM:
-                if (comment.recipientType == CommentParticipantType.TEAM) {
-                    peopleCanView.append("recipient team, ");
-                } else {
-                    peopleCanView.append("recipient's team, ");
-                }
-                break;
-            case SECTION:
-                if (comment.recipientType == CommentParticipantType.SECTION) {
-                    peopleCanView.append("recipient section, ");
-                } else {
-                    peopleCanView.append("recipient's section, ");
-                }
-                break;
-            case COURSE:
-                if (comment.recipientType == CommentParticipantType.COURSE) {
-                    peopleCanView.append("the whole class, ");
-                } else {
-                    peopleCanView.append("other students in this course, ");
-                }
-                break;
-            case INSTRUCTOR:
-                peopleCanView.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        String peopleCanViewString = peopleCanView.toString();
-        if (peopleCanViewString.isEmpty()) {
-            return peopleCanViewString;
-        }
-        return removeEndComma(peopleCanViewString);
     }
 
     /**

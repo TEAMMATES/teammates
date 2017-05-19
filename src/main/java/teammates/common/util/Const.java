@@ -858,23 +858,18 @@ public final class Const {
         public static final String PROFILE_PICTURE_ROTATE = "picturerotate";
 
         public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
 
     public static class SearchIndex {
-        public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
     }
 
     public static class SearchDocumentField {
-        public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
-        public static final String COMMENT_GIVER_NAME = "commentGiverName";
-        public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
@@ -1082,11 +1077,6 @@ public final class Const {
                 "pending-comment-cleared-email-queue";
         public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
                 "/worker/pendingCommentClearedEmail";
-
-        public static final String PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME =
-                "put-comment-document-queue";
-        public static final String PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL =
-                "/worker/putCommentDocument";
 
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
