@@ -47,7 +47,7 @@ public final class RetryManager {
             throws E {
         T result = task.run_();
         for (int delay = 1; !isSuccessful(task, condition) && delay <= MAX_DELAY_IN_S; delay *= 2) {
-            System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
+            logFailure(task, delay);
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
             result = task.run_();
@@ -67,7 +67,7 @@ public final class RetryManager {
                 }
                 // continue retry process
             }
-            System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
+            logFailure(task, delay);
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
         }
@@ -80,5 +80,9 @@ public final class RetryManager {
             return task != null;
         }
         return task.isSuccessful_();
+    }
+
+    private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
+        System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
     }
 }
