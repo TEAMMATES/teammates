@@ -47,9 +47,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
-        assertNotNull(pageData.getGiveCommentButton());
-        assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
-        assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
         assertTrue(pageData.isHasSection());
@@ -91,9 +88,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
-        assertNotNull(pageData.getGiveCommentButton());
-        assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
-        assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
     }

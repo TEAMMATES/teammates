@@ -24,7 +24,6 @@ public class InstructorCourseDetailsPageData extends PageData {
     private CourseDetailsBundle courseDetails;
     private List<InstructorAttributes> instructors;
     private String studentListHtmlTableAsString;
-    private ElementTag giveCommentButton;
     private ElementTag courseRemindButton;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
@@ -39,14 +38,8 @@ public class InstructorCourseDetailsPageData extends PageData {
         this.courseDetails = courseDetails;
         this.instructors = instructors;
 
-        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
-                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-
-        String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
-        giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
-                                         "button_add_comment", null, "", "tooltip", null, isDisabled);
-
-        isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        boolean isDisabled =
+                !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String courseId = sanitizeForJs(courseDetails.course.getId());
         String href = sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId()));
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", href,

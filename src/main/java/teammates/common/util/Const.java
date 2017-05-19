@@ -254,7 +254,6 @@ public final class Const {
         public static final String COURSE_STUDENT_DELETE =
                 "Delete the student and the corresponding submissions from the course";
         public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
-        public static final String COURSE_STUDENT_COMMENT = "Give a comment for this student, his/her team/section";
 
         public static final String COURSE_REMIND =
                 "Email an invitation to all students yet to join requesting them to join the course "
@@ -646,8 +645,6 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS =
                 "canmodifysessioncommentinsection";
 
-        public static final String SHOW_COMMENT_BOX = "addComment";
-
         public static final String COURSE_SORTING_CRITERIA = "sortby";
         public static final String COURSE_TO_LOAD = "coursetoload";
 
@@ -774,9 +771,6 @@ public final class Const {
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
-        public static final String FROM_COMMENTS_PAGE = "commentpage";
-        public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
-        public static final String FROM_STUDENT_DETAILS_PAGE = "studentdetailspage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
 
         public static final String STUDENT_SHORT_NAME = "studentshortname";
@@ -789,13 +783,8 @@ public final class Const {
         public static final String STUDENT_PROFILE_PHOTOEDIT = "editphoto";
 
         public static final String STUDENT_NAME = "studentname";
-        public static final String RECIPIENT_TYPE = "recipienttype";
-        public static final String RECIPIENTS = "recipients";
         public static final String RESPONSE_COMMENTS_SHOWCOMMENTSTO = "showresponsecommentsto";
         public static final String RESPONSE_COMMENTS_SHOWGIVERTO = "showresponsegiverto";
-        public static final String COMMENTS_SHOWCOMMENTSTO = "showcommentsto";
-        public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
-        public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
         public static final String FEEDBACK_QUESTION_FILTER_TEXT = "filtertext";
 
