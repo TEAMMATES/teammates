@@ -16,12 +16,14 @@ public abstract class Retryable<T, E extends Throwable> {
     /**
      * Runs the task once and returns the result.
      */
-    protected abstract T run_internal() throws E;
+    // CHECKSTYLE.OFF:MethodName internal variable underscore naming convention applied to abstract methods
+    protected abstract T run_() throws E;
 
     /**
      * Checks whether the task succeeded.
      */
-    protected abstract boolean isSuccessful_internal() throws E;
+    protected abstract boolean isSuccessful_() throws E;
+    // CHECKSTYLE.OFF:MethodName
 
     /**
      * Performs additional steps required before each retry of the task.

@@ -19,7 +19,7 @@ public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends
     public abstract T run() throws E;
 
     @Override
-    protected final T run_internal() throws E {
+    protected final T run_() throws E {
         result = run();
         return result;
     }
@@ -32,7 +32,7 @@ public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends
     }
 
     @Override
-    protected final boolean isSuccessful_internal() throws E {
+    protected final boolean isSuccessful_() throws E {
         return isSuccessful(result);
     }
 }

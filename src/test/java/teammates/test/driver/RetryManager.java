@@ -45,12 +45,12 @@ public final class RetryManager {
 
     private static <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition)
             throws E {
-        T result = task.run_internal();
+        T result = task.run_();
         for (int delay = 1; !isSuccessful(task, condition) && delay <= MAX_DELAY_IN_S; delay *= 2) {
             System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
-            result = task.run_internal();
+            result = task.run_();
         }
         return result;
     }
@@ -60,7 +60,7 @@ public final class RetryManager {
             Retryable<T, E> task, Class<C> exceptionType) throws E {
         for (int delay = 1; delay <= MAX_DELAY_IN_S; delay *= 2) {
             try {
-                return task.run_internal();
+                return task.run_();
             } catch (Throwable e) {
                 if (!exceptionType.isInstance(e)) {
                     throw e;
@@ -71,7 +71,7 @@ public final class RetryManager {
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
         }
-        return task.run_internal();
+        return task.run_();
     }
 
     private static <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task, SuccessCondition condition)
@@ -79,6 +79,6 @@ public final class RetryManager {
         if (condition.equals(SuccessCondition.NOT_NULL)) {
             return task != null;
         }
-        return task.isSuccessful_internal();
+        return task.isSuccessful_();
     }
 }

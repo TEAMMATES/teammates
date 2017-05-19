@@ -16,7 +16,7 @@ public abstract class RetryableTaskThrows<E extends Throwable> extends Retryable
     public abstract void run() throws E;
 
     @Override
-    protected final Void run_internal() throws E {
+    protected final Void run_() throws E {
         run();
         return null;
     }
@@ -29,7 +29,7 @@ public abstract class RetryableTaskThrows<E extends Throwable> extends Retryable
     }
 
     @Override
-    protected final boolean isSuccessful_internal() throws E {
+    protected final boolean isSuccessful_() throws E {
         return isSuccessful();
     }
 }
