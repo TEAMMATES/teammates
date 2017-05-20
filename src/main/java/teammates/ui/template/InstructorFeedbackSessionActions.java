@@ -64,7 +64,7 @@ public class InstructorFeedbackSessionActions {
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
-                                                              PUBLISH_BUTTON_TYPE);
+                                                              PUBLISH_BUTTON_TYPE, true);
     }
 
     public boolean isPrivateSession() {

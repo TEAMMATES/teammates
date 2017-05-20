@@ -95,25 +95,24 @@
          style="display: inline-block; padding-right: 5px;">
         <div class="btn-group margin-bottom-2px">
             <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
-               href="${actions.resultsLink}"
-               data-fsname="${actions.fsName}">
+               href="${actions.resultsLink}">
                 Results
             </a>
             <button type="button"
-                    class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
+                    class="btn btn-default btn-xs btn-tm-actions dropdown-toggle"
                     data-toggle="dropdown"
                     aria-expanded="false">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="${actions.resultsLink}"
-                       class="session-remind-inner-for-test">
-                        View Results
-                    </a>
+                    <a class="btn-tm-actions session-view-for-test margin-bottom-7px"
+                     href="${actions.resultsLink}">
+                      View Results
+                  </a>
                 </li>
                 <li>
-                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs margin-bottom-7px" />
+                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs margin-bottom-7px" showButtonAndTooltip="false"/>
                 </li>
             </ul>
         </div>

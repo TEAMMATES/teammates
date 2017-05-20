@@ -2,9 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="publishButton" type="teammates.ui.template.FeedbackSessionPublishButton" required="true" %>
 <%@ attribute name="buttonType" required="true" %>
-<a class="session-${publishButton.actionNameLowercase}-for-test"
-   href="${publishButton.actionLink}"
+<%@ attribute name="showButtonAndTooltip" required="true" %>
+<a href="${publishButton.actionLink}" 
+   <c:if test="${showButtonAndTooltip}">
+   class="btn ${buttonType} session-${publishButton.actionNameLowercase}-for-test"
+   title="${publishButton.tooltipText}"
+   data-toggle="tooltip"
+   data-placement="top"
+   </c:if>
    data-sending-published-email="${publishButton.sendingPublishedEmail}"
+   data-fsname="${publishButton.feedbackSessionName}"
    <c:if test="${not publishButton.actionAllowed}">disabled</c:if>>
     ${publishButton.actionName} Results
 </a>
