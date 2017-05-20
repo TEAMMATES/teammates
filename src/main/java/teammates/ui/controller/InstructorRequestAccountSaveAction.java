@@ -14,6 +14,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.InstructorAccountRequestResultPageData;
 import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
@@ -26,19 +27,24 @@ public class InstructorRequestAccountSaveAction extends Action {
 
 	 @Override
 	 public ActionResult execute() throws EntityDoesNotExistException {
-	     String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-	     Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-	     String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
-	     String sanitizedStudentsInfo = SanitizationHelper.sanitizeForHtml(studentsInfo);
-	     Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
+		//TODO: to be added in const.ParamsNames instead of the plain text
+	     String name = getRequestParamValue("fullname");
+	     Assumption.assertPostParamNotNull("fullname", name);
+	     String university = getRequestParamValue("university");
+	     Assumption.assertPostParamNotNull("university", university);
+	     String country = getRequestParamValue("country");
+	     String email = getRequestParamValue("email");
+	     Assumption.assertPostParamNotNull("email", email);
+	     String url = getRequestParamValue("URL");
+	     String comments = getRequestParamValue("comments");
 	     
 	     /* Process enrollment list and setup data for page result */
 	     try {
 	         List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
 	         boolean hasSection = hasSections(students);
 
-	            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
-	                                                                    courseId, students, hasSection, studentsInfo);
+	         InstructorAccountRequestResultPageData pageData = new InstructorAccountRequestResultPageData(name,
+	                                                                 university, country, email, url, comments);
 
 	            statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
 	                            + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");

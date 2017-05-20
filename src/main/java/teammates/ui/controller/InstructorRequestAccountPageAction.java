@@ -12,6 +12,7 @@ public class InstructorRequestAccountPageAction extends Action {
 	
 	@Override
     public ActionResult execute() {
+		//TODO: to be added in const.ParamsNames instead of the plain text
         String name = getRequestParamValue("fullname");
         String university = getRequestParamValue("university");
         String country = getRequestParamValue("country");
