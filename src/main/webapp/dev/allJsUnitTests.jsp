@@ -40,6 +40,8 @@
     <script type="text/javascript" src="/js/const.js" data-cover></script>
     <script type="text/javascript" src="/js/common.js" data-cover></script>
     <script type="text/javascript" src="/js/richTextEditor.js" data-cover></script>
+    <script type="text/javascript" src="/js/administrator.js" data-cover></script>
+    <script type="text/javascript" src="/js/adminActivityLog.js" data-cover></script>
     <script type="text/javascript" src="/js/adminHome.js" data-cover></script>
     <script type="text/javascript" src="/js/index.js" data-cover></script>
     <script type="text/javascript" src="/js/instructor.js" data-cover></script>
@@ -63,6 +65,7 @@
 
     <div id="test-scripts">
         <script type="text/javascript" src="/dev/CommonJsTest.js"></script>
+        <script type="text/javascript" src="/dev/AdminActivityLogTest.js"></script>
         <script type="text/javascript" src="/dev/AdminHomeJsTest.js"></script>
         <script type="text/javascript" src="/dev/InstructorCourseDetailsJsTest.js"></script>
         <script type="text/javascript" src="/dev/InstructorEnrolmentJsTest.js"></script>
