@@ -40,8 +40,8 @@ public abstract class Action {
     public String regkey;
 
     /** The regkey may also contain a next url parameter as well. */
-    String nextUrlFromRegkey;
-    
+    public String nextUrlFromRegkey;
+
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
 
@@ -112,7 +112,7 @@ public abstract class Action {
 
     /**
      * Parses and initializes the regkey from the http request.
-     * 
+     *
      */
     private void parseAndInitializeRegkeyFromRequest() {
         String regkeyFromRequest = getRequestParamValue(Const.ParamsNames.REGKEY);
