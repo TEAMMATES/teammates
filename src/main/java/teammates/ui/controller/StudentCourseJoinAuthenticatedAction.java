@@ -30,20 +30,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         Assumption.assertNotNull(regkey);
-        String nextUrl;
-        if (regkey.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
-            /*
-             * Here regkey may contain the nextUrl as well. This is due to
-             * a workaround which replaces "&" with a placeholder "${amp}", thus the
-             * next parameter, nextUrl, is treated as part of the "regkey".
-             * TODO move this process to Action class is possible.
-             */
-            String[] split = regkey.split("\\$\\{amp\\}" + Const.ParamsNames.NEXT_URL + "=");
-            regkey = split[0];
-            nextUrl = split[1];
-        } else {
-            nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        }
+        String nextUrl = nextUrlFromRegkey != null ? nextUrlFromRegkey : getRequestParamValue(Const.ParamsNames.NEXT_URL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.NEXT_URL, nextUrl);
         nextUrl = SanitizationHelper.desanitizeFromNextUrl(nextUrl);
 
