@@ -49,8 +49,10 @@ public class AdminHomePageActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

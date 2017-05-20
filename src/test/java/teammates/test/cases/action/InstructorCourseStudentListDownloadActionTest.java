@@ -140,7 +140,14 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, course.getId()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

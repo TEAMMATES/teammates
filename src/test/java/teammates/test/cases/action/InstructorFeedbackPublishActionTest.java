@@ -154,7 +154,26 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
+
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

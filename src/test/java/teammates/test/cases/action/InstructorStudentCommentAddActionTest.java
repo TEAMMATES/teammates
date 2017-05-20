@@ -1,13 +1,19 @@
 package teammates.test.cases.action;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.SanitizationHelper;
+import teammates.storage.api.CommentsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -16,6 +22,7 @@ import teammates.ui.controller.RedirectResult;
  * SUT: {@link InstructorStudentCommentAddAction}.
  */
 public class InstructorStudentCommentAddActionTest extends BaseActionTest {
+    private final CommentsDb commentsDb = new CommentsDb();
 
     @Override
     protected String getActionUri() {
@@ -470,7 +477,27 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        CommentAttributes comment = dataBundle.comments.get("comment1FromI1C1toS1C1");
+        comment.commentText = new Text("New Comment");
+        String recipient = dataBundle.students.get("student4InCourse1").email;
+        comment.recipients.clear();
+        comment.recipients.add(recipient);
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COMMENT_TEXT, comment.commentText.getValue(),
+                Const.ParamsNames.COURSE_ID, comment.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, recipient,
+                Const.ParamsNames.RECIPIENT_TYPE, comment.recipientType.toString(),
+                Const.ParamsNames.RECIPIENTS, recipient
+        };
+        verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
+
+        List<CommentAttributes> list =
+                commentsDb.getCommentsForReceiver(comment.courseId, comment.recipientType, recipient);
+        for (CommentAttributes c : list) {
+            commentsDb.deleteEntity(c);
+        }
     }
 }

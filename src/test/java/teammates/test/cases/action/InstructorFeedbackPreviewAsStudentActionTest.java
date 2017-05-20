@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
@@ -111,7 +112,17 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.PREVIEWAS, student.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

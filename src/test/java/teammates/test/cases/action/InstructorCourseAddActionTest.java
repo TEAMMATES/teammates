@@ -176,7 +176,16 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, "ticac.tac.id",
+                Const.ParamsNames.COURSE_NAME, "ticac tac name",
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"};
+
+        verifyOnlyInstructorsCanAccess(submissionParams);
+
+        // remove course that was created
+        CoursesLogic.inst().deleteCourseCascade("ticac.tac.id");
     }
 }

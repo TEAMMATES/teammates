@@ -117,7 +117,13 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, invalidEncryptedKey
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 }

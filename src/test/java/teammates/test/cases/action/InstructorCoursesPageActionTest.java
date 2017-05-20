@@ -114,7 +114,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 
     @Override
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[]{};
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
-
 }

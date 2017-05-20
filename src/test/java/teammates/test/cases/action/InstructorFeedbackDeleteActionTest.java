@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackDeleteAction;
 import teammates.ui.controller.RedirectResult;
@@ -52,7 +53,24 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session2InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        //recreate the entity
+        FeedbackSessionsLogic.inst().createFeedbackSession(fs);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

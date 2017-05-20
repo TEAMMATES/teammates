@@ -129,6 +129,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
         //TODO: implement this
     }

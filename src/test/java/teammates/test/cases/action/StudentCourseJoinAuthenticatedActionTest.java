@@ -1,5 +1,6 @@
 package teammates.test.cases.action;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -9,6 +10,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
@@ -26,14 +28,34 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
         // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(dataBundle);
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
+
+    private static void addUnregStudentToCourse1() throws Exception {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes student = new StudentAttributes();
+        student.email = "student6InCourse1@gmail.tmt";
+        student.name = "unregistered student6 In Course1";
+        student.team = "Team Unregistered";
+        student.section = "Section 3";
+        student.course = "idOfTypicalCourse1";
+        student.comments = "";
+        StudentsLogic.inst().createStudentCascade(student);
     }
 
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
+
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
 
@@ -281,7 +303,45 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.NEXT_URL, "randomUrl"
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForStudents(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("testStudentCourseJoinLegacyLink");
+        unregStudent1 = dataBundle.students.get("student2InUnregisteredCourse");
+        key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key)
+        };
+
+        verifyAccessibleWithoutLogin(submissionParams);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+        verifyAccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

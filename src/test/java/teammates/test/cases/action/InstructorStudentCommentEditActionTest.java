@@ -12,6 +12,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.core.CommentsLogic;
+import teammates.storage.api.CommentsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
 import teammates.ui.controller.RedirectResult;
@@ -20,6 +22,7 @@ import teammates.ui.controller.RedirectResult;
  * SUT: {@link InstructorStudentCommentEditAction}.
  */
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
+    private final CommentsDb commentsDb = new CommentsDb();
 
     @Override
     protected String getActionUri() {
@@ -526,7 +529,34 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        List<CommentAttributes> comments =
+                CommentsLogic.inst().getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON,
+                                                            student.email);
+        Iterator<CommentAttributes> iterator = comments.iterator();
+        while (iterator.hasNext()) {
+            CommentAttributes commentAttributes = iterator.next();
+            if (!commentAttributes.giverEmail.equals(instructor.email)) {
+                iterator.remove();
+            }
+        }
+        assertEquals(2, comments.size());
+        CommentAttributes comment = comments.get(0);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COMMENT_ID, comment.getCommentId().toString(),
+                Const.ParamsNames.COMMENT_EDITTYPE, "edit",
+                Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 1 to Student 1 in course 1",
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student.email
+        };
+        verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
+
+        // restore the comment Txt
+        commentsDb.updateComment(comment);
     }
 }

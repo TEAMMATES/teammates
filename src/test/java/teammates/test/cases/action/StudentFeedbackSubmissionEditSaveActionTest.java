@@ -3,6 +3,8 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -31,6 +33,28 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
  */
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
+
+    @BeforeClass
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
+
+    private static void addUnregStudentToCourse1() throws Exception {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes student = new StudentAttributes();
+        student.email = "student6InCourse1@gmail.tmt";
+        student.name = "unregistered student6 In Course1";
+        student.team = "Team Unregistered";
+        student.section = "Section 3";
+        student.course = "idOfTypicalCourse1";
+        student.comments = "";
+        StudentsLogic.inst().createStudentCascade(student);
+    }
 
     @Override
     protected String getActionUri() {
@@ -923,7 +947,43 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+        testGracePeriodAccessControlForStudents();
+    }
+
+    private void testGracePeriodAccessControlForStudents() {
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        dataBundle.feedbackSessions.put("gracePeriodSession", fs);
+
+        assertFalse(fs.isOpened());
+        assertTrue(fs.isInGracePeriod());
+        assertFalse(fs.isClosed());
+
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
     }
 }

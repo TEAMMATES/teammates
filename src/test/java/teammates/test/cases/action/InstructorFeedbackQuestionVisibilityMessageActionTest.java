@@ -196,6 +196,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
         //TODO: implement this
     }

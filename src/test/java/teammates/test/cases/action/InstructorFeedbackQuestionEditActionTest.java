@@ -1,5 +1,8 @@
 package teammates.test.cases.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -1410,7 +1413,27 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionAttributes fq =
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+
+        String[] submissionParams = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
+        submissionParams[9] = "4";
+
+        submissionParams = addQuestionIdToParams(fq.getId(), submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
+
+    private String[] addQuestionIdToParams(String questionId, String[] params) {
+        List<String> list = new ArrayList<String>();
+        list.add(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        list.add(questionId);
+        for (String s : params) {
+            list.add(s);
+        }
+        return list.toArray(new String[list.size()]);
     }
 }

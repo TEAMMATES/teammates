@@ -166,8 +166,17 @@ public class StudentHomePageActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[]{};
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+
+        // check for persistence issue
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+        };
+
+        verifyAccessibleForUnregisteredUsers(submissionParams);
     }
 
 }

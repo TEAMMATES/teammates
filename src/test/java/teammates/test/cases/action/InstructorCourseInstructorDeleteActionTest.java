@@ -115,7 +115,15 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
+        };
+
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

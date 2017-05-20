@@ -77,8 +77,9 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+      //TODO: implement this
     }
 
 }

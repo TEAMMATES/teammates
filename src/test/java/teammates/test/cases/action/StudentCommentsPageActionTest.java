@@ -77,7 +77,9 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[]{};
+        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
 }

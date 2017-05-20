@@ -114,7 +114,30 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        CoursesLogic.inst().createCourseAndInstructor(
+                dataBundle.instructors.get("instructor1OfCourse1").googleId,
+                "icdat.owncourse", "New course", "UTC");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, "icdat.owncourse"
+        };
+
+        /*  Test access for users
+         *  This should be separated from testing for admin as we need to recreate the course after being removed
+         */
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        /* Test access for admin in masquerade mode */
+        CoursesLogic.inst().createCourseAndInstructor(
+                dataBundle.instructors.get("instructor1OfCourse1").googleId,
+                "icdat.owncourse", "New course", "UTC");
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

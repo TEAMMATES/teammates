@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -8,6 +10,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.AssertHelper;
@@ -19,6 +22,28 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
  * SUT: {@link StudentFeedbackSubmissionEditPageAction}.
  */
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
+
+    @BeforeClass
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
+
+    private static void addUnregStudentToCourse1() throws Exception {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes student = new StudentAttributes();
+        student.email = "student6InCourse1@gmail.tmt";
+        student.name = "unregistered student6 In Course1";
+        student.team = "Team Unregistered";
+        student.section = "Section 3";
+        student.course = "idOfTypicalCourse1";
+        student.comments = "";
+        StudentsLogic.inst().createStudentCascade(student);
+    }
 
     @Override
     protected String getActionUri() {
@@ -226,7 +251,17 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.getFeedbackSessionName()
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
     }
 }
