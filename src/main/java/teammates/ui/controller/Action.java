@@ -39,6 +39,9 @@ public abstract class Action {
     /** This is used to ensure unregistered users don't access certain pages in the system. */
     public String regkey;
 
+    /** The regkey may also contain a next url parameter as well. */
+    String nextUrlFromRegkey;
+    
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
 
@@ -91,6 +94,27 @@ public abstract class Action {
         authenticateUser();
     }
 
+    /**
+     * Parses and initializes the regkey from the http request.
+     * 
+     */
+    private void parseAndInitializeRegkeyFromRequest() {
+        String regkeyFromRequest = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (regkeyFromRequest && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
+            /*
+             * Here regkey may contain the nextUrl as well. This is due to
+             * a workaround which replaces "&" with a placeholder "${amp}", thus the
+             * next parameter, nextUrl, is treated as part of the "regkey".
+             */
+            String[] split = regkeyFromRequest.split("\\$\\{amp\\}" + Const.ParamsNames.NEXT_URL + "=");
+            regkey = split[0];
+            nextUrlFromRegkey = SanitizationHelper.desanitizeFromNextUrl(split[1]);
+        } else {
+            regkey = regkeyFromRequest;
+            nextUrlFromRegkey = null;
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
