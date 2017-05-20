@@ -94,6 +94,22 @@ public abstract class Action {
         authenticateUser();
     }
 
+    @SuppressWarnings("unchecked")
+    protected void initialiseAttributes(HttpServletRequest req) {
+        request = req;
+        requestUrl = HttpRequestHelper.getRequestedUrl(request);
+        logic = new Logic();
+        gateKeeper = new GateKeeper();
+        setTaskQueuer(new TaskQueuer());
+        setEmailSender(new EmailSender());
+        requestParameters = request.getParameterMap();
+        session = request.getSession();
+        parseAndInitializeRegkeyFromRequest();
+
+        // Set error status forwarded from the previous action
+        isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
+    }
+
     /**
      * Parses and initializes the regkey from the http request.
      * 
@@ -113,22 +129,6 @@ public abstract class Action {
             regkey = regkeyFromRequest;
             nextUrlFromRegkey = null;
         }
-    }
-    
-    @SuppressWarnings("unchecked")
-    protected void initialiseAttributes(HttpServletRequest req) {
-        request = req;
-        requestUrl = HttpRequestHelper.getRequestedUrl(request);
-        logic = new Logic();
-        gateKeeper = new GateKeeper();
-        setTaskQueuer(new TaskQueuer());
-        setEmailSender(new EmailSender());
-        requestParameters = request.getParameterMap();
-        session = request.getSession();
-        parseAndInitializeRegkeyFromRequest();
-
-        // Set error status forwarded from the previous action
-        isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
     }
 
     public TaskQueuer getTaskQueuer() {
