@@ -480,7 +480,7 @@ public class EmailGenerator {
 
         /*Check if the given userName and userEmail correspond
         to an Instructor or a Student. */
-        if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, course.getName())) {
+        if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, course.getId())) {
             emailBody = Templates.populateTemplate(template,
                     "${userName}", SanitizationHelper.sanitizeForHtml(userName),
                     "${instructorFragment}",
