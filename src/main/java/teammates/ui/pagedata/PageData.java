@@ -334,7 +334,7 @@ public class PageData {
     }
     
     public String getInstructorRequestAccountLink() {
-    	String link = Const.ActionURIs.INSTRUCTOR_REQUEST_ACCOUNT;
+    	String link = Const.ActionURIs.INSTRUCTOR_REQUEST_ACCOUNT_PAGE;
     	return link;
     }
 
