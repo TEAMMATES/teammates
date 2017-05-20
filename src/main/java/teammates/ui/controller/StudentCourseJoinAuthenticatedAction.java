@@ -30,7 +30,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         Assumption.assertNotNull(regkey);
-        String nextUrl = nextUrlFromRegkey != null ? nextUrlFromRegkey : getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        String nextUrl = nextUrlFromRegkey == null ? getRequestParamValue(Const.ParamsNames.NEXT_URL) : nextUrlFromRegkey;
         Assumption.assertPostParamNotNull(Const.ParamsNames.NEXT_URL, nextUrl);
         nextUrl = SanitizationHelper.desanitizeFromNextUrl(nextUrl);
 
