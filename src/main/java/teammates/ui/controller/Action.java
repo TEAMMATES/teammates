@@ -100,7 +100,7 @@ public abstract class Action {
      */
     private void parseAndInitializeRegkeyFromRequest() {
         String regkeyFromRequest = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (regkeyFromRequest && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
+        if (regkeyFromRequest != null && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
             /*
              * Here regkey may contain the nextUrl as well. This is due to
              * a workaround which replaces "&" with a placeholder "${amp}", thus the
@@ -125,6 +125,7 @@ public abstract class Action {
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
+        parseAndInitializeRegkeyFromRequest();
 
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
@@ -222,7 +223,6 @@ public abstract class Action {
 
         AccountAttributes loggedInUser = null;
 
-        regkey = getRegkeyFromRequest();
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
@@ -315,7 +315,7 @@ public abstract class Action {
         boolean userNeedsGoogleAccountForPage =
                 !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotLoggedIn = currentUser == null;
-        boolean noRegkeyGiven = getRegkeyFromRequest() == null;
+        boolean noRegkeyGiven = regkey == null;
 
         if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
             setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
@@ -335,7 +335,6 @@ public abstract class Action {
                 // Allowing admin to masquerade as another user
                 account = logic.getAccount(paramRequestedUserId);
                 if (account == null) { // Unregistered user
-                    regkey = getRegkeyFromRequest();
                     if (regkey == null) {
                         // since admin is masquerading, fabricate a regkey
                         regkey = "any-non-null-value";
@@ -460,7 +459,7 @@ public abstract class Action {
         }
 
         if (regkey != null) {
-            response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
+            response.responseParams.put(Const.ParamsNames.REGKEY, getRegkeyFromRequest());
 
             if (student != null) {
                 response.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
