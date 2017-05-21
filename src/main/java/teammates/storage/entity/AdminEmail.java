@@ -3,55 +3,39 @@ package teammates.storage.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
 import com.google.appengine.api.datastore.Text;
+
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 /**
  * Represents emails composed by Admin.
  */
-@PersistenceCapable
+@Entity
+@Index
 public class AdminEmail extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(AdminEmail.class);
+    @Id
+    private Long emailId;
 
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private String emailId;
-
-    @Persistent
     //this stores the address string eg."example1@test.com,example2@test.com...."
     private List<String> addressReceiver;
 
-    @Persistent
     //this stores the blobkey string of the email list file uploaded to Google Cloud Storage
     private List<String> groupReceiver;
 
-    @Persistent
     private String subject;
 
-    @Persistent
     //For draft emails,this is null. For sent emails, this is not null;
     private Date sendDate;
 
-    @Persistent
     private Date createDate;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Text content;
 
-    @Persistent
     private boolean isInTrashBin;
 
     /**
@@ -98,7 +82,7 @@ public class AdminEmail extends BaseEntity {
     }
 
     public String getEmailId() {
-        return this.emailId;
+        return this.emailId.toString();
     }
 
     public List<String> getAddressReceiver() {
