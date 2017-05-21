@@ -15,7 +15,16 @@ public final class RetryManager {
     }
 
     private enum SuccessCondition {
-        DEFAULT, NOT_NULL
+        /**
+         * The task's {@code isSuccessfulExec()} method must return true for the task to be considered successful.
+         */
+        DEFAULT,
+
+        /**
+         * The task's {@code isResultNull()} method must return false for the task to be considered successful.
+         * Only applicable if the task is an instance of {@link RetryableTaskReturnsThrows}.
+         */
+        NOT_NULL
     }
 
     /**
