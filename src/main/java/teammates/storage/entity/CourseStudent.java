@@ -78,6 +78,10 @@ public class CourseStudent extends BaseEntity {
     @SerializedName("sectionname")
     private String sectionName;
 
+    @SuppressWarnings("unused") // required by Objectify
+    private CourseStudent() {
+    }
+
     public CourseStudent(String email, String name, String googleId, String comments, String courseId,
                          String teamName, String sectionName) {
         setEmail(email);

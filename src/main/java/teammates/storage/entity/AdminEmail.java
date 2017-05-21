@@ -38,6 +38,10 @@ public class AdminEmail extends BaseEntity {
 
     private boolean isInTrashBin;
 
+    @SuppressWarnings("unused") // required by Objectify
+    private AdminEmail() {
+    }
+
     /**
      * Instantiates a new AdminEmail.
      * @param subject
