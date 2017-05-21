@@ -146,17 +146,16 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
      */
     public void deleteEntity(A entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
-
         ofy().delete().entity(entityToDelete.toEntity()).now();
-
         log.info(entityToDelete.getBackupIdentifier());
     }
 
-    protected void deleteEntity(E entityToDelete) {
+    protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
         ofy().delete().entity(entityToDelete).now();
+        log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
     }
 
-    public void deleteEntities(Collection<? extends A> entityAttributesToDelete) {
+    public void deleteEntities(Iterable<A> entityAttributesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityAttributesToDelete);
 
         ArrayList<E> entitiesToDelete = new ArrayList<E>();
@@ -166,6 +165,13 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
             log.info(entityAttributeToDelete.getBackupIdentifier());
         }
 
+        ofy().delete().entities(entitiesToDelete).now();
+    }
+
+    protected void deleteEntitiesDirect(Iterable<E> entitiesToDelete, Iterable<A> entitiesToDeleteAttributesForLogging) {
+        for (A entityAttributesToDelete : entitiesToDeleteAttributesForLogging) {
+            log.info(entityAttributesToDelete.getBackupIdentifier());
+        }
         ofy().delete().entities(entitiesToDelete).now();
     }
 
