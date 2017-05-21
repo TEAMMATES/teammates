@@ -14,14 +14,13 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCaseWithMinimalGaeEnvironment;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
  */
-public class StudentProfileAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment {
+public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     private StudentProfileAttributes profile;
 
@@ -127,6 +126,7 @@ public class StudentProfileAttributesTest extends BaseTestCaseWithMinimalGaeEnvi
         assertEquals(profileToSanitizeExpected.pictureKey, profileToSanitize.pictureKey);
     }
 
+    @Override
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);

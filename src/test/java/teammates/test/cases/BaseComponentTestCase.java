@@ -2,8 +2,8 @@ package teammates.test.cases;
 
 import java.io.IOException;
 
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
@@ -33,9 +33,16 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
 
-    @BeforeTest
-    public void testSetup() {
+    @Override
+    @BeforeClass
+    public void setUpGae() {
         gaeSimulation.setup();
+    }
+
+    @Override
+    @AfterClass
+    public void tearDownGae() {
+        gaeSimulation.tearDown();
     }
 
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {
@@ -118,11 +125,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         } catch (Exception e) {
             return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
         }
-    }
-
-    @AfterTest
-    public void testTearDown() {
-        gaeSimulation.tearDown();
     }
 
 }

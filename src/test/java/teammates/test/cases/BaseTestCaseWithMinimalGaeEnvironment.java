@@ -5,12 +5,11 @@ import org.testng.annotations.BeforeClass;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCaseWithObjectifyAccess {
+/**
+ * Base class for all test cases which require a minimal GAE API environment registered.
+ */
+public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
 
-    /**
-     * Required to register a GAE API environment needed for creation of Datastore Key objects used in
-     * defining parent-child relationships in entities.
-     */
     private LocalServiceTestHelper helper = new LocalServiceTestHelper();
 
     @BeforeClass
