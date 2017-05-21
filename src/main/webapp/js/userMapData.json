@@ -40,7 +40,7 @@
       "Murdoch University",
       "Narangba Valley SHS",
       "Photography Studies College",
-      "Queensland University of Technology",
+      "Queensland University of Technology", 
       "RMIT University",
       "St Catherine's Catholic College",
       "St Ives High School",
@@ -512,9 +512,9 @@
       "Instituto Tecnologico de Estudios Superiores",
       "Latin American School",
       "Peterson Schools",
-      "UNID",
       "Universidad Autónoma de Baja California",
       "Universidad de Celaya",
+      "UNID",
       "Universidad Tecmilenio",
       "Unosquare"
     ],
@@ -1247,8 +1247,12 @@
       "Monterey Peninsula College",
       "Montgomery College",
       "Moorpark College, VCCCD",
-      "Moreno Valley High School",
       "Morningside College",
+      "Moreno Valley High School",
+<<<<<<< HEAD
+      "Morningside College",
+=======
+>>>>>>> removed extraneous changes from previous commit
       "Morgan State University",
       "Morton Ranch High School",
       "Mount Mercy University",
