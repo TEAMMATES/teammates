@@ -63,7 +63,7 @@ public final class CommentsLogic {
         verifyIsCoursePresent(comment.courseId, "create");
         verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
 
-        return commentsDb.createEntity(comment);
+        return commentsDb.createComment(comment);
     }
 
     public CommentAttributes getComment(Long commentId) {

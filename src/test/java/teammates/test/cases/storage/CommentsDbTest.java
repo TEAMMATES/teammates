@@ -46,7 +46,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("fail : invalid params");
         c.courseId = "invalid id with space";
         try {
-            commentsDb.createEntity(c);
+            commentsDb.createComment(c);
         } catch (InvalidParametersException e) {
             assertEquals(getPopulatedErrorMessage(
                              COURSE_ID_ERROR_MESSAGE, c.courseId,
@@ -60,14 +60,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("success : valid params");
 
         c.courseId = "course-id";
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         verifyPresentInDatastore(c);
         commentsDb.deleteEntity(c);
 
         ______TS("success: another comment with different text");
 
         c.createdAt = new Date();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         verifyPresentInDatastore(c);
         commentsDb.deleteEntity(c);
 
@@ -81,7 +81,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         CommentAttributes c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         ______TS("typical success case: existent");
         CommentAttributes retrievedComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
@@ -171,7 +171,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     public void testUpdateComment() throws Exception {
 
         CommentAttributes c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         ______TS("invalid comment attributes");
         try {
@@ -228,27 +228,27 @@ public class CommentsDbTest extends BaseComponentTestCase {
         courseId = courseId1;
         giverEmail = giverEmail1;
         CommentAttributes c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         recipient = recipientEmailNew;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         courseId = courseId2;
         giverEmail = giverEmail1;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         giverEmail = "CDT.giver@mail.com";
         courseId = courseId1;
         recipient = recipientEmail1;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         giverEmail = giverEmailNew;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         courseId = courseId2;
         recipient = recipientEmail1;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         ______TS("success: update instructor email");
 
@@ -322,7 +322,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     public void testDeleteComment() throws InvalidParametersException, EntityAlreadyExistsException {
 
         CommentAttributes c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         ______TS("standard delete existing comment");
         CommentAttributes currentComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
@@ -356,40 +356,40 @@ public class CommentsDbTest extends BaseComponentTestCase {
         giverEmail = instr1;
         recipient = student1;
         CommentAttributes c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         recipient = student2;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         giverEmail = instr2;
         recipient = student3;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         // course 1 team 1 and team2, instructor 3
         recipientType = CommentParticipantType.TEAM;
         recipient = team1;
         giverEmail = instr3;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         recipient = team2;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         // course 1 section 1 and section 2, instructor 3
         recipientType = CommentParticipantType.SECTION;
         recipient = section1;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
         recipient = section2;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         // course2 instr3 and student3
         courseId = courseId2;
         recipientType = CommentParticipantType.PERSON;
         recipient = student3;
         c = createNewComment();
-        commentsDb.createEntity(c);
+        commentsDb.createComment(c);
 
         ______TS("success: delete instructor comments");
 
@@ -498,7 +498,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     private void verifyExceptionThrownFromCreateEntity(CommentAttributes comment, String expectedMessage)
             throws EntityAlreadyExistsException {
         try {
-            commentsDb.createEntity(comment);
+            commentsDb.createComment(comment);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(

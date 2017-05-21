@@ -170,7 +170,7 @@ public class BackDoorLogic extends Logic {
 
         // any Db can be used to commit the changes.
         // accountsDb is used as it is already used in the file
-        commentsDb.commitOutstandingChanges();
+        fbDb.commitOutstandingChanges();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }

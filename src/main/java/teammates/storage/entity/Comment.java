@@ -4,13 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
 import com.google.appengine.api.datastore.Text;
+
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
@@ -24,29 +22,20 @@ import teammates.common.util.SanitizationHelper;
  * Currently giver is restricted only to Instructor, and
  * receiver is restricted to Student.
  */
-@PersistenceCapable
+@Entity
+@Index
 public class Comment extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Comment.class);
-
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Id
     private transient Long commentId;
 
     /** The foreign key to locate the Course object. */
-    @Persistent
     private String courseId;
 
     /** The giver's email used for this comment. */
-    @Persistent
     private String giverEmail;
 
     /** The recipient type for this comment. */
-    @Persistent
     private CommentParticipantType recipientType;
 
     /** The recipients' id used for this comment. E.g.
@@ -54,47 +43,40 @@ public class Comment extends BaseEntity {
      * recipients' email; if it's TEAM, it stands for the
      * team id; if it's COURSE, it will store the course
      * id. */
-    @Persistent
     private Set<String> recipients;
 
     /** The comment's status. */
-    @Persistent
     private CommentStatus status;
 
     /** Is this comment pending to be sent to recipient (through email) or sending or sent. */
-    @Persistent
     private CommentSendingState sendingState;
 
     /** Visibility options. **/
-    @Persistent
     private List<CommentParticipantType> showCommentTo;
 
-    @Persistent
     private List<CommentParticipantType> showGiverNameTo;
 
-    @Persistent
     private List<CommentParticipantType> showRecipientNameTo;
 
     //TODO: remove this property after data migration
     /** The receiver's email used for this comment. */
-    @Persistent
     private String receiverEmail;
 
     /** The creation time of this comment. */
-    @Persistent
     private Date createdAt;
 
     /** The comment from giver for receiver. */
-    @Persistent
     private Text commentText;
 
     /** The e-mail of the account that last edited the comment. */
-    @Persistent
     private String lastEditorEmail;
 
     /** The time in which the comment is last edited. */
-    @Persistent
     private Date lastEditedAt;
+
+    @SuppressWarnings("unused") // required by Objectify
+    private Comment() {
+    }
 
     public Comment(String courseId, String giverEmail, CommentParticipantType recipientType,
                    Set<String> recipients, CommentStatus status, CommentSendingState sendingState,
