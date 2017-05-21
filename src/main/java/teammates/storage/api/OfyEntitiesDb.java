@@ -82,7 +82,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         return entity;
     }
 
-    public List<A> createEntities(Collection<? extends A> entitiesToAdd)
+    public List<A> createEntities(Collection<A> entitiesToAdd)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(
@@ -155,7 +155,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
     }
 
-    public void deleteEntities(Iterable<A> entityAttributesToDelete) {
+    public void deleteEntities(Collection<A> entityAttributesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityAttributesToDelete);
 
         ArrayList<E> entitiesToDelete = new ArrayList<E>();
@@ -168,7 +168,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         ofy().delete().entities(entitiesToDelete).now();
     }
 
-    protected void deleteEntitiesDirect(Iterable<E> entitiesToDelete, Iterable<A> entitiesToDeleteAttributesForLogging) {
+    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Iterable<A> entitiesToDeleteAttributesForLogging) {
         for (A entityAttributesToDelete : entitiesToDeleteAttributesForLogging) {
             log.info(entityAttributesToDelete.getBackupIdentifier());
         }
