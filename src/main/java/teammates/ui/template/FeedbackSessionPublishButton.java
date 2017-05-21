@@ -80,4 +80,8 @@ public class FeedbackSessionPublishButton {
         return buttonType;
     }
 
+    public boolean getshowButtonAndTooltip() {
+        return showButtonAndTooltip;
+    }
+
 }
