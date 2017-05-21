@@ -29,7 +29,7 @@ public class Url {
     }
 
     /**
-      * Returns The relative part (path) of the URL, after the
+      * Returns the relative part (path) of the URL, after the
       * authority (host name + port number if specified) but before the query.<br>
       * Example:
       * <ul>
@@ -46,7 +46,7 @@ public class Url {
     }
 
     /**
-      * Returns The first part of the URL, including the protocol and
+      * Returns the first part of the URL, including the protocol and
       * authority (host name + port number if specified) but not the path.<br>
       * Example:
       * <ul>
@@ -61,7 +61,7 @@ public class Url {
     }
 
     /**
-     * Returns The value of the {@code parameterName} parameter. Null if no such parameter.
+     * Returns the value of the {@code parameterName} parameter. Null if no such parameter.
      */
     public String get(String parameterName) {
         /*
