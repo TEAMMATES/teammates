@@ -1,5 +1,6 @@
 package teammates.test.driver;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.ThreadHelper;
 
 /**
@@ -29,7 +30,7 @@ public final class RetryManager {
      * Runs {@code task}, retrying if needed using exponential backoff, until task returns a non-null result.
      * Returns {@code task} result or null if none.
      */
-    public static <T, E extends Throwable> T runUntilNotNull(Retryable<T, E> task) throws E {
+    public static <T, E extends Throwable> T runUntilNotNull(RetryableTaskReturnsThrows<T, E> task) throws E {
         return doRetry(task, SuccessCondition.NOT_NULL);
     }
 
@@ -77,7 +78,9 @@ public final class RetryManager {
     private static <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task, SuccessCondition condition)
             throws E {
         if (condition.equals(SuccessCondition.NOT_NULL)) {
-            return task != null;
+            Assumption.assertTrue("Success condition " + condition + " is only applicable to subclasses of "
+                    + RetryableTaskReturnsThrows.class.getSimpleName(), RetryableTaskReturnsThrows.class.isInstance(task));
+            return !((RetryableTaskReturnsThrows<T, E>) task).isResultNull();
         }
         return task.isSuccessfulExec();
     }

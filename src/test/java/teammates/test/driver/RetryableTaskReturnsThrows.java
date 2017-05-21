@@ -31,6 +31,13 @@ public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends
         return true;
     }
 
+    /**
+     * Checks whether the result is null.
+     */
+    public final boolean isResultNull() {
+        return result == null;
+    }
+
     @Override
     protected final boolean isSuccessfulExec() throws E {
         return isSuccessful(result);
