@@ -91,6 +91,10 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
+        if (googleId.isEmpty()) {
+            return null;
+        }
+
         Account a = getAccountEntity(googleId, retrieveStudentProfile);
 
         if (a == null) {
