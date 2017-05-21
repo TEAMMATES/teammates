@@ -340,7 +340,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
         InstructorAttributes instructorToDeleteAttributes = new InstructorAttributes(instructorToDelete);
 
         deleteDocument(instructorToDeleteAttributes);
-        deleteEntity(instructorToDeleteAttributes);
+        deleteEntity(instructorToDelete);
 
         Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
         if (instructorCheck != null) {

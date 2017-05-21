@@ -143,8 +143,6 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
     /**
      * Note: This is a non-cascade delete.<br>
      *   <br> Fails silently if there is no such object.
-     * <br> Preconditions:
-     * <br> * {@code courseId} is not null.
      */
     public void deleteEntity(A entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
@@ -152,6 +150,10 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         ofy().delete().entity(entityToDelete.toEntity()).now();
 
         log.info(entityToDelete.getBackupIdentifier());
+    }
+
+    protected void deleteEntity(E entityToDelete) {
+        ofy().delete().entity(entityToDelete).now();
     }
 
     public void deleteEntities(Collection<? extends A> entityAttributesToDelete) {
