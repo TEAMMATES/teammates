@@ -2,12 +2,12 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 
+import com.google.appengine.api.datastore.Text;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * An association class that represents the association Account
@@ -16,10 +16,6 @@ import com.google.appengine.api.datastore.Text;
 @Entity
 @Index
 public class Instructor extends BaseEntity {
-
-    @SuppressWarnings("unused") // required by Objectify
-    private Instructor() {
-    }
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
@@ -57,6 +53,10 @@ public class Instructor extends BaseEntity {
     private String displayedName;
 
     private Text instructorPrivilegesAsText;
+
+    @SuppressWarnings("unused") // required by Objectify
+    private Instructor() {
+    }
 
     public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
                       String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
