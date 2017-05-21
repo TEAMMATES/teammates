@@ -4,8 +4,8 @@
 <%@ attribute name="buttonType" required="true" %>
 <%@ attribute name="showButtonAndTooltip" required="true" %>
 <a href="${publishButton.actionLink}" 
+   class="<c:if test="${showButtonAndTooltip}">btn ${buttonType}</c:if> session-${publishButton.actionNameLowercase}-for-test"
    <c:if test="${showButtonAndTooltip}">
-   class="btn ${buttonType} session-${publishButton.actionNameLowercase}-for-test"
    title="${publishButton.tooltipText}"
    data-toggle="tooltip"
    data-placement="top"
