@@ -33,6 +33,7 @@ public class Account extends BaseEntity {
     @Ignore // used in local attribute tests that give a shell student profile (empty googleId)
     private StudentProfile localStudentProfile;
 
+    @Ignore // session-specific based on whether profile retrieval is enabled
     private boolean isStudentProfileEnabled = true;
 
     @SuppressWarnings("unused") // required by Objectify
