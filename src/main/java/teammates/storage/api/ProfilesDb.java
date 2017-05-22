@@ -1,6 +1,8 @@
 package teammates.storage.api;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -146,6 +148,24 @@ public class ProfilesDb extends EntitiesDb {
         closePm();
     }
 
+    /**
+     * This method is not scalable. Not to be used unless for admin features.
+     *
+     * @return the list of all student profiles in the database.
+     */
+    @Deprecated
+    public List<StudentProfileAttributes> getAllStudentProfiles() {
+        List<StudentProfileAttributes> list = new LinkedList<>();
+        List<StudentProfile> entities = getStudentProfileEntities();
+
+        for (StudentProfile student : entities) {
+            if (!JDOHelper.isDeleted(student)) {
+                list.add(new StudentProfileAttributes(student));
+            }
+        }
+        return list;
+    }
+
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
@@ -233,5 +253,16 @@ public class ProfilesDb extends EntitiesDb {
         q.setFilter(primaryKeyName + " == idParam");
 
         return new QueryWithParams(q, new Object[] {id}, primaryKeyName);
+    }
+
+    /**
+     * Retrieves all student profile entities. This function is not scalable.
+     */
+    @Deprecated
+    @SuppressWarnings("unchecked")
+    private List<StudentProfile> getStudentProfileEntities() {
+        Query q = getPm().newQuery(StudentProfile.class);
+
+        return (List<StudentProfile>) q.execute();
     }
 }

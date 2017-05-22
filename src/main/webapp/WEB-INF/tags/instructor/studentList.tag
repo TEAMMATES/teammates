@@ -177,57 +177,53 @@
                                        data-placement="top">
                                         All Records
                                     </a>
-                                    <c:set var="commentButtonEnabled" value="${section.allowedToGiveCommentInSection}" />
-                                    <div class="btn-group">
-                                        <a class="btn btn-default btn-xs cursor-default<c:if test="${not commentButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <c:set var="commentButtonEnabled" value="${section.allowedToGiveCommentInSection}"/>
+                                    <div class="btn-group" data-toggle="tooltip" data-placement="top"
                                         <c:choose>
                                             <c:when test="${not commentButtonEnabled}">
                                                title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                               disabled
                                             </c:when>
                                             <c:otherwise>
                                                title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
-                                               href="$javascript:;"
                                             </c:otherwise>
-                                        </c:choose>
-                                           data-toggle="tooltip"
-                                           data-placement="top">
+                                        </c:choose>>
+                                        <a class="btn btn-default btn-xs cursor-default<c:if test="${not commentButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                        <c:if test="${not commentButtonEnabled}"> disabled</c:if> href="javascript:;" data-toggle="dropdown">
                                             Add Comment
                                         </a>
-                                        <a class="btn btn-default btn-xs dropdown-toggle<c:if test="${not commentButtonEnabled}"> disabled</c:if>"
-                                           href="javascript:;"
-                                           data-toggle="dropdown"
+                                        <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                                        <li role="presentation">
+                                            <a target="_blank" rel="noopener noreferrer"
+                                               role="menuitem"
+                                               tabindex="-1"
+                                               href="${student.courseStudentDetailsLink}&addComment=student">
+                                                Comment on student: <c:out value="${student.studentName}"/>
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a target="_blank" rel="noopener noreferrer"
+                                               role="menuitem"
+                                               tabindex="-1"
+                                               href="${student.courseStudentDetailsLink}&addComment=team">
+                                                Comment on team: <c:out value="${team.teamName}"/>
+                                            </a>
+                                        </li>
+                                        <c:if test="${hasSection}">
+                                            <li role="presentation">
+                                                <a target="_blank" rel="noopener noreferrer"
+                                                   role="menuitem"
+                                                   tabindex="-1"
+                                                   href="${student.courseStudentDetailsLink}&addComment=section">
+                                                    Comment on section: <c:out value="${section.sectionName}"/>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                        </ul>
+                                        <a class="btn btn-default btn-xs dropdown-toggle<c:if test="${not commentButtonEnabled}"> disabled</c:if>" href="javascript:;" 
+                                            data-toggle="dropdown"
                                            <c:if test="${not commentButtonEnabled}">disabled</c:if>>
                                             <span class="caret"></span><span class="sr-only">Add comments</span>
                                         </a>
-                                        <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                            <li role="presentation">
-                                                <a target="_blank" rel="noopener noreferrer"
-                                                   role="menuitem"
-                                                   tabindex="-1"
-                                                   href="${student.courseStudentDetailsLink}&addComment=student">
-                                                    Comment on student: <c:out value="${student.studentName}"/>
-                                                </a>
-                                            </li>
-                                            <li role="presentation">
-                                                <a target="_blank" rel="noopener noreferrer"
-                                                   role="menuitem"
-                                                   tabindex="-1"
-                                                   href="${student.courseStudentDetailsLink}&addComment=team">
-                                                    Comment on team: <c:out value="${team.teamName}"/>
-                                                </a>
-                                            </li>
-                                            <c:if test="${hasSection}">
-                                                <li role="presentation">
-                                                    <a target="_blank" rel="noopener noreferrer"
-                                                       role="menuitem"
-                                                       tabindex="-1"
-                                                       href="${student.courseStudentDetailsLink}&addComment=section">
-                                                        Comment on section: <c:out value="${section.sectionName}"/>
-                                                    </a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
                                     </div>
                                 </td>
                             </tr>
