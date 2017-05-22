@@ -138,11 +138,13 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
         verifySpecifiedTasksAdded(a, TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME, 1);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
-                + "?user=idOfInstructor3&"
-                + "courseid=idOfTypicalCourse1&"
-                + "error=false",
-                r.getDestinationWithParams());
+        String expectedUrl = addParamToUrl(
+                                     Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE,
+                                     Const.ParamsNames.USER_ID, "idOfInstructor3");
+        expectedUrl = addParamToUrl(expectedUrl, Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1");
+        expectedUrl = addParamToUrl(expectedUrl, Const.ParamsNames.ERROR, Boolean.toString(false));
+
+        assertEquals(expectedUrl, r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Comment edited", r.getStatusMessage());
 

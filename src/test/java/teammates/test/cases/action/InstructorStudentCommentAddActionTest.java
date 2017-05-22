@@ -170,11 +170,13 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE
-                + "?user=idOfInstructor3&"
-                + "courseid=idOfTypicalCourse1&"
-                + "error=false",
-                r.getDestinationWithParams());
+        String expectedUrl = addParamToUrl(
+                                    Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE,
+                                    Const.ParamsNames.USER_ID, "idOfInstructor3");
+        expectedUrl = addParamToUrl(expectedUrl, Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1");
+        expectedUrl = addParamToUrl(expectedUrl, Const.ParamsNames.ERROR, Boolean.toString(false));
+
+        assertEquals(expectedUrl, r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(String.format(Const.StatusMessages.COMMENT_ADDED, submissionParams[1]),
                      r.getStatusMessage());

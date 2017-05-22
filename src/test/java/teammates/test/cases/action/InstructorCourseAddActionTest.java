@@ -93,7 +93,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                   .replace("${courseEditLink}",
                           getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, "ticac.tpa1.id",
                                   "idOfInstructor1OfCourse1"));
-        assertEquals(expected, pageResult.getStatusMessage());
+        assertEquals(expected, redirectResult.getStatusMessage());
 
         ______TS("Error: Try to add the same course again");
 
@@ -127,11 +127,11 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
         redirectResult = getRedirectResult(addAction);
 
-        String expectedDestination = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES,
+        String expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE,
                                                               false,
                                                               "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, pageResult.getDestinationWithParams());
-        assertFalse(pageResult.isError);
+        assertEquals(expectedDestination, redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
         String expectedStatus = "The course has been added. Click <a href=\"/page/instructorCourseEnrollPage?"
                                 + "courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students "
                                 + "to the course or click <a href=\"/page/instructorCourseEditPage?"
@@ -142,9 +142,6 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
-        pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(1, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
-
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa2.id<br>Total courses: 1|||/page/instructorCourseAdd";
@@ -166,9 +163,6 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
         assertEquals(2, courseList.size());
-        pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
-
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse|||"
                              + "instructorOfArchiveCourse@archiveCourse.tmt|||Course added : ticac.tpa2.id<br>"
@@ -182,7 +176,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 .replace("${courseEditLink}",
                         getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, "ticac.tpa2.id",
                                 "idOfInstructorOfArchivedCourse"));
-        assertEquals(expected, pageResult.getStatusMessage());
+        assertEquals(expected, redirectResult.getStatusMessage());
     }
 
     @Override

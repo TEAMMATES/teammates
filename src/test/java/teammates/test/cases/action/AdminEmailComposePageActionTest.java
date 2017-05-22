@@ -61,7 +61,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         AdminEmailAttributes email = adminEmailsLogic.getAdminEmailBySubject(emailData.subject);
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
         pageResult = getShowPageResult(action);
-        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, "admin.user"),
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, "admin.user"),
                 pageResult.getDestinationWithParams());
 
         String expectedLogSegment = normalLogSegment + " : Edit Email [Admin Email 1 &lt;b&gt;bold tags&lt;&#x2f;b&gt;]";
@@ -76,7 +77,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         String emailId = "nonexistingEmailId";
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
-        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
                 pageResult.getDestinationWithParams());
 
         expectedLogSegment = normalLogSegment + " : " + Const.StatusMessages.EMAIL_NOT_FOUND;
