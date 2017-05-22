@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -26,7 +26,7 @@ import teammates.test.pageobjects.LoginPage;
  * <p>This type of test has no knowledge of the workings of the application,
  * and can only communicate via the UI or via {@link teammates.test.driver.BackDoor} to obtain/transmit data.
  */
-public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
+public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     /** Indicates if the test-run is to use GodMode. */
     private static boolean isGodModeEnabled;
