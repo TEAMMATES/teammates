@@ -192,7 +192,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-        // One set of maximum number of students and questions to create single data set for all tests
+        // Maximum number of students and questions to create a single data set for all tests.
         int studentNumsMax = 20;
         int questionNumsMax = 10;
         String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
