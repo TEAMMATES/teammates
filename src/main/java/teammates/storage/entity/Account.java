@@ -133,6 +133,9 @@ public class Account extends BaseEntity {
         if (localStudentProfile != null && localStudentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
             return localStudentProfile;
         }
+        if (studentProfile == null) {
+            return null;
+        }
         return studentProfile.get();
     }
 
