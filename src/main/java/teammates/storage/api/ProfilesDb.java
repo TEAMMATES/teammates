@@ -9,8 +9,6 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.cmd.QueryKeys;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -228,9 +226,16 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
 
     @Override
     public boolean hasEntity(StudentProfileAttributes attributes) {
-        Key<StudentProfile> keyToFind = Key.create(StudentProfile.class, attributes.googleId);
-        QueryKeys<StudentProfile> keysOnlyQuery = ofy().load().type(StudentProfile.class).filterKey(keyToFind).keys();
-        return keysOnlyQuery.first().now() != null;
+        Key<Account> parentKey = Key.create(Account.class, attributes.googleId);
+        Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, attributes.googleId);
+        boolean hasProfile = ofy().load().type(StudentProfile.class).filterKey(childKey).keys().first().now() != null;
+
+        if (hasProfile) {
+            return true;
+        }
+
+        Key<StudentProfile> legacyKey = Key.create(StudentProfile.class, attributes.googleId);
+        return ofy().load().type(StudentProfile.class).filterKey(legacyKey).keys().first().now() != null;
     }
 
     /**
