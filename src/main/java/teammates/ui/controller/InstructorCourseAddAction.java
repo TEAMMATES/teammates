@@ -88,7 +88,8 @@ public class InstructorCourseAddAction extends Action {
 
         data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
+        return isError ? createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data)
+                : createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     private void createCourse(CourseAttributes course) {
