@@ -48,7 +48,6 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
                 accountToAdd.studentProfile.googleId = accountToAdd.googleId;
             }
             createEntity(accountToAdd);
-            profilesDb.createEntity(accountToAdd.studentProfile);
 
         } catch (EntityAlreadyExistsException e) {
             // We update the account instead if it already exists. This is due to how
@@ -58,7 +57,19 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
             } catch (EntityDoesNotExistException edne) {
                 // This situation is not tested as replicating such a situation is
                 // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
+                Assumption.fail("Account found be already existing and not existing simultaneously");
+            }
+        }
+
+        try {
+            profilesDb.createEntity(accountToAdd.studentProfile);
+        } catch (EntityAlreadyExistsException e) {
+            try {
+                profilesDb.updateStudentProfile(accountToAdd.studentProfile);
+            } catch (EntityDoesNotExistException edne) {
+                // This situation is not tested as replicating such a situation is
+                // difficult during testing
+                Assumption.fail("StudentProfile found be already existing and not existing simultaneously");
             }
         }
     }
