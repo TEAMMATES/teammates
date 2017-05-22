@@ -198,6 +198,29 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-3 control-label">Time Zone:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="coursetimezone" id="coursetimezone" tabindex="3" placeholder="Select a time zone...">
+                                            <option value="">Select a time zone...</option>
+                                            <option value="Africa/Abidjan">Africa/Abidjan (UTC)</option>
+                                            <option value="Africa/Accra">Africa/Accra (UTC)</option>
+                                            <option value="Africa/Addis_Ababa">Africa/Addis_Ababa (UTC +03:00)</option>
+                                            <option value="Africa/Algiers">Africa/Algiers (UTC +01:00)</option>
+                                            <option value="Africa/Asmara">Africa/Asmara (UTC +03:00)</option>
+                                            <option value="Africa/Asmera">Africa/Asmera (UTC +03:00)</option>
+                                            <option value="Africa/Bamako">Africa/Bamako (UTC)</option>
+                                            <option value="Africa/Bangui">Africa/Bangui (UTC +01:00)</option>
+                                            <option value="Africa/Banjul">Africa/Banjul (UTC)</option>
+                                            <option value="Africa/Bissau">Africa/Bissau (UTC)</option>
+                                            <option value="Other">Other options omitted...</option>
+                                        </select>
+                                        <div class="alert alert-info time-zone-info-box">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                            Time zone is auto-detected based on your device settings.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9">
                                         <input type="button" class="btn btn-primary" value="Add Course" tabindex="3">
                                     </div>
