@@ -1,6 +1,7 @@
 /* global bindDeleteButtons:false bindRemindButtons:false bindPublishButtons:false */
 /* global bindUnpublishButtons:false setupFsCopyModal:false BootboxWrapper:false */
 /* global StatusType:false global linkAjaxForResponseRate:false prepareRemindModal:false prepareInstructorPages:false */
+/* global showSingleCollapse:false hideSingleCollapse:false */
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 const CURRENT_YEAR = (new Date()).getFullYear();
@@ -11,6 +12,7 @@ $(document).ready(() => {
     bindRemindButtons();
     bindPublishButtons();
     bindUnpublishButtons();
+    bindCoursePanels();
 
     setupFsCopyModal();
 
@@ -52,15 +54,16 @@ $(document).ready(() => {
     });
 
     // AJAX loading of course panels
-    const $coursePanels = $('div[id|="course"]');
+    const $coursePanels = $('.ajax_auto');
     $.each($coursePanels, function () {
         $(this).filter(function () {
-            const isNotLoaded = $(this).find('form').length;
+            const isNotLoaded = $(this).parent().find('form').length;
             return isNotLoaded;
         }).click(function () {
             const $panel = $(this);
-            const formData = $panel.find('form').serialize();
+            const formData = $panel.parent().find('form').serialize();
             const content = $panel.find('.pull-right')[0];
+            const panelCollapse = $(this).parent().children('.panel-collapse');
 
             $.ajax({
                 type: 'POST',
@@ -76,9 +79,19 @@ $(document).ready(() => {
                     $(content).html(warningSign + errorMsg + chevronDown);
                 },
                 success(data) {
-                    // .outerHTML is used instead of jQuery's .replaceWith() to avoid the <span>
-                    // for statuses' tooltips from being closed due to the presence of <br>
-                    $panel[0].outerHTML = data;
+                    const panelHeading = $(data).find('.panel-heading').html();
+                    $panel.find('.row').replaceWith(panelHeading);
+                    const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
+                    const updatedContent = $panel.find('.pull-right')[0];
+                    $(updatedContent).append(chevronUp);
+                    const collapseData = $(data).find('.panel-body');
+                    $(panelCollapse[0]).html(collapseData[0]);
+                    $panel.removeClass('ajax_auto');
+
+                    $panel.off('click');
+                    $panel.click(toggleSingleCourseCollapse);
+                    $panel.trigger('click');
+
                     linkAjaxForResponseRate();
                 },
             });
@@ -106,4 +119,43 @@ function instructorHomeDateComparator(x, y) {
         return 1;
     }
     return x0 < y0 ? -1 : 0;
+}
+
+function bindCoursePanels() {
+    const panels = $('div.panel');
+    let numPanels = 0;
+    for (let i = 0; i < panels.length; i += 1) {
+        const heading = $(panels[i]).children('.panel-heading');
+        const bodyCollapse = $(panels[i]).children('.panel-collapse');
+        if (heading.length !== 0 && bodyCollapse.length !== 0) {
+            $(heading[0]).attr('data-target', `#panelBodyCollapse-${numPanels}`);
+            $(heading[0]).attr('id', `panelHeading-${numPanels}`);
+            $(heading[0]).css('cursor', 'pointer');
+            $(bodyCollapse[0]).attr('id', `panelBodyCollapse-${numPanels}`);
+        }
+        numPanels += 1;
+    }
+}
+
+/**
+ * Changes the state of the course panel (collapsed/expanded).
+ */
+function toggleSingleCourseCollapse(e) {
+    if ($(e.target).is('a') || $(e.target).is('input') || $(e.target).hasClass('dropdown-toggle')) {
+        return;
+    }
+    const glyphIcon = $(this).find('.glyphicon');
+    const className = $(glyphIcon[0]).attr('class');
+    const dropdowns = $(this).find('.dropdown');
+    if (className.indexOf('glyphicon-chevron-up') === -1) {
+        for (let i = 0; i < dropdowns.length; i += 1) {
+            $(dropdowns[i]).show();
+        }
+        showSingleCollapse($(e.currentTarget).attr('data-target'));
+    } else {
+        for (let j = 0; j < dropdowns.length; j += 1) {
+            $(dropdowns[j]).hide();
+        }
+        hideSingleCollapse($(e.currentTarget).attr('data-target'));
+    }
 }
