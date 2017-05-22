@@ -287,4 +287,44 @@ public class SanitizationHelperTest extends BaseTestCase {
         assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
 
     }
+
+    @Test
+    public void testIsSanitizedHtml() {
+        assertFalse("should return false if string is null",
+                SanitizationHelper.isSanitizedHtml(null));
+        assertFalse("should return false if empty string",
+                SanitizationHelper.isSanitizedHtml(""));
+
+        assertFalse("should return false for string with no special characters",
+                SanitizationHelper.isSanitizedHtml("This is an normal string."));
+
+        String sanitized = SanitizationHelper.sanitizeForHtml("<script>alert('hi');</script>");
+        assertTrue("should return true if string is sanitized",
+                SanitizationHelper.isSanitizedHtml(sanitized));
+
+        String unsanitized = "<not sanitized>" + sanitized;
+        assertFalse("should return false if string contains unsanitized characters",
+                SanitizationHelper.isSanitizedHtml(unsanitized));
+    }
+
+    @Test
+    public void testDesanitizeIfSanitized() {
+        assertNull("should return null if given null", SanitizationHelper.desanitizeIfHtmlSanitized(null));
+
+        String unsanitized = "This is a normal string...";
+        assertEquals("should return same unsanitized string if given unsanitized with normal characters",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+
+        unsanitized = "<script>alert('hi');</script>";
+        assertEquals("should return same unsanitized string if given unsanitized with special characters",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+
+        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
+        assertEquals("should desanitize string if given sanitized",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(sanitized));
+
+        unsanitized = "\"not sanitized\"" + sanitized;
+        assertEquals("should return same unsanitized string if given unsanitized string containing sanitized sequences",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+    }
 }

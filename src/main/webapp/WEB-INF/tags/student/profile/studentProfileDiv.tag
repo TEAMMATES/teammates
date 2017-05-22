@@ -47,8 +47,8 @@
                    name="<%= Const.ParamsNames.STUDENT_SHORT_NAME %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profile.shortName}"
-                   value="${profile.shortName}"
+                   data-actual-value="<c:out value="${profile.shortName}"/>"
+                   value="<c:out value="${profile.shortName}"/>"
                    placeholder="How the instructor should call you">
         </div>
         <div class="form-group"
@@ -62,8 +62,8 @@
                    name="<%= Const.ParamsNames.STUDENT_PROFILE_EMAIL %>"
                    class="form-control"
                    type="email"
-                   data-actual-value="${profile.email}"
-                   value="${profile.email}"
+                   data-actual-value="<c:out value="${profile.email}"/>"
+                   value="<c:out value="${profile.email}"/>"
                    placeholder="Contact Email (for your instructors to contact you beyond graduation)">
         </div>
         <div class="form-group"
@@ -77,8 +77,8 @@
                    name="<%= Const.ParamsNames.STUDENT_PROFILE_INSTITUTION %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profile.institute}"
-                   value="${profile.institute}"
+                   data-actual-value="<c:out value="${profile.institute}"/>"
+                   value="<c:out value="${profile.institute}"/>"
                    placeholder="Your Institution">
         </div>
         <div class="form-group"

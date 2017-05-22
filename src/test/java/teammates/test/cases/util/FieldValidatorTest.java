@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FieldValidatorExtension;
@@ -298,6 +299,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
                      String.format(NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
+
+        invalidNationality = "<script> alert('hi!'); </script>";
+        actual = validator.getInvalidityInfoForNationality(invalidNationality);
+        assertEquals("Unsanitized, invalid nationality should return sanitized error string",
+                String.format(NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
     }
 
     @Test
@@ -375,6 +381,12 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid gender should return appropriate error stirng",
                      String.format(GENDER_ERROR_MESSAGE, invalidGender),
                      actual);
+
+        invalidGender = "<script> alert('hi!'); </script>";
+        actual = validator.getInvalidityInfoForGender(invalidGender);
+        assertEquals("Unsanitized, invalid gender should return appropriate error string",
+                String.format(GENDER_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidGender)),
+                actual);
     }
 
     @Test
