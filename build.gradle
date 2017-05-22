@@ -1,6 +1,9 @@
 apply plugin: "eclipse"
+apply plugin: 'idea'
+
 apply plugin: "war"
 apply plugin: "appengine"
+
 apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
@@ -154,6 +157,18 @@ eclipse {
         }
     }
 }
+
+idea {
+    module {
+        // Removes the source directories added by the appengine plugin
+        testSourceDirs -= sourceSets.functionalTest.allSource.srcDirs
+    }
+}
+
+// removes unused sourceSets from the appengine plugin
+// the appengine plugin also adds source directories to the IDEA plugin, which are removed from the idea block above
+sourceSets.remove(sourceSets.functionalTest)
+sourceSets.remove(sourceSets.endpointsSrc)
 
 eclipseProject {
     onlyIf {
