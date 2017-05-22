@@ -11,6 +11,7 @@ import teammates.storage.entity.Comment;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.StudentProfile;
 
@@ -29,6 +30,7 @@ public class OfyHelper implements ServletContextListener {
         ObjectifyService.register(Course.class);
         ObjectifyService.register(CourseStudent.class);
         ObjectifyService.register(FeedbackQuestion.class);
+        ObjectifyService.register(FeedbackResponse.class);
         ObjectifyService.register(Instructor.class);
         ObjectifyService.register(StudentProfile.class);
     }

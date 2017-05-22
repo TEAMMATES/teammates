@@ -2,13 +2,13 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.listener.StoreCallback;
-
 import com.google.appengine.api.datastore.Text;
+
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
@@ -16,62 +16,49 @@ import teammates.common.util.Const;
 /**
  * Represents a feedback response.
  */
-@PersistenceCapable
-public class FeedbackResponse extends BaseEntity implements StoreCallback {
-
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackResponse.class);
+@Entity
+@Index
+public class FeedbackResponse extends BaseEntity {
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
      * the lastUpdate time stamp.
      **/
-    @NotPersistent
+    @Ignore
     public boolean keepUpdateTimestamp;
 
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
     //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
-    @PrimaryKey
-    @Persistent
+    @Id
     private String feedbackResponseId;
 
-    @Persistent
     private String feedbackSessionName;
 
-    @Persistent
     private String courseId;
 
-    @Persistent
     private String feedbackQuestionId;
 
-    @Persistent
     private FeedbackQuestionType feedbackQuestionType;
 
-    @Persistent
     private String giverEmail;
 
-    @Persistent
     private String giverSection;
 
-    @Persistent
     private String receiver;
 
-    @Persistent
     private String receiverSection;
 
-    @Persistent
     private Text answer; //TODO: rename to responseMetaData, will require database conversion
 
-    @Persistent
     private Date createdAt;
 
-    @Persistent
     private Date updatedAt;
+
+    @SuppressWarnings("unused") // required by Objectify
+    private FeedbackResponse() {
+    }
 
     public FeedbackResponse(String feedbackSessionName, String courseId,
             String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
@@ -94,11 +81,6 @@ public class FeedbackResponse extends BaseEntity implements StoreCallback {
     public String getId() {
         return feedbackResponseId;
     }
-
-    /* Auto-generated. Do not set this.
-    public void setFeedbackResponseId(String feedbackResponseId) {
-        this.feedbackResponseId = feedbackResponseId;
-    }*/
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
@@ -191,11 +173,8 @@ public class FeedbackResponse extends BaseEntity implements StoreCallback {
         }
     }
 
-    /**
-     * Called by jdo before storing takes place.
-     */
-    @Override
-    public void jdoPreStore() {
+    @OnSave
+    public void updateLastUpdateTimestamp() {
         this.setLastUpdate(new Date());
     }
 }

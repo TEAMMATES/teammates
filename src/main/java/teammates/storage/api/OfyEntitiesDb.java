@@ -141,6 +141,10 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         return entity;
     }
 
+    public void saveEntity(E entityToSave) {
+        ofy().save().entity(entityToSave).now();
+    }
+
     // TODO: use this method for subclasses.
     /**
      * Note: This is a non-cascade delete.<br>
