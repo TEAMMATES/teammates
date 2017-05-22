@@ -2,6 +2,12 @@ apply plugin: "eclipse"
 apply plugin: 'idea'
 
 apply plugin: "war"
+// Use a different buildDir for IntelliJ builds so they do not conflict with building with Gradle
+// Must be done before applying the appengine plugin as a discovery-docs folder
+// is added to WEB-INF which is added to the build
+if (System.properties['ide'] == 'idea') {
+    buildDir = new File(projectDir, 'buildIdea')
+}
 apply plugin: "appengine"
 
 apply plugin: "checkstyle"
