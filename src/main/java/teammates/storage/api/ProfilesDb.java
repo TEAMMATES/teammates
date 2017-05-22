@@ -12,7 +12,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -28,11 +27,6 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfileAttributes
  */
 public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttributes> {
-
-    public void createStudentProfile(StudentProfileAttributes newSpa)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createEntity(newSpa);
-    }
 
     /**
      * Gets the datatransfer (*Attributes) version of the profile
@@ -119,12 +113,10 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
         boolean hasNewNonEmptyPictureKey = !newPictureKey.isEmpty()
                 && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
 
-        if (!hasNewNonEmptyPictureKey) {
-            return;
+        if (hasNewNonEmptyPictureKey) {
+            profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+            profileToUpdate.setModifiedDate(new Date());
         }
-
-        profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
-        profileToUpdate.setModifiedDate(new Date());
 
         ofy().save().entity(profileToUpdate).now();
     }
