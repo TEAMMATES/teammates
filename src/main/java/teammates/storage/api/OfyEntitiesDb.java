@@ -168,7 +168,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         ofy().delete().entities(entitiesToDelete).now();
     }
 
-    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Iterable<A> entitiesToDeleteAttributesForLogging) {
+    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
         for (A entityAttributesToDelete : entitiesToDeleteAttributesForLogging) {
             log.info(entityAttributesToDelete.getBackupIdentifier());
         }
