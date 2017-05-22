@@ -10,6 +10,7 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -255,7 +256,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
     }
 
     @Override
-    public boolean hasEntity(AdminEmailAttributes attributes) {
+    protected QueryKeys<AdminEmail> getEntityQueryKeys(AdminEmailAttributes attributes) {
         String id = attributes.emailId;
         Query<AdminEmail> query;
 
@@ -268,7 +269,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
                     .filterKey(Key.create(AdminEmail.class, Long.valueOf(id)));
         }
 
-        return query.keys().first().now() != null;
+        return query.keys();
     }
 
     private List<AdminEmailAttributes> makeAttributes(List<AdminEmail> adminEmails) {

@@ -11,6 +11,8 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -146,7 +148,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
      */
     public void deleteEntity(A entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
-        ofy().delete().entity(entityToDelete.toEntity()).now();
+        ofy().delete().keys(getEntityQueryKeys(entityToDelete)).now();
         log.info(entityToDelete.getBackupIdentifier());
     }
 
@@ -155,17 +157,20 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
     }
 
-    public void deleteEntities(Collection<A> entityAttributesToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityAttributesToDelete);
+    public void deleteEntities(Collection<A> entitiesToDelete) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
-        ArrayList<E> entitiesToDelete = new ArrayList<E>();
-        for (A entityAttributeToDelete : entityAttributesToDelete) {
-            E entityToDelete = entityAttributeToDelete.toEntity();
-            entitiesToDelete.add(entityToDelete);
-            log.info(entityAttributeToDelete.getBackupIdentifier());
+        ArrayList<Key<E>> keysToDelete = new ArrayList<Key<E>>();
+        for (A entityToDelete : entitiesToDelete) {
+            Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
+            if (keyToDelete == null) {
+                continue;
+            }
+            keysToDelete.add(keyToDelete);
+            log.info(entityToDelete.getBackupIdentifier());
         }
 
-        ofy().delete().entities(entitiesToDelete).now();
+        ofy().delete().keys(keysToDelete).now();
     }
 
     protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
@@ -179,16 +184,19 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         GoogleCloudStorageHelper.deleteFile(key);
     }
 
-    /**
-     * NOTE: This method must be overriden for all subclasses such that it will return the Entity
-     * matching the EntityAttributes in the parameter.
-     * @return    the Entity which matches the given {@link EntityAttributes} {@code attributes}
-     *             based on the default key identifiers. Returns null if it
-     *             does not already exist in the Datastore.
-     */
     protected abstract E getEntity(A attributes);
 
-    public abstract boolean hasEntity(A attributes);
+    /**
+     * NOTE: This method must be overriden for all subclasses such that it will return the key query for the
+     * Entity matching the EntityAttributes in the parameter.
+     * @return    the key query for the Entity which matches the given {@link EntityAttributes} {@code attributes}
+     *             based on the default key identifiers.
+     */
+    protected abstract QueryKeys<E> getEntityQueryKeys(A attributes);
+
+    public boolean hasEntity(A attributes) {
+        return getEntityQueryKeys(attributes).first().now() != null;
+    }
 
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document) {

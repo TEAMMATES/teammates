@@ -147,10 +147,9 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
     }
 
     @Override
-    public boolean hasEntity(CourseAttributes attributes) {
+    protected QueryKeys<Course> getEntityQueryKeys(CourseAttributes attributes) {
         Key<Course> keyToFind = Key.create(Course.class, attributes.getId());
-        QueryKeys<Course> keysOnlyQuery = ofy().load().type(Course.class).filterKey(keyToFind).keys();
-        return keysOnlyQuery.first().now() != null;
+        return ofy().load().type(Course.class).filterKey(keyToFind).keys();
     }
 
     private Course getCourseEntity(String courseId) {

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.EntityAttributes;
@@ -436,11 +437,11 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
     }
 
     @Override
-    public boolean hasEntity(InstructorAttributes attributes) {
+    protected QueryKeys<Instructor> getEntityQueryKeys(InstructorAttributes attributes) {
         return ofy().load().type(Instructor.class)
                 .filter("courseId =", attributes.courseId)
                 .filter("email =", attributes.email)
-                .keys().first().now() != null;
+                .keys();
     }
 
     private List<InstructorAttributes> makeAttributes(List<Instructor> instructors) {

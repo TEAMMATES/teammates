@@ -13,6 +13,7 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
@@ -527,8 +528,8 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
     }
 
     @Override
-    public boolean hasEntity(CommentAttributes attributes) {
-        return getEntityKeyOnlyQuery(attributes).keys().first().now() != null;
+    protected QueryKeys<Comment> getEntityQueryKeys(CommentAttributes attributes) {
+        return getEntityKeyOnlyQuery(attributes).keys();
     }
 
     private Query<Comment> getEntityKeyOnlyQuery(CommentAttributes attributes) {

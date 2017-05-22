@@ -12,6 +12,7 @@ import java.util.Map;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -593,9 +594,8 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
     }
 
     @Override
-    public boolean hasEntity(StudentAttributes attributes) {
-        return getCourseStudentForEmailQuery(attributes.course, attributes.email)
-                .keys().first().now() != null;
+    protected QueryKeys<CourseStudent> getEntityQueryKeys(StudentAttributes attributes) {
+        return getCourseStudentForEmailQuery(attributes.course, attributes.email).keys();
     }
 
     private void deleteStudentsCascadeDocuments(List<CourseStudent> students) {

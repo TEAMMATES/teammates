@@ -252,9 +252,8 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     }
 
     @Override
-    public boolean hasEntity(AccountAttributes attributes) {
+    protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
         Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
-        QueryKeys<Account> keysOnlyQuery = ofy().load().type(Account.class).filterKey(keyToFind).keys();
-        return keysOnlyQuery.first().now() != null;
+        return ofy().load().type(Account.class).filterKey(keyToFind).keys();
     }
 }
