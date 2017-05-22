@@ -10,7 +10,7 @@ public class CourseStatsPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         CourseStatsPageData data = new CourseStatsPageData(account);
 
