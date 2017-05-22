@@ -150,7 +150,7 @@ public class EmailGenerator {
         }
 
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
-                "${userName}", student.name,
+                "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${userEmail}", student.email,
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", course.getId(),

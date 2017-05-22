@@ -21,6 +21,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.CoursesLogic;
@@ -265,6 +266,93 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGenerateFeedbackSessionEmails_testSanitization() throws IOException {
+
+        FeedbackSessionAttributes session = fsLogic.getFeedbackSession("Normal feedback session name",
+                                                                       "idOfTestingSanitizationCourse");
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "normal@sanitization.tmt");
+        InstructorAttributes instructor1 =
+                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@sanitization.tmt");
+
+        ______TS("feedback session opening emails: sanitization required");
+
+        List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
+
+        assertEquals(2, emails.size());
+
+        String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        boolean hasStudent1ReceivedEmail = false;
+        boolean hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject,
+                        "/sessionOpeningEmailTestingSanitzationForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject,
+                        "/sessionOpeningEmailTestingSanitizationForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
+
+        ______TS("feedback session closed alerts: sanitization required");
+
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+        assertEquals(2, emails.size());
+
+        subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        hasStudent1ReceivedEmail = false;
+        hasInstructor1ReceivedEmail = false;
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.email)) {
+                verifyEmail(email, student1.email, subject,
+                        "/sessionClosedEmailTestingSanitizationForStudent.html");
+                hasStudent1ReceivedEmail = true;
+            } else if (email.getRecipient().equals(instructor1.email)) {
+                verifyEmail(email, instructor1.email, subject,
+                        "/sessionClosedEmailTestingSanitizationForInstructor.html");
+                hasInstructor1ReceivedEmail = true;
+            }
+        }
+        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasInstructor1ReceivedEmail);
+
+        ______TS("feedback sessions summary of course email: sanitization required");
+
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
+        subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
+        hasStudent1ReceivedEmail = false;
+
+        if (email.getRecipient().equals(student1.email)) {
+            verifyEmail(email, student1.email, subject,
+                    "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");
+            hasStudent1ReceivedEmail = true;
+        }
+
+        assertTrue(hasStudent1ReceivedEmail);
+
+        ______TS("feedback session submission email: sanitization required");
+
+        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        time.set(Calendar.DATE, 4);
+        time.set(Calendar.MONTH, 8);
+        time.set(Calendar.HOUR_OF_DAY, 5);
+        time.set(Calendar.MINUTE, 30);
+        time.set(Calendar.YEAR, 2016);
+
+        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
+        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
+                session.getFeedbackSessionName());
+        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailTestingSanitization.html");
+    }
+
+    @Test
     public void testGenerateInstructorJoinEmail() throws IOException {
 
         ______TS("instructor new account email");
@@ -306,6 +394,38 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGenerateInstructorJoinEmail_testSanitization() throws IOException {
+        ______TS("instructor new account email: sanitization required");
+        InstructorAttributes instructor1 =
+                instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
+
+        String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                .withRegistrationKey(StringHelper.encrypt(instructor1.key))
+                .withInstructorInstitution("Test Institute")
+                .toAbsoluteString();
+
+        EmailWrapper email = new EmailGenerator()
+                .generateNewInstructorAccountJoinEmail(instructor1.email, instructor1.name, joinLink);
+        // InstructorAttributes sanitizes name before saving
+        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),
+                SanitizationHelper.sanitizeForHtml(instructor1.name));
+
+        verifyEmail(email, instructor1.email, subject, "/instructorNewAccountEmailTestingSanitization.html");
+        assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
+
+        ______TS("instructor course join email: sanitization required");
+
+        AccountAttributes inviter = dataBundle.accounts.get("instructor1OfTestingSanitizationCourse");
+
+        CourseAttributes course = coursesLogic.getCourse("idOfTestingSanitizationCourse");
+
+        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor1, course);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, instructor1.email, subject, "/instructorCourseJoinEmailTestingSanitization.html");
+    }
+
+    @Test
     public void testGenerateStudentCourseJoinEmail() throws IOException {
 
         ______TS("student course join email");
@@ -330,6 +450,28 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmail(email, student.email, subject, "/studentCourseRejoinAfterGoogleIdResetEmail.html");
 
+    }
+
+    @Test
+    public void testGenerateStudentCourseJoinEmail_testSanitization() throws IOException {
+
+        ______TS("student course join email: sanitization required");
+
+        CourseAttributes course = coursesLogic.getCourse("idOfTestingSanitizationCourse");
+        StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "normal@sanitization.tmt");
+
+        EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student1);
+        String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, student1.email, subject, "/studentCourseJoinEmailTestingSanitization.html");
+
+        ______TS("student course join email after Google ID reset: sanitization required");
+
+        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student1);
+        subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, student1.email, subject, "/studentCourseRejoinAfterGoogleIdResetEmailTestingSanitization.html");
     }
 
     @Test
