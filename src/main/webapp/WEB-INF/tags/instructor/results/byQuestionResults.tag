@@ -5,7 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="questionPanels" type="java.util.List" required="true" %>
-<%@ attribute name="isShowingResponses" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isShowingResponses" type="java.lang.Boolean" %>
 
 <br>
 
