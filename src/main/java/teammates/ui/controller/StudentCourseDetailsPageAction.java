@@ -4,6 +4,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.pagedata.StudentCourseDetailsPageData;
 
 public class StudentCourseDetailsPageAction extends Action {
@@ -29,7 +30,7 @@ public class StudentCourseDetailsPageAction extends Action {
 
         statusToAdmin = "studentCourseDetails Page Load<br>"
                         + "Viewing team details for <span class=\"bold\">[" + courseId + "] "
-                        + course.getName() + "</span>";
+                        + SanitizationHelper.sanitizeForHtml(course.getName()) + "</span>";
 
         return createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
     }
