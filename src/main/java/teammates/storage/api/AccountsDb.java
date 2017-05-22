@@ -205,39 +205,30 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        AccountAttributes accountToDelete = getAccount(googleId, true);
+        Account accountToDelete = getAccountEntity(googleId, true);
 
         if (accountToDelete == null) {
             return;
         }
 
-        if (accountToDelete.studentProfile != null) {
-            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
-                deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+        StudentProfile studentProfile = accountToDelete.getStudentProfile();
+        if (studentProfile != null) {
+            BlobKey pictureKey = studentProfile.getPictureKey();
+            if (!pictureKey.getKeyString().isEmpty()) {
+                deletePicture(pictureKey);
             }
-            profilesDb.deleteEntity(accountToDelete.studentProfile);
+            profilesDb.deleteEntityDirect(studentProfile, new StudentProfileAttributes(studentProfile));
         }
 
-        deleteEntity(accountToDelete);
-    }
-
-    @Override // delete without checking for student profile
-    public void deleteEntity(AccountAttributes accountToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, accountToDelete);
-
-        ofy().delete().key(Key.create(Account.class, accountToDelete.googleId)).now();
-
-        log.info(accountToDelete.getBackupIdentifier());
+        deleteEntityDirect(accountToDelete, new AccountAttributes(accountToDelete));
     }
 
     public void deleteAccounts(Collection<AccountAttributes> accounts) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, accounts);
 
         for (AccountAttributes accountToDelete : accounts) {
-            if (!accountToDelete.studentProfile.pictureKey.isEmpty()) {
-                deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
-            }
+            deleteAccount(accountToDelete.googleId);
         }
-        deleteEntities(accounts);
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
