@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -65,6 +66,11 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     /* This function is used for persisting data bundle in testing process */
     public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
             throws InvalidParametersException {
+        List<StudentProfileAttributes> profilesToAdd = new LinkedList<StudentProfileAttributes>();
+        for (AccountAttributes accountToAdd : accountsToAdd) {
+            profilesToAdd.add(accountToAdd.studentProfile);
+        }
+        profilesDb.createEntities(profilesToAdd);
 
         List<AccountAttributes> accountsToUpdate = createEntities(accountsToAdd);
         if (updateAccount) {
