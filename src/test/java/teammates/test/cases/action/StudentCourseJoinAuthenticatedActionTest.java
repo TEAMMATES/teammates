@@ -1,6 +1,5 @@
 package teammates.test.cases.action;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,32 +28,14 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
     @BeforeClass
     public void classSetup() throws Exception {
-        addUnregStudentToCourse1();
         // extra test data used on top of typical data bundle
-        removeAndRestoreDataBundle(dataBundle);
-    }
-
-    @AfterClass
-    public void classTearDown() {
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
-    }
-
-    private static void addUnregStudentToCourse1() throws Exception {
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
-        StudentAttributes student = new StudentAttributes();
-        student.email = "student6InCourse1@gmail.tmt";
-        student.name = "unregistered student6 In Course1";
-        student.team = "Team Unregistered";
-        student.section = "Section 3";
-        student.course = "idOfTypicalCourse1";
-        student.comments = "";
-        StudentsLogic.inst().createStudentCascade(student);
     }
 
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
+        removeAndRestoreDataBundle(dataBundle);
 
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
@@ -305,7 +286,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        dataBundle = getTypicalDataBundle();
+
         StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         String[] submissionParams = new String[] {
@@ -329,19 +310,6 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         unregStudent1.googleId = "";
         StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        ______TS("testStudentCourseJoinLegacyLink");
-        unregStudent1 = dataBundle.students.get("student2InUnregisteredCourse");
-        key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(key)
-        };
-
-        verifyAccessibleWithoutLogin(submissionParams);
-        verifyAccessibleForUnregisteredUsers(submissionParams);
-        verifyAccessibleForStudents(submissionParams);
-        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

@@ -17,11 +17,6 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     }
 
     @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
-    @Override
     @Test
     public void testExecuteAndPostProcess() {
 

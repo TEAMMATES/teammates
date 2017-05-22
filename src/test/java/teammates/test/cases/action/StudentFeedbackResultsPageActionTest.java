@@ -35,18 +35,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
 
-    private static void addUnregStudentToCourse1() throws Exception {
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
-        StudentAttributes student = new StudentAttributes();
-        student.email = "student6InCourse1@gmail.tmt";
-        student.name = "unregistered student6 In Course1";
-        student.team = "Team Unregistered";
-        student.section = "Section 3";
-        student.course = "idOfTypicalCourse1";
-        student.comments = "";
-        StudentsLogic.inst().createStudentCascade(student);
-    }
-
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;

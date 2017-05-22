@@ -18,11 +18,6 @@ public class AdminHomePageActionTest extends BaseActionTest {
     }
 
     @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
-    @Override
     @Test
     public void testExecuteAndPostProcess() {
 

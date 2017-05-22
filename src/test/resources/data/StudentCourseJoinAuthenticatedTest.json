@@ -134,6 +134,15 @@
       "team": "Team 1",
       "section": "Section 1"
     },
+    "student1InUnregisteredCourse": {
+      "email": "student1InUnregisteredCourse@gmail.tmt",
+      "course": "idOfUnregisteredCourse",
+      "name": "student1 In unregisteredCourse",
+      "comments": "",
+      "team": "Team 1",
+      "section": "Section 1",
+      "key": "regKeyForStuNotYetJoinCourse"
+    },
     "noFSStudentWithFullProfile": {
       "googleId": "",
       "email": "noFSStudent3@gmail.tmt",

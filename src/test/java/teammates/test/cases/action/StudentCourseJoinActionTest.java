@@ -180,17 +180,4 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
-
-    private static void addUnregStudentToCourse1() throws Exception {
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
-        StudentAttributes student = new StudentAttributes();
-        student.email = "student6InCourse1@gmail.tmt";
-        student.name = "unregistered student6 In Course1";
-        student.team = "Team Unregistered";
-        student.section = "Section 3";
-        student.course = "idOfTypicalCourse1";
-        student.comments = "";
-        StudentsLogic.inst().createStudentCascade(student);
-    }
-
 }

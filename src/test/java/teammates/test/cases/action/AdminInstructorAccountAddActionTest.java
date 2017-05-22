@@ -24,11 +24,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         return Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
     }
 
-    @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
     @Test
     public void testGenerateNextDemoCourseId() throws Exception {
         testGenerateNextDemoCourseIdForLengthLimit(40);
