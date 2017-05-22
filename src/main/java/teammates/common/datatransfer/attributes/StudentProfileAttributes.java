@@ -67,6 +67,13 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.modifiedDate = null;
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
+    public StudentProfileAttributes getCopy() {
+        return new StudentProfileAttributes(this.toEntity());
+    }
+
     // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {

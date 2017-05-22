@@ -70,7 +70,7 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
 
     private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa,
             StudentProfile profileToUpdate) {
-        StudentProfileAttributes newSpaCopy = new StudentProfileAttributes(newSpa.toEntity());
+        StudentProfileAttributes newSpaCopy = newSpa.getCopy();
         StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
 
         newSpaCopy.modifiedDate = existingProfile.modifiedDate;
