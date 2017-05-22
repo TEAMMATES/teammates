@@ -46,34 +46,7 @@ public class InstructorRequestAccountSaveAction extends Action {
 	         InstructorAccountRequestResultPageData pageData = new InstructorAccountRequestResultPageData(name,
 	                                                                 university, country, email, url, comments);
 
-	            statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
-	                            + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
-
 	            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_ACCOUNT_REQUEST_RESULT, pageData);
-
-	        } catch (EnrollException | InvalidParametersException e) {
-	            setStatusForException(e);
-
-	            statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
-
-	            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
-
-	            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
-	        } catch (EntityAlreadyExistsException e) {
-	            setStatusForException(e);
-
-	            statusToUser.add(
-	                    new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
-	                                      + "the previous enrollment action was still being processed by TEAMMATES database "
-	                                      + "servers. Please try again after about 10 minutes. If the problem persists, "
-	                                      + "please contact TEAMMATES support", StatusMessageColor.DANGER));
-
-	            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
-
-	            log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
-	            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
-	        }
 	    }
-
-
+	 }
 }
