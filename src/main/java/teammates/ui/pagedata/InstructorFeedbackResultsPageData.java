@@ -1400,7 +1400,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 bundle.feedbackSession,
                                                 Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                 instructor,
-                                                "btn-primary btn-block", true);
+                                                "btn-primary btn-block");
     }
 
     private List<FeedbackResponseCommentRow> buildResponseComments(String giverName, String recipientName,

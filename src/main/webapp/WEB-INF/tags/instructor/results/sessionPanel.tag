@@ -61,7 +61,7 @@
                         </form>
                         <br>
                         <div>
-                            <f:feedbackSessionPublishButton buttonType="${sessionPanel.feedbackSessionPublishButton.buttonType}"
+                            <f:feedbackSessionPublishButton buttonType="btn ${sessionPanel.feedbackSessionPublishButton.buttonType}"
                                                             publishButton="${sessionPanel.feedbackSessionPublishButton}" 
                                                             showButtonAndTooltip="true" />
                         </div>

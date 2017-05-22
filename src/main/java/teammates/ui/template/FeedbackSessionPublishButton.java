@@ -15,12 +15,11 @@ public class FeedbackSessionPublishButton {
     private String actionName;
     private String actionLink;
     private boolean actionAllowed;
-    private boolean showButtonAndTooltip;
 
     private String buttonType;
 
     public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, String returnUrl,
-                                        InstructorAttributes instructor, String buttonType, boolean showButtonAndTooltip) {
+                                        InstructorAttributes instructor, String buttonType) {
         String courseId = session.getCourseId();
         this.feedbackSessionName = session.getFeedbackSessionName();
         this.isSendingPublishedEmail = session.isPublishedEmailEnabled();
@@ -45,7 +44,6 @@ public class FeedbackSessionPublishButton {
         }
 
         this.buttonType = buttonType;
-        this.showButtonAndTooltip = showButtonAndTooltip;
     }
 
     public String getTooltipText() {
@@ -78,10 +76,6 @@ public class FeedbackSessionPublishButton {
 
     public String getButtonType() {
         return buttonType;
-    }
-
-    public boolean getshowButtonAndTooltip() {
-        return showButtonAndTooltip;
     }
 
 }

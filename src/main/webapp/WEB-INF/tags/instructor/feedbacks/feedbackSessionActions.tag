@@ -93,8 +93,8 @@
          data-toggle="tooltip"
          data-placement="top"
          style="display: inline-block; padding-right: 5px;">
-        <div class="btn-group margin-bottom-2px">
-            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
+        <div class="btn-group margin-bottom-7px">
+            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"
                href="${actions.resultsLink}">
                 Results
             </a>
@@ -106,13 +106,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a class="btn-tm-actions session-view-for-test margin-bottom-7px"
+                    <a class="session-view-for-test"
                      href="${actions.resultsLink}">
                       View Results
                   </a>
                 </li>
                 <li>
-                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs margin-bottom-7px" showButtonAndTooltip="false"/>
+                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="" showButtonAndTooltip="false"/>
                 </li>
             </ul>
         </div>
