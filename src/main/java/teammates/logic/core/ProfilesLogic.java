@@ -1,5 +1,7 @@
 package teammates.logic.core;
 
+import java.util.List;
+
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -43,6 +45,15 @@ public final class ProfilesLogic {
 
     public void updateStudentProfilePicture(String googleId, String newPictureKey) throws EntityDoesNotExistException {
         profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
+    }
+
+    /**
+     * Gets all student profiles in the Datastore.
+     * @deprecated Not scalable. Use only for admin features.
+     */
+    @Deprecated
+    public List<StudentProfileAttributes> getAllStudentProfiles() {
+        return profilesDb.getAllStudentProfiles();
     }
 
 }
