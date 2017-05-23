@@ -54,7 +54,7 @@ public final class FeedbackResponseCommentsLogic {
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
-            return frcDb.createEntity(frComment);
+            return frcDb.createFeedbackResponseComment(frComment);
         } catch (EntityAlreadyExistsException e) {
             try {
 
