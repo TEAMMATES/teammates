@@ -156,11 +156,6 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         log.info(entityToDelete.getBackupIdentifier());
     }
 
-    protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
-        ofy().delete().entity(entityToDelete).now();
-        log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
-    }
-
     public void deleteEntities(Collection<A> entitiesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
@@ -175,6 +170,11 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         }
 
         ofy().delete().keys(keysToDelete).now();
+    }
+
+    protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
+        ofy().delete().entity(entityToDelete).now();
+        log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
     }
 
     protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
