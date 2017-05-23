@@ -123,27 +123,59 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
 ### Manual Setup
 
-1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
+1. Import the project as a Gradle project as follows:
+   1. If you have no current projects open, click `Import Project`.  
+       **OR**  
+       If you currently have projects open, click `New | Project from Existing Sources...`.
+   1. Select the local repository folder and click `Open`.
+   1. Select `Import project from external model` and then `Gradle`.
+   1. Click `Next`.
+   1. Check `Use auto-import` and uncheck `Create separate module per source set`.
+   1. Ensure `Create directories for empty content root automatically` is unchecked.
+   1. Ensure `Use default gradle wrapper` is selected.
+   1. Ensure for `Gradle JVM:` that a JDK 7 with a name of `1.7` is selected.
+   1. Click `Finish`.
+   1. Create a `build` folder in your project root if it does not exist while waiting for IntelliJ to finish indexing.
+   1. Go to `File → Project Structure... → Modules`.
+      Click on the `teammates` module, then under `Sources`, click on the `build` folder and click `Excluded` and then `OK`.
+   1. You should see a dialog box with the message:   
+      `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`.
+      **OR**\
+      `Frameworks detected: OSGi, Google App Engine, Web, JPA frameworks are detected in the project`.\
+      Click `Configure`, ensure that there is only `Google App Engine` and `JPA` frameworks being shown, otherwise make
+      sure you have excluded the `build` folder in your `teammates` module. Then click `OK`.
+	  > If you missed the dialog box, go to `View → Tool Windows → Event Log`.
+	  You should see the same message as the dialog box, click `Configure` and then `OK`.
+   
+1. Configure the project settings as follows:
 
-1. Configure IntelliJ as follows:
-   * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `Configure → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
-   * Text Encoding: Go to `Configure → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
-   * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `Configure → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
+   #### Indentation
+   In TEAMMATES, we have standards defined for indentation.
+   See [Coding standards in Supplementary documents](README.md#supplementary-documents). 
+   1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.  
+   1. Go to `Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `JSON`, `CSS` and `XML`.  
+   1. Ensure that `Tab size:`, `Indent:` and `Continuation indent:` are `4`, `4` and `8` respectively for the different languages.
+   1. Ensure `HTML` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
+   1. Ensure `JSP` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
 
-1. Import the project into IntelliJ.
-   * Click `Import project` and select the local repository folder.
-   * Click `Import project from external model → Gradle`.
-   * Click `Next`.
-   * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
-   * Click `Finish`.
+   #### Text Encoding
+   Go to `Editor → File Encodings` and ensure that  `Project Encoding` and
+      `Default Encoding for properties files` is set to `UTF-8`.
 
-1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
+   #### Javascript
+   Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
+   
+   #### Additional Build Tasks
+   1. Open `View → Tool Windows → Gradle`.
+   1. Under `Tasks → intellij idea setup`, look for the task `enhanceIntellijOutputClasses`.
+   1. Right click and select `Execute After Build`.
 
-1. Run this command to set up the necessary configuration files for IntelliJ:
+1. Click `OK`.
+
+1. Run this command to set up the run configurations for IntelliJ:
 
    ```sh
-   ./gradlew setupIntellij
+   ./gradlew setupIntellijRunConfigs
    ```
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
