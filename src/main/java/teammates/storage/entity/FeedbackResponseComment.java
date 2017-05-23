@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,9 +51,9 @@ public class FeedbackResponseComment extends BaseEntity {
     /** Response receiver section. */
     private String receiverSection;
 
-    private List<FeedbackParticipantType> showCommentTo;
+    private List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
 
-    private List<FeedbackParticipantType> showGiverNameTo;
+    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<FeedbackParticipantType>();
 
     private Boolean isVisibilityFollowingFeedbackQuestion;
 
@@ -89,8 +90,8 @@ public class FeedbackResponseComment extends BaseEntity {
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
-        this.showCommentTo = showCommentTo;
-        this.showGiverNameTo = showGiverNameTo;
+        this.showCommentTo = showCommentTo == null ? new ArrayList<FeedbackParticipantType>() : showCommentTo;
+        this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = false;
         this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
         this.lastEditedAt = lastEditedAt == null ? createdAt : lastEditedAt;

@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,11 +60,11 @@ public class FeedbackQuestion extends BaseEntity {
     // (i.e. if type is own team, numberOfEntities must = 1).
     private int numberOfEntitiesToGiveFeedbackTo;
 
-    private List<FeedbackParticipantType> showResponsesTo;
+    private List<FeedbackParticipantType> showResponsesTo = new ArrayList<FeedbackParticipantType>();
 
-    private List<FeedbackParticipantType> showGiverNameTo;
+    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<FeedbackParticipantType>();
 
-    private List<FeedbackParticipantType> showRecipientNameTo;
+    private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
 
     private Date createdAt;
 
@@ -94,9 +95,10 @@ public class FeedbackQuestion extends BaseEntity {
         this.giverType = giverType;
         this.recipientType = recipientType;
         this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
-        this.showResponsesTo = showResponsesTo;
-        this.showGiverNameTo = showGiverNameTo;
-        this.showRecipientNameTo = showRecipientNameTo;
+        this.showResponsesTo = showResponsesTo == null ? new ArrayList<FeedbackParticipantType>() : showResponsesTo;
+        this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
+        this.showRecipientNameTo =
+                showRecipientNameTo == null ? new ArrayList<FeedbackParticipantType>() : showRecipientNameTo;
         this.setCreatedAt(new Date());
     }
 

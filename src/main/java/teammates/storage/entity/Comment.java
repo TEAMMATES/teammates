@@ -1,6 +1,8 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +45,7 @@ public class Comment extends BaseEntity {
      * recipients' email; if it's TEAM, it stands for the
      * team id; if it's COURSE, it will store the course
      * id. */
-    private Set<String> recipients;
+    private Set<String> recipients = new HashSet<String>();
 
     /** The comment's status. */
     private CommentStatus status;
@@ -52,11 +54,11 @@ public class Comment extends BaseEntity {
     private CommentSendingState sendingState;
 
     /** Visibility options. **/
-    private List<CommentParticipantType> showCommentTo;
+    private List<CommentParticipantType> showCommentTo = new ArrayList<CommentParticipantType>();
 
-    private List<CommentParticipantType> showGiverNameTo;
+    private List<CommentParticipantType> showGiverNameTo = new ArrayList<CommentParticipantType>();
 
-    private List<CommentParticipantType> showRecipientNameTo;
+    private List<CommentParticipantType> showRecipientNameTo = new ArrayList<CommentParticipantType>();
 
     //TODO: remove this property after data migration
     /** The receiver's email used for this comment. */
@@ -87,12 +89,13 @@ public class Comment extends BaseEntity {
         this.courseId = courseId;
         this.giverEmail = giverEmail;
         this.recipientType = recipientType;
-        this.recipients = recipients;
+        this.recipients = recipients == null ? new HashSet<String>() : recipients;
         this.status = status;
         this.sendingState = sendingState;
-        this.showCommentTo = showCommentTo;
-        this.showGiverNameTo = showGiverNameTo;
-        this.showRecipientNameTo = showRecipientNameTo;
+        this.showCommentTo = showCommentTo == null ? new ArrayList<CommentParticipantType>() : showCommentTo;
+        this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<CommentParticipantType>() : showGiverNameTo;
+        this.showRecipientNameTo =
+                showRecipientNameTo == null ? new ArrayList<CommentParticipantType>() : showRecipientNameTo;
         this.createdAt = date;
         this.commentText = SanitizationHelper.sanitizeForRichText(comment);
         this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;

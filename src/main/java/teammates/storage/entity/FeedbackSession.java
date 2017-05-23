@@ -35,10 +35,10 @@ public class FeedbackSession extends BaseEntity {
     private String creatorEmail; //TODO: should this be googleId?
 
     @Unindex
-    private Set<String> respondingInstructorList;
+    private Set<String> respondingInstructorList = new HashSet<String>();
 
     @Unindex
-    private Set<String> respondingStudentList;
+    private Set<String> respondingStudentList = new HashSet<String>();
 
     @Unindex
     private Text instructions;
@@ -134,8 +134,8 @@ public class FeedbackSession extends BaseEntity {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
-        this.respondingInstructorList = instructorList;
-        this.respondingStudentList = studentList;
+        this.respondingInstructorList = instructorList == null ? new HashSet<String>() : respondingInstructorList;
+        this.respondingStudentList = studentList == null ? new HashSet<String>() : respondingStudentList;
     }
 
     public String getFeedbackSessionName() {

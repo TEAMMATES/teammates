@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,10 +22,10 @@ public class AdminEmail extends BaseEntity {
     private Long emailId;
 
     //this stores the address string eg."example1@test.com,example2@test.com...."
-    private List<String> addressReceiver;
+    private List<String> addressReceiver = new ArrayList<String>();
 
     //this stores the blobkey string of the email list file uploaded to Google Cloud Storage
-    private List<String> groupReceiver;
+    private List<String> groupReceiver = new ArrayList<String>();
 
     private String subject;
 
@@ -52,8 +53,8 @@ public class AdminEmail extends BaseEntity {
     public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
                       Text content, Date sendDate) {
         this.emailId = null;
-        this.addressReceiver = addressReceiver;
-        this.groupReceiver = groupReceiver;
+        this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
+        this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;
         this.content = content;
         this.sendDate = sendDate;
