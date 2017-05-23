@@ -112,7 +112,7 @@
                   </a>
                 </li>
                 <li>
-                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="" showButtonAndTooltip="false"/>
+                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="" showTooltip="false"/>
                 </li>
             </ul>
         </div>
