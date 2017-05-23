@@ -850,4 +850,3 @@ task jacocoReport(type: JacocoReport) {
     }
     dependsOn jacocoMerge
 }
-
