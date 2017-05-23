@@ -483,15 +483,15 @@ public class EmailGenerator {
         to an Instructor or a Student and give the corresponding value
         to the instructorFragmentArgument variable. */
         if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, course.getId())) {
-        	instructorFragmentArgument = "<p>The email below has been sent to students of course: "
+            instructorFragmentArgument = "<p>The email below has been sent to students of course: "
                     + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
                     + SanitizationHelper.sanitizeForHtml(course.getName())
                     + ".<br>" + Const.EOL + "<br>" + Const.EOL
                     + "=== Email message as seen by the students ===</p>" + Const.EOL;
         } else {
-        	instructorFragmentArgument = "";
+            instructorFragmentArgument = "";
         }
-        
+
         emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
                 "${instructorFragment}", instructorFragmentArgument,
