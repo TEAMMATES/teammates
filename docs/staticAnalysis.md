@@ -6,6 +6,7 @@ This document will cover an overview of these tools and how to run them in local
 
 - [Version numbers](#version-numbers)
 - [Tool stack](#tool-stack)
+- [IntelliJ automatic setup](#intellij-automatic-setup)
 - [Running static analysis](#running-static-analysis)
 - [Running code coverage session](#running-code-coverage-session)
 
@@ -38,6 +39,7 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 ##### Configuring Checkstyle in IntelliJ IDEA
 
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
+You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
 
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
@@ -83,6 +85,7 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
 ##### Configuring PMD for IntelliJ
 
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
+You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
 
 1. Go to `File → Settings → Other Settings → PMD`.
 1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
@@ -100,6 +103,7 @@ The suppression should be as specific as possible, and the reason for violating 
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea).
+You can also [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA.
 
 ### Macker
 
@@ -117,6 +121,8 @@ The plugin for Eclipse can be found [here](http://eclemma.org).
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint is a Node.js package, currently not supported for Eclipse Java EE project.
+
+You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
 
 #### Installing ESLint from within IntelliJ
 
@@ -155,6 +161,17 @@ Stylelint is a Node.js package, currently not supported for Eclipse Java EE proj
 
 [blanket.js](http://blanketjs.org) measures code coverage for JavaScript test run.
 It is immediately enabled for all scripts with the `data-cover` attribute (configured via HTML) in a QUnit test run.
+
+## IntelliJ automatic setup
+1. Ensure the following plugins are installed. [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea),
+[PMDPlugin](https://plugins.jetbrains.com/plugin/1137-pmdplugin),
+[FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea),
+[NodeJS](https://plugins.jetbrains.com/plugin/6098-nodejs) (Optional)
+
+2. Run the command to setup the settings for the various plugins:
+   ```sh
+   ./gradlew setupIntellijStaticAnalysis
+   ```
 
 ## Running static analysis
 
