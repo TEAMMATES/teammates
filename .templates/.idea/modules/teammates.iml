@@ -3,10 +3,6 @@
   <component name="FacetManager">
     <facet type="google-app-engine" name="Google App Engine">
       <configuration>
-        <run-enhancer-on-make>true</run-enhancer-on-make>
-        <files-to-enhance>
-          <file path="$MODULE_DIR$/../../src/main/java/teammates/storage/entity" />
-        </files-to-enhance>
       </configuration>
     </facet>
     <facet type="jpa" name="JPA">
