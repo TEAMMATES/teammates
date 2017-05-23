@@ -2,6 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
@@ -27,6 +30,8 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfileAttributes
  */
 public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttributes> {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * Gets the datatransfer (*Attributes) version of the profile
@@ -130,6 +135,38 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
         Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
     }
 
+    @Override
+    public void deleteEntity(StudentProfileAttributes entityToDelete) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
+        Key<StudentProfile> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
+        if (keyToDelete == null) {
+            ofy().delete().keys(getEntityQueryKeysForLegacyData(entityToDelete)).now();
+        } else {
+            ofy().delete().key(keyToDelete).now();
+        }
+        log.info(entityToDelete.getBackupIdentifier());
+    }
+
+    @Override
+    public void deleteEntities(Collection<StudentProfileAttributes> entitiesToDelete) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
+
+        ArrayList<Key<StudentProfile>> keysToDelete = new ArrayList<Key<StudentProfile>>();
+        for (StudentProfileAttributes entityToDelete : entitiesToDelete) {
+            Key<StudentProfile> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
+            if (keyToDelete == null) {
+                keyToDelete = getEntityQueryKeysForLegacyData(entityToDelete).first().now();
+            }
+            if (keyToDelete == null) {
+                continue;
+            }
+            keysToDelete.add(keyToDelete);
+            log.info(entityToDelete.getBackupIdentifier());
+        }
+
+        ofy().delete().keys(keysToDelete).now();
+    }
+
     /**
      * Deletes the profile picture from GCS and
      * updates the profile entity:
@@ -231,14 +268,20 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
     protected QueryKeys<StudentProfile> getEntityQueryKeys(StudentProfileAttributes attributes) {
         Key<Account> parentKey = Key.create(Account.class, attributes.googleId);
         Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, attributes.googleId);
-        boolean hasProfile = ofy().load().type(StudentProfile.class).filterKey(childKey).keys().first().now() != null;
+        return ofy().load().type(StudentProfile.class).filterKey(childKey).keys();
+    }
 
-        if (hasProfile) {
-            return ofy().load().type(StudentProfile.class).filterKey(childKey).keys();
-        }
-
+    private QueryKeys<StudentProfile> getEntityQueryKeysForLegacyData(StudentProfileAttributes attributes) {
         Key<StudentProfile> legacyKey = Key.create(StudentProfile.class, attributes.googleId);
         return ofy().load().type(StudentProfile.class).filterKey(legacyKey).keys();
+    }
+
+    @Override
+    public boolean hasEntity(StudentProfileAttributes attributes) {
+        if (getEntityQueryKeys(attributes).first().now() != null) {
+            return true;
+        }
+        return getEntityQueryKeysForLegacyData(attributes).first().now() != null;
     }
 
     /**
