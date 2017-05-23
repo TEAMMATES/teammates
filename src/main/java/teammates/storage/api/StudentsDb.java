@@ -360,8 +360,6 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
                                      newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
             }
         }
-
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
     }
 
     @SuppressWarnings("PMD.PreserveStackTrace")
