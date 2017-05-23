@@ -236,27 +236,51 @@ task createEclipseLaunches {
     }
 }
 
-task createIntellijRunConfigs {
+String intellijSetupGroup = 'IntelliJ IDEA Setup'
+
+// IntelliJ Project Setup
+import groovy.xml.StreamingMarkupBuilder
+
+task addAppEngineSdkHomePath(dependsOn: appengineDownloadSdk) {
+    group intellijSetupGroup
     doLast {
-        def templatesToCopy = [
-                ".templates/intellijRunConfigs/All_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/All_Tests.xml",
-                ".templates/intellijRunConfigs/CI_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/CI_Tests.xml",
-                ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/Failed_Tests.xml",
-                ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/Local_Tests.xml"
-        ]
-        templatesToCopy.findAll {
-            !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
-        }.each { filename ->
-            copy {
-                from filename
-                into ".idea/runConfigurations"
-            }
+        String moduleXmlFilePath = '.idea/modules/teammates.iml'
+        Node moduleXml = new XmlParser().parse(moduleXmlFilePath)
+        Node facetComponent = (Node) (moduleXml.component.find { it.@name == 'FacetManager' })
+        Node googleAppEngineFacet = (Node) (facetComponent.find { it.@type == 'google-app-engine' })
+        Node configuration = googleAppEngineFacet.configuration[0]
+
+        NodeList sdkHomePathList = configuration.'sdk-home-path'
+        if (sdkHomePathList.size() > 1) {
+            throw new GradleException('More than one sdk-home-path found in Google App Engine Facet')
+        } else if (sdkHomePathList.size() == 1) {
+            configuration.'sdk-home-path'[0].value = System.properties['appengine.sdk.root']
+        } else {
+            List configurationChildren = configuration.children()
+            configurationChildren.add(0, new Node(null, 'sdk-home-path', null, System.properties['appengine.sdk.root']))
+        }
+
+        new File(moduleXmlFilePath).withWriter('UTF-8') { out ->
+            out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
+            def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
+            xmlNodePrinter.preserveWhitespace = true
+            xmlNodePrinter.print(moduleXml)
         }
     }
+}
+
+task copyIntelliJProjectSettings(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/.idea'
+    into '.idea'
+}
+
+task setupIntellijProject {
+    description 'Sets up an IntelliJ project'
+    group intellijSetupGroup
+
+    dependsOn copyIntelliJProjectSettings
+    finalizedBy addAppEngineSdkHomePath
 }
 
 task copyDepsToWebInfLib(type: Copy) {
@@ -288,12 +312,6 @@ task setupEclipse {
     description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
     dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
-}
-
-task setupIntellij {
-    description "Sets up the IntelliJ-specific configurations for the project."
-    group "Setup"
-    dependsOn createIntellijRunConfigs
 }
 
 // RUN SERVER TASKS
