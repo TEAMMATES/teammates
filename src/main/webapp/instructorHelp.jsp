@@ -1954,31 +1954,33 @@
                 <div class="bs-example" id="addQuestion">
                     <div class="well well-plain inputTable" id="addNewQuestionTable">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <label for="questionTypeChoice" class="control-label col-sm-4">
-                                    Question Type
-                                </label>
-                                <div class="col-sm-8">
-                                    <select class="form-control questionType" name="questiontype" id="questionTypeChoice">
-                                        <option value="TEXT">Essay question</option>
-                                        <option value="MCQ">Multiple-choice (single answer) question</option>
-                                        <option value="MSQ">Multiple-choice (multiple answers) question</option>
-                                        <option value="NUMSCALE">Numerical-scale question</option>
-                                        <option value="CONSTSUM_OPTION">Distribute points (among options) question</option>
-                                        <option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option>
-                                        <option value="CONSTSUM" style="display:none"></option>
-                                        <option value="CONTRIB">Team contribution question</option>
-                                    </select>
+                            <div class="col-sm-12 row">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button id="button_openframe" class="btn btn-primary margin-bottom-7px dropdown-toggle" type="button" data-toggle="dropdown">
+                                        Add New Question <span class="caret"></span>
+                                    </button>
+                                    <ul id="add-new-question-dropdown" class="dropdown-menu">
+                                        <li data-questiontype="TEXT"><a href="javascript:;">Essay question</a></li>
+                                        <li data-questiontype="MCQ"><a href="javascript:;"> Multiple-choice (single answer) question</a></li>
+                                        <li data-questiontype="MSQ"><a href="javascript:;">Multiple-choice (multiple answers) question</a></li>
+                                        <li data-questiontype="NUMSCALE"><a href="javascript:;">Numerical-scale question</a></li>
+                                        <li data-questiontype="CONSTSUM_OPTION"><a href="javascript:;">Distribute points (among options) question</a></li>
+                                        <li data-questiontype="CONSTSUM_RECIPIENT"><a href="javascript:;">Distribute points (among recipients) question</a></li>
+                                        <li data-questiontype="CONTRIB"><a href="javascript:;">Team contribution question</a></li>
+                                        <li data-questiontype="RUBRIC"><a href="javascript:;">Rubric question</a></li>
+                                        <li data-questiontype="RANK_OPTIONS"><a href="javascript:;">Rank (options) question</a></li>
+                                        <li data-questiontype="RANK_RECIPIENTS"><a href="javascript:;">Rank (recipients) question</a></li>
+                                    </ul>
+                                    <a target="_blank" rel="noopener noreferrer"> 
+                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                    </a> 
+                                    <a id="button_copy" class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=test%40example.com" data-fsname="hgc" data-courseid="teammates.instructor.uni-demo" data-target="#copyModal" data-toggle="modal">
+                                        Copy Question
+                                    </a>
+                                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px">
+                                        Done Editing
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <a id="button_openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-primary">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                             </div>
                         </div>
                     </div>
