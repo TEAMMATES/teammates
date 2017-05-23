@@ -449,9 +449,19 @@ task copyIntelliJProjectPluginsSettings(type: Copy) {
     into '.idea'
 }
 
+task copyStylelintConfiguration(type: Copy) {
+    group intellijSetupGroup
+    from 'static-analysis/teammates-stylelint.yml'
+    into projectDir
+    rename {
+        '.stylelintrc.yml'
+    }
+}
+
 task setupIntellijStaticAnalysis {
     description 'Sets up the static analysis plugins in the IntelliJ project'
     dependsOn copyIntelliJProjectPluginsSettings
+    finalizedBy copyStylelintConfiguration
 }
 
 task copyDepsToWebInfLib(type: Copy) {
