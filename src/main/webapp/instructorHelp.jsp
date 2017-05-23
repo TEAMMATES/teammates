@@ -2289,7 +2289,7 @@
                                 <p class="text-muted">Only the following persons can see your responses: </p>
                                 <ul class="text-muted">
 
-                                    <li class="unordered">The receiving teams can see your response, and your name.</li>
+                                    <li class="unordered">The receiving teams can see your response, but not your name.</li>
 
                                     <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
 
@@ -2297,35 +2297,51 @@
 
                                 <br>
                                 <div class="form-group margin-0">
-                                    <div class="col-sm-2 form-inline" style="text-align:right">
-                                        <label for="input">To:</label>
-                                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                                    <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                        <label for="input">To Team: </label>
+                                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                             <option value="" selected=""></option>
                                             <option value="Team 1">Team 1</option>
-                                            <option value="Team 3" style="display: none;">Team 3</option>
-
+                                            <option value="Team 2">Team 2</option>
+                                            <option value="Team 3">Team 3</option>
                                         </select>
-                                        <span> Team 1</span>
                                     </div>
-                                    <div class="col-sm-10">
-                                        <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0"></textarea>
+                                    <div class="col-sm-8">
+                                        <div id="rich-text-toolbar-response-text-container-1-0"></div>
+                                        <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
+                                        <div class="margin-top-7px text-color-gray font-weight-normal">
+                                            <div class="col-md-6 padding-0" style="display:none">
+                                                Recommended length for the answer: <span id="recommendedLength-1-0">0 </span>words
+                                            </div>
+                                            <div class="pull-right">
+                                                Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words 
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <br>
                                 <div class="form-group margin-0">
-                                    <div class="col-sm-2 form-inline" style="text-align:right">
-                                        <label for="input">To:</label>
-                                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
+                                    <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                        <label for="input">To Team: </label>
+                                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                             <option value="" selected=""></option>
-                                            <option value="Team 1" style="display: none;">Team 1</option>
+                                            <option value="Team 1">Team 1</option>
+                                            <option value="Team 2">Team 2</option>
                                             <option value="Team 3">Team 3</option>
-
                                         </select>
-                                        <span> Team 3</span>
                                     </div>
-                                    <div class="col-sm-10">
-                                        <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-1"></textarea>
+                                    <div class="col-sm-8">
+                                        <div id="rich-text-toolbar-response-text-container-1-0"></div>
+                                        <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
+                                        <div class="margin-top-7px text-color-gray font-weight-normal">
+                                            <div class="col-md-6 padding-0" style="display:none">
+                                                Recommended length for the answer: <span id="recommendedLength-1-0">0 </span>words
+                                            </div>
+                                            <div class="pull-right">
+                                                Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words 
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
