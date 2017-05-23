@@ -116,27 +116,34 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 Normally, the coverage will be run against all classes specified as the source code, but it can be configured to exclude classes matching certain name patterns.
 The plugin for Eclipse can be found [here](http://eclemma.org).
 
+### NodeJS
+ 
+NodeJS integration is supported in IntelliJ. You can use it to manage your dependencies (**optional**).
+The plugin can be found [here](https://plugins.jetbrains.com/idea/plugin/6098-nodejs).
+
 ### ESLint
 
 [ESLint](http://eslint.org) functions both to enforce coding standard and also to find potential bugs in JavaScript source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
-ESLint is a Node.js package, currently not supported for Eclipse Java EE project.
+ESLint integration is currently not supported for Eclipse.
+
+**NOTE**
+> There is a `.eslintignore` on the project root that adds all `*.js` files to be ignored.
 
 You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
 
-#### Installing ESLint from within IntelliJ
-
-1. Ensure the [NodeJS Plugin](https://plugins.jetbrains.com/idea/plugin/6098-nodejs) is installed.
-1. Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/using-javascript-code-quality-tools.html#ESLint) to install ESLint. Refer to `package.json` for the appropriate version to install.
-1. Follow the same steps outlined in the guide above to install `eslint-plugin-json`.
-
 #### Configuring ESLint for IntelliJ
 
-1. Go to `File → Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
+1. If you have not installed Node.js and ESLint, please refer to
+[install necessary tools and languages](settingUp.md#step-1-install-necessary-tools-and-languages)
+and [set up project specific settings and dependencies](settingUp.md#step-3-set-up-project-specific-settings-and-dependencies).
+1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.  
+1. Go to `Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
 1. Check the box next to `Enable`.
-1. Point `Node Interpreter` to where you installed `node.exe` (NodeJS).
-1. `ESLint Package` should already be filled in if you [installed ESLint from within IntelliJ](#installing-eslint-from-within-intellij).
-1. Point `Configuration file` to the location of `teammates-eslint.yml`.
+1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
+   `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
+1. Point `Configuration file:` to the location of `teammates-eslint.yml`.
+1. Under 'Extra eslint options:', add `--ext .es6`.
 1. Click `OK`.
 
 ##### Suppressing ESLint warnings
@@ -155,7 +162,20 @@ An example to suppress the `camelcase` rule is as follows:
 
 [Stylelint](http://stylelint.io) functions both to enforce coding standard and also to find potential bugs and sub-optimal practices in stylesheets (CSS, SCSS).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-stylelint.yml).
-Stylelint is a Node.js package, currently not supported for Eclipse Java EE project or IntelliJ.
+Stylelint integration is currently not supported for Eclipse.
+
+#### Configuring Stylelint for IntelliJ
+
+1. If you have not installed Node.js and ESLint, please refer to
+[install necessary tools and languages](settingUp.md#step-1-install-necessary-tools-and-languages)
+and [set up project specific settings and dependencies](settingUp.md#step-3-set-up-project-specific-settings-and-dependencies).
+1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.  
+1. Go to `Languages & Frameworks → Stylesheets → Stylelint`.
+1. Check the box next to `Enable`.
+1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
+   `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
+1. Click `OK`.
+1. Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
 
 ### blanket.js
 
