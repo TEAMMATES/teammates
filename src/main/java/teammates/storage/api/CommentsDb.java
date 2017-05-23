@@ -5,7 +5,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -64,12 +63,8 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
      */
     public CommentAttributes createComment(CommentAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Comment createdEntity = super.createEntity(entityToAdd);
-        if (createdEntity == null) {
-            log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
-            return null;
-        }
-        return new CommentAttributes(createdEntity);
+        return makeAttributesOrNull(createEntity(entityToAdd),
+                "Trying to get non-existent Comment, possibly entity not persistent yet.");
     }
 
     /**
@@ -90,12 +85,7 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
     public CommentAttributes getComment(Long commentId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentId);
 
-        Comment comment = getCommentEntity(commentId);
-        if (comment == null) {
-            log.info("Trying to get non-existent Comment: " + commentId);
-            return null;
-        }
-        return new CommentAttributes(comment);
+        return makeAttributesOrNull(getCommentEntity(commentId), "Trying to get non-existent Comment: " + commentId);
     }
 
     /*
@@ -103,6 +93,7 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
      */
     public CommentAttributes getComment(CommentAttributes commentToGet) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentToGet);
+
         Comment comment = null;
         if (commentToGet.getCommentId() != null) {
             comment = getCommentEntity(commentToGet.getCommentId());
@@ -111,11 +102,8 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
             comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                                        commentToGet.recipients, commentToGet.createdAt);
         }
-        if (comment == null) {
-            log.info("Trying to get non-existent Comment: " + commentToGet);
-            return null;
-        }
-        return new CommentAttributes(comment);
+
+        return makeAttributesOrNull(comment, "Trying to get non-existent Comment: " + commentToGet);
     }
 
     /*
@@ -197,13 +185,11 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<Comment> comments = getCommentEntitiesForSendingState(courseId, oldState);
-
         for (Comment comment : comments) {
             comment.setSendingState(newState);
         }
 
-        ofy().save().entities(comments).now();
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+        saveEntities(comments);
     }
 
     /**
@@ -250,11 +236,8 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
         comment.setLastEditorEmail(newAttributes.giverEmail);
         comment.setLastEditedAt(newAttributes.createdAt);
 
-        ofy().save().entity(comment).now();
-
-        CommentAttributes updatedComment = new CommentAttributes(comment);
-        log.info(updatedComment.getBackupIdentifier());
-        return updatedComment;
+        saveEntity(comment);
+        return makeAttributes(comment);
     }
 
     /*
@@ -279,8 +262,7 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
             giverComment.setGiverEmail(updatedInstrEmail);
         }
 
-        ofy().save().entities(giverComments).now();
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+        saveEntities(giverComments);
     }
 
     /*
@@ -294,7 +276,7 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
             lastEditorComment.setLastEditorEmail(updatedInstrEmail);
         }
 
-        ofy().save().entities(lastEditorComments).now();
+        saveEntities(lastEditorComments);
         log.info("updating last editor email from: " + oldInstrEmail + " to: " + updatedInstrEmail
                  + " for student comments in the course: " + courseId);
     }
@@ -321,8 +303,7 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
             recipientComment.getRecipients().add(updatedStudentEmail);
         }
 
-        ofy().save().entities(recipientComments).now();
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+        saveEntities(recipientComments);
     }
 
     @Override
@@ -568,11 +549,10 @@ public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
                 .first().now();
     }
 
-    private List<CommentAttributes> makeAttributes(List<Comment> comments) {
-        List<CommentAttributes> commentAttributesList = new LinkedList<CommentAttributes>();
-        for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
-        }
-        return commentAttributesList;
+    @Override
+    protected CommentAttributes makeAttributes(Comment entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new CommentAttributes(entity);
     }
 }

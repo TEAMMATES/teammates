@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +17,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
@@ -30,8 +28,6 @@ import teammates.storage.entity.StudentProfile;
  * @see AccountAttributes
  */
 public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
-
-    private static final Logger log = Logger.getLogger();
     private ProfilesDb profilesDb = new ProfilesDb();
 
     /**
@@ -107,18 +103,7 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
      */
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-
-        if (googleId.isEmpty()) {
-            return null;
-        }
-
-        Account a = getAccountEntity(googleId, retrieveStudentProfile);
-
-        if (a == null) {
-            return null;
-        }
-
-        return new AccountAttributes(a);
+        return googleId.isEmpty() ? null : makeAttributesOrNull(getAccountEntity(googleId, retrieveStudentProfile));
     }
 
     public AccountAttributes getAccount(String googleId) {
@@ -130,15 +115,7 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
      *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
-        List<Account> accountsList = ofy().load().type(Account.class).filter("isInstructor =", true).list();
-
-        List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
-
-        for (Account a : accountsList) {
-            instructorsAccountData.add(new AccountAttributes(a));
-        }
-
-        return instructorsAccountData;
+        return makeAttributes(ofy().load().type(Account.class).filter("isInstructor =", true).list());
     }
 
     /**
@@ -183,8 +160,7 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
                 ofy().save().entity(updatedStudentProfile).now();
             }
         }
-        log.info(a.getBackupIdentifier());
-        ofy().save().entity(accountToUpdate).now();
+        saveEntity(accountToUpdate, a);
     }
 
     public void updateAccount(AccountAttributes a)
@@ -217,10 +193,10 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
             if (!pictureKey.getKeyString().isEmpty()) {
                 deletePicture(pictureKey);
             }
-            profilesDb.deleteEntityDirect(studentProfile, new StudentProfileAttributes(studentProfile));
+            profilesDb.deleteEntityDirect(studentProfile);
         }
 
-        deleteEntityDirect(accountToDelete, new AccountAttributes(accountToDelete));
+        deleteEntityDirect(accountToDelete);
     }
 
     public void deleteAccounts(Collection<AccountAttributes> accounts) {
@@ -255,5 +231,12 @@ public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
     protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
         Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
         return ofy().load().type(Account.class).filterKey(keyToFind).keys();
+    }
+
+    @Override
+    protected AccountAttributes makeAttributes(Account entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new AccountAttributes(entity);
     }
 }

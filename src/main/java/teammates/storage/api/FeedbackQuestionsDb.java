@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +16,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -28,8 +26,6 @@ import teammates.storage.entity.FeedbackQuestion;
  */
 public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-
-    private static final Logger log = Logger.getLogger();
 
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
             throws InvalidParametersException {
@@ -53,21 +49,13 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackQuestionId);
-
-        if (fq == null) {
-            log.info("Trying to get non-existent Question: " + feedbackQuestionId);
-            return null;
-        }
-
-        return new FeedbackQuestionAttributes(fq);
+        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId),
+                "Trying to get non-existent Question: " + feedbackQuestionId);
     }
 
     public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
             FeedbackQuestionAttributes entityToAdd) throws InvalidParametersException {
-        FeedbackQuestion feedbackQuestion = createEntityWithoutExistenceCheck(entityToAdd);
-
-        return new FeedbackQuestionAttributes(feedbackQuestion);
+        return makeAttributes(createEntityWithoutExistenceCheck(entityToAdd));
     }
 
     /**
@@ -83,16 +71,8 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionNumber);
 
-        FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackSessionName,
-                courseId, questionNumber);
-
-        if (fq == null) {
-            log.info("Trying to get non-existent Question: "
-                     + questionNumber + "." + feedbackSessionName + "/" + courseId);
-            return null;
-        }
-
-        return new FeedbackQuestionAttributes(fq);
+        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber),
+                "Trying to get non-existent Question: " + questionNumber + "." + feedbackSessionName + "/" + courseId);
     }
 
     /**
@@ -105,9 +85,7 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForSession(
-                feedbackSessionName, courseId);
-        return getListOfQuestionAttributes(questions);
+        return makeAttributes(getFeedbackQuestionEntitiesForSession(feedbackSessionName, courseId));
     }
 
     /**
@@ -121,9 +99,7 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverType);
 
-        List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForGiverType(
-                feedbackSessionName, courseId, giverType);
-        return getListOfQuestionAttributes(questions);
+        return makeAttributes(getFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType));
     }
 
     /**
@@ -134,18 +110,7 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForCourse(courseId);
-        return getListOfQuestionAttributes(questions);
-    }
-
-    private List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {
-        List<FeedbackQuestionAttributes> questionAttributes = new ArrayList<FeedbackQuestionAttributes>();
-
-        for (FeedbackQuestion question : questions) {
-            questionAttributes.add(new FeedbackQuestionAttributes(question));
-        }
-
-        return questionAttributes;
+        return makeAttributes(getFeedbackQuestionEntitiesForCourse(courseId));
     }
 
     /**
@@ -174,7 +139,6 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
 
         // TODO: Sanitize values and update tests accordingly
@@ -186,8 +150,7 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
         FeedbackQuestion fq = getEntity(newAttributes);
 
         if (fq == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
 
         fq.setQuestionNumber(newAttributes.questionNumber);
@@ -204,18 +167,7 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
         //set true to prevent changes to last update timestamp
         fq.keepUpdateTimestamp = keepUpdateTimestamp;
 
-        log.info(newAttributes.getBackupIdentifier());
-        ofy().save().entity(fq).now();
-    }
-
-    @Override
-    public void deleteEntity(FeedbackQuestionAttributes entityToDelete) {
-        Key<FeedbackQuestion> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
-        if (keyToDelete == null) {
-            return;
-        }
-        log.info(entityToDelete.getBackupIdentifier());
-        ofy().delete().key(keyToDelete).now();
+        saveEntity(fq, newAttributes);
     }
 
     public void deleteFeedbackQuestionsForCourse(String courseId) {
@@ -230,15 +182,18 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
         ofy().delete().keys(ofy().load().type(FeedbackQuestion.class).filter("courseId in", courseIds).keys()).now();
     }
 
-    // Gets a question entity if it's Key (feedbackQuestionId) is known.
+    // Gets a question entity if its Key (feedbackQuestionId) is known.
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
+        Long id;
         try {
-            return ofy().load().type(FeedbackQuestion.class).id(Long.valueOf(feedbackQuestionId)).now();
+            id = Long.valueOf(feedbackQuestionId);
         } catch (NumberFormatException e) {
             return null;
         }
+
+        return ofy().load().type(FeedbackQuestion.class).id(id).now();
     }
 
     // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
@@ -276,23 +231,18 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
 
     @Override
     protected FeedbackQuestion getEntity(FeedbackQuestionAttributes attributes) {
-        FeedbackQuestionAttributes feedbackQuestionToGet = attributes;
-
-        if (feedbackQuestionToGet.getId() != null) {
-            return getFeedbackQuestionEntity(feedbackQuestionToGet.getId());
+        if (attributes.getId() != null) {
+            return getFeedbackQuestionEntity(attributes.getId());
         }
 
-        return getFeedbackQuestionEntity(
-                feedbackQuestionToGet.feedbackSessionName,
-                feedbackQuestionToGet.courseId,
-                feedbackQuestionToGet.questionNumber);
+        return getFeedbackQuestionEntity(attributes.feedbackSessionName, attributes.courseId, attributes.questionNumber);
     }
 
     @Override
     protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
         String id = attributes.getId();
-        Query<FeedbackQuestion> query;
 
+        Query<FeedbackQuestion> query;
         if (id == null) {
             query = ofy().load().type(FeedbackQuestion.class)
                     .filter("feedbackSessionName =", attributes.feedbackSessionName)
@@ -307,7 +257,9 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
     }
 
     @Override
-    public boolean hasEntity(FeedbackQuestionAttributes attributes) {
-        return getEntityQueryKeys(attributes).first().now() != null;
+    protected FeedbackQuestionAttributes makeAttributes(FeedbackQuestion entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new FeedbackQuestionAttributes(entity);
     }
 }

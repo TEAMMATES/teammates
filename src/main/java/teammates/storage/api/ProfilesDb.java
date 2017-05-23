@@ -5,7 +5,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -39,12 +38,7 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
      * profile was not found
      */
     public StudentProfileAttributes getStudentProfile(String accountGoogleId) {
-        StudentProfile sp = getStudentProfileEntityFromDb(accountGoogleId);
-        if (sp == null) {
-            return null;
-        }
-
-        return new StudentProfileAttributes(sp);
+        return makeAttributesOrNull(getStudentProfileEntityFromDb(accountGoogleId));
     }
 
     /**
@@ -55,7 +49,6 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
     // TODO: update the profile with whatever given values are valid and ignore those that are not valid.
     public void updateStudentProfile(StudentProfileAttributes newSpa)
             throws InvalidParametersException, EntityDoesNotExistException {
-
         validateNewProfile(newSpa);
 
         StudentProfile profileToUpdate = getCurrentProfileFromDb(newSpa.googleId);
@@ -66,16 +59,15 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
         updateProfileWithNewValues(newSpa, profileToUpdate);
     }
 
-    private void validateNewProfile(StudentProfileAttributes newSpa)
-            throws InvalidParametersException {
+    private void validateNewProfile(StudentProfileAttributes newSpa) throws InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSpa);
+
         if (!newSpa.isValid()) {
             throw new InvalidParametersException(newSpa.getInvalidityInfo());
         }
     }
 
-    private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa,
-            StudentProfile profileToUpdate) {
+    private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
         StudentProfileAttributes newSpaCopy = newSpa.getCopy();
         StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
 
@@ -83,10 +75,9 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
         return existingProfile.toString().equals(newSpaCopy.toString());
     }
 
-    private void updateProfileWithNewValues(StudentProfileAttributes newSpa,
-            StudentProfile profileToUpdate) {
-
+    private void updateProfileWithNewValues(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
         newSpa.sanitizeForSaving();
+
         profileToUpdate.setShortName(newSpa.shortName);
         profileToUpdate.setEmail(newSpa.email);
         profileToUpdate.setInstitute(newSpa.institute);
@@ -97,12 +88,11 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
 
         boolean hasNewNonEmptyPictureKey = !newSpa.pictureKey.isEmpty()
                 && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-
         if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
 
-        ofy().save().entity(profileToUpdate).now();
+        saveEntity(profileToUpdate);
     }
 
     /**
@@ -110,40 +100,35 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
      * Deletes existing picture if key is different and updates
      * modifiedDate
      */
-    public void updateStudentProfilePicture(String googleId,
-            String newPictureKey) throws EntityDoesNotExistException {
+    public void updateStudentProfilePicture(String googleId, String newPictureKey) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newPictureKey);
+        Assumption.assertNotEmpty("GoogleId is empty", googleId);
+        Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
 
-        validateParametersForUpdatePicture(googleId, newPictureKey);
         StudentProfile profileToUpdate = getCurrentProfileFromDb(googleId);
 
         boolean hasNewNonEmptyPictureKey = !newPictureKey.isEmpty()
                 && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
-
         if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
             profileToUpdate.setModifiedDate(new Date());
         }
 
-        ofy().save().entity(profileToUpdate).now();
-    }
-
-    private void validateParametersForUpdatePicture(String googleId,
-            String newPictureKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newPictureKey);
-        Assumption.assertNotEmpty("GoogleId is empty", googleId);
-        Assumption.assertNotEmpty("PictureKey is empty", newPictureKey);
+        saveEntity(profileToUpdate);
     }
 
     @Override
     public void deleteEntity(StudentProfileAttributes entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
+
         Key<StudentProfile> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
         if (keyToDelete == null) {
             ofy().delete().keys(getEntityQueryKeysForLegacyData(entityToDelete)).now();
         } else {
             ofy().delete().key(keyToDelete).now();
         }
+
         log.info(entityToDelete.getBackupIdentifier());
     }
 
@@ -181,7 +166,7 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
             sp.setModifiedDate(new Date());
         }
 
-        ofy().save().entity(sp).now();
+        saveEntity(sp);
     }
 
     /**
@@ -191,33 +176,22 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
      */
     @Deprecated
     public List<StudentProfileAttributes> getAllStudentProfiles() {
-        List<StudentProfileAttributes> list = new LinkedList<>();
-        List<StudentProfile> entities = getStudentProfileEntities();
-
-        for (StudentProfile student : entities) {
-            list.add(new StudentProfileAttributes(student));
-        }
-        return list;
+        return makeAttributes(getStudentProfileEntities());
     }
 
     //-------------------------------------------------------------------------------------------------------
     //-------------------------------------- Helper Functions -----------------------------------------------
     //-------------------------------------------------------------------------------------------------------
 
-    private StudentProfile getCurrentProfileFromDb(String googleId)
-            throws EntityDoesNotExistException {
+    private StudentProfile getCurrentProfileFromDb(String googleId) throws EntityDoesNotExistException {
         StudentProfile profileToUpdate = getStudentProfileEntityFromDb(googleId);
-        ensureUpdatingProfileExists(googleId, profileToUpdate);
 
-        return profileToUpdate;
-    }
-
-    private void ensureUpdatingProfileExists(String googleId,
-            StudentProfile profileToUpdate) throws EntityDoesNotExistException {
         if (profileToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + googleId
                     + ThreadHelper.getCurrentThreadStack());
         }
+
+        return profileToUpdate;
     }
 
     /**
@@ -290,5 +264,12 @@ public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttr
     @Deprecated
     private List<StudentProfile> getStudentProfileEntities() {
         return ofy().load().type(StudentProfile.class).list();
+    }
+
+    @Override
+    protected StudentProfileAttributes makeAttributes(StudentProfile entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new StudentProfileAttributes(entity);
     }
 }

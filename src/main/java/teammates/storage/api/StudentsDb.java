@@ -5,7 +5,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -134,7 +133,7 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
             throws InvalidParametersException, EntityAlreadyExistsException {
         CourseStudent createdStudent = createEntity(student);
         if (hasDocument) {
-            putDocument(new StudentAttributes(createdStudent));
+            putDocument(makeAttributes(createdStudent));
         }
     }
 
@@ -149,11 +148,7 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
-        CourseStudent cs = getCourseStudentEntityForEmail(courseId, email);
-        if (cs == null) {
-            return null;
-        }
-        return new StudentAttributes(cs);
+        return makeAttributesOrNull(getCourseStudentEntityForEmail(courseId, email));
     }
 
     /**
@@ -170,7 +165,7 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
                 .filter("googleId =", googleId)
                 .first().now();
 
-        return student == null ? null : new StudentAttributes(student);
+        return makeAttributesOrNull(student);
     }
 
     /**
@@ -183,13 +178,10 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
      */
     public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
+
         try {
             String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
-            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(decryptedKey);
-            if (courseStudent == null) {
-                return null;
-            }
-            return new StudentAttributes(courseStudent);
+            return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(decryptedKey));
         } catch (InvalidParametersException e) {
             return null; // invalid registration key cannot be decrypted
         } catch (Exception e) {
@@ -366,7 +358,6 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
             } else {
                 updateStudentDetails(newName, newTeamName, newSectionName, newGoogleId,
                                      newComments, hasDocument, keepUpdateTimestamp, courseStudent, lastName);
-                ofy().save().entity(courseStudent).now();
             }
         }
 
@@ -384,7 +375,7 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
             newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
         }
 
-        StudentAttributes newCourseStudentAttributes = new StudentAttributes(newCourseStudent);
+        StudentAttributes newCourseStudentAttributes = makeAttributes(newCourseStudent);
         try {
             createStudent(newCourseStudentAttributes, hasDocument);
         } catch (EntityAlreadyExistsException e) {
@@ -406,12 +397,15 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
         courseStudent.setTeamName(newTeamName);
         courseStudent.setSectionName(newSectionName);
 
+        StudentAttributes attributes = makeAttributes(courseStudent);
+
         if (hasDocument) {
-            putDocument(new StudentAttributes(courseStudent));
+            putDocument(attributes);
         }
 
         // Set true to prevent changes to last update timestamp
         courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
+        saveEntity(courseStudent, attributes);
     }
 
     //TODO: add an updateStudent(StudentAttributes) version and make the above private
@@ -438,7 +432,7 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
         if (hasDocument) {
             CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
             if (courseStudentToDelete != null) {
-                StudentAttributes courseStudentToDeleteAttributes = new StudentAttributes(courseStudentToDelete);
+                StudentAttributes courseStudentToDeleteAttributes = makeAttributes(courseStudentToDelete);
                 deleteDocument(courseStudentToDeleteAttributes);
                 deleteEntityDirect(courseStudentToDelete, courseStudentToDeleteAttributes);
             }
@@ -601,19 +595,17 @@ public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> 
     private void deleteStudentsCascadeDocuments(List<CourseStudent> students) {
         List<StudentAttributes> studentsAttributes = new ArrayList<StudentAttributes>();
         for (CourseStudent student : students) {
-            StudentAttributes studentAttributes = new StudentAttributes(student);
+            StudentAttributes studentAttributes = makeAttributes(student);
             studentsAttributes.add(studentAttributes);
             deleteDocument(studentAttributes);
         }
         deleteEntitiesDirect(students, studentsAttributes);
     }
 
-    private List<StudentAttributes> makeAttributes(List<CourseStudent> students) {
-        List<StudentAttributes> studentAttributesList = new LinkedList<StudentAttributes>();
-        for (CourseStudent student : students) {
-            studentAttributesList.add(new StudentAttributes(student));
-        }
-        return studentAttributesList;
-    }
+    @Override
+    protected StudentAttributes makeAttributes(CourseStudent entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
+        return new StudentAttributes(entity);
+    }
 }

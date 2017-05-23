@@ -3,8 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -19,7 +17,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
 
@@ -30,8 +27,6 @@ import teammates.storage.entity.AdminEmail;
  * @see AdminEmailAttributes
  */
 public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttributes> {
-
-    private static final Logger log = Logger.getLogger();
 
     public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
@@ -72,9 +67,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
         adminEmailToUpdate.setIsInTrashBin(ae.isInTrashBin);
         adminEmailToUpdate.setSendDate(ae.sendDate);
 
-        log.info(ae.getBackupIdentifier());
-        ofy().save().entity(adminEmailToUpdate).now();
-
+        saveEntity(adminEmailToUpdate, ae);
     }
 
     /**
@@ -126,9 +119,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
         adminEmailToUpdate.setIsInTrashBin(newAdminEmail.isInTrashBin);
         adminEmailToUpdate.setSendDate(newAdminEmail.sendDate);
 
-        log.info(newAdminEmail.getBackupIdentifier());
-        ofy().save().entity(adminEmailToUpdate).now();
-
+        saveEntity(adminEmailToUpdate, newAdminEmail);
     }
 
     /**
@@ -137,14 +128,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
-        List<AdminEmail> entities = getAdminEmailEntities();
-        Iterator<AdminEmail> it = entities.iterator();
-        while (it.hasNext()) {
-            list.add(new AdminEmailAttributes(it.next()));
-        }
-
-        return list;
+        return makeAttributes(getAdminEmailEntities());
     }
 
     /**
@@ -152,14 +136,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
-
-        AdminEmail matched = getAdminEmailEntity(emailId);
-
-        if (matched == null) {
-            return null;
-        }
-
-        return new AdminEmailAttributes(matched);
+        return makeAttributesOrNull(getAdminEmailEntity(emailId));
     }
 
     /**
@@ -167,14 +144,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
-
-        AdminEmail matched = getAdminEmailEntity(subject, createDate);
-
-        if (matched == null) {
-            return null;
-        }
-
-        return new AdminEmailAttributes(matched);
+        return makeAttributesOrNull(getAdminEmailEntity(subject, createDate));
     }
 
     /**
@@ -182,13 +152,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailBySubject(String subject) {
-        AdminEmail matchedEmail = getAdminEmailEntityBySubject(subject);
-
-        if (matchedEmail == null) {
-            return null;
-        }
-
-        return new AdminEmailAttributes(matchedEmail);
+        return makeAttributesOrNull(getAdminEmailEntityBySubject(subject));
     }
 
     /**
@@ -227,6 +191,7 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
 
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
+
         try {
             return ofy().load().type(AdminEmail.class).id(Long.valueOf(adminEmailId)).now();
         } catch (NumberFormatException e) {
@@ -272,12 +237,10 @@ public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttribute
         return query.keys();
     }
 
-    private List<AdminEmailAttributes> makeAttributes(List<AdminEmail> adminEmails) {
-        List<AdminEmailAttributes> adminEmailAttributesList = new LinkedList<AdminEmailAttributes>();
-        for (AdminEmail adminEmail : adminEmails) {
-            adminEmailAttributesList.add(new AdminEmailAttributes(adminEmail));
-        }
-        return adminEmailAttributesList;
-    }
+    @Override
+    protected AdminEmailAttributes makeAttributes(AdminEmail entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
+        return new AdminEmailAttributes(entity);
+    }
 }

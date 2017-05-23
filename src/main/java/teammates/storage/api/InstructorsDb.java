@@ -4,7 +4,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.search.Results;
@@ -19,7 +18,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Instructor;
@@ -34,8 +32,6 @@ import teammates.storage.search.SearchDocument;
  * @see InstructorAttributes
  */
 public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttributes> {
-
-    private static final Logger log = Logger.getLogger();
 
     /* =========================================================================
      * Methods related to Google Search API
@@ -150,7 +146,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
         }
-        InstructorAttributes createdInstructor = new InstructorAttributes(instructor);
+        InstructorAttributes createdInstructor = makeAttributes(instructor);
         putDocument(createdInstructor);
         return createdInstructor;
     }
@@ -159,36 +155,22 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      * Returns null if no matching objects.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        Instructor i = getInstructorEntityForEmail(courseId, email);
-
-        if (i == null) {
-            log.info("Trying to get non-existent Instructor: " + courseId + "/" + email);
-            return null;
-        }
-
-        return new InstructorAttributes(i);
+        return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email),
+                "Trying to get non-existent Instructor: " + courseId + "/" + email);
     }
 
     /**
      * Returns null if no matching objects.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        Instructor i = getInstructorEntityForGoogleId(courseId, googleId);
-
-        if (i == null) {
-            log.info("Trying to get non-existent Instructor: " + googleId);
-            return null;
-        }
-
-        return new InstructorAttributes(i);
+        return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId),
+                "Trying to get non-existent Instructor: " + googleId);
     }
 
     /**
@@ -204,12 +186,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
             return null;
         }
 
-        Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
-        if (instructor == null) {
-            return null;
-        }
-
-        return new InstructorAttributes(instructor);
+        return makeAttributesOrNull(getInstructorEntityForRegistrationKey(decryptedKey));
     }
 
     /**
@@ -219,6 +196,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public List<InstructorAttributes> getInstructorsForEmail(String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+
         return makeAttributes(getInstructorEntitiesForEmail(email));
     }
 
@@ -230,6 +208,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+
         return makeAttributes(getInstructorEntitiesForGoogleId(googleId, omitArchived));
     }
 
@@ -240,6 +219,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
         return makeAttributes(getInstructorEntitiesForCourse(courseId));
     }
 
@@ -257,7 +237,6 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
 
         if (!instructorAttributesToUpdate.isValid()) {
@@ -285,8 +264,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
         //TODO: make courseId+email the non-modifiable values
 
         putDocument(new InstructorAttributes(instructorToUpdate));
-        log.info(instructorAttributesToUpdate.getBackupIdentifier());
-        ofy().save().entity(instructorToUpdate).now();
+        saveEntity(instructorToUpdate, instructorAttributesToUpdate);
     }
 
     /**
@@ -294,7 +272,6 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
 
         if (!instructorAttributesToUpdate.isValid()) {
@@ -320,15 +297,13 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
 
         //TODO: make courseId+email the non-modifiable values
         putDocument(new InstructorAttributes(instructorToUpdate));
-        log.info(instructorAttributesToUpdate.getBackupIdentifier());
-        ofy().save().entity(instructorToUpdate).now();
+        saveEntity(instructorToUpdate, instructorAttributesToUpdate);
     }
 
     /**
      * Deletes the instructor specified by courseId and email.
      */
     public void deleteInstructor(String courseId, String email) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
@@ -353,6 +328,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
 
     public void deleteInstructorsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+
         deleteInstructors(getInstructorEntitiesForCourses(courseIds));
     }
 
@@ -361,6 +337,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public void deleteInstructorsForGoogleId(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+
         deleteInstructors(getInstructorEntitiesForGoogleId(googleId));
     }
 
@@ -369,6 +346,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
      */
     public void deleteInstructorsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
         deleteInstructors(getInstructorEntitiesForCourse(courseId));
     }
 
@@ -444,12 +422,11 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
                 .keys();
     }
 
-    private List<InstructorAttributes> makeAttributes(List<Instructor> instructors) {
-        List<InstructorAttributes> instructorAttributesList = new LinkedList<InstructorAttributes>();
-        for (Instructor instructor : instructors) {
-            instructorAttributesList.add(new InstructorAttributes(instructor));
-        }
-        return instructorAttributesList;
+    @Override
+    protected InstructorAttributes makeAttributes(Instructor entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new InstructorAttributes(entity);
     }
 
 }

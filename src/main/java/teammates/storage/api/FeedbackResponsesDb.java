@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -52,11 +51,7 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
      * @return Null if not found.
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
-        FeedbackResponse feedbackResponse = getFeedbackResponseEntityWithCheck(feedbackResponseId);
-        if (feedbackResponse == null) {
-            return null;
-        }
-        return new FeedbackResponseAttributes(feedbackResponse);
+        return makeAttributesOrNull(getFeedbackResponseEntityWithCheck(feedbackResponseId));
     }
 
     /**
@@ -66,12 +61,7 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
      */
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
-        FeedbackResponse feedbackResponse =
-                getFeedbackResponseEntityWithCheck(feedbackQuestionId, giverEmail, receiverEmail);
-        if (feedbackResponse == null) {
-            return null;
-        }
-        return new FeedbackResponseAttributes(feedbackResponse);
+        return makeAttributesOrNull(getFeedbackResponseEntityWithCheck(feedbackQuestionId, giverEmail, receiverEmail));
     }
 
     /**
@@ -83,12 +73,10 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
 
         FeedbackResponse fr = getFeedbackResponseEntity(feedbackResponseId);
-
         if (fr == null) {
             log.info("Trying to get non-existent response: " + feedbackResponseId + ".");
             return null;
         }
-
         return fr;
     }
 
@@ -104,11 +92,9 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiverEmail);
 
         FeedbackResponse fr = getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
-
         if (fr == null) {
-            log.warning("Trying to get non-existent response: "
-                    + feedbackQuestionId + "/" + "from: "
-                    + giverEmail + " to: " + receiverEmail);
+            log.warning("Trying to get non-existent response: " + feedbackQuestionId + "/" + "from: " + giverEmail
+                    + " to: " + receiverEmail);
             return null;
         }
         return fr;
@@ -433,8 +419,7 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
         fr.setGiverSection(newAttributes.giverSection);
         fr.setRecipientSection(newAttributes.recipientSection);
 
-        log.info(newAttributes.getBackupIdentifier());
-        ofy().save().entity(fr).now();
+        saveEntity(fr, newAttributes);
     }
 
     public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr)
@@ -694,25 +679,18 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
 
     @Override
     protected FeedbackResponse getEntity(FeedbackResponseAttributes attributes) {
-
-        FeedbackResponseAttributes feedbackResponseToGet =
-                attributes;
-
-        if (feedbackResponseToGet.getId() != null) {
-            return getFeedbackResponseEntity(feedbackResponseToGet.getId());
+        if (attributes.getId() != null) {
+            return getFeedbackResponseEntity(attributes.getId());
         }
 
-        return getFeedbackResponseEntity(
-            feedbackResponseToGet.feedbackQuestionId,
-            feedbackResponseToGet.giver,
-            feedbackResponseToGet.recipient);
+        return getFeedbackResponseEntity(attributes.feedbackQuestionId, attributes.giver, attributes.recipient);
     }
 
     @Override
     protected QueryKeys<FeedbackResponse> getEntityQueryKeys(FeedbackResponseAttributes attributes) {
         String id = attributes.getId();
-        Query<FeedbackResponse> query;
 
+        Query<FeedbackResponse> query;
         if (id == null) {
             query = ofy().load().type(FeedbackResponse.class)
                     .filter("feedbackQuestionId =", attributes.feedbackQuestionId)
@@ -726,11 +704,10 @@ public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, Feedbac
         return query.keys();
     }
 
-    private List<FeedbackResponseAttributes> makeAttributes(Collection<FeedbackResponse> feedbackResponses) {
-        List<FeedbackResponseAttributes> feedbackResponseAttributesList = new LinkedList<FeedbackResponseAttributes>();
-        for (FeedbackResponse adminEmail : feedbackResponses) {
-            feedbackResponseAttributesList.add(new FeedbackResponseAttributes(adminEmail));
-        }
-        return feedbackResponseAttributesList;
+    @Override
+    protected FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new FeedbackResponseAttributes(entity);
     }
 }

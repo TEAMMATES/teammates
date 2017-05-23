@@ -14,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 
 /**
@@ -31,8 +30,6 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
      */
 
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
-
-    private static final Logger log = Logger.getLogger();
 
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException {
         List<CourseAttributes> coursesToUpdate = createEntities(coursesToAdd);
@@ -53,27 +50,15 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
      * @return Null if not found.
      */
     public CourseAttributes getCourse(String courseId) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        Course c = getCourseEntity(courseId);
-
-        if (c == null) {
-            return null;
-        }
-
-        return new CourseAttributes(c);
+        return makeAttributesOrNull(getCourseEntity(courseId));
     }
 
     public List<CourseAttributes> getCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-        List<Course> courses = getCourseEntities(courseIds);
-        List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
-        // TODO add method to get List<CourseAttributes> from List<Course>
-        for (Course c : courses) {
-            courseAttributes.add(new CourseAttributes(c));
-        }
-        return courseAttributes;
+
+        return makeAttributes(getCourseEntities(courseIds));
     }
 
     /**
@@ -83,14 +68,7 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
      */
     @Deprecated
     public List<CourseAttributes> getAllCourses() {
-        List<Course> courseList = ofy().load().type(Course.class).list();
-
-        List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
-        for (Course c : courseList) {
-            courseDataList.add(new CourseAttributes(c));
-        }
-
-        return courseDataList;
+        return makeAttributes(ofy().load().type(Course.class).list());
     }
 
     /**
@@ -102,7 +80,6 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
      */
     public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException,
                                                                      EntityDoesNotExistException {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
 
         courseToUpdate.sanitizeForSaving();
@@ -120,9 +97,7 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
         courseEntityToUpdate.setName(courseToUpdate.getName());
         courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
 
-        ofy().save().entity(courseEntityToUpdate).now();
-
-        log.info(courseToUpdate.getBackupIdentifier());
+        saveEntity(courseEntityToUpdate, courseToUpdate);
     }
 
     /**
@@ -132,13 +107,10 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
      * <br> * {@code courseId} is not null.
      */
     public void deleteCourse(String courseId) {
-
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         // only the courseId is important here, everything else are placeholders
-        CourseAttributes entityToDelete = new CourseAttributes(courseId, "Non-existent course", "UTC");
-
-        deleteEntity(entityToDelete);
+        deleteEntity(new CourseAttributes(courseId, "Non-existent course", "UTC"));
     }
 
     @Override
@@ -162,5 +134,12 @@ public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
         }
 
         return new ArrayList<Course>(ofy().load().type(Course.class).ids(courseIds).values());
+    }
+
+    @Override
+    protected CourseAttributes makeAttributes(Course entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new CourseAttributes(entity);
     }
 }

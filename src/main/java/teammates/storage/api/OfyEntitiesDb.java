@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -54,11 +55,8 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
      * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public E createEntity(A entityToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+    public E createEntity(A entityToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
 
         entityToAdd.sanitizeForSaving();
 
@@ -77,18 +75,13 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
 
         E entity = entityToAdd.toEntity();
 
-        ofy().save().entity(entity).now();
-
-        log.info(entityToAdd.getBackupIdentifier());
+        saveEntity(entity, entityToAdd);
 
         return entity;
     }
 
-    public List<A> createEntities(Collection<A> entitiesToAdd)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+    public List<A> createEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
         List<A> entitiesToUpdate = new ArrayList<A>();
         List<E> entities = new ArrayList<E>();
@@ -113,7 +106,6 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         ofy().save().entities(entities).now();
 
         return entitiesToUpdate;
-
     }
 
     /**
@@ -122,9 +114,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
      * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public E createEntityWithoutExistenceCheck(A entityToAdd)
-            throws InvalidParametersException {
-
+    public E createEntityWithoutExistenceCheck(A entityToAdd) throws InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
 
         entityToAdd.sanitizeForSaving();
@@ -134,15 +124,32 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         }
 
         E entity = entityToAdd.toEntity();
-        ofy().save().entity(entity).now();
 
-        log.info(entityToAdd.getBackupIdentifier());
+        saveEntity(entity, entityToAdd);
 
         return entity;
     }
 
     public void saveEntity(E entityToSave) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToSave);
+
+        saveEntity(entityToSave, makeAttributes(entityToSave));
+    }
+
+    protected void saveEntity(E entityToSave, A entityToSaveAttributesForLogging) {
         ofy().save().entity(entityToSave).now();
+        log.info(entityToSaveAttributesForLogging.getBackupIdentifier());
+    }
+
+    protected void saveEntities(Collection<E> entitiesToSave) {
+        saveEntities(entitiesToSave, makeAttributes(entitiesToSave));
+    }
+
+    protected void saveEntities(Collection<E> entitiesToSave, Collection<A> entitiesToSaveAttributesForLogging) {
+        for (A attributes : entitiesToSaveAttributesForLogging) {
+            log.info(attributes.getBackupIdentifier());
+        }
+        ofy().save().entities(entitiesToSave).now();
     }
 
     // TODO: use this method for subclasses.
@@ -152,6 +159,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
      */
     public void deleteEntity(A entityToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
+
         ofy().delete().keys(getEntityQueryKeys(entityToDelete)).now();
         log.info(entityToDelete.getBackupIdentifier());
     }
@@ -159,7 +167,7 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
     public void deleteEntities(Collection<A> entitiesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
-        ArrayList<Key<E>> keysToDelete = new ArrayList<Key<E>>();
+        List<Key<E>> keysToDelete = new ArrayList<Key<E>>();
         for (A entityToDelete : entitiesToDelete) {
             Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
             if (keyToDelete == null) {
@@ -172,14 +180,22 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         ofy().delete().keys(keysToDelete).now();
     }
 
+    protected void deleteEntityDirect(E entityToDelete) {
+        deleteEntityDirect(entityToDelete, makeAttributes(entityToDelete));
+    }
+
     protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
         ofy().delete().entity(entityToDelete).now();
         log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
     }
 
+    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete) {
+        deleteEntitiesDirect(entitiesToDelete, makeAttributes(entitiesToDelete));
+    }
+
     protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
-        for (A entityAttributesToDelete : entitiesToDeleteAttributesForLogging) {
-            log.info(entityAttributesToDelete.getBackupIdentifier());
+        for (A attributes : entitiesToDeleteAttributesForLogging) {
+            log.info(attributes.getBackupIdentifier());
         }
         ofy().delete().entities(entitiesToDelete).now();
     }
@@ -188,6 +204,12 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
         GoogleCloudStorageHelper.deleteFile(key);
     }
 
+    /**
+     * NOTE: This method must be overriden for all subclasses such that it will return the
+     * Entity matching the EntityAttributes in the parameter.
+     * @return    the Entity which matches the given {@link EntityAttributes} {@code attributes}
+     *             based on the default key identifiers.
+     */
     protected abstract E getEntity(A attributes);
 
     /**
@@ -200,6 +222,30 @@ public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttrib
 
     public boolean hasEntity(A attributes) {
         return getEntityQueryKeys(attributes).first().now() != null;
+    }
+
+    protected abstract A makeAttributes(E entity);
+
+    protected A makeAttributesOrNull(E entity) {
+        return makeAttributesOrNull(entity, null);
+    }
+
+    protected A makeAttributesOrNull(E entity, String logMessage) {
+        if (entity != null) {
+            return makeAttributes(entity);
+        }
+        if (logMessage != null) {
+            log.info(logMessage);
+        }
+        return null;
+    }
+
+    protected List<A> makeAttributes(Collection<E> entities) {
+        List<A> attributes = new LinkedList<A>();
+        for (E entity : entities) {
+            attributes.add(makeAttributes(entity));
+        }
+        return attributes;
     }
 
     //the followings APIs are used by Teammates' search engine
