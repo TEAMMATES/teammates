@@ -441,6 +441,19 @@ task setupIntellijProjectSettings {
     dependsOn addIntelliJAfterBuildTask
 }
 
+// IntelliJ project static analysis plugins setup
+
+task copyIntelliJProjectPluginsSettings(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/ideaPlugins'
+    into '.idea'
+}
+
+task setupIntellijStaticAnalysis {
+    description 'Sets up the static analysis plugins in the IntelliJ project'
+    dependsOn copyIntelliJProjectPluginsSettings
+}
+
 task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
