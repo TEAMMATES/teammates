@@ -39,7 +39,8 @@ The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/
 ##### Configuring Checkstyle in IntelliJ IDEA
 
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
-You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
+
+> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
 
 1. Go to `File → Settings → Other Settings → Checkstyle`.
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
@@ -85,7 +86,8 @@ The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/
 ##### Configuring PMD for IntelliJ
 
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
-You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
+
+> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
 
 1. Go to `File → Settings → Other Settings → PMD`.
 1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
@@ -103,7 +105,8 @@ The suppression should be as specific as possible, and the reason for violating 
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea).
-You can also [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA.
+
+> You can also [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA.
 
 ### Macker
 
@@ -127,10 +130,11 @@ The plugin can be found [here](https://plugins.jetbrains.com/idea/plugin/6098-no
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint integration is currently not supported for Eclipse.
 
-**NOTE**
+**NOTE 1**
 > There is a `.eslintignore` on the project root that adds all `*.js` files to be ignored.
 
-You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
+**NOTE 2**
+> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
 
 #### Configuring ESLint for IntelliJ
 
@@ -163,6 +167,8 @@ An example to suppress the `camelcase` rule is as follows:
 [Stylelint](http://stylelint.io) functions both to enforce coding standard and also to find potential bugs and sub-optimal practices in stylesheets (CSS, SCSS).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-stylelint.yml).
 Stylelint integration is currently not supported for Eclipse.
+
+> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
 
 #### Configuring Stylelint for IntelliJ
 
