@@ -2,6 +2,7 @@ package teammates.test.cases.logic;
 
 import static teammates.common.util.Const.EOL;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -438,12 +439,19 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(2, courseList.size());
 
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertEquals(course1.getId(), courseList.get(0).getId());
-        assertEquals(course1.getName(), courseList.get(0).getName());
 
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(course2.getId(), courseList.get(1).getId());
-        assertEquals(course2.getName(), courseList.get(1).getName());
+
+        List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
+        courses.add(course1);
+        courses.add(course2);
+        CourseAttributes.sortById(courses);
+
+        assertEquals(courses.get(0).getId(), courseList.get(0).getId());
+        assertEquals(courses.get(0).getName(), courseList.get(0).getName());
+
+        assertEquals(courses.get(1).getId(), courseList.get(1).getId());
+        assertEquals(courses.get(1).getName(), courseList.get(1).getName());
 
         ______TS("student having one course");
 

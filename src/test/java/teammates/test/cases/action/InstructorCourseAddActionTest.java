@@ -1,13 +1,17 @@
 package teammates.test.cases.action;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseAddAction;
+import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
@@ -71,10 +75,10 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa1 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = getShowPageResult(addAction);
+        RedirectResult redirectResult = getRedirectResult(addAction);
 
-        pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
+        List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(2, courseList.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -86,7 +90,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                            "/page/instructorCourseEnrollPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1")
                   .replace("${courseEditLink}",
                            "/page/instructorCourseEditPage?courseid=ticac.tpa1.id&user=idOfInstructor1OfCourse1");
-        assertEquals(expected, pageResult.getStatusMessage());
+        assertEquals(expected, redirectResult.getStatusMessage());
 
         ______TS("Error: Try to add the same course again");
 
@@ -118,22 +122,21 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = getShowPageResult(addAction);
+        redirectResult = getRedirectResult(addAction);
 
-        String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
-        assertEquals(expectedDestination, pageResult.getDestinationWithParams());
-        assertFalse(pageResult.isError);
+        String expectedDestination = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
         String expectedStatus = "The course has been added. Click <a href=\"/page/instructorCourseEnrollPage?"
                                 + "courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students "
                                 + "to the course or click <a href=\"/page/instructorCourseEditPage?"
                                 + "courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add other "
                                 + "instructors.<br>If you don't see the course in the list below, please refresh "
                                 + "the page after a few moments.";
-        assertEquals(expectedStatus, pageResult.getStatusMessage());
+        assertEquals(expectedStatus, redirectResult.getStatusMessage());
 
-        pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(1, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
-
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(1, courseList.size());
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa2.id<br>Total courses: 1|||/page/instructorCourseAdd";
@@ -151,11 +154,10 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
                               Const.ParamsNames.COURSE_NAME, "ticac tpa2 name",
                               Const.ParamsNames.COURSE_TIME_ZONE, "UTC");
-        pageResult = getShowPageResult(addAction);
+        redirectResult = getRedirectResult(addAction);
 
-        pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(2, pageData.getActiveCourses().getRows().size() + pageData.getArchivedCourses().getRows().size());
-
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(2, courseList.size());
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse|||"
                              + "instructorOfArchiveCourse@archiveCourse.tmt|||Course added : ticac.tpa2.id<br>"
@@ -167,7 +169,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                          "/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse")
                 .replace("${courseEditLink}",
                          "/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse");
-        assertEquals(expected, pageResult.getStatusMessage());
+        assertEquals(expected, redirectResult.getStatusMessage());
     }
 
     @Override
