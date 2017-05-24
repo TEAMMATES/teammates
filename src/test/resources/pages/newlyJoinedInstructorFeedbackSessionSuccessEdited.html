@@ -11,16 +11,24 @@
         <div class="col-sm-12">
           <span class="pull-right">
             <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+              <span class="glyphicon glyphicon-pencil">
+              </span>
               Edit
             </a>
             <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
-              Save Changes
+              <span class="glyphicon glyphicon-ok">
+              </span>
+              Save
             </button>
             <a class="btn btn-primary btn-sm" data-course-id="AHPUiT____.instr1_.gma-demo" data-feedback-session-name="Second team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}" id="fsDeleteLink" title="">
+              <span class="glyphicon glyphicon-trash">
+              </span>
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
               <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Second team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                <span class="glyphicon glyphicon-file">
+                </span>
                 Copy
               </a>
             </span>
@@ -813,15 +821,23 @@
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
               <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,5)" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="display:none" title="">
-                Discard Changes
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -896,7 +912,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -914,7 +930,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -938,7 +954,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1258,15 +1274,23 @@
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
               <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-2" onclick="enableEdit(2,5)" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-2" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-2" onclick="discardChanges(2)" style="display:none" title="">
-                Discard Changes
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(2)" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -1344,7 +1368,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1362,7 +1386,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1386,7 +1410,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1706,15 +1730,23 @@
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
               <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-3" onclick="enableEdit(3,5)" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-3" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-3" onclick="discardChanges(3)" style="display:none" title="">
-                Discard Changes
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(3)" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -1792,7 +1824,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1810,7 +1842,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1834,7 +1866,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2145,15 +2177,23 @@
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
               <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-4" onclick="enableEdit(4,5)" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-4" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-4" onclick="discardChanges(4)" style="display:none" title="">
-                Discard Changes
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(4)" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -2228,7 +2268,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2246,7 +2286,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2270,7 +2310,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2581,15 +2621,23 @@
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
               <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-5" onclick="enableEdit(5,5)" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-5" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-5" onclick="discardChanges(5)" style="display:none" title="">
-                Discard Changes
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
               <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(5)" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -2667,7 +2715,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2685,7 +2733,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2709,7 +2757,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -3714,7 +3762,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -3732,7 +3780,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -3756,7 +3804,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)

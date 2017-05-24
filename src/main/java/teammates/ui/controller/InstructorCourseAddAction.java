@@ -26,11 +26,11 @@ public class InstructorCourseAddAction extends Action {
     @Override
     public ActionResult execute() {
         String newCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(newCourseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
-        Assumption.assertNotNull(newCourseName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_NAME, newCourseName);
         String newCourseTimeZone = getRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
-        Assumption.assertNotNull(newCourseTimeZone);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_TIME_ZONE, newCourseTimeZone);
 
         /* Check if user has the right to execute the action */
         gateKeeper.verifyInstructorPrivileges(account);
@@ -88,7 +88,8 @@ public class InstructorCourseAddAction extends Action {
 
         data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
+        return isError ? createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data)
+                : createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     private void createCourse(CourseAttributes course) {

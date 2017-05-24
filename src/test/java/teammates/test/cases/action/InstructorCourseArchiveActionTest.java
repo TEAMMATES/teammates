@@ -177,7 +177,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseArchive|||instructorCourseArchive|||true|||"
                              + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                             + "instr1@course1.tmt|||null|||/page/instructorCourseArchive";
+                             + "instr1@course1.tmt|||Unknown|||/page/instructorCourseArchive";
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
 
     }
