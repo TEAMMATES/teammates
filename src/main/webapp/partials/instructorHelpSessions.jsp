@@ -612,31 +612,33 @@
             <div class="bs-example" id="addQuestion">
                 <div class="well well-plain inputTable" id="addNewQuestionTable">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label for="questionTypeChoice" class="control-label col-sm-4">
-                                Question Type
-                            </label>
-                            <div class="col-sm-8">
-                                <select class="form-control questionType" name="questiontype" id="questionTypeChoice">
-                                    <option value="TEXT">Essay question</option>
-                                    <option value="MCQ">Multiple-choice (single answer) question</option>
-                                    <option value="MSQ">Multiple-choice (multiple answers) question</option>
-                                    <option value="NUMSCALE">Numerical-scale question</option>
-                                    <option value="CONSTSUM_OPTION">Distribute points (among options) question</option>
-                                    <option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option>
-                                    <option value="CONSTSUM" style="display:none"></option>
-                                    <option value="CONTRIB">Team contribution question</option>
-                                </select>
+                        <div class="col-sm-12 row">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button id="button_openframe" class="btn btn-primary margin-bottom-7px dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Add New Question <span class="caret"></span>
+                                </button>
+                                <ul id="add-new-question-dropdown" class="dropdown-menu">
+                                    <li data-questiontype="TEXT"><a href="javascript:;">Essay question</a></li>
+                                    <li data-questiontype="MCQ"><a href="javascript:;"> Multiple-choice (single answer) question</a></li>
+                                    <li data-questiontype="MSQ"><a href="javascript:;">Multiple-choice (multiple answers) question</a></li>
+                                    <li data-questiontype="NUMSCALE"><a href="javascript:;">Numerical-scale question</a></li>
+                                    <li data-questiontype="CONSTSUM_OPTION"><a href="javascript:;">Distribute points (among options) question</a></li>
+                                    <li data-questiontype="CONSTSUM_RECIPIENT"><a href="javascript:;">Distribute points (among recipients) question</a></li>
+                                    <li data-questiontype="CONTRIB"><a href="javascript:;">Team contribution question</a></li>
+                                    <li data-questiontype="RUBRIC"><a href="javascript:;">Rubric question</a></li>
+                                    <li data-questiontype="RANK_OPTIONS"><a href="javascript:;">Rank (options) question</a></li>
+                                    <li data-questiontype="RANK_RECIPIENTS"><a href="javascript:;">Rank (recipients) question</a></li>
+                                </ul>
+                                <a target="_blank" rel="noopener noreferrer"> 
+                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                </a> 
+                                <a id="button_copy" class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=test%40example.com" data-fsname="hgc" data-courseid="teammates.instructor.uni-demo" data-target="#copyModal" data-toggle="modal">
+                                    Copy Question
+                                </a>
+                                <a id="button_done_editing" class="btn btn-primary margin-bottom-7px">
+                                    Done Editing
+                                </a>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <a id="button_openframe" class="btn btn-primary" value="Add New Question">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-primary">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                         </div>
                     </div>
                 </div>
@@ -754,17 +756,43 @@
                                         </select> &nbsp; Essay question
                                     </span>
                                     <span class="pull-right">
-                                        <a onclick="return false" class="btn btn-primary btn-xs">Save Changes
+                                        <a onclick="return false" class="btn btn-primary btn-xs">Cancel
                                         </a>
-                                        <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                <div>
-                                    <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" tabindex="9" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Tutor's comments about the class in general</textarea>
+                                <div class="form-group" style="padding: 15px;">
+                                    <h5 class="col-sm-2">
+                                        <label class="control-label" for="questiontext--1">Question
+                                        </label>
+                                    </h5>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext--1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding: 0 15px;">
+                                    <h5 class="col-sm-2">
+                                        <label class="align-left" for="questiondescription--1">[Optional]<br>Description
+                                        </label>
+                                    </h5>
+                                    <div class="col-sm-10">
+                                        <div class="panel panel-default panel-body question-description mce-content-body content-editor empty" id="questiondescription--1" data-toggle="tooltip" data-placement="top" title="" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" tabindex="9" data-original-title="Please enter the description of the question." contenteditable="true" style="position: relative;">
+                                        </div>
+                                    </div>
+                                    <div id="textForm" style="display: block;"><div>
+                                        <br>
+                                            <div class="row">
+                                                <div class="col-xs-12 question-recommended-length">[Optional]
+                                                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The recommended length is shown to the respondent but not enforced" class="tool-tip-decorate">Recommended length
+                                                    </span> for the response:
+                                                    <input type="number" class="form-control" name="recommendedlength" value=""> words
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -774,8 +802,8 @@
                                     <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                 </div>
                                 <div class="col-sm-12 feedback-path-dropdown btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Predefined combinations:
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on
+                                        <span class="glyphicon glyphicon-arrow-right"></span> Giver's team members
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-header">Common feedback path combinations</li>
@@ -837,77 +865,6 @@
                                         <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Predefined combinations:">Other predefined combinations...</a></li>
                                     </ul>
                                 </div>
-                                <div class="feedback-path-others margin-top-7px">
-                                    <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
-                                        <label class="col-sm-4 col-lg-5 control-label">
-                                            Who will give the feedback:
-                                        </label>
-                                        <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
-                                                <option value="SELF">
-                                                Feedback session creator (i.e., me)
-                                                </option>
-                                                <option value="STUDENTS">
-                                                Students in this course
-                                                </option>
-                                                <option selected="" value="INSTRUCTORS">
-                                                Instructors in this course
-                                                </option>
-                                                <option value="TEAMS">
-                                                Teams in this course
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div data-original-title="Who the feedback is about" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
-                                        <label class="col-sm-4 col-lg-5 control-label">
-                                            Who the feedback is about:
-                                        </label>
-                                        <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
-                                                <option value="SELF">
-                                                Giver (Self feedback)
-                                                </option>
-                                                <option value="STUDENTS">
-                                                Other students in the course
-                                                </option>
-                                                <option value="INSTRUCTORS">
-                                                Instructors in the course
-                                                </option>
-                                                <option value="TEAMS">
-                                                Other teams in the course
-                                                </option>
-                                                <option value="OWN_TEAM">
-                                                Giver's team
-                                                </option>
-                                                <option value="OWN_TEAM_MEMBERS">
-                                                Giver's team members
-                                                </option>
-                                                <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                                                Giver's team members and Giver
-                                                </option>
-                                                <option selected="" value="NONE">
-                                                Nobody specific (For general class feedback)
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements1">
-                                        <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
-                                            The maximum number of <span id="numofrecipients_text_inner-1"></span> each respondent should give feedback to:
-                                        </label>
-                                        <div class="col-sm-8 form-control-static">
-                                            <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                                                <input class="nonDestructive" name="numofrecipientstype" value="custom" type="radio">
-                                                <input class="nonDestructive numberOfEntitiesBox width-75-pc" name="numofrecipients" id="numofrecipients-1" value="1" min="1" max="250" type="number">
-                                            </div>
-                                            <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                                                <input class="nonDestructive" name="numofrecipientstype" checked="" value="max" type="radio">
-                                                <span class="">Unlimited</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <br>
                             <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
@@ -916,7 +873,7 @@
                                 </div>
                                 <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Custom visibility option:
+                                        Shown anonymously to recipient, visible to instructors
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-header">Common visibility options</li>
@@ -927,6 +884,10 @@
 
                                         <li>
                                             <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient, visible to instructors</a>
+                                        </li>
+
+                                        <li>
+                                            <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient and team members, visible to instructors</a>
                                         </li>
 
                                         <li>
@@ -941,109 +902,19 @@
                                         <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility options...</a></li>
                                     </ul>
                                 </div>
-                                <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="">
-                                    <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                                        <tbody><tr>
-                                                <th class="text-center">User/Group</th>
-                                                <th class="text-center">Can see answer</th>
-                                                <th class="text-center">Can see giver's name</th>
-                                                <th class="text-center">Can see recipient's name</th>
-                                            </tr>
-                                            <tr style="display: none;">
-                                                <td class="text-left">
-                                                    <div data-original-title="Control what feedback recipient(s) can view" data-toggle="tooltip" data-placement="top" title="">
-                                                        Recipient(s)
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="RECEIVER" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="RECEIVER" disabled="" type="checkbox">
-                                                </td>
-                                            </tr>
-                                            <tr style="display: none;">
-                                                <td class="text-left">
-                                                    <div data-original-title="Control what team members of feedback giver can view" data-toggle="tooltip" data-placement="top" title="">
-                                                        Giver's Team Members
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
-                                                </td>
-                                            </tr>
-                                            <tr style="display: none;">
-                                                <td class="text-left">
-                                                    <div data-original-title="Control what team members of feedback recipients can view" data-toggle="tooltip" data-placement="top" title="">
-                                                        Recipient's Team Members
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">
-                                                    <div data-original-title="Control what other students can view" data-toggle="tooltip" data-placement="top" title="">
-                                                        Other students
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="STUDENTS" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="STUDENTS" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="STUDENTS" type="checkbox">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">
-                                                    <div data-original-title="Control what instructors can view" data-toggle="tooltip" data-placement="top" title="">
-                                                        Instructors
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
-                                                </td>
-                                                <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
-                                                </td>
-                                            </tr>
-                                        </tbody></table>
-                                </div>
                                 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                                 <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
                                     This is the visibility hint as seen by the feedback giver:
                                     <ul class="text-muted background-color-warning">
 
-                                        <li>Instructors in this course can see your response, and your name.</li>
-
+                                        <li>The receiving student can see your response, but not your name.</li>
+                                        <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
                                     </ul>
                                 </div>
                             </div>
                             <div>
                                 <span class="pull-right">
-                                    <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
+                                    <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Question" tabindex="0" style="">
                                 </span>
                             </div>
                         </div>
@@ -1076,7 +947,7 @@
                             <p class="text-muted">Only the following persons can see your responses: </p>
                             <ul class="text-muted">
 
-                                <li class="unordered">The receiving teams can see your response, and your name.</li>
+                                <li class="unordered">The receiving teams can see your response, but not your name.</li>
 
                                 <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
 
@@ -1084,35 +955,51 @@
 
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right">
-                                    <label for="input">To:</label>
-                                    <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                                <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                    <label for="input">To Team: </label>
+                                    <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                         <option value="" selected=""></option>
                                         <option value="Team 1">Team 1</option>
-                                        <option value="Team 3" style="display: none;">Team 3</option>
-
+                                        <option value="Team 2">Team 2</option>
+                                        <option value="Team 3">Team 3</option>
                                     </select>
-                                    <span> Team 1</span>
                                 </div>
-                                <div class="col-sm-10">
-                                    <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0"></textarea>
+                                <div class="col-sm-8">
+                                    <div id="rich-text-toolbar-response-text-container-1-0"></div>
+                                    <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
+                                    <div class="margin-top-7px text-color-gray font-weight-normal">
+                                        <div class="col-md-6 padding-0" style="display:none">
+                                            Recommended length for the answer: <span id="recommendedLength-1-0">0 </span>words
+                                        </div>
+                                        <div class="pull-right">
+                                            Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right">
-                                    <label for="input">To:</label>
-                                    <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
+                                <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                    <label for="input">To Team: </label>
+                                    <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                         <option value="" selected=""></option>
-                                        <option value="Team 1" style="display: none;">Team 1</option>
+                                        <option value="Team 1">Team 1</option>
+                                        <option value="Team 2">Team 2</option>
                                         <option value="Team 3">Team 3</option>
-
                                     </select>
-                                    <span> Team 3</span>
                                 </div>
-                                <div class="col-sm-10">
-                                    <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-1"></textarea>
+                                <div class="col-sm-8">
+                                    <div id="rich-text-toolbar-response-text-container-1-0"></div>
+                                    <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
+                                    <div class="margin-top-7px text-color-gray font-weight-normal">
+                                        <div class="col-md-6 padding-0" style="display:none">
+                                            Recommended length for the answer: <span id="recommendedLength-1-0">0 </span>words
+                                        </div>
+                                        <div class="pull-right">
+                                            Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1315,92 +1202,6 @@
                                         <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Predefined combinations:">Other predefined combinations...</a></li>
                                     </ul>
                                 </div>
-                                <div class="feedback-path-others margin-top-7px" style="">
-                                    <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
-                                        <label class="col-sm-4 col-lg-5 control-label">
-                                            Who will give the feedback:
-                                        </label>
-                                        <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-
-                                                <option value="SELF">
-                                                Feedback session creator (i.e., me)
-                                                </option>
-
-                                                <option selected="" value="STUDENTS">
-                                                Students in this course
-                                                </option>
-
-                                                <option value="INSTRUCTORS">
-                                                Instructors in this course
-                                                </option>
-
-                                                <option value="TEAMS">
-                                                Teams in this course
-                                                </option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div data-original-title="Who the feedback is about" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
-                                        <label class="col-sm-4 col-lg-5 control-label">
-                                            Who the feedback is about:
-                                        </label>
-                                        <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-
-                                                <option value="SELF">
-                                                Giver (Self feedback)
-                                                </option>
-
-                                                <option value="STUDENTS">
-                                                Other students in the course
-                                                </option>
-
-                                                <option value="INSTRUCTORS">
-                                                Instructors in the course
-                                                </option>
-
-                                                <option value="TEAMS">
-                                                Other teams in the course
-                                                </option>
-
-                                                <option value="OWN_TEAM">
-                                                Giver's team
-                                                </option>
-
-                                                <option selected="" style="display: block;" value="OWN_TEAM_MEMBERS">
-                                                Giver's team members
-                                                </option>
-
-                                                <option style="display: block;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                                                Giver's team members and Giver
-                                                </option>
-
-                                                <option value="NONE">
-                                                Nobody specific (For general class feedback)
-                                                </option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
-                                        <label class="control-label col-sm-4 small">
-                                            The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
-                                        </label>
-                                        <div class="col-sm-8 form-control-static">
-                                            <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                                                <input class="nonDestructive" name="numofrecipientstype" value="custom" type="radio">
-                                                <input class="nonDestructive numberOfEntitiesBox width-75-pc" name="numofrecipients" value="1" min="1" max="250" type="number">
-                                            </div>
-                                            <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                                                <input class="nonDestructive" name="numofrecipientstype" checked="" value="max" type="radio">
-                                                <span class="">Unlimited</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <br>
                             <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                 <div class="col-sm-12 padding-0 margin-bottom-7px">

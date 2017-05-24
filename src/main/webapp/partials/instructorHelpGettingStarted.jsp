@@ -32,6 +32,29 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Time Zone:</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="coursetimezone" id="coursetimezone" tabindex="3" placeholder="Select a time zone...">
+                                        <option value="">Select a time zone...</option>
+                                        <option value="Africa/Abidjan">Africa/Abidjan (UTC)</option>
+                                        <option value="Africa/Accra">Africa/Accra (UTC)</option>
+                                        <option value="Africa/Addis_Ababa">Africa/Addis_Ababa (UTC +03:00)</option>
+                                        <option value="Africa/Algiers">Africa/Algiers (UTC +01:00)</option>
+                                        <option value="Africa/Asmara">Africa/Asmara (UTC +03:00)</option>
+                                        <option value="Africa/Asmera">Africa/Asmera (UTC +03:00)</option>
+                                        <option value="Africa/Bamako">Africa/Bamako (UTC)</option>
+                                        <option value="Africa/Bangui">Africa/Bangui (UTC +01:00)</option>
+                                        <option value="Africa/Banjul">Africa/Banjul (UTC)</option>
+                                        <option value="Africa/Bissau">Africa/Bissau (UTC)</option>
+                                        <option value="Other">Other options omitted...</option>
+                                    </select>
+                                    <div class="alert alert-info time-zone-info-box">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        Time zone is auto-detected based on your device settings.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">
                                     <input type="button" class="btn btn-primary" value="Add Course" tabindex="3">
                                 </div>
@@ -79,18 +102,211 @@
                         <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
                             <h4 class="label-control col-md-2 text-md">Create new </h4>
                             <div class="col-md-5">
-                                <select class="form-control" name="fstype" id="fstype">
-                                    <option value="STANDARD" selected="">
-                                        Session with your own questions
-                                    </option>
-                                    <option value="TEAMEVALUATION">
-                                        Team peer evaluation session
-                                    </option>
-                                </select>
+                                <div class="col-xs-10 tablet-no-padding" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a session type here.">
+                                    <select class="form-control" name="fstype" id="fstype">
+                                        <option value="STANDARD" selected="">
+                                            Session with your own questions
+                                        </option>
+                                        <option value="TEAMEVALUATION" selected>
+                                            Team peer evaluation session
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-1">
+                                    <h5>
+                                        <a href="/instructorHelp.jsp#fbSetupSession" target="_blank" rel="noopener noreferrer">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                        </a>
+                                    </h5>
+                                </div>
                             </div>
                             <h4 class="label-control col-md-1 text-md">Or: </h4>
                             <div class="col-md-3">
                                 <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6" title="" data-toggle="tooltip" data-placement="top" data-original-title="Please select the course for which the feedback session is to be created.">
+                                        <div class="form-group">
+                                            <h5 class="col-sm-2 col-md-4">
+                                                <label class="control-label" for="courseid">
+                                                    Course ID
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10 col-md-8">                                                    
+                                                <select class="form-control" name="courseid" id="courseid">
+                                                    <option value="teammates.instructor.uni-demo">teammates.instructor.uni-demo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" title="" data-toggle="tooltip" data-placement="top" data-original-title="You should not need to change this as your timezone is auto-detected. <br><br>However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings.">
+                                        <div class="form-group">
+                                            <h5 class="col-sm-2 col-md-4">
+                                                <label class="control-label" for="timezone">
+                                                    Timezone
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10 col-md-8">
+                                                <select class="form-control" name="timezone" id="timezone">
+                                                    <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
+                                                    <option value="-11">(UTC -11:00) American Samoa, Niue</option>
+                                                    <option value="-10">(UTC -10:00) Hawaii, Cook Islands</option>
+                                                    <option value="-9.5">(UTC -09:30) Marquesas Islands</option>
+                                                    <option value="-9">(UTC -09:00) Gambier Islands, Alaska</option>
+                                                    <option value="-8">(UTC -08:00) Los Angeles, Vancouver, Tijuana</option>
+                                                    <option value="-7">(UTC -07:00) Phoenix, Calgary, Ciudad Juárez</option>
+                                                    <option value="-6">(UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg</option>
+                                                    <option value="-5">(UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston</option>
+                                                    <option value="-4.5">(UTC -04:30) Caracas</option>
+                                                    <option value="Other">Other options omitted...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br class="hidden-xs">
+                                <div class="row">
+                                    <div class="col-sm-12" title="" data-toggle="tooltip" data-placement="top" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1.">
+                                        <div class="form-group">
+                                            <h5 class="col-sm-2">
+                                                <label class="control-label" for="fsname">
+                                                    Session name
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                            <input class="form-control" type="text" name="fsname" id="fsname" maxlength="38" placeholder="e.g. Feedback for Project Presentation 1" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br class="hidden-xs">
+                                <div class="row" id="instructionsRow">
+                                    <div class="col-sm-12" title="" data-toggle="tooltip" data-placement="top" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> It will be displayed at the top of the page when users respond to the session.">
+                                        <div class="form-group">
+                                            <h5 class="col-sm-2 margin-top-0">
+                                                <label class="control-label" for="instructions">
+                                                    Instructions
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                <div id="richtext-toolbar-container"></div>
+                                                <div id="instructions" class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" style="position: relative;" spellcheck="false">
+                                                    <p>Please answer all the given questions.</p>
+                                                </div>
+                                                <input type="hidden" name="instructions">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary" id="timeFramePanel">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-5" title="" data-toggle="tooltip" data-placement="top" data-original-title="Please select the date and time for  which users can start submitting responses for the feedback session.">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label class="label-control" for="startdate">
+                                                    Submission opening time
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <input class="form-control col-sm-2 hasDatepicker" type="text" name="startdate" id="startdate" value="22/05/2017" placeholder="Date">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <select class="form-control" name="starttime" id="starttime">
+                                                    <option value="1">0100H</option>
+                                                    <option value="2">0200H</option>
+                                                    <option value="3">0300H</option>
+                                                    <option value="4">0400H</option>
+                                                    <option value="5">0500H</option>
+                                                    <option value="6">0600H</option>
+                                                    <option value="7">0700H</option>
+                                                    <option value="8">0800H</option>
+                                                    <option value="9">0900H</option>
+                                                    <option value="10">1000H</option>
+                                                    <option value="other">Other options omitted...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 border-left-gray" title="" data-toggle="tooltip" data-placement="top" data-original-title="Please select the date and time after which the feedback session will no longer accept submissions from users.">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label class="label-control" for="enddate">
+                                                    Submission closing time
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <input class="form-control col-sm-2 hasDatepicker" type="text" name="enddate" id="enddate" value="" placeholder="Date">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <select class="form-control" name="endtime" id="endtime">
+                                                    <option value="1">0100H</option>
+                                                    <option value="2">0200H</option>
+                                                    <option value="3">0300H</option>
+                                                    <option value="4">0400H</option>
+                                                    <option value="5">0500H</option>
+                                                    <option value="6">0600H</option>
+                                                    <option value="7">0700H</option>
+                                                    <option value="8">0800H</option>
+                                                    <option value="9">0900H</option>
+                                                    <option value="10">1000H</option>
+                                                    <option value="other">Other options omitted...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 border-left-gray" title="" data-toggle="tooltip" data-placement="top" data-original-title="Please select the amount of time that the system will continue accepting <br>submissions after the specified deadline.">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label class="control-label" for="graceperiod">
+                                                    Grace period
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <select class="form-control" name="graceperiod" id="graceperiod">
+                                                    <option value="0">0 mins</option>
+                                                    <option value="5">5 mins</option>
+                                                    <option value="10">10 mins</option>
+                                                    <option selected="" value="15">15 mins</option>
+                                                    <option value="20">20 mins</option>
+                                                    <option value="25">25 mins</option>
+                                                    <option value="30">30 mins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="uncommonSettingsSection">
+                            <div id="uncommonSettingsSessionResponsesVisible" class="margin-bottom-15px text-muted">
+                                <span id="uncommonSettingsSessionResponsesVisibleInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.</span>
+                                <a class="editUncommonSettingsButton" id="editUncommonSettingsSessionResponsesVisibleButton" data-edit="[Edit]" data-done="[Done]">[Change]</a>
+                            </div>
+                            <div id="uncommonSettingsSendEmails" class="margin-bottom-15px text-muted">
+                                <span id="uncommonSettingsSendEmailsInfoText">Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                                <a class="editUncommonSettingsButton" id="editUncommonSettingsSendEmailsButton" data-edit="[Edit]" data-done="[Done]">[Change]</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-5 col-md-3">
+                                    <button id="button_submit" type="submit" class="btn btn-primary">
+                                        Create Feedback Session
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
