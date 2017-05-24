@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
@@ -122,7 +123,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public String getId() {
-        return feedbackQuestionId.toString();
+        return Key.create(FeedbackQuestion.class, feedbackQuestionId).toWebSafeString();
     }
 
     public String getFeedbackSessionName() {

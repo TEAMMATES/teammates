@@ -186,14 +186,12 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        Long id;
-        try {
-            id = Long.valueOf(feedbackQuestionId);
-        } catch (NumberFormatException e) {
+        Key<FeedbackQuestion> key = makeKeyOrNullFromId(feedbackQuestionId);
+        if (key == null) {
             return null;
         }
 
-        return ofy().load().type(FeedbackQuestion.class).id(id).now();
+        return ofy().load().key(key).now();
     }
 
     // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
@@ -229,6 +227,17 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
                 .list();
     }
 
+    private Key<FeedbackQuestion> makeKeyOrNullFromId(String id) {
+        if (id == null) {
+            return null;
+        }
+        try {
+            return Key.create(id);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     @Override
     protected FeedbackQuestion getEntity(FeedbackQuestionAttributes attributes) {
         if (attributes.getId() != null) {
@@ -240,17 +249,17 @@ public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, Feedbac
 
     @Override
     protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
-        String id = attributes.getId();
+        Key<FeedbackQuestion> key = makeKeyOrNullFromId(attributes.getId());
 
         Query<FeedbackQuestion> query;
-        if (id == null) {
+        if (key == null) {
             query = ofy().load().type(FeedbackQuestion.class)
                     .filter("feedbackSessionName =", attributes.feedbackSessionName)
                     .filter("courseId =", attributes.courseId)
                     .filter("questionNumber =", attributes.questionNumber);
         } else {
             query = ofy().load().type(FeedbackQuestion.class)
-                    .filterKey(Key.create(FeedbackQuestion.class, Long.valueOf(id)));
+                    .filterKey(key);
         }
 
         return query.keys();

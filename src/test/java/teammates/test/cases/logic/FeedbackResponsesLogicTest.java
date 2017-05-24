@@ -678,9 +678,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         String qnId;
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-            FeedbackQuestionAttributes question =
-                    fqLogic.getFeedbackQuestion(response.feedbackSessionName, response.courseId, qnNumber);
-            qnId = question == null ? response.feedbackQuestionId : question.getId();
+            qnId = fqLogic.getFeedbackQuestion(response.feedbackSessionName, response.courseId, qnNumber).getId();
         } catch (NumberFormatException e) {
             qnId = response.feedbackQuestionId;
         }
