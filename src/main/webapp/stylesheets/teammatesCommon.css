@@ -304,6 +304,10 @@ input.inline {
     padding-left: 7px;
 }
 
+.margin-left-7px {
+    margin-left: 7px;
+}
+
 .margin-left-auto {
     margin-left: auto;
 }

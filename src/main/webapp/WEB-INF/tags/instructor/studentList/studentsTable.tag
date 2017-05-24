@@ -14,6 +14,9 @@
             <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${course.googleId}">
             <input type="hidden" id="numStudents-${index}" value="0">
         </form>
+        <button class="btn btn-info btn-xs pull-right pull-down margin-left-7px">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
         <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
            id="enroll-${index}"
            href="${course.instructorCourseEnrollLink}"
