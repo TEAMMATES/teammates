@@ -121,14 +121,10 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // check every feedback response if it should be included to test or excluded from it
         for (String key : feedbackResponsesKeys) {
-            String giver = testDataMax.feedbackResponses.get(key).giver;
-            String recipient = testDataMax.feedbackResponses.get(key).recipient;
-            String questionId = testDataMax.feedbackResponses.get(key).feedbackQuestionId;
 
-            if (studentsEmails.contains(giver)
-                    && studentsEmails.contains(recipient)
-                    && questionsNumbers.contains(questionId)
-                    && !testData.feedbackResponses.containsKey(key)) {
+            if (studentsEmails.contains(testDataMax.feedbackResponses.get(key).giver)
+                    && studentsEmails.contains(testDataMax.feedbackResponses.get(key).recipient)
+                    && questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)) {
                 testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
             } else if (testData.feedbackResponses.containsKey(key)) {
                 testData.feedbackResponses.remove(key);
