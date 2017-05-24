@@ -116,10 +116,13 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
 1. Run this command to configure some other settings for the project:
    ```sh
-   ./gradlew setupIntellijSettings
+   ./gradlew setupIntellijProjectSettings
    ```
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
+
+**NOTE**
+>The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#project-setup-behavior).
 
 ### Manual Setup
 

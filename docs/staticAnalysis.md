@@ -198,6 +198,9 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
    ```sh
    ./gradlew setupIntellijStaticAnalysis
    ```
+   
+**NOTE**
+>The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#static-analysis-tools-setup-behavior).
 
 ## Running static analysis
 
