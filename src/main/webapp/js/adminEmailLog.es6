@@ -49,8 +49,10 @@ $(document).ready(() => {
 });
 
 function enableOnclicks() {
-    const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
-    submitFormAjax(nextEndTimeToSearch);
+    $(document).on('click', '#button_older', () => {
+        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+        submitFormAjax(nextEndTimeToSearch);
+    });
 }
 
 function submitFormAjax(offset) {
