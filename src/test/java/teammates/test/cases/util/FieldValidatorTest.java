@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FieldValidatorExtension;
@@ -298,6 +299,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = validator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
                      String.format(NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
+
+        invalidNationality = "<script> alert('hi!'); </script>";
+        actual = validator.getInvalidityInfoForNationality(invalidNationality);
+        assertEquals("Unsanitized, invalid nationality should return sanitized error string",
+                String.format(NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
     }
 
     @Test
@@ -343,7 +349,8 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
         String invalidSessionName = StringHelperExtension.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = validator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
-        assertEquals("Invalid feedback session name (too long) should return error message specfic to feedback session name",
+        assertEquals("Invalid feedback session name (too long) should return error message specific to feedback "
+                         + "session name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
                          + "feedback session name because it is too long. The value of a/an feedback session "
                          + "name should be no longer than 38 characters. It should not be empty.",
@@ -372,9 +379,15 @@ public class FieldValidatorTest extends BaseTestCase {
     public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Invalid gender should return appropriate error stirng",
+        assertEquals("Invalid gender should return appropriate error string",
                      String.format(GENDER_ERROR_MESSAGE, invalidGender),
                      actual);
+
+        invalidGender = "<script> alert('hi!'); </script>";
+        actual = validator.getInvalidityInfoForGender(invalidGender);
+        assertEquals("Unsanitized, invalid gender should return appropriate error string",
+                String.format(GENDER_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidGender)),
+                actual);
     }
 
     @Test

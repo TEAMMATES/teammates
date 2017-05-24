@@ -31,7 +31,7 @@
                 <li class="dropdown-submenu">
                     <c:set var="commonGiver" value="${commonPath.key}" />
                     <a>${commonGiver.displayNameGiver} will give feedback on...</a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-container="body" title="Choose an option">
                         <li>
                             <c:forEach items="${commonPath.value}" var="commonRecipient">
                                 <a class="feedback-path-dropdown-option" href="javascript:;"
