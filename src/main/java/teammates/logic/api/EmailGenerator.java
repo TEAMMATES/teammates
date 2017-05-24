@@ -476,7 +476,6 @@ public class EmailGenerator {
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-        String emailBody;
         String instructorFragmentArgument;
 
         /*Check if the given userName and userEmail correspond
@@ -492,7 +491,7 @@ public class EmailGenerator {
             instructorFragmentArgument = "";
         }
 
-        emailBody = Templates.populateTemplate(template,
+        String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
                 "${instructorFragment}", instructorFragmentArgument,
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
