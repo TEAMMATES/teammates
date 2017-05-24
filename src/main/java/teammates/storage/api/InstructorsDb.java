@@ -11,7 +11,6 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -113,8 +112,7 @@ public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttribute
             }
         }
 
-        for (EntityAttributes entity : instructorsToUpdate) {
-            InstructorAttributes instructor = (InstructorAttributes) entity;
+        for (InstructorAttributes instructor : instructorsToUpdate) {
             try {
                 updateInstructorByEmail(instructor);
             } catch (EntityDoesNotExistException e) {
