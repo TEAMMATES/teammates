@@ -27,7 +27,7 @@ import teammates.storage.entity.FeedbackSession;
  * @see FeedbackSession
  * @see FeedbackSessionAttributes
  */
-public class FeedbackSessionsDb extends OfyEntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 

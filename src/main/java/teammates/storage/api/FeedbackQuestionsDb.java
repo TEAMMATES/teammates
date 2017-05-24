@@ -24,7 +24,7 @@ import teammates.storage.entity.FeedbackQuestion;
  * @see FeedbackQuestion
  * @see FeedbackQuestionAttributes
  */
-public class FeedbackQuestionsDb extends OfyEntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
+public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
 
     public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)

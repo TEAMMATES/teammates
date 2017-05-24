@@ -26,7 +26,7 @@ import teammates.storage.entity.AdminEmail;
  * @see AdminEmail
  * @see AdminEmailAttributes
  */
-public class AdminEmailsDb extends OfyEntitiesDb<AdminEmail, AdminEmailAttributes> {
+public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> {
 
     public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {

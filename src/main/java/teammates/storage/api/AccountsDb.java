@@ -27,7 +27,7 @@ import teammates.storage.entity.StudentProfile;
  * @see Account
  * @see AccountAttributes
  */
-public class AccountsDb extends OfyEntitiesDb<Account, AccountAttributes> {
+public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     private ProfilesDb profilesDb = new ProfilesDb();
 
     /**

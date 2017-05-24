@@ -27,7 +27,7 @@ import teammates.storage.entity.FeedbackResponse;
  * @see FeedbackResponse
  * @see FeedbackResponseAttributes
  */
-public class FeedbackResponsesDb extends OfyEntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
+public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
 
     private static final Logger log = Logger.getLogger();
 

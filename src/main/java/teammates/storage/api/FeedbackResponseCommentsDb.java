@@ -37,7 +37,7 @@ import teammates.storage.search.SearchDocument;
  * @see FeedbackResponseComment
  * @see FeedbackResponseCommentAttributes
  */
-public class FeedbackResponseCommentsDb extends OfyEntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
+public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 

@@ -35,7 +35,7 @@ import teammates.storage.search.StudentSearchQuery;
  * @see CourseStudent
  * @see StudentAttributes
  */
-public class StudentsDb extends OfyEntitiesDb<CourseStudent, StudentAttributes> {
+public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
 

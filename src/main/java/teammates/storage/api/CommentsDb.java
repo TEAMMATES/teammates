@@ -38,7 +38,7 @@ import teammates.storage.search.SearchDocument;
  * @see Comment
  * @see CommentAttributes
  */
-public class CommentsDb extends OfyEntitiesDb<Comment, CommentAttributes> {
+public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
 

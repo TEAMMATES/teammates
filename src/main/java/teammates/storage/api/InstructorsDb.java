@@ -30,7 +30,7 @@ import teammates.storage.search.SearchDocument;
  * @see Instructor
  * @see InstructorAttributes
  */
-public class InstructorsDb extends OfyEntitiesDb<Instructor, InstructorAttributes> {
+public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
     /* =========================================================================
      * Methods related to Google Search API

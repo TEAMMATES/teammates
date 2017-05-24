@@ -22,7 +22,7 @@ import teammates.storage.entity.Course;
  * @see Course
  * @see CourseAttributes
  */
-public class CoursesDb extends OfyEntitiesDb<Course, CourseAttributes> {
+public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
     /*
      * Explanation: Based on our policies for the storage component, this class does not handle cascading.

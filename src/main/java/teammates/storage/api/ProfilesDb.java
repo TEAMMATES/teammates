@@ -28,7 +28,7 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfile
  * @see StudentProfileAttributes
  */
-public class ProfilesDb extends OfyEntitiesDb<StudentProfile, StudentProfileAttributes> {
+public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
