@@ -455,12 +455,22 @@ public class EmailGenerator {
             List<InstructorAttributes> instructors, List<StudentAttributes> students) {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
+  
+        String instructorFragmentArgumentInstructors = "<p>The email below has been sent to students of course: "
+                + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
+                + SanitizationHelper.sanitizeForHtml(course.getName())
+                + ".<br>" + Const.EOL + "<br>" + Const.EOL
+                + "=== Email message as seen by the students ===</p>" + Const.EOL;
+
+        String instructorFragmentArgumentStudents = "";
 
         for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email, 
+                    instructorFragmentArgumentInstructors));
         }
         for (StudentAttributes student : students) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email, 
+                    instructorFragmentArgumentStudents));
         }
 
         return emails;
@@ -472,23 +482,10 @@ public class EmailGenerator {
      * {@code userName} and {@code userEmail}.
      */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
-            FeedbackSessionAttributes session, String userName, String userEmail) {
+            FeedbackSessionAttributes session, String userName, String userEmail, 
+            String instructorFragmentArgument) {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-        String instructorFragmentArgument;
-
-        /*Check if the given userName and userEmail correspond
-        to an Instructor or a Student and give the corresponding value
-        to the instructorFragmentArgument variable. */
-        if (instructorsLogic.isEmailOfInstructorOfCourse(userEmail, course.getId())) {
-            instructorFragmentArgument = "<p>The email below has been sent to students of course: "
-                    + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
-                    + SanitizationHelper.sanitizeForHtml(course.getName())
-                    + ".<br>" + Const.EOL + "<br>" + Const.EOL
-                    + "=== Email message as seen by the students ===</p>" + Const.EOL;
-        } else {
-            instructorFragmentArgument = "";
-        }
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
