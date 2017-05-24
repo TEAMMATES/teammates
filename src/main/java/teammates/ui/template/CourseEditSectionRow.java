@@ -1,7 +1,9 @@
 package teammates.ui.template;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
@@ -28,18 +30,21 @@ public class CourseEditSectionRow {
         permissionInputGroup2 = createCheckboxesForStudentPermissionsOfInstructors(panelIndex);
         permissionInputGroup3 = createCheckboxesForSessionPermissionsOfInstructors(panelIndex);
 
-        String content = "";
-        String onClick = "";
-        if (isSessionsInSectionSpecial()) {
-            content = "Hide session-level permissions";
-            onClick = "hideTuneSessionnPermissionsDiv(" + instructorIndex + ", " + panelIndex + ")";
-        } else {
-            content = "Give different permissions for sessions in this section";
-            onClick = "showTuneSessionnPermissionsDiv(" + instructorIndex + ", " + panelIndex + ")";
-        }
+        boolean isSectionSpecial = isSessionsInSectionSpecial();
 
-        String id = "toggleSessionLevelInSection" + panelIndex + "ForInstructor" + instructorIndex;
-        toggleSessionLevelInSectionButton = createButton(content, "small col-sm-5", id, "javascript:;", onClick);
+        String content = isSectionSpecial
+                ? "Hide session-level permissions"
+                : "Give different permissions for sessions in this section";
+
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("class", "small col-sm-5 toggleSessionLevelInSection");
+        attributes.put("id", "toggleSessionLevelInSection" + panelIndex + "ForInstructor" + instructorIndex);
+        attributes.put("href", "javascript:;");
+        attributes.put("data-instructor-index", Integer.toString(instructorIndex));
+        attributes.put("data-panel-index", Integer.toString(panelIndex));
+        attributes.put("data-is-section-special", Boolean.toString(isSectionSpecial));
+
+        toggleSessionLevelInSectionButton = createButton(content, attributes);
 
         String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
@@ -208,23 +213,11 @@ public class CourseEditSectionRow {
         return result;
     }
 
-    private ElementTag createButton(String content, String buttonClass, String id, String href, String onClick) {
+    private ElementTag createButton(String content, Map<String, String> attributes) {
         ElementTag button = new ElementTag(content);
 
-        if (buttonClass != null) {
-            button.setAttribute("class", buttonClass);
-        }
-
-        if (id != null) {
-            button.setAttribute("id", id);
-        }
-
-        if (href != null) {
-            button.setAttribute("href", href);
-        }
-
-        if (onClick != null) {
-            button.setAttribute("onclick", onClick);
+        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+            button.setAttribute(attribute.getKey(), attribute.getValue());
         }
 
         return button;

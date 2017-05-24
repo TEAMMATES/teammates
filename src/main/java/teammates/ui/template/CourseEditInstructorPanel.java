@@ -1,6 +1,7 @@
 package teammates.ui.template;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,12 +46,17 @@ public class CourseEditInstructorPanel {
             if (instructor.privileges.numberOfSectionsSpecial() >= sectionNames.size()) {
                 style = "display: none;";
             }
-            String onClick = "showTuneSectionPermissionsDiv(" + index + ", "
-                             + firstBlankSectionRowIndex + ")";
             String content = "Give different permissions for a specific section";
-            String id = "addSectionLevelForInstructor" + index;
-            addSectionLevelForInstructorButton = createButton(content, "small", id, "javascript:;",
-                                                              style, onClick);
+
+            Map<String, String> attributes = new HashMap<>();
+            attributes.put("class", "small addSectionLevelForInstructor");
+            attributes.put("id", "addSectionLevelForInstructor" + index);
+            attributes.put("href", "javascript:;");
+            attributes.put("style", style);
+            attributes.put("data-index", Integer.toString(index));
+            attributes.put("data-first-blank-section-row-index", Integer.toString(firstBlankSectionRowIndex));
+
+            addSectionLevelForInstructorButton = createButton(content, attributes);
         }
     }
 
@@ -261,28 +267,11 @@ public class CourseEditInstructorPanel {
         return result;
     }
 
-    private ElementTag createButton(String content, String buttonClass, String id, String href, String style,
-                                    String onClick) {
+    private ElementTag createButton(String content, Map<String, String> attributes) {
         ElementTag button = new ElementTag(content);
 
-        if (buttonClass != null) {
-            button.setAttribute("class", buttonClass);
-        }
-
-        if (id != null) {
-            button.setAttribute("id", id);
-        }
-
-        if (href != null) {
-            button.setAttribute("href", href);
-        }
-
-        if (style != null) {
-            button.setAttribute("style", style);
-        }
-
-        if (onClick != null) {
-            button.setAttribute("onclick", onClick);
+        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+            button.setAttribute(attribute.getKey(), attribute.getValue());
         }
 
         return button;
