@@ -455,7 +455,7 @@ public class EmailGenerator {
             List<InstructorAttributes> instructors, List<StudentAttributes> students) {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
-  
+
         String instructorFragmentArgumentInstructors = "<p>The email below has been sent to students of course: "
                 + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
                 + SanitizationHelper.sanitizeForHtml(course.getName())
@@ -465,11 +465,11 @@ public class EmailGenerator {
         String instructorFragmentArgumentStudents = "";
 
         for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email, 
+            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
                     instructorFragmentArgumentInstructors));
         }
         for (StudentAttributes student : students) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email, 
+            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
                     instructorFragmentArgumentStudents));
         }
 
@@ -482,7 +482,7 @@ public class EmailGenerator {
      * {@code userName} and {@code userEmail}.
      */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
-            FeedbackSessionAttributes session, String userName, String userEmail, 
+            FeedbackSessionAttributes session, String userName, String userEmail,
             String instructorFragmentArgument) {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
