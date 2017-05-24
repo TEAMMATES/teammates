@@ -106,13 +106,10 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a class="session-view-for-test"
-                     href="${actions.resultsLink}">
-                      View Results
-                  </a>
+                    <a class="session-view-for-test" href="${actions.resultsLink}">View Results</a>
                 </li>
                 <li>
-                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="" showTooltip="false"/>
+                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
                 </li>
             </ul>
         </div>
