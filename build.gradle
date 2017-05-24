@@ -22,7 +22,6 @@ buildscript {
 
 configurations {
     staticAnalysis
-    enhancer
     exclude
     testExclude
 }
@@ -59,27 +58,9 @@ dependencies {
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.10.2"
 
-    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
-                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "javax.jdo:jdo2-api:2.3-eb",
-                    "net.sf.jsr107cache:jsr107cache:1.1",
-                    "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
-                    "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
-                    "org.datanucleus:datanucleus-core:1.1.5",
-                    "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "xerces:xercesImpl:2.11.0"
+    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
 
     runtime         configurations.exclude
-
-    enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "joda-time:joda-time:2.9.7",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "org.datanucleus:datanucleus-core:1.1.5",
-                    "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
@@ -129,7 +110,6 @@ eclipse {
         natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
         buildCommand "org.eclipse.jdt.core.javabuilder"
         buildCommand "com.google.gdt.eclipse.core.webAppProjectValidator"
-        buildCommand "com.google.appengine.eclipse.core.enhancerbuilder"
         buildCommand "com.google.appengine.eclipse.core.projectValidator"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
@@ -238,9 +218,6 @@ task createIntellijRunConfigs << {
 task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
-    rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
-    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
-    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
     rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
 }
 
@@ -293,33 +270,10 @@ appengineRun {
 }
 
 task removeDuplicateLibs(type: Delete) {
-    delete  "${buildDir}/exploded-app/WEB-INF/lib/datanucleus-appengine-1.0.10.final.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints-deps.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints.jar",
             "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
 }
 
 appengineExplodeApp.finalizedBy removeDuplicateLibs
-
-task enhancerRun << {
-    def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
-    ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
-    ant.enhance(failonerror: true, verbose: true) {
-        classpath {
-            pathelement(path: path)
-            pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
-            pathelement(path: project.configurations.enhancer.asPath)
-        }
-        fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
-        arg(value: "-enhancerVersion"); arg(value: "v1")
-        arg(value: "-api"); arg(value: "JPA")
-    }
-}
-
-enhancerRun.dependsOn appengineDownloadSdk
-enhancerRun.dependsOn project.classes
-enhancerRun.shouldRunAfter project.testClasses
-war.dependsOn enhancerRun
 
 // STATIC ANALYSIS TASKS
 
@@ -455,7 +409,6 @@ test {
     testLogging {
         events "passed"
     }
-    dependsOn enhancerRun
 }
 
 task localTests(type: Test) {
@@ -476,7 +429,6 @@ task localTests(type: Test) {
     testLogging {
         events "passed"
     }
-    dependsOn enhancerRun
 }
 
 task failedTests(type: Test) {
@@ -497,7 +449,6 @@ task failedTests(type: Test) {
     testLogging {
         events "passed"
     }
-    dependsOn enhancerRun
 }
 
 task ciTests {
@@ -533,7 +484,6 @@ task ciTests {
             afterSuite checkConfigFailureClosure
         }
         finalizedBy "killFirefox${id}"
-        dependsOn enhancerRun
         onlyIf {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
