@@ -473,7 +473,6 @@ public class EmailGenerator {
      */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail) {
-
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
         String instructorFragmentArgument;
