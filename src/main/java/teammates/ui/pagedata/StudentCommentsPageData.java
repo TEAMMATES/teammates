@@ -36,8 +36,8 @@ public class StudentCommentsPageData extends PageData {
 
     private List<CommentsForStudentsTable> commentsForStudentsTables;
 
-    public StudentCommentsPageData(AccountAttributes account) {
-        super(account);
+    public StudentCommentsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(String courseId, String courseName, List<String> coursePaginationList,

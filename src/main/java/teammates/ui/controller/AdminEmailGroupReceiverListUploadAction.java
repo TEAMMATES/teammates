@@ -24,7 +24,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        data = new AdminEmailComposePageData(account);
+        data = new AdminEmailComposePageData(account, sessionToken);
         BlobInfo blobInfo = extractGroupReceiverListFileKey();
 
         if (blobInfo == null) {
