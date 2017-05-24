@@ -57,7 +57,7 @@ public class DataBundle {
     /**
      * Sanitize each attribute in the {@code map} for saving.
      */
-    private <T extends EntityAttributes> void sanitizeMapForSaving(Map<String, T> map) {
+    private <T extends EntityAttributes<?>> void sanitizeMapForSaving(Map<String, T> map) {
         for (T attribute : map.values()) {
             attribute.sanitizeForSaving();
         }

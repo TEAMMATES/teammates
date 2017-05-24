@@ -24,7 +24,7 @@ import teammates.storage.entity.Comment;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes implements Comparable<CommentAttributes> {
+public class CommentAttributes extends EntityAttributes<Comment> implements Comparable<CommentAttributes> {
 
     public String courseId;
     public String giverEmail;

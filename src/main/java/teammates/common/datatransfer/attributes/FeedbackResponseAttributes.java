@@ -16,7 +16,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
-public class FeedbackResponseAttributes extends EntityAttributes {
+public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;

@@ -14,7 +14,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
-public class AdminEmailAttributes extends EntityAttributes {
+public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
     public String emailId;
     public List<String> addressReceiver;

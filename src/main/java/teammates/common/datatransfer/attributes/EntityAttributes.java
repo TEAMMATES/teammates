@@ -8,7 +8,7 @@ import teammates.storage.entity.BaseEntity;
  * Base class for Attribute classes (Attribute classes represent attributes of
  * persistable entities).
  */
-public abstract class EntityAttributes {
+public abstract class EntityAttributes<E extends BaseEntity> {
 
     /**
      * Returns true if the attributes represent a valid state for the entity.
@@ -30,7 +30,7 @@ public abstract class EntityAttributes {
      * Returns a {@code Object} corresponding to the attributes defined by {@code this}
      *            {@link EntityAttributes} class.
      */
-    public abstract <E extends BaseEntity> E toEntity();
+    public abstract E toEntity();
 
     /**
      * Returns an abridged string which can sufficiently identify the entity

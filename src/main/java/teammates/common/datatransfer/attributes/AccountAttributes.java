@@ -14,7 +14,7 @@ import teammates.storage.entity.Account;
 /**
  * A data transfer object for Account entities.
  */
-public class AccountAttributes extends EntityAttributes {
+public class AccountAttributes extends EntityAttributes<Account> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
 

@@ -51,7 +51,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         }
     }
 
-    private EntityAttributes getEntity(EntityAttributes expected) {
+    private EntityAttributes<?> getEntity(EntityAttributes<?> expected) {
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
 
@@ -84,9 +84,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         }
     }
 
-    protected void verifyAbsentInDatastore(EntityAttributes entity) {
+    protected void verifyAbsentInDatastore(EntityAttributes<?> entity) {
         int retryLimit = VERIFICATION_RETRY_COUNT;
-        EntityAttributes actual = getEntity(entity);
+        EntityAttributes<?> actual = getEntity(entity);
         while (actual != null && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
@@ -95,9 +95,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         assertNull(actual);
     }
 
-    protected void verifyPresentInDatastore(EntityAttributes expected) {
+    protected void verifyPresentInDatastore(EntityAttributes<?> expected) {
         int retryLimit = VERIFICATION_RETRY_COUNT;
-        EntityAttributes actual = getEntity(expected);
+        EntityAttributes<?> actual = getEntity(expected);
         while (actual == null && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
@@ -106,7 +106,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         verifyEquals(expected, actual);
     }
 
-    private void verifyEquals(EntityAttributes expected, EntityAttributes actual) {
+    private void verifyEquals(EntityAttributes<?> expected, EntityAttributes<?> actual) {
         if (expected instanceof AccountAttributes) {
             AccountAttributes expectedAccount = ((AccountAttributes) expected).getCopy();
             AccountAttributes actualAccount = (AccountAttributes) actual;

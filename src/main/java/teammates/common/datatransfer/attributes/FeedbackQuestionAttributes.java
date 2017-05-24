@@ -19,7 +19,8 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
-public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
+public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
+        implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;

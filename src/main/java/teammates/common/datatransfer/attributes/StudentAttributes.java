@@ -18,7 +18,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
-public class StudentAttributes extends EntityAttributes {
+public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;

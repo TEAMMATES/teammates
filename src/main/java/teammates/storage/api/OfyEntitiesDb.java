@@ -32,7 +32,7 @@ import teammates.storage.search.SearchQuery;
  * @param <E> Specific entity class
  * @param <A> Specific attributes class
  */
-public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttributes> {
+public abstract class OfyEntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
