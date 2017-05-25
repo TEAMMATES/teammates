@@ -1,7 +1,8 @@
-package teammates.test.driver;
+package teammates.test.driver.retry;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.ThreadHelper;
+import teammates.test.driver.TestProperties;
 
 /**
  * Handles running and retrying of {@code Retryable} tasks.

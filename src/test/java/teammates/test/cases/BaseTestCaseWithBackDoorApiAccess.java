@@ -12,8 +12,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.RetryManager;
-import teammates.test.driver.RetryableTaskReturns;
+import teammates.test.driver.retry.RetryManager;
+import teammates.test.driver.retry.RetryableTaskReturns;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
