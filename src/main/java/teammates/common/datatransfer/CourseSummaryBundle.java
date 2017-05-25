@@ -7,6 +7,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.util.SanitizationHelper;
 
 public class CourseSummaryBundle {
 
@@ -33,10 +34,13 @@ public class CourseSummaryBundle {
      * Sorts courses based on course name.
      */
     public static void sortSummarizedCoursesByCourseName(List<CourseSummaryBundle> courses) {
+        //TODO: [CourseAttribute] remove desanitization after data migration
+        //desanitization is applied to course name to ensure a well-defined order of the courses by course name
         Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
             @Override
             public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
-                return obj1.course.getName().compareTo(obj2.course.getName());
+                return SanitizationHelper.desanitizeIfHtmlSanitized(obj1.course.getName())
+                        .compareTo(SanitizationHelper.desanitizeIfHtmlSanitized(obj2.course.getName()));
             }
         });
     }
