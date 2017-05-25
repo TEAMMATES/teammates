@@ -432,7 +432,7 @@ public class EmailGenerator {
         generateFeedbackSessionEmailBaseForInstructors, which does not need the course name */
         if ("".equals(courseName)) {
             fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId);
-    	} else {
+        } else {
             fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId) + ", "
                     + SanitizationHelper.sanitizeForHtml(courseName);
     	}
@@ -442,7 +442,7 @@ public class EmailGenerator {
                 + ".<br>" + Const.EOL + "<br>" + Const.EOL
                 + "=== Email message as seen by the students ===</p>" + Const.EOL;
     }
-    
+
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
