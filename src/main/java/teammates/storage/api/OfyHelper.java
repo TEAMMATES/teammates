@@ -41,11 +41,12 @@ public class OfyHelper implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        // Invoked by GAE at application startup.
         registerEntityClasses();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-     // App Engine does not currently invoke this method.
+        // GAE does not currently invoke this method.
     }
 }
