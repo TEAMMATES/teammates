@@ -248,6 +248,17 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return attributes;
     }
 
+    protected Key<E> makeKeyOrNullFromWebSafeString(String webSafeString) {
+        if (webSafeString == null) {
+            return null;
+        }
+        try {
+            return Key.create(webSafeString);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document) {
         try {

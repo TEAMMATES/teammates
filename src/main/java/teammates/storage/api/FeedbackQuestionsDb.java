@@ -186,7 +186,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        Key<FeedbackQuestion> key = makeKeyOrNullFromId(feedbackQuestionId);
+        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(feedbackQuestionId);
         if (key == null) {
             return null;
         }
@@ -227,17 +227,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
                 .list();
     }
 
-    private Key<FeedbackQuestion> makeKeyOrNullFromId(String id) {
-        if (id == null) {
-            return null;
-        }
-        try {
-            return Key.create(id);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
     @Override
     protected FeedbackQuestion getEntity(FeedbackQuestionAttributes attributes) {
         if (attributes.getId() != null) {
@@ -249,7 +238,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
     @Override
     protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
-        Key<FeedbackQuestion> key = makeKeyOrNullFromId(attributes.getId());
+        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(attributes.getId());
 
         Query<FeedbackQuestion> query;
         if (key == null) {
