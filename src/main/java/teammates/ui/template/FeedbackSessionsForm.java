@@ -94,8 +94,6 @@ public class FeedbackSessionsForm {
         fsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
         fsForm.submitButtonText = "Save Changes";
 
-        fsForm.editButtonTags = new ElementTag("onclick", "enableEditFS()");
-
         fsForm.additionalSettings = additionalSettings;
 
         return fsForm;

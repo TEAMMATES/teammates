@@ -955,9 +955,13 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     });
 }
 
+function enableOnclicks() {
+    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
-
+    enableOnclicks();
     prepareDatepickers();
 
     if (typeof richTextEditorBuilder !== 'undefined') {
