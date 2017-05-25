@@ -192,11 +192,12 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
 
-        try {
-            return ofy().load().type(AdminEmail.class).id(Long.valueOf(adminEmailId)).now();
-        } catch (NumberFormatException e) {
+        Key<AdminEmail> key = makeKeyOrNullFromWebSafeString(adminEmailId);
+        if (key == null) {
             return null;
         }
+
+        return ofy().load().key(key).now();
     }
 
     private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
@@ -222,16 +223,16 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
 
     @Override
     protected QueryKeys<AdminEmail> getEntityQueryKeys(AdminEmailAttributes attributes) {
-        String id = attributes.emailId;
-        Query<AdminEmail> query;
+        Key<AdminEmail> key = makeKeyOrNullFromWebSafeString(attributes.emailId);
 
-        if (id == null) {
+        Query<AdminEmail> query;
+        if (key == null) {
             query = ofy().load().type(AdminEmail.class)
                     .filter("subject =", attributes.subject)
                     .filter("createDate =", attributes.createDate);
         } else {
             query = ofy().load().type(AdminEmail.class)
-                    .filterKey(Key.create(AdminEmail.class, Long.valueOf(id)));
+                    .filterKey(key);
         }
 
         return query.keys();
