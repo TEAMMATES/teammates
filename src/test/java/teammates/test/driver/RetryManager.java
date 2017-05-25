@@ -18,13 +18,32 @@ public final class RetryManager {
         /**
          * The task's {@code isSuccessfulExec()} method must return true for the task to be considered successful.
          */
-        DEFAULT,
+        DEFAULT {
+            @Override
+            public <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task) throws E {
+                return task.isSuccessfulExec();
+            }
+        },
 
         /**
          * The task's {@code isResultNull()} method must return false for the task to be considered successful.
          * Only applicable if the task is an instance of {@link RetryableTaskReturnsThrows}.
          */
-        NOT_NULL
+        NOT_NULL {
+            @Override
+            public <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task) throws E {
+                Assumption.assertTrue("Success condition " + NOT_NULL + " is only applicable to subclasses of "
+                        + RetryableTaskReturnsThrows.class.getSimpleName(),
+                        RetryableTaskReturnsThrows.class.isInstance(task));
+
+                return !((RetryableTaskReturnsThrows<T, E>) task).isResultNull();
+            }
+        };
+
+        /**
+         * Checks whether the {@code task} ran successfully based based on the {@code SuccessCondition}.
+         */
+        public abstract <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task) throws E;
     }
 
     /**
@@ -56,7 +75,7 @@ public final class RetryManager {
     private static <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition)
             throws E {
         T result = task.runExec();
-        for (int delay = 1; !isSuccessful(task, condition) && delay <= MAX_DELAY_IN_S; delay *= 2) {
+        for (int delay = 1; !condition.isSuccessful(task) && delay <= MAX_DELAY_IN_S; delay *= 2) {
             logFailure(task, delay);
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
@@ -82,16 +101,6 @@ public final class RetryManager {
             task.beforeRetry();
         }
         return task.runExec();
-    }
-
-    private static <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task, SuccessCondition condition)
-            throws E {
-        if (condition.equals(SuccessCondition.NOT_NULL)) {
-            Assumption.assertTrue("Success condition " + condition + " is only applicable to subclasses of "
-                    + RetryableTaskReturnsThrows.class.getSimpleName(), RetryableTaskReturnsThrows.class.isInstance(task));
-            return !((RetryableTaskReturnsThrows<T, E>) task).isResultNull();
-        }
-        return task.isSuccessfulExec();
     }
 
     private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
