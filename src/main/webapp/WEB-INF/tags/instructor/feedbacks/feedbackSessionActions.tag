@@ -3,13 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
-<a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
-   href="${actions.resultsLink}"
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
-   data-toggle="tooltip"
-   data-placement="top">
-    View Results
-</a>
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px"
    href="${actions.editLink}" 
    title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
@@ -96,5 +89,33 @@
             </ul>
         </div>
     </div>
-    <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs margin-bottom-7px" />
+    <div title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
+         data-toggle="tooltip"
+         data-placement="top"
+         style="display: inline-block; padding-right: 5px;">
+        <div class="btn-group margin-bottom-2px">
+            <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
+               href="${actions.resultsLink}"
+               data-fsname="${actions.fsName}">
+                Results
+            </a>
+            <button type="button"
+                    class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
+                    data-toggle="dropdown"
+                    aria-expanded="false">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="${actions.resultsLink}"
+                       class="session-remind-inner-for-test">
+                        View Results
+                    </a>
+                </li>
+                <li>
+                  <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs margin-bottom-7px" />
+                </li>
+            </ul>
+        </div>
+    </div>
 </c:if>
