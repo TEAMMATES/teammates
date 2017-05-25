@@ -192,9 +192,9 @@ public class AdminActivityLogPageAction extends Action {
         }
 
         // the "Search More" button to continue searching from the previous fromDate
-        status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax("
+        status.append("<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
                       + nextEndTimeToSearch
-                      + ");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
+                      + "\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
                       + data.getIfShowAll()
                       + "\"/><input id=\"ifShowTestData\" type=\"hidden\" value=\""
                       + data.getIfShowTestData() + "\"/>");
