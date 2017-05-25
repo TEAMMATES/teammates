@@ -437,7 +437,7 @@ public class EmailGenerator {
                     + SanitizationHelper.sanitizeForHtml(courseName);
         }
 
-    	return "<p>The email below has been sent to students of course: "
+        return "<p>The email below has been sent to students of course: "
                 + fragmentParameters
                 + ".<br>" + Const.EOL + "<br>" + Const.EOL
                 + "=== Email message as seen by the students ===</p>" + Const.EOL;
