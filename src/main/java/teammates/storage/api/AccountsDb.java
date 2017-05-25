@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -115,7 +116,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
      *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
-        return makeAttributes(ofy().load().type(Account.class).filter("isInstructor =", true).list());
+        return makeAttributes(load().filter("isInstructor =", true).list());
     }
 
     /**
@@ -208,7 +209,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
-        Account account = ofy().load().type(Account.class).id(googleId).now();
+        Account account = load().id(googleId).now();
         if (account == null) {
             return null;
         }
@@ -223,6 +224,11 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     @Override
+    protected LoadType<Account> load() {
+        return ofy().load().type(Account.class);
+    }
+
+    @Override
     protected Account getEntity(AccountAttributes entity) {
         return getAccountEntity(entity.googleId);
     }
@@ -230,7 +236,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     @Override
     protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
         Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
-        return ofy().load().type(Account.class).filterKey(keyToFind).keys();
+        return load().filterKey(keyToFind).keys();
     }
 
     @Override

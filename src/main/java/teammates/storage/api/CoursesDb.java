@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -68,7 +69,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      */
     @Deprecated
     public List<CourseAttributes> getAllCourses() {
-        return makeAttributes(ofy().load().type(Course.class).list());
+        return makeAttributes(load().list());
     }
 
     /**
@@ -114,6 +115,11 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     @Override
+    protected LoadType<Course> load() {
+        return ofy().load().type(Course.class);
+    }
+
+    @Override
     protected Course getEntity(CourseAttributes attributes) {
         return getCourseEntity(attributes.getId());
     }
@@ -121,11 +127,11 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     @Override
     protected QueryKeys<Course> getEntityQueryKeys(CourseAttributes attributes) {
         Key<Course> keyToFind = Key.create(Course.class, attributes.getId());
-        return ofy().load().type(Course.class).filterKey(keyToFind).keys();
+        return load().filterKey(keyToFind).keys();
     }
 
     private Course getCourseEntity(String courseId) {
-        return ofy().load().type(Course.class).id(courseId).now();
+        return load().id(courseId).now();
     }
 
     private List<Course> getCourseEntities(List<String> courseIds) {
@@ -133,7 +139,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
             return new ArrayList<Course>();
         }
 
-        return new ArrayList<Course>(ofy().load().type(Course.class).ids(courseIds).values());
+        return new ArrayList<Course>(load().ids(courseIds).values());
     }
 
     @Override

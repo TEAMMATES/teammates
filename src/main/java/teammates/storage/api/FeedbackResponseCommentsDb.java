@@ -13,6 +13,7 @@ import java.util.Map;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -174,7 +175,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private Query<FeedbackResponseComment> getFeedbackResponseCommentsForCoursesQuery(List<String> courseIds) {
-        return ofy().load().type(FeedbackResponseComment.class).filter("courseId in", courseIds);
+        return load().filter("courseId in", courseIds);
     }
 
     /*
@@ -362,11 +363,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     @Deprecated
     public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return makeAttributes(ofy().load().type(FeedbackResponseComment.class).list());
+        return makeAttributes(load().list());
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("createdAt =", createdAt)
                 .filter("giverEmail =", giverEmail)
@@ -375,7 +376,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForSendingState(
             String courseId, String feedbackSessionName, CommentSendingState state) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("sendingState =", state.toString())
@@ -383,12 +384,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {
-        return ofy().load().type(FeedbackResponseComment.class).id(feedbackResponseCommentId).now();
+        return load().id(feedbackResponseCommentId).now();
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(
             String feedbackResponseId, String giverEmail, Date createdAt) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
                 .filter("giverEmail =", giverEmail)
                 .filter("createdAt =", createdAt)
@@ -397,7 +398,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
             String courseId, String giverEmail) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .list();
@@ -408,14 +409,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
             String courseId, String lastEditorEmail) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("lastEditorEmail =", lastEditorEmail)
                 .list();
     }
 
     private Query<FeedbackResponseComment> getFeedbackResponseCommentsForResponseQuery(String feedbackResponseId) {
-        return ofy().load().type(FeedbackResponseComment.class).filter("feedbackResponseId =", feedbackResponseId);
+        return load().filter("feedbackResponseId =", feedbackResponseId);
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
@@ -424,14 +425,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(
             String courseId, String feedbackSessionName) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .list();
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourse(String courseId) {
-        return ofy().load().type(FeedbackResponseComment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .list();
     }
@@ -440,7 +441,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             String courseId, String feedbackSessionName, String section) {
         Map<Long, FeedbackResponseComment> comments = new HashMap<Long, FeedbackResponseComment>();
 
-        for (FeedbackResponseComment comment : ofy().load().type(FeedbackResponseComment.class)
+        for (FeedbackResponseComment comment : load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("giverSection =", section)
@@ -448,7 +449,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
-        for (FeedbackResponseComment comment : ofy().load().type(FeedbackResponseComment.class)
+        for (FeedbackResponseComment comment : load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("receiverSection =", section)
@@ -457,6 +458,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
 
         return comments.values();
+    }
+
+    @Override
+    protected LoadType<FeedbackResponseComment> load() {
+        return ofy().load().type(FeedbackResponseComment.class);
     }
 
     @Override
@@ -474,13 +480,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
         Query<FeedbackResponseComment> query;
         if (id == null) {
-            query = ofy().load().type(FeedbackResponseComment.class)
+            query = load()
                     .filter("courseId =", attributes.courseId)
                     .filter("createdAt =", attributes.createdAt)
                     .filter("giverEmail =", attributes.giverEmail);
         } else {
-            query = ofy().load().type(FeedbackResponseComment.class)
-                    .filterKey(Key.create(FeedbackResponseComment.class, id));
+            query = load().filterKey(Key.create(FeedbackResponseComment.class, id));
         }
 
         return query.keys();

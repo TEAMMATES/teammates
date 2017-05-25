@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.FeedbackSessionType;
@@ -56,12 +57,12 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
         Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
 
-        List<FeedbackSession> endEntities = ofy().load().type(FeedbackSession.class)
+        List<FeedbackSession> endEntities = load()
                 .filter("endTime >", curStart)
                 .filter("endTime <=", curEnd)
                 .list();
 
-        List<FeedbackSession> startEntities = ofy().load().type(FeedbackSession.class)
+        List<FeedbackSession> startEntities = load()
                 .filter("startTime >=", curStart)
                 .filter("startTime <", curEnd)
                 .list();
@@ -397,26 +398,26 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     public void deleteFeedbackSessionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        ofy().delete().keys(ofy().load().type(FeedbackSession.class).filter("courseId in", courseIds).keys()).now();
+        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
     }
 
     private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        return ofy().load().type(FeedbackSession.class).list();
+        return load().list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
-        return ofy().load().type(FeedbackSession.class).filter("courseId =", courseId).list();
+        return load().filter("courseId =", courseId).list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
-        return ofy().load().type(FeedbackSession.class)
+        return load()
                 .filter("startTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
                 .filter("sentOpenEmail =", false)
                 .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
-        return ofy().load().type(FeedbackSession.class)
+        return load()
                 .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
                 .filter("sentClosingEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
@@ -424,7 +425,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
-        return ofy().load().type(FeedbackSession.class)
+        return load()
                 .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
                 .filter("sentClosedEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
@@ -432,7 +433,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
-        return ofy().load().type(FeedbackSession.class)
+        return load()
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
                 .filter("feedbackSessionType !=", FeedbackSessionType.PRIVATE)
@@ -440,10 +441,15 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
-        return ofy().load().type(FeedbackSession.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .first().now();
+    }
+
+    @Override
+    protected LoadType<FeedbackSession> load() {
+        return ofy().load().type(FeedbackSession.class);
     }
 
     @Override
@@ -453,7 +459,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     @Override
     protected QueryKeys<FeedbackSession> getEntityQueryKeys(FeedbackSessionAttributes attributes) {
-        return ofy().load().type(FeedbackSession.class)
+        return load()
                 .filter("feedbackSessionName =", attributes.getFeedbackSessionName())
                 .filter("courseId =", attributes.getCourseId()).keys();
     }

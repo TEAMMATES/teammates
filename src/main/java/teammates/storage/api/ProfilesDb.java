@@ -10,6 +10,7 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -233,6 +234,11 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     }
 
     @Override
+    protected LoadType<StudentProfile> load() {
+        return ofy().load().type(StudentProfile.class);
+    }
+
+    @Override
     protected StudentProfile getEntity(StudentProfileAttributes attributes) {
         // this method is never used and is here only for future expansion and completeness
         return getStudentProfileEntityFromDb(attributes.googleId);
@@ -242,12 +248,12 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     protected QueryKeys<StudentProfile> getEntityQueryKeys(StudentProfileAttributes attributes) {
         Key<Account> parentKey = Key.create(Account.class, attributes.googleId);
         Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, attributes.googleId);
-        return ofy().load().type(StudentProfile.class).filterKey(childKey).keys();
+        return load().filterKey(childKey).keys();
     }
 
     private QueryKeys<StudentProfile> getEntityQueryKeysForLegacyData(StudentProfileAttributes attributes) {
         Key<StudentProfile> legacyKey = Key.create(StudentProfile.class, attributes.googleId);
-        return ofy().load().type(StudentProfile.class).filterKey(legacyKey).keys();
+        return load().filterKey(legacyKey).keys();
     }
 
     @Override
@@ -263,7 +269,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
      */
     @Deprecated
     private List<StudentProfile> getStudentProfileEntities() {
-        return ofy().load().type(StudentProfile.class).list();
+        return load().list();
     }
 
     @Override

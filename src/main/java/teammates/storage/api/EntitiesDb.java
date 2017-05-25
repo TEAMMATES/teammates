@@ -13,6 +13,7 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
@@ -203,6 +204,8 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public void deletePicture(BlobKey key) {
         GoogleCloudStorageHelper.deleteFile(key);
     }
+
+    protected abstract LoadType<E> load();
 
     /**
      * NOTE: This method must be overriden for all subclasses such that it will return the

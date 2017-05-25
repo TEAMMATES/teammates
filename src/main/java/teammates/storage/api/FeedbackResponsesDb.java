@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -440,7 +441,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     private Query<FeedbackResponse> getFeedbackResponsesForCoursesQuery(List<String> courseIds) {
-        return ofy().load().type(FeedbackResponse.class).filter("courseId in", courseIds);
+        return load().filter("courseId in", courseIds);
     }
 
     public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
@@ -452,7 +453,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
-        return ofy().load().type(FeedbackResponse.class).filter("courseId =", courseId).list();
+        return load().filter("courseId =", courseId).list();
     }
 
     /**
@@ -464,16 +465,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForCourseWithinRange(String courseId, int range) {
-        return ofy().load().type(FeedbackResponse.class).filter("courseId =", courseId).limit(range).list();
+        return load().filter("courseId =", courseId).limit(range).list();
     }
 
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
-        return ofy().load().type(FeedbackResponse.class).id(feedbackResponseId).now();
+        return load().id(feedbackResponseId).now();
     }
 
     private FeedbackResponse getFeedbackResponseEntity(
             String feedbackQuestionId, String giverEmail, String receiver) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
                 .filter("receiver =", receiver)
@@ -484,19 +485,19 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 String feedbackQuestionId, String section) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<FeedbackResponse>();
 
-        feedbackResponses.addAll(ofy().load().type(FeedbackResponse.class)
+        feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverSection =", section)
                 .filter("receiverSection =", section)
                 .list());
 
-        feedbackResponses.addAll(ofy().load().type(FeedbackResponse.class)
+        feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverSection =", section)
                 .filter("receiverSection =", "None")
                 .list());
 
-        feedbackResponses.addAll(ofy().load().type(FeedbackResponse.class)
+        feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverSection =", "None")
                 .filter("receiverSection =", section)
@@ -510,7 +511,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(String feedbackQuestionId, int range) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .limit(range + 1).list();
     }
@@ -522,7 +523,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionWithinRange(
             String feedbackSessionName, String courseId, int range) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .limit(range + 1).list();
@@ -574,7 +575,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSectionWithinRange(
             String feedbackSessionName, String courseId, String section, int range) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("giverSection =", section)
@@ -583,7 +584,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionToSectionWithinRange(
             String feedbackSessionName, String courseId, String section, int range) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("receiverSection =", section)
@@ -592,7 +593,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(
             String feedbackQuestionId, String receiver) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("receiver =", receiver)
                 .list();
@@ -602,7 +603,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String feedbackQuestionId, String receiver, String section) {
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
-        for (FeedbackResponse response : ofy().load().type(FeedbackResponse.class)
+        for (FeedbackResponse response : load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("receiver =", receiver)
                 .filter("giverSection =", section)
@@ -610,7 +611,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             feedbackResponses.put(response.getId(), response);
         }
 
-        for (FeedbackResponse response : ofy().load().type(FeedbackResponse.class)
+        for (FeedbackResponse response : load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("receiver =", receiver)
                 .filter("receiverSection =", section)
@@ -623,7 +624,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(
             String feedbackQuestionId, String giverEmail) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
                 .list();
@@ -633,7 +634,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String feedbackQuestionId, String giverEmail, String section) {
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
-        for (FeedbackResponse response : ofy().load().type(FeedbackResponse.class)
+        for (FeedbackResponse response : load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
                 .filter("giverSection =", section)
@@ -641,7 +642,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             feedbackResponses.put(response.getId(), response);
         }
 
-        for (FeedbackResponse response : ofy().load().type(FeedbackResponse.class)
+        for (FeedbackResponse response : load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
                 .filter("receiverSection =", section)
@@ -654,7 +655,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForSessionWithinRange(
             String giverEmail, String feedbackSessionName, String courseId, int range) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("giverEmail =", giverEmail)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
@@ -663,7 +664,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForCourse(
             String courseId, String receiver) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("receiver =", receiver)
                 .list();
@@ -671,10 +672,15 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForCourse(
             String courseId, String giverEmail) {
-        return ofy().load().type(FeedbackResponse.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .list();
+    }
+
+    @Override
+    protected LoadType<FeedbackResponse> load() {
+        return ofy().load().type(FeedbackResponse.class);
     }
 
     @Override
@@ -692,13 +698,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
         Query<FeedbackResponse> query;
         if (id == null) {
-            query = ofy().load().type(FeedbackResponse.class)
+            query = load()
                     .filter("feedbackQuestionId =", attributes.feedbackQuestionId)
                     .filter("giverEmail =", attributes.giver)
                     .filter("receiver =", attributes.recipient);
         } else {
-            query = ofy().load().type(FeedbackResponse.class)
-                    .filterKey(Key.create(FeedbackResponse.class, id));
+            query = load().filterKey(Key.create(FeedbackResponse.class, id));
         }
 
         return query.keys();

@@ -11,6 +11,7 @@ import java.util.Set;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -412,12 +413,11 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
     }
 
     private List<Comment> getAllCommentEntities() {
-        return ofy().load().type(Comment.class).list();
+        return load().list();
     }
 
     private Query<Comment> getCommentsForCourseQuery(String courseId) {
-        return ofy().load().type(Comment.class)
-                .filter("courseId =", courseId);
+        return load().filter("courseId =", courseId);
     }
 
     private List<Comment> getCommentEntitiesForCourse(String courseId) {
@@ -425,19 +425,18 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
     }
 
     private Query<Comment> getCommentsForCoursesQuery(List<String> courseIds) {
-        return ofy().load().type(Comment.class)
-                .filter("courseId in", courseIds);
+        return load().filter("courseId in", courseIds);
     }
 
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("sendingState =", sendingState.toString())
                 .list();
     }
 
     private Query<Comment> getCommentsForGiverQuery(String courseId, String giverEmail) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail);
     }
@@ -448,7 +447,7 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
 
     private List<Comment> getCommentEntitiesForGiverAndStatus(String courseId, String giverEmail,
                                                               CommentStatus status) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .filter("status =", status.toString())
@@ -456,7 +455,7 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
     }
 
     private List<Comment> getCommentEntitiesForDraft(String giverEmail) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("giverEmail =", giverEmail)
                 .filter("status =", CommentStatus.DRAFT.toString())
                 .list();
@@ -466,7 +465,7 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
      * Gets a list of Comments which have a last editor associated with the given email
      */
     private List<Comment> getCommentEntitiesForLastEditor(String courseId, String lastEditorEmail) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("lastEditorEmail =", lastEditorEmail)
                 .list();
@@ -474,7 +473,7 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
 
     private Query<Comment> getCommentsForRecipientsQuery(String courseId,
             CommentParticipantType recipientType, String recipient) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("recipientType =", recipientType.toString())
                 .filter("recipients", SanitizationHelper.sanitizeForHtml(recipient));
@@ -487,10 +486,15 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
 
     private List<Comment> getCommentEntitiesForCommentViewer(String courseId,
             CommentParticipantType commentViewerType) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("showCommentTo", commentViewerType.toString())
                 .list();
+    }
+
+    @Override
+    protected LoadType<Comment> load() {
+        return ofy().load().type(Comment.class);
     }
 
     @Override
@@ -510,15 +514,14 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
         Query<Comment> query;
 
         if (id == null) {
-            query = ofy().load().type(Comment.class)
+            query = load()
                     .filter("courseId =", attributes.courseId)
                     .filter("giverEmail =", attributes.giverEmail)
                     .filter("createdAt =", attributes.createdAt)
                     .filter("recipientType =", attributes.recipientType.toString())
                     .filter("recipients", SanitizationHelper.sanitizeForHtml(attributes.recipients.iterator().next()));
         } else {
-            query = ofy().load().type(Comment.class)
-                    .filterKey(Key.create(Comment.class, id));
+            query = load().filterKey(Key.create(Comment.class, id));
         }
 
         return query.keys();
@@ -526,12 +529,12 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
 
     // Gets a comment entity if the ID is known
     private Comment getCommentEntity(Long commentId) {
-        return ofy().load().type(Comment.class).id(commentId).now();
+        return load().id(commentId).now();
     }
 
     private Comment getCommentEntity(String courseId, String giverEmail, CommentParticipantType recipientType,
                                      Set<String> recipients, Date date) {
-        return ofy().load().type(Comment.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .filter("createdAt =", date)

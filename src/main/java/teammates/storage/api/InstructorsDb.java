@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -356,29 +357,29 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
-        return ofy().load().type(Instructor.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("googleId =", googleId)
                 .first().now();
     }
 
     private Instructor getInstructorEntityForEmail(String courseId, String email) {
-        return ofy().load().type(Instructor.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("email =", email)
                 .first().now();
     }
 
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
-        return ofy().load().type(Instructor.class).filter("courseId in", courseIds).list();
+        return load().filter("courseId in", courseIds).list();
     }
 
     private Instructor getInstructorEntityForRegistrationKey(String key) {
-        return ofy().load().type(Instructor.class).filter("registrationKey =", key).first().now();
+        return load().filter("registrationKey =", key).first().now();
     }
 
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {
-        return ofy().load().type(Instructor.class).filter("googleId =", googleId).list();
+        return load().filter("googleId =", googleId).list();
     }
 
     /**
@@ -387,7 +388,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      */
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         if (omitArchived) {
-            return ofy().load().type(Instructor.class)
+            return load()
                     .filter("googleId =", googleId)
                     .filter("isArchived !=", true)
                     .list();
@@ -396,15 +397,20 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private List<Instructor> getInstructorEntitiesForEmail(String email) {
-        return ofy().load().type(Instructor.class).filter("email =", email).list();
+        return load().filter("email =", email).list();
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
-        return ofy().load().type(Instructor.class).filter("courseId =", courseId).list();
+        return load().filter("courseId =", courseId).list();
     }
 
     private List<Instructor> getInstructorEntities() {
-        return ofy().load().type(Instructor.class).list();
+        return load().list();
+    }
+
+    @Override
+    protected LoadType<Instructor> load() {
+        return ofy().load().type(Instructor.class);
     }
 
     @Override
@@ -414,7 +420,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     @Override
     protected QueryKeys<Instructor> getEntityQueryKeys(InstructorAttributes attributes) {
-        return ofy().load().type(Instructor.class)
+        return load()
                 .filter("courseId =", attributes.courseId)
                 .filter("email =", attributes.email)
                 .keys();

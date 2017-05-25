@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -179,7 +180,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
-        ofy().delete().keys(ofy().load().type(FeedbackQuestion.class).filter("courseId in", courseIds).keys()).now();
+        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
     }
 
     // Gets a question entity if its Key (feedbackQuestionId) is known.
@@ -197,7 +198,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
     private FeedbackQuestion getFeedbackQuestionEntity(
             String feedbackSessionName, String courseId, int questionNumber) {
-        return ofy().load().type(FeedbackQuestion.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("questionNumber =", questionNumber)
@@ -206,25 +207,30 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForSession(
             String feedbackSessionName, String courseId) {
-        return ofy().load().type(FeedbackQuestion.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .list();
     }
 
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourse(String courseId) {
-        return ofy().load().type(FeedbackQuestion.class)
+        return load()
                 .filter("courseId =", courseId)
                 .list();
     }
 
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
-        return ofy().load().type(FeedbackQuestion.class)
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("giverType =", giverType)
                 .list();
+    }
+
+    @Override
+    protected LoadType<FeedbackQuestion> load() {
+        return ofy().load().type(FeedbackQuestion.class);
     }
 
     @Override
@@ -242,13 +248,12 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
         Query<FeedbackQuestion> query;
         if (key == null) {
-            query = ofy().load().type(FeedbackQuestion.class)
+            query = load()
                     .filter("feedbackSessionName =", attributes.feedbackSessionName)
                     .filter("courseId =", attributes.courseId)
                     .filter("questionNumber =", attributes.questionNumber);
         } else {
-            query = ofy().load().type(FeedbackQuestion.class)
-                    .filterKey(key);
+            query = load().filterKey(key);
         }
 
         return query.keys();

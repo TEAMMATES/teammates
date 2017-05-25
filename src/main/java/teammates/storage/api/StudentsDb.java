@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -160,7 +161,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        CourseStudent student = ofy().load().type(CourseStudent.class)
+        CourseStudent student = load()
                 .filter("courseId =", courseId)
                 .filter("googleId =", googleId)
                 .first().now();
@@ -509,7 +510,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private Query<CourseStudent> getCourseStudentForEmailQuery(String courseId, String email) {
-        return ofy().load().type(CourseStudent.class)
+        return load()
                 .filter("courseId =", courseId)
                 .filter("email =", email);
     }
@@ -519,8 +520,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
-        List<CourseStudent> studentList =
-                ofy().load().type(CourseStudent.class).filter("registrationKey =", registrationKey).list();
+        List<CourseStudent> studentList = load().filter("registrationKey =", registrationKey).list();
 
         // If registration key detected is not unique, something is wrong
         if (studentList.size() > 1) {
@@ -539,7 +539,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private Query<CourseStudent> getCourseStudentsForCourseQuery(String courseId) {
-        return ofy().load().type(CourseStudent.class).filter("courseId =", courseId);
+        return load().filter("courseId =", courseId);
     }
 
     public List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
@@ -547,11 +547,11 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private Query<CourseStudent> getCourseStudentsForCoursesQuery(List<String> courseIds) {
-        return ofy().load().type(CourseStudent.class).filter("courseId in", courseIds);
+        return load().filter("courseId in", courseIds);
     }
 
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {
-        return ofy().load().type(CourseStudent.class).filter("googleId =", googleId);
+        return load().filter("googleId =", googleId);
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
@@ -559,14 +559,14 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
-        return ofy().load().type(CourseStudent.class)
+        return load()
                 .filter("teamName =", teamName)
                 .filter("courseId =", courseId)
                 .list();
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
-        return ofy().load().type(CourseStudent.class)
+        return load()
                 .filter("sectionName =", sectionName)
                 .filter("courseId =", courseId)
                 .list();
@@ -577,7 +577,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Retrieves all course student entities. This function is not scalable.
      */
     public List<CourseStudent> getCourseStudentEntities() {
-        return ofy().load().type(CourseStudent.class).list();
+        return load().list();
+    }
+
+    @Override
+    protected LoadType<CourseStudent> load() {
+        return ofy().load().type(CourseStudent.class);
     }
 
     @Override

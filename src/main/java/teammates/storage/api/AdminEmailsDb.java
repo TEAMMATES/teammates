@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -160,7 +161,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
-        return makeAttributes(ofy().load().type(AdminEmail.class)
+        return makeAttributes(load()
                 .filter("isInTrashBin =", false)
                 .filter("sendDate =", null)
                 .list());
@@ -171,7 +172,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
-        return makeAttributes(ofy().load().type(AdminEmail.class)
+        return makeAttributes(load()
                 .filter("isInTrashBin =", false)
                 .filter("sendDate !=", null)
                 .list());
@@ -182,11 +183,11 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
-        return makeAttributes(ofy().load().type(AdminEmail.class).filter("isInTrashBin =", true).list());
+        return makeAttributes(load().filter("isInTrashBin =", true).list());
     }
 
     private List<AdminEmail> getAdminEmailEntities() {
-        return ofy().load().type(AdminEmail.class).list();
+        return load().list();
     }
 
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
@@ -201,14 +202,19 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     }
 
     private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
-        return ofy().load().type(AdminEmail.class)
+        return load()
                 .filter("subject =", subject)
                 .filter("createDate =", createDate)
                 .first().now();
     }
 
     private AdminEmail getAdminEmailEntityBySubject(String subject) {
-        return ofy().load().type(AdminEmail.class).filter("subject =", subject).first().now();
+        return load().filter("subject =", subject).first().now();
+    }
+
+    @Override
+    protected LoadType<AdminEmail> load() {
+        return ofy().load().type(AdminEmail.class);
     }
 
     @Override
@@ -227,12 +233,11 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
 
         Query<AdminEmail> query;
         if (key == null) {
-            query = ofy().load().type(AdminEmail.class)
+            query = load()
                     .filter("subject =", attributes.subject)
                     .filter("createDate =", attributes.createDate);
         } else {
-            query = ofy().load().type(AdminEmail.class)
-                    .filterKey(key);
+            query = load().filterKey(key);
         }
 
         return query.keys();
