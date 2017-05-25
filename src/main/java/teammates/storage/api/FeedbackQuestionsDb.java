@@ -201,6 +201,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
         fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
+        fq.setFeedbackPaths(newAttributes.getFeedbackPathEntities());
 
         //set true to prevent changes to last update timestamp
         fq.keepUpdateTimestamp = keepUpdateTimestamp;

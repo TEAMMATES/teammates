@@ -1,15 +1,20 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -40,6 +45,7 @@ public final class StudentsLogic {
 
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
@@ -218,9 +224,13 @@ public final class StudentsLogic {
             commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
         }
 
-        // adjust submissions if moving to a different team
+        // adjust submissions and custom feedback paths if moving to a different team
+
         if (isTeamChanged(originalStudent.team, student.team)) {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
+            if (getStudentsForTeam(originalStudent.getTeam(), student.course).isEmpty()) {
+                fqLogic.updateFeedbackQuestionsForDeletedTeam(student.course, originalStudent.getTeam());
+            }
         }
 
         if (isSectionChanged(originalStudent.section, student.section)) {
@@ -256,6 +266,7 @@ public final class StudentsLogic {
 
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
+            fqLogic.updateFeedbackQuestionsForChangingStudentEmail(originalEmail, student);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
             fsLogic.updateRespondentsForStudent(originalEmail, student.email, student.course);
         }
@@ -462,20 +473,24 @@ public final class StudentsLogic {
         return errorMessage.toString();
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail) {
+    public void deleteStudentCascade(String courseId, String studentEmail)
+            throws InvalidParametersException {
         deleteStudentCascade(courseId, studentEmail, true);
     }
 
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
+    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail)
+            throws InvalidParametersException {
         deleteStudentCascade(courseId, studentEmail, false);
     }
 
-    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
+    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument)
+            throws InvalidParametersException {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
+        fqLogic.updateFeedbackQuestionsForDeletedStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -494,7 +509,7 @@ public final class StudentsLogic {
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
 
-    public void deleteStudentsForGoogleIdAndCascade(String googleId) {
+    public void deleteStudentsForGoogleIdAndCascade(String googleId) throws InvalidParametersException {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
 
         // Cascade delete students
@@ -669,6 +684,154 @@ public final class StudentsLogic {
             return teamResult;
         }
         return null;
+    }
+
+    /**
+     * Returns a list of students who have questions to answer in the feedback session.
+     */
+    public List<StudentAttributes> getStudentsWithQuestionsToAnswer(FeedbackSessionAttributes session) {
+        if (!session.isVisible()) {
+            return new ArrayList<StudentAttributes>();
+        }
+
+        String feedbackSessionName = session.getFeedbackSessionName();
+        String courseId = session.getCourseId();
+
+        List<FeedbackQuestionAttributes> questionsForStudents =
+                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+
+        if (!questionsForStudents.isEmpty()) {
+            return getStudentsForCourse(courseId);
+        }
+
+        List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
+                fqLogic.getFeedbackQuestionsWithCustomFeedbackPaths(feedbackSessionName, courseId);
+
+        Set<String> emailsOfStudentsWithQuestions = new HashSet<String>();
+        Set<String> namesOfTeamsWithQuestions = new HashSet<String>();
+
+        for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
+            if (question.isFeedbackPathsGiverTypeStudents()) {
+                emailsOfStudentsWithQuestions.addAll(question.getAllGiversFromFeedbackPaths());
+            } else if (question.isFeedbackPathsGiverTypeTeams()) {
+                namesOfTeamsWithQuestions.addAll(question.getAllGiversFromFeedbackPaths());
+            }
+        }
+
+        if (emailsOfStudentsWithQuestions.isEmpty() && namesOfTeamsWithQuestions.isEmpty()) {
+            return new ArrayList<StudentAttributes>();
+        }
+
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        List<StudentAttributes> studentsWithQuestionsToAnswer = new ArrayList<StudentAttributes>();
+
+        for (StudentAttributes studentInCourse : studentsInCourse) {
+            boolean isStudentHasQuestionsToAnswer =
+                    emailsOfStudentsWithQuestions.contains(studentInCourse.getEmail())
+                    || namesOfTeamsWithQuestions.contains(studentInCourse.getTeam());
+            if (isStudentHasQuestionsToAnswer) {
+                studentsWithQuestionsToAnswer.add(studentInCourse);
+            }
+        }
+
+        return studentsWithQuestionsToAnswer;
+    }
+
+    /**
+     * Returns a list of students who can view the session.
+     * This includes includes both those who have questions to answer
+     * and those who can see responses of questions.
+     */
+    public List<StudentAttributes> getStudentsWhoCanViewSession(FeedbackSessionAttributes session) {
+        if (!session.isVisible()) {
+            return new ArrayList<StudentAttributes>();
+        }
+
+        String feedbackSessionName = session.getFeedbackSessionName();
+        String courseId = session.getCourseId();
+
+        // Students can view the feedback session if there are questions for students or teams
+        List<FeedbackQuestionAttributes> questionsForStudents =
+                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+
+        if (!questionsForStudents.isEmpty()) {
+            return getStudentsForCourse(courseId);
+        }
+
+        // Students can view the feedback session
+        // if there are any questions for instructors to answer
+        // where the responses of the questions are visible to the students
+        List<FeedbackQuestionAttributes> questionsForInstructors =
+                fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
+        for (FeedbackQuestionAttributes question : questionsForInstructors) {
+            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudents(question)) {
+                return getStudentsForCourse(courseId);
+            }
+        }
+
+        // Students can view the feedback session
+        // if there are any questions with custom feedback paths
+        // where the student or his/her team is a giver
+        // or the responses of the questions are visible to the student
+        List<FeedbackQuestionAttributes> questionsWithCustomFeedbackPaths =
+                fqLogic.getFeedbackQuestionsWithCustomFeedbackPaths(feedbackSessionName, courseId);
+        if (questionsWithCustomFeedbackPaths.isEmpty()) {
+            return new ArrayList<StudentAttributes>();
+        }
+
+        List<StudentAttributes> studentsWhoCanViewSession = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+
+        for (StudentAttributes student : studentsInCourse) {
+            for (FeedbackQuestionAttributes question : questionsWithCustomFeedbackPaths) {
+                boolean isStudentAbleToViewSession =
+                        question.hasStudentAsGiverInFeedbackPaths(student.getEmail())
+                        || question.hasTeamAsGiverInFeedbackPaths(student.getTeam())
+                        || frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question, student);
+                if (isStudentAbleToViewSession) {
+                    studentsWhoCanViewSession.add(student);
+                    break;
+                }
+            }
+        }
+
+        return studentsWhoCanViewSession;
+    }
+
+    /**
+     * Returns a list of students who have unanswered questions in the feedback session.
+     */
+    public List<StudentAttributes> getStudentsWithUnansweredQuestions(
+            FeedbackSessionAttributes session) throws EntityDoesNotExistException {
+        String feedbackSessionName = session.getFeedbackSessionName();
+        String courseId = session.getCourseId();
+
+        List<FeedbackQuestionAttributes> feedbackQuestions =
+                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        List<StudentAttributes> studentsWithUnansweredQuestions = new ArrayList<StudentAttributes>();
+
+        for (StudentAttributes studentInCourse : studentsInCourse) {
+            for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+                String studentEmail = studentInCourse.getEmail();
+                String studentTeam = studentInCourse.getTeam();
+                boolean isQuestionForStudentToAnswer =
+                        feedbackQuestion.giverType == FeedbackParticipantType.STUDENTS
+                        || feedbackQuestion.giverType == FeedbackParticipantType.TEAMS
+                        || feedbackQuestion.giverType == FeedbackParticipantType.CUSTOM
+                        && (feedbackQuestion.hasStudentAsGiverInFeedbackPaths(studentEmail)
+                                || feedbackQuestion.hasTeamAsGiverInFeedbackPaths(studentTeam));
+                String giver = feedbackQuestion.isGiverATeam() ? studentTeam : studentEmail;
+                if (isQuestionForStudentToAnswer
+                        && !fqLogic.isQuestionFullyAnsweredByUser(feedbackQuestion, giver)) {
+                    studentsWithUnansweredQuestions.add(studentInCourse);
+                    break;
+                }
+            }
+        }
+
+        return studentsWithUnansweredQuestions;
     }
 
 }

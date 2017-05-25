@@ -562,6 +562,30 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(qnEditLink);
     }
 
+    public void clickToggleCustomFeedbackPathsDisplayLink(int qnNumber) {
+        WebElement toggleCustomFeedbackPathsDisplayLink =
+                browser.driver.findElement(
+                        By.cssSelector("#form_editquestion-" + qnNumber
+                                       + " .toggle-custom-feedback-paths-display-link"));
+        toggleCustomFeedbackPathsDisplayLink.click();
+    }
+
+    public boolean isToggleCustomFeedbackPathsDisplayLinkVisible(int qnNumber) {
+        WebElement toggleCustomFeedbackPathsDisplayLink =
+                browser.driver.findElement(
+                        By.cssSelector("#form_editquestion-" + qnNumber
+                                       + " .toggle-custom-feedback-paths-display-link"));
+        return toggleCustomFeedbackPathsDisplayLink.isDisplayed();
+    }
+
+    public boolean isCustomFeedbackPathsDisplayVisible(int qnNumber) {
+        WebElement customFeedbackPathsDisplay =
+                browser.driver.findElement(
+                        By.cssSelector("#form_editquestion-" + qnNumber
+                                       + " .custom-feedback-paths-display"));
+        return customFeedbackPathsDisplay.isDisplayed();
+    }
+
     public boolean isQuestionEnabled(int qnNumber) {
         WebElement questionTextArea = browser.driver.findElement(By.id("questiontext-" + qnNumber));
         return questionTextArea.isEnabled();

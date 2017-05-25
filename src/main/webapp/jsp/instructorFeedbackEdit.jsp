@@ -12,10 +12,13 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="cssIncludes">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/customFeedbackPaths.css" type="text/css" media="screen">
 </c:set>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
 
     <script type="text/javascript" src="/js/datepicker.js"></script>
@@ -24,6 +27,7 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/feedbackPath.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackEdit/visibilityOptions.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackEdit/customFeedbackPaths.js"></script>
 
     <!-- javascript for behaviors of the various question types -->
     <script type="text/javascript" src="/js/instructorFeedbackEdit/questionMcq.js"></script>
@@ -39,7 +43,7 @@
  <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
-    
+    <feedbackEdit:customFeedbackPathsData sessionCreatorData="${data.creatorEmail}" studentsData="${data.studentsDataAsString}" instructorsData="${data.instructorsDataAsString}"/>
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
      
     <br>

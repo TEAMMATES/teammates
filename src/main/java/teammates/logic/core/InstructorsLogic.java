@@ -33,6 +33,7 @@ public final class InstructorsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     private InstructorsLogic() {
         // prevent initialization
@@ -226,18 +227,19 @@ public final class InstructorsLogic {
         }
     }
 
-    private void verifyInstructorInDbAndCascadeEmailChange(String googleId,
-            InstructorAttributes instructor) throws EntityDoesNotExistException {
+    private void verifyInstructorInDbAndCascadeEmailChange(String googleId, InstructorAttributes instructor)
+            throws EntityDoesNotExistException, InvalidParametersException {
         InstructorAttributes instructorInDb = instructorsDb.getInstructorForGoogleId(instructor.courseId, googleId);
         if (instructorInDb == null) {
             throw new EntityDoesNotExistException("Instructor " + googleId
                     + " does not belong to course " + instructor.courseId);
         }
-        // cascade comments
+        // cascade comments and custom feedback path email
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
             frcLogic.updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
+            fqLogic.updateFeedbackQuestionsForChangingInstructorEmail(instructorInDb.getEmail(), instructor);
         }
     }
 
@@ -287,13 +289,17 @@ public final class InstructorsLogic {
         return errors;
     }
 
-    public void deleteInstructorCascade(String courseId, String email) {
+    public void deleteInstructorCascade(String courseId, String email)
+            throws InvalidParametersException, EntityDoesNotExistException {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
-        fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
+        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
+        fqLogic.updateFeedbackQuestionsForDeletedInstructor(instructor);
+        fsLogic.deleteInstructorFromRespondentsList(instructor);
         instructorsDb.deleteInstructor(courseId, email);
     }
 
-    public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
+    public void deleteInstructorsForGoogleIdAndCascade(String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
 
         //Cascade delete instructors

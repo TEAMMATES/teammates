@@ -1302,10 +1302,10 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        int numStudentRespondents = 3;
-        int numInstructorRespondents = 1;
+        int numStudentRespondents = 6;
+        int numInstructorRespondents = 2;
 
-        int totalStudents = 5;
+        int totalStudents = 6;
         int totalInstructors = 5;
 
         ______TS("Check response rate before editing question 1");
@@ -1370,7 +1370,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents - 1, details.stats.submittedTotal);
         assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
         ______TS("Change the feedback path of a question so that some possible respondents are removed");
@@ -1396,12 +1396,16 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(params4);
         a.executeAndPostProcess();
 
-        // Total possible respondents should decrease because instructors
-        // (except session creator) are no longer possible respondents
+        // Total possible respondents should decrease because all instructors
+        // are no longer possible respondents except for 2: Session Creator
+        // and Custom Feedback Path Instructor Giver
+
+        int numRemainingInstructorRespondents = 2;
+
         fs = fsLogic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + 1, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents - 1, details.stats.submittedTotal);
+        assertEquals(totalStudents + numRemainingInstructorRespondents, details.stats.expectedTotal);
     }
 
     @Override

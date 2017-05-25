@@ -2,12 +2,17 @@ package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -17,6 +22,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+import teammates.storage.entity.FeedbackPath;
 import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
@@ -39,6 +45,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    public List<FeedbackPathAttributes> feedbackPaths;
     protected transient Date createdAt;
     protected transient Date updatedAt;
     private String feedbackQuestionId;
@@ -66,6 +73,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
 
+        this.feedbackPaths = getFeedbackPaths(fq.getFeedbackPaths());
+
         removeIrrelevantVisibilityOptions();
     }
 
@@ -86,6 +95,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         this.createdAt = other.getCreatedAt();
         this.updatedAt = other.getUpdatedAt();
+
+        this.feedbackPaths = other.feedbackPaths;
 
         removeIrrelevantVisibilityOptions();
     }
@@ -116,7 +127,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return new FeedbackQuestion(feedbackSessionName, courseId, creatorEmail,
                                     questionMetaData, questionDescription, questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
-                                    showResponsesTo, showGiverNameTo, showRecipientNameTo);
+                                    showResponsesTo, showGiverNameTo, showRecipientNameTo, getFeedbackPathEntities());
     }
 
     @Override
@@ -131,7 +142,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                + ", numberOfEntitiesToGiveFeedbackTo="
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
+               + ", showRecipientNameTo=" + showRecipientNameTo
+               + ", feedbackPaths=" + feedbackPaths + "]";
     }
 
     @Override
@@ -268,7 +280,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     public boolean isRecipientNameHidden() {
         return recipientType == FeedbackParticipantType.NONE
-               || recipientType == FeedbackParticipantType.SELF;
+               || recipientType == FeedbackParticipantType.SELF
+               || recipientType == FeedbackParticipantType.CUSTOM
+               && hasClassAsRecipientInFeedbackPaths();
     }
 
     public boolean isRecipientAStudent() {
@@ -276,6 +290,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                || recipientType == FeedbackParticipantType.STUDENTS
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+    }
+
+    public boolean isGiverATeam() {
+        return giverType.isTeam()
+                || giverType == FeedbackParticipantType.CUSTOM
+                && isFeedbackPathsGiverTypeTeams();
+    }
+
+    public boolean isRecipientATeam() {
+        return recipientType.isTeam()
+                || recipientType == FeedbackParticipantType.CUSTOM
+                && isFeedbackPathsRecipientTypeTeams();
     }
 
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
@@ -291,6 +317,19 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         if (!newAttributes.giverType.equals(this.giverType)
                 || !newAttributes.recipientType.equals(this.recipientType)) {
             return true;
+        }
+
+        // if custom feedback paths giver type or recipient type has changed
+        // or if feedback paths have been deleted
+        // then we need to cascade delete the responses
+        if (newAttributes.giverType.isCustom()) {
+            Set<FeedbackPathAttributes> newCustomFeedbackPaths =
+                    new HashSet<FeedbackPathAttributes>(newAttributes.feedbackPaths);
+            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+                if (!newCustomFeedbackPaths.contains(feedbackPath)) {
+                    return true;
+                }
+            }
         }
 
         if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
@@ -641,4 +680,386 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
 
+    private List<FeedbackPathAttributes> getFeedbackPaths(List<FeedbackPath> feedbackPathEntities) {
+        List<FeedbackPathAttributes> feedbackPaths =
+                new ArrayList<FeedbackPathAttributes>();
+        for (FeedbackPath feedbackPath : feedbackPathEntities) {
+            feedbackPaths.add(new FeedbackPathAttributes(feedbackPath));
+        }
+        return feedbackPaths;
+    }
+
+    /**
+     * Returns a list of feedback path entities converted from the question's feedback paths.
+     */
+    public List<FeedbackPath> getFeedbackPathEntities() {
+        List<FeedbackPath> feedbackPathEntities = new ArrayList<FeedbackPath>();
+        if (feedbackPaths != null) {
+            for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+                feedbackPathEntities.add(feedbackPath.toEntity());
+            }
+        }
+
+        return feedbackPathEntities;
+    }
+
+    /**
+     * Returns true if the given student is a giver in the question's feedback paths.
+     */
+    public boolean hasStudentAsGiverInFeedbackPaths(String studentEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathGiver(studentEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given instructor is a giver in the question's feedback paths.
+     */
+    public boolean hasInstructorAsGiverInFeedbackPaths(String instructorEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given team is a giver in the question's feedback paths.
+     */
+    public boolean hasTeamAsGiverInFeedbackPaths(String teamName) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isTeamFeedbackPathGiver(teamName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given student is a recipient in the question's feedback paths.
+     */
+    public boolean hasStudentAsRecipientInFeedbackPaths(String studentEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathRecipient(studentEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given team is a giver in the question's feedback paths.
+     */
+    public boolean hasTeamAsRecipientInFeedbackPaths(String teamName) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isTeamFeedbackPathRecipient(teamName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if whether the class is a recipient in the question's feedback paths.
+     */
+    public boolean hasClassAsRecipientInFeedbackPaths() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientTheClass()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the question's feedback paths giver type is Students.
+     */
+    public boolean isFeedbackPathsGiverTypeStudents() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathGiverAStudent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the question's feedback paths giver type is Instructors.
+     */
+    public boolean isFeedbackPathsGiverTypeInstructors() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathGiverAnInstructor()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the question's feedback paths giver type is Teams.
+     */
+    public boolean isFeedbackPathsGiverTypeTeams() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathGiverATeam()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the question's feedback paths recipient type is Students.
+     */
+    public boolean isFeedbackPathsRecipientTypeStudents() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientAStudent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the question's feedback paths recipient type is Teams.
+     */
+    public boolean isFeedbackPathsRecipientTypeTeams() {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isFeedbackPathRecipientATeam()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns question's feedback paths giver type.
+     */
+    public String getFeedbackPathsGiverType() {
+        if (!feedbackPaths.isEmpty()) {
+            return feedbackPaths.get(0).getFeedbackPathGiverType();
+        }
+        return "";
+    }
+
+    /**
+     * Returns question's feedback paths recipient type.
+     */
+    public String getFeedbackPathsRecipientType() {
+        if (!feedbackPaths.isEmpty()) {
+            return feedbackPaths.get(0).getFeedbackPathRecipientType();
+        }
+        return "";
+    }
+
+    /**
+     * Returns a list of the question's response givers for which the student is a response recipient.
+     */
+    public List<String> getGiversFromFeedbackPathsForStudentRecipient(String studentEmail) {
+        List<String> givers = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathRecipient(studentEmail)) {
+                givers.add(feedbackPath.getGiverId());
+            }
+        }
+        return givers;
+    }
+
+    /**
+     * Returns a list of the question's response givers for which the instructor is a response recipient.
+     */
+    public List<String> getGiversFromFeedbackPathsForInstructorRecipient(String instructorEmail) {
+        List<String> givers = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathRecipient(instructorEmail)) {
+                givers.add(feedbackPath.getGiverId());
+            }
+        }
+        return givers;
+    }
+
+    /**
+     * Returns a list of the question's response givers for which the team is a response recipient.
+     */
+    public List<String> getGiversFromFeedbackPathsForTeamRecipient(String teamName) {
+        List<String> givers = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isTeamFeedbackPathRecipient(teamName)) {
+                givers.add(feedbackPath.getGiverId());
+            }
+        }
+        return givers;
+    }
+
+    /**
+     * Returns a list of all the question's response givers.
+     */
+    public List<String> getAllGiversFromFeedbackPaths() {
+        Set<String> givers = new HashSet<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            givers.add(feedbackPath.getGiverId());
+        }
+        return new ArrayList<String>(givers);
+    }
+
+    /**
+     * Returns a list of the question's response recipients for which the student is a response giver.
+     */
+    public List<String> getRecipientsFromFeedbackPathsForStudentGiver(String studentEmail) {
+        List<String> recipients = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathGiver(studentEmail)) {
+                recipients.add(feedbackPath.getRecipientId());
+            }
+        }
+        return recipients;
+    }
+
+    /**
+     * Returns a list of the question's response recipients for which the instructor is a response giver.
+     */
+    public List<String> getRecipientsFromFeedbackPathsForInstructorGiver(String instructorEmail) {
+        List<String> recipients = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)) {
+                recipients.add(feedbackPath.getRecipientId());
+            }
+        }
+        return recipients;
+    }
+
+    /**
+     * Returns a list of the question's response recipients for which the team is a response giver.
+     */
+    public List<String> getRecipientsFromFeedbackPathsForTeamGiver(String teamName) {
+        List<String> recipients = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isTeamFeedbackPathGiver(teamName)) {
+                recipients.add(feedbackPath.getRecipientId());
+            }
+        }
+        return recipients;
+    }
+
+    /**
+     * Returns a list of all the question's response recipients.
+     */
+    public List<String> getAllRecipientsFromFeedbackPaths() {
+        List<String> recipients = new ArrayList<String>();
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            recipients.add(feedbackPath.getRecipientId());
+        }
+        return recipients;
+    }
+
+    public boolean containsFeedbackPath(String giver, String recipient) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.getGiver().equals(giver) && feedbackPath.getRecipient().equals(recipient)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsGiverAndRecipientIdsInFeedbackPath(String giverId, String recipientId) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.getGiverId().equals(giverId) && feedbackPath.getRecipientId().equals(recipientId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Updates feedback paths containing the old student email to the new student email.
+     */
+    public void updateStudentEmailInFeedbackPaths(String oldEmail, String newEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isStudentFeedbackPathGiver(oldEmail)) {
+                feedbackPath.setStudentGiver(newEmail);
+            }
+
+            if (feedbackPath.isStudentFeedbackPathRecipient(oldEmail)) {
+                feedbackPath.setStudentRecipient(newEmail);
+            }
+        }
+    }
+
+    /**
+     * Updates feedback paths containing the old instructor email to the new instructor email.
+     */
+    public void updateInstructorEmailInFeedbackPaths(String oldEmail, String newEmail) {
+        for (FeedbackPathAttributes feedbackPath : feedbackPaths) {
+            if (feedbackPath.isInstructorFeedbackPathGiver(oldEmail)) {
+                feedbackPath.setInstructorGiver(newEmail);
+            }
+
+            if (feedbackPath.isInstructorFeedbackPathRecipient(oldEmail)) {
+                feedbackPath.setInstructorRecipient(newEmail);
+            }
+        }
+    }
+
+    /**
+     * Deletes feedback paths containing the student email.
+     */
+    public void deleteFeedbackPathsContainingStudentEmail(String studentEmail) {
+        Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
+        while (feedbackPathsIterator.hasNext()) {
+            FeedbackPathAttributes feedbackPath = feedbackPathsIterator.next();
+            if (feedbackPath.isStudentFeedbackPathGiver(studentEmail)
+                    || feedbackPath.isStudentFeedbackPathRecipient(studentEmail)) {
+                feedbackPathsIterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Deletes feedback paths containing the instructor email.
+     */
+    public void deleteFeedbackPathsContainingInstructorEmail(String instructorEmail) {
+        Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
+        while (feedbackPathsIterator.hasNext()) {
+            FeedbackPathAttributes feedbackPath = feedbackPathsIterator.next();
+            if (feedbackPath.isInstructorFeedbackPathGiver(instructorEmail)
+                    || feedbackPath.isInstructorFeedbackPathRecipient(instructorEmail)) {
+                feedbackPathsIterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Deletes feedback paths containing the team name.
+     */
+    public void deleteFeedbackPathsContainingTeamName(String teamName) {
+        Iterator<FeedbackPathAttributes> feedbackPathsIterator = feedbackPaths.iterator();
+        while (feedbackPathsIterator.hasNext()) {
+            FeedbackPathAttributes feedbackPath = feedbackPathsIterator.next();
+            if (feedbackPath.isTeamFeedbackPathGiver(teamName)
+                    || feedbackPath.isTeamFeedbackPathRecipient(teamName)) {
+                feedbackPathsIterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Returns a list of feedback paths converted from the spreadsheet data.
+     */
+    public static List<FeedbackPathAttributes> getFeedbackPathsFromSpreadsheetData(
+            String courseId, String customFeedbackPathsSpreadsheetData) {
+        Gson gson = new Gson();
+        TypeToken<List<List<String>>> token = new TypeToken<List<List<String>>>(){};
+        List<List<String>> customFeedbackPaths =
+                gson.fromJson(customFeedbackPathsSpreadsheetData, token.getType());
+        List<FeedbackPathAttributes> feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        for (List<String> feedbackPath : customFeedbackPaths) {
+            feedbackPaths.add(
+                    new FeedbackPathAttributes(courseId, feedbackPath.get(0), feedbackPath.get(1)));
+        }
+
+        return feedbackPaths;
+    }
 }

@@ -105,11 +105,11 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsTable fsTableModel = data.getFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
-        assertEquals(6, fsRows.size());
+        assertEquals(7, fsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
-        String lastFsName = "First feedback session";
+        String lastFsName = "Session With Custom Participants";
         assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
 
         ______TS("typical success case: copy modal");
@@ -117,7 +117,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
         assertEquals("", copyModalModel.getFsName());
-        assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
+        assertEquals(7, copyModalModel.getExistingFeedbackSessions().size());
 
         ______TS("case with instructor with only archived course");
         AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
@@ -183,7 +183,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         fsTableModel = helperData.getFsList();
 
         fsRows = fsTableModel.getExistingFeedbackSessions();
-        assertEquals(6, fsRows.size());
+        assertEquals(7, fsRows.size());
 
         ______TS("case with instructor with restricted permissions: copy modal");
         copyModalModel = helperData.getCopyFromModal();
@@ -303,11 +303,11 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         FeedbackSessionsTable fsTableModel = data.getFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
-        assertEquals(6, fsRows.size());
+        assertEquals(7, fsRows.size());
 
         String firstFsName = "Grace Period Session";
         assertEquals(firstFsName, fsRows.get(0).getName());
-        String lastFsName = "First feedback session";
+        String lastFsName = "Session With Custom Participants";
         assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
 
         ______TS("typical success case with existing fs passed in: copy modal");
@@ -315,7 +315,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         assertEquals(1, copyModalModel.getCoursesSelectField().size());
         assertEquals("First feedback session", copyModalModel.getFsName());
-        assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
+        assertEquals(7, copyModalModel.getExistingFeedbackSessions().size());
     }
 
     @Test

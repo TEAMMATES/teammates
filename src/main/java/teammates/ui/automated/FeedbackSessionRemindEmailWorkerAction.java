@@ -45,7 +45,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
 
             List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
             for (StudentAttributes student : studentList) {
-                if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
+                if (!logic.isFeedbackSessionCompletedByStudent(session, student)) {
                     studentsToRemindList.add(student);
                 }
             }

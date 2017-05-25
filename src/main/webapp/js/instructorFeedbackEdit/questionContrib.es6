@@ -1,3 +1,7 @@
+/* global
+NEW_QUESTION:false
+*/
+
 function setDefaultContribQnVisibilityIfNeeded(questionNum) {
     // If visibility options have already been copied from the previous contrib question, skip
     const hasPreviousQuestion = $('.questionTable').size() >= 2;
@@ -107,14 +111,16 @@ function fixContribQnGiverRecipient(questionNum) {
     const $questionTable = $(`#questionTable-${questionNum}`);
 
     // Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
-    $giverType.find('option').not('[value="STUDENTS"]').hide();
-    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
+    $giverType.find('option').not('[value="STUDENTS"], [value="CUSTOM"]').hide();
+    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"], [value="CUSTOM"]').hide();
 
-    $giverType.find('option').not('[value="STUDENTS"]').prop('disabled', true);
-    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
+    $giverType.find('option').not('[value="STUDENTS"], [value="CUSTOM"]').prop('disabled', true);
+    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"], [value="CUSTOM"]').prop('disabled', true);
 
-    $giverType.find('option').filter('[value="STUDENTS"]').prop('selected', true);
-    $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected', true);
+    if (questionNum === NEW_QUESTION) {
+        $giverType.find('option').filter('[value="STUDENTS"]').prop('selected', true);
+        $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected', true);
+    }
 
     // simulate a click to update the text of the dropdown menu button
     $questionTable.find('.feedback-path-dropdown-option[data-giver-type="STUDENTS"]'

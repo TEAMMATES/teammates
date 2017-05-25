@@ -39,8 +39,10 @@ public class FeedbackSubmissionEditQuestion {
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
-        isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
-        isRecipientTeam = questionAttributes.recipientType.isTeam();
+        isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)
+                      || questionAttributes.isFeedbackPathsGiverTypeTeams();
+        isRecipientTeam = questionAttributes.recipientType.isTeam()
+                          || questionAttributes.isFeedbackPathsRecipientTypeTeams();
 
         setMessageToDisplayIfNoRecipientAvailable(questionAttributes);
 

@@ -281,7 +281,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
 
-        assertEquals(6, responses.size());
+        assertEquals(13, responses.size());
 
         ______TS("null params");
 
@@ -417,7 +417,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesForReceiverForCourse(courseId,
                         "student1InCourse1@gmail.tmt");
 
-        assertEquals(2, responses.size());
+        assertEquals(3, responses.size());
 
         ______TS("null params");
 
@@ -554,7 +554,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponsesFromGiverForCourse(courseId,
                         "student1InCourse1@gmail.tmt");
 
-        assertEquals(3, responses.size());
+        assertEquals(4, responses.size());
 
         ______TS("null params");
 
@@ -634,7 +634,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
 
-        assertEquals(5, responses.size());
+        assertEquals(8, responses.size());
 
         ______TS("null params");
 
@@ -674,7 +674,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
 
-        assertEquals(0, responses.size());
+        assertEquals(3, responses.size());
 
         ______TS("null params");
 
@@ -719,7 +719,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
 
-        assertEquals(5, responses.size());
+        assertEquals(6, responses.size());
 
         ______TS("null params");
 

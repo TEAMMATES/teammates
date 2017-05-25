@@ -191,7 +191,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteAccount(String googleId) {
+    public void deleteAccount(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(googleId);
 
@@ -515,7 +515,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void downgradeInstructorToStudentCascade(String googleId) {
+    public void downgradeInstructorToStudentCascade(String googleId)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(googleId);
 
@@ -527,7 +528,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteInstructor(String courseId, String email) {
+    public void deleteInstructor(String courseId, String email)
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(email);
@@ -1015,10 +1017,10 @@ public class Logic {
         return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
     }
 
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, StudentAttributes student) {
         Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(userEmail);
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
+        Assumption.assertNotNull(student);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, student);
     }
 
     /**
@@ -1028,7 +1030,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteStudent(String courseId, String studentEmail) {
+    public void deleteStudent(String courseId, String studentEmail) throws InvalidParametersException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
@@ -1036,7 +1038,8 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
+    public void deleteStudentWithoutDocument(String courseId, String studentEmail)
+            throws InvalidParametersException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
@@ -1358,12 +1361,12 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail) {
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, StudentAttributes student) {
 
         Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertNotNull(student);
 
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, student);
     }
 
     /**

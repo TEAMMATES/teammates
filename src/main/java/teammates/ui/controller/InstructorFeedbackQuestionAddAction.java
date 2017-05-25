@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackPathAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -112,6 +113,17 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
         } else {
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+        }
+
+        newQuestion.feedbackPaths = new ArrayList<FeedbackPathAttributes>();
+        if (newQuestion.giverType == FeedbackParticipantType.CUSTOM
+                && newQuestion.recipientType == FeedbackParticipantType.CUSTOM) {
+            String customFeedbackPathsSpreadsheetData =
+                    getRequestParamValue("custom-feedback-paths-spreadsheet-data");
+
+            newQuestion.feedbackPaths =
+                    FeedbackQuestionAttributes.getFeedbackPathsFromSpreadsheetData(
+                            newQuestion.getCourseId(), customFeedbackPathsSpreadsheetData);
         }
 
         newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
