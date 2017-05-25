@@ -306,11 +306,6 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
         saveEntities(recipientComments);
     }
 
-    @Override
-    public void deleteEntity(CommentAttributes attributes) {
-        ofy().delete().keys(getEntityKeyOnlyQuery(attributes).keys()).now();
-    }
-
     /*
      * Delete comments given by certain instructor
      */
@@ -510,10 +505,6 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
 
     @Override
     protected QueryKeys<Comment> getEntityQueryKeys(CommentAttributes attributes) {
-        return getEntityKeyOnlyQuery(attributes).keys();
-    }
-
-    private Query<Comment> getEntityKeyOnlyQuery(CommentAttributes attributes) {
         Long id = attributes.getCommentId();
 
         Query<Comment> query;
@@ -530,7 +521,7 @@ public class CommentsDb extends EntitiesDb<Comment, CommentAttributes> {
                     .filterKey(Key.create(Comment.class, id));
         }
 
-        return query;
+        return query.keys();
     }
 
     // Gets a comment entity if the ID is known
