@@ -117,12 +117,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "recipienttype-1")
     private WebElement recipientDropdownForQuestion1;
 
-    @FindBy(id = "questionedittext-1")
-    private WebElement questionEditForQuestion1;
-
-    @FindBy(id = "questionsavechangestext-1")
-    private WebElement questionSaveForQuestion1;
-
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
     private WebElement maxNumOfRecipients;
 
@@ -410,9 +404,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, description);
     }
 
-    public void clickQuestionEditForQuestion1() {
-        waitForElementToBeClickable(questionEditForQuestion1);
-        click(questionEditForQuestion1);
+    public void clickQuestionEditForQuestion(int qnNumber) {
+        WebElement qnEdit = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        waitForElementToBeClickable(qnEdit);
+        click(qnEdit);
     }
 
     public void clickMaxNumberOfRecipientsButton() {
@@ -518,11 +513,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickSaveSessionButton() {
         click(fsSaveLink);
-        waitForPageToLoad();
-    }
-
-    public void clickquestionSaveForQuestion1() {
-        click(questionSaveForQuestion1);
         waitForPageToLoad();
     }
 
