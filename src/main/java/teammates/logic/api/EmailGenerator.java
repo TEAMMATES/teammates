@@ -435,7 +435,7 @@ public class EmailGenerator {
         } else {
             fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId) + ", "
                     + SanitizationHelper.sanitizeForHtml(courseName);
-    	}
+        }
 
     	return "<p>The email below has been sent to students of course: "
                 + fragmentParameters
