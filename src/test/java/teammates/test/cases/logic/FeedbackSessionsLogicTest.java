@@ -263,7 +263,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         } catch (Exception e) {
             assertEquals("The provided feedback session name is not acceptable to TEAMMATES "
                              + "as it cannot contain the following special html characters in brackets: "
-                             + "(&lt; &gt; &quot &#x2f; &#39; &amp;)",
+                             + "(&lt; &gt; &quot; &#x2f; &#39; &amp;)",
                          e.getMessage());
         }
 
