@@ -428,6 +428,8 @@ public class EmailGenerator {
 
         String fragmentParameters;
 
+        /* If the course name == "", we understand that this method was called by the
+        generateFeedbackSessionEmailBaseForInstructors, which does not need the course name */
         if ("".equals(courseName)) {
             fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId);
     	} else {
