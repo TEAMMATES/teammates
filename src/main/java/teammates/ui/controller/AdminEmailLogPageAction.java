@@ -92,8 +92,8 @@ public class AdminEmailLogPageAction extends Action {
 
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                 + totalLogsSearched + "<br>"
-                + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                + nextEndTimeToSearch + "');\">Search More</button>";
+                + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
@@ -129,8 +129,8 @@ public class AdminEmailLogPageAction extends Action {
         long nextEndTimeToSearch = query.getEndTime();
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
-                      + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                      + nextEndTimeToSearch + "');\">Search More</button>";
+                      + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                      + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
