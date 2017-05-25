@@ -115,7 +115,7 @@ public abstract class Action {
      *
      */
     private void parseAndInitializeRegkeyFromRequest() {
-        String regkeyFromRequest = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String regkeyFromRequest = getRegkeyFromRequest();
         if (regkeyFromRequest != null && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
             /*
              * Here regkey may contain the nextUrl as well. This is due to
