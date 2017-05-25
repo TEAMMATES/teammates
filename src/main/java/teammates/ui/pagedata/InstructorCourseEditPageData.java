@@ -144,7 +144,6 @@ public class InstructorCourseEditPageData extends PageData {
         button.setAttribute("type", "button");
         button.setAttribute("id", "btnShowNewInstructorForm");
         button.setAttribute("class", "btn btn-primary");
-        button.setAttribute("onclick", "showNewInstructorForm()");
         if (isDisabled) {
             button.setAttribute("disabled", null);
         }

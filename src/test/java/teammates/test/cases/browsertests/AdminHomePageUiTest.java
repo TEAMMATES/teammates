@@ -179,7 +179,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
 
         ______TS("new instructor can access sample coure enroll page");
-        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
+        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseEnrollLink(demoCourseId);
         enrollPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEnrollPage.html");
 
         ______TS("new instructor can access sample coure details page");
