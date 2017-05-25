@@ -275,6 +275,12 @@ task copyIntelliJProjectSettings(type: Copy) {
     into '.idea'
 }
 
+task setupIntellijRunConfigs(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/.idea/runConfigurations'
+    into '.idea/runConfigurations'
+}
+
 task setupIntellijProject {
     description 'Sets up an IntelliJ project'
     group intellijSetupGroup
