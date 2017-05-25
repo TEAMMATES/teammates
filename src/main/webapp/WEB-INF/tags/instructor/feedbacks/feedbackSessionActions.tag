@@ -46,7 +46,17 @@
         Submit
     </a>
 </div> 
-<c:if test="${not actions.privateSession}">
+<c:choose>
+  <c:when test="${actions.privateSession}">
+    <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
+     href="${actions.resultsLink}"
+     title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
+     data-toggle="tooltip"
+     data-placement="top">
+      View Results
+    </a>
+  </c:when>
+  <c:otherwise>
     <div title="<%= Const.Tooltips.FEEDBACK_SESSION_REMIND %>"
          data-toggle="tooltip"
          data-placement="top"
@@ -114,4 +124,5 @@
             </ul>
         </div>
     </div>
-</c:if>
+  </c:otherwise>
+</c:choose>
