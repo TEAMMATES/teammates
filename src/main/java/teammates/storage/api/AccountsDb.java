@@ -157,7 +157,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             if (!existingProfile.toString().equals(a.studentProfile.toString())) {
                 StudentProfile updatedStudentProfile = a.studentProfile.toEntity();
                 accountToUpdate.setStudentProfile(updatedStudentProfile);
-                ofy().save().entity(updatedStudentProfile).now();
+                profilesDb.saveEntity(updatedStudentProfile);
             }
         }
         saveEntity(accountToUpdate, a);
