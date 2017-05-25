@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
@@ -30,6 +31,17 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     protected Browser browser;
     protected DataBundle testData;
+
+    /**
+     * Ensure that GodMode is not enabled in CI.
+     */
+    @BeforeSuite
+    public void checkIfGodModeEnabledInCi() {
+        if (TestProperties.IS_GODMODE_ENABLED && TestProperties.isCiEnvironment()) {
+            fail("GodMode should only be run locally, not in a CI environment. Please revert the change "
+                    + "to the test properties template file that enabled GodMode in CI.");
+        }
+    }
 
     @BeforeClass
     public void baseClassSetup() throws Exception {
