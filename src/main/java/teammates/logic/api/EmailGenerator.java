@@ -424,9 +424,28 @@ public class EmailGenerator {
         return email;
     }
 
+    private String generateInstructorFragment(String courseId, String courseName) {
+
+        String fragmentParameters;
+
+        if ("".equals(courseName)) {
+            fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId);
+    	} else {
+            fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId) + ", "
+                    + SanitizationHelper.sanitizeForHtml(courseName);
+    	}
+
+    	return "<p>The email below has been sent to students of course: "
+                + fragmentParameters
+                + ".<br>" + Const.EOL + "<br>" + Const.EOL
+                + "=== Email message as seen by the students ===</p>" + Const.EOL;
+    }
+    
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
+
+    	String instructorFragment = generateInstructorFragment(course.getId(), "");
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
@@ -434,11 +453,7 @@ public class EmailGenerator {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${instructorFragment}",
-                        "<p>The email below has been sent to students of course: "
-                        + SanitizationHelper.sanitizeForHtml(course.getId())
-                        + ".<br>" + Const.EOL + "<br>" + Const.EOL
-                        + "=== Email message as seen by the students ===</p>" + Const.EOL,
+                "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
@@ -456,11 +471,7 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
-        String instructorFragmentArgumentInstructors = "<p>The email below has been sent to students of course: "
-                + SanitizationHelper.sanitizeForHtml(course.getId()) + ", "
-                + SanitizationHelper.sanitizeForHtml(course.getName())
-                + ".<br>" + Const.EOL + "<br>" + Const.EOL
-                + "=== Email message as seen by the students ===</p>" + Const.EOL;
+        String instructorFragmentArgumentInstructors = generateInstructorFragment(course.getId(), course.getName());
 
         String instructorFragmentArgumentStudents = "";
 
