@@ -65,49 +65,40 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
 
-        String distributeToRecipientsString = null;
-        String pointsPerOptionString = null;
-        String pointsString = null;
-        String pointsForEachOptionString = null;
-        String pointsForEachRecipientString = null;
-        String forceUnevenDistributionString = null;
-        boolean distributeToRecipients = false;
-        boolean pointsPerOption = false;
-        boolean forceUnevenDistribution = false;
-        int points = 0;
-
-        distributeToRecipientsString =
+        String distributeToRecipientsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        pointsPerOptionString =
+        String pointsPerOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        pointsString =
+        String pointsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        pointsForEachOptionString =
+        String pointsForEachOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
-        pointsForEachRecipientString =
+        String pointsForEachRecipientString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
         Assumption.assertNotNull("Null points in total", pointsString);
         Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
         Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
-        forceUnevenDistributionString =
+        String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
-        distributeToRecipients = "true".equals(distributeToRecipientsString);
-        pointsPerOption = "true".equals(pointsPerOptionString);
+        boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
+        boolean pointsPerOption = "true".equals(pointsPerOptionString);
+
+        int points = Integer.parseInt(pointsString);
+
         if (pointsPerOption) {
             points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
                                             : Integer.parseInt(pointsForEachOptionString);
-        } else {
-            points = Integer.parseInt(pointsString);
         }
-        forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
+
+        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
