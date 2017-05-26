@@ -38,8 +38,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
 
-        RedirectResult redirectResult =
-                createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        RedirectResult redirectResult = createRedirectResult(new PageData(account, sessionToken)
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
 
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);

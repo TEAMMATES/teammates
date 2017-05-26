@@ -172,7 +172,7 @@
         </strong>
       </h4>
       <div class="btn-group pull-right" style="display:none">
-        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfInstructor1OfCourse1" style="margin-right: 17px;" title="" type="button">
+        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfInstructor1OfCourse1&token=${sessionToken}" style="margin-right: 17px;" title="" type="button">
           <span class="badge" style="margin-right: 5px">
             0
           </span>
@@ -329,6 +329,7 @@
                     <input name="showgiverto" type="hidden" value="COURSE">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -477,6 +478,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -641,6 +643,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -789,6 +792,7 @@
                     <input name="showgiverto" type="hidden" value="TEAM">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -953,6 +957,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -1117,6 +1122,7 @@
                     <input name="showgiverto" type="hidden" value="TEAM">
                     <input name="showrecipientto" type="hidden" value="TEAM">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -1281,6 +1287,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-public" style="display: block;">
@@ -1445,6 +1452,7 @@
                     <input name="showgiverto" type="hidden" value="PERSON">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
                 <li class="list-group-item list-group-item-warning status_display-private" style="display: block;">
@@ -1607,6 +1615,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
               </ul>
@@ -1733,6 +1742,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
               </ul>
@@ -1859,6 +1869,7 @@
                     <input name="showgiverto" type="hidden" value="INSTRUCTOR">
                     <input name="showrecipientto" type="hidden" value="INSTRUCTOR">
                     <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
               </ul>
@@ -1942,6 +1953,7 @@
                               <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                               <input name="fsname" type="hidden" value="comments.First feedback session">
                               <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                              <input name="token" type="hidden" value="${sessionToken}">
                             </form>
                             <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1-1-1-1" onclick="showResponseCommentEditForm(1,1,1,1)" style="display: none;" title="" type="button">
                               <span class="glyphicon glyphicon-pencil glyphicon-primary">
@@ -2035,6 +2047,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
                             <input name="showresponsecommentsto" type="hidden" value="">
                             <input name="showresponsegiverto" type="hidden" value="">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
@@ -2121,6 +2134,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2186,6 +2200,7 @@
                               <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                               <input name="fsname" type="hidden" value="comments.First feedback session">
                               <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                              <input name="token" type="hidden" value="${sessionToken}">
                             </form>
                             <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1-2-1-1" onclick="showResponseCommentEditForm(1,2,1,1)" style="display: none;" title="" type="button">
                               <span class="glyphicon glyphicon-pencil glyphicon-primary">
@@ -2318,6 +2333,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
                             <input name="showresponsecommentsto" type="hidden" value="">
                             <input name="showresponsegiverto" type="hidden" value="">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning giver_display-by-others status_display-public" id="responseCommentRow-1-2-1-2" style="display: block;">
@@ -2338,6 +2354,7 @@
                               <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                               <input name="fsname" type="hidden" value="comments.First feedback session">
                               <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                              <input name="token" type="hidden" value="${sessionToken}">
                             </form>
                             <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1-2-1-2" onclick="showResponseCommentEditForm(1,2,1,2)" style="display: none;" title="" type="button">
                               <span class="glyphicon glyphicon-pencil glyphicon-primary">
@@ -2470,6 +2487,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
                             <input name="showresponsecommentsto" type="hidden" value="STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning giver_display-by-others status_display-public" id="responseCommentRow-1-2-1-3" style="display: block;">
@@ -2490,6 +2508,7 @@
                               <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                               <input name="fsname" type="hidden" value="comments.First feedback session">
                               <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
+                              <input name="token" type="hidden" value="${sessionToken}">
                             </form>
                             <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1-2-1-3" onclick="showResponseCommentEditForm(1,2,1,3)" style="display: none;" title="" type="button">
                               <span class="glyphicon glyphicon-pencil glyphicon-primary">
@@ -2622,6 +2641,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="INSTRUCTORS, RECEIVER_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-1" style="display: none;">
@@ -2747,6 +2767,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, RECEIVER_TEAM_MEMBERS, STUDENTS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, RECEIVER_TEAM_MEMBERS, STUDENTS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>

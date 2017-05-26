@@ -17,7 +17,7 @@
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorCoursesPage&user=${test.instructor}" id="courseDeleteLink" title="" type="button">
+        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorCoursesPage&user=${test.instructor}&token=${sessionToken}" id="courseDeleteLink" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -27,6 +27,7 @@
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseEditSave" class="form form-horizontal" id="formEditcourse" method="post">
         <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+        <input name="token" type="hidden" value="${sessionToken}">
         <input name="instructorid" type="hidden" value="${test.instructor}">
         <div class="form-group">
           <label class="col-sm-3 control-label">
@@ -100,7 +101,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="AHPUiT____.instr1_.gma-demo" data-instructor-name="AHPUiT Instrúctör WithPlusInEmail" data-is-delete-self="true" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=AHPUiT____.instr1_.gma-demo&instructoremail=AHPUiT%2B%2B%2B_.instr1%21%40gmail.tmt&user=${test.instructor}" id="instrDeleteLink1" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="AHPUiT____.instr1_.gma-demo" data-instructor-name="AHPUiT Instrúctör WithPlusInEmail" data-is-delete-self="true" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=AHPUiT____.instr1_.gma-demo&instructoremail=AHPUiT%2B%2B%2B_.instr1%21%40gmail.tmt&user=${test.instructor}&token=${sessionToken}" id="instrDeleteLink1" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -112,6 +113,7 @@
         <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
         <input name="instructorid" type="hidden" value="${test.instructor}">
         <input name="user" type="hidden" value="${test.instructor}">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable1">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -190,6 +192,7 @@
       <form action="/page/instructorCourseInstructorAdd" class="form form-horizontal" id="formAddInstructor" method="post" name="formAddInstructor">
         <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
         <input name="user" type="hidden" value="${test.instructor}">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorAddTable">
           <div class="form-group">
             <label class="col-sm-3 control-label">
