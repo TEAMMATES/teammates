@@ -14,7 +14,7 @@ The essential idea is to reverse the process of testing. We use the _actual_ sou
 
 GodMode can be activated in two different ways.
 
-1. If we want to execute arbitrary tests using GodMode, then update `BaseUiTestCase` class (or `EmailGeneratorTest` class if testing email content) and set `isGodModeEnabled = true` at the top of the class implementation. Now all test runs would have GodMode enabled. Please remember to set it back to false when done.
+1. If we want to execute arbitrary tests using GodMode, then set the value of `test.godmode.enabled` to `true` in `test.properties`. Now all test runs would have GodMode enabled. Please remember to set it back to `false` when done.
 
 2. If we want to run a particular test suite using GodMode, then go to `Run -> Run Configurations` and update the appropriate one with the `-Dgodmode=true` VM argument. Please remember to remove the argument before committing the changes
 

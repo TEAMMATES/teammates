@@ -166,13 +166,13 @@ public final class TestProperties {
 
     /**
      * Verifies that the test properties specified in test.properties file allows for HTML
-     * regeneration via God mode to work smoothly (i.e all test HTML files are correctly regenerated,
+     * regeneration via GodMode to work smoothly (i.e all test HTML files are correctly regenerated,
      * strings that need to be replaced with placeholders are correctly replaced, and
      * strings that are not supposed to be replaced with placeholders are not replaced).
      */
     public static void verifyReadyForGodMode() {
         if (!isDevServer()) {
-            fail("God mode regeneration works only in dev server.");
+            fail("GodMode regeneration works only in dev server.");
         }
         if (isStudentMotdUrlEmpty()) {
             fail("Student MOTD URL defined in app.student.motd.url in build.properties "
