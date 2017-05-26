@@ -91,11 +91,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
         boolean pointsPerOption = "true".equals(pointsPerOptionString);
 
-        int points = Integer.parseInt(pointsString);
-
+        int points = 0;
         if (pointsPerOption) {
             points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
                                             : Integer.parseInt(pointsForEachOptionString);
+        } else {
+            points = Integer.parseInt(pointsString);
         }
 
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
