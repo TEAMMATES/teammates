@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,6 +45,18 @@ public class EmailGeneratorTest extends BaseLogicTest {
     public void classSetup() {
         if (TestProperties.IS_GODMODE_ENABLED) {
             System.setProperty("godmode", "true");
+        }
+    }
+
+    /**
+     * Reminder to disable GodMode and re-run the test.
+     */
+    @AfterSuite
+    public static void remindUserToDisableGodModeIfRequired() {
+        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
+            print("==========================================================");
+            print("IMPORTANT: Remember to disable GodMode and rerun the test!");
+            print("==========================================================");
         }
     }
 

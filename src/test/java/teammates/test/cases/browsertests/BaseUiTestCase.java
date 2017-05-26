@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
@@ -56,6 +57,18 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     protected void releaseBrowser() {
         BrowserPool.release(browser);
+    }
+
+    /**
+     * Reminder to disable GodMode and re-run the test(s).
+     */
+    @AfterSuite
+    public static void remindUserToDisableGodModeIfRequired() {
+        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
+            print("=============================================================");
+            print("IMPORTANT: Remember to disable GodMode and rerun the test(s)!");
+            print("=============================================================");
+        }
     }
 
     /**
