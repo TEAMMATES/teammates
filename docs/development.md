@@ -300,7 +300,6 @@ There are several files used to configure various aspects of the system.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](staticAnalysis.md).
 * `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
-* `.eslintignore`: Contains which files for ESLint to ignore.
 * `.stylelintrc`: Equivalent to `static-analysis/teammates-stylelint.yml`, currently only used for Stylelint integration in IntelliJ.
 
 **Other**: These are rarely, if ever will be, subjected to changes.

@@ -349,7 +349,7 @@ The syntax for the pre-configured settings found below are as follows:
 | IntelliJ Setting        | Node                                              | Value                                                |
 |-------------------------|---------------------------------------------------|------------------------------------------------------|
 | `Configuration file:`   | `/custom-configuration-file[@used='true'][@path]` | `$PROJECT_DIR$/static-analysis/teammates-eslint.yml` |
-| `Extra eslint options:` | `/extra-options[@value]`                          | `--ext .es6`                                         |
+| `Extra eslint options:` | `/extra-options[@value]`                          | `--ext .es6 --ignore-pattern '**/*.js'`                                         |
 
 ### PMD
 

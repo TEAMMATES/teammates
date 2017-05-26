@@ -130,10 +130,7 @@ The plugin can be found [here](https://plugins.jetbrains.com/idea/plugin/6098-no
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-eslint.yml).
 ESLint integration is currently not supported for Eclipse.
 
-**NOTE 1**
-> There is a `.eslintignore` on the project root that adds all `*.js` files to be ignored.
-
-**NOTE 2**
+**NOTE**
 > You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
 
 #### Configuring ESLint for IntelliJ
@@ -147,7 +144,7 @@ and [set up project specific settings and dependencies](settingUp.md#step-3-set-
 1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
    `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
 1. Point `Configuration file:` to the location of `teammates-eslint.yml`.
-1. Under 'Extra eslint options:', add `--ext .es6`.
+1. Under 'Extra eslint options:', add `--ext .es6 --ignore-pattern '**/*.js'`.
 1. Click `OK`.
 
 ##### Suppressing ESLint warnings

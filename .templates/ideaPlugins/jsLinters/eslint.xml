@@ -2,6 +2,6 @@
 <project version="4">
   <component name="EslintConfiguration">
     <custom-configuration-file used="true" path="$PROJECT_DIR$/static-analysis/teammates-eslint.yml" />
-    <extra-options value="--ext .es6" />
+    <extra-options value="--ext .es6 --ignore-pattern '**/*.js'" />
   </component>
 </project>
