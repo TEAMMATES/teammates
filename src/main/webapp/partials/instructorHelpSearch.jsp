@@ -57,8 +57,8 @@
                         </ul>
                     </div>
                 </div>
-                <br>Check the option <b>'Students'</b> below the search box. Now type the student's name in the search box and hit <b>'Search'</b>.
-                <br>If you searched <b>'alice'</b>, and let's assume such student exists, then the search results would be displayed similar to the results below -
+                <br>Check the option <b>'Students'</b> below the search box. Now type the student's name in the search box and click on <b>'Search'</b> button.
+                <br>If you searched <b>'alice'</b>, and let's assume such student exists, then the search results would show something like this -
                 <br><br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -139,15 +139,15 @@
                         </div>
                     </div>
                 </div>
-                <br>You can search for student data based on -
+                <br>You can search for a student record based on -
                 <ul>
                     <li>Section name</li>
                     <li>Team name</li>
                     <li>Student name</li>
                     <li>Email</li>
                 </ul>
-                <br>If you want to search for multiple entities based on the attributes mentioned. For doing that, mention the attribute names in the search box by separating them with spaces.
-                <br>If you entered <b>'alice Section A Team B jack@email.com'</b> in the search box, and let's assume corresponding data exists, then the search would result in something similar to the results below -
+                <br>You can search for multiple students based on the attributes mentioned above. For doing that, mention the attribute names in the search box by separating them with spaces.
+                <br>If you entered <b>'alice Section A Team B jack@email.com'</b> in the search box, and let's assume corresponding data exists, then the search would result in something similar to this -
                 <br><br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">

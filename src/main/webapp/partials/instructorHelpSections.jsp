@@ -11,7 +11,7 @@
                 </a>
             </span>
             <div class="row">
-                Sections are meant to organize students where the course significantly large number of students. It is mandatory for courses with more than 100 students to organise a student into a section. 
+                Sections are meant to organize students where the course has significantly large number of students. It is mandatory for courses with more than 100 students to organize a student into a section. 
                 You are allowed to have sections for courses with less than 100 students, but it is not mandatory.
             </div>
         </li>

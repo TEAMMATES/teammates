@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <br>
-                This was the general student's profile. Below this, is the student information table which displays course-related details. It would appear something like this -
+                Below that, is the student information table which displays course-related details of the student. It would appear something like this -
                 <br><br>
                 <div class="well well-plain">
                     <button type="button" class="btn btn-default btn-xs icon-button pull-right"
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                The <b>Section Name</b> will appear only if the sections were created for the respective course, in which case the section name of the student is displayed.
+                The <b>Section Name</b> will appear only if the sections were created for the respective course.
                 <br><b>Team Name</b> is the name of the team to which the student belongs to, or displays <b>'NA'</b> if the student does not belong to a team.
                 <br><b>Official Email Address</b> is the email address used to contact the student.
                 <br><b>Comments</b> is any information you mentioned about the student during enrollment.

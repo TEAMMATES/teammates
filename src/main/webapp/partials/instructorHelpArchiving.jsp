@@ -55,8 +55,7 @@
                     </div>
                 </div>
                 Click on <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the panel heading of the course you want to archive.
-                <br>Then select <b>'Archive'</b> in the drop-down menu which opens up.
-                <br>Selecting the archive option will prompt a confirmation dialog to archive the course. Click on <b>'OK'</b>.
+                <br>Then select <b>'Archive'</b> in the drop-down menu which opens up. This will prompt a confirmation dialog to archive the course. Click on <b>'OK'</b>.
                 <br>If your course was successfully archived, you should see a message in the home page which looks similar to this -
                 <br><br>
                 <div>
@@ -83,7 +82,7 @@
                 </a>
             </span>
             <div class="row">
-                You can view all your archived courses in the <b>'Courses'</b> page, under the heading <b>Archived Courses</b>. It will look similar to this -
+                You can view all your archived courses in the <b>'Courses'</b> page, under the <b>Archived Courses</b> heading. It will look similar to this -
                 <h2 class="text-muted">Archived courses</h2>
                 <table class="table table-bordered table-striped">
                     <thead>
