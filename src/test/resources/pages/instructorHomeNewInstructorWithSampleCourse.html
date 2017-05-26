@@ -105,7 +105,7 @@
   </div>
   <br>
   <div class="panel panel-primary" id="course-0">
-    <div class="panel-heading">
+    <div class="panel-heading" data-state="up" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-6">
           <strong>
@@ -180,61 +180,72 @@
                 </li>
               </ul>
             </div>
+            <span class="glyphicon glyphicon-chevron-up">
+            </span>
           </span>
         </div>
       </div>
     </div>
-    <table class="table-responsive table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th class="button_sortname button-sort-none" onclick="toggleSort(this);">
-            Session Name
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            Start Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            End Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th>
-            Status
-          </th>
-          <th>
-            <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
-              Response Rate
-            </span>
-          </th>
-          <th class="no-print">
-            Action(s)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <span class="text-muted">
-              This course does not have any sessions yet.
-            </span>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <form>
+      <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
+      <input name="coursetoload" type="hidden" value="newIns.wit-demo">
+      <input name="index" type="hidden" value="0">
+    </form>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-0" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table-responsive table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th class="button_sortname button-sort-none" onclick="toggleSort(this);">
+                Session Name
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
+                Start Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
+                End Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
+                  Response Rate
+                </span>
+              </th>
+              <th class="no-print">
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="text-muted">
+                  This course does not have any sessions yet.
+                </span>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
