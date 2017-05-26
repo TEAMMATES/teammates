@@ -52,7 +52,7 @@ public class InstructorCommentsPageAction extends Action {
 
         List<String> coursePaginationList = new ArrayList<String>();
         String courseName = getCoursePaginationList(coursePaginationList);
-        InstructorCommentsPageData data = new InstructorCommentsPageData(account);
+        InstructorCommentsPageData data = new InstructorCommentsPageData(account, sessionToken);
 
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();

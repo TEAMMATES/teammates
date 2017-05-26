@@ -34,7 +34,7 @@ public class AdminEmailLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, sessionToken, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
 
         if (data.getFilterQuery() == null) {
