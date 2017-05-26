@@ -298,6 +298,11 @@ There are several files used to configure various aspects of the system.
 * `.travis.yml`: Contains the Travis CI job configuration.
 * `appveyor.yml`: Contains the AppVeyor CI job configuration.
 
+**Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](staticAnalysis.md).
+* `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
+* `.eslintignore`: Contains which files for ESLint to ignore.
+* `.stylelintrc`: Equivalent to `static-analysis/teammates-stylelint.yml`, currently only used for Stylelint integration in IntelliJ.
+
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `log4j.properties`: Contains the log4j configuration. Not used by us.
