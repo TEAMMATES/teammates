@@ -1039,79 +1039,111 @@
                                             <option value="14">14</option>
 
                                         </select>
-                                        &nbsp; Multiple-choice (single answer) question
+                                        &nbsp; Multiple-choice (single answer)
                                     </span>
                                     <span class="pull-right">
                                         <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="Edit this question" style="display: none;">Edit</a>
-                                        <a class="btn btn-primary btn-xs" style="" onclick="return false" id="questionsavechangestext-1">Save Changes</a>
-                                        <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                        <a class="btn btn-primary btn-xs" style="" onclick="return false" id="questionsavechangestext-1">Cancel</a>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                <div>
-                                    <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" tabindex="9" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Was this team member punctual?</textarea>
+                                <div class="form-group" style="padding: 15px;">
+                                    <h5 class="col-sm-2">
+                                        <label class="control-label" for="questiontext--1">
+                                            Question
+                                        </label>
+                                    </h5>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext--1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"></textarea>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <br>
-                                    <div class="col-sm-6">
-                                        <div id="mcqChoiceTable-1">
-                                            <div id="mcqOptionRow-0-1">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                        <input type="radio" class="disabled_radio" disabled="">
-                                                    </span>
-                                                    <input class="form-control" type="text" name="mcqOption-0" id="mcqOption-0-1" value="Yes">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" style="" tabindex="-1">
-                                                            <span class="glyphicon glyphicon-remove">
-                                                            </span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div id="mcqOptionRow-1-1">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                        <input type="radio" class="disabled_radio" disabled="">
-                                                    </span>
-                                                    <input class="form-control" type="text" name="mcqOption-1" id="mcqOption-1-1" value="No">
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" style="" tabindex="-1">
-                                                            <span class="glyphicon glyphicon-remove">
-                                                            </span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div id="mcqAddOptionRow-1">
-                                                <div colspan="2">
-                                                    <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" style="">
-                                                        <span class="glyphicon glyphicon-plus">
-                                                        </span> add more options
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-1" value="2">
+                                <div class="form-group" style="padding: 15px;">
+                                    <h5 class="col-sm-2">
+                                        <label class="align-left" for="questiondescription--1">
+                                            [Optional]<br>Description
+                                        </label>
+                                    </h5>
+                                    <div class="col-sm-10">
+                                        <div id="rich-text-toolbar-q-descr-container"></div>
+                                        <div class="panel panel-default panel-body question-description mce-content-body content-editor empty" id="questiondescription--1" data-toggle="tooltip" data-placement="top" title="" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" tabindex="9" data-original-title="Please enter the description of the question." contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div>
+                                        <input type="hidden" name="questiondescription--1" disabled="" value="">
+                                        <input type="hidden" name="questiondescription" value="">
                                     </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label col-sm-8">
-                                            <input type="checkbox" id="generateOptionsCheckbox-1">Or, generate options from the list of all </label>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" id="mcqGenerateForSelect-1" disabled="">
-                                                <option value="STUDENTS">students</option>
-                                                <option value="TEAMS">teams</option>
-                                                <option value="INSTRUCTORS">instructors</option>
-                                            </select>
+                                    <div id="mcqForm" style="display: block;">
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-sm-6">
+                                                <div id="mcqChoiceTable--1">
+                                                    <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
+                                                        <div class="input-group width-100-pc">
+                                                            <span class="input-group-addon">
+                                                                <input type="radio" class="disabled_radio" disabled="">
+                                                            </span>
+                                                            <input class="form-control" type="text" name="mcqOption-0" id="mcqOption-0--1" value="">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="" tabindex="-1">
+                                                                    <span class="glyphicon glyphicon-remove">
+                                                                    </span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
+                                                        <div class="input-group width-100-pc">
+                                                            <span class="input-group-addon">
+                                                                <input type="radio" class="disabled_radio" disabled="">
+                                                            </span>
+                                                            <input class="form-control" type="text" name="mcqOption-1" id="mcqOption-1--1" value="">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="" tabindex="-1">
+                                                                    <span class="glyphicon glyphicon-remove">
+                                                                    </span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+            
+                                                    <div id="mcqAddOptionRow--1">
+                                                        <div colspan="2">
+                                                            <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink--1" onclick="addMcqOption(-1)" style="">
+                                                                <span class="glyphicon glyphicon-plus">
+                                                                </span> add more options
+                                                            </a>
+                    
+                                                            <div class="checkbox">
+                                                                <label class="bold-label">
+                                                                    <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag--1" onchange="toggleMcqOtherOptionEnabled(this, -1)">
+                                                                        Add 'Other' option (Allows respondents to type in their own answer)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="noofchoicecreated" id="noofchoicecreated--1" value="2">
+                                            </div>
+                                            <div class="col-sm-6 col-lg-5">
+                                                <div class="border-gray narrow-slight visible-xs margin-bottom-7px margin-top-7px"></div>
+                                                <div class="checkbox padding-top-0">
+                                                    <label class="bold-label">
+                                                        <span class="inline-block">
+                                                            <input type="checkbox" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)">
+                                                                Or, generate options from the list of all
+                                                        </span>
+                                                    </label>
+                                                    <select class="form-control width-auto inline" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)" disabled="">
+                                                        <option value="STUDENTS">students</option>
+                                                        <option value="TEAMS">teams</option>
+                                                        <option value="INSTRUCTORS">instructors</option>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" id="generatedOptions--1" name="generatedOptions" value="NONE"> 
+                                            </div>
+                                            <br>
                                         </div>
-                                        <input type="hidden" id="generatedOptions-1" name="generatedOptions" value="NONE">
                                     </div>
-                                    <br>
                                 </div>
                             </div>
                             <br>
@@ -1120,7 +1152,9 @@
                                     <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                 </div>
                                 <div class="feedback-path-dropdown col-sm-12 btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Predefined combinations:</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Please select a feedback path <span class="caret"></span>
+                                    </button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-header">Common feedback path combinations</li>
 
@@ -1202,6 +1236,7 @@
                                         <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Predefined combinations:">Other predefined combinations...</a></li>
                                     </ul>
                                 </div>
+                            </div>
                             <br>
                             <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
                                 <div class="col-sm-12 padding-0 margin-bottom-7px">
@@ -1209,7 +1244,7 @@
                                 </div>
                                 <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Custom visibility option:
+                                        Please select a visibility option <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-header">Common visibility options</li>
@@ -1220,6 +1255,10 @@
 
                                         <li>
                                             <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient, visible to instructors</a>
+                                        </li>
+
+                                        <li>
+                                            <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient and team members, visible to instructors</a>
                                         </li>
 
                                         <li>
@@ -1234,7 +1273,7 @@
                                         <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility options...</a></li>
                                     </ul>
                                 </div>
-                                <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="">
+                                <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display:none;">
                                     <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
                                         <tbody><tr>
                                                 <th class="text-center">User/Group</th>
@@ -1244,82 +1283,82 @@
                                             </tr>
                                             <tr>
                                                 <td class="text-left">
-                                                    <div data-original-title="Control what feedback recipient(s) can view" data-toggle="tooltip" data-placement="top" title="">
+                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
                                                         Recipient(s)
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" type="checkbox">
+                                                    <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" checked="">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="RECEIVER" type="checkbox">
+                                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER" checked="">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="RECEIVER" disabled="" type="checkbox">
+                                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-left">
-                                                    <div data-original-title="Control what team members of feedback giver can view" data-toggle="tooltip" data-placement="top" title="">
+                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
                                                         Giver's Team Members
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                                 </td>
                                             </tr>
-                                            <tr style="display: none;">
+                                            <tr>
                                                 <td class="text-left">
-                                                    <div data-original-title="Control what team members of feedback recipients can view" data-toggle="tooltip" data-placement="top" title="">
+                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
                                                         Recipient's Team Members
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-left">
-                                                    <div data-original-title="Control what other students can view" data-toggle="tooltip" data-placement="top" title="">
+                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
                                                         Other students
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="STUDENTS" checked="" type="checkbox">
+                                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="STUDENTS" checked="" type="checkbox">
+                                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="STUDENTS" type="checkbox">
+                                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="STUDENTS">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-left">
-                                                    <div data-original-title="Control what instructors can view" data-toggle="tooltip" data-placement="top" title="">
+                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
                                                         Instructors
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
+                                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS" checked="">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
+                                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS" checked="">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
+                                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" checked="">
                                                 </td>
                                             </tr>
                                         </tbody></table>
@@ -1329,7 +1368,7 @@
                                     This is the visibility hint as seen by the feedback giver:
                                     <ul class="text-muted background-color-warning">
 
-                                        <li>Other students in the course can see your response, and your name, but not the name of the recipient.</li>
+                                        <li>You can see your own feedback in the results page later on.</li>
 
                                         <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
 
@@ -1338,7 +1377,7 @@
                             </div>
                             <div>
                                 <span class="pull-right">
-                                    <input id="button_question_submit-1" type="submit" onclick="return false;" class="btn btn-primary" value="save changes" tabindex="0" style="">
+                                    <input id="button_question_submit-1" type="submit" onclick="return false;" class="btn btn-primary" value="Save Question" tabindex="0" style="">
                                 </span>
                             </div>
                         </div>
