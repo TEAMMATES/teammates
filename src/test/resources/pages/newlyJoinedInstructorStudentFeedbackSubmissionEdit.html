@@ -14,6 +14,7 @@
   <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First team feedback session">
     <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="${test.instructor}">
     <div id="statusMessagesToUser">
       <div class="overflow-auto alert alert-warning statusMessage">

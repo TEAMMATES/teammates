@@ -12,10 +12,10 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     private StudentInfoTable studentInfoTable;
     private String commentRecipient;
 
-    public InstructorCourseStudentDetailsPageData(AccountAttributes account, StudentAttributes student,
+    public InstructorCourseStudentDetailsPageData(AccountAttributes account, String sessionToken, StudentAttributes student,
             StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection,
             String commentRecipient) {
-        super(account);
+        super(account, sessionToken);
         if (studentProfile != null) {
             String pictureUrl = getPictureUrl(studentProfile.pictureKey);
             this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
