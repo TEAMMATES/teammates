@@ -16,7 +16,7 @@
 	Please complete the form below and we will get back to you as soon as possible. 
 	</h4>
 	
-	<form action="${data.instructorRequestAccountLink}" method="post" class="form center-block" role="form">
+	<form action="/page/instructorRequestAccountSave" method="post" class="form center-block" role="form">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="instructions" class="col-sm-1 control-label"></label>

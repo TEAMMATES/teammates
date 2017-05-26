@@ -1,22 +1,9 @@
 package teammates.ui.controller;
 
-import java.util.List;
-
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StatusMessage;
-import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorAccountRequestResultPageData;
-import teammates.ui.pagedata.InstructorCourseEnrollPageData;
-import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 /**
  * Action: saving the details of the new applicant-instructor.
