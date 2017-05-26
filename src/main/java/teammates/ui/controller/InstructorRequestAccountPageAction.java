@@ -26,7 +26,7 @@ public class InstructorRequestAccountPageAction extends Action {
 
         //Setup page data for 'Request Account' page for an instructor 
         RequestPageData pageData = new RequestPageData(name, university, country, url, email, comments);
-       
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_ACCOUNT_REQUEST, pageData);
     }
 
