@@ -29,7 +29,8 @@
                         ${data.viewingDraft ? "Drafts" : data.courseName}
                     </strong>
                 </h4>
-                <comments:commentsNotifyPanel courseId="${data.courseId}" numberOfPendingComments="${data.numberOfPendingComments}" />
+                <comments:commentsNotifyPanel studentCommentClearPendingLink="${data.studentCommentClearPendingLink}"
+                                              numberOfPendingComments="${data.numberOfPendingComments}" />
             </div>
             <div id="no-comment-panel" style="${empty data.commentsForStudentsTables and empty data.feedbackSessions ? '' : 'display:none;'}">
                 <br>
