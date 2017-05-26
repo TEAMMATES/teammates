@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -48,8 +49,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         ______TS("link for the sample spreadsheet");
         enrollPage.clickSpreadsheetLink();
-        String expectedTitle = "Course Enroll Sample Spreadsheet - Google Sheets";
-        enrollPage.verifyTitle(expectedTitle);
+        By expectedOgTitle = By.cssSelector("meta[property='og:title'][content='Course Enroll Sample Spreadsheet']");
+        enrollPage.verifyContainsElement(expectedOgTitle);
     }
 
     private void testEnrollAction() throws Exception {
