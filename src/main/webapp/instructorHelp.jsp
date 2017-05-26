@@ -136,6 +136,67 @@
                 </div>
             </li>
             <li>
+                <a href="#profile">Profile</a>
+                <div style="margin: 0 auto; padding: 0 50px;">
+                    <ul>
+                        <li>
+                            <a href="#viewStudentProfile">View student's profile</a>
+                        </li>
+                        <li>
+                            <a href="#editStudentProfile">Editing student's profile</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#search">Search</a>
+                <div style="margin: 0 auto; padding: 0 50px;">
+                    <ul>
+                        <li>
+                            <a href="#searchStudents">Search students</a>
+                        </li>
+                        <li>
+                            <a href="#searchCommentForResponses">Searching for comments for responses</a>
+                        </li>
+                        <li>
+                            <a href="#searchCommentsForStudents">Searching for comments for students</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#sections">Sections</a>
+                <div style="margin: 0 auto; padding: 0 50px;">
+                    <ul>
+                        <li>
+                            <a href="#sectionsWhatIsItMeantFor">What is it meant for?</a>
+                        </li>
+                        <li>
+                            <a href="#sectionsEnrollingStudents">Enrolling students into sections</a>
+                        </li>
+                        <li>
+                            <a href="#searchCommentsForStudents">Searching for comments for students</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#archiving">Archiving</a>
+                <div style="margin: 0 auto; padding: 0 50px;">
+                    <ul>
+                        <li>
+                            <a href="#archivingCourse">Archiving Course</a>
+                        </li>
+                        <li>
+                            <a href="#archivingViewArchivedCourses">View archived courses</a>
+                        </li>
+                        <li>
+                            <a href="#archivingUnarchiveCourses">Unarchive courses</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
                 <a href="#editComments">Comments</a>
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
@@ -170,5 +231,9 @@
     <jsp:include page="partials/instructorHelpTips.jsp"/>
     <jsp:include page="partials/instructorHelpAddEditInstructors.jsp"/>
     <jsp:include page="partials/instructorHelpSessions.jsp"/>
+    <jsp:include page="partials/instructorHelpProfile.jsp"/>
+    <jsp:include page="partials/instructorHelpSearch.jsp"/>
+    <jsp:include page="partials/instructorHelpSections.jsp"/>
+    <jsp:include page="partials/instructorHelpArchiving.jsp"/>
     <jsp:include page="partials/instructorHelpComments.jsp"/>
 </t:helpPage>
