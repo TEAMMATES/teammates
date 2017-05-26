@@ -75,18 +75,15 @@ Click the "Terminate" icon on the Eclipse console.
 1. Go to `File → Project Structure...`.
 1. Under `Artifacts → Gradle : <your-project-name>.war (exploded)`, check `Include in project build`.
 1. Click `OK`.
-1. Got to `Run → Edit Configurations...`.
+1. Go to `Run → Edit Configurations...`.
 1. Click `+ → Google AppEngine Dev Server`.
-1. Name it `Dev Server`.
-1. Click `Configure` next to `Application server`.
+1. Set the `Name:` to `Dev Server`.
+1. Click `Configure...` next to the drop down menu of `Application server:`.
 1. Click `+ → ...`. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
-1. Under `Open browser`, uncheck `After launch`.
-1. Set the `JRE` to `1.7`.
-1. Set the `Port` to `8888`.
-1. Under `Before launch`, click `+ → Run Gradle task`.
-1. Click the folder icon, select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
-1. Click `OK`.
-1. Remove "Build" by selecting it and clicking `-`.
+1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
+1. Check in `JRE:` that the SDK used is the default of `1.7`.\
+   Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).
+1. Set the `Port:` to `8888`.
 1. Click `OK`.
 
 #### Starting the dev server
@@ -95,7 +92,7 @@ Go to `Run → Run...` and select `Dev Server` in the pop-up box.
 
 #### Stopping the dev server
 
-Go to `Run → Stop` or hit `Ctrl + F2` (Windows).
+Go to `Run → Stop`.
 
 ## Logging in to a TEAMMATES instance
 
