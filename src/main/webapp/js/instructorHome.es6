@@ -79,17 +79,10 @@ $(document).ready(() => {
                     $(content).html(warningSign + errorMsg + chevronDown);
                 },
                 success(data) {
-                    const panelHeading = $(data).find('.panel-heading').html();
-                    $panel.find('.row').replaceWith(panelHeading);
-                    const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
-                    const updatedContent = $panel.find('.pull-right')[0];
-                    $(updatedContent).append(chevronUp);
-                    const collapseData = $(data).find('.panel-body');
-                    $(panelCollapse[0]).html(collapseData[0]);
-                    $panel.removeClass('ajax_auto');
+                    updateCoursePanel(data, $panel, panelCollapse);
 
                     $panel.off('click');
-                    $panel.click(toggleSingleCourseCollapse);
+                    $panel.click(toggleCourseVisibility);
                     $panel.trigger('click');
 
                     linkAjaxForResponseRate();
@@ -131,6 +124,7 @@ function bindCoursePanels() {
             $(heading[0]).attr('data-target', `#panelBodyCollapse-${numPanels}`);
             $(heading[0]).attr('id', `panelHeading-${numPanels}`);
             $(heading[0]).css('cursor', 'pointer');
+            $(heading[0]).attr('data-state', 'up');
             $(bodyCollapse[0]).attr('id', `panelBodyCollapse-${numPanels}`);
         }
         numPanels += 1;
@@ -140,22 +134,36 @@ function bindCoursePanels() {
 /**
  * Changes the state of the course panel (collapsed/expanded).
  */
-function toggleSingleCourseCollapse(e) {
+function toggleCourseVisibility(e) {
     if ($(e.target).is('a') || $(e.target).is('input') || $(e.target).hasClass('dropdown-toggle')) {
         return;
     }
-    const glyphIcon = $(this).find('.glyphicon');
-    const className = $(glyphIcon[0]).attr('class');
     const dropdowns = $(this).find('.dropdown');
-    if (className.indexOf('glyphicon-chevron-up') === -1) {
+    if ($(this).data('state') === 'up') {
         for (let i = 0; i < dropdowns.length; i += 1) {
             $(dropdowns[i]).show();
         }
         showSingleCollapse($(e.currentTarget).attr('data-target'));
+        $(this).data('state', 'down');
     } else {
         for (let j = 0; j < dropdowns.length; j += 1) {
             $(dropdowns[j]).hide();
         }
         hideSingleCollapse($(e.currentTarget).attr('data-target'));
+        $(this).data('state', 'up');
     }
+}
+
+/**
+ * Updates the contents of course panel (collapse data, chevron icon)
+ */
+function updateCoursePanel(data, panel, panelCollapse) {
+    const panelHeading = $(data).find('.panel-heading').html();
+    panel.find('.row').replaceWith(panelHeading);
+    const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
+    const updatedContent = panel.find('.pull-right')[0];
+    $(updatedContent).append(chevronUp);
+    const collapseData = $(data).find('.panel-body');
+    $(panelCollapse[0]).html(collapseData[0]);
+    panel.removeClass('ajax_auto');
 }
