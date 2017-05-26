@@ -21,8 +21,8 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     private CourseTable courseTable;
     private int index;
 
-    public InstructorHomeCourseAjaxPageData(AccountAttributes account) {
-        super(account);
+    public InstructorHomeCourseAjaxPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor,

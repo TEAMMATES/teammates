@@ -1,4 +1,4 @@
-/* global StatusType:false setStatusMessage:false toggleSort:false richTextEditorBuilder:false */
+/* global StatusType:false setStatusMessage:false toggleSort:false richTextEditorBuilder:false makeCsrfTokenParam:false */
 
 // Form input placeholders
 const PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the image';
@@ -16,7 +16,7 @@ function showUploadingGif() {
 function createGroupReceiverListUploadUrl() {
     $.ajax({
         type: 'POST',
-        url: '/admin/adminEmailCreateGroupReceiverListUploadUrl',
+        url: `/admin/adminEmailCreateGroupReceiverListUploadUrl?${makeCsrfTokenParam()}`,
         beforeSend() {
             showUploadingGif();
         },
@@ -132,7 +132,7 @@ function submitImageUploadFormAjax() {
 function createImageUploadUrl() {
     $.ajax({
         type: 'POST',
-        url: '/admin/adminEmailCreateImageUploadUrl',
+        url: `/admin/adminEmailCreateImageUploadUrl?${makeCsrfTokenParam()}`,
         beforeSend() {
             showUploadingGif();
         },
@@ -181,7 +181,7 @@ $(document).ready(() => {
     });
 
     $('#composeSaveButton').on('click', () => {
-        $('#adminEmailMainForm').attr('action', '/admin/adminEmailComposeSave');
+        $('#adminEmailMainForm').attr('action', `/admin/adminEmailComposeSave?${makeCsrfTokenParam()}`);
         $('#composeSubmitButton').click();
     });
 

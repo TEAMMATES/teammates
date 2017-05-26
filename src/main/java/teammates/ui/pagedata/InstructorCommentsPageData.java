@@ -31,8 +31,8 @@ public class InstructorCommentsPageData extends PageData {
 
     private List<CommentsForStudentsTable> commentsForStudentsTables;
 
-    public InstructorCommentsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorCommentsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
@@ -73,6 +73,10 @@ public class InstructorCommentsPageData extends PageData {
 
     public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
+    }
+
+    public String getStudentCommentClearPendingLink() {
+        return getInstructorStudentCommentClearPendingLink(courseId);
     }
 
     public boolean isDisplayArchive() {

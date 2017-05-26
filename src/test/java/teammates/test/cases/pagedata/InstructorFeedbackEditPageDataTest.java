@@ -43,7 +43,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         ______TS("Typical case");
         // Setup
         InstructorFeedbackEditPageData data =
-                new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
+                new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
         List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
@@ -202,7 +202,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
         ______TS("empty feedback session");
         // setup
-        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"));
+        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
 
         fs = dataBundle.feedbackSessions.get("empty.session");
         fs.setPublishedEmailEnabled(false);

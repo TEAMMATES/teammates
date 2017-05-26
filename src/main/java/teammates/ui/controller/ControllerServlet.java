@@ -66,6 +66,7 @@ public class ControllerServlet extends HttpServlet {
             Action c = new ActionFactory().getAction(req);
             if (c.isValidUser()) {
                 ActionResult actionResult = c.executeAndPostProcess();
+                actionResult.writeSessionTokenToCookieIfRequired(req, resp);
                 actionResult.send(req, resp);
             } else {
                 resp.sendRedirect(c.getAuthenticationRedirectUrl());

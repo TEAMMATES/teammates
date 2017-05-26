@@ -12,9 +12,9 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
 
     private List<FeedbackResultsTable> resultsTables;
 
-    public InstructorStudentRecordsAjaxPageData(AccountAttributes account, StudentAttributes student,
+    public InstructorStudentRecordsAjaxPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                                 List<FeedbackSessionResultsBundle> results) {
-        super(account, student);
+        super(account, student, sessionToken);
         this.resultsTables = new ArrayList<FeedbackResultsTable>();
         for (int i = 0; i < results.size(); i++) {
             FeedbackSessionResultsBundle result = results.get(i);
