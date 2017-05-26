@@ -24,7 +24,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
     public void testAll() {
         ______TS("test no course");
         AccountAttributes instructorAccountWithoutCourses = dataBundle.accounts.get("instructorWithoutCourses");
-        InstructorCoursesPageData pageData = new InstructorCoursesPageData(instructorAccountWithoutCourses);
+        InstructorCoursesPageData pageData =
+                new InstructorCoursesPageData(instructorAccountWithoutCourses, dummySessionToken);
         List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
         List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
         Map<String, InstructorAttributes> instructorForCourses = new HashMap<String, InstructorAttributes>();
@@ -43,7 +44,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
 
         ______TS("test 1 active course");
         AccountAttributes instructorAccountWithOneActiveCourse = dataBundle.accounts.get("instructor1OfCourse1");
-        pageData = new InstructorCoursesPageData(instructorAccountWithOneActiveCourse);
+        pageData = new InstructorCoursesPageData(instructorAccountWithOneActiveCourse, dummySessionToken);
         activeCourses = new ArrayList<CourseAttributes>();
         activeCourses.add(dataBundle.courses.get("typicalCourse1"));
 
@@ -65,7 +66,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
 
         ______TS("test 2 active courses");
         AccountAttributes instructorAccountWithTwoActiveCourses = dataBundle.accounts.get("instructor3");
-        pageData = new InstructorCoursesPageData(instructorAccountWithTwoActiveCourses);
+        pageData = new InstructorCoursesPageData(instructorAccountWithTwoActiveCourses, dummySessionToken);
         activeCourses = new ArrayList<CourseAttributes>();
         activeCourses.add(dataBundle.courses.get("typicalCourse1"));
         activeCourses.add(dataBundle.courses.get("typicalCourse2"));
@@ -89,7 +90,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
 
         ______TS("test 1 archived course");
         AccountAttributes instructorAccountWithOneArchivedCourse = dataBundle.accounts.get("instructorOfArchivedCourse");
-        pageData = new InstructorCoursesPageData(instructorAccountWithOneArchivedCourse);
+        pageData = new InstructorCoursesPageData(instructorAccountWithOneArchivedCourse, dummySessionToken);
         activeCourses = new ArrayList<CourseAttributes>();
 
         archivedCourses = new ArrayList<CourseAttributes>();
