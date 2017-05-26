@@ -8,13 +8,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.StudentCourseJoinAction;
 
 /**
+ * Test Course Join Link for Unregistered Student
  * SUT: {@link StudentCourseJoinAction}.
  */
-public class StudentCourseJoinLegacyLinkTest extends BaseActionTest {
+public class StudentCourseJoinActionLegacyTest extends BaseActionTest {
 
     @BeforeClass
     public void classSetup() throws Exception {
@@ -32,13 +32,13 @@ public class StudentCourseJoinLegacyLinkTest extends BaseActionTest {
     }
 
     @Override
-    protected Action getAction(String... params) {
+    protected StudentCourseJoinAction getAction(String... params) {
         return (StudentCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override
     protected void testExecuteAndPostProcess() throws Exception {
-        // TODO Auto-generated method stub
+        // This is not required
     }
 
     @Test
