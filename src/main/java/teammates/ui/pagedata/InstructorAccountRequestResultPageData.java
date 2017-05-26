@@ -16,6 +16,7 @@ public class InstructorAccountRequestResultPageData extends PageData {
 
     private String name;
     private String university;
+    private String country;
     private String url;
     private String email;
     private String comments;
@@ -23,6 +24,12 @@ public class InstructorAccountRequestResultPageData extends PageData {
     public InstructorAccountRequestResultPageData(String name, String university,
                                                 String country, String email,
                                                 String url, String comments) {
+    	this.name = name;
+    	this.university = university;
+    	this.country = country;
+    	this.email = email;
+    	this.url = url;
+    	this.comments = comments;
     }
 }
 

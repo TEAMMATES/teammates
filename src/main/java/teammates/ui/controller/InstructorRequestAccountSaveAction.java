@@ -22,8 +22,6 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
  * Action: saving the details of the new applicant-instructor.
  */
 public class InstructorRequestAccountSaveAction extends Action {
-	
-	 private static final Logger log = Logger.getLogger();
 
 	 @Override
 	 public ActionResult execute() throws EntityDoesNotExistException {
@@ -37,16 +35,14 @@ public class InstructorRequestAccountSaveAction extends Action {
 	     Assumption.assertPostParamNotNull("email", email);
 	     String url = getRequestParamValue("URL");
 	     String comments = getRequestParamValue("comments");
-	     
-	     /* Process enrollment list and setup data for page result */
-	     try {
-	         List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
-	         boolean hasSection = hasSections(students);
 
+	     /* Setup data for process results */
+	     try {
 	         InstructorAccountRequestResultPageData pageData = new InstructorAccountRequestResultPageData(name,
 	                                                                 university, country, email, url, comments);
 
-	            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_ACCOUNT_REQUEST_RESULT, pageData);
+	         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_ACCOUNT_REQUEST_RESULT, pageData);
+	    } finally {
 	    }
 	 }
 }
