@@ -426,16 +426,8 @@ public class EmailGenerator {
 
     private String generateInstructorFragment(String courseId, String courseName) {
 
-        String fragmentParameters;
-
-        /* If the course name == "", we understand that this method was called by the
-        generateFeedbackSessionEmailBaseForInstructors, which does not need the course name */
-        if ("".equals(courseName)) {
-            fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId);
-        } else {
-            fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId) + ", "
-                    + SanitizationHelper.sanitizeForHtml(courseName);
-        }
+        String fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId) + ", "
+                + SanitizationHelper.sanitizeForHtml(courseName);
 
         return "<p>The email below has been sent to students of course: "
                 + fragmentParameters
@@ -447,7 +439,7 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
 
-        String instructorFragment = generateInstructorFragment(course.getId(), "");
+        String instructorFragment = generateInstructorFragment(course.getId(), course.getName());
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
