@@ -12,7 +12,7 @@ public class CourseStatsPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
-        CourseStatsPageData data = new CourseStatsPageData(account);
+        CourseStatsPageData data = new CourseStatsPageData(account, sessionToken);
 
         gateKeeper.verifyInstructorPrivileges(account);
 

@@ -17,7 +17,7 @@ public class FeedbackSessionStatsPageAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
-        FeedbackSessionStatsPageData data = new FeedbackSessionStatsPageData(account);
+        FeedbackSessionStatsPageData data = new FeedbackSessionStatsPageData(account, sessionToken);
 
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
 

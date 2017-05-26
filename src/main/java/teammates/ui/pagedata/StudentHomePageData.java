@@ -20,10 +20,10 @@ public class StudentHomePageData extends PageData {
 
     private List<CourseTable> courseTables;
 
-    public StudentHomePageData(AccountAttributes account,
+    public StudentHomePageData(AccountAttributes account, String sessionToken,
                                List<CourseDetailsBundle> courses,
                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        super(account);
+        super(account, sessionToken);
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
 

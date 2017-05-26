@@ -35,8 +35,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     private String statusForAjax;
     private boolean hasError;
 
-    public InstructorFeedbackEditPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
