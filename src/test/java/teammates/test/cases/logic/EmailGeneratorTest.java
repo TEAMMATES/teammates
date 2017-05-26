@@ -28,6 +28,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.EmailChecker;
+import teammates.test.driver.TestProperties;
 
 /**
  * SUT: {@link EmailGenerator}.
@@ -39,12 +40,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
-    /** indicates if the test-run is to use GodMode. */
-    private static boolean isGodModeEnabled;
-
     @BeforeClass
     public void classSetup() {
-        if (isGodModeEnabled) {
+        if (TestProperties.IS_GODMODE_ENABLED) {
             System.setProperty("godmode", "true");
         }
     }

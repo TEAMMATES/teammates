@@ -28,9 +28,6 @@ import teammates.test.pageobjects.LoginPage;
  */
 public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
-    /** Indicates if the test-run is to use GodMode. */
-    private static boolean isGodModeEnabled;
-
     protected Browser browser;
     protected DataBundle testData;
 
@@ -39,7 +36,7 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
      */
     @BeforeSuite
     public static void checkAndEnableGodMode() {
-        if (isGodModeEnabled) {
+        if (TestProperties.IS_GODMODE_ENABLED) {
             System.setProperty("godmode", "true");
         }
     }
