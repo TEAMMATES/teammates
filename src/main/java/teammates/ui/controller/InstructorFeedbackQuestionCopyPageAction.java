@@ -30,7 +30,7 @@ public class InstructorFeedbackQuestionCopyPageAction extends Action {
         copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
 
         InstructorFeedbackQuestionCopyPageData data =
-                new InstructorFeedbackQuestionCopyPageData(account, copiableQuestions);
+                new InstructorFeedbackQuestionCopyPageData(account, sessionToken, copiableQuestions);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL, data);
     }
 }

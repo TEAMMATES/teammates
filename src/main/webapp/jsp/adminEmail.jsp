@@ -8,6 +8,7 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
+    <script type="text/javascript" src="/js/crypto.js"></script>
     <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminEmail.js"></script>
 </c:set>

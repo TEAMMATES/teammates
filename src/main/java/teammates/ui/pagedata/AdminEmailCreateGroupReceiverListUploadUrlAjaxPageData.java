@@ -8,8 +8,8 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData extends
     public String ajaxStatus;
 
     public AdminEmailCreateGroupReceiverListUploadUrlAjaxPageData(
-            AccountAttributes account) {
-        super(account);
+            AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
 }
