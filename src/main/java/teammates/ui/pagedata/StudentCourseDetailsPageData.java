@@ -12,8 +12,8 @@ import teammates.ui.template.StudentCourseDetailsPanel;
 public class StudentCourseDetailsPageData extends PageData {
     private StudentCourseDetailsPanel studentCourseDetailsPanel;
 
-    public StudentCourseDetailsPageData(AccountAttributes account) {
-        super(account);
+    public StudentCourseDetailsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,
