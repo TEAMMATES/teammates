@@ -768,12 +768,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public String getGiverTypeForQuestion(int qnNumber) {
-        WebElement giverDropdownForQuestion = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        WebElement giverDropdownForQuestion = browser.driver.findElement(By.id("givertype-" + qnNumber));
         return giverDropdownForQuestion.getAttribute("value");
     }
 
     public String getRecipientTypeForQuestion(int qnNumber) {
-        WebElement recipientDropdownForQuestion = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        WebElement recipientDropdownForQuestion = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
         return recipientDropdownForQuestion.getAttribute("value");
     }
 
