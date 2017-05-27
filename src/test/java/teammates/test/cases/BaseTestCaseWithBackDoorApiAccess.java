@@ -29,6 +29,15 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getAccount(account.googleId);
     }
 
+    protected AccountAttributes getAccountWithRetry(final String googleId) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
+            @Override
+            public AccountAttributes run() {
+                return getAccount(googleId);
+            }
+        });
+    }
+
     @Override
     protected CommentAttributes getComment(CommentAttributes comment) {
         throw new UnsupportedOperationException("Method not used");
@@ -74,6 +83,16 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     @Override
     protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
         return getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+    }
+
+    protected FeedbackSessionAttributes getFeedbackSessionWithRetry(
+            final String courseId, final String feedbackSessionName) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>("getFeedbackSession") {
+            @Override
+            public FeedbackSessionAttributes run() {
+                return getFeedbackSession(courseId, feedbackSessionName);
+            }
+        });
     }
 
     protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {

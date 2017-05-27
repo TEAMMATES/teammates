@@ -170,7 +170,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         confirmationPage.clickConfirmButtonWithRetry();
 
         //check a account has been created for the requester successfully
-        assertNotNull(getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
+        assertNotNull(getAccountWithRetry(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
 
         //verify sample course is accessible for newly joined instructor as an instructor
 
@@ -228,7 +228,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickEditSessionButton();
 
-        FeedbackSessionAttributes feedbackSession = getFeedbackSession(demoCourseId, "Second team feedback session");
+        FeedbackSessionAttributes feedbackSession =
+                getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
         feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
                                              feedbackSession.getEndTime(),
                                              new Text("updated instructions"),
