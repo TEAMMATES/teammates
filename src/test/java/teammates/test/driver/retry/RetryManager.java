@@ -64,13 +64,14 @@ public final class RetryManager {
     }
 
     /**
-     * Runs {@code task}, retrying if needed using exponential backoff, until no exceptions of class
-     * {@code exceptionType} are caught.
+     * Runs {@code task}, retrying if needed using exponential backoff, until no exceptions of the specified
+     * {@code exceptionTypes} are caught.
      * Returns {@code task} result or null if none.
      */
+    @SafeVarargs
     public static <T, E extends Throwable, C extends Throwable> T runUntilNoException(
-            Retryable<T, E> task, Class<C> exceptionType) throws E {
-        return doRetry(task, exceptionType);
+            Retryable<T, E> task, Class<C>... exceptionTypes) throws E {
+        return doRetry(task, exceptionTypes);
     }
 
     private static <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition)
@@ -85,14 +86,15 @@ public final class RetryManager {
         return result;
     }
 
+    @SafeVarargs
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
     private static <T, E extends Throwable, C extends Throwable> T doRetry(
-            Retryable<T, E> task, Class<C> exceptionType) throws E {
+            Retryable<T, E> task, Class<C>... exceptionTypes) throws E {
         for (int delay = 1; delay <= MAX_DELAY_IN_S; delay *= 2) {
             try {
                 return task.runExec();
             } catch (Throwable e) {
-                if (!exceptionType.isInstance(e)) {
+                if (!isThrowableTypeIn(e, exceptionTypes)) {
                     throw e;
                 }
                 // continue retry process
@@ -102,6 +104,16 @@ public final class RetryManager {
             task.beforeRetry();
         }
         return task.runExec();
+    }
+
+    @SafeVarargs
+    private static <C extends Throwable> boolean isThrowableTypeIn(Throwable e, Class<C>... exceptionTypes) {
+        for (Class<C> exceptionType : exceptionTypes) {
+            if (exceptionType.isInstance(e)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
