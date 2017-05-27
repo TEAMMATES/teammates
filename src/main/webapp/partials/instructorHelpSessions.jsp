@@ -1507,7 +1507,7 @@
                                     </label>
                                     <div class="col-sm-10">
                                         <div class="input-group">
-                                            <input type="text" id="results-search-box" class="form-control" placeholder="Type question info to filter results">
+                                            <input type="text" id="results-search-box" class="form-control" placeholder="Type keywords from the question to filter">
                                             <a class="input-group-addon btn btn-default">
                                                 <span class="glyphicon glyphicon-search"></span>
                                             </a>
@@ -1530,6 +1530,13 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="col-sm-12" data-toggle="tooltip" title="Indicate missing responses">
+                                    <div class="margin-0 checkbox padding-top-0 min-height-0">
+                                        <label>
+                                            <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Indicate Missing Responses
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -1548,6 +1555,9 @@
                                             </option>
                                             <option value="Tutorial Group 2">
                                             Tutorial Group 2
+                                            </option>
+                                            <option value="No specific recipient">
+                                            No specific recipient
                                             </option>
                                         </select>
                                     </div>
