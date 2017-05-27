@@ -105,8 +105,11 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = getShowPageResult(confirmAction);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
-                false, "ICJAT.instr", StringHelper.encrypt(newInstructor.key)), pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
+                        false, "ICJAT.instr", StringHelper.encrypt(newInstructor.key)),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -121,18 +124,18 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, boolean error, String userId, String key) {
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId, String key) {
         String pageDestination = parentUri;
-        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
         return pageDestination;
     }
 
-    protected String getPageResultDestination(String parentUri, String key, boolean error, String userId) {
+    protected String getPageResultDestination(String parentUri, String key, boolean isError, String userId) {
         String pageDestination = parentUri;
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
-        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }

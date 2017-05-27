@@ -38,9 +38,10 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         InstructorFeedbackQuestionCopyPageAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
 
-        String expectedString = getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL,
-                                                         false,
-                                                         instructor1OfCourse1.googleId);
+        String expectedString = getPageResultDestination(
+                                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL,
+                                        false,
+                                        instructor1OfCourse1.googleId);
         assertEquals(expectedString, result.getDestinationWithParams());
 
         assertTrue(result.getStatusMessage().isEmpty());

@@ -122,10 +122,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
         RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
-                     false, "idOfInstructor1OfCourse1",
-                     "idOfTypicalCourse1"),
-                     rToBeTrimmed.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        false, "idOfInstructor1OfCourse1",
+                        "idOfTypicalCourse1"),
+                rToBeTrimmed.getDestinationWithParams());
 
         assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
@@ -163,9 +165,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         ShowPageResult result = getShowPageResult(a);
 
         assertEquals(
-                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
-                                         true,
-                                         "idOfInstructor1OfCourse1"),
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                        true,
+                        "idOfInstructor1OfCourse1"),
                 result.getDestinationWithParams());
 
         assertTrue(result.isError);
@@ -204,9 +207,11 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         result = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
-                true,
-                "idOfInstructor1OfCourse1"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                        true,
+                        "idOfInstructor1OfCourse1"),
                 result.getDestinationWithParams());
 
         assertTrue(result.isError);
@@ -244,10 +249,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(a);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
-                true,
-                instructorId,
-                instructor1OfCourse1.courseId),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        true,
+                        instructorId,
+                        instructor1OfCourse1.courseId),
                 redirectResult.getDestinationWithParams());
 
         assertTrue(redirectResult.isError);
@@ -295,9 +302,9 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         return (InstructorCourseStudentDetailsEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, boolean error, String userId, String courseId) {
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
         String pageDestination = parentUri;
-        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         return pageDestination;

@@ -150,11 +150,11 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         return (StudentCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, String regKey, String nextUrl, boolean error) {
+    protected String getPageResultDestination(String parentUri, String regKey, String nextUrl, boolean isError) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, regKey);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.NEXT_URL, nextUrl);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         return pageDestination;
     }
 

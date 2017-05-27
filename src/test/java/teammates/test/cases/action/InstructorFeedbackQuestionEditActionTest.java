@@ -1474,13 +1474,13 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, String courseId, String fsname,
-            String userId, boolean error) {
+    protected String getPageResultDestination(
+            String parentUri, String courseId, String fsname, String userId, boolean isError) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         return pageDestination;
     }
 }

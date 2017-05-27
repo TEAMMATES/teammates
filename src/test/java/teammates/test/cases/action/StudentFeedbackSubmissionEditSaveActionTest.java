@@ -921,7 +921,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         assertEquals(
                 getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
-                     r.getDestinationWithParams());
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -960,21 +960,21 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         return (StudentFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, boolean error, String userId, String courseId,
-            String fsname) {
+    protected String getPageResultDestination(
+            String parentUri, boolean isError, String userId, String courseId, String fsname) {
         String pageDestination = parentUri;
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         return pageDestination;
     }
 
-    protected String getPageResultDestination(String parentUri, String studentEmail, boolean error, String courseId,
-            String fsname, String key) {
+    protected String getPageResultDestination(
+            String parentUri, String studentEmail, boolean isError, String courseId, String fsname, String key) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);

@@ -86,8 +86,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false,
-                "idOfInstructor1OfCourse1"), redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
                      redirectResult.getStatusMessage());
@@ -145,8 +146,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false,
-                "idOfInstructor1OfCourse1"), redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId),
                      redirectResult.getStatusMessage());
@@ -171,8 +173,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
             AssertHelper.assertContains("name cannot be null or empty", e.getMessage());
         }
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false,
-                "idOfInstructor1OfCourse1"), redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());
 

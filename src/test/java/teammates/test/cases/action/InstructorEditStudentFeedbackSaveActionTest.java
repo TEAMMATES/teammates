@@ -109,11 +109,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
-                     false, "student1InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCourseinstr", "IESFPTCourse",
-                     "First+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false, "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr", "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
@@ -137,11 +139,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
-                     false, "student1InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCourseinstr", "IESFPTCourse",
-                     "First+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false, "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr", "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("new response");
@@ -162,11 +166,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
-                     false, "student1InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCourseinstr", "IESFPTCourse",
-                     "First+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false, "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr", "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
@@ -395,11 +401,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
-                     false, "student2InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCoursehelper2", "IESFPTCourse",
-                     "Another+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false, "student2InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCoursehelper2", "IESFPTCourse",
+                        "Another+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Success case: insufficient for section, BUT sufficient for a session");
@@ -432,11 +440,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
-                     false, "student2InIESFPTCourse%40gmail.tmt",
-                     "IESFPTCoursehelper3", "IESFPTCourse",
-                     "First+feedback+session"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false, "student2InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCoursehelper3", "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Failure case: insufficient for section, although sufficient for another session");
@@ -618,13 +628,14 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         return (InstructorEditStudentFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, boolean error, String moderatedPerson, String userId,
-            String courseId, String fsname) {
+    protected String getPageResultDestination(
+            String parentUri, boolean isError, String moderatedPerson, String userId, String courseId, String fsname) {
         String pageDestination = parentUri;
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
-        pageDestination = addParamToUrl(pageDestination,
-                                        Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON,
-                                        moderatedPerson);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(
+                                  pageDestination,
+                                  Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON,
+                                  moderatedPerson);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);

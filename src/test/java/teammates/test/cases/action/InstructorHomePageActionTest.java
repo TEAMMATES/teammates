@@ -79,8 +79,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
-                      r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -113,8 +114,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -154,8 +156,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 

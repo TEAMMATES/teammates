@@ -62,8 +62,9 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfHelperOfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfHelperOfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 

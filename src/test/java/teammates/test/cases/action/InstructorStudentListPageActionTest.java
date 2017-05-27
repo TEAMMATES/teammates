@@ -63,8 +63,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "instructorWithoutCourses"),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "instructorWithoutCourses"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());
 
@@ -86,8 +87,11 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false,
-                "idOfInstructorOfArchivedCourse"), r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false,
+                        "idOfInstructorOfArchivedCourse"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -112,8 +116,11 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false,
-                "idOfInstructorOfArchivedCourse"), r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false,
+                        "idOfInstructorOfArchivedCourse"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 

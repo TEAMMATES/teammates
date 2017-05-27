@@ -169,11 +169,12 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                         instructor1ofCourse1.courseId,
-                         "Second+copied+feedback+session",
-                         instructor1ofCourse1.googleId,
-                         false);
+        expectedString = getPageResultDestination(
+                                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                                 instructor1ofCourse1.courseId,
+                                 "Second+copied+feedback+session",
+                                 instructor1ofCourse1.googleId,
+                                 false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -196,13 +197,13 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, String courseId, String fsname,
-            String userId, boolean error) {
+    protected String getPageResultDestination(
+            String parentUri, String courseId, String fsname, String userId, boolean isError) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         return pageDestination;
     }
 }

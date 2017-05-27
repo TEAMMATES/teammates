@@ -58,9 +58,10 @@ public class InstructorCourseStudentDetailsPageActionTest extends BaseActionTest
         ShowPageResult r = getShowPageResult(a);
 
         assertEquals(
-                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS,
-                                         false,
-                                         "idOfInstructor1OfCourse1"),
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS,
+                        false,
+                        "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());

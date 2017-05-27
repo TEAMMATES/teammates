@@ -49,9 +49,10 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         InstructorFeedbackUnpublishAction unpublishAction = getAction(paramsNormal);
         RedirectResult result = getRedirectResult(unpublishAction);
 
-        String expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
-                                                              false,
-                                                              "idOfInstructor1OfCourse1");
+        String expectedDestination = getPageResultDestination(
+                                             Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                                             false,
+                                             "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, result.getStatusMessage());
         assertFalse(result.isError);
@@ -102,8 +103,9 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
         unpublishAction = getAction(paramsNormal);
         result = getRedirectResult(unpublishAction);
 
-        expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, true,
-                              "idOfInstructor1OfCourse1");
+        expectedDestination = getPageResultDestination(
+                                      Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, true,
+                                      "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Error unpublishing feedback session: Session has already been unpublished.",
                      result.getStatusMessage());

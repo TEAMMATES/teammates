@@ -111,8 +111,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(studentId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, studentId),
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, studentId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 

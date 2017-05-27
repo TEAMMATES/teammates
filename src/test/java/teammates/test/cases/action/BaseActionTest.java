@@ -731,9 +731,9 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
     }
 
-    protected String getPageResultDestination(String parentUri, boolean error, String userId) {
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId) {
         String pageDestination = parentUri;
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }

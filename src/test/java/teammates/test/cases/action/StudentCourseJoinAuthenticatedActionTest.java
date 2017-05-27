@@ -140,8 +140,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE,
-                "idOfCourseNoEvals", false, "idOfNoFSStudent"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE,
+                        "idOfCourseNoEvals", false, "idOfNoFSStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -180,8 +182,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE,
-                "idOfCourseNoEvals", false, "idOfNoFSStudent2"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE,
+                        "idOfCourseNoEvals", false, "idOfNoFSStudent2"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -220,8 +224,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE,
-                "idOfCourseNoEvals", false, "idOfNoFSStudent3"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE,
+                        "idOfCourseNoEvals", false, "idOfNoFSStudent3"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -260,8 +266,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE,
-                "idOfTypicalCourse1", false, "idOfNewStudent"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE,
+                        "idOfTypicalCourse1", false, "idOfNewStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -276,10 +284,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, String persistenceCourse, boolean error, String userId) {
+    protected String getPageResultDestination(String parentUri, String persistenceCourse, boolean isError, String userId) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, persistenceCourse);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(error));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }

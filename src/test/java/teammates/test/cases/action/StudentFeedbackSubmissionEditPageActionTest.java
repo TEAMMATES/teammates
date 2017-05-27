@@ -106,9 +106,10 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
         assertEquals(
-                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT,
-                                         false,
-                                         student1InCourse1.googleId),
+                getPageResultDestination(
+                        Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        student1InCourse1.googleId),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -128,8 +129,9 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         redirectResult = getRedirectResult(pageAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
                      redirectResult.getStatusMessage());
@@ -181,7 +183,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
                 student1InCourse1.googleId), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -193,7 +196,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
                 student1InCourse1.googleId), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -213,8 +217,9 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageAction = getAction(params);
         redirectResult = getRedirectResult(pageAction);
 
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, "student1InCourse1"),
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, "student1InCourse1"),
+                redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You are not registered in the course " + session1InCourse1.getCourseId(),
                      redirectResult.getStatusMessage());
