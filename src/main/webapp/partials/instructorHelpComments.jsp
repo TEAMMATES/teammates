@@ -167,7 +167,7 @@
             </span>
             <div class="row">
                 <br> Go to the
-                <b>'Search'</b> page, tick the checkboxes for comments.
+                <b>'Search'</b> page, tick the checkbox for comments.
                 <br> Type the keywords in the input, then click the search button on the right-hand side or press the Enter key to start searching.
                 <br>
                 <br>
