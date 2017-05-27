@@ -83,6 +83,9 @@ public final class RetryManager {
             task.beforeRetry();
             result = task.runExec();
         }
+        if (!condition.isSuccessful(task)) {
+            throwFinalFailure(task);
+        }
         return result;
     }
 
@@ -103,7 +106,15 @@ public final class RetryManager {
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
         }
-        return task.runExec();
+        try {
+            return task.runExec();
+        } catch (Throwable e) {
+            if (!isThrowableTypeIn(e, exceptionTypes)) {
+                throw e;
+            }
+            throwFinalFailure(task);
+            return null;
+        }
     }
 
     @SafeVarargs
@@ -118,5 +129,9 @@ public final class RetryManager {
 
     private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
         System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
+    }
+
+    private static <T, E extends Throwable> void throwFinalFailure(Retryable<T, E> task) {
+        Assumption.fail(task.getName() + " failed after maximum retries");
     }
 }
