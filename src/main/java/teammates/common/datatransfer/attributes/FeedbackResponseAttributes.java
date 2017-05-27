@@ -51,15 +51,15 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
-            FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
-            String recipientEmail, String recipientSection, Text responseMetaData) {
+            FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
+            String recipient, String recipientSection, Text responseMetaData) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giver = giverEmail;
+        this.giver = giver;
         this.giverSection = giverSection;
-        this.recipient = recipientEmail;
+        this.recipient = recipient;
         this.recipientSection = recipientSection;
         this.responseMetaData = responseMetaData;
     }
@@ -156,7 +156,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
-                + ", giverEmail=" + giver + ", recipientEmail=" + recipient
+                + ", giver=" + giver + ", recipient=" + recipient
                 + ", answer=" + responseMetaData + "]";
     }
 
