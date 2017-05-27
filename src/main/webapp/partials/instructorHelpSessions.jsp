@@ -1585,12 +1585,34 @@
                             From:
                             <strong>Alice Betsy (Team 2)</strong>
                             <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
+                            <div class="pull-right">
+                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank"> 
+                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                </form>
+                                &nbsp;
+                                <div class="display-icon" style="display:inline;">
+                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                </div>                
+                            </div>
                         </div>
                         <div class="panel-body">
 
                             <div class="row ">
                                 <div class="col-md-2">
-                                    <strong>To: -</strong>
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                                        To: 
+                                        <br>
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            <strong>-</strong>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                                        From: 
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            Alice Betsy (Team 2)
+                                        </div>               
+                                    </div>
                                 </div>
                                 <div class="col-md-10">
 
@@ -1631,7 +1653,20 @@
 
                             <div class="row border-top-gray">
                                 <div class="col-md-2">
-                                    <strong>To: Alice Betsy (Team 2)</strong>
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                                        To: 
+                                        <br>
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            <strong>Alice Betsy (Team 2)</strong>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                                        From: 
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            Alice Betsy (Team 2)
+                                        </div>               
+                                    </div>
                                 </div>
                                 <div class="col-md-10">
 
@@ -1656,8 +1691,20 @@
 
                             <div class="row border-top-gray">
                                 <div class="col-md-2">
-                                    <strong>To: Benny Charles (Team 1)
-                                    </strong>
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                                        To: 
+                                        <br>
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            <strong>Benny Charles (Team 1)</strong>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                                        From: 
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            Alice Betsy (Team 2)
+                                        </div>               
+                                    </div>
                                 </div>
                                 <div class="col-md-10">
 
@@ -1688,13 +1735,34 @@
                             From:
                             <strong>Benny Charles (Team 1)</strong>
                             <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
+                            <div class="pull-right">
+                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank"> 
+                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                </form>
+                                &nbsp;
+                                <div class="display-icon" style="display:inline;">
+                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                </div>                
+                            </div>
                         </div>
                         <div class="panel-body">
 
                             <div class="row ">
                                 <div class="col-md-2">
-                                    <strong>To: Charlie Davis (Team 1)
-                                    </strong>
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                                        To: 
+                                        <br>
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            <strong>Charlie Davis (Team 1)</strong>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                                        From: 
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            Benny Charles (Team 1)
+                                        </div>               
+                                    </div>
                                 </div>
                                 <div class="col-md-10">
 
@@ -1717,8 +1785,20 @@
 
                             <div class="row border-top-gray">
                                 <div class="col-md-2">
-                                    <strong>To: Danny Engrid (Team 2)
-                                    </strong>
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                                        To: 
+                                        <br>
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            <strong>Danny Engrid (Team 2)</strong>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                                        From: 
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            Benny Charles (Team 1)
+                                        </div>               
+                                    </div>
                                 </div>
                                 <div class="col-md-10">
 
@@ -1747,12 +1827,34 @@
                             From:
                             <strong>Charlie Davis (Team 1)</strong>
                             <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
+                            <div class="pull-right">
+                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank"> 
+                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                </form>
+                                &nbsp;
+                                <div class="display-icon" style="display:inline;">
+                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                </div>                
+                            </div>
                         </div>
                         <div class="panel-body">
 
                             <div class="row ">
                                 <div class="col-md-2">
-                                    <strong>To: Alice Betsy (Team 2)</strong>
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                                        To: 
+                                        <br>
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            <strong>Alice Betsy (Team 2)</strong>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                                        From: 
+                                        <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                                            Charlie Davis (Team 1)
+                                        </div>               
+                                    </div>
                                 </div>
                                 <div class="col-md-10">
 
@@ -1787,10 +1889,29 @@
                         <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
                             <div class="panel-body padding-0">
                                 <table class="table table-striped table-bordered margin-0">
+                                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                        <tr>
+                                            <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this)" style="width: 30%;">
+                                                Team
+                                            </th>
+                                            <th id="button_sortTo" class="button-sort-ascending" onclick="toggleSort(this)" style="width: 30%;">
+                                                Name
+                                            </th>
+                                            <th class="action-header">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
 
                                         <tr>
+                                            <td>Team 3</td>
                                             <td>Danny Engrid</td>
+                                            <td class="action-button-item">
+                                                <form class="inline" method="post"> 
+                                                    <input type="submit" class="btn btn-default btn-xs" value="Submit Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                                </form>
+                                            </td>
                                         </tr>
 
                                     </tbody>
