@@ -30,7 +30,7 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                     "Instructor Email " + previewInstructorEmail + " does not exist in " + courseId + ".");
         }
 
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
 
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName,

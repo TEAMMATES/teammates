@@ -14,7 +14,8 @@
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${instructorPanel.instructor.googleId}">
         </c:if>
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-    
+        <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
+
         <div id="instructorTable${instructorPanel.index}">
             
             <div class="form-group">

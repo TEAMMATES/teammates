@@ -39,7 +39,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON,
                 instructorUnderModerationEmail);
 
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
 
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName,

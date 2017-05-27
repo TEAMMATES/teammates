@@ -43,7 +43,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
 
         InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account);
+                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         return createAjaxResult(data);
     }

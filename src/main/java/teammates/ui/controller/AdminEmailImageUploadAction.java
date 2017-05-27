@@ -16,7 +16,7 @@ public class AdminEmailImageUploadAction extends ImageUploadAction {
         gateKeeper.verifyAdminPrivileges(account);
 
         FileUploadPageData uploadPageData = prepareData();
-        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, sessionToken);
         data.isFileUploaded = uploadPageData.isFileUploaded;
         data.fileSrcUrl = uploadPageData.fileSrcUrl;
         data.ajaxStatus = uploadPageData.ajaxStatus;
