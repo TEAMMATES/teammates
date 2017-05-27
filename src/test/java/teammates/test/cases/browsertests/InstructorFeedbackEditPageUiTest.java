@@ -612,39 +612,39 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM, 1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.OWN_TEAM_MEMBERS, 1);
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.TEAMS, 1);
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         ______TS("add new question");
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
 
-        assertEquals("TEAMS", feedbackEditPage.getGiverTypeForQuestion1());
-        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion1());
+        assertEquals("TEAMS", feedbackEditPage.getGiverTypeForQuestion(1));
+        assertEquals("SELF", feedbackEditPage.getRecipientTypeForQuestion(1));
 
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.SELF, 1));
         assertTrue(feedbackEditPage.isRecipientOptionDisplayed(FeedbackParticipantType.STUDENTS, 1));

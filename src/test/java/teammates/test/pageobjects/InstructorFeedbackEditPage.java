@@ -111,12 +111,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "recipienttype-" + NEW_QUESTION_NUM)
     private WebElement recipientDropdownForNewQuestion;
 
-    @FindBy(id = "givertype-1")
-    private WebElement giverDropdownForQuestion1;
-
-    @FindBy(id = "recipienttype-1")
-    private WebElement recipientDropdownForQuestion1;
-
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
     private WebElement maxNumOfRecipients;
 
@@ -773,12 +767,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectConstSumPointsOptions(pointsOption, NEW_QUESTION_NUM);
     }
 
-    public String getGiverTypeForQuestion1() {
-        return giverDropdownForQuestion1.getAttribute("value");
+    public String getGiverTypeForQuestion(int qnNumber) {
+        WebElement giverDropdownForQuestion = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        return giverDropdownForQuestion.getAttribute("value");
     }
 
-    public String getRecipientTypeForQuestion1() {
-        return recipientDropdownForQuestion1.getAttribute("value");
+    public String getRecipientTypeForQuestion(int qnNumber) {
+        WebElement recipientDropdownForQuestion = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        return recipientDropdownForQuestion.getAttribute("value");
     }
 
     public void selectRecipientTypeForNewQuestion(String recipientType) {
