@@ -60,7 +60,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         ______TS("typical success case");
 
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
-        data = new StudentCommentsPageData(account);
+        data = new StudentCommentsPageData(account, dummySessionToken);
 
         String courseId = sampleCourse.getId();
         String courseName = sampleCourse.getName();

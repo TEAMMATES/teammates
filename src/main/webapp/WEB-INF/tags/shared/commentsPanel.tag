@@ -193,6 +193,7 @@
                                     <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %>" value="">
                                     <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %>" value="">
                                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.googleId}">
+                                    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
                                 </div>
                             </form>
                         </li>

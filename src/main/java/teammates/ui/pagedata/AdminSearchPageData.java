@@ -59,8 +59,8 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable instructorTable;
     private AdminSearchStudentTable studentTable;
 
-    public AdminSearchPageData(AccountAttributes account) {
-        super(account);
+    public AdminSearchPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init() {

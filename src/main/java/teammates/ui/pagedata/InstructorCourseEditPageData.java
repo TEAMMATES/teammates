@@ -19,11 +19,11 @@ public class InstructorCourseEditPageData extends PageData {
     private CourseEditInstructorPanel addInstructorPanel;
     private ElementTag addInstructorButton;
 
-    public InstructorCourseEditPageData(AccountAttributes account, CourseAttributes course,
+    public InstructorCourseEditPageData(AccountAttributes account, String sessionToken, CourseAttributes course,
                                         List<InstructorAttributes> instructorList,
                                         InstructorAttributes currentInstructor, int instructorToShowIndex,
                                         List<String> sectionNames, List<String> feedbackNames) {
-        super(account);
+        super(account, sessionToken);
         this.course = course;
         this.instructorToShowIndex = instructorToShowIndex;
 
@@ -144,7 +144,6 @@ public class InstructorCourseEditPageData extends PageData {
         button.setAttribute("type", "button");
         button.setAttribute("id", "btnShowNewInstructorForm");
         button.setAttribute("class", "btn btn-primary");
-        button.setAttribute("onclick", "showNewInstructorForm()");
         if (isDisabled) {
             button.setAttribute("disabled", null);
         }

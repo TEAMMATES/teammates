@@ -16,7 +16,8 @@
     <c:if test="${!data.usingAjax}">
         <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" 
             courseNameToShow="${data.courseNameToShow}" 
-            googleId="${data.account.googleId}"/>
+            googleId="${data.account.googleId}"
+            sessionToken="${data.sessionToken}"/>
         <course:loadCoursesTableByAjaxForm />
     </c:if>
     
