@@ -28,8 +28,8 @@ public class InstructorCourseDetailsPageData extends PageData {
     private List<StudentListSectionData> sections;
     private boolean hasSection;
 
-    public InstructorCourseDetailsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorCourseDetailsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
@@ -62,7 +62,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             this.sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                          isAllowedToModifyStudent,
-                                                         emailPhotoUrlMapping, account.googleId));
+                                                         emailPhotoUrlMapping, account.googleId, getSessionToken()));
         }
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);

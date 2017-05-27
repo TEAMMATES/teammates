@@ -17,10 +17,10 @@ public class InstructorStudentRecordsPageData extends PageData {
     private StudentProfile studentProfile;
     private List<String> sessionNames;
 
-    public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student,
+    public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                             String courseId, StudentProfileAttributes spa,
                                             List<String> sessionNames) {
-        super(account, student);
+        super(account, student, sessionToken);
         this.courseId = courseId;
         this.studentName = student.name;
         this.studentEmail = student.email;

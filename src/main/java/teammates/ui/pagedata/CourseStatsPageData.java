@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 public class CourseStatsPageData extends PageData {
     public CourseDetailsBundle courseDetails;
 
-    public CourseStatsPageData(AccountAttributes account) {
-        super(account);
+    public CourseStatsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 }

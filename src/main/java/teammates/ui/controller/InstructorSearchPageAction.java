@@ -76,7 +76,7 @@ public class InstructorSearchPageAction extends Action {
             }
         }
 
-        InstructorSearchPageData data = new InstructorSearchPageData(account);
+        InstructorSearchPageData data = new InstructorSearchPageData(account, sessionToken);
         data.init(frCommentSearchResults, studentSearchResults, searchKey, isSearchCommentForResponses, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);

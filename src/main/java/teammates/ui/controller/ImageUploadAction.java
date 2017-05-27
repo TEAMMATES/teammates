@@ -35,7 +35,7 @@ public class ImageUploadAction extends Action {
     }
 
     protected FileUploadPageData prepareData() {
-        FileUploadPageData data = new FileUploadPageData(account);
+        FileUploadPageData data = new FileUploadPageData(account, sessionToken);
         BlobInfo blobInfo = extractImageKey(getImageKeyParam());
 
         if (blobInfo == null) {

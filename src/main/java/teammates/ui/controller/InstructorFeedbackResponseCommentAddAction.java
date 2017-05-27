@@ -48,7 +48,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
         InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account);
+                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         String giverEmail = response.giver;
         String recipientEmail = response.recipient;

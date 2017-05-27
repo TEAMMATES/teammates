@@ -21,7 +21,7 @@ public class InstructorHomePageAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE,
                                                StatusMessageColor.WARNING));
             statusToAdmin = "instructorHome " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE;
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, new InstructorHomePageData(account));
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, new InstructorHomePageData(account, sessionToken));
         }
 
         gateKeeper.verifyInstructorPrivileges(account);
@@ -38,7 +38,7 @@ public class InstructorHomePageAction extends Action {
         CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(instructor);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
 
-        InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
+        InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account, sessionToken);
         data.init(index, course, instructor);
 
         statusToAdmin = "instructorHome Course Load:<br>" + courseToLoad;
@@ -56,7 +56,7 @@ public class InstructorHomePageAction extends Action {
         String sortCriteria = getSortCriteria();
         sortCourse(courseList, sortCriteria);
 
-        InstructorHomePageData data = new InstructorHomePageData(account);
+        InstructorHomePageData data = new InstructorHomePageData(account, sessionToken);
         data.init(courseList, sortCriteria);
 
         if (logic.isNewInstructor(account.googleId)) {

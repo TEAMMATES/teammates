@@ -74,7 +74,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
 
         InstructorStudentRecordsPageData data =
-                new InstructorStudentRecordsPageData(account, student, courseId, studentProfile, sessionNames);
+                new InstructorStudentRecordsPageData(account, student, sessionToken, courseId, studentProfile, sessionNames);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "

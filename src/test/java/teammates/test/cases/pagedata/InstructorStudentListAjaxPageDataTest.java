@@ -111,7 +111,7 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         emailPhotoUrlMapping.put(sampleStudent.email, photoUrl);
 
-        return new InstructorStudentListAjaxPageData(acct, "valid course id", 1, true, sections,
+        return new InstructorStudentListAjaxPageData(acct, dummySessionToken, "valid course id", 1, true, sections,
                                                      sectionPrivileges, emailPhotoUrlMapping);
     }
 

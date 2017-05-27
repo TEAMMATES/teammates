@@ -40,7 +40,7 @@ public class AdminInstructorAccountAddAction extends Action {
 
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminHomePageData data = new AdminHomePageData(account);
+        AdminHomePageData data = new AdminHomePageData(account, sessionToken);
 
         data.instructorDetailsSingleLine = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS_SINGLE_LINE);
         data.instructorShortName = "";
@@ -99,6 +99,7 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.SESSION_TOKEN, data.getSessionToken());
 
             StringBuilder errorMessage = new StringBuilder(100);
             String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";

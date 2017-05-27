@@ -17,7 +17,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         List<String> message = feedbackQuestion.getVisibilityMessage();
 
         InstructorFeedbackQuestionVisibilityMessagePageData data =
-                new InstructorFeedbackQuestionVisibilityMessagePageData(account);
+                new InstructorFeedbackQuestionVisibilityMessagePageData(account, sessionToken);
         data.visibilityMessage = message;
 
         return createAjaxResult(data);

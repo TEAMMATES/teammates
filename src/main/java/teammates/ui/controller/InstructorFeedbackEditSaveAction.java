@@ -38,7 +38,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
+        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
         FeedbackSessionAttributes feedbackSession = extractFeedbackSessionData();
 
         // A session opening reminder email is always sent as students

@@ -37,18 +37,24 @@ public class PageData {
 
     private List<StatusMessage> statusMessagesToUser;
 
-    public PageData(AccountAttributes account) {
-        this.account = account;
-        this.student = null;
+    private String sessionToken;
+
+    public PageData(AccountAttributes account, String sessionToken) {
+        this(account, null, sessionToken);
     }
 
-    public PageData(AccountAttributes account, StudentAttributes student) {
+    public PageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         this.account = account;
         this.student = student;
+        this.sessionToken = sessionToken;
     }
 
     public AccountAttributes getAccount() {
         return account;
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
     }
 
     public boolean isUnregisteredStudent() {
@@ -77,6 +83,10 @@ public class PageData {
 
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
+    }
+
+    public String addSessionTokenToUrl(String link) {
+        return Url.addParamToUrl(link, Const.ParamsNames.SESSION_TOKEN, sessionToken);
     }
 
     /**
@@ -356,6 +366,7 @@ public class PageData {
     public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -368,6 +379,7 @@ public class PageData {
                                  isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -380,6 +392,7 @@ public class PageData {
                                  isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -400,6 +413,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -416,6 +430,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -458,6 +473,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -484,6 +500,7 @@ public class PageData {
     public String getInstructorFeedbackRemindParticularStudentsLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -494,6 +511,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -504,6 +522,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -532,6 +551,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -548,6 +568,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -556,6 +577,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -565,6 +587,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -573,6 +596,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -581,6 +605,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 

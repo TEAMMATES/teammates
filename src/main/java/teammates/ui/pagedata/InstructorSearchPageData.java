@@ -42,8 +42,8 @@ public class InstructorSearchPageData extends PageData {
     private List<SearchCommentsForResponsesTable> searchCommentsForResponsesTables;
     private List<SearchStudentsTable> searchStudentsTables;
 
-    public InstructorSearchPageData(AccountAttributes account) {
-        super(account);
+    public InstructorSearchPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(FeedbackResponseCommentSearchResultBundle frcSearchResultBundle,
@@ -230,7 +230,7 @@ public class InstructorSearchPageData extends PageData {
                             section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                 isAllowedToModifyStudent,
-                                                emailToPhotoUrlMap, account.googleId));
+                                                emailToPhotoUrlMap, account.googleId, getSessionToken()));
         }
         return rows;
     }

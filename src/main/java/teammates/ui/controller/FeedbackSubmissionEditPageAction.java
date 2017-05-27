@@ -40,7 +40,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         String userEmailForCourse = getUserEmailForCourse();
-        data = new FeedbackSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));

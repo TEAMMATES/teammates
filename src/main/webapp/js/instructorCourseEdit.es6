@@ -472,6 +472,10 @@ function editFormRequest(e) {
 $(document).ready(() => {
     prepareInstructorPages();
 
+    $(document).on('click', '#btnShowNewInstructorForm', () => {
+        showNewInstructorForm();
+    });
+
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     for (let i = 0; i < numOfInstr; i += 1) {
         const instrNum = i + 1;
