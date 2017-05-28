@@ -704,7 +704,7 @@ public class EmailGenerator {
             coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
         }
         return coOwnersEmailsList.length() == 0
-                ? "(No contactable instructors found)."
+                ? "(No contactable instructors found)"
                 : coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2);
     }
 
