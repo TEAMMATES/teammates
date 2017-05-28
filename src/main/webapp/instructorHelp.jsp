@@ -158,9 +158,6 @@
                         <li>
                             <a href="#searchCommentForResponses">Searching for comments for responses</a>
                         </li>
-                        <li>
-                            <a href="#searchCommentsForStudents">Searching for comments for students</a>
-                        </li>
                     </ul>
                 </div>
             </li>
@@ -175,7 +172,7 @@
                             <a href="#sectionsEnrollingStudents">Enrolling students into sections</a>
                         </li>
                         <li>
-                            <a href="#searchCommentsForStudents">Searching for comments for students</a>
+                            <a href="#sectionsEditing">Editing student's section</a>
                         </li>
                     </ul>
                 </div>

@@ -75,7 +75,7 @@
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
                                             <th>Photo</th>
-                                            <th class="button-sort-none onclick="toggleSort(this)">
+                                            <th class="button-sort-none" onclick="toggleSort(this)">
                                                 Section <span class="icon-sort unsorted"></span>
                                             </th>
                                             <th class="button-sort-none" onclick="toggleSort(this)">
@@ -114,24 +114,7 @@
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a>
-                                                <div class="btn-group" data-toggle="tooltip" data-placement="top"title="Give a comment for this student, his/her team/section">
-                                                    <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">Add Comment</a>
-                                                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on student: Alice Betsy</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on team: Team A</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on section: Section A</a>
-                                                    </li>
-                                                    </ul>
-                                                    <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                                                        <span class="caret"></span><span class="sr-only">Add comments</span>
-                                                    </a>
-                                                </div>
+                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
                                             </td>
                                         </tr>
                                     </tbody>
@@ -164,7 +147,7 @@
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
                                             <th>Photo</th>
-                                            <th class="button-sort-none onclick="toggleSort(this)">
+                                            <th class="button-sort-none" onclick="toggleSort(this)">
                                                 Section <span class="icon-sort unsorted"></span>
                                             </th>
                                             <th class="button-sort-none" onclick="toggleSort(this)">
@@ -204,23 +187,6 @@
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
                                                    data-toggle="tooltip" data-placement="top">All Records</a>
-                                                <div class="btn-group" data-toggle="tooltip" data-placement="top"title="Give a comment for this student, his/her team/section">
-                                                    <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">Add Comment</a>
-                                                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on student: Alice Betsy</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on team: Team A</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on section: Section A</a>
-                                                    </li>
-                                                    </ul>
-                                                    <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                                                        <span class="caret"></span><span class="sr-only">Add comments</span>
-                                                    </a>
-                                                </div>
                                             </td>
                                         </tr>
                                         <tr class="student_row">
@@ -243,24 +209,7 @@
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a>
-                                                <div class="btn-group" data-toggle="tooltip" data-placement="top"title="Give a comment for this student, his/her team/section">
-                                                    <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">Add Comment</a>
-                                                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on student: Jean Grey</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on team: Team A</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on section: Section A</a>
-                                                    </li>
-                                                    </ul>
-                                                    <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                                                        <span class="caret"></span><span class="sr-only">Add comments</span>
-                                                    </a>
-                                                </div>
+                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
                                             </td>
                                         </tr>
                                         <tr class="student_row">
@@ -283,24 +232,7 @@
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a>
-                                                <div class="btn-group" data-toggle="tooltip" data-placement="top"title="Give a comment for this student, his/her team/section">
-                                                    <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">Add Comment</a>
-                                                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on student: Oliver Gates</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on team: Team B</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on section: Section B</a>
-                                                    </li>
-                                                    </ul>
-                                                    <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                                                        <span class="caret"></span><span class="sr-only">Add comments</span>
-                                                    </a>
-                                                </div>
+                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
                                             </td>
                                         </tr>
                                         <tr class="student_row">
@@ -324,23 +256,6 @@
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
                                                    data-toggle="tooltip" data-placement="top">All Records</a>
-                                                <div class="btn-group" data-toggle="tooltip" data-placement="top"title="Give a comment for this student, his/her team/section">
-                                                    <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">Add Comment</a>
-                                                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on student: Thora Parker</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on team: Team B</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on section: Section B</a>
-                                                    </li>
-                                                    </ul>
-                                                    <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                                                        <span class="caret"></span><span class="sr-only">Add comments</span>
-                                                    </a>
-                                                </div>
                                             </td>
                                         </tr>
                                         <tr class="student_row">
@@ -363,24 +278,7 @@
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a>
-                                                <div class="btn-group" data-toggle="tooltip" data-placement="top"title="Give a comment for this student, his/her team/section">
-                                                    <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">Add Comment</a>
-                                                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on student: Jack Wayne</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on team: Team C</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="">Comment on section: Section C</a>
-                                                    </li>
-                                                    </ul>
-                                                    <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                                                        <span class="caret"></span><span class="sr-only">Add comments</span>
-                                                    </a>
-                                                </div>
+                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
                                             </td>
                                         </tr>
                                     </tbody>
@@ -453,47 +351,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li>
-            <span class="text-bold">
-                <a name="searchCommentsForStudents">
-                    <h3>3. Searching for comments for students</h3>
-                </a>
-            </span>
-            <div class="row">
-                You can search for direct comments you left for students. To do this check
-                <b>'Comments for students'</b> below the search box and type your keywords. When done hit <b>'Search'</b>.
-                <br>Suppose you entered <b>'good'</b> in the search box and let's assume relevant data exists, then the search results would look something similar to this -
-                <br><br>
-                <div class="panel panel-primary student-comments-panel">
-                    <div class="panel-heading cursor-pointer"  data-toggle="collapse"
-                        data-target="#panelBodyCollapse" onclick="toggleChevron(this)">
-                        <div class="display-icon pull-right">
-                            <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                        </div>
-                        <strong>Comments for students</strong>
-                    </div>
-                    <div id="panelBodyCollapse" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div class="panel panel-info student-record-comments">
-                            <div class="panel-heading">
-                                From <b>You (Course 1)</b>
-                            </div>
-                            <ul class="list-group comments"> 
-                                <li class="list-group-item list-group-item-warning">
-                                    <div>
-                                        <span class="text-muted">
-                                            To <b>Alice Betsy (Team A, alice@email.com)</b> [Thu, 31 Mar 2016, 11:59 PM UTC]
-                                        </span> 
-                                    </div>
-                                    <div style="margin-left: 15px;">Alice, thanks for helping Jack in his project work. Keep up the <span class="highlight">good</span> work!</div>
-                                </li> 
-                            </ul>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>

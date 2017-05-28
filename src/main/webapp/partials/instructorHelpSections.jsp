@@ -33,7 +33,7 @@
         </li>
         <li>
             <span class="text-bold">
-                <a name="sectionsEnrollingStudents">
+                <a name="sectionsEditing">
                     <h3>3. Editing student's section</h3>
                 </a>
             </span>
