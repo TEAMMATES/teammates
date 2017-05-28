@@ -221,14 +221,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /*
-     * Get response comments for the course Ids
-     */
-    @SuppressWarnings("unchecked")
-    public List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourses(List<String> courseIds) {
-        return (List<FeedbackResponseComment>) getFeedbackResponseCommentsForCoursesQuery(courseIds).execute();
-    }
-
-    /*
      * Get response comments for the course
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForCourse(String courseId) {

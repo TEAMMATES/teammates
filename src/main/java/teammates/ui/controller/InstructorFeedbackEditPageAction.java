@@ -21,9 +21,9 @@ public class InstructorFeedbackEditPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
@@ -67,7 +67,7 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
 
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
+        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
         data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);

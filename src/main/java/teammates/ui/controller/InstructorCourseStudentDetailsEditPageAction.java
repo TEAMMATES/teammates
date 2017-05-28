@@ -15,10 +15,10 @@ public class InstructorCourseStudentDetailsEditPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(
@@ -37,7 +37,7 @@ public class InstructorCourseStudentDetailsEditPageAction extends Action {
         boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
 
         InstructorCourseStudentDetailsEditPageData data =
-                new InstructorCourseStudentDetailsEditPageData(account, student, student.email, hasSection,
+                new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, student.email, hasSection,
                         isOpenOrPublishedEmailSentForTheCourse);
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"

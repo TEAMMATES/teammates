@@ -86,14 +86,15 @@ public class InstructorStudentCommentAddAction extends Action {
         //TODO: remove fromCommentsPage
         if (isFromCommentsPage) {
             return createRedirectResult(
-                           new PageData(account).getInstructorCommentsLink()
+                           new PageData(account, sessionToken).getInstructorCommentsLink()
                            + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
         } else if (isFromStudentDetailsPage) {
             return createRedirectResult(getCourseStudentDetailsLink(courseId, studentEmail));
         } else if (isFromCourseDetailsPage) {
-            return createRedirectResult(new PageData(account).getInstructorCourseDetailsLink(courseId));
+            return createRedirectResult(new PageData(account, sessionToken).getInstructorCourseDetailsLink(courseId));
         } else { //studentRecordsPage by default
-            return createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId, studentEmail));
+            return createRedirectResult(new PageData(account, sessionToken)
+                    .getInstructorStudentRecordsLink(courseId, studentEmail));
         }
     }
 
@@ -208,7 +209,7 @@ public class InstructorStudentCommentAddAction extends Action {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
-        link = new PageData(account).addUserIdToUrl(link);
+        link = new PageData(account, sessionToken).addUserIdToUrl(link);
         return link;
     }
 }

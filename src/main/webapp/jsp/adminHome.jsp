@@ -6,6 +6,7 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/administrator.js"></script>
+    <script type="text/javascript" src="/js/crypto.js"></script>
     <script type="text/javascript" src="/js/adminHome.js"></script>
 </c:set>
 
