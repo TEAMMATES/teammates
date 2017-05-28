@@ -18,10 +18,10 @@ public class InstructorStudentListPageData extends PageData {
     private List<InstructorStudentListStudentsTableCourse> studentsTable;
     private int numOfCourses;
 
-    public InstructorStudentListPageData(AccountAttributes account, String searchKey,
+    public InstructorStudentListPageData(AccountAttributes account, String sessionToken, String searchKey,
                                          boolean displayArchive,
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
-        super(account);
+        super(account, sessionToken);
         this.searchBox = new InstructorStudentListSearchBox(getInstructorSearchLink(), searchKey, account.googleId);
         List<InstructorStudentListFilterCourse> coursesForFilter =
                                         new ArrayList<InstructorStudentListFilterCourse>();

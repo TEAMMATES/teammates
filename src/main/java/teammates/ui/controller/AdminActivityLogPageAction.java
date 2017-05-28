@@ -44,7 +44,7 @@ public class AdminActivityLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminActivityLogPageData data = new AdminActivityLogPageData(account);
+        AdminActivityLogPageData data = new AdminActivityLogPageData(account, sessionToken);
 
         String searchTimeOffset = getRequestParamValue("searchTimeOffset");
         if (searchTimeOffset == null) {

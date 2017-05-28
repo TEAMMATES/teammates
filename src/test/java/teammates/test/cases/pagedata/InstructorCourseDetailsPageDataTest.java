@@ -24,7 +24,8 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     public void testAll() {
         ______TS("test typical case");
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
-        InstructorCourseDetailsPageData pageData = new InstructorCourseDetailsPageData(instructorAccount);
+        InstructorCourseDetailsPageData pageData =
+                new InstructorCourseDetailsPageData(instructorAccount, dummySessionToken);
 
         InstructorAttributes curInstructor = dataBundle.instructors.get("instructor1OfCourse1");
 

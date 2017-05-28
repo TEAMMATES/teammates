@@ -50,7 +50,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         feedbackSessionNames.add("Empty session");
         feedbackSessionNames.add("non visible session");
 
-        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account, course,
+        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account, dummySessionToken, course,
                                                                                  instructorList,
                                                                                  currentInstructor,
                                                                                  offset, sectionNames,
@@ -107,7 +107,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
             currentInstructor.privileges.updatePrivilege(privilege, false);
         }
 
-        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+        pageData = new InstructorCourseEditPageData(account, dummySessionToken, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
         assertNull(pageData.getDeleteCourseButton().getAttributes().get("disabled"));
         assertTrue(pageData.getDeleteCourseButton().getAttributes().containsKey("disabled"));
@@ -116,7 +116,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
 
         ______TS("test showing only one instructor");
         offset = 1;
-        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+        pageData = new InstructorCourseEditPageData(account, dummySessionToken, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
         assertNotNull(pageData.getAddInstructorPanel());
         assertTrue(pageData.getInstructorPanelList().get(0).isAccessControlDisplayed());
@@ -125,13 +125,13 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         InstructorAttributes instructor = instructorList.get(0);
         instructor.privileges.addSessionWithDefaultPrivileges("Section 1", "First feedback session");
 
-        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+        pageData = new InstructorCourseEditPageData(account, dummySessionToken, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
         assertTrue(pageData.getInstructorPanelList().get(0).getSectionRows().get(0).isSectionSpecial());
 
         ______TS("test empty sectionNames");
         sectionNames = new ArrayList<String>();
-        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+        pageData = new InstructorCourseEditPageData(account, dummySessionToken, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
         assertNotNull(pageData.getAddInstructorPanel());
         panel = pageData.getInstructorPanelList().get(0);
