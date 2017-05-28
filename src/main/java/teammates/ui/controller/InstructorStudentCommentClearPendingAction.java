@@ -22,7 +22,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -62,7 +62,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
 
-        return createRedirectResult(new PageData(account).getInstructorCommentsLink() + "&"
+        return createRedirectResult(new PageData(account, sessionToken).getInstructorCommentsLink() + "&"
                                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
 

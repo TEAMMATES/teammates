@@ -36,7 +36,7 @@ public class AdminEmailComposeSendAction extends Action {
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, sessionToken);
 
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);

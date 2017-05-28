@@ -18,6 +18,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorStudentRecordsPageData;
@@ -28,13 +29,13 @@ public class InstructorStudentRecordsPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
@@ -94,15 +95,16 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         InstructorStudentRecordsPageData data =
                 new InstructorStudentRecordsPageData(
-                        account, student, courseId, showCommentBox, studentProfile,
+                        account, student, sessionToken, courseId, showCommentBox, studentProfile,
                         giverEmailToCommentsMap, giverEmailToGiverNameMap, sessionNames, instructor);
 
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
                       + "Number of sessions: " + sessions.size() + "<br>"
-                      + "Student Profile: " + (studentProfile == null ? "No Profile"
-                                                                      : studentProfile.toString());
+                      + "Student Profile: "
+                      + (studentProfile == null ? "No Profile"
+                                                : SanitizationHelper.sanitizeForHtmlTag(studentProfile.toString()));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }

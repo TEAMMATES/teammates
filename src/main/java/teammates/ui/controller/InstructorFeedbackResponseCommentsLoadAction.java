@@ -26,13 +26,13 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(fsName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
 
         String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
-        Assumption.assertNotNull(fsIndexString);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_INDEX, fsIndexString);
         int fsIndex = 0;
         try {
             fsIndex = Integer.parseInt(fsIndexString);
@@ -52,7 +52,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsName, roster);
         InstructorFeedbackResponseCommentsLoadPageData data =
                 new InstructorFeedbackResponseCommentsLoadPageData(
-                        account, fsIndex, numberOfPendingComments, instructor, bundle);
+                        account, sessionToken, fsIndex, numberOfPendingComments, instructor, bundle);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 

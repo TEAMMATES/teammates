@@ -21,8 +21,8 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     private CourseTable courseTable;
     private int index;
 
-    public InstructorHomeCourseAjaxPageData(AccountAttributes account) {
-        super(account);
+    public InstructorHomeCourseAjaxPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor,
@@ -120,9 +120,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             return Arrays.asList(students, instructors, sessions, courses);
         }
 
-        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span>"
-                                + "<span class=\"glyphicon glyphicon-comment\"></span>"
-                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
+        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span> "
+                                + "<span class=\"glyphicon glyphicon-comment\"></span> "
+                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span> "
                                 + "<span class=\"glyphicon glyphicon-envelope\"></span>";
         String plural = pendingCommentsCount > 1 ? "s" : "";
 

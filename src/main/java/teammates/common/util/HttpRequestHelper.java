@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.util.Enumeration;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 public final class HttpRequestHelper {
@@ -51,6 +52,14 @@ public final class HttpRequestHelper {
         return getValuesFromParamMap(req.getParameterMap(), key);
     }
 
+    /**
+     * Gets the parameter map from HttpServletRequest.
+     */
+    @SuppressWarnings("unchecked")
+    public static Map<String, String[]> getParameterMap(HttpServletRequest req) {
+        return (Map<String, String[]>) req.getParameterMap();
+    }
+
     //TODO: rename to a better name
     public static String printRequestParameters(HttpServletRequest request) {
         StringBuilder requestParameters = new StringBuilder();
@@ -82,6 +91,25 @@ public final class HttpRequestHelper {
             return link + "?" + query;
         }
         return link;
+    }
+
+    /**
+     * Returns the cookie value, or null if said cookie does not exist.
+     */
+    public static String getCookieValueFromRequest(HttpServletRequest req, String cookieName) {
+        Cookie[] existingCookies = req.getCookies();
+
+        if (existingCookies == null) {
+            return null;
+        }
+
+        for (Cookie cookie : existingCookies) {
+            if (cookie.getName().equals(cookieName)) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
     }
 
 }

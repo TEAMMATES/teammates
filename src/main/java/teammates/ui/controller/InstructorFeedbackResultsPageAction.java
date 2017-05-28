@@ -26,8 +26,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
         String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         statusToAdmin = "Show instructor feedback result page<br>"
                       + "Session Name: " + feedbackSessionName + "<br>"
@@ -39,7 +39,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
-        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
+        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
         if (selectedSection == null) {

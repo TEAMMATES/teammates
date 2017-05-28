@@ -43,6 +43,9 @@
                 <li>${datetime.now}</li>
                 <li>${admin.institute}</li>
                 <li>${admin.institute}</li>
+                <li><input name="token" type="hidden" value="${sessionToken}"></li>
+                <li>/page/instructorCourseDelete?courseid=abcdef&amp;token=${sessionToken}</li>
+                <li>/page/instructorCourseDelete?token=${sessionToken}</li>
             </ul>
         </div>
     </body>

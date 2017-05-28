@@ -31,7 +31,7 @@ public class PendingCommentClearedEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String courseId = getRequestParamValue(ParamsNames.EMAIL_COURSE);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_COURSE, courseId);
 
         List<EmailWrapper> emailsToBeSent = new EmailGenerator().generatePendingCommentsClearedEmails(courseId);
         try {
