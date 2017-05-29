@@ -3469,7 +3469,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable3">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-7">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
@@ -3489,38 +3489,69 @@
                                                 </select>
                                                 &nbsp; Numerical-scale question
                                             </span>
-                                            <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" onclick="enableEdit(3,12)" title="Edit this question">Edit</a>
-                                                <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-3">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                        </div>
+                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                            <span class="mobile-no-pull pull-right">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
+                                                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-6">
+                                                    <span class="glyphicon glyphicon-ok"></span> Save
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(6)" id="questiondiscardchanges-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard any unsaved edits and revert back to original question.">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Discard
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(6)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
+                                                    <span class=" glyphicon glyphicon-trash"></span> Delete
+                                                </a>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                        <div>
-                                            <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).</textarea>
+                                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                                        <div class="form-group" style="padding: 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="control-label" for="questiontext-6">
+                                                    Question
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                
+                                                <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-6" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).</textarea>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <br>
+                                        <div class="form-group" style="padding: 0 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="align-left" for="questiondescription-6">
+                                                    [Optional]<br>Description
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                <div id="rich-text-toolbar-q-descr-container-6"></div>
+                                                <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-6" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="questiondescription-6">
+                                                <input type="hidden" name="questiondescription" disabled="">
+                                            </div>
                                             <div>
+                                                <br>
                                                 <div>
-                                                    <div class="row">
-                                                        <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Minimum acceptable response value">Minimum value:
-                                                            <input disabled="" type="number" class="minScaleBox" id="minScaleBox-3" name="numscalemin" value="1" onchange="updateNumScalePossibleValues(3)">
+                                                    <div>
+                                                        <div class="row">
+                                                            <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Minimum acceptable response value">Minimum value:
+                                                                <input disabled="" type="number" class="form-control minScaleBox" id="minScaleBox-6" name="numscalemin" value="1" onchange="updateNumScalePossibleValues(6)">
+                                                            </div>
+                                                            <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Value to be increased/decreased each step">Increment:    
+                                                                <input disabled="" type="number" class="form-control stepBox" id="stepBox-6" name="numscalestep" value="1" min="0.001" step="0.001" onchange="updateNumScalePossibleValues(6)">
+                                                            </div>
+                                                            <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Maximum acceptable response value">Maximum value:
+                                                                <input disabled="" type="number" class="form-control maxScaleBox" id="maxScaleBox-6" name="numscalemax" value="5" onchange="updateNumScalePossibleValues(6)">
+                                                            </div>
                                                         </div>
-                                                        <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Value to be increased/decreased each step">Increment:
-                                                            <input disabled="" type="number" class="stepBox" id="stepBox-3" name="numscalestep" value="1" min="0.001" step="0.001" onchange="updateNumScalePossibleValues(3)">
-                                                        </div>
-                                                        <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Maximum acceptable response value">Maximum value:
-                                                            <input disabled="" type="number" class="maxScaleBox" id="maxScaleBox-3" name="numscalemax" value="5" onchange="updateNumScalePossibleValues(3)">
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <span id="numScalePossibleValues-3">[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]</span>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <span id="numScalePossibleValues-6">[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3533,7 +3564,7 @@
                                             <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                         </div>
                                         <div class="feedback-path-dropdown col-sm-12 btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Instructors in the course</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Instructors in the course</button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common feedback path combinations</li>
 
@@ -3707,8 +3738,8 @@
                                             <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                         </div>
                                         <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Custom visibility option:
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">
+                                                Shown anonymously to recipient, visible to instructors
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common visibility options</li>
@@ -3719,6 +3750,10 @@
 
                                                 <li>
                                                     <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient, visible to instructors</a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient and team members, visible to instructors</a>
                                                 </li>
 
                                                 <li>
@@ -3733,7 +3768,7 @@
                                                 <li><a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="OTHER">Custom visibility options...</a></li>
                                             </ul>
                                         </div>
-                                        <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="">
+                                        <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-6" style="display:none;">
                                             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
                                                 <tbody><tr>
                                                         <th class="text-center">User/Group</th>
@@ -3741,90 +3776,90 @@
                                                         <th class="text-center">Can see giver's name</th>
                                                         <th class="text-center">Can see recipient's name</th>
                                                     </tr>
-                                                    <tr style="display: table-row;">
+                                                    <tr>
                                                         <td class="text-left">
-                                                            <div data-original-title="Control what feedback recipient(s) can view" data-toggle="tooltip" data-placement="top" title="">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
                                                                 Recipient(s)
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" type="checkbox">
+                                                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="RECEIVER" type="checkbox">
+                                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="RECEIVER" disabled="" type="checkbox">
+                                                            <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="" checked="">
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-left">
-                                                            <div data-original-title="Control what team members of feedback giver can view" data-toggle="tooltip" data-placement="top" title="">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
                                                                 Giver's Team Members
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                                            <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="">
                                                         </td>
                                                     </tr>
-                                                    <tr style="display: none;">
+                                                    <tr>
                                                         <td class="text-left">
-                                                            <div data-original-title="Control what team members of feedback recipients can view" data-toggle="tooltip" data-placement="top" title="">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
                                                                 Recipient's Team Members
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                                            <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="">
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-left">
-                                                            <div data-original-title="Control what other students can view" data-toggle="tooltip" data-placement="top" title="">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
                                                                 Other students
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="STUDENTS" checked="" type="checkbox">
+                                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="STUDENTS" checked="" type="checkbox">
+                                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS" disabled="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="STUDENTS" type="checkbox">
+                                                            <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="STUDENTS" disabled="">
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-left">
-                                                            <div data-original-title="Control what instructors can view" data-toggle="tooltip" data-placement="top" title="">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
                                                                 Instructors
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
+                                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
+                                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
                                                         </td>
                                                         <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
+                                                            <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
                                                         </td>
                                                     </tr>
                                                 </tbody></table>
                                         </div>
                                         <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Other students in the course can see your response, and your name, but not the name of the recipient.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-6">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving instructor can see your response, but not your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                                     </div>
                                     <div>
                                         <span class="pull-right">
