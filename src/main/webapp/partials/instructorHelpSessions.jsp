@@ -5114,10 +5114,10 @@
                             <div class="panel panel-primary questionTable" id="questionTable11">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-7">
                                             <span>
                                                 <strong>Question</strong>
-                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-11" disabled="">
+                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-1" disabled="">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -5134,20 +5134,59 @@
                                                 </select>
                                                 &nbsp; Team contribution question
                                             </span>
-                                            <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-11" data-toggle="tooltip" data-placement="top" onclick="enableEdit(11,12)" title="Edit this question">Edit</a>
-                                                <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-11">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(11)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                        </div>
+                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                            <span class="mobile-no-pull pull-right">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,5)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
+                                                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-1">
+                                                    <span class="glyphicon glyphicon-ok"></span> Save
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(1)" id="questiondiscardchanges-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard any unsaved edits and revert back to original question.">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Discard
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
+                                                    <span class=" glyphicon glyphicon-trash"></span> Delete
+                                                </a>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                        <div>
-                                            <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-11" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the contribution of yourself and your team members towards the latest project.</textarea>
-                                        </div>
+                                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                                        <div class="form-group" style="padding: 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="control-label" for="questiontext-1">
+                                                    Question
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
 
+                                                <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Please rate the estimated contribution of your team members and yourself.</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="padding: 0 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="align-left" for="questiondescription-1">
+                                                    [Optional]<br>Description
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                <div id="rich-text-toolbar-q-descr-container-1"></div>
+                                                <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="questiondescription-1">
+                                                <input type="hidden" name="questiondescription" disabled="">
+                                            </div>
+                                            <div class="row">
+                                                <br>
+                                                <div class="col-sm-6 row">
+                                                    <div class="form-inline col-sm-12" id="contrib_tooltipText-1" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer">
+                                                        <input type="checkbox" name="isNotSureAllowedCheck" id="isNotSureAllowedCheck-1" checked="" disabled="">
+                                                        <span style="margin-left: 5px; font-weight: bold;">Allow response giver to select 'Not Sure' as the answer</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <br>
                                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -5329,7 +5368,7 @@
                                             <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                         </div>
                                         <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to recipient and instructors</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Shown anonymously to recipient and team members, visible to instructors</button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common visibility options</li>
 
@@ -5339,6 +5378,10 @@
 
                                                 <li>
                                                     <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient, visible to instructors</a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="visibility-options-dropdown-option" href="javascript:;" data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS">Shown anonymously to recipient and team members, visible to instructors</a>
                                                 </li>
 
                                                 <li>
@@ -5444,7 +5487,7 @@
                                                 </tbody></table>
                                         </div>
                                         <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, but not your name.</li><li>Your team members can see your response, but not the name of the recipient, or your name.</li><li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                                     </div>
                                     <div>
                                         <span class="pull-right">
