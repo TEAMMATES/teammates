@@ -4637,10 +4637,10 @@
                             <div class="panel panel-primary questionTable" id="questionTable10">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-7">
                                             <span>
                                                 <strong>Question</strong>
-                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-10" disabled="">
+                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-6" disabled="">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -4657,123 +4657,133 @@
                                                 </select>
                                                 &nbsp; Distribute points (among recipients) question
                                             </span>
-                                            <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-10" data-toggle="tooltip" data-placement="top" onclick="enableEdit(10,12)" title="Edit this question">Edit</a>
-                                                <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-10">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(10)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                        </div>
+                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                            <span class="mobile-no-pull pull-right">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
+                                                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-6">
+                                                    <span class="glyphicon glyphicon-ok"></span> Save
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(6)" id="questiondiscardchanges-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard any unsaved edits and revert back to original question.">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Discard
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(6)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
+                                                    <span class=" glyphicon glyphicon-trash"></span> Delete
+                                                </a>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                        <div>
-                                            <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-10" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Split points among the your team members and yourself, according to how much you think each member has contributed.</textarea>
-                                        </div>
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-sm-6" id="constSumOptionTable-10" style="display:none">
-                                                <div id="constSumAddOptionRow-10">
-                                                    <div colspan="2">
-                                                        <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(10)" style="display:none">
-                                                            <span class="glyphicon glyphicon-plus">
-                                                            </span> add more options
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-10" value="0" disabled="">
-                                                <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-10" value="true" disabled="">
+                                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                                        <div class="form-group" style="padding: 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="control-label" for="questiontext-6">
+                                                    Question
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                
+                                                <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-6" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Split points among the your team members and yourself, according to how much you think each member has contributed.</textarea>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-inline">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
-                                                                <b>Total Points to distribute:</b>
-                                                            </label>
+                                        </div>
+                                        <div class="form-group" style="padding: 0 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="align-left" for="questiondescription-6">
+                                                    [Optional]<br>Description
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                <div id="rich-text-toolbar-q-descr-container-6"></div>
+                                                <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-6" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="questiondescription-6">
+                                                <input type="hidden" name="questiondescription" disabled="">
+                                            </div>
+                                            <div class="row">
+                                                <br>
+                                                <div class="col-sm-6" id="constSumOptionTable-6" style="display:none">
+                                                    
+                                                    <div id="constSumAddOptionRow-6">
+                                                        <div colspan="2">
+                                                            <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink-6" onclick="addConstSumOption(6)" style="display:none">
+                                                                <span class="glyphicon glyphicon-plus">
+                                                                </span> add more options
+                                                            </a>
                                                         </div>
-                                                        <div class="col-xs-12 margin-bottom-7px padding-left-35px">
-                                                            <div class="col-xs-1">
-                                                                <input type="radio" id="constSumPointsTotal-10"
-                                                                        name="constSumPointsPerOption"
-                                                                        value="false" checked>
-                                                            </div>
-                                                            <div class="col-xs-4 padding-0 col-sm-4">
-                                                                <input type="number" disabled
-                                                                        class="form-control width-100-pc pointsBox"
-                                                                        name="constSumPoints" id="constSumPoints-10"
-                                                                        value="100" min="1" step="1"
-                                                                        onChange="updateConstSumPointsValue(10)">
-                                                            </div>
-                                                            <div class="col-xs-6 padding-0">
-                                                                <label class="margin-top-7px padding-left-7px">
-                                                                    in total
+                                                    </div>
+
+                                                    <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-6" value="0" disabled="">
+                                                    <input type="hidden" name="constSumToRecipients" id="constSumToRecipients-6" value="true" disabled="">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-inline">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
+                                                                    <b>Total Points to distribute: </b>
                                                                 </label>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                                                            id="constSumOption_Option-10" style="display: none">
-                                                            <div class="col-xs-1">
-                                                                <input type="radio" id="constSumPointsPerOption-10"
-                                                                        name="constSumPointsPerOption" value="true">
+
+                                                            <div class="col-xs-12 margin-bottom-7px padding-left-35px">
+                                                                <div class="col-xs-1">
+                                                                    <input type="radio" id="constSumPointsTotal-6" name="constSumPointsPerOption" value="false" checked="" disabled="">
+                                                                </div>
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Respondents will have to distribute the total points specified here among the recipients, e.g. if you specify 100 points here and there are 3 recipients, respondents will have to distribute 100 points among 3 recipients.">
+                                                                    <div class="col-xs-4 padding-0 col-sm-4">
+                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-6" value="100" min="1" step="1" onchange="updateConstSumPointsValue(6)">
+                                                                    </div>
+                                                                    <div class="col-xs-6 padding-0">
+                                                                        <label class="margin-top-7px padding-left-7px">in
+                                                                            total
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-xs-4 padding-0">
-                                                                <input type="number" disabled
-                                                                        class="form-control width-100-pc pointsBox"
-                                                                        name="constSumPoints" id="constSumPoints-10"
-                                                                        value="100" min="1" step="1"
-                                                                        onChange="updateConstSumPointsValue(10)">
+                                                            <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Option-6" style="display:none">
+                                                                <div class="col-xs-1">
+                                                                    <input type="radio" id="constSumPointsPerOption-6" name="constSumPointsPerOption" value="true" disabled="">
+                                                                </div>
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="The number of points to distribute will vary based on the number of options, e.g. if you specify 100 points here and there are 3 options, the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3).">
+                                                                    <div class="col-xs-4 padding-0">
+                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPointsForEachOption" id="constSumPointsForEachOption-6" value="100" min="1" step="1" onchange="updateConstSumPointsValue(6)">
+                                                                    </div>
+                                                                    <div class="col-xs-6 padding-0">
+                                                                        <label class="margin-top-7px padding-left-7px">X</label>
+                                                                        <label class="margin-top-7px"> (number of options) </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-xs-6 padding-0">
-                                                                <label class="margin-top-7px padding-left-7px">X</label>
-                                                                <label class="margin-top-7px">
-                                                                    number of options
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 margin-bottom-15px padding-left-35px"
-                                                            id="constSumOption_Recipient-10">
-                                                            <div class="col-xs-1">
-                                                                <input type="radio" id="constSumPointsPerRecipient-10"
-                                                                        name="constSumPointsPerOption"
-                                                                        value="true" checked>
-                                                            </div>
-                                                            <div class="col-xs-4 padding-0">
-                                                                <input type="number" disabled
-                                                                    class="form-control width-100-pc pointsBox"
-                                                                    name="constSumPoints" id="constSumPoints-10"
-                                                                    value="100" min="1" step="1"
-                                                                    onChange="updateConstSumPointsValue(10)">
-                                                            </div>
-                                                            <div class="col-xs-6 padding-0">
-                                                                <label class="margin-top-7px padding-left-7px">X</label>
-                                                                <label class="margin-top-7px">
-                                                                    number of recipients
-                                                                </label>
+                                                            <div class="col-xs-12 margin-bottom-15px padding-left-35px" id="constSumOption_Recipient-6">
+                                                                <div class="col-xs-1">
+                                                                    <input type="radio" id="constSumPointsPerRecipient-6" name="constSumPointsPerOption" value="true" checked="" disabled="">
+                                                                </div>
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">
+                                                                    <div class="col-xs-4 padding-0">
+                                                                        <input type="number" disabled="" class="form-control width-100-pc pointsBox" name="constSumPointsForEachRecipient" id="constSumPointsForEachRecipient-6" value="100" min="1" step="1" onchange="updateConstSumPointsValue(6)">
+                                                                    </div>
+                                                                    <div class="col-xs-6 padding-0">
+                                                                        <label class="margin-top-7px padding-left-7px">X</label>
+                                                                        <label class="margin-top-7px">(number of recipients)</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="checkbox" id="constSum_tooltipText-10"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                data-container="body"
-                                                                title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
-                                                            <label class="bold-label">
-                                                                <input type="checkbox"
-                                                                        name="constSumUnevenDistribution" disabled
-                                                                        id="constSum_UnevenDistribution-10">
-                                                                <span id="constSum_labelText-10">
-                                                                Every Recipient to receive a different number of points
-                                                                </span>
-                                                            </label>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="checkbox" id="constSum_tooltipText-6" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
+                                                                <label class="bold-label">
+                                                                    <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-6">
+                                                                    <span id="constSum_labelText-6">Every recipient to receive a different number of points</span>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <br>
+                                            </div>
                                         </div>
-                                    </div>
                                   </div>
                                   <br>
                                   <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -4781,7 +4791,7 @@
                                           <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                       </div>
                                       <div class="feedback-path-dropdown col-sm-12 btn-group">
-                                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver's team members and Giver</button>
+                                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver's team members and Giver</button>
                                           <ul class="dropdown-menu">
                                               <li class="dropdown-header">Common feedback path combinations</li>
 
@@ -4955,7 +4965,7 @@
                                           <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                       </div>
                                       <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
-                                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to recipient and instructors</button>
+                                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Visible to recipient and instructors</button>
                                           <ul class="dropdown-menu">
                                               <li class="dropdown-header">Common visibility options</li>
 
