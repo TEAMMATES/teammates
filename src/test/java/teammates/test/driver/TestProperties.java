@@ -86,9 +86,9 @@ public final class TestProperties {
 
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
-            if (isCiEnvironment()) {
-                // For CI, we do not read the account details from the test properties file, but generate random
-                // account names. This is for detection and prevention of hard-coded account names in test files.
+            if (isCiEnvironment() || isGodModeEnabled()) {
+                // For CI and GodMode, we do not read the account details from the test properties file, but generate
+                // random account names. This is for detection and prevention of hard-coded account names in test files.
 
                 String dotSalt = "." + StringHelperExtension.generateSaltOfLength(8);
                 String dummyPassword = "anypassword";
@@ -144,6 +144,10 @@ public final class TestProperties {
 
     public static boolean isCiEnvironment() {
         return System.getenv("TRAVIS") != null || System.getenv("APPVEYOR") != null;
+    }
+
+    public static boolean isGodModeEnabled() {
+        return Boolean.parseBoolean(System.getProperty("godmode", "false"));
     }
 
     public static boolean isDevServer() {
