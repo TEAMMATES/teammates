@@ -5729,19 +5729,19 @@
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
                                                     <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
-                                                        Giver
+                                                        Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
-                                                        Team
+                                                        Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
-                                                        Recipient
+                                                        Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                                                        Team
+                                                        Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
@@ -5756,10 +5756,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
+                                                    <td class="middlealign">Alice Betsy</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -5769,10 +5769,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5780,10 +5780,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5791,10 +5791,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5802,10 +5802,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5813,10 +5813,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Benny Charles</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
                                                     <td class="middlealign">Team 1</td>
+                                                    <td class="middlealign">Benny Charles</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -5826,10 +5826,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5837,10 +5837,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5848,10 +5848,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
+                                                    <td class="middlealign">Charlie Davis</td>
                                                     <td class="multiline">
                                                         <span class="color-negative">Equal Share -16%</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -5861,10 +5861,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +6%</span>
                                                     </td>
@@ -5872,10 +5872,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +6%</span>
                                                     </td>
@@ -5883,10 +5883,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +6%</span>
                                                     </td>
@@ -5894,10 +5894,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5905,10 +5905,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5916,10 +5916,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Danny Engrid</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
                                                     <td class="middlealign">Team 1</td>
+                                                    <td class="middlealign">Danny Engrid</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -5929,10 +5929,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5940,10 +5940,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Alice Betsy</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5951,10 +5951,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Benny Charles</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5962,10 +5962,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Danny Engrid</td>
-                                                    <td class="middlealign">Team 1</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                     </td>
@@ -5973,10 +5973,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Emma Farrell</td>
                                                     <td class="middlealign">Team 1</td>
                                                     <td class="middlealign">Emma Farrell</td>
                                                     <td class="middlealign">Team 1</td>
+                                                    <td class="middlealign">Emma Farrell</td>
                                                     <td class="multiline">
                                                         <span class="color_neutral">Equal Share</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -5986,10 +5986,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-negative">Equal Share -20%</span>
                                                     </td>
@@ -5997,10 +5997,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Francis Gabriel</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
                                                     <td class="middlealign">Team 2</td>
+                                                    <td class="middlealign">Francis Gabriel</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +5%</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -6010,10 +6010,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +5%</span>
                                                     </td>
@@ -6021,10 +6021,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +10%</span>
                                                     </td>
@@ -6032,10 +6032,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-negative">Equal Share -18%</span>
                                                     </td>
@@ -6043,10 +6043,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +6%</span>
                                                     </td>
@@ -6054,10 +6054,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Gene Hudson</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
                                                     <td class="middlealign">Team 2</td>
+                                                    <td class="middlealign">Gene Hudson</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +4%</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
@@ -6067,10 +6067,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +8%</span>
                                                     </td>
@@ -6078,10 +6078,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-negative">Equal Share -20%</span>
                                                     </td>
@@ -6089,10 +6089,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Francis Gabriel</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +8%</span>
                                                     </td>
@@ -6100,10 +6100,10 @@
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Gene Hudson</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +7%</span>
                                                     </td>
@@ -6111,10 +6111,10 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Happy Guy</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Happy Guy</td>
                                                     <td class="middlealign">Team 2</td>
+                                                    <td class="middlealign">Happy Guy</td>
                                                     <td class="multiline">
                                                         <span class="color-positive">Equal Share +5%</span>
                                                         <span>&nbsp;&nbsp;[Perceived Contribution:
