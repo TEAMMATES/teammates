@@ -120,7 +120,7 @@ Normally, the coverage will be run against all classes specified as the source c
 The plugin for Eclipse can be found [here](http://eclemma.org).
 
 ### NodeJS
- 
+
 NodeJS integration is supported in IntelliJ. You can use it to manage your dependencies (**optional**).
 The plugin can be found [here](https://plugins.jetbrains.com/idea/plugin/6098-nodejs).
 
@@ -138,7 +138,7 @@ ESLint integration is currently not supported for Eclipse.
 1. If you have not installed Node.js and ESLint, please refer to
 [install necessary tools and languages](settingUp.md#step-1-install-necessary-tools-and-languages)
 and [set up project specific settings and dependencies](settingUp.md#step-3-set-up-project-specific-settings-and-dependencies).
-1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.  
+1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
 1. Go to `Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
 1. Check the box next to `Enable`.
 1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
@@ -172,7 +172,7 @@ Stylelint integration is currently not supported for Eclipse.
 1. If you have not installed Node.js and ESLint, please refer to
 [install necessary tools and languages](settingUp.md#step-1-install-necessary-tools-and-languages)
 and [set up project specific settings and dependencies](settingUp.md#step-3-set-up-project-specific-settings-and-dependencies).
-1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.  
+1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
 1. Go to `Languages & Frameworks → Stylesheets → Stylelint`.
 1. Check the box next to `Enable`.
 1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
@@ -195,7 +195,7 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
    ```sh
    ./gradlew setupIntellijStaticAnalysis
    ```
-   
+
 **NOTE**
 >The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#static-analysis-tools-setup-behavior).
 

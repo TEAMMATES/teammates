@@ -89,16 +89,16 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 ### Prerequisites
 1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA.
 
-    1. If you have no current projects open, click `Configure → Project Defaults → Project Structure`.  
-       **OR**  
+    1. If you have no current projects open, click `Configure → Project Defaults → Project Structure`.\
+       **OR**\
        If you currently have projects open, click `File → Project Structure`.
     1. Select SDKs in Platform Settings and check if there is a SDK named `1.7` with a JDK home path pointing to a
        JDK 7 path. Otherwise add a new SDK using JDK 7 with a name of `1.7`.
 
 1. You need the system property `ide=idea` in the VM options of Global Gradle settings.
 
-    1. If you have no current projects open, click `Configure → Settings/Preferences`.  
-       **OR**  
+    1. If you have no current projects open, click `Configure → Settings/Preferences`.\
+       **OR**\
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
     1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under Global Gradle settings,
        add `-Dide=idea` to the Gradle VM options.
@@ -110,7 +110,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 1. Run this command to create a pre-configured IntelliJ project:
    ```sh
    ./gradlew setupIntellijProject
-   ``` 
+   ```
 
 1. Open the project in IntelliJ IDEA.
 
@@ -127,8 +127,8 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 ### Manual Setup
 
 1. Import the project as a Gradle project as follows:
-   1. If you have no current projects open, click `Import Project`.  
-       **OR**  
+   1. If you have no current projects open, click `Import Project`.\
+       **OR**\
        If you currently have projects open, click `New | Project from Existing Sources...`.
    1. Select the local repository folder and click `Open`.
    1. Select `Import project from external model` and then `Gradle`.
@@ -141,22 +141,22 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    1. Create a `build` folder in your project root if it does not exist while waiting for IntelliJ to finish indexing.
    1. Go to `File → Project Structure... → Modules`.
       Click on the `teammates` module, then under `Sources`, click on the `build` folder and click `Excluded` and then `OK`.
-   1. You should see a dialog box with the message:   
-      `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`.
+   1. You should see a dialog box with the message:\
+      `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`.\
       **OR**\
       `Frameworks detected: OSGi, Google App Engine, Web, JPA frameworks are detected in the project`.\
       Click `Configure`, ensure that there is only `Google App Engine` and `JPA` frameworks being shown, otherwise make
       sure you have excluded the `build` folder in your `teammates` module. Then click `OK`.
 	  > If you missed the dialog box, go to `View → Tool Windows → Event Log`.
-	  You should see the same message as the dialog box, click `Configure` and then `OK`.
-   
+        You should see the same message as the dialog box, click `Configure` and then `OK`.
+
 1. Configure the project settings as follows:
 
    #### Indentation
    In TEAMMATES, we have standards defined for indentation.
-   See [Coding standards in Supplementary documents](README.md#supplementary-documents). 
-   1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.  
-   1. Go to `Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `JSON`, `CSS` and `XML`.  
+   See [Coding standards in Supplementary documents](README.md#supplementary-documents).
+   1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
+   1. Go to `Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `JSON`, `CSS` and `XML`.
    1. Ensure that `Tab size:`, `Indent:` and `Continuation indent:` are `4`, `4` and `8` respectively for the different languages.
    1. Ensure `HTML` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
    1. Ensure `JSP` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
@@ -167,7 +167,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
    #### Javascript
    Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
-   
+
    #### Additional Build Tasks
    1. Open `View → Tool Windows → Gradle`.
    1. Under `Tasks → intellij idea setup`, look for the task `enhanceIntellijOutputClasses`.

@@ -7,7 +7,7 @@
 When the following command is executed,
 ```sh
 ./gradlew setupIntellijProject
-``` 
+```
 A pre-configured IntelliJ IDEA project will be created from `.templates/.idea`.
 
 The syntax for the pre-configured settings found below are as follows:
@@ -22,7 +22,7 @@ The syntax for the pre-configured settings found below are as follows:
 | Settings      | `Project Structure → Artifacts`        |
 
 **Parent Node:** `/component`
- 
+
 | IntelliJ Setting    | Node                    | Value                            |
 |---------------------|-------------------------|----------------------------------|
 | Artifact name       | `/artifact[@name]`      | `Gradle : teammates.war`         |
@@ -35,7 +35,7 @@ The syntax for the pre-configured settings found below are as follows:
 |----------------------------|-----------------------------------|-----------------|
 | Linked Gradle Project Path | `/options[@external-project-path` | `$PROJECT_DIR$` |
 
-**Parent Node:** None 
+**Parent Node:** None
 
 | IntelliJ Setting | Node                                             | Value           |
 |------------------|--------------------------------------------------|-----------------|
@@ -57,7 +57,7 @@ The syntax for the pre-configured settings found below are as follows:
 
 **Parent Node:** `/component`
 
-| IntelliJ Setting           | Node                        | Value                                                   | 
+| IntelliJ Setting           | Node                        | Value                                                   |
 |----------------------------|-----------------------------|---------------------------------------------------------|
 | Artifact name              | `/artifact[@name]`          | `Gradle : teammates.war (exploded)`                     |
 | Artifact type              | `/artifact[@type]`          | `exploded-war`                                          |
@@ -66,13 +66,13 @@ The syntax for the pre-configured settings found below are as follows:
 
 **Parent Node:** `/artifact/properties[@id='gradle-properties']`
 
-| IntelliJ Setting           | Node                               | Value           | 
+| IntelliJ Setting           | Node                               | Value           |
 |----------------------------|------------------------------------|-----------------|
 | Linked Gradle Project Path | `/options[@external-project-path]` | `$PROJECT_DIR$` |
 
 **Parent Node:** `/artifact/root[@id='root']`
 
-| IntelliJ Setting  | Node                      | Value                                                                        | 
+| IntelliJ Setting  | Node                      | Value                                                                        |
 |-------------------|---------------------------|------------------------------------------------------------------------------|
 | Artifact elements | The various element nodes | Contains paths to `META-INF` files, Web facet resources, and`WEB-INF` folder |
 
@@ -88,29 +88,29 @@ The syntax for the pre-configured settings found below are as follows:
 
 **Parent Node:** `/project/component[@name='ProjectCodeStyleSettingsManager]']`
 
-| IntelliJ Setting           | Node                                      | Value  | 
+| IntelliJ Setting           | Node                                      | Value  |
 |----------------------------|-------------------------------------------|--------|
 | Use per project settings   | `option[@name='USE_PER_PROJECT_SETTINGS'` | `true` |
 
 **Parent Node:** `/project/component[@name='ProjectCodeStyleSettingsManager']/option[@name='PER_PROJECT_SETTINGS'/value`
 
-| IntelliJ Setting                                              | Node                                                                         | Value | 
+| IntelliJ Setting                                              | Node                                                                         | Value |
 |---------------------------------------------------------------|------------------------------------------------------------------------------|-------|
 | `Java → Imports → Class count to use import with ‘*’:`        | `option[@name='CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND'][@value]`                | `999` |
 | `Java → Imports → Names count to use static import with ‘*’:` | `option[@name='NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND'][@value]`                | `999` |
 | `Java → Imports → Packages to Use Import with ‘*’`            | `option[@name='PACKAGES_TO_USE_IMPORT_ON_DEMAND']/value`                     | Empty |
 | `Java → Imports → Import Layout`                              | `option[@name='IMPORT_LAYOUT_TABLE']/value`                                  | [1]   |
-| `HTML → Tabs and Indents → Indent:`                           | `codeStyleSettings[@language='HTML']/indentOptions/INDENT_SIZE`              | `2`   | 
+| `HTML → Tabs and Indents → Indent:`                           | `codeStyleSettings[@language='HTML']/indentOptions/INDENT_SIZE`              | `2`   |
 | `HTML → Tabs and Indents → Continuation Indent:`              | `codeStyleSettings[@language='HTML']/indentOptions/CONTINUATION_INDENT_SIZE` | `4`   |
 | `HTML → Tabs and Indents → Tab size:`                         | `codeStyleSettings[@language='HTML']/indentOptions/TAB_SIZE`                 | `2`   |
-| `JSP → Tabs and Indents → Indent:`                            | `codeStyleSettings[@language='JSP']/indentOptions/INDENT_SIZE`               | `2`   | 
+| `JSP → Tabs and Indents → Indent:`                            | `codeStyleSettings[@language='JSP']/indentOptions/INDENT_SIZE`               | `2`   |
 | `JSP → Tabs and Indents → Continuation Indent:`               | `codeStyleSettings[@language='JSP']/indentOptions/CONTINUATION_INDENT_SIZE`  | `4`   |
 | `JSP → Tabs and Indents → Tab size:`                          | `codeStyleSettings[@language='JSP']/indentOptions/TAB_SIZE`                  | `2`   |
 
 [1] Layout as defined in the [Checkstyle rules](../static-analysis/teammates-checkstyle.xml#L161).
 
 **NOTE**
-> Tab characters are not used for indentation if no `USE_TAB_CHARACTER` attribute is set.  
+> Tab characters are not used for indentation if no `USE_TAB_CHARACTER` attribute is set.\
 > Indentation settings are also left as the default for Java, JavaScript, JSON, CSS and XML (shown in the table below).
 
 | Language   | Tab size | Indent | Continuation indent |
@@ -128,7 +128,7 @@ The syntax for the pre-configured settings found below are as follows:
 | File name     | `compiler.xml`                                              |
 | Settings      | `Build, Execution, Deployment → Compiler → Java Compiler`   |
 
-| IntelliJ Setting          | Node                                                               | Value | 
+| IntelliJ Setting          | Node                                                               | Value |
 |---------------------------|--------------------------------------------------------------------|-------|
 | `Target bytecode version` | `/project/component/byteCodeTargetLevel/module[@name='teammates']` | `1.7` |
 
@@ -139,27 +139,27 @@ The syntax for the pre-configured settings found below are as follows:
 | File name     | `encodings.xml`                                             |
 | Settings      | `Editor → File Encodings`                                   |
 
-| IntelliJ Setting                         | Node                                                    | Value   | 
+| IntelliJ Setting                         | Node                                                    | Value   |
 |------------------------------------------|---------------------------------------------------------|---------|
 | `Default encoding for properties files:` | `/project/component[@defaultCharsetForPropertiesFiles]` | `UTF-8` |
 | `Project Encoding:`                      | `/project/component/file[@url='PROJECT'][@charset]`     | `UTF-8` |
 
 ### Gradle
 
-| Settings Info |                                                         | 
-|---------------|---------------------------------------------------------| 
-| File name     | `gradle.xml`                                            | 
-| Settings      | `Build, Execution, Deployment → Build Tools → Gradle`   | 
+| Settings Info |                                                         |
+|---------------|---------------------------------------------------------|
+| File name     | `gradle.xml`                                            |
+| Settings      | `Build, Execution, Deployment → Build Tools → Gradle`   |
 
 **Parent Node:** `/component/option/GradleProjectSettings/`
 
-| IntelliJ Setting                           | Node                                 | Value             |  
-|--------------------------------------------|--------------------------------------|-------------------| 
-| `Use default gradle wrapper (recommended)` | `option[@distributionType]`          | `DEFAULT_WRAPPED` | 
-| External project path                      | `option[@externalProjectPath]`       | `$PROJECT_DIR$`   | 
-| `Gradle JVM:`                              | `option[@gradleJvm]`                 | `1.7`             | 
-| `Create separate module per source set`    | `option[@resolveModulePerSourceSet]` | `false`           | 
-| `Use auto-import`                          | `option[@useAutoImport]`             | `true`            | 
+| IntelliJ Setting                           | Node                                 | Value             |
+|--------------------------------------------|--------------------------------------|-------------------|
+| `Use default gradle wrapper (recommended)` | `option[@distributionType]`          | `DEFAULT_WRAPPED` |
+| External project path                      | `option[@externalProjectPath]`       | `$PROJECT_DIR$`   |
+| `Gradle JVM:`                              | `option[@gradleJvm]`                 | `1.7`             |
+| `Create separate module per source set`    | `option[@resolveModulePerSourceSet]` | `false`           |
+| `Use auto-import`                          | `option[@useAutoImport]`             | `true`            |
 
 ### Inspections
 
@@ -170,9 +170,9 @@ The syntax for the pre-configured settings found below are as follows:
 
 **Parent Node:** `/component/settings/option`
 
-| IntelliJ Setting | Node                                                       | Value       |  
-|------------------|------------------------------------------------------------|-------------| 
-| `Profile:`       | `[@name='projectProfile']` and `[@name='PROJECT_PROFILE']` | `teammates` | 
+| IntelliJ Setting | Node                                                       | Value       |
+|------------------|------------------------------------------------------------|-------------|
+| `Profile:`       | `[@name='projectProfile']` and `[@name='PROJECT_PROFILE']` | `teammates` |
 
 ### Javascript
 
@@ -181,9 +181,9 @@ The syntax for the pre-configured settings found below are as follows:
 | File name     | `misc.xml`                             |
 | Settings      | `Languages & Frameworks → Javascript`  |
 
-| IntelliJ Setting              | Node                                                                                   | Value |  
-|-------------------------------|----------------------------------------------------------------------------------------|-------| 
-| `Javascript language version` | `/project/component[@name='JavaScriptSettings']/option[@name='languageLevel'][@value]` | `ES6` | 
+| IntelliJ Setting              | Node                                                                                   | Value |
+|-------------------------------|----------------------------------------------------------------------------------------|-------|
+| `Javascript language version` | `/project/component[@name='JavaScriptSettings']/option[@name='languageLevel'][@value]` | `ES6` |
 
 ### Schemas and DTDs
 
@@ -289,15 +289,15 @@ The syntax for the pre-configured settings found below are as follows:
 When the following command is executed,
 ```sh
 ./gradlew setupIntellijSettings
-``` 
+```
 The Gradle task `enhanceIntellijOutputClasses` is added to IntelliJ to run after ever build.
 
 ## Static Analysis Tools Setup Behavior
 When the following command is executed,
 ```sh
 ./gradlew setupIntellijStaticAnalysis
-``` 
-The project will be configured with using the pre-configured static analysis tools settings from `.templates/ideaPlugins`.  
+```
+The project will be configured with using the pre-configured static analysis tools settings from `.templates/ideaPlugins`.
 
 The syntax for the pre-configured settings found below are as follows:
 * `${buildDir}` refers to the build directory specified in Gradle
@@ -321,11 +321,11 @@ The syntax for the pre-configured settings found below are as follows:
 | `Treat Checkstyle errors as warnings` | `entry[@key='suppress-errors']`      | `false`             |
 | `Use a local Checkstyle file`  `Store relative to project location`  | `entry[@key='location-1']` | `Git`           |
 
-### Inspections 
+### Inspections
 
 | Settings Info |                                    |
 |---------------|------------------------------------|
-| File name     | `inspectionProfiles/teammates.xml` | 
+| File name     | `inspectionProfiles/teammates.xml` |
 | Settings      | Depends on setting below           |
 
 **Parent Node:** `/component/profile`
@@ -356,7 +356,7 @@ The syntax for the pre-configured settings found below are as follows:
 
 | Settings Info |                                                                     |
 |---------------|---------------------------------------------------------------------|
-| File name     | `jsLinters/eslint.xml`                                              | 
+| File name     | `jsLinters/eslint.xml`                                              |
 | Settings      | `Languages & Frameworks → Javascript → Code Quality Tools → ESLint` |
 
 **Parent Node:** `/project/component[@name='EslintConfiguration']`
@@ -370,7 +370,7 @@ The syntax for the pre-configured settings found below are as follows:
 
 | Settings Info |                        |
 |---------------|------------------------|
-| File name     | `misc.xml`             | 
+| File name     | `misc.xml`             |
 | Settings      | `Other Settings → PMD` |
 
 **Parent Node:** `/project/component[@name='PDMPlugin']`
