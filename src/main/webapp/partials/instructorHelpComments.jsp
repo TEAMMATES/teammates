@@ -31,25 +31,39 @@
                                 <td id="studentsection-c0.0">Tutorial Group 1</td>
                                 <td id="studentteam-c0.0.0">Team 1</td>
                                 <td id="studentname-c0.0">Alice Betsy</td>
+                                <td id="studentstatus-c0.0">Joined</td>
                                 <td id="studentemail-c0.0">alice.b.tmms@gmail.com</td>
                                 <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test" href="javascript:;" data-toggle="tooltip" data-placement="top" title="View the details of the student"> View</a>&nbsp;
                                     <a class="btn btn-default btn-xs student-edit-for-test" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"> Edit</a>&nbsp;
                                     <a class="btn btn-default btn-xs student-delete-for-test" href="javascript:;" onclick="return toggleDeleteStudentConfirmation('kk.kk.-demo','Alice Betsy')"> Delete</a>&nbsp;
                                     <a class="btn btn-default btn-xs student-records-for-test" href="javascript:;" data-toggle="tooltip" data-placement="top" title="View all student's evaluations and feedbacks"> All Records</a>&nbsp;
-                                    <div class="dropdown inline">
-                                        <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a>
+                                    <div class="btn-group" data-toggle="tooltip" data-placement="top" title="" data-original-title="Give a comment for this student, his/her team/section">
+                                        <a class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="dropdown">
+                                            Add Comment
+                                        </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                                        <li role="presentation">
+                                            <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=sd.kjg-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user=test%40example.com&amp;token=BCA680D091B6DFB0F61011773E472616&amp;addComment=student">
+                                                Comment on student: Alice Betsy
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=sd.kjg-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user=test%40example.com&amp;token=BCA680D091B6DFB0F61011773E472616&amp;addComment=team">
+                                                Comment on team: Team 1
+                                            </a>
+                                        </li>
+                                        
                                             <li role="presentation">
-                                                <a role="menuitem" tabindex="-1" href="javascript:;">Comment on Alice Betsy</a>
+                                                <a target="_blank" rel="noopener noreferrer" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=sd.kjg-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user=test%40example.com&amp;token=BCA680D091B6DFB0F61011773E472616&amp;addComment=section">
+                                                    Comment on section: Tutorial Group 1
+                                                </a>
                                             </li>
-                                            <li role="presentation">
-                                                <a role="menuitem" tabindex="-1" href="javascript:;">Comment on Team 1</a>
-                                            </li>
-                                            <li role="presentation">
-                                                <a role="menuitem" tabindex="-1" href="javascript:;">Comment on Tutorial Group 1</a>
-                                            </li>
+                                        
                                         </ul>
+                                        <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                            <span class="caret"></span><span class="sr-only">Add comments</span>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
