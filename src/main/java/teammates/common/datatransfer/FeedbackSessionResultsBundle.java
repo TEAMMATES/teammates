@@ -1748,7 +1748,7 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Returns an ordered Map with {@code giverTeam} name as key
-     * sorted by {@code compareByTeamQuestionGiverTeamRecipient} comparator.
+     * sorted by giverTeam > question > giverName > recipientTeam > recipientName.
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
