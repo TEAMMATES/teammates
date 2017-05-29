@@ -113,9 +113,9 @@ public class CommentAttributesTest extends BaseTestCase {
                                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                                      FieldValidator.EMAIL_MAX_LENGTH));
 
-        List<String> errorMemssage = comment.getInvalidityInfo();
-        assertEquals(4, errorMemssage.size());
-        assertEquals(expectedErrorMessage.toString(), errorMemssage.toString());
+        List<String> errorMessage = comment.getInvalidityInfo();
+        assertEquals(4, errorMessage.size());
+        assertEquals(expectedErrorMessage.toString(), errorMessage.toString());
     }
 
     @Test
