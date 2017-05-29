@@ -918,6 +918,8 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
+        public static final String INSTRUCTOR_REQUEST_ACCOUNT_PAGE = "/page/instructorRequestAccount";
+        public static final String INSTRUCTOR_REQUEST_ACCOUNT_SAVE = "/page/instructorRequestAccountSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
@@ -1124,6 +1126,8 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp";
         public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS = "/jsp/instructorCourseStudentDetails.jsp";
         public static final String INSTRUCTOR_COURSE_STUDENT_EDIT = "/jsp/instructorCourseStudentEdit.jsp";
+        public static final String INSTRUCTOR_ACCOUNT_REQUEST = "request.jsp";
+        public static final String INSTRUCTOR_ACCOUNT_REQUEST_RESULT = "/jsp/instructorAccountRequestResult.jsp";
         public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp";
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";

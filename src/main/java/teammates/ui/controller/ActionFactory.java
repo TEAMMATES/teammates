@@ -60,6 +60,8 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_INSTRUCTOR_ADD, InstructorCourseInstructorAddAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE, InstructorCourseInstructorEditSaveAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
+        map(INSTRUCTOR_REQUEST_ACCOUNT_PAGE, InstructorRequestAccountPageAction.class);
+        map(INSTRUCTOR_REQUEST_ACCOUNT_SAVE, InstructorRequestAccountSaveAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);

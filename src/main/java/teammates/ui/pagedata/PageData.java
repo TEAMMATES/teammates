@@ -44,6 +44,11 @@ public class PageData {
     public PageData(AccountAttributes account, String sessionToken) {
         this(account, null, sessionToken);
     }
+    
+    /** There may be a case in which the user is not required to be logged in - like the "request instructor account" one.
+     *  For this reason, a default constructor is added in order to handle such cases. */
+    public PageData() {
+    }
 
     public PageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         this.account = account;
@@ -336,6 +341,12 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         return link;
+    }
+    
+    public String getInstructorRequestAccountLink() {
+    	String link = Const.ActionURIs.INSTRUCTOR_REQUEST_ACCOUNT_SAVE;
+    	link = addUserIdToUrl(link);
+    	return link;
     }
 
     public String getInstructorCourseDetailsLink(String courseId) {
