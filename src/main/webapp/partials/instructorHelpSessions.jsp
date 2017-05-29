@@ -3932,19 +3932,19 @@
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
                                                     <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
-                                                        Giver
+                                                        Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
-                                                        Team
+                                                        Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
-                                                        Recipient
+                                                        Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                                                        Team
+                                                        Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
@@ -3959,19 +3959,19 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
-                                                    <td class="middlealign">Instructor A</td>
+                                                    <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 2</td>
+                                                    <td class="middlealign">Instructor A</td>
                                                     <td class="multiline">4</td>
                                                 </tr>
 
                                                 <tr>
 
+                                                    <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
                                                     <td class="middlealign">Instructor A</td>
-                                                    <td class="middlealign">Team 2</td>
                                                     <td class="multiline">5</td>
                                                 </tr>
 
