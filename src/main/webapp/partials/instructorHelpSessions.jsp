@@ -2892,7 +2892,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable4">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-7">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
@@ -2912,49 +2912,92 @@
                                                 </select>
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
-                                            <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" onclick="enableEdit(4,12)" title="Edit this question">Edit</a>
-                                                <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-4">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(4)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                        </div>
+                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                            <span class="mobile-no-pull pull-right">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
+                                                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-1">
+                                                    <span class="glyphicon glyphicon-ok"></span> Save
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(1)" id="questiondiscardchanges-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard any unsaved edits and revert back to original question.">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Discard
+                                                </a>
+                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
+                                                    <span class=" glyphicon glyphicon-trash"></span> Delete
+                                                </a>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                        <div>
-                                            <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-4" data-toggle="tooltip" data-placement="top" tabindex="9" disabled="" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Which team do you think has the best feature?</textarea>
+                                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                                        <div class="form-group" style="padding: 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="control-label" for="questiontext-1">
+                                                    Question
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                
+                                                <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Which team do you think has the best feature?</textarea>
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-sm-6">
-                                                <div id="mcqChoiceTable-4">
-
-                                                    <div id="mcqAddOptionRow-4">
-                                                        <div colspan="2">
-                                                            <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(4)" style="display: none;">
-                                                                <span class="glyphicon glyphicon-plus">
-                                                                </span> add more options
-                                                            </a>
+                                        <div class="form-group" style="padding: 0 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="align-left" for="questiondescription-1">
+                                                    [Optional]<br>Description
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                <div id="rich-text-toolbar-q-descr-container-1"></div>
+                                                <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="questiondescription-1">
+                                                <input type="hidden" name="questiondescription" disabled="">
+                                            </div>
+                                            <div class="row">
+                                                <br>
+                                                <div class="col-sm-6">
+                                                    <div id="mcqChoiceTable-1">
+                                                                    
+                                                        <div id="mcqAddOptionRow-1">
+                                                            <div colspan="2">
+                                                                <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink-1" onclick="addMcqOption(1)" style="display:none">
+                                                                    <span class="glyphicon glyphicon-plus">
+                                                                    </span> add more options
+                                                                </a>
+                                                                
+                                                                <div class="checkbox" style="display: none;">
+                                                                    <label class="bold-label">
+                                                                        <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag-1" onchange="toggleMcqOtherOptionEnabled(this, 1)" disabled="">
+                                                                            Add 'Other' option (Allows respondents to type in their own answer)
+                                                                    </label>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+        
+                                                    <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-1" value="0" disabled="">
                                                 </div>
-
-                                                <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-4" value="0" disabled="">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="control-label col-sm-8">
-                                                    <input type="checkbox" disabled="" id="generateOptionsCheckbox-4" checked="" onchange="toggleMcqGeneratedOptions(this,4)">Or, generate options from the list of all </label>
-                                                <div class="col-sm-4">
-                                                    <select class="form-control" id="mcqGenerateForSelect-4" onchange="changeMcqGenerateFor(4)" disabled="">
-                                                        <option value="STUDENTS">students</option>
-                                                        <option selected="" value="TEAMS">teams</option>
-                                                        <option value="INSTRUCTORS">instructors</option>
-                                                    </select>
+                                                <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+                                                    <div class="border-gray narrow-slight visible-xs margin-bottom-7px margin-top-7px"></div>
+                                                    <div class="checkbox padding-top-0">
+                                                        <label class="bold-label">
+                                                            <span class="inline-block">
+                                                                <input type="checkbox" disabled="" id="generateOptionsCheckbox-1" checked="" onchange="toggleMcqGeneratedOptions(this,1)">
+                                                                Or, generate options from the list of all
+                                                            </span>
+                                                        </label>
+                                                        <select class="form-control width-auto inline" id="mcqGenerateForSelect-1" onchange="changeMcqGenerateFor(1)" disabled="">
+                                                            <option value="STUDENTS">students</option>
+                                                            <option selected="" value="TEAMS">teams</option>
+                                                            <option value="INSTRUCTORS">instructors</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" id="generatedOptions-1" name="generatedOptions" value="TEAMS" disabled=""> 
                                                 </div>
-                                                <input type="hidden" id="generatedOptions-4" name="generatedOptions" value="TEAMS" disabled="">
+                                                <br>
                                             </div>
-                                            <br>
                                         </div>
                                     </div>
                                     <br>
@@ -2963,7 +3006,7 @@
                                             <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                         </div>
                                         <div class="feedback-path-dropdown col-sm-12 btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Nobody specific (For general class feedback)</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Nobody specific (For general class feedback)</button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common feedback path combinations</li>
 
@@ -3137,7 +3180,7 @@
                                             <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                         </div>
                                         <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to instructors only</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Visible to instructors only</button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common visibility options</li>
 
@@ -3252,7 +3295,7 @@
                                                 </tbody></table>
                                         </div>
                                         <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, and your name.</li></ul></div>
+                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                                     </div>
                                     <div>
                                         <span class="pull-right">
