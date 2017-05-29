@@ -6942,11 +6942,11 @@
                             <div class="panel panel-primary questionTable" id="questionTable3">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-7">
                                             <span>
                                                 <strong>Question</strong>
-                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
-                                                    
+                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-2" disabled="">
+
                                                         <option value="1">
                                                             1
                                                         </option>
@@ -6954,96 +6954,119 @@
                                                 </select>
                                                 &nbsp;Rank (options) question
                                             </span>
-                                            <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(3,4)" data-original-title="Edit this question">
-                                                    Edit
+                                        </div>
+                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                            <span class="mobile-no-pull pull-right">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-2" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(2,2)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
+                                                    <span class="glyphicon glyphicon-pencil"></span> Edit
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-3">
-                                                    Save Changes
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-2">
+                                                    <span class="glyphicon glyphicon-ok"></span> Save
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(3)" id="questiondiscardchanges-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
-                                                    Cancel
+                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(2)" id="questiondiscardchanges-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard any unsaved edits and revert back to original question.">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Discard
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
-                                                    Delete
+                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(2)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
+                                                    <span class=" glyphicon glyphicon-trash"></span> Delete
                                                 </a>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
-                                        <div>
+                                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                                        <div class="form-group" style="padding: 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="control-label" for="questiontext-2">
+                                                    Question
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
 
-                                            <textarea class="form-control textvalue nonDestructive" rows="5" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the following factors in order of importance to your group, where 1 is the most important. </textarea>
+                                                <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-2" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the following factors in order of importance to your group, where 1 is the most important. </textarea>
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-sm-6" id="rankOptionTable-3">
-                                                <div id="rankOptionRow-0-3">
-                                                    <div class="input-group col-sm-12">
-                                                        <input class="form-control" type="text" disabled="" name="rankOption-0" id="rankOption-0-3" value="Clearly defined goals for the next milestone">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(0,3)" style="display:none" tabindex="-1" disabled="">
-                                                                <span class="glyphicon glyphicon-remove">
-                                                                </span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div id="rankOptionRow-1-3">
-                                                    <div class="input-group col-sm-12">
-                                                        <input class="form-control" type="text" disabled="" name="rankOption-1" id="rankOption-1-3" value="Commitment of all group members">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(1,3)" style="display:none" tabindex="-1" disabled="">
-                                                                <span class="glyphicon glyphicon-remove">
-                                                                </span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div id="rankOptionRow-2-3">
-                                                    <div class="input-group col-sm-12">
-                                                        <input class="form-control" type="text" disabled="" name="rankOption-2" id="rankOption-2-3" value="Good coordination between group members">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(2,3)" style="display:none" tabindex="-1" disabled="">
-                                                                <span class="glyphicon glyphicon-remove">
-                                                                </span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div id="rankOptionRow-3-3">
-                                                    <div class="input-group col-sm-12">
-                                                        <input class="form-control" type="text" disabled="" name="rankOption-3" id="rankOption-3-3" value="Better time management">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(3,3)" style="display:none" tabindex="-1" disabled="">
-                                                                <span class="glyphicon glyphicon-remove">
-                                                                </span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div id="rankAddOptionRow-3">
-                                                    <div colspan="2">
-                                                        <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" onclick="addRankOption(3)" style="display:none">
-                                                            <span class="glyphicon glyphicon-plus">
-                                                            </span> add more options
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                                <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-3" value="4" disabled="">
+                                        <div class="form-group" style="padding: 0 15px;">
+                                            <h5 class="col-sm-2">
+                                                <label class="align-left" for="questiondescription-2">
+                                                    [Optional]<br>Description
+                                                </label>
+                                            </h5>
+                                            <div class="col-sm-10">
+                                                <div id="rich-text-toolbar-q-descr-container-2"></div>
+                                                <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-2" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="questiondescription-2">
+                                                <input type="hidden" name="questiondescription" disabled="">
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-inline col-sm-12" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this will allow response givers to give the same rank to multiple options">
-                                                    <input type="checkbox" name="rankAreDuplicatesAllowed" id="rankAreDuplicatesAllowed-3" checked="" disabled="">
-                                                    <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
-                                                </div>
-                                            </div>
+                                            <div class="row">
+                                                <br>
+                                                <div class="col-sm-6" id="rankOptionTable-2">
+                                                    <div class="margin-bottom-7px" id="rankOptionRow-0-2">
+                                                        <div class="input-group width-100-pc">
+                                                            <input class="form-control" type="text" disabled="" name="rankOption-0" id="rankOption-0-2" value="Clearly defined goals for the next milestone">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(0,2)" style="display:none" tabindex="-1" disabled="">
+                                                                    <span class="glyphicon glyphicon-remove">
+                                                                    </span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="margin-bottom-7px" id="rankOptionRow-1-2">
+                                                        <div class="input-group width-100-pc">
+                                                            <input class="form-control" type="text" disabled="" name="rankOption-1" id="rankOption-1-2" value="Commitment of all group members">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(1,2)" style="display:none" tabindex="-1" disabled="">
+                                                                    <span class="glyphicon glyphicon-remove">
+                                                                    </span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="margin-bottom-7px" id="rankOptionRow-2-2">
+                                                        <div class="input-group width-100-pc">
+                                                            <input class="form-control" type="text" disabled="" name="rankOption-2" id="rankOption-2-2" value="Good coordination between group members">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(2,2)" style="display:none" tabindex="-1" disabled="">
+                                                                    <span class="glyphicon glyphicon-remove">
+                                                                    </span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="margin-bottom-7px" id="rankOptionRow-3-2">
+                                                        <div class="input-group width-100-pc">
+                                                            <input class="form-control" type="text" disabled="" name="rankOption-3" id="rankOption-3-2" value="Better time management">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(3,2)" style="display:none" tabindex="-1" disabled="">
+                                                                    <span class="glyphicon glyphicon-remove">
+                                                                    </span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
 
-                                            <br>
+                                                    <div id="rankAddOptionRow-2">
+                                                        <div colspan="2">
+                                                            <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-2" onclick="addRankOption(2)" style="display:none">
+                                                                <span class="glyphicon glyphicon-plus">
+                                                                </span> add more options
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-2" value="4" disabled="">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this will allow response givers to give the same rank to multiple options">
+                                                        <label class="bold-label">
+                                                            <input type="checkbox" name="rankAreDuplicatesAllowed" id="rankAreDuplicatesAllowed-2" checked="" disabled="">
+                                                            Allow response giver to give the same rank to multiple options
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <br>
+                                            </div>
                                         </div>
                                     </div>
                                     <br>
@@ -7052,7 +7075,7 @@
                                             <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
                                         </div>
                                         <div class="feedback-path-dropdown col-sm-12 btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Predefined combinations:</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Feedback session creator (i.e., me) will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> Giver (Self feedback)</button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common feedback path combinations</li>
 
@@ -7134,91 +7157,6 @@
                                                 <li><a class="feedback-path-dropdown-option feedback-path-dropdown-option-other" href="javascript:;" data-path-description="Predefined combinations:">Other predefined combinations...</a></li>
                                             </ul>
                                         </div>
-                                        <div class="feedback-path-others margin-top-7px" style="">
-                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
-                                                <label class="col-sm-4 col-lg-5 control-label">
-                                                    Who will give the feedback:
-                                                </label>
-                                                <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-
-                                                        <option selected="" value="SELF">
-                                                        Feedback session creator (i.e., me)
-                                                        </option>
-
-                                                        <option value="STUDENTS">
-                                                        Students in this course
-                                                        </option>
-
-                                                        <option value="INSTRUCTORS">
-                                                        Instructors in this course
-                                                        </option>
-
-                                                        <option value="TEAMS">
-                                                        Teams in this course
-                                                        </option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div data-original-title="Who the feedback is about" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
-                                                <label class="col-sm-4 col-lg-5 control-label">
-                                                    Who the feedback is about:
-                                                </label>
-                                                <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
-
-                                                        <option value="SELF">
-                                                        Giver (Self feedback)
-                                                        </option>
-
-                                                        <option value="STUDENTS">
-                                                        Other students in the course
-                                                        </option>
-
-                                                        <option value="INSTRUCTORS">
-                                                        Instructors in the course
-                                                        </option>
-
-                                                        <option value="TEAMS">
-                                                        Other teams in the course
-                                                        </option>
-
-                                                        <option style="display: none;" value="OWN_TEAM">
-                                                        Giver's team
-                                                        </option>
-
-                                                        <option style="display: none;" value="OWN_TEAM_MEMBERS">
-                                                        Giver's team members
-                                                        </option>
-
-                                                        <option style="display: block;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                                                        Giver's team members and Giver
-                                                        </option>
-
-                                                        <option selected="" value="NONE">
-                                                        Nobody specific (For general class feedback)
-                                                        </option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
-                                                <label class="control-label col-sm-4 small">
-                                                    The maximum number of <span class="number-of-entities-inner-text"></span> each respondent should give feedback to:
-                                                </label>
-                                                <div class="col-sm-8 form-control-static">
-                                                    <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                                                        <input class="nonDestructive" name="numofrecipientstype" value="custom" type="radio">
-                                                        <input class="nonDestructive numberOfEntitiesBox width-75-pc" name="numofrecipients" value="1" min="1" max="250" type="number">
-                                                    </div>
-                                                    <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                                                        <input class="nonDestructive" name="numofrecipientstype" checked="" value="max" type="radio">
-                                                        <span class="">Unlimited</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <br>
                                     <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
@@ -7226,7 +7164,7 @@
                                             <b class="visibility-title">Visibility</b> (Who can see the responses?)
                                         </div>
                                         <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visible to instructors only</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">Visible to instructors only</button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-header">Common visibility options</li>
 
@@ -7342,7 +7280,7 @@
                                             </table>
                                         </div>
                                         <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, and your name.</li></ul></div>
+                                        <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                                     </div>
                                     <div>
                                         <span class="pull-right">
