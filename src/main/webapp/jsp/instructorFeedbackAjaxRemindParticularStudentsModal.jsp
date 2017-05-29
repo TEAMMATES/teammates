@@ -52,7 +52,7 @@
             </td>
         </tr>
     </c:forEach>
-    <c:forEach items="${data.responseStatus.studentsWhoRespond}" var="userToRemindEmail">
+    <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToRemindEmail">
         <tr class="bg-info">
             <td class="align-center">
                 <div class="checkbox">
