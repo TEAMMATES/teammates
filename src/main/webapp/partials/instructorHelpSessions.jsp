@@ -7722,9 +7722,9 @@
                                     <table class="table table-bordered table-responsive margin-0">
                                         <thead>
                                         <tr>
-                                            <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
+                                            <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Team
                                                 <span class="icon-sort unsorted"></span></td>
-                                            <td class="button-sort-none" onclick="toggleSort(this,2);">Team
+                                            <td class="button-sort-none" onclick="toggleSort(this,2);">Recipient
                                                 <span class="icon-sort unsorted"></span></td>
                                             <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
                                                 <span class="icon-sort unsorted"></span></td>
@@ -7735,10 +7735,10 @@
                                         <tbody>
                                             <tr>
                             <td>
-                                Team 1
+                                -
                             </td>
                             <td>
-                                
+                                Team 1
                             </td>
                             <td>
                                 1 , 1 , 2
@@ -7748,10 +7748,10 @@
                             </td>
                         </tr><tr>
                             <td>
-                                Team 2
+                                -
                             </td>
                             <td>
-                                
+                                Team 2
                             </td>
                             <td>
                                 1 , 2
@@ -7761,10 +7761,10 @@
                             </td>
                         </tr><tr>
                             <td>
-                                Team 3
+                                -
                             </td>
                             <td>
-                                
+                                Team 3
                             </td>
                             <td>
                                 1 , 2
