@@ -47,7 +47,6 @@ function enableComment(commentIdx) {
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#commentText${commentIdx}`, {
-            inline: true,
             fixed_toolbar_container: `#rich-text-toolbar-comment-container-${commentIdx}`,
         });
         /* eslint-enable camelcase */
