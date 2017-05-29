@@ -3386,20 +3386,20 @@
                                         <table class="table table-striped table-bordered dataTable margin-0">
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
+                                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                        Team
+                                                        <span class="icon-sort unsorted"></span>
+                                                    </th>
                                                     <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                         Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
                                                         Recipient
-                                                        <span class="icon-sort unsorted"></span>
-                                                    </th>
-                                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                                                        Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
                                                     <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
@@ -3414,8 +3414,8 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">Team 1</td>
+                                                    <td class="middlealign">Alice Betsy</td>
                                                     <td class="middlealign">-</td>
                                                     <td class="middlealign">-</td>
                                                     <td class="multiline">Team 1</td>
@@ -3423,8 +3423,8 @@
 
                                                 <tr>
 
-                                                    <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">Team 2</td>
+                                                    <td class="middlealign">Charlie Davis</td>
                                                     <td class="middlealign">-</td>
                                                     <td class="middlealign">-</td>
                                                     <td class="multiline">Team 2</td>
