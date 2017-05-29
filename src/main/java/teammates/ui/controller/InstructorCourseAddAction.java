@@ -36,7 +36,7 @@ public class InstructorCourseAddAction extends Action {
         gateKeeper.verifyInstructorPrivileges(account);
 
         /* Create a new course in the database */
-        data = new InstructorCoursesPageData(account);
+        data = new InstructorCoursesPageData(account, sessionToken);
         CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
         createCourse(newCourse);
 
@@ -88,7 +88,8 @@ public class InstructorCourseAddAction extends Action {
 
         data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
+        return isError ? createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data)
+                : createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     private void createCourse(CourseAttributes course) {

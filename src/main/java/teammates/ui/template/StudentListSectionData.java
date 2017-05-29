@@ -17,14 +17,14 @@ public class StudentListSectionData {
 
     public StudentListSectionData(SectionDetailsBundle section, boolean isAllowedToViewStudentInSection,
                                   boolean isAllowedToModifyStudent, boolean isAllowedToGiveCommentInSection,
-                                  Map<String, String> emailPhotoUrlMapping, String googleId) {
+                                  Map<String, String> emailPhotoUrlMapping, String googleId, String sessionToken) {
         this.sectionName = section.name;
         this.allowedToViewStudentInSection = isAllowedToViewStudentInSection;
         this.allowedToModifyStudent = isAllowedToModifyStudent;
         this.allowedToGiveCommentInSection = isAllowedToGiveCommentInSection;
         List<StudentListTeamData> teamsDetails = new ArrayList<StudentListTeamData>();
         for (TeamDetailsBundle team : section.teams) {
-            teamsDetails.add(new StudentListTeamData(team, emailPhotoUrlMapping, googleId));
+            teamsDetails.add(new StudentListTeamData(team, emailPhotoUrlMapping, googleId, sessionToken));
         }
         this.teams = teamsDetails;
     }

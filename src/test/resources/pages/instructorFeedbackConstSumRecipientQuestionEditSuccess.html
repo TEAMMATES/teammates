@@ -20,7 +20,7 @@
               </span>
               Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="FConstSumRecipientQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FConstSumRecipientQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FConstSumRecipientQnUiT.instructor" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="FConstSumRecipientQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FConstSumRecipientQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FConstSumRecipientQnUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
               <span class="glyphicon glyphicon-trash">
               </span>
               Delete
@@ -752,6 +752,7 @@
       <input disabled="" name="fsname" type="hidden" value="First Session">
       <input disabled="" name="courseid" type="hidden" value="FConstSumRecipientQnUiT.CS2104">
       <input disabled="" name="user" type="hidden" value="FConstSumRecipientQnUiT.instructor">
+      <input disabled="" name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <br>
@@ -765,7 +766,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -984,7 +985,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1002,7 +1003,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1026,7 +1027,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1306,6 +1307,7 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="FConstSumRecipientQnUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
@@ -2020,7 +2022,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2038,7 +2040,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2062,7 +2064,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2338,6 +2340,7 @@
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="FConstSumRecipientQnUiT.instructor">
     <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -2360,6 +2363,7 @@
             <input name="fsname" type="hidden" value="First Session">
             <input name="user" type="hidden" value="FConstSumRecipientQnUiT.instructor">
             <input name="courseid" type="hidden" value="FConstSumRecipientQnUiT.CS2104">
+            <input name="token" type="hidden" value="${sessionToken}">
           </form>
           <div id="question-copy-modal-status">
           </div>

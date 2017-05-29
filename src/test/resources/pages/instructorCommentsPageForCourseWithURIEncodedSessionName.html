@@ -172,7 +172,7 @@
         </strong>
       </h4>
       <div class="btn-group pull-right" style="display:none">
-        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfUriCharsCourse&user=comments.idOfInstructorOfCourseWithUriChars" style="margin-right: 17px;" title="" type="button">
+        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfUriCharsCourse&user=comments.idOfInstructorOfCourseWithUriChars&token=${sessionToken}" style="margin-right: 17px;" title="" type="button">
           <span class="badge" style="margin-right: 5px">
             0
           </span>
@@ -361,6 +361,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
               </ul>
@@ -444,6 +445,7 @@
                               <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse">
                               <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#">
                               <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars">
+                              <input name="token" type="hidden" value="${sessionToken}">
                             </form>
                             <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1-1-1-1" onclick="showResponseCommentEditForm(1,1,1,1)" style="display: none;" title="" type="button">
                               <span class="glyphicon glyphicon-pencil glyphicon-primary">
@@ -537,6 +539,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars">
                             <input name="showresponsecommentsto" type="hidden" value="">
                             <input name="showresponsegiverto" type="hidden" value="">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
@@ -623,6 +626,7 @@
                             <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>

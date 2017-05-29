@@ -141,4 +141,5 @@
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>"
         value="<%= FeedbackParticipantType.NONE.toString() %>"
         id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
+    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>
