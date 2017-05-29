@@ -85,18 +85,25 @@ public class FeedbackSessionResponseStatus {
         emailTeamNameTable = new HashMap<String, String>();
     }
 
-    // Return list of students who did not respond to the feedback session.
+    /**
+     * Returns list of students who did not respond to the feedback session
+     * sorted by teamName > studentNamelist.
+     */
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
         Collections.sort(noResponse, compareByTeamNameStudentName);
         return noResponse;
     }
 
-    // Return list of students who did not respond to the feedback session.
+    /**
+     * Returns list of students who did not respond to the feedback session.
+     */
     public List<String> getNoResponse() {
         return noResponse;
     }
 
-    // Return list of students who responded to the feedback session.
+    /**
+     * Returns list of students who responded to the feedback session.
+     */
     public List<String> getStudentsWhoResponded() {
         return studentsWhoResponded;
     }
