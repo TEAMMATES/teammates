@@ -185,6 +185,21 @@ The syntax for the pre-configured settings found below are as follows:
 |-------------------------------|----------------------------------------------------------------------------------------|-------| 
 | `Javascript language version` | `/project/component[@name='JavaScriptSettings']/option[@name='languageLevel'][@value]` | `ES6` | 
 
+### Schemas and DTDs
+
+| Settings Info |                                              |
+|---------------|----------------------------------------------|
+| File name     | `misc.xml`                                   |
+| Settings      | `Languages & Frameworks → Schemas and DTDs`  |
+
+**Parent Node:** `project/component[@name='ProjectResources']`
+
+| IntelliJ Setting             | Node                                                                                 | Value                                                            |
+|------------------------------|--------------------------------------------------------------------------------------|------------------------------------------------------------------|
+| PMD XSD                      | `/resource/[@url='http://pmd.sourceforge.net/ruleset_2_0_0.xsd'][@location]`         | `$PROJECT_DIR$/static-analysis/pmd_ruleset_2_0_0.xsd`            |
+| CheckStyle Configuration DTD | `/resource/[@url='http://www.puppycrawl.com/dtds/configuration_1_3.dtd'][@location]` | `$PROJECT_DIR$/static-analysis/checkstyle_configuration_1_3.dtd` |
+| CheckStyle Suppressions DTD  | `/resource/[@url='http://www.puppycrawl.com/dtds/suppressions_1_1.dtd'][@location]`  | `$PROJECT_DIR$/static-analysis/checkstyle_suppressions_1_1.dtd`  |
+
 ### Project Settings
 
 | Settings Info |                                |
