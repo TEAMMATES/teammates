@@ -17,7 +17,7 @@
                      value="${questionWithResponses.numOfResponseBoxes}">
 
 <div class="form-horizontal">
-    <div class="panel panel-primary<c:if test="${questionWithResponses.question.moderatedQuestion}"> moderated-question</c:if>">
+    <div class="panel panel-primary"<c:if test="${questionWithResponses.question.moderatedQuestion}"> id="moderated-question"</c:if>>
     
         <div class="panel-heading">Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber 
                                                                              : questionWithResponses.question.qnIndx}:

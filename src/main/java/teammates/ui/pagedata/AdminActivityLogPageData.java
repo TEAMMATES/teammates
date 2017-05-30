@@ -54,8 +54,8 @@ public class AdminActivityLogPageData extends PageData {
     private String statusForAjax;
     private QueryParameters q;
 
-    public AdminActivityLogPageData(AccountAttributes account) {
-        super(account);
+    public AdminActivityLogPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
         setDefaultLogSearchPeriod();
     }
 

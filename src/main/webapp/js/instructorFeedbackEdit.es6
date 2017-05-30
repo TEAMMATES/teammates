@@ -9,6 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
+makeCsrfTokenParam:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -81,7 +82,7 @@ function bindFeedbackSessionEditFormSubmission() {
         const $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
-            url: '/page/instructorFeedbackEditSave',
+            url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
             type: 'POST',
             data: $form.serialize(),
             beforeSend() {
@@ -944,6 +945,16 @@ function readyFeedbackEditPage() {
     bindFeedbackSessionEditFormSubmission();
 }
 
+/**
+ * Adds hover event handler on menu options which
+ * toggles a tooltip over the submenu options
+ */
+function setTooltipTriggerOnFeedbackPathMenuOptions() {
+    $('.dropdown-submenu').hover(function () {
+        $(this).children('.dropdown-menu').tooltip('toggle');
+    });
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -968,6 +979,7 @@ $(document).ready(() => {
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
+    setTooltipTriggerOnFeedbackPathMenuOptions();
 });
 
 /* exported

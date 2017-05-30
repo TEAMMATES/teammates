@@ -26,8 +26,8 @@ public class StudentFeedbackResultsPageData extends PageData {
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
 
-    public StudentFeedbackResultsPageData(AccountAttributes account, StudentAttributes student) {
-        super(account, student);
+    public StudentFeedbackResultsPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
+        super(account, student, sessionToken);
     }
 
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {

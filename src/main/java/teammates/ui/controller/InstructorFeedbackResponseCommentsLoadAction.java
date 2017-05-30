@@ -52,7 +52,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsName, roster);
         InstructorFeedbackResponseCommentsLoadPageData data =
                 new InstructorFeedbackResponseCommentsLoadPageData(
-                        account, fsIndex, numberOfPendingComments, instructor, bundle);
+                        account, sessionToken, fsIndex, numberOfPendingComments, instructor, bundle);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 

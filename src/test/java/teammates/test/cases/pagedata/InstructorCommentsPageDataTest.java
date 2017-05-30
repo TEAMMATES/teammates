@@ -46,7 +46,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         ______TS("typical success case");
 
         AccountAttributes account = dataBundle.accounts.get("instructor3");
-        InstructorCommentsPageData data = new InstructorCommentsPageData(account);
+        InstructorCommentsPageData data = new InstructorCommentsPageData(account, dummySessionToken);
 
         boolean isViewingDraft = false;
         boolean isDisplayArchive = false;

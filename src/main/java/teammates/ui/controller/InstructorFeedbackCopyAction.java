@@ -52,7 +52,7 @@ public class InstructorFeedbackCopyAction extends Action {
             //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
-                    new PageData(account).getInstructorFeedbackEditLink(
+                    new PageData(account, sessionToken).getInstructorFeedbackEditLink(
                             fs.getCourseId(), fs.getFeedbackSessionName()));
 
         } catch (EntityAlreadyExistsException e) {

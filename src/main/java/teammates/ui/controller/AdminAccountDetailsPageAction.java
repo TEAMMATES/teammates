@@ -37,7 +37,7 @@ public class AdminAccountDetailsPageAction extends Action {
             studentCourseList = null;
         }
 
-        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation,
+        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, sessionToken, accountInformation,
                                                                            instructorCourseList, studentCourseList);
         statusToAdmin = "adminAccountDetails Page Load<br>"
                 + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";

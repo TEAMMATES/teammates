@@ -607,6 +607,7 @@ public final class Const {
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
 
         public static final String BLOB_KEY = "blob-key";
+        public static final String SESSION_TOKEN = "token";
 
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
         public static final String COPIED_COURSE_ID = "copiedcourseid";
