@@ -1,5 +1,5 @@
 /* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
-/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false prepareComments:false */
+/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false */
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -73,7 +73,6 @@ function attachEventToSendInviteLink() {
 
 $(document).ready(() => {
     prepareInstructorPages();
-    prepareComments();
 
     if ($('#button_sortstudentsection').length) {
         toggleSort($('#button_sortstudentsection'));

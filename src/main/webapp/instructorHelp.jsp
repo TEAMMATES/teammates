@@ -139,22 +139,13 @@
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>
-                            <a href="#addStudentComments">Create comments for student</a>
-                        </li>
-                        <li>
                             <a href="#addResponseComments">Create comments for response</a>
-                        </li>
-                        <li>
-                            <a href="#viewComments">View comments</a>
                         </li>
                         <li>
                             <a href="#editDeleteComments">Edit and delete comments</a>
                         </li>
                         <li>
                             <a href="#searchComments">Search for comments</a>
-                        </li>
-                        <li>
-                            <a href="#notifyComments">Notify students of comments</a>
                         </li>
                     </ul>
                 </div>

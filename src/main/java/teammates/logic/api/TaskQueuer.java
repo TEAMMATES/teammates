@@ -140,20 +140,6 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules for comments notifications (i.e. student has received comment but not yet notified via email)
-     * for students in course {@code courseId}.
-     *
-     * @param courseId the target course ID of the students
-     */
-    public void scheduleCommentsNotificationsForCourse(String courseId) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
-
-        addTask(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME,
-                TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, paramMap);
-    }
-
-    /**
      * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
      * for the specified feedback session.
      *
@@ -274,19 +260,6 @@ public class TaskQueuer {
 
         addTask(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME,
                 TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, paramMap);
-    }
-
-    /**
-     * Schedules putting of comment document in index.
-     *
-     * @param commentId the ID of comment to be put in index
-     */
-    public void scheduleSearchableDocumentsProductionForComments(String commentId) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.COMMENT_ID, commentId);
-
-        addTask(TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME,
-                TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL, paramMap);
     }
 
     /**
