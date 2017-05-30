@@ -14,8 +14,6 @@ import java.util.TreeSet;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -23,7 +21,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
@@ -40,7 +37,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     private FeedbackResponsesLogic responsesLogic = FeedbackResponsesLogic.inst();
-    private CommentsLogic commentsLogic = CommentsLogic.inst();
 
     public static void main(String[] args) throws IOException {
         RepairTeamNameInStudentResponseAndCommentAttributes migrator =
@@ -66,23 +62,18 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             int numberOfStudentsWithExtraSpacesInTeamName = removeExtraSpacesInStudents(allStudents);
             Map<String, Set<String>> courseTeamListMap = createCourseTeamNameList(allStudents);
             int numberOfReponsesWithExtraSpacesInRecipient = removeExtraSpacesInResponses(courseTeamListMap);
-            int numberOfCommentsWithExtraSpacesInRecipient = removeExtraSpacesInComments(courseTeamListMap);
 
             if (isPreview) {
                 System.out.println("There are/is " + numberOfStudentsWithExtraSpacesInTeamName
                                    + "/" + totalNumberOfStudents + " student(s) with extra spaces in team name!");
                 System.out.println("There are/is " + numberOfReponsesWithExtraSpacesInRecipient
                                    + " response(s) with extra spaces in recipient and/or giver!");
-                System.out.println("There are/is " + numberOfCommentsWithExtraSpacesInRecipient
-                                   + " comment(s) with extra spaces in recipient!");
 
             } else {
                 System.out.println(numberOfStudentsWithExtraSpacesInTeamName
                                    + "/" + totalNumberOfStudents + " student(s) have been fixed!");
                 System.out.println(numberOfReponsesWithExtraSpacesInRecipient
                                    + " response(s) have been fixed!");
-                System.out.println(numberOfCommentsWithExtraSpacesInRecipient
-                                   + " comment(s) have been fixed!");
                 System.out.println("Extra space removing done!");
             }
         } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
@@ -138,19 +129,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     }
 
     /**
-     * Concatenates strings with extra spaces in the set.
-     */
-    private String extractStringsWithExtraSpace(Set<String> set) {
-        StringBuilder result = new StringBuilder();
-        for (String s : set) {
-            if (hasExtraSpaces(s)) {
-                result.append(s).append(' ');
-            }
-        }
-        return result.toString();
-    }
-
-    /**
      * Previews or removes extra spaces in team name of students.
      * @return the number of students with extra spaces in team name.
      */
@@ -173,45 +151,6 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
             }
         }
         return numberOfStudentsWithExtraSpacesInTeamName;
-    }
-
-    /**
-     * Previews or removes extra spaces in recipients of comments.
-     * @return the number of comments with extra spaces in recipients.
-     */
-    private int removeExtraSpacesInComments(Map<String, Set<String>> courseTeamListMap)
-                    throws InvalidParametersException, EntityDoesNotExistException {
-        int numberOfCommentWithExtraSpacesInRecipient = 0;
-
-        for (Entry<String, Set<String>> entry : courseTeamListMap.entrySet()) {
-            String courseId = entry.getKey();
-            Set<String> teamNameList = entry.getValue();
-            for (String teamName : teamNameList) {
-                List<CommentAttributes> comments = commentsLogic.getCommentsForReceiver(
-                                                                    courseId, CommentParticipantType.TEAM, teamName);
-                numberOfCommentWithExtraSpacesInRecipient += removeExtraSpacesInComments(comments);
-            }
-        }
-
-        return numberOfCommentWithExtraSpacesInRecipient;
-    }
-
-    private int removeExtraSpacesInComments(List<CommentAttributes> comments)
-                    throws InvalidParametersException, EntityDoesNotExistException {
-        int numberOfCommentWithExtraSpacesInRecipient = 0;
-        for (CommentAttributes comment : comments) {
-            numberOfCommentWithExtraSpacesInRecipient++;
-            if (isPreview) {
-                String recipientsWithExtraSpace = extractStringsWithExtraSpace(comment.recipients);
-                System.out.println(numberOfCommentWithExtraSpacesInRecipient
-                                   + ". \"" + recipientsWithExtraSpace + "\""
-                                   + "courseId: " + comment.courseId);
-            } else {
-                comment.recipients = StringHelper.removeExtraSpace(comment.recipients);
-                commentsLogic.updateComment(comment);
-            }
-        }
-        return numberOfCommentWithExtraSpacesInRecipient;
     }
 
     /**

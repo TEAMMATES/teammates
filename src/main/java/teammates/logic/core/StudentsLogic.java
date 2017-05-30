@@ -38,7 +38,6 @@ public final class StudentsLogic {
 
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -212,11 +211,6 @@ public final class StudentsLogic {
                                 || !validator.getInvalidityInfoForEmail(student.email).isEmpty()
                             ? originalEmail
                             : student.email;
-
-        // cascade email changes to comments
-        if (!originalStudent.email.equals(finalEmail)) {
-            commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
-        }
 
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
@@ -473,7 +467,6 @@ public final class StudentsLogic {
     public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
-        commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
