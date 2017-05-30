@@ -20,6 +20,11 @@ import teammates.test.driver.TestProperties;
 public class BaseTestCase {
 
     /**
+     * Dummy session token for use in tests that depend on, but don't use, it (e.g. page data tests).
+     */
+    protected static final String dummySessionToken = null;
+
+    /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
      *

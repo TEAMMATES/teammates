@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <% response.setStatus(403);%>
 <t:errorPage>
@@ -15,6 +16,9 @@
                 </li>
                 <li>
                     Enable the HTTP referrer setting in your browser if you previously disabled it.
+                </li>
+                <li>
+                    Enable cookies in your browser.
                 </li>
             </ul>
             <br>

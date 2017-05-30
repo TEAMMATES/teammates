@@ -11,8 +11,8 @@ public class StudentProfilePageData extends PageData {
     private StudentProfileEditBox profileEditBox;
     private StudentProfileUploadPhotoModal uploadPhotoModal;
 
-    public StudentProfilePageData(AccountAttributes account, String isEditingPhoto) {
-        super(account);
+    public StudentProfilePageData(AccountAttributes account, String sessionToken, String isEditingPhoto) {
+        super(account, sessionToken);
         StudentProfileAttributes profile = account.studentProfile;
         String pictureUrl;
         if (profile.pictureKey.isEmpty()) {

@@ -25,16 +25,20 @@ public final class HtmlHelper {
 
     private static final String INDENTATION_STEP = "  ";
 
+    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI = "[A-F0-9]{32,}";
+    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32 = "[A-F0-9]{32}";
+
     private static final String REGEX_CONTINUE_URL = ".*?";
-    private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
+    private static final String REGEX_ENCRYPTED_COURSE_ID = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
+    private static final String REGEX_ENCRYPTED_REGKEY = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
+    private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
 
     private HtmlHelper() {
         // utility class
@@ -438,6 +442,15 @@ public final class HtmlHelper {
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
                                   "\\${admin\\.institute}")
+                      // sessionToken in form inputs
+                      .replaceAll("( type=\"hidden\"|"
+                                   + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
+                                   + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
+                                   " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
+                                   + " type=\"hidden\" value=\"\\${sessionToken}\"")
+                      // sessionToken in URL parameters
+                      .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
+                                  "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
                       // top HTML tag with xmlns defined
                       // TODO check if this is necessary
                       .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")

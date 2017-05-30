@@ -27,12 +27,12 @@ public class InstructorStudentRecordsPageData extends PageData {
     private List<CommentsForStudentsTable> commentsForStudentTable;
     private List<String> sessionNames;
 
-    public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student,
+    public InstructorStudentRecordsPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                             String courseId, String showCommentBox, StudentProfileAttributes spa,
                                             Map<String, List<CommentAttributes>> giverEmailToCommentsMap,
                                             Map<String, String> giverEmailToGiverNameMap,
                                             List<String> sessionNames, InstructorAttributes instructor) {
-        super(account, student);
+        super(account, student, sessionToken);
         this.courseId = courseId;
         this.studentName = student.name;
         this.studentEmail = student.email;

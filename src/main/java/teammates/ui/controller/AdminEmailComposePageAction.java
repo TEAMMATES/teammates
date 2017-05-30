@@ -12,7 +12,7 @@ public class AdminEmailComposePageAction extends Action {
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, sessionToken);
 
         String idOfEmailToEdit = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
 

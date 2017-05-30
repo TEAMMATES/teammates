@@ -172,7 +172,7 @@
         </strong>
       </h4>
       <div class="btn-group pull-right" style="display:none">
-        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfHelperOfCourse1" style="margin-right: 17px;" title="" type="button">
+        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfHelperOfCourse1&token=${sessionToken}" style="margin-right: 17px;" title="" type="button">
           <span class="badge" style="margin-right: 5px">
             0
           </span>
@@ -327,6 +327,7 @@
                     <input name="showgiverto" type="hidden" value="">
                     <input name="showrecipientto" type="hidden" value="">
                     <input name="user" type="hidden" value="comments.idOfHelperOfCourse1">
+                    <input name="token" type="hidden" value="${sessionToken}">
                   </form>
                 </li>
               </ul>
