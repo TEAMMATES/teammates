@@ -72,12 +72,22 @@ function addRubricCol(questionNum) {
                 <input type="text" class="col-sm-12 form-control" value=""
                         id="rubricChoice-${questionNum}-${newColNumber - 1}"
                         name="rubricChoice-${newColNumber - 1}">
+                <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}" data-toggle="tooltip" 
+                    data-placement="top" title="Move column to left" 
+                    onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, -1)">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                </span>
                 <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}"
                         id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
                         onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
                         onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)"
                         onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
                     <span class="glyphicon glyphicon-remove"></span>
+                </span>
+                <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}" data-toggle="tooltip"
+                    data-placement="top" title="Move column to right" 
+                    onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, 1)">
+                    <span class="glyphicon glyphicon-arrow-right"></span>
                 </span>
             </div>
         </th>`;
@@ -177,6 +187,43 @@ function removeRubricCol(index, questionNum) {
     BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
                                          BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
                                          StatusType.WARNING);
+}
+
+function swapRubricCol(colIndex, questionNum, offset) {
+    const $thisCol = $(`.rubricCol-${questionNum}-${colIndex}`);
+    const numberOfCols = $thisCol.first().parent().children().length - 1;
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
+    const swapColIndex = colIndex + offset;
+
+    if (colIndex >= 0 && colIndex < numberOfCols && swapColIndex >= 0 && swapColIndex < numberOfCols
+        && colIndex !== swapColIndex) {
+        // swap rubric choices
+        let $currentCell = $(`#rubricChoice-${questionNum}-${colIndex}`);
+        let $swapCell = $(`#rubricChoice-${questionNum}-${swapColIndex}`);
+        let temp = $currentCell.val();
+
+        $currentCell.val($swapCell.val());
+        $swapCell.val(temp);
+
+        // swap rubric weights
+        $currentCell = $(`#rubricWeight-${questionNum}-${colIndex}`);
+        $swapCell = $(`#rubricWeight-${questionNum}-${swapColIndex}`);
+        temp = $currentCell.val();
+        $currentCell.val($swapCell.val());
+        $swapCell.val(temp);
+
+        // swap options filled
+        for (let row = 0; row < numberOfRows; row += 1) {
+            $currentCell = $(`#rubricDesc-${questionNum}-${row}-${colIndex}`);
+            $swapCell = $(`#rubricDesc-${questionNum}-${row}-${swapColIndex}`);
+            temp = $currentCell.val();
+            $currentCell.val($swapCell.val());
+            $swapCell.val(temp);
+        }
+    } else {
+        // invalid swap
+        // TODO : somehow warn user
+    }
 }
 
 function highlightRubricRow(index, questionNum, highlight) {
