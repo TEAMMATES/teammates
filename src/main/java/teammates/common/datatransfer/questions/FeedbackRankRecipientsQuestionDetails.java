@@ -206,7 +206,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             if (showAvgExcludingSelf) {
                 List<Integer> ranksExcludingSelf = recipientRanksExcludingSelf.get(entry.getKey());
                 if (ranksExcludingSelf != null) {
-                    averageExcludingSelf = computeAverage(ranksExcludingSelf);   
+                    averageExcludingSelf = computeAverage(ranksExcludingSelf);
                 }
             }
 
@@ -264,7 +264,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             if (showAvgExcludingSelf) {
                 List<Integer> ranksExcludingSelf = recipientRanksExcludingSelf.get(entry.getKey());
                 if (ranksExcludingSelf != null) {
-                    averageExcludingSelf = computeAverage(ranksExcludingSelf);   
+                    averageExcludingSelf = computeAverage(ranksExcludingSelf);
                 }
             }
 
