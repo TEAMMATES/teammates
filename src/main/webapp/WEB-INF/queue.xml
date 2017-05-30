@@ -88,21 +88,6 @@
     </queue>
 
     <queue>
-        <name>pending-comment-cleared-email-queue</name>
-        <!-- Configuration allows for comments notifications for 1 course to be queued for execution every second when the bucket is empty -->
-        <rate>1/s</rate>
-        <bucket-size>1</bucket-size>
-    </queue>
-    
-    <queue>
-        <name>put-comment-document-queue</name>
-        <!-- Configuration allows for 5 documents to be queued when the bucket is not full -->
-        <rate>5/s</rate>
-        <bucket-size>10</bucket-size>
-    </queue>
-    
-
-    <queue>
         <name>send-email-queue</name>
         <!-- Configuration allows for 20 emails to be queued when the bucket is not full -->
         <rate>10/s</rate>

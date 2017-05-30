@@ -9,7 +9,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -57,11 +56,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return backDoorLogic.getAccount(account.googleId);
-    }
-
-    @Override
-    protected CommentAttributes getComment(CommentAttributes comment) {
-        return backDoorLogic.getComment(comment);
     }
 
     @Override

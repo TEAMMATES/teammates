@@ -4,7 +4,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -54,9 +53,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private EntityAttributes<?> getEntity(EntityAttributes<?> expected) {
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
-
-        } else if (expected instanceof CommentAttributes) {
-            return getComment((CommentAttributes) expected);
 
         } else if (expected instanceof CourseAttributes) {
             return getCourse((CourseAttributes) expected);
@@ -112,14 +108,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             AccountAttributes actualAccount = (AccountAttributes) actual;
             equalizeIrrelevantData(expectedAccount, actualAccount);
             assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
-
-        } else if (expected instanceof CommentAttributes) {
-            CommentAttributes expectedComment = (CommentAttributes) expected;
-            CommentAttributes actualComment = (CommentAttributes) actual;
-            assertEquals(expectedComment.courseId, actualComment.courseId);
-            assertEquals(expectedComment.giverEmail, actualComment.giverEmail);
-            assertEquals(expectedComment.recipients, actualComment.recipients);
-            assertEquals(expectedComment.commentText, actualComment.commentText);
 
         } else if (expected instanceof CourseAttributes) {
             CourseAttributes expectedCourse = (CourseAttributes) expected;
@@ -186,8 +174,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
         }
     }
-
-    protected abstract CommentAttributes getComment(CommentAttributes comment);
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);
 

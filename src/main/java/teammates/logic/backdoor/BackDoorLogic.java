@@ -15,7 +15,6 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -33,7 +32,6 @@ import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.AdminEmailsDb;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -48,7 +46,6 @@ import teammates.storage.api.StudentsDb;
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
@@ -160,9 +157,6 @@ public class BackDoorLogic extends Logic {
         }
         fcDb.createFeedbackResponseComments(responseComments.values());
 
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        commentsDb.createComments(comments.values());
-
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
         for (AdminEmailAttributes email : adminEmails.values()) {
             adminEmailsDb.createAdminEmail(email);
@@ -240,12 +234,6 @@ public class BackDoorLogic extends Logic {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
                     responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
             fcDb.putDocument(fcInDb);
-        }
-
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        for (CommentAttributes comment : comments.values()) {
-            CommentAttributes commentInDb = commentsDb.getComment(comment);
-            commentsDb.putDocument(commentInDb);
         }
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
@@ -455,7 +443,6 @@ public class BackDoorLogic extends Logic {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
-            commentsDb.deleteCommentsForCourses(courseIds);
             fbDb.deleteFeedbackSessionsForCourses(courseIds);
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);

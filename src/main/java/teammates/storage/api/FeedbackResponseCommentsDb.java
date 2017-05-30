@@ -17,7 +17,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -230,7 +229,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
 
         frc.setCommentText(newAttributes.commentText);
-        frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
         frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
@@ -295,35 +293,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /*
-     * Get response comments for a sending state (SENT|SENDING|PENDING)
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-            String courseId, String sessionName, CommentSendingState state) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, state);
-
-        return makeAttributes(getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state));
-    }
-
-    /*
-     * Update response comments from old state to new state
-     */
-    public void updateFeedbackResponseComments(
-            String courseId, String feedbackSessionName, CommentSendingState oldState, CommentSendingState newState) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        List<FeedbackResponseComment> comments =
-                getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
-
-        for (FeedbackResponseComment comment : comments) {
-            comment.setSendingState(newState);
-        }
-
-        saveEntities(comments);
-    }
-
-    /*
      * Create or update search document for the given comment
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
@@ -372,15 +341,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .filter("createdAt =", createdAt)
                 .filter("giverEmail =", giverEmail)
                 .first().now();
-    }
-
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForSendingState(
-            String courseId, String feedbackSessionName, CommentSendingState state) {
-        return load()
-                .filter("courseId =", courseId)
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("sendingState =", state.toString())
-                .list();
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {

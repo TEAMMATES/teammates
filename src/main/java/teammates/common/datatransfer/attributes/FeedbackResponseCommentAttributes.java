@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -31,7 +30,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     /* Response receiver section */
     public String receiverSection;
     public String feedbackResponseId;
-    public transient CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
@@ -98,7 +96,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
@@ -156,7 +153,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                feedbackResponseId, sendingState, createdAt, commentText, giverSection, receiverSection,
+                feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 
