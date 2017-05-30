@@ -14,7 +14,6 @@ import javax.jdo.Query;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -302,7 +301,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
 
         frc.setCommentText(newAttributes.commentText);
-        frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
         frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
@@ -365,45 +363,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         log.info("updating last editor email from: " + oldEmail + " to: " + updatedEmail
                  + " for feedback response comments in the course: " + courseId);
-        getPm().close();
-    }
-
-    /*
-     * Get response comments for a sending state (SENT|SENDING|PENDING)
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId,
-                                                           String sessionName, CommentSendingState state) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, state);
-
-        List<FeedbackResponseComment> frcList =
-                getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(new FeedbackResponseCommentAttributes(frc));
-            }
-        }
-
-        return resultList;
-    }
-
-    /*
-     * Update response comments from old state to new state
-     */
-    public void updateFeedbackResponseComments(String courseId, String feedbackSessionName,
-                                               CommentSendingState oldState, CommentSendingState newState) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        List<FeedbackResponseComment> frcList =
-                getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
-
-        for (FeedbackResponseComment frComment : frcList) {
-            frComment.setSendingState(newState);
-        }
-
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPm().close();
     }
 
@@ -543,20 +502,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackResponseComment> feedbackResponseCommentList =
                 (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
-
-        return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
-    }
-
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForSendingState(String courseId,
-                                                  String feedbackSessionName, CommentSendingState state) {
-        Query q = getPm().newQuery(FeedbackResponseComment.class);
-        q.declareParameters("String courseIdParam, String fsNameParam, String sendingStateParam");
-        q.setFilter("courseId == courseIdParam && feedbackSessionName == fsNameParam "
-                + "&& sendingState == sendingStateParam");
-
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> feedbackResponseCommentList =
-                (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, state.toString());
 
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }

@@ -54,7 +54,6 @@ public final class CoursesLogic {
     private static final CoursesDb coursesDb = new CoursesDb();
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -620,7 +619,6 @@ public final class CoursesLogic {
     public void deleteCourseCascade(String courseId) {
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
-        commentsLogic.deleteCommentsForCourse(courseId);
         feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
         coursesDb.deleteCourse(courseId);
     }
