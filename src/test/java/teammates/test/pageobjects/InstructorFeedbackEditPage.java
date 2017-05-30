@@ -111,18 +111,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "recipienttype-" + NEW_QUESTION_NUM)
     private WebElement recipientDropdownForNewQuestion;
 
-    @FindBy(id = "givertype-1")
-    private WebElement giverDropdownForQuestion1;
-
-    @FindBy(id = "recipienttype-1")
-    private WebElement recipientDropdownForQuestion1;
-
-    @FindBy(id = "questionedittext-1")
-    private WebElement questionEditForQuestion1;
-
-    @FindBy(id = "questionsavechangestext-1")
-    private WebElement questionSaveForQuestion1;
-
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='max']")
     private WebElement maxNumOfRecipients;
 
@@ -410,9 +398,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, description);
     }
 
-    public void clickQuestionEditForQuestion1() {
-        waitForElementToBeClickable(questionEditForQuestion1);
-        click(questionEditForQuestion1);
+    public void clickQuestionEditForQuestion(int qnNumber) {
+        WebElement qnEdit = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
+        waitForElementToBeClickable(qnEdit);
+        click(qnEdit);
     }
 
     public void clickMaxNumberOfRecipientsButton() {
@@ -518,11 +507,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickSaveSessionButton() {
         click(fsSaveLink);
-        waitForPageToLoad();
-    }
-
-    public void clickquestionSaveForQuestion1() {
-        click(questionSaveForQuestion1);
         waitForPageToLoad();
     }
 
@@ -783,12 +767,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectConstSumPointsOptions(pointsOption, NEW_QUESTION_NUM);
     }
 
-    public String getGiverTypeForQuestion1() {
-        return giverDropdownForQuestion1.getAttribute("value");
+    public String getGiverTypeForQuestion(int qnNumber) {
+        WebElement giverDropdownForQuestion = browser.driver.findElement(By.id("givertype-" + qnNumber));
+        return giverDropdownForQuestion.getAttribute("value");
     }
 
-    public String getRecipientTypeForQuestion1() {
-        return recipientDropdownForQuestion1.getAttribute("value");
+    public String getRecipientTypeForQuestion(int qnNumber) {
+        WebElement recipientDropdownForQuestion = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
+        return recipientDropdownForQuestion.getAttribute("value");
     }
 
     public void selectRecipientTypeForNewQuestion(String recipientType) {
