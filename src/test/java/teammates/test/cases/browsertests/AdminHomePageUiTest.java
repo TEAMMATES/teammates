@@ -27,7 +27,6 @@ import teammates.test.pageobjects.InstructorCoursesPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
-import teammates.test.pageobjects.StudentCommentsPage;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -212,8 +211,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("new instructor can access sample course students page");
         coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
-        ______TS("new instructor can access sample course comments page");
-        coursesPage.loadInstructorCommentsTab().verifyHtmlMainContent("/newlyJoinedInstructorCommentsPage.html");
 
         ______TS("new instructor can view feedbackSession result of sample course");
         coursesPage.loadInstructorHomeTab();
@@ -307,11 +304,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         fsp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackSubmissionEdit.html");
 
         studentHomePage = fsp.loadStudentHomeTab();
-        StudentCommentsPage scp = studentHomePage.loadStudentCommentsTab();
-        scp.verifyHtmlMainContent("/newlyJoinedInstructorStudentCommentsPage.html");
-
-        studentHomePage = scp.loadStudentHomeTab();
-
         StudentProfilePage spp = studentHomePage.loadProfileTab();
         spp.verifyContains("Student Profile");
         spp.verifyContains("AHPUiT Instrúctör WithPlusInEmail");

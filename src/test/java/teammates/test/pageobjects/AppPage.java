@@ -67,10 +67,7 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     private WebElement instructorStudentsTab;
 
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
-    private WebElement instructorCommentsTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
     private WebElement instructorHelpTab;
 
     @FindBy(id = "studentHomeNavLink")
@@ -78,9 +75,6 @@ public abstract class AppPage {
 
     @FindBy(id = "studentProfileNavLink")
     private WebElement studentProfileTab;
-
-    @FindBy(id = "studentCommentsNavLink")
-    private WebElement studentCommentsTab;
 
     @FindBy(id = "studentHelpLink")
     private WebElement studentHelpTab;
@@ -415,16 +409,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public InstructorCommentsPage loadInstructorCommentsTab() {
-        click(instructorCommentsTab);
-        waitForPageToLoad();
-        return changePageType(InstructorCommentsPage.class);
-    }
-
-    /**
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
      */
@@ -442,16 +426,6 @@ public abstract class AppPage {
         click(studentHomeTab);
         waitForPageToLoad();
         return changePageType(StudentHomePage.class);
-    }
-
-    /**
-     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page
-     */
-    public StudentCommentsPage loadStudentCommentsTab() {
-        click(studentCommentsTab);
-        waitForPageToLoad();
-        return changePageType(StudentCommentsPage.class);
     }
 
     /**

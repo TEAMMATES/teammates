@@ -2,7 +2,6 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -86,7 +85,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("Null show comments and show giver permissions");
 
@@ -105,7 +103,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("Empty show comments and show giver permissions");
 
@@ -126,7 +123,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("Typical successful case for unpublished session public to various recipients");
 
@@ -146,7 +142,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -164,7 +159,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -182,7 +176,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -200,7 +193,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -218,7 +210,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -236,7 +227,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("Non-existent feedback response comment id");
 
@@ -278,7 +268,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("Typical successful case for published session");
 
@@ -306,7 +295,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
 
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.PENDING, data.comment.sendingState);
 
         ______TS("Unsuccessful case: empty comment text");
 

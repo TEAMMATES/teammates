@@ -2,7 +2,6 @@ package teammates.test.cases;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -36,11 +35,6 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
                 return getAccount(googleId);
             }
         });
-    }
-
-    @Override
-    protected CommentAttributes getComment(CommentAttributes comment) {
-        throw new UnsupportedOperationException("Method not used");
     }
 
     protected CourseAttributes getCourse(String courseId) {

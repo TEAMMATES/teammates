@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -74,10 +73,6 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        //Edit sending state
-        if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
-            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
-        }
 
         try {
             FeedbackResponseCommentAttributes updatedComment =
@@ -102,14 +97,6 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         data.comment = feedbackResponseComment;
 
         return createAjaxResult(data);
-    }
-
-    private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
-                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
-                    || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
     }
 
     private void verifyAccessibleForInstructorToFeedbackResponseComment(

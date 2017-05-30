@@ -37,24 +37,6 @@
                   style="margin-left: 5px;"
                   title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
         </c:if>
-        <c:if test="${frc.withNotificationIcon}">
-            <span class="glyphicon glyphicon-bell"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="This comment is pending to notify recipients"></span>
-        </c:if>
-        <c:if test="${frc.withLinkToCommentsPage}">
-            <a type="button"
-               href="${frc.linkToCommentsPage}"
-               target="_blank" rel="noopener noreferrer"
-               class="btn btn-default btn-xs icon-button pull-right"
-               data-toggle="tooltip"
-               data-placement="top"
-               title="Edit comment in the Comments page"
-               style="display:none;">
-                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-            </a>
-        </c:if>
         <c:if test="${frc.editDeleteEnabled}">
             <form class="responseCommentDeleteForm pull-right">
                 <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
