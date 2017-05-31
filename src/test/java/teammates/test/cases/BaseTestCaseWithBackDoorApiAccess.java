@@ -140,4 +140,18 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.putDocuments(testData);
     }
 
+    @Override
+    protected String persistStudentToDataStore(StudentAttributes student) {
+        return BackDoor.createStudent(student);
+    }
+
+    @Override
+    protected String persistFeedbackQuestionToDataStore(FeedbackQuestionAttributes question) {
+        return BackDoor.createFeedbackQuestion(question);
+    }
+
+    @Override
+    protected String persistFeedbackResponseToDataStore(FeedbackResponseAttributes feedbackResponse) {
+        return BackDoor.createFeedbackResponse(feedbackResponse);
+    }
 }

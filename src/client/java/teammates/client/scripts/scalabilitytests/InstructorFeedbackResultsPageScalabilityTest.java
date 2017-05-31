@@ -14,7 +14,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
-import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**

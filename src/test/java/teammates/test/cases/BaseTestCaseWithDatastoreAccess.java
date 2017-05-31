@@ -263,15 +263,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
     protected abstract String doPutDocuments(DataBundle testData);
 
-    protected void persistStudentToDataStore(StudentAttributes student) {
-        BackDoor.createStudent(student);
-    }
+    protected abstract String persistStudentToDataStore(StudentAttributes student);
 
-    protected void persistFeedbackQuestionToDataStore(FeedbackQuestionAttributes question) {
-        BackDoor.createFeedbackQuestion(question);
-    }
+    protected abstract String persistFeedbackQuestionToDataStore(FeedbackQuestionAttributes question);
 
-    protected void persistFeedbackResponseToDataStore(FeedbackResponseAttributes feedbackResponse) {
-        BackDoor.createFeedbackResponse(feedbackResponse);
-    }
+    protected abstract String persistFeedbackResponseToDataStore(FeedbackResponseAttributes feedbackResponse);
 }
