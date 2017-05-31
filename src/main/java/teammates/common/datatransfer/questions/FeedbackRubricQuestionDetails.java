@@ -425,6 +425,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableBodyHtml.append(tableRow).append(Const.EOL);
         }
 
+        // Create rubric column options as the last row of the table
+        StringBuilder rubricColumnOptionsFragments = new StringBuilder();
+        String tableOptionsTemplate = FormTemplates.RUBRIC_EDIT_FORM_TABLE_OPTIONS;
+        String tableOptionsFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_TABLE_OPTIONS_FRAGMENT;
+
+        for (int i = 0; i < numOfRubricChoices; ++i) {
+            String tableBodyCell = Templates.populateTemplate(tableOptionsFragmentTemplate, 
+                    Slots.QUESTION_INDEX, questionNumberString,
+                    Slots.COL, Integer.toString(i),
+                    Slots.ROW, Integer.toString(11)); // Considering the options row to be row number 11. Removable?
+            rubricColumnOptionsFragments.append(tableBodyCell).append(Const.EOL);
+        }
+        
+        String tableOptions = Templates.populateTemplate(tableOptionsTemplate, 
+                Slots.RUBRIC_TABLE_OPTIONS_FRAGMENT, rubricColumnOptionsFragments.toString());
+
+        StringBuilder tableOptionsHtml = new StringBuilder().append(tableOptions).append(Const.EOL);
+
         // Create edit form
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_EDIT_FORM,
@@ -438,7 +456,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.RUBRIC_PARAM_NUM_COLS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS,
                 Slots.CHECK_ASSIGN_WEIGHTS, hasAssignedWeights ? "checked" : "",
                 Slots.RUBRIC_TOOLTIPS_ASSIGN_WEIGHTS, Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS,
-                Slots.RUBRIC_PARAM_ASSIGN_WEIGHTS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
+                Slots.RUBRIC_PARAM_ASSIGN_WEIGHTS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED,
+                Slots.RUBRIC_TABLE_OPTIONS, tableOptionsHtml.toString()); // resume here! fix compilation errors
     }
 
     @Override

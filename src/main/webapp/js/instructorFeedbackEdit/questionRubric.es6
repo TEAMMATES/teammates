@@ -46,7 +46,7 @@ function addRubricRow(questionNum) {
         </tr>`;
 
     // Row to insert new row after
-    const lastRow = $(`#rubricEditTable-${questionNum} tr:last`);
+    const lastRow = $(`#rubricEditTable-${questionNum} tbody tr:nth-last-child(2)`);
     $(newRubricRow).insertAfter(lastRow);
 
     // Increment
@@ -68,18 +68,9 @@ function addRubricCol(questionNum) {
     // Insert header <th>
     const rubricHeaderFragment =
         `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
-            <div class="input-group">
-                <input type="text" class="col-sm-12 form-control" value=""
-                        id="rubricChoice-${questionNum}-${newColNumber - 1}"
-                        name="rubricChoice-${newColNumber - 1}">
-                <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionNum}"
-                        id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
-                        onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
-                        onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)"
-                        onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </span>
-            </div>
+            <input type="text" class="col-sm-12 form-control" value=""
+                    id="rubricChoice-${questionNum}-${newColNumber - 1}"
+                    name="rubricChoice-${newColNumber - 1}">
         </th>`;
 
     // Insert after last <th>
@@ -117,6 +108,26 @@ function addRubricCol(questionNum) {
         const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
         $(rubricRowFragment).insertAfter(lastTd);
     }
+    
+    // Add options row at the end
+    const optionsRow = 
+        `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l" onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, -1)">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                </button>
+                <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}" onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
+                    onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)" onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r" onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, 1)">
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </td>`
+
+    const lastTd = $(`#rubricOptionsRow-${questionNum} td:last`);
+    $(optionsRow).insertAfter(lastTd);
 
     // Increment
     $(`#rubricNumCols-${questionNum}`).val(newColNumber);
@@ -177,6 +188,43 @@ function removeRubricCol(index, questionNum) {
     BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
                                          BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
                                          StatusType.WARNING);
+}
+
+function swapRubricCol(colIndex, questionNum, offset) {
+    const $thisCol = $(`.rubricCol-${questionNum}-${colIndex}`);
+    const numberOfCols = $thisCol.first().parent().children().length - 1;
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
+    const swapColIndex = colIndex + offset;
+
+    if (colIndex >= 0 && colIndex < numberOfCols && swapColIndex >= 0 && swapColIndex < numberOfCols
+        && colIndex !== swapColIndex) {
+        // swap rubric choices
+        let $currentCell = $(`#rubricChoice-${questionNum}-${colIndex}`);
+        let $swapCell = $(`#rubricChoice-${questionNum}-${swapColIndex}`);
+        let temp = $currentCell.val();
+
+        $currentCell.val($swapCell.val());
+        $swapCell.val(temp);
+
+        // swap rubric weights
+        $currentCell = $(`#rubricWeight-${questionNum}-${colIndex}`);
+        $swapCell = $(`#rubricWeight-${questionNum}-${swapColIndex}`);
+        temp = $currentCell.val();
+        $currentCell.val($swapCell.val());
+        $swapCell.val(temp);
+
+        // swap options filled
+        for (let row = 0; row < numberOfRows; row += 1) {
+            $currentCell = $(`#rubricDesc-${questionNum}-${row}-${colIndex}`);
+            $swapCell = $(`#rubricDesc-${questionNum}-${row}-${swapColIndex}`);
+            temp = $currentCell.val();
+            $currentCell.val($swapCell.val());
+            $swapCell.val(temp);
+        }
+    } else {
+        // invalid swap
+        // TODO : somehow warn user
+    }
 }
 
 function highlightRubricRow(index, questionNum, highlight) {

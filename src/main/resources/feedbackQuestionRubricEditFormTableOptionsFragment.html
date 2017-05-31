@@ -1,0 +1,14 @@
+<td class="align-center rubricCol-${questionIndex}-${col}">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionIndex}-${col}-l" onclick="swapRubricCol(${col}, ${questionIndex}, -1)">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
+        <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionIndex}-${col}" onclick="removeRubricCol(${col}, ${questionIndex})"
+            onmouseover="highlightRubricCol(${col}, ${questionIndex}, true)" onmouseout="highlightRubricCol(${col}, ${questionIndex}, false)">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionIndex}-${col}-r" onclick="swapRubricCol(${col}, ${questionIndex}, 1)">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+    </div>
+</td>
