@@ -335,8 +335,8 @@ public class AdminActivityLogPageAction extends Action {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
         }
         if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
-            String coureseId = logRole.split(":")[1];
-            return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
+            String courseId = logRole.split(":")[1];
+            return getLocalTimeZoneForUnregisteredUserRequest(courseId);
         }
 
         return Const.DOUBLE_UNINITIALIZED;
