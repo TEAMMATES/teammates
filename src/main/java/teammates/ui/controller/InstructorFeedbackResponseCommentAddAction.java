@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -49,7 +48,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
         InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account);
+                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         String giverEmail = response.giver;
         String recipientEmail = response.recipient;
@@ -95,11 +94,6 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             }
         }
 
-        //Set up sending state
-        if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
-            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
-        }
-
         FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
@@ -128,11 +122,4 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
-    private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
-             || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
-             || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
-    }
 }

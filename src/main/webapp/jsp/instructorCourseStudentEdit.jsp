@@ -11,6 +11,7 @@
     <csde:studentInformationTable
         studentInfoTable="${data.studentInfoTable}"
         newEmail="${data.newEmail}"
-        openOrPublishedEmailSentForTheCourse="${data.openOrPublishedEmailSentForTheCourse}" />
+        openOrPublishedEmailSentForTheCourse="${data.openOrPublishedEmailSentForTheCourse}"
+        sessionToken="${data.sessionToken}" />
     <br><br>
 </ti:instructorPage>

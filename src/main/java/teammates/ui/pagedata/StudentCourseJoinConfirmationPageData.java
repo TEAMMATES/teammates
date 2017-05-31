@@ -10,10 +10,10 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     private boolean nextUrlAccessibleWithoutLogin;
     private String courseId;
 
-    public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student,
+    public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                                  String confirmUrl, String logoutUrl, boolean redirectResult,
                                                  String courseId, boolean nextUrlAccessibleWithoutLogin) {
-        super(account, student);
+        super(account, student, sessionToken);
         this.confirmUrl = confirmUrl;
         this.logoutUrl = logoutUrl;
         this.redirectResult = redirectResult;

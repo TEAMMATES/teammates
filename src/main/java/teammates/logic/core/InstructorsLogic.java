@@ -29,7 +29,6 @@ public final class InstructorsLogic {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -235,7 +234,6 @@ public final class InstructorsLogic {
         }
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
-            commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
             frcLogic.updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
         }
@@ -288,7 +286,6 @@ public final class InstructorsLogic {
     }
 
     public void deleteInstructorCascade(String courseId, String email) {
-        commentsLogic.deleteCommentsForInstructor(courseId, email);
         fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
         instructorsDb.deleteInstructor(courseId, email);
     }

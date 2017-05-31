@@ -18,6 +18,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
 
+    <script type="text/javascript" src="/js/crypto.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>

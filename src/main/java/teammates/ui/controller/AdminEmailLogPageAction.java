@@ -34,7 +34,7 @@ public class AdminEmailLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, sessionToken, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
 
         if (data.getFilterQuery() == null) {
@@ -92,8 +92,8 @@ public class AdminEmailLogPageAction extends Action {
 
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                 + totalLogsSearched + "<br>"
-                + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                + nextEndTimeToSearch + "');\">Search More</button>";
+                + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
@@ -129,8 +129,8 @@ public class AdminEmailLogPageAction extends Action {
         long nextEndTimeToSearch = query.getEndTime();
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
-                      + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                      + nextEndTimeToSearch + "');\">Search More</button>";
+                      + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                      + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }

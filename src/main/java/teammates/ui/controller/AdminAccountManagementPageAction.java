@@ -44,8 +44,8 @@ public class AdminAccountManagementPageAction extends Action {
             }
         }
 
-        AdminAccountManagementPageData data = new AdminAccountManagementPageData(account, instructorAccountsTable,
-                                                                                 instructorCoursesTable, isToShowAll);
+        AdminAccountManagementPageData data = new AdminAccountManagementPageData(account, sessionToken,
+                instructorAccountsTable, instructorCoursesTable, isToShowAll);
 
         statusToAdmin = "Admin Account Management Page Load<br>"
                         + "<span class=\"bold\">Total Instructors:</span> " + instructorAccountsTable.size();

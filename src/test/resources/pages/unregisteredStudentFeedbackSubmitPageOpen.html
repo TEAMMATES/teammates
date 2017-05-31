@@ -44,11 +44,6 @@
           </a>
         </li>
         <li>
-          <a class="navLinks" data-unreg="true" href="/page/studentCourseJoinAuthentication?key=${regkey.enc}&studentemail=drop.out%40gmail.tmt&courseid=SFSubmitUiT.CS2104&next=%2Fpage%2FstudentCommentsPage" id="studentCommentsNavLink">
-            Comments
-          </a>
-        </li>
-        <li>
           <a class="nav" href="/studentHelp.jsp" id="studentHelpLink" rel="noopener noreferrer" target="_blank">
             Help
           </a>
@@ -84,6 +79,7 @@
   <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="key" type="hidden" value="${regkey.enc}">
     <input name="studentemail" type="hidden" value="drop.out@gmail.tmt">
     <div id="statusMessagesToUser" style="display: none;">
