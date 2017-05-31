@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
@@ -8,18 +7,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class InstructorStudentRecordsPage extends AppPage {
-
-    @FindBy(id = "button_add_comment")
-    private WebElement addCommentLink;
-
-    @FindBy(id = "button_save_comment")
-    private WebElement saveCommentLink;
-
-    @FindBy(id = "commenttext")
-    private WebElement commentTextBox;
 
     public InstructorStudentRecordsPage(Browser browser) {
         super(browser);
@@ -38,157 +27,6 @@ public class InstructorStudentRecordsPage extends AppPage {
     public void verifyIsCorrectPage(String studentName) {
         assertTrue(containsExpectedPageContents());
         verifyBelongsToStudent(studentName);
-    }
-
-    public InstructorStudentRecordsPage addComment(String commentText) {
-        click(addCommentLink);
-        waitForRichTextEditorToLoad("commenttext");
-        click(commentTextBox);
-        fillRichTextEditor(commentTextBox.getAttribute("id"), commentText);
-        click(saveCommentLink);
-        waitForPageToLoad();
-        return this;
-    }
-
-    public void addCommentWithVisibility(String commentText, int id) {
-        click(addCommentLink);
-        waitForRichTextEditorToLoad("commenttext");
-        click(commentTextBox);
-        fillRichTextEditor(commentTextBox.getAttribute("id"), commentText);
-        click(getVisibilityToggleLink(id));
-        clickAllCheckboxes(id);
-        click(saveCommentLink);
-        waitForPageToLoad();
-    }
-
-    public InstructorStudentRecordsPage clickDeleteCommentAndCancel(int id) {
-        clickAndCancel(getCommentDeleteLink(id));
-        waitForPageToLoad();
-        return this;
-    }
-
-    public InstructorStudentRecordsPage clickDeleteCommentAndConfirm(int id) {
-        clickAndConfirm(getCommentDeleteLink(id));
-        waitForPageToLoad();
-        return this;
-    }
-
-    public InstructorStudentRecordsPage editComment(int id, String comment) {
-        click(getCommentEditLink(id));
-        WebElement commentTextBox = getCommentTextBox(id);
-        waitForRichTextEditorToLoad("commentText" + id);
-        click(commentTextBox);
-        fillRichTextEditor(commentTextBox.getAttribute("id"), comment);
-        click(getCommentSaveLink(id));
-        waitForPageToLoad();
-        return this;
-    }
-
-    public void clickAllCheckboxes(int id) {
-        List<WebElement> answerCheckboxes = browser.driver
-                                            .findElement(By.id("visibility-options" + id))
-                                            .findElements(By.className("answerCheckbox"));
-        for (WebElement checkbox : answerCheckboxes) {
-            click(checkbox);
-        }
-    }
-
-    public boolean verifyAddCommentButtonClick() {
-        click(addCommentLink);
-        return commentTextBox.isDisplayed()
-                && saveCommentLink.isDisplayed()
-                && !addCommentLink.isDisplayed();
-    }
-
-    public boolean verifyEditCommentButtonClick(int id) {
-        click(getCommentEditLink(id));
-        return getCommentTextBox(id).isEnabled()
-                && getCommentSaveLink(id).isDisplayed()
-                && !getCommentEditLink(id).isDisplayed();
-    }
-
-    public void clickEditCommentAndCancel(int id) {
-        click(getCommentEditLink(id));
-        click(getCommentEditCancelLink(id));
-    }
-
-    public void verifyCommentEditBoxNotVisible(int id) {
-        assertFalse(isElementVisible(By.id("commentTextEdit" + id)));
-    }
-
-    private WebElement getCommentEditLink(int id) {
-        return browser.driver.findElement(By.id("commentedit-" + id));
-    }
-
-    private WebElement getCommentEditCancelLink(int id) {
-        return browser.driver.findElement(By.id("commentsave-" + id))
-                             .findElement(By.xpath("./following-sibling::input"));
-    }
-
-    private WebElement getCommentDeleteLink(int id) {
-        return browser.driver.findElement(By.id("commentdelete-" + id));
-    }
-
-    private WebElement getCommentTextBox(int id) {
-        return browser.driver.findElement(By.id("commentText" + id));
-    }
-
-    private WebElement getCommentSaveLink(int id) {
-        return browser.driver.findElement(By.id("commentsave-" + id));
-    }
-
-    private WebElement getVisibilityToggleLink(int id) {
-        return browser.driver.findElement(By.id("visibility-options-trigger" + id));
-    }
-
-    // Visibility options
-
-    public void clickVisibilityOptionsButton(int id) {
-        click(getVisibilityOptions(id));
-    }
-
-    public void clickAnswerCheckboxForCourse(int id) {
-        click(getAnswerCheckboxForCourse(id));
-    }
-
-    public void clickGiverCheckboxForCourse(int id) {
-        click(getGiverCheckboxForCourse(id));
-    }
-
-    public void clickRecipientCheckboxForCourse(int id) {
-        click(getRecipientCheckboxForCourse(id));
-    }
-
-    public boolean isAnswerCheckboxForCourseSelected(int id) {
-        return getAnswerCheckboxForCourse(id).isSelected();
-    }
-
-    public boolean isGiverCheckboxForCourseSelected(int id) {
-        return getGiverCheckboxForCourse(id).isSelected();
-    }
-
-    public boolean isRecipientCheckboxForCourseSelected(int id) {
-        return getRecipientCheckboxForCourse(id).isSelected();
-    }
-
-    private WebElement getVisibilityOptions(int id) {
-        return browser.driver.findElement(By.id("visibility-options-trigger" + id));
-    }
-
-    private WebElement getCourseVisibilityRow(int id) {
-        return browser.driver.findElement(By.id("recipient-course" + id));
-    }
-
-    private WebElement getAnswerCheckboxForCourse(int id) {
-        return getCourseVisibilityRow(id).findElement(By.className("answerCheckbox"));
-    }
-
-    private WebElement getGiverCheckboxForCourse(int id) {
-        return getCourseVisibilityRow(id).findElement(By.className("giverCheckbox"));
-    }
-
-    private WebElement getRecipientCheckboxForCourse(int id) {
-        return getCourseVisibilityRow(id).findElement(By.className("recipientCheckbox"));
     }
 
     /**
