@@ -101,7 +101,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml);
+                Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml,
+                "${equalShareHelp}", responseIdx == 0 ? "More info about the equal share scale" : "");
     }
 
     @Override
