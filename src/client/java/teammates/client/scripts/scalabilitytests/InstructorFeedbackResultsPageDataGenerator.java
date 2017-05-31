@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kohsuke.randname.RandomNameGenerator;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,11 +29,10 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
     private List<String> studentsNames = Arrays.asList(
-            "Student One", "Student Two", "Student Three", "Student Four", "Student Five", "Student Six", 
+            "Student One", "Student Two", "Student Three", "Student Four", "Student Five", "Student Six",
             "Student Seven", "Student Eight", "Student Nine", "Student Ten", "Student Eleven", "Student Twelve",
             "Student Thirteen", "Student Fourteen", "Student Fifteen", "Student Sixteen", "Student Seventeen",
             "Student Eighteen", "Student Nineteen", "Student Twenty");
- 
 
     class EmptyObject {
     }

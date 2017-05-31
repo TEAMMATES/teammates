@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.client.scripts.util.Stopwatch;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -57,11 +56,11 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         // modify set of responses for each test according to its sets of students and questions
         updateFeedbackResponses();
 
-        // perform test by reading each entity from Datastore or persisting if absent 
+        // perform test by reading each entity from datastore or persisting if absent
         verifyOrPersistTestDataToDatastore();
     }
 
-    // verify if entities for testing already exist in Datastore
+    // verify if entities for testing already exist in datastore
     private void verifyOrPersistTestDataToDatastore() {
         for (StudentAttributes student : testData.students.values()) {
             try {
@@ -152,7 +151,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
                 testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
             } else if ((!studentsEmails.contains(testDataMax.feedbackResponses.get(key).giver)
                     || !studentsEmails.contains(testDataMax.feedbackResponses.get(key).recipient)
-                    || !questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)) 
+                    || !questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId))
                     && testData.feedbackResponses.containsKey(key)) {
                 testData.feedbackResponses.remove(key);
             }
