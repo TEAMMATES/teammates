@@ -80,8 +80,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         showPageResult = getShowPageResult(paia);
 
         assertEquals(
-                getPageResultDestination(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor2),
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor2),
                 showPageResult.getDestinationWithParams());
 
         assertEquals("", showPageResult.getStatusMessage());

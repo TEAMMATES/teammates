@@ -118,8 +118,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -145,8 +144,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -215,8 +213,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 

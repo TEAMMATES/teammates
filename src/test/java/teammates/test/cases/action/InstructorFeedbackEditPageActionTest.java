@@ -46,9 +46,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         showPageResult = getShowPageResult(instructorFeedbackEditPageAction);
 
         expectedString = getPageResultDestination(
-                                 Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT,
-                                 false,
-                                 instructor1OfCourse1.googleId);
+                Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, false, instructor1OfCourse1.googleId);
         assertEquals(expectedString, showPageResult.getDestinationWithParams());
 
         assertEquals("", showPageResult.getStatusMessage());

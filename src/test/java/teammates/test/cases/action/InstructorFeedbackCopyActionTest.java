@@ -76,9 +76,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         RedirectResult rr = getRedirectResult(a);
 
         expectedString = getPageResultDestination(
-                                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                                 instructor1ofCourse1.courseId, "Copied+Session",
-                                 instructor1ofCourse1.googleId, false);
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE, instructor1ofCourse1.courseId, "Copied+Session",
+                instructor1ofCourse1.googleId, false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -170,11 +169,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         rr = getRedirectResult(a);
 
         expectedString = getPageResultDestination(
-                                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                                 instructor1ofCourse1.courseId,
-                                 "Second+copied+feedback+session",
-                                 instructor1ofCourse1.googleId,
-                                 false);
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE, instructor1ofCourse1.courseId,
+                "Second+copied+feedback+session", instructor1ofCourse1.googleId, false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =

@@ -52,8 +52,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
                         Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver);
         ShowPageResult pageResult = getShowPageResult(action);
         assertEquals(
-                getPageResultDestination(
-                        Const.ViewURIs.ADMIN_EMAIL, false, adminUserId),
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, adminUserId),
                 pageResult.getDestinationWithParams());
 
         String expectedLogSegment = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>Subject: New Email Subject";

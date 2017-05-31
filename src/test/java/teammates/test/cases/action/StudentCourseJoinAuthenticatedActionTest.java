@@ -142,8 +142,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_HOME_PAGE,
-                        "idOfCourseNoEvals", false, "idOfNoFSStudent"),
+                        Const.ActionURIs.STUDENT_HOME_PAGE, "idOfCourseNoEvals", false, "idOfNoFSStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -226,8 +225,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_HOME_PAGE,
-                        "idOfCourseNoEvals", false, "idOfNoFSStudent3"),
+                        Const.ActionURIs.STUDENT_HOME_PAGE, "idOfCourseNoEvals", false, "idOfNoFSStudent3"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -268,8 +266,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_PROFILE_PAGE,
-                        "idOfTypicalCourse1", false, "idOfNewStudent"),
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE, "idOfTypicalCourse1", false, "idOfNewStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(

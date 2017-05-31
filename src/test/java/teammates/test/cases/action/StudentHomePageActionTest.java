@@ -82,10 +82,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         AssertHelper.assertContainsRegex(
-                getPageResultDestination(
-                        Const.ViewURIs.STUDENT_HOME,
-                        false,
-                        studentWithoutCourses.googleId),
+                getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, studentWithoutCourses.googleId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(

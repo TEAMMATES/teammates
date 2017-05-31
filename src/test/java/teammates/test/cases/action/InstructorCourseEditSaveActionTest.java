@@ -72,8 +72,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        false, instructorId, courseId),
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with empty string");
@@ -95,8 +94,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        true, instructorId, courseId),
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with non-alphanumeric start character");
@@ -118,8 +116,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        true, instructorId, courseId),
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with name containing | and %");
@@ -141,8 +138,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        true, instructorId, courseId),
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: invalid time zone");
@@ -163,8 +159,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        true, instructorId, courseId),
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
     }
 

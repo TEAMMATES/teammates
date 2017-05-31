@@ -89,8 +89,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false,
-                        "idOfInstructorOfArchivedCourse"),
+                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "idOfInstructorOfArchivedCourse"),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -118,8 +117,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false,
-                        "idOfInstructorOfArchivedCourse"),
+                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "idOfInstructorOfArchivedCourse"),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
