@@ -54,7 +54,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             } catch (EntityDoesNotExistException edne) {
                 // This situation is not tested as replicating such a situation is
                 // difficult during testing
-                Assumption.fail("Account found be already existing and not existing simultaneously");
+                Assumption.fail("Account found to be already existing and not existing simultaneously");
             }
         }
 
@@ -66,7 +66,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             } catch (EntityDoesNotExistException edne) {
                 // This situation is not tested as replicating such a situation is
                 // difficult during testing
-                Assumption.fail("StudentProfile found be already existing and not existing simultaneously");
+                Assumption.fail("StudentProfile found to be already existing and not existing simultaneously");
             }
         }
     }
@@ -89,7 +89,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
                 } catch (EntityDoesNotExistException e) {
                     // This situation is not tested as replicating such a situation is
                     // difficult during testing
-                    Assumption.fail("Entity found be already existing and not existing simultaneously");
+                    Assumption.fail("Account found to be already existing and not existing simultaneously");
                 }
             }
         }
