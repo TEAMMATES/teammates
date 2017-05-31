@@ -108,23 +108,27 @@ function addRubricCol(questionNum) {
         const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
         $(rubricRowFragment).insertAfter(lastTd);
     }
-    
+
     // Add options row at the end
-    const optionsRow = 
-        `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">
+    const optionsRow =
+        `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}" data-col="${newColNumber - 1}">
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l" onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, -1)">
+                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l"
+                    onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, true)">
                     <span class="glyphicon glyphicon-arrow-left"></span>
                 </button>
-                <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}" onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
-                    onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)" onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
+                <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
+                    onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
+                    onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)"
+                    onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
-                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r" onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, 1)">
+                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r"
+                    onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, false)">
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>
-        </td>`
+        </td>`;
 
     const lastTd = $(`#rubricOptionsRow-${questionNum} td:last`);
     $(optionsRow).insertAfter(lastTd);
@@ -190,40 +194,55 @@ function removeRubricCol(index, questionNum) {
                                          StatusType.WARNING);
 }
 
-function swapRubricCol(colIndex, questionNum, offset) {
-    const $thisCol = $(`.rubricCol-${questionNum}-${colIndex}`);
-    const numberOfCols = $thisCol.first().parent().children().length - 1;
+function swapRubricCol(colIndex, questionNum, isSwapLeft) {
+    if ($(`#rubricEditTable-${questionNum}`).length === 0
+        && $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
+        && typeof isSwapLeft !== 'boolean') {
+        // question and column should exist, isSwapLeft must be boolean
+        return;
+    }
+
     const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
-    const swapColIndex = colIndex + offset;
+    let swapColIndex;
+    const swapCellAccessorStr = `#rubricOptionsRow-${questionNum} .rubricCol-${questionNum}-${colIndex}`;
+    const rubricCellSelector = `td[class*='rubricCol-${questionNum}']`;
 
-    if (colIndex >= 0 && colIndex < numberOfCols && swapColIndex >= 0 && swapColIndex < numberOfCols
-        && colIndex !== swapColIndex) {
-        // swap rubric choices
-        let $currentCell = $(`#rubricChoice-${questionNum}-${colIndex}`);
-        let $swapCell = $(`#rubricChoice-${questionNum}-${swapColIndex}`);
-        let temp = $currentCell.val();
+    if (isSwapLeft) {
+        if ($(swapCellAccessorStr).prev(rubricCellSelector).length !== 0) {
+            swapColIndex = $(swapCellAccessorStr).prev(rubricCellSelector).attr('data-col');
+        } else {
+            // trying to swap left most column to left
+            return;
+        }
+    } else if ($(swapCellAccessorStr).next(rubricCellSelector).length !== 0) {
+        swapColIndex = $(swapCellAccessorStr).next(rubricCellSelector).attr('data-col');
+    } else {
+        // trying to swap right most column to right
+        return;
+    }
 
-        $currentCell.val($swapCell.val());
-        $swapCell.val(temp);
+    // swap rubric choices
+    let $currentCell = $(`#rubricChoice-${questionNum}-${colIndex}`);
+    let $swapCell = $(`#rubricChoice-${questionNum}-${swapColIndex}`);
+    let temp = $currentCell.val();
 
-        // swap rubric weights
-        $currentCell = $(`#rubricWeight-${questionNum}-${colIndex}`);
-        $swapCell = $(`#rubricWeight-${questionNum}-${swapColIndex}`);
+    $currentCell.val($swapCell.val());
+    $swapCell.val(temp);
+
+    // swap rubric weights
+    $currentCell = $(`#rubricWeight-${questionNum}-${colIndex}`);
+    $swapCell = $(`#rubricWeight-${questionNum}-${swapColIndex}`);
+    temp = $currentCell.val();
+    $currentCell.val($swapCell.val());
+    $swapCell.val(temp);
+
+    // swap options filled
+    for (let row = 0; row < numberOfRows; row += 1) {
+        $currentCell = $(`#rubricDesc-${questionNum}-${row}-${colIndex}`);
+        $swapCell = $(`#rubricDesc-${questionNum}-${row}-${swapColIndex}`);
         temp = $currentCell.val();
         $currentCell.val($swapCell.val());
         $swapCell.val(temp);
-
-        // swap options filled
-        for (let row = 0; row < numberOfRows; row += 1) {
-            $currentCell = $(`#rubricDesc-${questionNum}-${row}-${colIndex}`);
-            $swapCell = $(`#rubricDesc-${questionNum}-${row}-${swapColIndex}`);
-            temp = $currentCell.val();
-            $currentCell.val($swapCell.val());
-            $swapCell.val(temp);
-        }
-    } else {
-        // invalid swap
-        // TODO : somehow warn user
     }
 }
 
