@@ -82,8 +82,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
         List<AccountAttributes> accountsToUpdate = createEntities(accountsToAdd);
         if (updateAccount) {
-            for (AccountAttributes entity : accountsToUpdate) {
-                AccountAttributes account = entity;
+            for (AccountAttributes account : accountsToUpdate) {
                 try {
                     updateAccount(account, true);
                 } catch (EntityDoesNotExistException e) {
@@ -145,20 +144,20 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         accountToUpdate.setInstitute(a.institute);
 
         if (updateStudentProfile) {
-            StudentProfile existingStudentProfile = accountToUpdate.getStudentProfile();
-            if (existingStudentProfile == null) {
-                existingStudentProfile = new StudentProfile(a.studentProfile.googleId);
+            StudentProfile existingProfile = accountToUpdate.getStudentProfile();
+            if (existingProfile == null) {
+                existingProfile = new StudentProfile(a.studentProfile.googleId);
             }
 
-            StudentProfileAttributes existingProfile = new StudentProfileAttributes(existingStudentProfile);
-            a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            StudentProfileAttributes existingProfileAttributes = new StudentProfileAttributes(existingProfile);
+            a.studentProfile.modifiedDate = existingProfileAttributes.modifiedDate;
 
             // if the student profile has changed then update the store
             // this is to maintain integrity of the modified date.
-            if (!existingProfile.toString().equals(a.studentProfile.toString())) {
-                StudentProfile updatedStudentProfile = a.studentProfile.toEntity();
-                accountToUpdate.setStudentProfile(updatedStudentProfile);
-                profilesDb.saveEntity(updatedStudentProfile);
+            if (!existingProfileAttributes.toString().equals(a.studentProfile.toString())) {
+                StudentProfile updatedProfile = a.studentProfile.toEntity();
+                accountToUpdate.setStudentProfile(updatedProfile);
+                profilesDb.saveEntity(updatedProfile);
             }
         }
         saveEntity(accountToUpdate, a);
