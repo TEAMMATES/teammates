@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.test.driver.BackDoor;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore.
@@ -262,4 +263,15 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
     protected abstract String doPutDocuments(DataBundle testData);
 
+    protected void persistStudentToDataStore(StudentAttributes student) {
+        BackDoor.createStudent(student);
+    }
+
+    protected void persistFeedbackQuestionToDataStore(FeedbackQuestionAttributes question) {
+        BackDoor.createFeedbackQuestion(question);
+    }
+
+    protected void persistFeedbackResponseToDataStore(FeedbackResponseAttributes feedbackResponse) {
+        BackDoor.createFeedbackResponse(feedbackResponse);
+    }
 }

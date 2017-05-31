@@ -66,21 +66,21 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             try {
                 verifyPresentInDatastore(student);
             } catch (AssertionError e) {
-                BackDoor.createStudent(student);
+                persistStudentToDataStore(student);
             }
         }
         for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
             try {
                 verifyPresentInDatastore(question);
             } catch (AssertionError e) {
-                BackDoor.createFeedbackQuestion(question);
+                persistFeedbackQuestionToDataStore(question);
             }
         }
         for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
             try {
                 verifyPresentInDatastore(feedbackResponse);
             } catch (AssertionError e) {
-                BackDoor.createFeedbackResponse(feedbackResponse);
+                persistFeedbackResponseToDataStore(feedbackResponse);
             }
         }
     }
