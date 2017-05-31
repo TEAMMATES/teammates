@@ -114,14 +114,11 @@ public class InstructorFeedbackResultsPageDataGenerator {
 
         class CourseLevel {
             private String canviewstudentinsection = "true";
-            private String cangivecommentinsection = "true";
             private String cansubmitsessioninsection = "true";
             private String canmodifysessioncommentinsection = "true";
-            private String canmodifycommentinsection = "true";
             private String canmodifycourse = "true";
             private String canviewsessioninsection = "true";
             private String canmodifysession = "true";
-            private String canviewcommentinsection = "true";
             private String canmodifystudent = "true";
             private String canmodifyinstructor = "true";
         }

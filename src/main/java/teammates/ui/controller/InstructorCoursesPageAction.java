@@ -31,7 +31,7 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: This is a 'show page' type action. Therefore, we
          * prepare the matching PageData object, accessing the Logic
          * component if necessary.*/
-        InstructorCoursesPageData data = new InstructorCoursesPageData(account);
+        InstructorCoursesPageData data = new InstructorCoursesPageData(account, sessionToken);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         data.setUsingAjax(isUsingAjax != null);
 

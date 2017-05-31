@@ -4,9 +4,17 @@ setStatusMessage:false StatusType:false bindBackToTopButtons:false addLoadingInd
 
 $(document).ready(() => {
     $('#filterReference').toggle();
+    enableOnclicks();
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
     highlightKeywordsInLogMessages();
 });
+
+function enableOnclicks() {
+    $(document).on('click', '#button_older', () => {
+        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+        submitFormAjax(nextEndTimeToSearch);
+    });
+}
 
 function toggleReference() {
     $('#filterReference').toggle('slow');

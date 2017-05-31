@@ -21,8 +21,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String errorMessage;
     public boolean isError;
 
-    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public FeedbackResponseCommentRow getComment() {

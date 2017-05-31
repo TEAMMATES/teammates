@@ -1,4 +1,4 @@
-/* global highlightSearchResult:false StatusType:false setStatusMessage:false */
+/* global highlightSearchResult:false StatusType:false setStatusMessage:false makeCsrfTokenParam:false */
 
 $(document).ready(() => {
     $('.fslink').hide();
@@ -67,7 +67,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
 
     $.ajax({
         type: 'POST',
-        url: `/admin/adminStudentGoogleIdReset?${params}`,
+        url: `/admin/adminStudentGoogleIdReset?${makeCsrfTokenParam()}&${params}`,
         beforeSend() {
             $(button).html("<img src='/images/ajax-loader.gif'/>");
         },

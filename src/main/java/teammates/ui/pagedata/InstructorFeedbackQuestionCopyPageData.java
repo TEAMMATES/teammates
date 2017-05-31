@@ -14,8 +14,8 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
     private final List<FeedbackQuestionAttributes> questions;
 
     public InstructorFeedbackQuestionCopyPageData(
-            AccountAttributes account, List<FeedbackQuestionAttributes> copiableQuestions) {
-        super(account);
+            AccountAttributes account, String sessionToken, List<FeedbackQuestionAttributes> copiableQuestions) {
+        super(account, sessionToken);
         questions = copiableQuestions;
     }
 

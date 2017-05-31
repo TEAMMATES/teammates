@@ -10,8 +10,8 @@ public class FileUploadPageData extends PageData {
     public String fileSrcUrl;
     public String ajaxStatus;
 
-    public FileUploadPageData(AccountAttributes account) {
-        super(account);
+    public FileUploadPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
 }

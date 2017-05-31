@@ -92,7 +92,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // Return with redirection url (handled in javascript) to the sessions page after copying,
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
-                       new InstructorFeedbackEditCopyData(account,
+                       new InstructorFeedbackEditCopyData(account, sessionToken,
                                                           Config.getAppUrl(nextUrl)
                                                                 .withParam(Const.ParamsNames.ERROR,
                                                                            Boolean.FALSE.toString())
@@ -133,6 +133,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
     private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
         isError = true;
-        return createAjaxResult(new InstructorFeedbackEditCopyData(account, errorToUser));
+        return createAjaxResult(new InstructorFeedbackEditCopyData(account, sessionToken, errorToUser));
     }
 }
