@@ -56,10 +56,6 @@ public class InstructorStudentListAjaxPageAction extends Action {
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                                  instructor.isAllowedForPrivilege(sectionDetails.name,
                                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-            sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                                 instructor.isAllowedForPrivilege(
-                                         sectionDetails.name,
-                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
 
