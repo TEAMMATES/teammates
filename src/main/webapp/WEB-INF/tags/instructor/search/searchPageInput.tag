@@ -33,14 +33,6 @@
                         </span>
                     </li>
                     <li>
-                        <input id="comments-for-student-check" type="checkbox"
-                               name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true"
-                               <c:if test="${data.searchCommentForStudents}">checked</c:if>>
-                        <label for="comments-for-student-check">
-                            Comments for students
-                        </label>
-                    </li>
-                    <li>
                         <input id="comments-for-responses-check" type="checkbox"
                                name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true"
                                <c:if test="${data.searchCommentForResponses}">checked</c:if>>
@@ -51,8 +43,7 @@
                     <li>
                         <input id="students-check" type="checkbox" 
                                name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true"
-                               <c:if test="${data.searchForStudents || (!data.searchCommentForStudents 
-                                             && !data.searchCommentForResponses)}">checked</c:if>>
+                               <c:if test="${data.searchForStudents || !data.searchCommentForResponses}">checked</c:if>>
                         <label for="students-check">
                             Students
                         </label>

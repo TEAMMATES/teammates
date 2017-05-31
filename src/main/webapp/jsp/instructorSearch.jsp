@@ -21,10 +21,6 @@
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     
-    <c:if test="${not data.commentsForStudentsEmpty}">
-        <shared:commentsPanel commentsForStudentsTables="${data.searchCommentsForStudentsTables}" />
-    </c:if>
-    
     <c:if test="${not data.commentsForResponsesEmpty}">
         <search:commentsForResponsesSearchResults commentsForResponsesTables="${data.searchCommentsForResponsesTables}">
             Comments for responses

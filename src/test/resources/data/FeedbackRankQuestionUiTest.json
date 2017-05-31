@@ -48,14 +48,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -74,35 +71,26 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
         "sectionLevel": {
           "Section 2": {
             "canviewstudentinsection": false,
-            "cangivecommentinsection": false,
             "cansubmitsessioninsection": false,
             "canmodifysessioncommentinsection": false,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": false,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": false
           },
           "Section 1": {
             "canviewstudentinsection": true,
-            "cangivecommentinsection": true,
             "cansubmitsessioninsection": true,
             "canmodifysessioncommentinsection": false,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": false,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": false
           }
         },
         "sessionLevel": {}
@@ -875,6 +863,5 @@
     }
   },
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }
