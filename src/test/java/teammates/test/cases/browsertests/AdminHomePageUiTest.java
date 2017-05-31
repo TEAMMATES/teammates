@@ -85,12 +85,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        InstructorAttributes instructorInBackend = BackDoor.getInstructorByEmail(instructor.email, demoCourseId);
+        InstructorAttributes instructorInBackend = getInstructorWithRetry(demoCourseId, instructor.email);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
 
-        String encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -132,7 +132,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.createInstructor(shortName, instructor, institute);
 
-        encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -144,11 +144,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.logout();
         //verify the instructor and the demo course have been created
-        assertNotNull(BackDoor.getCourse(demoCourseId));
-        assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
+        assertNotNull(getCourseWithRetry(demoCourseId));
+        assertNotNull(getInstructorWithRetry(demoCourseId, instructor.email));
 
         //get the joinURL which sent to the requester's email
-        String regkey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        String regkey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
@@ -166,10 +166,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
-        confirmationPage.clickConfirmButton();
+        confirmationPage.clickConfirmButtonWithRetry();
 
         //check a account has been created for the requester successfully
-        assertNotNull(BackDoor.getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
+        assertNotNull(getAccountWithRetry(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
 
         //verify sample course is accessible for newly joined instructor as an instructor
 
@@ -225,14 +225,14 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickEditSessionButton();
 
-        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession(demoCourseId,
-                                                                                "Second team feedback session");
+        FeedbackSessionAttributes feedbackSession =
+                getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
         feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
                                              feedbackSession.getEndTime(),
                                              new Text("updated instructions"),
                                              feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
+        instructorHomePage.verifyHtmlMainContentWithReloadRetry("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
 
         ______TS("new instructor can click submit button of sample feedbackSession");
         instructorHomePage.loadInstructorHomeTab();

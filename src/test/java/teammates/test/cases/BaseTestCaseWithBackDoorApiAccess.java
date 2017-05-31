@@ -9,21 +9,50 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.retry.RetryManager;
+import teammates.test.driver.retry.RetryableTaskReturns;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
  */
 public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWithDatastoreAccess {
 
+    protected AccountAttributes getAccount(String googleId) {
+        return BackDoor.getAccount(googleId);
+    }
+
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return BackDoor.getAccount(account.googleId);
+        return getAccount(account.googleId);
+    }
+
+    protected AccountAttributes getAccountWithRetry(final String googleId) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
+            @Override
+            public AccountAttributes run() {
+                return getAccount(googleId);
+            }
+        });
+    }
+
+    protected CourseAttributes getCourse(String courseId) {
+        return BackDoor.getCourse(courseId);
     }
 
     @Override
     protected CourseAttributes getCourse(CourseAttributes course) {
-        return BackDoor.getCourse(course.getId());
+        return getCourse(course.getId());
+    }
+
+    protected CourseAttributes getCourseWithRetry(final String courseId) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
+            @Override
+            public CourseAttributes run() {
+                return getCourse(courseId);
+            }
+        });
     }
 
     @Override
@@ -41,14 +70,59 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
     }
 
+    protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
+        return BackDoor.getFeedbackSession(courseId, feedbackSessionName);
+    }
+
     @Override
     protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
-        return BackDoor.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+        return getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+    }
+
+    protected FeedbackSessionAttributes getFeedbackSessionWithRetry(
+            final String courseId, final String feedbackSessionName) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>("getFeedbackSession") {
+            @Override
+            public FeedbackSessionAttributes run() {
+                return getFeedbackSession(courseId, feedbackSessionName);
+            }
+        });
+    }
+
+    protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
+        return BackDoor.getInstructorByEmail(instructorEmail, courseId);
     }
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return BackDoor.getInstructorByEmail(instructor.email, instructor.courseId);
+        return getInstructor(instructor.courseId, instructor.email);
+    }
+
+    protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
+            @Override
+            public InstructorAttributes run() {
+                return getInstructor(courseId, instructorEmail);
+            }
+        });
+    }
+
+    protected String getKeyForInstructor(String courseId, String instructorEmail) {
+        return BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+    }
+
+    protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
+        return RetryManager.runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
+            @Override
+            public String run() {
+                return getKeyForInstructor(courseId, instructorEmail);
+            }
+
+            @Override
+            public boolean isSuccessful(String result) {
+                return !result.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE);
+            }
+        });
     }
 
     @Override
