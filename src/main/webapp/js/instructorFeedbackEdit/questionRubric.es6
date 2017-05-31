@@ -136,8 +136,8 @@ function addRubricCol(questionNum) {
     $(optionsRow).insertAfter(lastTd);
 
     // Initialize tooltips
-    $(`#rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l`).tooltip({container: 'body'});
-    $(`#rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r`).tooltip({container: 'body'});
+    $(`#rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l`).tooltip({ container: 'body' });
+    $(`#rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r`).tooltip({ container: 'body' });
 
     // Increment
     $(`#rubricNumCols-${questionNum}`).val(newColNumber);
