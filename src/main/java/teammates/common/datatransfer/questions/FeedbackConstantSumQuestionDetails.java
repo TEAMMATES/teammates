@@ -65,49 +65,40 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
 
-        String distributeToRecipientsString = null;
-        String pointsPerOptionString = null;
-        String pointsString = null;
-        String pointsForEachOptionString = null;
-        String pointsForEachRecipientString = null;
-        String forceUnevenDistributionString = null;
-        boolean distributeToRecipients = false;
-        boolean pointsPerOption = false;
-        boolean forceUnevenDistribution = false;
-        int points = 0;
-
-        distributeToRecipientsString =
+        String distributeToRecipientsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        pointsPerOptionString =
+        String pointsPerOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        pointsString =
+        String pointsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        pointsForEachOptionString =
+        String pointsForEachOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
-        pointsForEachRecipientString =
+        String pointsForEachRecipientString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
         Assumption.assertNotNull("Null points in total", pointsString);
         Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
         Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
-        forceUnevenDistributionString =
+        String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
-        distributeToRecipients = "true".equals(distributeToRecipientsString);
-        pointsPerOption = "true".equals(pointsPerOptionString);
+        boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
+        boolean pointsPerOption = "true".equals(pointsPerOptionString);
+
+        int points = 0;
         if (pointsPerOption) {
             points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
                                             : Integer.parseInt(pointsForEachOptionString);
         } else {
             points = Integer.parseInt(pointsString);
         }
-        forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
+        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
@@ -417,6 +408,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
+            int total = computeTotal(points);
             String pointsReceived = getListOfPointsAsString(points);
 
             if (distributeToRecipients) {
@@ -428,6 +420,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                         Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
+                        Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             } else {
                 String option = entry.getKey();
@@ -435,6 +428,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
+                        Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             }
         }
@@ -601,13 +595,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return pointsReceived.toString();
     }
 
-    private double computeAverage(List<Integer> points) {
-        double average = 0;
+    private int computeTotal(List<Integer> points) {
+        int total = 0;
         for (Integer point : points) {
-            average += point;
+            total += point;
         }
-        average = average / points.size();
-        return average;
+        return total;
+    }
+
+    private double computeAverage(List<Integer> points) {
+        return (double) computeTotal(points) / points.size();
     }
 
     @Override

@@ -21,8 +21,7 @@ public class StudentCourseDetailsPageAction extends Action {
         CourseAttributes course = logic.getCourse(courseId);
         gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, account.googleId), course);
 
-        StudentCourseDetailsPageData data =
-                                        new StudentCourseDetailsPageData(account);
+        StudentCourseDetailsPageData data = new StudentCourseDetailsPageData(account, sessionToken);
 
         data.init(logic.getCourseDetails(courseId), logic.getInstructorsForCourse(courseId),
                       logic.getStudentForGoogleId(courseId, account.googleId),

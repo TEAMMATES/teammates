@@ -2,7 +2,6 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -79,7 +78,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("typical successful case for unpublished session empty giver permissions");
 
@@ -99,7 +97,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("typical successful case for unpublished session shown to various recipients");
 
@@ -118,7 +115,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -136,7 +132,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -154,7 +149,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -172,7 +166,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -190,7 +183,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -208,7 +200,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -226,7 +217,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("typical successful case for published session");
 
@@ -248,7 +238,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.PENDING, data.comment.sendingState);
 
         ______TS("Unsuccessful case: empty comment text");
 

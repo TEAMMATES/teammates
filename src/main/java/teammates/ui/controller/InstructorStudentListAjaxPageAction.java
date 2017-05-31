@@ -56,17 +56,11 @@ public class InstructorStudentListAjaxPageAction extends Action {
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                                  instructor.isAllowedForPrivilege(sectionDetails.name,
                                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-            sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                                 instructor.isAllowedForPrivilege(
-                                         sectionDetails.name,
-                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
 
-        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
-                                                                                       hasSection, courseSectionDetails,
-                                                                                       sectionPrivileges,
-                                                                                       emailPhotoUrlMapping);
+        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, sessionToken, courseId,
+                courseIndex, hasSection, courseSectionDetails, sectionPrivileges, emailPhotoUrlMapping);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST_AJAX, data);
     }

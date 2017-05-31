@@ -26,7 +26,7 @@ public class InstructorFeedbackQuestionCopyPageDataTest extends BaseTestCase {
         copiableQuestions.addAll(dataBundle.feedbackQuestions.values());
 
         InstructorFeedbackQuestionCopyPageData data = new InstructorFeedbackQuestionCopyPageData(
-                dataBundle.accounts.get("instructor1OfCourse1"), copiableQuestions);
+                dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken, copiableQuestions);
         FeedbackQuestionCopyTable copyForm = data.getCopyQnForm();
         assertEquals(dataBundle.feedbackQuestions.size(), copyForm.getQuestionRows().size());
     }
