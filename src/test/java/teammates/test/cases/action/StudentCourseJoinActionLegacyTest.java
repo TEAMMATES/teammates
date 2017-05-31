@@ -11,7 +11,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.StudentCourseJoinAction;
 
 /**
- * Test Course Join Link for Unregistered Student
+ * To test legacy course join link for unregistered students.
  * SUT: {@link StudentCourseJoinAction}.
  */
 public class StudentCourseJoinActionLegacyTest extends BaseActionTest {
