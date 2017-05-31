@@ -7,12 +7,15 @@ import org.testng.annotations.Test;
 
 import teammates.client.scripts.util.Stopwatch;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -54,7 +57,33 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         // modify set of responses for each test according to its sets of students and questions
         updateFeedbackResponses();
 
-        removeAndRestoreDataBundle(testData);
+        // perform test by reading each entity from Datastore or persisting if absent 
+        verifyOrPersistTestDataToDatastore();
+    }
+
+    // verify if entities for testing already exist in Datastore
+    private void verifyOrPersistTestDataToDatastore() {
+        for (StudentAttributes student : testData.students.values()) {
+            try {
+                verifyPresentInDatastore(student);
+            } catch (AssertionError e) {
+                BackDoor.createStudent(student);
+            }
+        }
+        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
+            try {
+                verifyPresentInDatastore(question);
+            } catch (AssertionError e) {
+                BackDoor.createFeedbackQuestion(question);
+            }
+        }
+        for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
+            try {
+                verifyPresentInDatastore(feedbackResponse);
+            } catch (AssertionError e) {
+                BackDoor.createFeedbackResponse(feedbackResponse);
+            }
+        }
     }
 
     private void addStudents(int numStudentsToAdd) {
@@ -71,8 +100,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void decreaseNumOfStudents(int remainingNumOfStudents) {
-        Set<String> studentsNames = testData.students.keySet();
-        for (String key : studentsNames) {
+        for (String key : testData.students.keySet()) {
             if (testData.students.size() <= remainingNumOfStudents) {
                 return;
             }
@@ -94,8 +122,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void decreaseNumOfQuestions(int remainingNumOfQuestions) {
-        Set<String> questionsKeys = testData.feedbackQuestions.keySet();
-        for (String key : questionsKeys) {
+        for (String key : testData.feedbackQuestions.keySet()) {
             if (testData.feedbackQuestions.size() <= remainingNumOfQuestions) {
                 return;
             }
@@ -116,17 +143,17 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             questionsNumbers.add(question.questionNumber);
         }
 
-        // obtain set of keys for all feedback responses
-        Set<String> feedbackResponsesKeys = testDataMax.feedbackResponses.keySet();
-
         // check every feedback response if it should be included to test or excluded from it
-        for (String key : feedbackResponsesKeys) {
-
+        for (String key : testDataMax.feedbackResponses.keySet()) {
             if (studentsEmails.contains(testDataMax.feedbackResponses.get(key).giver)
                     && studentsEmails.contains(testDataMax.feedbackResponses.get(key).recipient)
-                    && questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)) {
+                    && questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)
+                    && !testData.feedbackResponses.containsKey(key)) {
                 testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
-            } else if (testData.feedbackResponses.containsKey(key)) {
+            } else if ((!studentsEmails.contains(testDataMax.feedbackResponses.get(key).giver)
+                    || !studentsEmails.contains(testDataMax.feedbackResponses.get(key).recipient)
+                    || !questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)) 
+                    && testData.feedbackResponses.containsKey(key)) {
                 testData.feedbackResponses.remove(key);
             }
         }
@@ -140,14 +167,10 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // prepare non-modified test data
         testData = new DataBundle();
-        testData.accounts = testDataMax.accounts;
         testData.courses = testDataMax.courses;
-        testData.instructors = testDataMax.instructors;
+        testData.accounts = testDataMax.accounts;
         testData.feedbackSessions = testDataMax.feedbackSessions;
-        testData.feedbackResponseComments = testDataMax.feedbackResponseComments;
-        testData.comments = testDataMax.comments;
-        testData.profiles = testDataMax.profiles;
-        testData.adminEmails = testDataMax.adminEmails;
+        testData.instructors = testDataMax.instructors;
     }
 
     @Test

@@ -404,6 +404,15 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Persists a feedback question into the datastore.
+     */
+    public static String createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackQuestions.put("dummy-key", feedbackQuestion);
+        return restoreDataBundle(dataBundle);
+    }
+
     private static Map<String, String> createParamMap(BackDoorOperation operation) {
         Map<String, String> map = new HashMap<String, String>();
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());

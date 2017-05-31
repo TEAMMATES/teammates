@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kohsuke.randname.RandomNameGenerator;
@@ -28,6 +30,12 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject comments = new EmptyObject();
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
+    private List<String> studentsNames = Arrays.asList(
+            "Student One", "Student Two", "Student Three", "Student Four", "Student Five", "Student Six", 
+            "Student Seven", "Student Eight", "Student Nine", "Student Ten", "Student Eleven", "Student Twelve",
+            "Student Thirteen", "Student Fourteen", "Student Fifteen", "Student Sixteen", "Student Seventeen",
+            "Student Eighteen", "Student Nineteen", "Student Twenty");
+ 
 
     class EmptyObject {
     }
@@ -171,9 +179,9 @@ public class InstructorFeedbackResultsPageDataGenerator {
         feedbackSessions.put("Open Session", new Session());
         instructors.put("CFResultsScT.instr", new Instructor());
 
-        RandomNameGenerator nameGenerator = new RandomNameGenerator();
+        // RandomNameGenerator nameGenerator = new RandomNameGenerator();
         for (int i = 0; i < numStudents; i++) {
-            String name = nameGenerator.next();
+            String name = studentsNames.get(i);
             students.put(name.replace("_", " "), new Student(name.replace("_", ".")));
         }
 
