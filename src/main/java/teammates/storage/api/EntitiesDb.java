@@ -100,11 +100,9 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
                 E entity = entityToAdd.toEntity();
                 entities.add(entity);
             }
-
-            log.info(entityToAdd.getBackupIdentifier());
         }
 
-        ofy().save().entities(entities).now();
+        saveEntities(entities, entitiesToAdd);
 
         return entitiesToUpdate;
     }
