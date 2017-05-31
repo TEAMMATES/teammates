@@ -57,28 +57,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
     public E createEntity(A entityToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
-
-        entityToAdd.sanitizeForSaving();
-
-        if (!entityToAdd.isValid()) {
-            throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
-        }
-
-        // TODO: Do we really need special identifiers? Can just use ToString()?
-        // Answer: Yes. We can use toString.
-        if (hasEntity(entityToAdd)) {
-            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
-                    + entityToAdd.getIdentificationString();
-            log.info(error);
-            throw new EntityAlreadyExistsException(error);
-        }
-
-        E entity = entityToAdd.toEntity();
-
-        saveEntity(entity, entityToAdd);
-
-        return entity;
+        return createEntity(entityToAdd, true);
     }
 
     public List<A> createEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
@@ -114,12 +93,31 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
     public E createEntityWithoutExistenceCheck(A entityToAdd) throws InvalidParametersException {
+        try {
+            return createEntity(entityToAdd, false);
+        } catch (EntityAlreadyExistsException e) {
+            Assumption.fail("Caught exception thrown by existence check even with existence check disabled");
+            return null;
+        }
+    }
+
+    private E createEntity(A entityToAdd, boolean shouldCheckExistence)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
 
         entityToAdd.sanitizeForSaving();
 
         if (!entityToAdd.isValid()) {
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+        }
+
+        // TODO: Do we really need special identifiers? Can just use ToString()?
+        // Answer: Yes. We can use toString.
+        if (shouldCheckExistence && hasEntity(entityToAdd)) {
+            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
+                    + entityToAdd.getIdentificationString();
+            log.info(error);
+            throw new EntityAlreadyExistsException(error);
         }
 
         E entity = entityToAdd.toEntity();
