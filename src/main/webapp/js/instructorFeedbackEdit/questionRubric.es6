@@ -147,7 +147,7 @@ function removeRubricRow(index, questionNum) {
     const $thisRow = $(`#rubricRow-${questionNum}-${index}`);
 
     // count number of table rows from table body
-    const numberOfRows = $thisRow.parent().children('tr').length;
+    const numberOfRows = $thisRow.parent().children('tr').length - 1;  // exclude options row
 
     const delStr = numberOfRows <= 1 ? 'clear' : 'delete';
     const messageText = `Are you sure you want to ${delStr} the row?`;
