@@ -63,33 +63,18 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchNone.html");
 
-        ______TS("search for student comments");
-
-        searchContent = "student comment";
-        searchPage.clickStudentCommentCheckBox();
-        searchPage.clickStudentCheckBox();
-        searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentComments.html");
-
         ______TS("search for feedback response comments");
 
         searchContent = "response comment";
-        searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
+        searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchFeedbackResponseComments.html");
 
-        ______TS("search for all comments");
-
-        searchPage.clickStudentCommentCheckBox();
-        searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchComments.html");
-
-        ______TS("search for all comments as helper");
+        ______TS("search for feedback response comments as helper");
 
         String instructorHelperId = testData.accounts.get("helperOfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorHelperId);
-        searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
         searchPage.clickStudentCheckBox();
         searchPage.inputSearchContent(searchContent);
