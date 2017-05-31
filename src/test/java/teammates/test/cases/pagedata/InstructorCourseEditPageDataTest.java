@@ -66,7 +66,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
 
         CourseEditInstructorPanel panel = pageData.getInstructorPanelList().get(0);
         assertEquals(4, panel.getPermissionInputGroup1().size());
-        assertEquals(4, panel.getPermissionInputGroup2().size());
+        assertEquals(1, panel.getPermissionInputGroup2().size());
         assertEquals(3, panel.getPermissionInputGroup3().size());
         assertEquals("idOfInstructor1OfCourse1", panel.getInstructor().googleId);
         assertNotNull(panel.getDeleteButton());
@@ -74,7 +74,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertNull(panel.getResendInviteButton());
         assertEquals(sectionNames.size(), panel.getSectionRows().size());
         CourseEditSectionRow sectionRow = panel.getSectionRows().get(0);
-        assertEquals(4, sectionRow.getPermissionInputGroup2().size());
+        assertEquals(1, sectionRow.getPermissionInputGroup2().size());
         assertEquals(3, sectionRow.getPermissionInputGroup3().size());
         assertEquals(feedbackSessionNames.size(), sectionRow.getFeedbackSessions().size());
         assertNotNull(sectionRow.getToggleSessionLevelInSectionButton());
@@ -89,7 +89,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getAddInstructorPanel());
         CourseEditInstructorPanel addInstructorPanel = pageData.getAddInstructorPanel();
         assertEquals(4, addInstructorPanel.getPermissionInputGroup1().size());
-        assertEquals(4, addInstructorPanel.getPermissionInputGroup2().size());
+        assertEquals(1, addInstructorPanel.getPermissionInputGroup2().size());
         assertEquals(3, addInstructorPanel.getPermissionInputGroup3().size());
         assertEquals(sectionNames.size(), addInstructorPanel.getSectionRows().size());
         sectionRow = addInstructorPanel.getSectionRows().get(0);
