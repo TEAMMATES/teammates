@@ -36,8 +36,14 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
+        FeedbackResponseCommentAttributes frc =
+                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+        if (frc == null) {
+            Assumption.fail("FeedbackResponseComment should not be null");
+        } else {
+            verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
                                                                instructor, session, response);
+        }
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
@@ -97,22 +103,5 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         data.comment = feedbackResponseComment;
 
         return createAjaxResult(data);
-    }
-
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(
-            String feedbackResponseCommentId, InstructorAttributes instructor,
-            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
-        FeedbackResponseCommentAttributes frc =
-                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
-        if (frc == null) {
-            Assumption.fail("FeedbackResponseComment should not be null");
-        }
-        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
-            return;
-        }
-        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }
