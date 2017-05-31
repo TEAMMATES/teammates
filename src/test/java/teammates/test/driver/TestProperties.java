@@ -74,6 +74,9 @@ public final class TestProperties {
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
+    /** Maximum period for verification retries due to persistence delays. */
+    public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
+
     static {
         Properties prop = new Properties();
         try {
