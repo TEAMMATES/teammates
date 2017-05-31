@@ -11,6 +11,8 @@
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
+    <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+    <script type="text/javascript" src="/js/instructorComments.js"></script>
 </c:set>
 <c:set var="bodyTitle">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
