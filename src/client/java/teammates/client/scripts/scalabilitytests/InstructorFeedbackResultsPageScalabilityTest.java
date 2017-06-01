@@ -14,7 +14,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
-import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -58,7 +57,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // perform test by reading each entity from datastore or persisting if absent
         verifyOrPersistTestDataToDatastore();
-        
+
         readTestDataFromDatastore();
     }
 
@@ -75,7 +74,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             verifyPresentInDatastore(feedbackResponse);
         }
     }
-    
+
     // verify if entities for testing already exist in datastore
     private void verifyOrPersistTestDataToDatastore() {
         for (StudentAttributes student : testData.students.values()) {
