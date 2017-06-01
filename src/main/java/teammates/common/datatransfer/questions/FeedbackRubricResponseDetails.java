@@ -109,7 +109,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     private String getAddtionalInfoHtml(String subQuestion) {
-        return "&nbsp;<span data-toggle=\"tooltip\" data-placement=\"right\" title=\"" + subQuestion + "\""
+        return " <span data-toggle=\"tooltip\" data-placement=\"right\" title=\"" + subQuestion + "\""
                 + " class=\"glyphicon glyphicon-exclamation-sign text-info\"></span>";
     }
 
