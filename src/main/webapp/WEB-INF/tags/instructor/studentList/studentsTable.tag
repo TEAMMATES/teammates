@@ -5,7 +5,7 @@
 <%@ attribute name="index" required="true" %>
 <c:set var="PANEL_TYPE" value="${course.courseArchived ? 'panel-default' : 'panel-info'}" />
 <div class="panel ${PANEL_TYPE}">
-    <div class="panel-heading ajax_submit">
+    <div class="panel-heading ajax_submit" onclick="toggleChevron(this)">
         <form style="display:none;"
               id="seeMore-${index}"
               class="seeMoreForm-${index}"
@@ -14,9 +14,9 @@
             <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${course.googleId}">
             <input type="hidden" id="numStudents-${index}" value="0">
         </form>
-        <button class="btn btn-info btn-xs pull-right pull-down margin-left-7px">
+        <div class="pull-right margin-left-7px">
             <span class="glyphicon glyphicon-chevron-down"></span>
-        </button>
+        </div>
         <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
            id="enroll-${index}"
            href="${course.instructorCourseEnrollLink}"

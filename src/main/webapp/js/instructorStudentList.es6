@@ -314,7 +314,20 @@ const seeMoreRequest = function (e) {
                     $(panelHeading).removeClass('ajax_submit');
                     displayIcon.html('');
                     if ($(panelCollapse[0]).attr('class').indexOf('in') === -1) {
-                        $(panelHeading).trigger('click');
+                        clearStatusMessages();
+                        if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
+                            $(panelCollapse).collapse('show');
+                            $(panelCollapse[0]).addClass('checked');
+                            $(courseCheck).prop('checked', true);
+                        } else {
+                            $(panelCollapse[0]).collapse('hide');
+                            $(panelHeading).addClass('ajax_submit');
+                            $(panelBody[0]).html('');
+                            $(panelCollapse[0]).removeClass('checked');
+                            $(courseCheck).prop('checked', false);
+                            numStudents -= courseNumStudents;
+                        }
+                        checkCourseBinding(courseCheck);
                     }
                 },
             });
