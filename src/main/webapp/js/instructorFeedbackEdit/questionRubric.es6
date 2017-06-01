@@ -146,7 +146,7 @@ function addRubricCol(questionNum) {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 
-    disableMoveColumnButtons(questionNum)
+    disableMoveColumnButtons(questionNum);
 }
 
 function removeRubricRow(index, questionNum) {
@@ -191,7 +191,7 @@ function removeRubricCol(index, questionNum) {
             $thisCol.find('input[id^="rubricWeight"]').val(0);
         } else {
             $thisCol.remove();
-            disableMoveColumnButtons(questionNum)
+            disableMoveColumnButtons(questionNum);
 
             if ($(questionId).attr('editStatus') === 'hasResponses') {
                 $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -275,13 +275,13 @@ function disableMoveColumnButtons(questionNum) {
     if (!$rightmostColRightBtn.prop('disabled')) {
         $rightmostColRightBtn.prop('disabled', true);
     }
-    
+
     // check the second last column right button, should be enabled
     if ($optionColumns.length > 2) {
         const $secondlastCol = $rightmostCol.prev();
         const secondlastColIndex = $secondlastCol.attr('data-col');
         const $secondlastColRightBtn = $secondlastCol.find(`#rubricMoveChoiceLink-${questionNum}-${secondlastColIndex}-r`);
-        
+
         if ($secondlastColRightBtn.prop('disabled')) {
             $secondlastColRightBtn.prop('disabled', false);
         }
@@ -360,9 +360,9 @@ function hasAssignedWeights(questionNum) {
 }
 
 // call disableMoveColumnButtons when "Edit" button is clicked for rubric questions
-$(function() {
+$(() => {
     const numQuestions = $('a[id*="questionedittext-"]').length;
-    
+
     for (let index = 1; index <= numQuestions; index += 1) {
         if ($(`#rubricOptionsRow-${index}`).length !== 0) {
             $(`#questionedittext-${index}`).click(() => {
