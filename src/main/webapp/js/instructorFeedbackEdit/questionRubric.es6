@@ -115,7 +115,7 @@ function addRubricCol(questionNum) {
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l"
                     onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, true)" data-toggle="tooltip"
-                    data-placement="top" title="Move column to left">
+                    data-placement="top" title="Move column left">
                     <span class="glyphicon glyphicon-arrow-left"></span>
                 </button>
                 <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
@@ -126,7 +126,7 @@ function addRubricCol(questionNum) {
                 </button>
                 <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r"
                     onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, false)" data-toggle="tooltip"
-                    data-placement="top" title="Move column to right">
+                    data-placement="top" title="Move column right">
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>

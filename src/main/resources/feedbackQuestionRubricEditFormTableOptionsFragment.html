@@ -1,7 +1,7 @@
 <td class="align-center rubricCol-${questionIndex}-${col}" data-col="${col}">
     <div class="btn-group">
         <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionIndex}-${col}-l" onclick="swapRubricCol(${col}, ${questionIndex}, true)"
-            data-toggle="tooltip" data-placement="top" title="Move column to left">
+            data-toggle="tooltip" data-placement="top" title="Move column left">
             <span class="glyphicon glyphicon-arrow-left"></span>
         </button>
         <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionIndex}-${col}" onclick="removeRubricCol(${col}, ${questionIndex})"
@@ -9,7 +9,7 @@
             <span class="glyphicon glyphicon-remove"></span>
         </button>
         <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionIndex}-${col}-r" onclick="swapRubricCol(${col}, ${questionIndex}, false)"
-            data-toggle="tooltip" data-placement="top" title="Move column to right">
+            data-toggle="tooltip" data-placement="top" title="Move column right">
             <span class="glyphicon glyphicon-arrow-right"></span>
         </button>
     </div>
