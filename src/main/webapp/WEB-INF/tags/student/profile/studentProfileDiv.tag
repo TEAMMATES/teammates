@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
+<%@ attribute name="sessionToken" required="true" %>
 <c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
 <c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
 <c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
@@ -47,8 +48,8 @@
                    name="<%= Const.ParamsNames.STUDENT_SHORT_NAME %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profile.shortName}"
-                   value="${profile.shortName}"
+                   data-actual-value="<c:out value="${profile.shortName}"/>"
+                   value="<c:out value="${profile.shortName}"/>"
                    placeholder="How the instructor should call you">
         </div>
         <div class="form-group"
@@ -62,8 +63,8 @@
                    name="<%= Const.ParamsNames.STUDENT_PROFILE_EMAIL %>"
                    class="form-control"
                    type="email"
-                   data-actual-value="${profile.email}"
-                   value="${profile.email}"
+                   data-actual-value="<c:out value="${profile.email}"/>"
+                   value="<c:out value="${profile.email}"/>"
                    placeholder="Contact Email (for your instructors to contact you beyond graduation)">
         </div>
         <div class="form-group"
@@ -77,8 +78,8 @@
                    name="<%= Const.ParamsNames.STUDENT_PROFILE_INSTITUTION %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profile.institute}"
-                   value="${profile.institute}"
+                   data-actual-value="<c:out value="${profile.institute}"/>"
+                   value="<c:out value="${profile.institute}"/>"
                    placeholder="Your Institution">
         </div>
         <div class="form-group"
@@ -159,5 +160,6 @@
             <i>* This profile will be visible to all your Instructors and Coursemates</i>
         </p>
         <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${profile.googleId}">
+        <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${sessionToken}">
     </form>
 </div>

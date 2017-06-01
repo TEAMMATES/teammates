@@ -8,13 +8,12 @@ import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
-import teammates.storage.search.InstructorSearchDocument;
-import teammates.storage.search.InstructorSearchQuery;
 import teammates.test.driver.AssertHelper;
 
 /**
- * SUT: {@link InstructorsDb}, {@link InstructorSearchDocument},
- * {@link InstructorSearchQuery}.
+ * SUT: {@link InstructorsDb},
+ *      {@link teammates.storage.search.InstructorSearchDocument},
+ *      {@link teammates.storage.search.InstructorSearchQuery}.
  */
 public class InstructorSearchTest extends BaseSearchTest {
     @Test
@@ -29,6 +28,9 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
+        InstructorAttributes ins1InTestingSanitizationCourse =
+                dataBundle.instructors.get("instructor1OfTestingSanitizationCourse");
+        ins1InTestingSanitizationCourse.sanitizeForSaving();
 
         ______TS("success: search for instructors in whole system; query string does not match anyone");
 
@@ -44,7 +46,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; query string matches some instructors");
 
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse1, ins1InCourse2);
+        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InTestingSanitizationCourse);
 
         ______TS("success: search for instructors in whole system; query string should be case-insensitive");
 
@@ -106,13 +108,13 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         instructorsDb.deleteInstructor(ins1InCourse1.courseId, ins1InCourse1.email);
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse2);
+        verifySearchResults(results, ins1InCourse2, ins1InTestingSanitizationCourse);
 
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
 
         instructorsDb.createInstructorsWithoutSearchability(Arrays.asList(ins1InCourse1));
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse2);
+        verifySearchResults(results, ins1InCourse2, ins1InTestingSanitizationCourse);
 
         ______TS("success: search for instructors in whole system; deleting instructor without deleting document:"
                 + "document deleted during search, instructor unsearchable");

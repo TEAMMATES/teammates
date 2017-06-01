@@ -2,8 +2,8 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 
@@ -24,7 +24,8 @@ public class InstructorCourseEnrollPageDataTest extends BaseTestCase {
                       + "Tut Group 1 | Team 2 | Jack Wayne | jack@email.com\n"
                       + "Tut Group 2 | Team 3 | Thora Parker | thora@email.com";
 
-        InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, enroll);
+        InstructorCourseEnrollPageData pageData =
+                new InstructorCourseEnrollPageData(account, dummySessionToken, courseId, enroll);
 
         assertNotNull(pageData.getCourseId());
         assertEquals(courseId, pageData.getCourseId());

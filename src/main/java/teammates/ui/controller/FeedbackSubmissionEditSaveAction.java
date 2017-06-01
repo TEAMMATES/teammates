@@ -7,16 +7,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -31,8 +33,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
-
-import com.google.appengine.api.datastore.Text;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
@@ -59,7 +59,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         String userEmailForCourse = getUserEmailForCourse();
 
-        data = new FeedbackSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
         Assumption.assertNotNull("Feedback session " + feedbackSessionName
                                  + " does not exist in " + courseId + ".", data.bundle);
@@ -305,24 +305,27 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
 
         response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, response.feedbackSessionName);
 
         response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull("Null feedback courseId", response.courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, response.courseId);
 
         response.feedbackQuestionId = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
-        Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx,
+                response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
                                 response.feedbackQuestionId);
 
         response.recipient = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
-        Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-"
+                + responseIndx, response.recipient);
 
         String feedbackQuestionType = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
-        Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx,
+                feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
 
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;

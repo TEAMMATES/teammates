@@ -9,11 +9,11 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -54,8 +54,9 @@ public final class FeedbackResponsesLogic {
         try {
             frDb.createEntity(fra);
         } catch (EntityAlreadyExistsException eaee) {
+            FeedbackResponse existingResponse = frDb.getFeedbackResponseEntityOptimized(fra);
             try {
-                updateFeedbackResponse(fra, (FeedbackResponse) eaee.existingEntity);
+                updateFeedbackResponse(fra, existingResponse);
             } catch (EntityAlreadyExistsException entityAlreadyExistsException) {
                 Assumption.fail();
             }

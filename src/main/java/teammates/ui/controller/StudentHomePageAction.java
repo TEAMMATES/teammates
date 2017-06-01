@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -53,7 +53,7 @@ public class StudentHomePageAction extends Action {
             }
         }
 
-        StudentHomePageData data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
+        StudentHomePageData data = new StudentHomePageData(account, sessionToken, courses, sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
     }

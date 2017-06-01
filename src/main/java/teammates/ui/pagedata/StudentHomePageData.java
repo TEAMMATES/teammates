@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
@@ -20,10 +20,10 @@ public class StudentHomePageData extends PageData {
 
     private List<CourseTable> courseTables;
 
-    public StudentHomePageData(AccountAttributes account,
+    public StudentHomePageData(AccountAttributes account, String sessionToken,
                                List<CourseDetailsBundle> courses,
                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        super(account);
+        super(account, sessionToken);
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
 

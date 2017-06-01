@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminEmailPage;
 
 /**
@@ -47,7 +48,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("send email - no recipient");
 
         emailPage.clickSendButton();
-        emailPage.verifyStatus("Error : No reciver address or file given");
+        emailPage.verifyStatus("Error : No receiver address or file given");
 
         ______TS("send email - recipient email format error");
 
@@ -59,6 +60,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         ______TS("send email - no subject");
 
+        emailPage.clearRecipientBox();
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();
@@ -70,6 +72,74 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clickSendButton();
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
+        emailPage.verifyStatus("Email will be sent within an hour to recipient@email.tmt");
+
+        ______TS("send email to group - invalid file type");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputGroupRecipient("invalidGroupList.xlxs");
+        emailPage.verifyStatus("Group receiver list upload failed. Please try again.");
+
+        ______TS("send email to group - no subject");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        emailPage.inputEmailContent("Email Content");
+        String groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.clickSendButton();
+        assertTrue(hasStatusMessageNoSubject());
+        deleteGroupListFile(groupListFileKey);
+
+        ______TS("send email to group - success");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.inputSubject("Email Subject");
+        emailPage.inputEmailContent("Email Content");
+        emailPage.clickSendButton();
+        assertFalse(hasErrorMessage());
+        assertTrue(isEmailComposeElementsPresent());
+        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.");
+        deleteGroupListFile(groupListFileKey);
+
+        ______TS("send email to groupmode and addressmode - no subject");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputRecipient("recipient@email.tmt");
+        emailPage.inputEmailContent("Email Content");
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.clearSubjectBox();
+        emailPage.clickSendButton();
+        assertTrue(hasStatusMessageNoSubject());
+        deleteGroupListFile(groupListFileKey);
+
+        ______TS("send email to groupmode and addressmode - success");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputRecipient("recipient@email.tmt");
+        emailPage.inputSubject("Email Subject");
+        emailPage.inputEmailContent("Email Content");
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.clickSendButton();
+        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.\n"
+                + "Email will be sent within an hour to recipient@email.tmt");
+        deleteGroupListFile(groupListFileKey);
 
         ______TS("save email - success");
 
@@ -182,6 +252,14 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         WebElement trashButton = browser.driver.findElement(By.className("btn-danger"));
 
         return trashButton.getText().contains("Empty Trash");
+    }
+
+    private void verifyGroupListFileKey(String key) {
+        assertTrue(BackDoor.isGroupListFileKeyPresentInGcs(key));
+    }
+
+    private void deleteGroupListFile(String key) {
+        BackDoor.deleteGroupListFile(key);
     }
 
 }

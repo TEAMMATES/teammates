@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -25,8 +26,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.backdoor.BackDoorOperation;
-
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Used to access the datastore without going through the UI.
@@ -464,11 +463,29 @@ public final class BackDoor {
 
     /**
      * Replaces {@link DataBundle#adminEmails} from {@code dataBundle} with an empty map.
-     * Using {@link BackDoor} to remove and persist {@link AdminEmailAttributes}
+     * Using {@link BackDoor} to remove and persist admin emails
      * may affect normal functioning of Admin Emails and remove non-testing data.
      */
     private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {
         dataBundle.adminEmails = new HashMap<>();
+    }
+
+    /**
+     * Checks if a group recipient's file is present in GCS with specified Key.
+     */
+    public static boolean isGroupListFileKeyPresentInGcs(String groupListFileKey) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
+        return Boolean.parseBoolean(makePostRequest(params));
+    }
+
+    /**
+     * Deletes the uploaded test file for testing email using group mode.
+     */
+    public static String deleteGroupListFile(String groupListFileKey) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_GROUP_LIST_FILE);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
+        return makePostRequest(params);
     }
 
 }

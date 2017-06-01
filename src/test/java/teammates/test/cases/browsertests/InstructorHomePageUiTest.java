@@ -1,7 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import java.net.MalformedURLException;
-
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
@@ -170,7 +168,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("account").googleId;
 
         ______TS("link: course enroll");
-        InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
+        InstructorCourseEnrollPage enrollPage = homePage.clickCourseEnrollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
         String expectedEnrollLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                                         .withCourseId(courseId)
@@ -273,12 +271,42 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
 
-        ______TS("remind action: CLOSED feedback session");
 
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionClosed.getCourseId(),
-                                                          feedbackSessionClosed.getFeedbackSessionName()));
-        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionClosed.getCourseId(),
-                                                                 feedbackSessionClosed.getFeedbackSessionName()));
+
+        ______TS("remind action: CLOSED feedback session - inner button");
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionOpen.getFeedbackSessionName()));
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName()));
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+
+        ______TS("remind particular users action: CLOSED feedback session");
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName());
+        homePage.cancelRemindParticularUsersForm();
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
+        homePage.submitRemindParticularUsersForm();
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+
+        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
+        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
+        homePage.fillRemindParticularUsersForm();
+        homePage.submitRemindParticularUsersForm();
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
 
         ______TS("remind action: PUBLISHED feedback session");
 
@@ -352,17 +380,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").getId();
 
         //delete the course, then submit archive request to it
-        String archiveLinkString = homePage.getArchiveCourseLink(courseIdForCS2104);
-        AppUrl urlToArchive;
-        try {
-            // the link returned here might be absolute; make it relative first
-            urlToArchive = createUrl(AppUrl.getRelativePath(archiveLinkString));
-        } catch (MalformedURLException e) {
-            // the link is already relative
-            urlToArchive = createUrl(archiveLinkString);
-        }
-        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
-        browser.driver.get(urlToArchive.toAbsoluteString());
+        BackDoor.deleteCourse(courseIdForCS2104);
+        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS2104);
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
 
         // recover the deleted course and its related entities

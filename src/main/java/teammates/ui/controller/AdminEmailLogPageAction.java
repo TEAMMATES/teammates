@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
@@ -11,8 +13,6 @@ import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailLogPageData;
-
-import com.google.appengine.api.log.AppLogLine;
 
 public class AdminEmailLogPageAction extends Action {
     private static final int LOGS_PER_PAGE = 50;
@@ -34,7 +34,7 @@ public class AdminEmailLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, sessionToken, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
 
         if (data.getFilterQuery() == null) {
@@ -92,8 +92,8 @@ public class AdminEmailLogPageAction extends Action {
 
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                 + totalLogsSearched + "<br>"
-                + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                + nextEndTimeToSearch + "');\">Search More</button>";
+                + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
@@ -129,8 +129,8 @@ public class AdminEmailLogPageAction extends Action {
         long nextEndTimeToSearch = query.getEndTime();
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
-                      + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                      + nextEndTimeToSearch + "');\">Search More</button>";
+                      + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                      + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }

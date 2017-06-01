@@ -15,10 +15,9 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -30,7 +29,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -66,7 +64,6 @@ public class UploadBackupData extends RemoteApiClient {
 
     private static Logic logic = new Logic();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
@@ -170,10 +167,6 @@ public class UploadBackupData extends RemoteApiClient {
                     // Feedback response comments
                     persistFeedbackResponseComments(data.feedbackResponseComments);
                 }
-                if (!data.comments.isEmpty()) {
-                    // Comments
-                    persistComments(data.comments);
-                }
                 if (!data.profiles.isEmpty()) {
                     // Profiles
                     persistProfiles(data.profiles);
@@ -269,15 +262,6 @@ public class UploadBackupData extends RemoteApiClient {
             fcDb.createFeedbackResponseComments(responseComments.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback response comments: " + e.getMessage());
-        }
-    }
-
-    private static void persistComments(Map<String, CommentAttributes> map) {
-        Map<String, CommentAttributes> comments = map;
-        try {
-            commentsDb.createComments(comments.values());
-        } catch (InvalidParametersException e) {
-            System.out.println("Error in uploading comments: " + e.getMessage());
         }
     }
 

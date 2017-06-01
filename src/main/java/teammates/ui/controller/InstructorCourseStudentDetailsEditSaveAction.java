@@ -15,8 +15,8 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.logic.api.EmailGenerator;
+import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
@@ -106,7 +106,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             student.email = studentEmail;
             boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
             InstructorCourseStudentDetailsEditPageData data =
-                    new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection,
+                    new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, newEmail, hasSection,
                             isOpenOrPublishedEmailSentForTheCourse);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }

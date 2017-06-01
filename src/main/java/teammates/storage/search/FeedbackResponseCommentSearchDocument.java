@@ -7,24 +7,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -250,7 +249,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocument(comment);
                 continue;
             }
-            comment.sendingState = CommentSendingState.SENT;
             List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
             if (commentList == null) {
                 commentList = new ArrayList<FeedbackResponseCommentAttributes>();

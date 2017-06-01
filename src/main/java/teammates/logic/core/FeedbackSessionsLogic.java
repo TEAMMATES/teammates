@@ -15,19 +15,19 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.UserRole;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserRole;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
@@ -1560,12 +1560,12 @@ public final class FeedbackSessionsLogic {
             break;
 
         case PRIVATE:
-            List<FeedbackQuestionAttributes> instuctorQuestions =
+            List<FeedbackQuestionAttributes> instructorQuestions =
                     fqLogic.getFeedbackQuestionsForInstructor(fsa.getFeedbackSessionName(),
                                                               fsa.getCourseId(),
                                                               fsa.getCreatorEmail());
             List<FeedbackQuestionAttributes> validQuestions =
-                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.getCreatorEmail());
+                    fqLogic.getQuestionsWithRecipients(instructorQuestions, fsa.getCreatorEmail());
             if (validQuestions.isEmpty()) {
                 break;
             }

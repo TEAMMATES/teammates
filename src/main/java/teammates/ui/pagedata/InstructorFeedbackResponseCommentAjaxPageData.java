@@ -3,8 +3,8 @@ package teammates.ui.pagedata;
 import java.util.HashMap;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.ui.template.FeedbackResponseCommentRow;
 
@@ -21,8 +21,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String errorMessage;
     public boolean isError;
 
-    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public FeedbackResponseCommentRow getComment() {
@@ -45,12 +45,12 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                 FeedbackParticipantType.INSTRUCTORS
         };
 
-        Map<FeedbackParticipantType, Boolean> responseVisiblities = new HashMap<>();
+        Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
         for (FeedbackParticipantType type : relevantTypes) {
-            responseVisiblities.put(type, true);
+            responseVisibilities.put(type, true);
         }
 
-        return responseVisiblities;
+        return responseVisibilities;
     }
 
     public String[] getCommentIds() {

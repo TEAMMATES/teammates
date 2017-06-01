@@ -1,12 +1,13 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseEnrollResultPage;
 import teammates.test.pageobjects.InstructorCoursesDetailsPage;
@@ -48,8 +49,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         ______TS("link for the sample spreadsheet");
         enrollPage.clickSpreadsheetLink();
-        String expectedTitle = "Course Enroll Sample Spreadsheet - Google Sheets";
-        enrollPage.verifyTitle(expectedTitle);
+        By expectedOgTitle = By.cssSelector("meta[property='og:title'][content='Course Enroll Sample Spreadsheet']");
+        enrollPage.verifyContainsElement(expectedOgTitle);
     }
 
     private void testEnrollAction() throws Exception {
@@ -186,10 +187,10 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                 // A new student with invalid email input
                 + "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid" + Const.EOL
                 // A new student with invalid team name
-                + StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
+                + StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
                         + " | Robert Downey | rob@email.tmt | This student team name is too long" + Const.EOL
                 // A new student with invalid name
-                + "Team 2 | " + StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
+                + "Team 2 | " + StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
                         + " | longname@email.tmt | This student name is too long" + Const.EOL;
 
         enrollPage.enrollUnsuccessfully(enrollString);

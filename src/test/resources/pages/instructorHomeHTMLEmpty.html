@@ -18,7 +18,6 @@
             </span>
           </div>
           <input name="searchstudents" type="hidden" value="true">
-          <input name="searchcommentforstudents" type="hidden" value="false">
           <input name="searchcommentforresponses" type="hidden" value="false">
           <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
         </form>
@@ -46,7 +45,7 @@
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorHomePage" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -107,7 +106,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorHomePage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×

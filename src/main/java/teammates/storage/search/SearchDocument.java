@@ -5,9 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -16,16 +19,11 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-
 /**
  * Defines how we store {@link Document} for indexing/searching.
  */
 public abstract class SearchDocument {
 
-    protected static final CommentsDb commentsDb = new CommentsDb();
     protected static final CoursesDb coursesDb = new CoursesDb();
     protected static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     protected static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();

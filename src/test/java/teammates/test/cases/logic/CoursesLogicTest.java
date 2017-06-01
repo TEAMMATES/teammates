@@ -2,20 +2,21 @@ package teammates.test.cases.logic;
 
 import static teammates.common.util.Const.EOL;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -131,9 +132,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: not a sample course");
 
-        CourseAttributes notSampleCousre = new CourseAttributes("course.id", "not sample course", "UTC");
+        CourseAttributes notSampleCourse = new CourseAttributes("course.id", "not sample course", "UTC");
 
-        assertFalse(coursesLogic.isSampleCourse(notSampleCousre.getId()));
+        assertFalse(coursesLogic.isSampleCourse(notSampleCourse.getId()));
 
         ______TS("typical case: is a sample course");
 
@@ -438,12 +439,19 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(2, courseList.size());
 
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertEquals(course1.getId(), courseList.get(0).getId());
-        assertEquals(course1.getName(), courseList.get(0).getName());
 
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(course2.getId(), courseList.get(1).getId());
-        assertEquals(course2.getName(), courseList.get(1).getName());
+
+        List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
+        courses.add(course1);
+        courses.add(course2);
+        CourseAttributes.sortById(courses);
+
+        assertEquals(courses.get(0).getId(), courseList.get(0).getId());
+        assertEquals(courses.get(0).getName(), courseList.get(0).getName());
+
+        assertEquals(courses.get(1).getId(), courseList.get(1).getId());
+        assertEquals(courses.get(1).getName(), courseList.get(1).getName());
 
         ______TS("student having one course");
 
@@ -916,9 +924,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("non-existent");
 

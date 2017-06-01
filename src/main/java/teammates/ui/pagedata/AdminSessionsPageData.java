@@ -28,8 +28,8 @@ public class AdminSessionsPageData extends PageData {
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
 
-    public AdminSessionsPageData(AccountAttributes account) {
-        super(account);
+    public AdminSessionsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
 
     }
 
@@ -68,7 +68,7 @@ public class AdminSessionsPageData extends PageData {
         return totalWaitToOpenStatusSessions;
     }
 
-    public int gettotalInstitutes() {
+    public int getTotalInstitutes() {
         return totalInstitutes;
     }
 

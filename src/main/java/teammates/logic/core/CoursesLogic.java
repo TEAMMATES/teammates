@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -54,7 +54,6 @@ public final class CoursesLogic {
     private static final CoursesDb coursesDb = new CoursesDb();
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -620,7 +619,6 @@ public final class CoursesLogic {
     public void deleteCourseCascade(String courseId) {
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
-        commentsLogic.deleteCommentsForCourse(courseId);
         feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
         coursesDb.deleteCourse(courseId);
     }

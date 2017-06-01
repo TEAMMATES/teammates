@@ -1,21 +1,19 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -136,35 +134,6 @@ public final class FeedbackResponseCommentsLogic {
                                                      FeedbackResponseCommentAttributes feedbackResponseComment)
                                                      throws InvalidParametersException, EntityDoesNotExistException {
         return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
-    }
-
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-                                                           String courseId, CommentSendingState state)
-                                                           throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId);
-
-        List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
-        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes fs : feedbackSessions) {
-            if (fs.isPublished()) {
-                frcList.addAll(
-                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.getFeedbackSessionName(), state));
-            }
-        }
-        return frcList;
-    }
-
-    public void updateFeedbackResponseCommentsSendingState(
-            String courseId, CommentSendingState oldState, CommentSendingState newState)
-            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId);
-
-        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes fs : feedbackSessions) {
-            if (fs.isPublished()) {
-                frcDb.updateFeedbackResponseComments(courseId, fs.getFeedbackSessionName(), oldState, newState);
-            }
-        }
     }
 
     /**

@@ -10,17 +10,24 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import com.google.gson.annotations.SerializedName;
+
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
-
-import com.google.gson.annotations.SerializedName;
 
 /**
  * An association class that represents the association Account -->
  * [enrolled in] --> Course.
  */
 @PersistenceCapable
-public class CourseStudent implements StoreCallback {
+public class CourseStudent extends Entity implements StoreCallback {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(CourseStudent.class);
+
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to

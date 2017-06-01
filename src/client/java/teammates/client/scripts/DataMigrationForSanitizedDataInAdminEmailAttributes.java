@@ -1,7 +1,11 @@
 package teammates.client.scripts;
 
+import java.io.IOException;
+import java.util.List;
+
+import com.google.appengine.api.datastore.Text;
+
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.client.scripts.util.DataMigrationForSanitizedDataHelper;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -9,11 +13,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.SanitizationHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.storage.api.AdminEmailsDb;
-
-import java.io.IOException;
-import java.util.List;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Script to desanitize content of AdminEmailAttributes if it is sanitized.
@@ -40,7 +39,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         println("Preview: " + isPreview);
         for (AdminEmailAttributes email : allEmails) {
             loopHelper.recordLoop();
-            boolean isEmailSanitized = DataMigrationForSanitizedDataHelper.isSanitizedHtml(email.getContentValue());
+            boolean isEmailSanitized = SanitizationHelper.isSanitizedHtml(email.getContentValue());
             if (!isEmailSanitized) {
                 // skip the update if email is not sanitized
                 continue;

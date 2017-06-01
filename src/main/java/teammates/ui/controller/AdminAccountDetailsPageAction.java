@@ -3,9 +3,9 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.AdminAccountDetailsPageData;
@@ -37,7 +37,7 @@ public class AdminAccountDetailsPageAction extends Action {
             studentCourseList = null;
         }
 
-        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation,
+        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, sessionToken, accountInformation,
                                                                            instructorCourseList, studentCourseList);
         statusToAdmin = "adminAccountDetails Page Load<br>"
                 + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";

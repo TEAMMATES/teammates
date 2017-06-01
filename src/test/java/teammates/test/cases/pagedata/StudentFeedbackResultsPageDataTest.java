@@ -8,8 +8,8 @@ import java.util.Map;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -42,7 +42,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         student.key = dummyKey;
         Logic logic = new Logic();
 
-        StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
+        StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student, dummySessionToken);
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
@@ -114,7 +114,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
 
         student = dataBundle.students.get("student1InUnregisteredCourse");
 
-        pageData = new StudentFeedbackResultsPageData(account, student);
+        pageData = new StudentFeedbackResultsPageData(account, student, dummySessionToken);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponsesUnregistered =
                                         new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
 

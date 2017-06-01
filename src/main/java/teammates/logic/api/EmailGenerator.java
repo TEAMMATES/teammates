@@ -2,9 +2,9 @@ package teammates.logic.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import com.google.appengine.api.log.AppLogLine;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -22,13 +22,10 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-
-import com.google.appengine.api.log.AppLogLine;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -40,7 +37,6 @@ import com.google.appengine.api.log.AppLogLine;
 public class EmailGenerator {
 
     private static final Logger log = Logger.getLogger();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -257,6 +253,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
                 "${instructorFragment}", "",
+                "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
@@ -412,6 +409,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
                 "${instructorFragment}", "",
+                "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
@@ -437,6 +435,7 @@ public class EmailGenerator {
                         + SanitizationHelper.sanitizeForHtml(course.getId())
                         + ".<br>" + Const.EOL + "<br>" + Const.EOL
                         + "=== Email message as seen by the students ===</p>" + Const.EOL,
+                "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${supportEmail}", Config.SUPPORT_EMAIL);
@@ -478,57 +477,6 @@ public class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody);
-        return email;
-    }
-
-    /**
-     * Generates the comments notification emails for the given {@code courseId}.
-     */
-    public List<EmailWrapper> generatePendingCommentsClearedEmails(String courseId) {
-
-        Set<String> recipients;
-        try {
-            recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
-        } catch (EntityDoesNotExistException e) {
-            log.severe("Recipient emails for pending comments in course : " + courseId + " could not be fetched");
-            recipients = new HashSet<String>();
-        }
-
-        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
-        CourseAttributes course = coursesLogic.getCourse(courseId);
-        String template = EmailTemplates.USER_PENDING_COMMENTS_CLEARED;
-
-        for (String recipientEmail : recipients) {
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, recipientEmail);
-            if (student == null) {
-                continue;
-            }
-            EmailWrapper email = generatePendingCommentsClearedEmailBaseForStudent(course, student, template);
-            emails.add(email);
-        }
-        return emails;
-    }
-
-    private EmailWrapper generatePendingCommentsClearedEmailBaseForStudent(
-            CourseAttributes course, StudentAttributes student, String template) {
-
-        String commentsPageUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
-                                       .withCourseId(course.getId())
-                                       .toAbsoluteString();
-
-        String emailBody = Templates.populateTemplate(
-                isYetToJoinCourse(student) ? fillUpStudentJoinFragment(student, template)
-                                           : template.replace("${joinFragment}", ""),
-                "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${commentsPageUrl}", commentsPageUrl,
-                "${supportEmail}", Config.SUPPORT_EMAIL);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format(EmailType.PENDING_COMMENT_CLEARED.getSubject(),
-                                       course.getName(), course.getId()));
         email.setContent(emailBody);
         return email;
     }

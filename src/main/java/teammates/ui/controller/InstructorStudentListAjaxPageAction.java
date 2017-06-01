@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -21,10 +21,10 @@ public class InstructorStudentListAjaxPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull("null course id", courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String courseIndexString = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
-        Assumption.assertNotNull("null course index", courseIndexString);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_INDEX, courseIndexString);
 
         gateKeeper.verifyInstructorPrivileges(account);
 
@@ -56,17 +56,11 @@ public class InstructorStudentListAjaxPageAction extends Action {
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                                  instructor.isAllowedForPrivilege(sectionDetails.name,
                                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-            sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                                 instructor.isAllowedForPrivilege(
-                                         sectionDetails.name,
-                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
 
-        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
-                                                                                       hasSection, courseSectionDetails,
-                                                                                       sectionPrivileges,
-                                                                                       emailPhotoUrlMapping);
+        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, sessionToken, courseId,
+                courseIndex, hasSection, courseSectionDetails, sectionPrivileges, emailPhotoUrlMapping);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST_AJAX, data);
     }

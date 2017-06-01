@@ -8,6 +8,7 @@
           tinymce:false,
           BootboxWrapper:false,
           isNumber:false
+          bindLinksInUnregisteredPage:false
  */
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
@@ -107,8 +108,8 @@ function updateMsqOtherOptionField() {
 
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
-    if ($('.moderated-question').length > 0) {
-        scrollToElement($('.moderated-question')[0], { duration: 1000 });
+    if ($('#moderated-question').length > 0) {
+        scrollToElement($('#moderated-question')[0], { duration: 1000 });
     }
 }
 
@@ -1036,4 +1037,6 @@ $(document).ready(() => {
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
+
+    bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });

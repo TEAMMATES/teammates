@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.appengine.api.log.AppLogLine;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -18,8 +20,6 @@ import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Version;
 import teammates.ui.pagedata.AdminActivityLogPageData;
-
-import com.google.appengine.api.log.AppLogLine;
 
 public class AdminActivityLogPageAction extends Action {
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
@@ -44,7 +44,7 @@ public class AdminActivityLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminActivityLogPageData data = new AdminActivityLogPageData(account);
+        AdminActivityLogPageData data = new AdminActivityLogPageData(account, sessionToken);
 
         String searchTimeOffset = getRequestParamValue("searchTimeOffset");
         if (searchTimeOffset == null) {
@@ -141,7 +141,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         //  if the search space is limited to a certain log
         if (logs.size() >= RELEVANT_LOGS_PER_PAGE && earliestLogChecked != null) {
-            earliestSearchTime = earliestLogChecked.getTime();
+            earliestSearchTime = earliestLogChecked.getLogTime();
         }
 
         double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
@@ -192,9 +192,9 @@ public class AdminActivityLogPageAction extends Action {
         }
 
         // the "Search More" button to continue searching from the previous fromDate
-        status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax("
+        status.append("<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
                       + nextEndTimeToSearch
-                      + ");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
+                      + "\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
                       + data.getIfShowAll()
                       + "\"/><input id=\"ifShowTestData\" type=\"hidden\" value=\""
                       + data.getIfShowTestData() + "\"/>");
@@ -257,7 +257,7 @@ public class AdminActivityLogPageAction extends Action {
                 continue;
             }
 
-            ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
+            ActivityLogEntry activityLogEntry = ActivityLogEntry.buildFromAppLog(appLog);
             boolean isToShow = data.filterLog(activityLogEntry)
                     && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
 

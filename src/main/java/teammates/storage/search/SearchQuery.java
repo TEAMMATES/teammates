@@ -3,18 +3,15 @@ package teammates.storage.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
-
-import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.Logger;
+
 /**
- * Defines how we query {@link Document}.
+ * Defines how we query {@link com.google.appengine.api.search.Document}.
  */
 public abstract class SearchQuery {
 
@@ -52,19 +49,14 @@ public abstract class SearchQuery {
 
     private void setTextFilter(String textField, String queryString) {
 
-        // The sanitize process considers the '.' (dot) as a space and this
-        // returns unnecessary search results in the case if someone searches
-        // using an email. To avoid this, we check whether the input text is an
-        // email, and if yes, we skip the sanitize process.
-        String sanitizedQueryString =
-                FieldValidator.isValidEmailAddress(queryString)
-                ? queryString.toLowerCase().trim()
-                : SanitizationHelper.sanitizeForSearch(queryString).toLowerCase().trim();
+        String trimmedQueryString = queryString.toLowerCase().trim();
 
-        if (!sanitizedQueryString.isEmpty()) {
-            String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
-            textQueryStrings.add(textField + ":" + preparedOrQueryString);
+        if (trimmedQueryString.isEmpty()) {
+            return;
         }
+
+        String preparedOrQueryString = prepareOrQueryString(trimmedQueryString);
+        textQueryStrings.add(textField + ":" + preparedOrQueryString);
     }
 
     private String prepareOrQueryString(String queryString) {

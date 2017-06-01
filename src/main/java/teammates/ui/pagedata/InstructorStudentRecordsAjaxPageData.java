@@ -3,8 +3,8 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.ui.template.FeedbackResultsTable;
 
@@ -12,9 +12,9 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
 
     private List<FeedbackResultsTable> resultsTables;
 
-    public InstructorStudentRecordsAjaxPageData(AccountAttributes account, StudentAttributes student,
+    public InstructorStudentRecordsAjaxPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                                 List<FeedbackSessionResultsBundle> results) {
-        super(account, student);
+        super(account, student, sessionToken);
         this.resultsTables = new ArrayList<FeedbackResultsTable>();
         for (int i = 0; i < results.size(); i++) {
             FeedbackSessionResultsBundle result = results.get(i);

@@ -12,6 +12,8 @@ import java.util.TimeZone;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 
+import com.google.gson.reflect.TypeToken;
+
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -24,8 +26,6 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminActivityLogPageData;
 import teammates.ui.pagedata.PageData;
 import teammates.ui.template.AdminActivityLogTableRow;
-
-import com.google.gson.reflect.TypeToken;
 
 /**
  * SUT: {@link AdminActivityLogPageAction}.
@@ -506,7 +506,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     private void verifyLogsIdInRange(List<ActivityLogEntry> actualLogs, int first, int last) {
         assertEquals(last - first + 1, actualLogs.size());
         for (int i = 0; i < actualLogs.size(); i++) {
-            assertEquals(String.format("id4%02d", first + i), actualLogs.get(i).getId());
+            assertEquals(String.format("id4%02d", first + i), actualLogs.get(i).getLogId());
         }
     }
 

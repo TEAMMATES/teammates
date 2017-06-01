@@ -3,35 +3,38 @@ package teammates.test.cases.testdriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * SUT: {@link BackDoor}.
  */
 @Priority(2)
-public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
+public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
-    private DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle;
 
     @BeforeClass
     public void classSetup() {
+        dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 
         // verifies that typical bundle is restored by the above operation
-        verifyPresentInDatastore(dataBundle);
+        DataBundle expected = getTypicalDataBundle();
+        expected.sanitizeForSaving();
+        verifyPresentInDatastore(expected);
     }
 
     @Test

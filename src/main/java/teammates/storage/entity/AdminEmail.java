@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -15,7 +16,13 @@ import com.google.appengine.api.datastore.Text;
  * Represents emails composed by Admin.
  */
 @PersistenceCapable
-public class AdminEmail {
+public class AdminEmail extends Entity {
+
+    /**
+     * The name of the primary key of this entity type.
+     */
+    @NotPersistent
+    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(AdminEmail.class);
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)

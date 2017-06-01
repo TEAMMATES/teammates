@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -41,7 +40,7 @@ public class AdminInstructorAccountAddAction extends Action {
 
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminHomePageData data = new AdminHomePageData(account);
+        AdminHomePageData data = new AdminHomePageData(account, sessionToken);
 
         data.instructorDetailsSingleLine = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS_SINGLE_LINE);
         data.instructorShortName = "";
@@ -100,6 +99,7 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.SESSION_TOKEN, data.getSessionToken());
 
             StringBuilder errorMessage = new StringBuilder(100);
             String retryLink = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
@@ -200,14 +200,11 @@ public class AdminInstructorAccountAddAction extends Action {
             log.warning("Data Persistence was Checked Twice in This Request");
         }
 
-        //produce searchable documents
-        List<CommentAttributes> comments = logic.getCommentsForGiver(courseId, pageData.instructorEmail);
         List<FeedbackResponseCommentAttributes> frComments =
                 logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putCommentDocuments(comments);
         logic.putFeedbackResponseCommentDocuments(frComments);
         logic.putStudentDocuments(students);
         logic.putInstructorDocuments(instructors);

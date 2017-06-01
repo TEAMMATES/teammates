@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -32,6 +33,8 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.retry.RetryManager;
+import teammates.test.driver.retry.RetryableTaskReturnsThrows;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -64,10 +67,7 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     private WebElement instructorStudentsTab;
 
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
-    private WebElement instructorCommentsTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
     private WebElement instructorHelpTab;
 
     @FindBy(id = "studentHomeNavLink")
@@ -75,9 +75,6 @@ public abstract class AppPage {
 
     @FindBy(id = "studentProfileNavLink")
     private WebElement studentProfileTab;
-
-    @FindBy(id = "studentCommentsNavLink")
-    private WebElement studentCommentsTab;
 
     @FindBy(id = "studentHelpLink")
     private WebElement studentHelpTab;
@@ -169,6 +166,19 @@ public abstract class AppPage {
     public static LoginPage createCorrectLoginPageType(Browser browser) {
         return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
                                                                         : GoogleLoginPage.class);
+    }
+
+    /**
+     * Checks whether the URL currently loaded in the browser corresponds to the given page {@code uri}.
+     */
+    public boolean isPageUri(String uri) {
+        Url currentPageUrl;
+        try {
+            currentPageUrl = new Url(browser.driver.getCurrentUrl());
+        } catch (AssertionError e) { // due to MalformedURLException
+            return false;
+        }
+        return currentPageUrl.getRelativeUrl().equals(uri);
     }
 
     /**
@@ -305,9 +315,9 @@ public abstract class AppPage {
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By by) {
+    public WebElement waitForElementPresence(By by) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
@@ -399,16 +409,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public InstructorCommentsPage loadInstructorCommentsTab() {
-        click(instructorCommentsTab);
-        waitForPageToLoad();
-        return changePageType(InstructorCommentsPage.class);
-    }
-
-    /**
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
      */
@@ -426,16 +426,6 @@ public abstract class AppPage {
         click(studentHomeTab);
         waitForPageToLoad();
         return changePageType(StudentHomePage.class);
-    }
-
-    /**
-     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page
-     */
-    public StudentCommentsPage loadStudentCommentsTab() {
-        click(studentCommentsTab);
-        waitForPageToLoad();
-        return changePageType(StudentCommentsPage.class);
     }
 
     /**
@@ -641,6 +631,11 @@ public abstract class AppPage {
         return tableElement.getAttribute("id");
     }
 
+    public void clickElementById(String elementId) {
+        WebElement element = browser.driver.findElement(By.id(elementId));
+        click(element);
+    }
+
     /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
@@ -796,7 +791,7 @@ public abstract class AppPage {
      * The header row will be ignored
      */
     public void verifyTablePattern(int tableNum, int column, String patternString) {
-        String[] splitString = patternString.split(java.util.regex.Pattern.quote("{*}"));
+        String[] splitString = patternString.split(Pattern.quote("{*}"));
         int expectedNumberOfRowsInTable = splitString.length + 1;
         assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
         for (int row = 1; row < splitString.length; row++) {
@@ -897,6 +892,20 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
+    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
+        return RetryManager.runUntilNoException(new RetryableTaskReturnsThrows<AppPage, IOException>("HTML verification") {
+            @Override
+            public AppPage run() throws IOException {
+                return verifyHtmlPart(MAIN_CONTENT, filePath);
+            }
+
+            @Override
+            public void beforeRetry() {
+                reloadPage();
+            }
+        }, AssertionError.class);
+    }
+
     /**
      * Verifies that the title of the loaded page is the same as {@code expectedTitle}.
      */
@@ -911,6 +920,11 @@ public abstract class AppPage {
     public AppPage verifyContains(String searchString) {
         AssertHelper.assertContainsRegex(searchString, getPageSource());
         return this;
+    }
+
+    public void verifyContainsElement(By by) {
+        List<WebElement> elements = browser.driver.findElements(by);
+        assertFalse(elements.isEmpty());
     }
 
     /**

@@ -2,8 +2,8 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.AdminHomePageData;
 
@@ -23,7 +23,7 @@ public class AdminHomePageDataTest extends BaseTestCase {
 
     private void createData() {
         AccountAttributes admin = dataBundle.accounts.get("instructor1OfCourse1");
-        pageData = new AdminHomePageData(admin);
+        pageData = new AdminHomePageData(admin, dummySessionToken);
     }
 
     private void setHomePageAttributes() {

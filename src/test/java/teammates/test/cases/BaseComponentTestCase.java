@@ -5,10 +5,11 @@ import java.io.IOException;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -21,8 +22,6 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.GaeSimulation;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Base class for all component tests.
@@ -50,11 +49,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return backDoorLogic.getAccount(account.googleId);
-    }
-
-    @Override
-    protected CommentAttributes getComment(CommentAttributes comment) {
-        return backDoorLogic.getComment(comment);
     }
 
     @Override

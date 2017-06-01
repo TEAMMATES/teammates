@@ -9,6 +9,7 @@
 <form method="post" name="form_submit_response" action="${data.submitAction}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.bundle.feedbackSession.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.bundle.feedbackSession.courseId}">
+    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
     
     <c:choose>
         <c:when test="${not empty data.account.googleId}">

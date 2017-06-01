@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseDetailsPageData;
@@ -24,7 +24,8 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     public void testAll() {
         ______TS("test typical case");
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
-        InstructorCourseDetailsPageData pageData = new InstructorCourseDetailsPageData(instructorAccount);
+        InstructorCourseDetailsPageData pageData =
+                new InstructorCourseDetailsPageData(instructorAccount, dummySessionToken);
 
         InstructorAttributes curInstructor = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -47,9 +48,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
-        assertNotNull(pageData.getGiveCommentButton());
-        assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
-        assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
         assertTrue(pageData.isHasSection());
@@ -67,15 +65,11 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
 
         ______TS("test current instructor doesn't have any permission for the course");
         String[] allPrivileges = {
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
@@ -91,9 +85,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
-        assertNotNull(pageData.getGiveCommentButton());
-        assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
-        assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
     }

@@ -1,9 +1,12 @@
 package teammates.common.datatransfer;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -11,9 +14,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Holds a bundle of *Attributes data transfer objects.
@@ -32,7 +32,31 @@ public class DataBundle {
             new LinkedHashMap<String, FeedbackResponseAttributes>();
     public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments =
             new LinkedHashMap<String, FeedbackResponseCommentAttributes>();
-    public Map<String, CommentAttributes> comments = new LinkedHashMap<String, CommentAttributes>();
     public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<String, StudentProfileAttributes>();
     public Map<String, AdminEmailAttributes> adminEmails = new LinkedHashMap<>();
+
+    /**
+     * Sanitize each attribute in the dataBundle for saving.
+     */
+    public void sanitizeForSaving() {
+        sanitizeMapForSaving(accounts);
+        sanitizeMapForSaving(courses);
+        sanitizeMapForSaving(instructors);
+        sanitizeMapForSaving(students);
+        sanitizeMapForSaving(feedbackSessions);
+        sanitizeMapForSaving(feedbackQuestions);
+        sanitizeMapForSaving(feedbackResponses);
+        sanitizeMapForSaving(feedbackResponseComments);
+        sanitizeMapForSaving(profiles);
+        sanitizeMapForSaving(adminEmails);
+    }
+
+    /**
+     * Sanitize each attribute in the {@code map} for saving.
+     */
+    private <T extends EntityAttributes> void sanitizeMapForSaving(Map<String, T> map) {
+        for (T attribute : map.values()) {
+            attribute.sanitizeForSaving();
+        }
+    }
 }

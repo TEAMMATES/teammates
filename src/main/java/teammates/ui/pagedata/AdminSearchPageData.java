@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.SanitizationHelper;
@@ -59,8 +59,8 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchInstructorTable instructorTable;
     private AdminSearchStudentTable studentTable;
 
-    public AdminSearchPageData(AccountAttributes account) {
-        super(account);
+    public AdminSearchPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init() {

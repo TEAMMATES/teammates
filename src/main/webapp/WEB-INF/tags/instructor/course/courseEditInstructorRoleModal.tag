@@ -36,12 +36,6 @@
                     <div class="col-sm-6">
                         <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>"
                                 value="true" checked disabled> View Students' Details<br>
-                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>"
-                                value="true" checked disabled> Give Comments for Students<br>
-                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>"
-                                value="true" checked disabled> View Others' Comments on Students<br>
-                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>"
-                                value="true" checked disabled> Edit/Delete Others' Comments on Students<br>
                     </div>
                     
                     <div class="col-sm-6">

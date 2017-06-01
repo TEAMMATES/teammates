@@ -2,18 +2,18 @@ package teammates.ui.pagedata;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.ui.template.StudentCourseDetailsPanel;
 
 public class StudentCourseDetailsPageData extends PageData {
     private StudentCourseDetailsPanel studentCourseDetailsPanel;
 
-    public StudentCourseDetailsPageData(AccountAttributes account) {
-        super(account);
+    public StudentCourseDetailsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,

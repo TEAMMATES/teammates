@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -13,8 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
-
-import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponseAttributes extends EntityAttributes {
     public String feedbackSessionName;
@@ -51,15 +51,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
-            FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
-            String recipientEmail, String recipientSection, Text responseMetaData) {
+            FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
+            String recipient, String recipientSection, Text responseMetaData) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giver = giverEmail;
+        this.giver = giver;
         this.giverSection = giverSection;
-        this.recipient = recipientEmail;
+        this.recipient = recipient;
         this.recipientSection = recipientSection;
         this.responseMetaData = responseMetaData;
     }
@@ -115,17 +115,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
         return errors;
     }
@@ -163,7 +156,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
-                + ", giverEmail=" + giver + ", recipientEmail=" + recipient
+                + ", giver=" + giver + ", recipient=" + recipient
                 + ", answer=" + responseMetaData + "]";
     }
 

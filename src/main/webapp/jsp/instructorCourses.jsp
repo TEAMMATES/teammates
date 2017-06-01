@@ -9,8 +9,6 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
     <script type="text/javascript" src="/js/timezone.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorCoursesStatsAjax.js"></script>
-    <script type="text/javascript" src="/js/instructorCoursesAjax.js"></script>
     <script type="text/javascript" src="/js/instructorCourses.js"></script>
 </c:set>
 
@@ -18,7 +16,8 @@
     <c:if test="${!data.usingAjax}">
         <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" 
             courseNameToShow="${data.courseNameToShow}" 
-            googleId="${data.account.googleId}"/>
+            googleId="${data.account.googleId}"
+            sessionToken="${data.sessionToken}"/>
         <course:loadCoursesTableByAjaxForm />
     </c:if>
     

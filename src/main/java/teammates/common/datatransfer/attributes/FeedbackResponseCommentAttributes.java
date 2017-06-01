@@ -6,7 +6,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.datatransfer.CommentSendingState;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -14,8 +15,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
@@ -31,7 +30,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /* Response receiver section */
     public String receiverSection;
     public String feedbackResponseId;
-    public transient CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
@@ -98,7 +96,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
@@ -141,22 +138,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
-        String error;
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        error = validator.getInvalidityInfoForEmail(giverEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForEmail(giverEmail), errors);
 
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
@@ -166,7 +153,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                feedbackResponseId, sendingState, createdAt, commentText, giverSection, receiverSection,
+                feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 

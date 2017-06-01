@@ -30,7 +30,9 @@
                                 Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
-                            <span class="glyphicon glyphicon-chevron-up"></span>
+                            <div class="display-icon" style="display:inline;">
+                            	<span class="glyphicon glyphicon-chevron-up"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +50,9 @@
                                 Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
-                            <span class="glyphicon glyphicon-chevron-down"></span>
+                            <div class="display-icon" style="display:inline;">
+                            	<span class="glyphicon glyphicon-chevron-down"></span>
+                            </div>
                         </div>
                      </div>
                 </div>

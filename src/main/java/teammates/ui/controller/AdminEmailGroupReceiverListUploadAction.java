@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.Logger;
-import teammates.ui.pagedata.AdminEmailComposePageData;
-
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
+import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.Logger;
+import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailGroupReceiverListUploadAction extends Action {
 
@@ -24,7 +24,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        data = new AdminEmailComposePageData(account);
+        data = new AdminEmailComposePageData(account, sessionToken);
         BlobInfo blobInfo = extractGroupReceiverListFileKey();
 
         if (blobInfo == null) {

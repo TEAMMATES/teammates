@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
@@ -32,8 +32,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
 
-    public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
-        super(account, student);
+    public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
+        super(account, student, sessionToken);
         isPreview = false;
         isModeration = false;
         isShowRealQuestionNumber = false;

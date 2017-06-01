@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -40,7 +40,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         String userEmailForCourse = getUserEmailForCourse();
-        data = new FeedbackSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));

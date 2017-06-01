@@ -60,14 +60,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -86,14 +83,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -112,14 +106,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -138,14 +129,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -360,10 +348,33 @@
         "INSTRUCTORS",
         "RECEIVER"
       ]
+    },
+    "CHomeUiT.CS2104:Third Feedback Session:Q1": {
+      "feedbackSessionName": "Third Feedback Session",
+      "courseId": "CHomeUiT.CS2104",
+      "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

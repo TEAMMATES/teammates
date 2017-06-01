@@ -7,21 +7,24 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidOriginException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.CryptoHelper;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -72,6 +75,9 @@ public abstract class Action {
     /** Session that contains status message information. */
     protected HttpSession session;
 
+    /** Session token used in forms/links to actions requiring origin validation. */
+    protected String sessionToken;
+
     /** This is to get the blobInfo for any file upload from prev pages. */
     protected HttpServletRequest request;
 
@@ -85,6 +91,7 @@ public abstract class Action {
      */
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
+        validateOriginIfRequired();
         authenticateUser();
     }
 
@@ -98,7 +105,7 @@ public abstract class Action {
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
-
+        sessionToken = CryptoHelper.computeSessionToken(session.getId());
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
     }
@@ -118,6 +125,83 @@ public abstract class Action {
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
     }
+
+    // These methods are used for Cross-Site Request Forgery (CSRF) prevention
+
+    private void validateOriginIfRequired() {
+        if (!Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(request.getRequestURI())) {
+            return;
+        }
+
+        String referrer = request.getHeader("referer");
+        if (referrer == null) {
+            throw new InvalidOriginException("Missing HTTP referrer");
+        }
+
+        if (!isHttpReferrerValid(referrer)) {
+            throw new InvalidOriginException("Invalid HTTP referrer");
+        }
+
+        String sessionToken = getRequestParamValue(Const.ParamsNames.SESSION_TOKEN);
+        if (sessionToken == null) {
+            throw new InvalidOriginException("Missing session token");
+        }
+
+        if (!isSessionTokenValid(sessionToken)) {
+            throw new InvalidOriginException("Invalid session token");
+        }
+    }
+
+    /**
+     * Validates the HTTP referrer against the request URL. The origin is the
+     * base URL of the HTTP referrer, which includes the protocol and authority
+     * (host name + port number if specified). Similarly, the target is the base
+     * URL of the requested action URL. For the referrer to be considered valid,
+     * origin and target must match exactly. Otherwise, the request is likely to
+     * be a CSRF attack, and is considered invalid.
+     *
+     * <p>Example of malicious request originating from embedded image in email:
+     * <pre>
+     * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
+     * Referrer:    https://mail.google.com/mail/u/0/
+     *
+     * Target: https://teammatesv4.appspot.com
+     * Origin: https://mail.google.com
+     * </pre>
+     * Origin does not match target. This request is invalid.</p>
+     *
+     * <p>Example of legitimate request originating from instructor courses page:
+     * <pre>
+     * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
+     * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
+     *
+     * Target: https://teammatesv4.appspot.com
+     * Origin: https://teammatesv4.appspot.com
+     * </pre>
+     * Origin matches target. This request is valid.</p>
+     */
+    private boolean isHttpReferrerValid(String referrer) {
+        String origin;
+        try {
+            origin = new Url(referrer).getBaseUrl();
+        } catch (AssertionError e) { // due to MalformedURLException
+            return false;
+        }
+
+        String requestUrl = request.getRequestURL().toString();
+        String target = new Url(requestUrl).getBaseUrl();
+
+        return origin.equals(target);
+    }
+
+    private boolean isSessionTokenValid(String actualToken) {
+        String sessionId = session.getId();
+        String expectedToken = CryptoHelper.computeSessionToken(sessionId);
+
+        return actualToken.equals(expectedToken);
+    }
+
+    // These methods are used for user authentication
 
     protected void authenticateUser() {
         UserType currentUser = gateKeeper.getCurrentUser();
@@ -139,7 +223,7 @@ public abstract class Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         if (currentUser == null) {
-            Assumption.assertNotNull(regkey);
+            Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
             loggedInUser = authenticateNotLoggedInUser(email, courseId);
         } else {
             loggedInUser = logic.getAccount(currentUser.id);
@@ -427,16 +511,9 @@ public abstract class Action {
      * Returns The log message in the special format used for generating the 'activity log' for the Admin.
      */
     public String getLogMessage() {
-        UserType currentUser = gateKeeper.getCurrentUser();
-
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(account,
-                                                                 isInMasqueradeMode(),
-                                                                 statusToAdmin,
-                                                                 requestUrl,
-                                                                 student,
-                                                                 currentUser);
-
-        return activityLogEntry.generateLogMessage();
+        UserType currUser = gateKeeper.getCurrentUser();
+        return new LogMessageGenerator().generatePageActionLogMessage(requestUrl, requestParameters, currUser,
+                                                                      account, student, statusToAdmin);
     }
 
     /**
@@ -581,13 +658,6 @@ public abstract class Action {
 
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
-    }
-
-    protected boolean isInMasqueradeMode() {
-        if (loggedInUser != null && loggedInUser.googleId != null && account != null) {
-            return !loggedInUser.googleId.equals(account.googleId);
-        }
-        return false;
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {

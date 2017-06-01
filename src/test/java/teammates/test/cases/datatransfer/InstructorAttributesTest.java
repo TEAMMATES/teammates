@@ -4,8 +4,8 @@ import static teammates.common.util.Const.EOL;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -200,12 +200,6 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertTrue(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
 
         String sectionId = "sectionId";
-        assertTrue(instructor.isAllowedForPrivilege(
-                sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-        instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(
-                sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-
         String sessionId = "sessionId";
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));

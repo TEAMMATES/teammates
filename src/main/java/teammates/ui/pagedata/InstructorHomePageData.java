@@ -3,8 +3,8 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.ui.template.CourseTable;
 
@@ -14,8 +14,8 @@ public class InstructorHomePageData extends PageData {
     private List<CourseTable> courseTables;
     private String sortCriteria;
 
-    public InstructorHomePageData(AccountAttributes account) {
-        super(account);
+    public InstructorHomePageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
