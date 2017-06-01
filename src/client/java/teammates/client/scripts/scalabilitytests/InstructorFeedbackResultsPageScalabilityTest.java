@@ -14,6 +14,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -57,29 +58,45 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // perform test by reading each entity from datastore or persisting if absent
         verifyOrPersistTestDataToDatastore();
+        
+        readTestDataFromDatastore();
     }
 
+    private void readTestDataFromDatastore() {
+        for (StudentAttributes student : testData.students.values()) {
+            verifyPresentInDatastore(student);
+        }
+
+        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
+            verifyPresentInDatastore(question);
+        }
+
+        for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
+            verifyPresentInDatastore(feedbackResponse);
+        }
+    }
+    
     // verify if entities for testing already exist in datastore
     private void verifyOrPersistTestDataToDatastore() {
         for (StudentAttributes student : testData.students.values()) {
             try {
                 verifyPresentInDatastore(student);
             } catch (AssertionError e) {
-                persistStudentToDataStore(student);
+                // BackDoor.createStudent(student);
             }
         }
         for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
             try {
                 verifyPresentInDatastore(question);
             } catch (AssertionError e) {
-                persistFeedbackQuestionToDataStore(question);
+                // BackDoor.createFeedbackQuestion(question);
             }
         }
         for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
             try {
                 verifyPresentInDatastore(feedbackResponse);
             } catch (AssertionError e) {
-                persistFeedbackResponseToDataStore(feedbackResponse);
+                // BackDoor.createFeedbackResponse(feedbackResponse);
             }
         }
     }
