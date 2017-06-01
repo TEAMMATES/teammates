@@ -29,7 +29,7 @@ import teammates.test.pageobjects.LoginPage;
 public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     /** Indicates if the test-run is to use GodMode. */
-    private static boolean isGodModeEnabled;
+    private static boolean isGodModeEnabled = true;
 
     protected Browser browser;
     protected DataBundle testData;
