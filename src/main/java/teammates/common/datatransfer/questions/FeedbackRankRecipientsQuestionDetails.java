@@ -178,8 +178,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(question, responses);
-        boolean isAvgExclSelfShown = recipientRanksExcludingSelf != null;
+        boolean isAvgExclSelfShown = showAverageExcludingSelf(question);
+        Map<String, List<Integer>> recipientRanksExcludingSelf = null;
+        if (isAvgExclSelfShown) {
+            recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+        }
         DecimalFormat df = new DecimalFormat("#.##");
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
@@ -233,8 +236,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(question, responses);
-        boolean isAvgExclSelfShown = recipientRanksExcludingSelf != null;
+        boolean isAvgExclSelfShown = showAverageExcludingSelf(question);
+        Map<String, List<Integer>> recipientRanksExcludingSelf = null;
+        if (isAvgExclSelfShown) {
+            recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+        }
         DecimalFormat df = new DecimalFormat("#.##");
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
@@ -350,14 +356,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     /**
      * Returns map of recipient ranks excluding self.
      */
-    private Map<String, List<Integer>> getRecipientRanksExcludingSelf(FeedbackQuestionAttributes question,
-            List<FeedbackResponseAttributes> responses) {
-        Map<String, List<Integer>> recipientRanksExcludingSelf = null;
-        if (showAverageExcludingSelf(question)) {
-            List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
-            recipientRanksExcludingSelf = generateOptionRanksMapping(responsesExcludingSelf);
-        }
-        return recipientRanksExcludingSelf;
+    private Map<String, List<Integer>> getRecipientRanksExcludingSelf(List<FeedbackResponseAttributes> responses) {
+        List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
+        return generateOptionRanksMapping(responsesExcludingSelf);
     }
 
     private boolean showAverageExcludingSelf(FeedbackQuestionAttributes question) {
