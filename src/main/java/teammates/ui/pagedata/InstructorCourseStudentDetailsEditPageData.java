@@ -17,7 +17,7 @@ public class InstructorCourseStudentDetailsEditPageData extends InstructorCourse
     public InstructorCourseStudentDetailsEditPageData(
             AccountAttributes account, String sessionToken, StudentAttributes student, String newEmail, boolean hasSection,
             boolean isOpenOrPublishedEmailSentForTheCourse) {
-        super(account, sessionToken, student, null, false, hasSection, null);
+        super(account, sessionToken, student, null, hasSection);
         this.newEmail = newEmail;
         this.isOpenOrPublishedEmailSentForTheCourse = isOpenOrPublishedEmailSentForTheCourse;
     }

@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -251,25 +249,6 @@ public class PageData {
      */
     public String getStudentProfileLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
-        link = addUserIdToUrl(link);
-        if (isUnregistered) {
-            link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
-        }
-        return link;
-    }
-
-    /**
-     * Returns The relative path to the student comments page. Defaults to whether the student is unregistered.
-     */
-    public String getStudentCommentsLink() {
-        return getStudentCommentsLink(isUnregisteredStudent());
-    }
-
-    /**
-     * Returns The relative path to the student comments page. The user Id is encoded in the url as a parameter.
-     */
-    public String getStudentCommentsLink(boolean isUnregistered) {
-        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
         if (isUnregistered) {
             link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
@@ -568,12 +547,6 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCommentsLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
     public String getInstructorCourseRemindLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -587,15 +560,6 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
-        return link;
-    }
-
-    public String getInstructorCourseStudentDetailsLink(String courseId, String studentEmail, String showCommentBox) {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
-        link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link, Const.ParamsNames.SHOW_COMMENT_BOX, showCommentBox);
         return link;
     }
 
@@ -703,56 +667,6 @@ public class PageData {
                                                                                 String returnUrl,
                                                                                 InstructorAttributes instructor) {
         return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
-    }
-
-    /**
-     * Returns the type of people that can view the comment.
-     */
-    public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder(100);
-        for (int i = 0; i < comment.showCommentTo.size(); i++) {
-            CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
-                peopleCanView.append("and ");
-            }
-
-            switch (commentViewer) {
-            case PERSON:
-                peopleCanView.append("recipient, ");
-                break;
-            case TEAM:
-                if (comment.recipientType == CommentParticipantType.TEAM) {
-                    peopleCanView.append("recipient team, ");
-                } else {
-                    peopleCanView.append("recipient's team, ");
-                }
-                break;
-            case SECTION:
-                if (comment.recipientType == CommentParticipantType.SECTION) {
-                    peopleCanView.append("recipient section, ");
-                } else {
-                    peopleCanView.append("recipient's section, ");
-                }
-                break;
-            case COURSE:
-                if (comment.recipientType == CommentParticipantType.COURSE) {
-                    peopleCanView.append("the whole class, ");
-                } else {
-                    peopleCanView.append("other students in this course, ");
-                }
-                break;
-            case INSTRUCTOR:
-                peopleCanView.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        String peopleCanViewString = peopleCanView.toString();
-        if (peopleCanViewString.isEmpty()) {
-            return peopleCanViewString;
-        }
-        return removeEndComma(peopleCanViewString);
     }
 
     /**
