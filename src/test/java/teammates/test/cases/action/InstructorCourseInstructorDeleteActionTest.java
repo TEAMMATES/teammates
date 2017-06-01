@@ -46,7 +46,9 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, "idOfInstructor1OfCourse1",
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
+                        false,
+                        "idOfInstructor1OfCourse1",
                         "idOfTypicalCourse1"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
@@ -101,7 +103,9 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        true, "idOfInstructor4", "idOfCourseNoEvals"),
+                        true,
+                        "idOfInstructor4",
+                        "idOfCourseNoEvals"),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());

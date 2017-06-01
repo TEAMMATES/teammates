@@ -187,8 +187,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, r.isError, "student1InCourse1",
-                        "idOfTypicalCourse1", "First+feedback+session"),
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
 
         // submission confirmation email not sent if the action is an error, even with submission parameter "on"
@@ -239,8 +242,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, r.isError, "student1InCourse1",
-                        "idOfTypicalCourse1", "First+feedback+session"),
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 

@@ -184,8 +184,9 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageResult = getShowPageResult(pageAction);
 
         assertEquals(
-                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
-                student1InCourse1.googleId), pageResult.getDestinationWithParams());
+                getPageResultDestination(
+                        Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, student1InCourse1.googleId),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -197,8 +198,9 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         pageResult = getShowPageResult(pageAction);
 
         assertEquals(
-                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false,
-                student1InCourse1.googleId), pageResult.getDestinationWithParams());
+                getPageResultDestination(
+                        Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, student1InCourse1.googleId),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 

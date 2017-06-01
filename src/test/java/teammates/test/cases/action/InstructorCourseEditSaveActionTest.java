@@ -71,8 +71,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         statusMessage = Const.StatusMessages.COURSE_EDITED;
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, instructorId, courseId),
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with empty string");
@@ -115,8 +114,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                             FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: edit course name with name containing | and %");
@@ -137,8 +135,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                             FieldValidator.REASON_CONTAINS_INVALID_CHAR);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
 
         ______TS("Failure case: invalid time zone");
@@ -158,8 +155,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                             FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
     }
 

@@ -80,7 +80,8 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         assertEquals(
                 getPageResultDestination(
-                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false,
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT,
+                        false,
                         instructor.googleId),
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());

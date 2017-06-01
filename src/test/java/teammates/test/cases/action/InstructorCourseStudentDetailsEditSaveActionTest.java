@@ -77,7 +77,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
-                        false, "idOfInstructor1OfCourse1",
+                        false,
+                        "idOfInstructor1OfCourse1",
                         "idOfTypicalCourse1"),
                 r.getDestinationWithParams());
 
@@ -125,7 +126,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
-                        false, "idOfInstructor1OfCourse1",
+                        false,
+                        "idOfInstructor1OfCourse1",
                         "idOfTypicalCourse1"),
                 rToBeTrimmed.getDestinationWithParams());
 

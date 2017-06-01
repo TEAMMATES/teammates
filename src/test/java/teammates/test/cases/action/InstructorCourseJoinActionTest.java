@@ -49,7 +49,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(
                         Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
-                        false, "idOfInstructor1OfCourse1", invalidEncryptedKey),
+                        false,
+                        "idOfInstructor1OfCourse1",
+                        invalidEncryptedKey),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -108,7 +110,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(
                         Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
-                        false, "ICJAT.instr", StringHelper.encrypt(newInstructor.key)),
+                        false,
+                        "ICJAT.instr",
+                        StringHelper.encrypt(newInstructor.key)),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());

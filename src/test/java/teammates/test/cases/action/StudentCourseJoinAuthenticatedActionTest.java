@@ -184,7 +184,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_HOME_PAGE,
-                        "idOfCourseNoEvals", false, "idOfNoFSStudent2"),
+                        "idOfCourseNoEvals",
+                        false,
+                        "idOfNoFSStudent2"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
