@@ -755,6 +755,7 @@
         </div>
       </div>
       <input name="user" type="hidden" value="CFeedbackUiT.helper">
+      <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
@@ -817,7 +818,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&user=CFeedbackUiT.helper" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -832,7 +833,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Awaiting Session #" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Awaiting Session #" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -841,7 +842,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Awaiting Session #" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                    <a class="session-remind-inner-for-test" data-fsname="Awaiting Session #" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -853,7 +854,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Awaiting Session #" data-original-title="This session is not yet opened" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Awaiting Session #" data-original-title="This session is not yet opened" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Publish Results
             </a>
           </td>
@@ -882,7 +883,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&user=CFeedbackUiT.helper" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session #" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -897,7 +898,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Open Session #" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Open Session #" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -906,7 +907,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Open Session #" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                    <a class="session-remind-inner-for-test" data-fsname="Open Session #" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -918,7 +919,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Open Session #" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Open Session #" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Open+Session+%23&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Publish Results
             </a>
           </td>
@@ -947,7 +948,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.helper" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -962,7 +963,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -971,7 +972,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="First Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                    <a class="session-remind-inner-for-test" data-fsname="First Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -983,7 +984,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="First Session #1" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="First Session #1" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Unpublish Results
             </a>
           </td>
@@ -1012,7 +1013,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&user=CFeedbackUiT.helper" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session #1" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -1027,7 +1028,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Manual Session #1" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Manual Session #1" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -1036,7 +1037,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Manual Session #1" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper">
+                    <a class="session-remind-inner-for-test" data-fsname="Manual Session #1" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -1048,7 +1049,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Manual Session #1" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Manual Session #1" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.helper&token=${sessionToken}" title="">
               Publish Results
             </a>
           </td>
@@ -1065,7 +1066,7 @@
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbacksPage" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -1171,6 +1172,7 @@
             <input id="modalSessionName" name="fsname" type="hidden" value="">
             <input id="modalCourseId" name="courseid" type="hidden" value="">
             <input name="user" type="hidden" value="CFeedbackUiT.helper">
+            <input name="token" type="hidden" value="${sessionToken}">
           </form>
         </div>
         <div class="modal-footer margin-0">
@@ -1187,7 +1189,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×

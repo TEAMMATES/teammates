@@ -14,8 +14,8 @@ public class AdminHomePageData extends PageData {
     // e.g: "Instructor1 \t instructor1@test.com \t NUS"
     public String instructorDetailsSingleLine;
 
-    public AdminHomePageData(AccountAttributes account) {
-        super(account);
+    public AdminHomePageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public String getInstructorShortName() {

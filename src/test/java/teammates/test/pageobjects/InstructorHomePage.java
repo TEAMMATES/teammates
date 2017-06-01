@@ -89,7 +89,7 @@ public class InstructorHomePage extends AppPage {
         clickElements(tablesSortByEndDate);
     }
 
-    public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
+    public InstructorCourseEnrollPage clickCourseEnrollLink(String courseId) {
         click(getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);

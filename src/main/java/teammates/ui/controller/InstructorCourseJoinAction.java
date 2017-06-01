@@ -53,7 +53,7 @@ public class InstructorCourseJoinAction extends Action {
         //will be null
 
         InstructorCourseJoinConfirmationPageData pageData =
-                                        new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
+                new InstructorCourseJoinConfirmationPageData(account, sessionToken, regkey, institute);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);
     }

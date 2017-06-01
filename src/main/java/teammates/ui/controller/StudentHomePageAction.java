@@ -53,7 +53,7 @@ public class StudentHomePageAction extends Action {
             }
         }
 
-        StudentHomePageData data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
+        StudentHomePageData data = new StudentHomePageData(account, sessionToken, courses, sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
     }

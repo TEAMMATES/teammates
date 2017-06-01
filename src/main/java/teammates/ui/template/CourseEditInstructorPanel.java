@@ -231,15 +231,6 @@ public class CourseEditInstructorPanel {
         permissionInputGroup.add(createCheckBox("View Students' Details",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
 
-        permissionInputGroup.add(createCheckBox("Give Comments for Students",
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-
-        permissionInputGroup.add(createCheckBox("View Others' Comments on Students",
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-
-        permissionInputGroup.add(createCheckBox("Edit/Delete Others' Comments on Students",
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
-
         return permissionInputGroup;
     }
 

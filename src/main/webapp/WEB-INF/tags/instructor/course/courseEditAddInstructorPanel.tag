@@ -21,6 +21,7 @@
                 class="form form-horizontal" id="formAddInstructor">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
             
             <div id="instructorAddTable">
                 <div class="form-group">
