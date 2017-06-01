@@ -96,12 +96,18 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 chosenChoice = SanitizationHelper.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
                             + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
-                            + ")</i></span><br>");
+                            + ")</i></span>");
+                html.append(getAddtionalInfoHtml(fqd.getRubricSubQuestions().get(i)) + "<br>");
             }
 
         }
 
         return html.toString();
+    }
+
+    private String getAddtionalInfoHtml(String subQuestion) {
+        return "&nbsp;<span data-toggle=\"tooltip\" data-placement=\"right\" title=\"" + subQuestion + "\""
+                + " class=\"glyphicon glyphicon-exclamation-sign text-info\"></span>";
     }
 
     @Override
