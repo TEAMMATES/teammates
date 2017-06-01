@@ -241,6 +241,8 @@ public class Logic {
                 .withIsArchived(isArchived)
                 .build();
 
+        // In case when roleParam is null, default values used both for role and for privileges.
+        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
         if (privileges == null && roleParam != null) {
             instructor.privileges = new InstructorPrivileges(roleParam);
         }

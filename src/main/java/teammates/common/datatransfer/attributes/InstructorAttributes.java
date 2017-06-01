@@ -49,6 +49,8 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     public static InstructorAttributes valueOf(Instructor instructor) {
+        instructor.setGeneratedKeyIfNull();
+
         return builder(instructor.getGoogleId(), instructor.getCourseId(), instructor.getName(), instructor.getEmail())
                 .withKey(instructor.getRegistrationKey())
                 .withRole(instructor.getRole())
