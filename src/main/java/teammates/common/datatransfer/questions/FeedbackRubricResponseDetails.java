@@ -83,10 +83,12 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
-        StringBuilder html = new StringBuilder(100);
+        StringBuilder html = new StringBuilder(500);
         for (int i = 0; i < answer.size(); i++) {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
+            String additionalInfo = getAddtionalInfoHtml(fqd.getRubricSubQuestions().get(i));
+
             if (chosenIndex == -1) {
                 chosenChoice = "<span class=\"color_neutral\"><i>"
                              + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE
@@ -97,7 +99,8 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
                             + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
                             + ")</i></span>");
-                html.append(getAddtionalInfoHtml(fqd.getRubricSubQuestions().get(i)) + "<br>");
+                html.append(additionalInfo);
+                html.append("<br>");
             }
 
         }
