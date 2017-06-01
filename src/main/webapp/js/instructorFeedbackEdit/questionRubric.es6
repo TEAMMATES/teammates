@@ -145,6 +145,8 @@ function addRubricCol(questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
+
+    disableMoveColumnButtons(questionNum)
 }
 
 function removeRubricRow(index, questionNum) {
@@ -189,6 +191,7 @@ function removeRubricCol(index, questionNum) {
             $thisCol.find('input[id^="rubricWeight"]').val(0);
         } else {
             $thisCol.remove();
+            disableMoveColumnButtons(questionNum)
 
             if ($(questionId).attr('editStatus') === 'hasResponses') {
                 $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -249,6 +252,39 @@ function swapRubricCol(colIndex, questionNum, isSwapLeft) {
         temp = $currentCell.val();
         $currentCell.val($swapCell.val());
         $swapCell.val(temp);
+    }
+}
+
+function disableMoveColumnButtons(questionNum) {
+    const $optionColumns = $(`#rubricOptionsRow-${questionNum} td[class*='rubricCol-']`);
+
+    // check left button of leftmost column, should be disabled
+    const $leftmostCol = $optionColumns.first();
+    const leftmostColIndex = $leftmostCol.attr('data-col');
+    const $leftmostColLeftBtn = $leftmostCol.find(`#rubricMoveChoiceLink-${questionNum}-${leftmostColIndex}-l`);
+
+    if (!$leftmostColLeftBtn.prop('disabled')) {
+        $leftmostColLeftBtn.prop('disabled', true);
+    }
+
+    // check right button of rightmost column, should be disabled
+    const $rightmostCol = $optionColumns.last();
+    const rightmostColIndex = $rightmostCol.attr('data-col');
+    const $rightmostColRightBtn = $rightmostCol.find(`#rubricMoveChoiceLink-${questionNum}-${rightmostColIndex}-r`);
+
+    if (!$rightmostColRightBtn.prop('disabled')) {
+        $rightmostColRightBtn.prop('disabled', true);
+    }
+    
+    // check the second last column right button, should be enabled
+    if ($optionColumns.length > 2) {
+        const $secondlastCol = $rightmostCol.prev();
+        const secondlastColIndex = $secondlastCol.attr('data-col');
+        const $secondlastColRightBtn = $secondlastCol.find(`#rubricMoveChoiceLink-${questionNum}-${secondlastColIndex}-r`);
+        
+        if ($secondlastColRightBtn.prop('disabled')) {
+            $secondlastColRightBtn.prop('disabled', false);
+        }
     }
 }
 
@@ -322,6 +358,19 @@ function bindAssignWeightsCheckboxes() {
 function hasAssignedWeights(questionNum) {
     return $(`#rubricAssignWeights-${questionNum}`).prop('checked');
 }
+
+// call disableMoveColumnButtons when "Edit" button is clicked for rubric questions
+$(function() {
+    const numQuestions = $('a[id*="questionedittext-"]').length;
+    
+    for (let index = 1; index <= numQuestions; index += 1) {
+        if ($(`#rubricOptionsRow-${index}`).length !== 0) {
+            $(`#questionedittext-${index}`).click(() => {
+                disableMoveColumnButtons(index);
+            });
+        }
+    }
+});
 
 /* exported
 addRubricRow, addRubricCol, removeRubricRow, removeRubricCol, highlightRubricRow, highlightRubricCol
