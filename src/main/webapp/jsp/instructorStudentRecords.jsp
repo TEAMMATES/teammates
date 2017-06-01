@@ -9,6 +9,8 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
+    <script src="/js/const.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/instructorComments.js"></script>
