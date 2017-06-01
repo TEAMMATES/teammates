@@ -32,7 +32,7 @@ public class AdminSearchPageAction extends Action {
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);
 
-        AdminSearchPageData data = new AdminSearchPageData(account);
+        AdminSearchPageData data = new AdminSearchPageData(account, sessionToken);
 
         if (searchKey == null || searchKey.trim().isEmpty()) {
 

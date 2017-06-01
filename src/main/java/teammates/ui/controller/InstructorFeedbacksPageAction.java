@@ -34,7 +34,7 @@ public class InstructorFeedbacksPageAction extends Action {
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account, sessionToken);
         data.setUsingAjax(isUsingAjax != null);
 
         boolean omitArchived = true; // TODO: implement as a request parameter

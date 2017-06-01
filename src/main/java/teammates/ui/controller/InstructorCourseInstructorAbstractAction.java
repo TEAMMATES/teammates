@@ -85,12 +85,6 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
         boolean isViewStudentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS) != null;
-        boolean isViewCommentInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS) != null;
-        boolean isGiveCommentInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS) != null;
-        boolean isModifyCommentInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS) != null;
 
         boolean isViewSessionInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS) != null;
@@ -110,12 +104,6 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
 
         instructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
                                               isViewStudentInSectionsChecked);
-        instructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
-                                              isViewCommentInSectionsChecked);
-        instructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                                              isGiveCommentInSectionsChecked);
-        instructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
-                                              isModifyCommentInSectionsChecked);
 
         instructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
                                               isViewSessionInSectionsChecked);
@@ -227,15 +215,6 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         boolean isViewStudentInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS
                                      + sectionGroupName) != null;
-        boolean isViewCommentInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS
-                                     + sectionGroupName) != null;
-        boolean isGiveCommentInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS
-                                     + sectionGroupName) != null;
-        boolean isModifyCommentInSectionsChecked =
-                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS
-                                     + sectionGroupName) != null;
 
         boolean isViewSessionInSectionsChecked =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
@@ -251,15 +230,6 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
             instructor.privileges.updatePrivilege(
                     sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
                     isViewStudentInSectionsChecked);
-            instructor.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
-                    isViewCommentInSectionsChecked);
-            instructor.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                    isGiveCommentInSectionsChecked);
-            instructor.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
-                    isModifyCommentInSectionsChecked);
             instructor.privileges.updatePrivilege(
                     sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
                     isViewSessionInSectionsChecked);

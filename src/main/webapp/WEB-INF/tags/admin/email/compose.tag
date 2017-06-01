@@ -11,7 +11,8 @@
         <c:if test="${(not empty emailToEdit) and (not empty emailToEdit.sendDate) and (not empty emailToEdit.emailId)}">
             <input type="hidden" value="${emailToEdit.emailId}" name="<%=Const.ParamsNames.ADMIN_EMAIL_ID%>">
         </c:if>
-        
+        <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
+
         To :
         <div class="row">
             <div class="col-md-11">

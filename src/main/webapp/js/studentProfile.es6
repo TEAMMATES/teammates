@@ -1,4 +1,5 @@
-/* global setStatusMessage:false StatusType:false scrollToTop:false bindLinksInUnregisteredPage:false */
+/* global setStatusMessage:false StatusType:false scrollToTop:false bindLinksInUnregisteredPage:false
+   makeCsrfTokenParam:false */
 
 function finaliseEditPictureForm() {
     const picture = $('#editableProfilePicture');
@@ -23,7 +24,7 @@ function finaliseUploadPictureForm() {
 
     const initialSubmitMessage = $('#profileUploadPictureSubmit').html();
     $.ajax({
-        url: `/page/studentProfileCreateFormUrl?user=${$("input[name='user']").val()}`,
+        url: `/page/studentProfileCreateFormUrl?${makeCsrfTokenParam()}&user=${$("input[name='user']").val()}`,
         beforeSend() {
             $('#profileUploadPictureSubmit').html('<img src="/images/ajax-loader.gif">');
         },

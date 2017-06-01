@@ -21,7 +21,7 @@ public class InstructorCourseEditPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String index = getRequestParamValue(Const.ParamsNames.COURSE_EDIT_MAIN_INDEX);
 
@@ -50,7 +50,7 @@ public class InstructorCourseEditPageAction extends Action {
             feedbackNames.add(feedback.getFeedbackSessionName());
         }
 
-        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit,
+        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, sessionToken, courseToEdit,
                                                                              instructorList, instructor,
                                                                              instructorToShowIndex,
                                                                              sectionNames, feedbackNames);

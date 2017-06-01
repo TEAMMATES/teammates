@@ -39,7 +39,7 @@ public class AdminSessionsPageAction extends Action {
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        data = new AdminSessionsPageData(account);
+        data = new AdminSessionsPageData(account, sessionToken);
 
         isShowAll = getRequestParamAsBoolean("all");
 

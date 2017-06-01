@@ -32,9 +32,13 @@ public final class SanitizationHelper {
                 .allowAttributes("align")
                     .matching(true, "center", "left", "right", "justify", "char")
                     .onElements("p")
+                .allowAttributes("colspan", "rowspan").onElements("td", "th")
+                .allowAttributes("cellspacing").onElements("table")
                 .allowElements(
                     "a", "p", "div", "i", "b", "em", "blockquote", "tt", "strong", "hr",
-                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span")
+                    "br", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "img", "span",
+                    "table", "tr", "td", "th", "tbody", "tfoot", "thead", "caption", "colgroup",
+                    "sup", "sub", "code")
                 .allowElements("quote", "ecode")
                 .allowStyling()
                 .toFactory();
@@ -359,5 +363,27 @@ public final class SanitizationHelper {
             return "''";
         }
         return "concat(" + result.toString() + "'')";
+    }
+
+    /**
+     * Returns true if the {@code string} has evidence of having been sanitized.
+     * A string is considered sanitized if it does not contain any of the chars '<', '>', '/', '\"', '\'',
+     * and contains at least one of their sanitized equivalents or the sanitized equivalent of '&'.
+     *
+     * <p>Eg. "No special characters", "{@code <p>&quot;with quotes&quot;</p>}" are considered to be not sanitized.<br>
+     *     "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
+     * </p>
+     */
+    public static boolean isSanitizedHtml(String string) {
+        return string != null
+                && !StringHelper.isTextContainingAny(string, "<", ">", "\"", "/", "\'")
+                && StringHelper.isTextContainingAny(string, "&lt;", "&gt;", "&quot;", "&#x2f;", "&#39;", "&amp;");
+    }
+
+    /**
+     * Returns the desanitized {@code string} if it is sanitized, otherwise returns the unchanged string.
+     */
+    public static String desanitizeIfHtmlSanitized(String string) {
+        return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
     }
 }

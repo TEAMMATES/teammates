@@ -118,18 +118,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
         assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.googleId),
                      profileToSanitize.googleId);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.shortName),
-                     profileToSanitize.shortName);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.institute),
-                     profileToSanitize.institute);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.email),
-                     profileToSanitize.email);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.nationality),
-                     profileToSanitize.nationality);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.gender),
-                     profileToSanitize.gender);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
-                     profileToSanitize.moreInfo);
+        assertEquals(profileToSanitizeExpected.shortName, profileToSanitize.shortName);
+        assertEquals(profileToSanitizeExpected.institute, profileToSanitize.institute);
+        assertEquals(profileToSanitizeExpected.email, profileToSanitize.email);
+        assertEquals(profileToSanitizeExpected.nationality, profileToSanitize.nationality);
+        assertEquals(profileToSanitizeExpected.gender, profileToSanitize.gender);
+        assertEquals(profileToSanitizeExpected.moreInfo, profileToSanitize.moreInfo);
+        assertEquals(profileToSanitizeExpected.pictureKey, profileToSanitize.pictureKey);
     }
 
     @Test

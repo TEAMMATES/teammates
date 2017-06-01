@@ -8,7 +8,7 @@ public class AdminEmailDraftPageAction extends Action {
     @Override
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailDraftPageData data = new AdminEmailDraftPageData(account);
+        AdminEmailDraftPageData data = new AdminEmailDraftPageData(account, sessionToken);
 
         data.draftEmailList = logic.getAdminEmailDrafts();
         statusToAdmin = "adminEmailDraftPage Page Load";
