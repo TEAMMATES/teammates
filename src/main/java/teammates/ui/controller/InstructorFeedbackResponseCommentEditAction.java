@@ -19,7 +19,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
-public class InstructorFeedbackResponseCommentEditAction extends Action {
+public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
