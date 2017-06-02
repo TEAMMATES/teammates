@@ -30,9 +30,10 @@
                 </div>
 
                 <a href="/instructorHelp.jsp#fbQuestionTypes"
-                    target="_blank" rel="noopener noreferrer"> <i
-                    class="glyphicon glyphicon-info-sign"></i>
-                </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px" 
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+                <a id="button_copy" class="btn btn-primary margin-bottom-7px" 
                         data-actionlink="${data.instructorQuestionCopyPageLink}"
                         data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
                         data-target="#copyModal" data-toggle="modal">
