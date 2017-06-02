@@ -7,8 +7,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="groupByQuestionPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel" required="true" %>
-<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
-
 
 <div class="panel ${not empty groupByQuestionPanel.questionTables ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
@@ -43,7 +41,7 @@
             <c:choose>
                 <c:when test="${not empty groupByQuestionPanel.questionTables}">
                     <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                        <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}"/>        
+                        <results:questionPanel questionPanel="${questionTable}"/>        
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

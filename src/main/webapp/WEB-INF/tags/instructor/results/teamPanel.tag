@@ -5,7 +5,6 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="teamIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="statisticsHeaderText" required="true"%>
 <%@ attribute name="detailedResponsesHeaderText" required="true"%>
@@ -49,7 +48,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${statsTables}" var="statsTable">
-                                    <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${statsTable}"/>
+                                    <results:questionPanel questionPanel="${statsTable}"/>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
@@ -70,7 +69,7 @@
              
             <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
                 <c:forEach items="${participantPanels}" var="participantPanel">
-                    <results:participantPanel isShowingAll="${isShowingAll}" participantPanel="${participantPanel}" 
+                    <results:participantPanel participantPanel="${participantPanel}" 
                                               isSecondaryParticipantType="${isSecondaryParticipantType}"/>
                 </c:forEach>
              </c:if>

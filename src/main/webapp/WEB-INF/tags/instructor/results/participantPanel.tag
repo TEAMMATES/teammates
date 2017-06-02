@@ -6,7 +6,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="participantPanel" type="teammates.ui.template.InstructorFeedbackResultsParticipantPanel" required="true" %>
-<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 
 <%-- TODO use enum --%>
 <%@ attribute name="isSecondaryParticipantType" type="java.lang.Boolean" required="true" %>
@@ -16,7 +15,6 @@
         <results:participantGroupBySecondaryParticipantPanel groupByParticipantPanel="${participantPanel}"/>
     </c:when>
     <c:otherwise>
-        <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}" 
-                                                 isShowingAll="${isShowingAll}"/>
+        <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}"/>
     </c:otherwise>
 </c:choose>
