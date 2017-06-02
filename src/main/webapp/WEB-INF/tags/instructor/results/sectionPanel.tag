@@ -31,7 +31,7 @@
                             </a>
                             &nbsp;
                             <div class="display-icon" style="display:inline;">
-                            	<span class="glyphicon glyphicon-chevron-up"></span>
+                                <span class="glyphicon glyphicon-chevron-up"></span>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             </a>
                             &nbsp;
                             <div class="display-icon" style="display:inline;">
-                            	<span class="glyphicon glyphicon-chevron-down"></span>
+                                <span class="glyphicon glyphicon-chevron-down"></span>
                             </div>
                         </div>
                      </div>
