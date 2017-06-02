@@ -87,8 +87,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
 
-    public InstructorFeedbackResultsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     /**

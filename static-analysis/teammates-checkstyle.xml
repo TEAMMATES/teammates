@@ -114,7 +114,7 @@
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
     </module>
     <module name="ConstantName">
-      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation)$"/>
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation|dummySessionToken)$"/>
     </module>
     <module name="RegexpSinglelineJava">
       <property name="format" value="\s+$"/>

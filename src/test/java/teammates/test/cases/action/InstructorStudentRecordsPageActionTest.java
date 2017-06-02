@@ -98,7 +98,6 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(instructorId, actualData.account.googleId);
         assertEquals(instructor.courseId, actualData.getCourseId());
-        assertEquals(1, actualData.getCommentsForStudentTable().get(0).getRows().size());
         assertEquals(6, actualData.getSessionNames().size());
         assertEquals(student.googleId, actualData.spa.googleId);
 
@@ -189,7 +188,6 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=" + instructorId,
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals(1, actualData.getCommentsForStudentTable().get(0).getRows().size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
                 + "|||true|||Instructor|||Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;"

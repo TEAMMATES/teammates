@@ -43,9 +43,17 @@ function highlightKeywordsInEmailLogMessages() {
 
 $(document).ready(() => {
     bindClickAction();
+    enableOnclicks();
     highlightKeywordsInEmailLogMessages();
     $('#filterReference').toggle();
 });
+
+function enableOnclicks() {
+    $(document).on('click', '#button_older', () => {
+        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+        submitFormAjax(nextEndTimeToSearch);
+    });
+}
 
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);

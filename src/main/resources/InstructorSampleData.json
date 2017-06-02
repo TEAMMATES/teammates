@@ -125,14 +125,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -2782,71 +2779,6 @@
       "createdAt": "2016-03-01 11:59 PM UTC",
       "commentText": {
         "value": "Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too."
-      }
-    }
-  },
-  "comments": {
-    "comment1FromI1C1toS1C1": {
-      "courseId": "demo.course",
-      "giverEmail": "teammates.demo.instructor@demo.course",
-      "recipientType": "PERSON",
-      "recipients": [
-        "alice.b.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2016-03-30 11:59 PM UTC",
-      "commentText": {
-        "value": "Alice wanted me to help her catch up with project work"
-      }
-    },
-    "comment1FromI1C1toS2C1": {
-      "courseId": "demo.course",
-      "giverEmail": "teammates.demo.instructor@demo.course",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "TEAM"
-      ],
-      "showGiverNameTo": [
-        "TEAM"
-      ],
-      "showRecipientNameTo": [
-        "TEAM"
-      ],
-      "createdAt": "2016-03-31 11:59 PM UTC",
-      "commentText": {
-        "value": "Benny, Thanks for helping Alice in her project work. Keep up the good work!"
-      }
-    },
-    "comment1FromI1C1toS3C1": {
-      "courseId": "demo.course",
-      "giverEmail": "teammates.demo.instructor@demo.course",
-      "recipientType": "PERSON",
-      "recipients": [
-        "danny.e.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "TEAM",
-        "COURSE"
-      ],
-      "showGiverNameTo": [
-        "TEAM",
-        "COURSE"
-      ],
-      "showRecipientNameTo": [
-        "TEAM",
-        "COURSE"
-      ],
-      "createdAt": "2016-04-01 11:59 PM UTC",
-      "commentText": {
-        "value": "Danny great job, you've topped the course this month!"
       }
     }
   },

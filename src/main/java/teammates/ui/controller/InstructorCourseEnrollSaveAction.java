@@ -48,7 +48,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
             boolean hasSection = hasSections(students);
 
-            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
+            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, sessionToken,
                                                                     courseId, students, hasSection, studentsInfo);
 
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
@@ -61,7 +61,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
-            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
+            InstructorCourseEnrollPageData pageData =
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
@@ -73,7 +74,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
                                       + "servers. Please try again after about 10 minutes. If the problem persists, "
                                       + "please contact TEAMMATES support", StatusMessageColor.DANGER));
 
-            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
+            InstructorCourseEnrollPageData pageData =
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
