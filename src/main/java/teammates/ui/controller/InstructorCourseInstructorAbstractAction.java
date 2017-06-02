@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -37,7 +38,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         for (FeedbackSessionAttributes feedback : feedbacks) {
             feedbackNames.add(feedback.getFeedbackSessionName());
         }
-        HashMap<String, List<String>> sectionNamesMap = getSectionsWithSpecialPrivilegesFromParameters(
+        Map<String, List<String>> sectionNamesMap = getSectionsWithSpecialPrivilegesFromParameters(
                                                                 instructor, sectionNames,
                                                                 isSectionSpecialMappings);
         for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {
@@ -134,9 +135,9 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
      *                                     This will be modified within the method.
      * @return List of section group names with their associated special sections.
      */
-    protected HashMap<String, List<String>> getSectionsWithSpecialPrivilegesFromParameters(
+    protected Map<String, List<String>> getSectionsWithSpecialPrivilegesFromParameters(
             InstructorAttributes instructor, List<String> sectionNames,
-            HashMap<String, Boolean> isSectionSpecialMappings) {
+            Map<String, Boolean> isSectionSpecialMappings) {
         HashMap<String, List<String>> specialSectionsInSectionGroups = new HashMap<String, List<String>>();
         if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             getSectionsWithSpecialPrivilegesForCustomInstructor(sectionNames, isSectionSpecialMappings,
@@ -156,8 +157,8 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
      *                                           This will be modified within the method.
      */
     protected void getSectionsWithSpecialPrivilegesForCustomInstructor(List<String> sectionNames,
-            HashMap<String, Boolean> isSectionSpecialMappings,
-            HashMap<String, List<String>> specialSectionsInSectionGroups) {
+            Map<String, Boolean> isSectionSpecialMappings,
+            Map<String, List<String>> specialSectionsInSectionGroups) {
         for (int i = 0; i < sectionNames.size(); i++) {
             String sectionGroupIsSetStr =
                     getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
@@ -187,8 +188,8 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
      * @param sectionGroupIndex              Index of the section group to be updated.
      * @param sectionToMark                  Section that will be marked as special.
      */
-    protected void markSectionAsSpecial(HashMap<String, Boolean> isSectionSpecialMappings,
-            HashMap<String, List<String>> specialSectionsInSectionGroups, int sectionGroupIndex,
+    protected void markSectionAsSpecial(Map<String, Boolean> isSectionSpecialMappings,
+            Map<String, List<String>> specialSectionsInSectionGroups, int sectionGroupIndex,
             String sectionToMark) {
         // indicate that section group covers the section
         // and mark that this section is special
