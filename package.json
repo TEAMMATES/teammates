@@ -6,6 +6,7 @@
     "eslint-config-airbnb-base": "11.1.1",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-json": "1.2.0",
+    "lintspaces-cli": "0.6.0",
     "stylelint": "7.9.0"
   },
   "babel": {
@@ -25,6 +26,7 @@
     "lint:test": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint.yml --ext .es6",
     "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
-    "lint": "npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css"
+    "lint:spaces": "lintspaces 'src/**/*.jsp' 'src/**/*.tag' 'src/main/**/*.html' 'src/**/*.xml' 'src/**/*.json' 'src/**/*.css' 'src/**/*.java' 'src/**/*.es6'",
+    "lint": "npm run lint:spaces && npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css"
   }
 }
