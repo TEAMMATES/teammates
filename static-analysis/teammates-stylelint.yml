@@ -500,7 +500,7 @@ rules:
     indentation: 4
 
     # Limit the number of adjacent empty lines
-    max-empty-lines: 1
+    # max-empty-lines: 1
 
     # Limit the length of a line
     max-line-length: 125
@@ -518,7 +518,7 @@ rules:
     no-empty-source: true
 
     # Disallow end-of-line whitespace
-    no-eol-whitespace: true
+    # no-eol-whitespace: true
 
     # Disallow extra semicolons
     no-extra-semicolons: true
@@ -527,7 +527,7 @@ rules:
     no-invalid-double-slash-comments: true
 
     # Disallow missing end-of-source newlines
-    no-missing-end-of-source-newline: true
+    # no-missing-end-of-source-newline: true
 
     # Disallow animation names that do not correspond to a @keyframes declaration
     # no-unknown-animations
