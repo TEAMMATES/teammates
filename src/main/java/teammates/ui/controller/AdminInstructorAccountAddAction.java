@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -201,14 +200,11 @@ public class AdminInstructorAccountAddAction extends Action {
             log.warning("Data Persistence was Checked Twice in This Request");
         }
 
-        //produce searchable documents
-        List<CommentAttributes> comments = logic.getCommentsForGiver(courseId, pageData.instructorEmail);
         List<FeedbackResponseCommentAttributes> frComments =
                 logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putCommentDocuments(comments);
         logic.putFeedbackResponseCommentDocuments(frComments);
         logic.putStudentDocuments(students);
         logic.putInstructorDocuments(instructors);

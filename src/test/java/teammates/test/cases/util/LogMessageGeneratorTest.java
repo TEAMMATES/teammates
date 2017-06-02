@@ -161,8 +161,8 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
 
-        url = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
-        logMessage = String.format(logTemplate, "instructorCommentsPage", "Instructor");
+        url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
+        logMessage = String.format(logTemplate, "instructorCoursesPage", "Instructor");
 
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
@@ -178,11 +178,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         ______TS("Google login (Admin Masquerade Mode)");
 
-        url = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
+        url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         userType.isAdmin = true;
         acc = new AccountAttributes("anotherGoogleId", "david", false, "david@email.com", "NUS");
-        logMessage = "TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor(M)|||david"
-                     + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCommentsPage";
+        logMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage|||true|||Instructor(M)|||david"
+                     + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCoursesPage";
 
         // masquerade: userType and account don't have the same google id
         generatedMessage =

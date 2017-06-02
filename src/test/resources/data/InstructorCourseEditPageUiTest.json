@@ -48,14 +48,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -74,14 +71,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -100,14 +94,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": false,
-          "canviewcommentinsection": true,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -126,14 +117,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -152,14 +140,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -178,14 +163,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -205,14 +187,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -287,6 +266,5 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }
