@@ -87,7 +87,7 @@ Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work wi
 You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
 
 ### Prerequisites
-1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA.
+1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA as follows:
 
     1. If you have no current projects open, click `Configure → Project Defaults → Project Structure`.\
        **OR**\
@@ -95,26 +95,26 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
     1. Select SDKs in Platform Settings and check if there is a SDK named `1.7` with a JDK home path pointing to a
        JDK 7 path. Otherwise add a new SDK using JDK 7 with a name of `1.7`.
 
-1. You need the system property `ide=idea` in the VM options of Global Gradle settings.
+1. You need the system property `ide=idea` for `Gradle VM options:` under `Global Gradle settings` as follows:
 
     1. If you have no current projects open, click `Configure → Settings/Preferences`.\
        **OR**\
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
-    1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under Global Gradle settings,
-       add `-Dide=idea` to the Gradle VM options.
+    1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under `Global Gradle settings`,
+       add `-Dide=idea` to `Gradle VM options:`.
 
 ### Automated Setup
 
 If you do not wish to use the automated setup, you can follow the [manual setup](#manual-setup) below.
 
-1. Run this command to create a pre-configured IntelliJ project:
+1. Run this command to create a pre-configured IntelliJ IDEA project:
    ```sh
    ./gradlew setupIntellijProject
    ```
 
-1. Open the project in IntelliJ IDEA.
+1. Open the project in IntelliJ IDEA. It will generate some user specific settings. Wait for it to finish indexing.
 
-1. Run this command to configure some other settings for the project:
+1. Run this command to automatically configure your user specific settings:
    ```sh
    ./gradlew setupIntellijProjectSettings
    ```
