@@ -461,25 +461,26 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
-        String instructorFragmentArgumentInstructors = generateInstructorFragment(course.getId(), course.getName());
+        // The instructor fragment is populated by calling the corresponding function along with the arguments.
+        String instructorFragmentArgument = generateInstructorFragment(course.getId(), course.getName());
 
-        String instructorFragmentArgumentStudents = "";
+        //The fragment for the students is blank since these are natural target of this email.
+        String studentFragmentArgument = "";
 
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
-                    instructorFragmentArgumentInstructors));
+                    instructorFragmentArgument));
         }
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
-                    instructorFragmentArgumentStudents));
+                    studentFragmentArgument));
         }
 
         return emails;
     }
 
     /**
-     * Generates the feedback session closed email for both
-     * the instructors and the students with the given
+     * Generates the feedback session closed email for both the instructors and the students with the given
      * {@code userName} and {@code userEmail}.
      */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
