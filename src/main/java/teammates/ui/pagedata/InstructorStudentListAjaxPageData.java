@@ -32,10 +32,8 @@ public class InstructorStudentListAjaxPageData extends PageData {
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             boolean isAllowedToModifyStudent = sectionPrivileges.get(section.name)
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isAllowedToGiveCommentInSection = sectionPrivileges.get(section.name)
-                                            .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             sectionsDetails.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                           isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
+                                                           isAllowedToModifyStudent,
                                                            emailPhotoUrlMapping, account.googleId, getSessionToken()));
         }
         this.sections = sectionsDetails;

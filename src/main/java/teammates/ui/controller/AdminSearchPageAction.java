@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -20,8 +21,8 @@ import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
 
-    private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
-    private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
     @Override
     protected ActionResult execute() {
