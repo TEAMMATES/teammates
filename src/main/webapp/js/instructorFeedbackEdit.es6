@@ -111,7 +111,6 @@ function disableQuestion(questionNum) {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
             readonly: true,
         });
         /* eslint-enable camelcase */
@@ -186,8 +185,7 @@ function enableEditFS() {
         destroyEditor('instructions');
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            fixed_toolbar_container: '#richtext-toolbar-container',
+            inline: true
         });
         /* eslint-enable camelcase */
     }
@@ -215,8 +213,7 @@ function enableQuestion(questionNum) {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
-            inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
+            inline: true
         });
         /* eslint-enable camelcase */
     }
@@ -304,8 +301,7 @@ function enableNewQuestion() {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
-            inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container',
+            inline: true
         });
         /* eslint-enable camelcase */
     }
@@ -964,8 +960,7 @@ $(document).ready(() => {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            readonly: true,
-            fixed_toolbar_container: '#richtext-toolbar-container',
+            readonly: true
         });
         /* eslint-enable camelcase */
     }

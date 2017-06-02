@@ -408,8 +408,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
-            inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-comment-container${id}`,
+            inline: true
         });
         /* eslint-enable camelcase */
     }
@@ -464,8 +463,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
         }
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#responsecommenttext${id}`, {
-            inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-comment-container${id}`,
+            inline: true
         });
         /* eslint-enable camelcase */
     }
