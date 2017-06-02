@@ -422,11 +422,11 @@ public class EmailGenerator {
 
     private String generateInstructorFragment(String courseId, String courseName) {
 
-        String fragmentParameters = SanitizationHelper.sanitizeForHtml(courseId) + ", "
+        String courseIdentifier = SanitizationHelper.sanitizeForHtml(courseId) + ", "
                 + SanitizationHelper.sanitizeForHtml(courseName);
 
         return "<p>The email below has been sent to students of course: "
-                + fragmentParameters
+                + courseIdentifier
                 + ".<br>" + Const.EOL + "<br>" + Const.EOL
                 + "=== Email message as seen by the students ===</p>" + Const.EOL;
     }
@@ -462,18 +462,18 @@ public class EmailGenerator {
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
         // The instructor fragment is populated by calling the corresponding function along with the arguments.
-        String instructorFragmentArgument = generateInstructorFragment(course.getId(), course.getName());
+        String instructorFragment = generateInstructorFragment(course.getId(), course.getName());
 
         //The fragment for the students is blank since these are natural target of this email.
-        String studentFragmentArgument = "";
+        String studentFragment = "";
 
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
-                    instructorFragmentArgument));
+                    instructorFragment));
         }
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
-                    studentFragmentArgument));
+                    studentFragment));
         }
 
         return emails;
