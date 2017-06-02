@@ -9,7 +9,7 @@
     <div class="align-center">
         <input type="button" tabindex="1" value="Remind Students to Join"
                 ${courseRemindButton.attributesToString}>
-                             
+
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
             <input id="button_download" type="submit" class="btn btn-primary"
                     name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
@@ -26,7 +26,7 @@
                 </span>
             </span>
         </div>
-    
+
         <form id="csvToHtmlForm">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">

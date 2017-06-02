@@ -26,7 +26,7 @@
     "lint:test": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint.yml --ext .es6",
     "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
-    "lint:spaces": "lintspaces 'src/**/*.jsp' 'src/**/*.tag' 'src/main/**/*.html' 'src/**/*.xml' 'src/**/*.json' 'src/**/*.css' 'src/**/*.java' 'src/**/*.es6'",
+    "lint:spaces": "lintspaces -t 'src/**/*.jsp' 'src/**/*.tag' 'src/main/**/*.html' 'src/**/*.xml' 'src/**/*.json' 'src/**/*.css' 'src/**/*.java' 'src/**/*.es6'",
     "lint": "npm run lint:spaces && npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css"
   }
 }

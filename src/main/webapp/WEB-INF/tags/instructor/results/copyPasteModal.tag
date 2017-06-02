@@ -31,7 +31,7 @@
                 <div class="table-responsive">
                     <div id="fsModalTable"></div>
                     <br>
-                    <div id="ajaxStatus"></div>      
+                    <div id="ajaxStatus"></div>
                 </div>
             </div>
             <div class="modal-footer"></div>

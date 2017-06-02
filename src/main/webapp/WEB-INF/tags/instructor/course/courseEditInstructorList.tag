@@ -6,17 +6,17 @@
 
 <c:forEach items="${instructorPanelList}" var="instructorPanel">
     <div class="panel panel-primary">
-        <course:courseEditInstructorListPanelHeading 
-                index="${instructorPanel.index}" 
+        <course:courseEditInstructorListPanelHeading
+                index="${instructorPanel.index}"
                 resendInviteButton="${instructorPanel.resendInviteButton}"
                 editButton="${instructorPanel.editButton}"
                 cancelButton="${instructorPanel.cancelButton}"
-                deleteButton="${instructorPanel.deleteButton}" 
-                instructor="${instructorPanel.instructor}" 
+                deleteButton="${instructorPanel.deleteButton}"
+                instructor="${instructorPanel.instructor}"
         />
-        
-        <course:courseEditInstructorListPanelBody 
-                instructorPanel="${instructorPanel}" 
+
+        <course:courseEditInstructorListPanelBody
+                instructorPanel="${instructorPanel}"
         />
     </div>
     <br>

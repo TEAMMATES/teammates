@@ -25,14 +25,14 @@
 <div class="form-group margin-0">
     <div ${isNumResponsesMax ? 'class="col-sm-2 form-inline mobile-align-left"' : 'class="col-sm-4 form-inline mobile-align-left"'}
          ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
-         
+
         <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
-        
-        <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control" 
+
+        <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
                 name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
                 ${isNumResponsesMax ? 'style="display:none;max-width:125px"' : 'style="width:275px;max-width:275px"'}
                 ${isSessionOpenForSubmission ? '' : 'disabled' }>
-                
+
                 <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
                     ${option}
                 </c:forEach>

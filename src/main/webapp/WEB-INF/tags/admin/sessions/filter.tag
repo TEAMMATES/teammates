@@ -5,8 +5,8 @@
 <div class="form-group">
     <a href="#" class="btn btn-link center-block" onclick="toggleFilter()">
         <span id="referenceText">Show filter</span>
-        <br> 
-        <span class="glyphicon glyphicon-chevron-down" id="detailButton"></span> 
+        <br>
+        <span class="glyphicon glyphicon-chevron-down" id="detailButton"></span>
     </a>
 </div>
 <form method="get" action="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">

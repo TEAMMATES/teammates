@@ -18,32 +18,32 @@
                                 <button class="btn btn-default"
                                         type="submit"
                                         name="search_submit">Filter</button>
-                            </span> 
-                            
+                            </span>
+
                             <input type="text"
                                    class="form-control"
                                    id="filterQuery"
                                    name="filterQuery"
-                                   value="${filterQuery}">                           
+                                   value="${filterQuery}">
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <input type="hidden" id="query-keywords-for-receiver" value="${queryKeywordsForReceiver}">
             <input type="hidden" id="query-keywords-for-subject" value="${queryKeywordsForSubject}">
             <input type="hidden" id="query-keywords-for-content" value="${queryKeywordsForContent}">
-            
+
             <div class="form-group">
-                <a href="#" class="btn btn-link center-block" onclick="toggleReference()">      
-                    <span id="referenceText"> Show Reference</span><br> 
-                    <span class="glyphicon glyphicon-chevron-down" id="detailButton"></span> 
+                <a href="#" class="btn btn-link center-block" onclick="toggleReference()">
+                    <span id="referenceText"> Show Reference</span><br>
+                    <span class="glyphicon glyphicon-chevron-down" id="detailButton"></span>
                 </a>
             </div>
 
             <div id="filterReference">
                 <div class="form-group">
-                    <div class="col-md-12">                                
+                    <div class="col-md-12">
                         <div class="alert alert-info text-center">
                             <span class="glyphicon glyphicon-filter"></span>
                             A query is formed by a
@@ -54,7 +54,7 @@
 
                         <p class="text-center">
                             <span class="glyphicon glyphicon-hand-right"></span>
-                            Combine filters with the <span class="label label-warning">AND</span> keyword or the 
+                            Combine filters with the <span class="label label-warning">AND</span> keyword or the
                             <span class="label label-warning">|</span> separator.
                         </p>
                     </div>
@@ -95,15 +95,15 @@
                                     <li>E.g. before: 13/03/15</li>
                                     <li>E.g. receiver: alice@gmail.com</li>
                                     <li>E.g. subject: Welcome,teammates</li>
-                                    <li>E.g. info: you can click the link below </li>                                      
-                                    <li>E.g. info: link,cs1010 (Use "," to search multiple key strings)</li> 
+                                    <li>E.g. info: you can click the link below </li>
+                                    <li>E.g. info: link,cs1010 (Use "," to search multiple key strings)</li>
                                     <li>E.g. version: 4.15,4.16</li>
                                     <li>E.g. version: 4-15,4.16 (both "." and "-" are acceptable)</li>
-                              
+
                                 </ul>
                             </div>
                         </div>
-                    </div>               
+                    </div>
                 </small>
             </div>
         </div>

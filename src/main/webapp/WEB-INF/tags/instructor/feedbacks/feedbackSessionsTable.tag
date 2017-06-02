@@ -45,9 +45,9 @@
                             <tif:feedbackSessionActions actions="${sessionRow.actions}" />
                         </td>
                       </tr>
-                </c:forEach> 
+                </c:forEach>
             </c:when>
-            <c:otherwise>    
+            <c:otherwise>
                 <tr>
                     <td></td>
                     <td></td>

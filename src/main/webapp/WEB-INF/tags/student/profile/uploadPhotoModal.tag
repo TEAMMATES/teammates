@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-xs-4 profile-pic-edit-col">
                         <div class="center-block align-center">
-                            <form id="profilePictureUploadForm" method="post"> 
+                            <form id="profilePictureUploadForm" method="post">
                                 <span class="btn btn-primary profile-pic-file-selector">
                                     Browse...
                                     <input id="studentPhoto"

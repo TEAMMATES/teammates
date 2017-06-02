@@ -5,7 +5,7 @@
     <td>${feedbackSessionRow.sessionStatusForShow}</td>
     <td><strong>[${feedbackSessionRow.courseId}]</strong>&nbsp;${feedbackSessionRow.feedbackSessionName}</td>
     <c:choose>
-        <c:when test="${not empty feedbackSessionRow.feedbackSessionStatsLink}">               
+        <c:when test="${not empty feedbackSessionRow.feedbackSessionStatsLink}">
             <td class="session-response-for-test">
                <a oncontextmenu="return false;" href="${feedbackSessionRow.feedbackSessionStatsLink}">Show</a>
             </td>

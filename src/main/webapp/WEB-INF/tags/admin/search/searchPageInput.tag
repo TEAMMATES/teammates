@@ -14,7 +14,7 @@
                             contains punctuation like
                             "-" "."
                         </span>
-                        
+
                         <div class="input-group">
                             <input type="text" class="form-control" id="filterQuery"
                                    name="<%=Const.ParamsNames.ADMIN_SEARCH_KEY%>"

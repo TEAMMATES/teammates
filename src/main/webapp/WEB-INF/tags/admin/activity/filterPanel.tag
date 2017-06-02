@@ -17,16 +17,16 @@
                         <div class="input-group">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" name="search_submit">Filter</button>
-                            </span> 
+                            </span>
                             <input type="text" class="form-control" id="filterQuery" name="filterQuery" value="${filterQuery}">
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <input id="query-keywords-default-for-info" type="hidden" value="<%= Const.ACTION_RESULT_FAILURE %>, <%= Const.ACTION_RESULT_SYSTEM_ERROR_REPORT %>">
             <input id="query-keywords-for-info" type="hidden" value="${queryKeywordsForInfo}">
-            
+
             <div class="form-group">
                 <a href="#" class="btn btn-link center-block" onclick="toggleReference()">
                     <span id="referenceText"> Show Reference</span><br>
@@ -49,7 +49,7 @@
                                 </c:forEach>
                             </ul>
                         </div>
-                        
+
                         <div class="alert alert-info text-center">
                             <span class="glyphicon glyphicon-filter"></span>
                             A query is formed by a list of filters. Each filter is in the format
@@ -90,7 +90,7 @@
                                     <li>E.g. version: 4.15, 4.16</li>
                                     <li>E.g. version: 4-15, 4.16 (both "." and "-" are acceptable)</li>
                                     <li>E.g. time: 1000 (means 1000ms) </li>
-                                    <li>E.g. info: Admin Account Management Page Load </li> 
+                                    <li>E.g. info: Admin Account Management Page Load </li>
                                     <li>E.g. info: Admin Account Management Page Load, Total, 90 (Use "," to search multiple key strings)</li>
                                     <li>E.g. id: alice@gmail.com%20160131181745245, charlie@gmail.com%20160201182727734</li>
                                 </ul>
@@ -188,29 +188,12 @@
             </div>
 
         </div>
-        
-        <input type="hidden" name="pageChange" value="true">
-        
-        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
-        in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-        logs despite any action or change in the page unless the page is reloaded with "?all=false" 
-        or simply reloaded with this parameter omitted. --%>
-        <input type="hidden" name="all" value="${ifShowAll}">
 
-        <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
-        to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
-        <input type="hidden" name="testdata" value="${ifShowTestData}"> 
-    </form>
-    
-     
-    <%-- This form is used to store parameters for ajaxloader only --%>
-    <form id="ajaxLoaderDataForm">
-        <input type="hidden" name="searchTimeOffset" value="">
-        
-        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+        <input type="hidden" name="pageChange" value="true">
+
+        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs"
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-        logs despite any action or change in the page unless the page is reloaded with "?all=false" 
+        logs despite any action or change in the page unless the page is reloaded with "?all=false"
         or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
@@ -218,8 +201,25 @@
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
         unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}">
-        
+    </form>
+
+
+    <%-- This form is used to store parameters for ajaxloader only --%>
+    <form id="ajaxLoaderDataForm">
+        <input type="hidden" name="searchTimeOffset" value="">
+
+        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs"
+        in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+        logs despite any action or change in the page unless the page is reloaded with "?all=false"
+        or simply reloaded with this parameter omitted. --%>
+        <input type="hidden" name="all" value="${ifShowAll}">
+
+        <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+        to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
+        unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
+        <input type="hidden" name="testdata" value="${ifShowTestData}">
+
         <input type="hidden" id="filterQuery" name="filterQuery" value="${filterQuery}">
-    </form> 
+    </form>
 
 </div>

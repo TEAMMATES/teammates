@@ -107,7 +107,7 @@
 
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
-            
+
             <div>
                 <span class="pull-right">
                     <input id="button_question_submit-${fqForm.questionIndex}"

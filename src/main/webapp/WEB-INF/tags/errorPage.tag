@@ -15,7 +15,7 @@
     <!--[if lt IE 9]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
-    <![endif]--> 
+    <![endif]-->
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">

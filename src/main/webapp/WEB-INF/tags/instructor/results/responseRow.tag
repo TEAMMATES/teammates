@@ -37,12 +37,12 @@
                 <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
                     ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                </div>             
+                </div>
             </c:when>
-            <c:otherwise>  
+            <c:otherwise>
                 ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
             </c:otherwise>
-        </c:choose>   
+        </c:choose>
         </td>
     </c:if>
     <c:if test="${responseRow.recipientDisplayed}">
@@ -74,12 +74,12 @@
                 <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
                     ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                </div>             
+                </div>
             </c:when>
-            <c:otherwise>  
+            <c:otherwise>
                 ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
             </c:otherwise>
-        </c:choose>   
+        </c:choose>
         </td>
     </c:if>
     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->

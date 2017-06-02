@@ -9,7 +9,7 @@
            </c:forEach>>
                ${sentEmail.actions.editButton.content}
         </a>
-        
+
         <a <c:forEach items="${sentEmail.actions.deleteButton.attributes}" var="attribute">
                ${attribute.key}="${attribute.value}"
            </c:forEach>>

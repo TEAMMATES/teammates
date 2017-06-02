@@ -14,7 +14,7 @@
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
     name="form_addquestions" onsubmit="tallyCheckboxes('${NEW_QUESTION}')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
-       
+
         <div class="row">
             <div class="col-sm-12 row">
                 <div class="col-sm-offset-3 col-sm-9">
@@ -32,7 +32,7 @@
                     <a href="/instructorHelp.jsp#fbQuestionTypes"
                         target="_blank" rel="noopener noreferrer"> <i
                         class="glyphicon glyphicon-info-sign"></i>
-                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px" 
+                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px"
                             data-actionlink="${data.instructorQuestionCopyPageLink}"
                             data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
                             data-target="#copyModal" data-toggle="modal">
@@ -120,7 +120,7 @@
             </div>
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
-          
+
             <div>
                 <span class="pull-right">
                     <button id="button_submit_add" class="btn btn-primary" type="submit" tabindex="9">

@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                 <div class="row">
                     <div class="col-xs-12"
@@ -136,7 +136,7 @@
                                     ${option.content}
                                 </option>
                             </c:forEach>
-    
+
                         </select>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                     <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing">
                         Session closing reminder
                     </label>
-                    <input type="checkbox" 
+                    <input type="checkbox"
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing"
                         <c:if test="${additionalSettings.sendClosingEmailChecked}">checked</c:if>
@@ -235,7 +235,7 @@
                     <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published">
                         Results published announcement
                     </label>
-                    <input type="checkbox" 
+                    <input type="checkbox"
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published"
                         <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked</c:if>

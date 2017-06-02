@@ -3,13 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:choose>
-    <c:when test="${(empty data.studentCourseDetailsPanel.teammates) 
+    <c:when test="${(empty data.studentCourseDetailsPanel.teammates)
                          or (fn:length(data.studentCourseDetailsPanel.teammates) eq 1)}">
         <span style="font-style: italic;">
             You have no team members or you are not registered in any team
         </span>
     </c:when>
-                        
+
     <c:otherwise>
         <table>
             <tbody>

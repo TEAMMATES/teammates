@@ -10,7 +10,7 @@
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.bundle.feedbackSession.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.bundle.feedbackSession.courseId}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-    
+
     <c:choose>
         <c:when test="${not empty data.account.googleId}">
             <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
@@ -20,18 +20,18 @@
             <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL %>" value="${data.account.email}">
         </c:otherwise>
     </c:choose>
-    
+
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <tsfse:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
-    
+
     <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
-        <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}" 
-                                     isShowRealQuestionNumber="${data.showRealQuestionNumber}" 
+        <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
+                                     isShowRealQuestionNumber="${data.showRealQuestionNumber}"
                                      questionWithResponses="${questionWithResponses}"/>
     </c:forEach>
-    
-    <div class="bold align-center"> 
-        <c:if test="${data.moderation}">       
+
+    <div class="bold align-center">
+        <c:if test="${data.moderation}">
             <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
         </c:if>
 
@@ -53,6 +53,6 @@
             </c:otherwise>
         </c:choose>
     </div>
-    <br> 
+    <br>
     <br>
 </form>

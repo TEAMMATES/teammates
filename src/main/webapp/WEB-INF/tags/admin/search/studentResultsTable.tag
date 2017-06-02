@@ -6,12 +6,12 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <strong>Students Found </strong> 
+        <strong>Students Found </strong>
         <span class="pull-right">
             <button class="btn btn-primary btn-xs" type="button"
                     onclick="adminSearchDiscloseAllStudents()">Disclose All</button>
-                        
-            <button class="btn btn-primary btn-xs" type="button" 
+
+            <button class="btn btn-primary btn-xs" type="button"
                     onclick="adminSearchCollapseAllStudents()">Collapse All</button>
         </span>
     </div>
@@ -29,7 +29,7 @@
 
                 </tr>
             </thead>
-            
+
             <tbody>
                 <c:forEach items="${studentResultsTable.studentRows}" var="student">
                     <adminSearch:studentRow student="${student}"/>

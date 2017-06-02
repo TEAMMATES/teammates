@@ -10,7 +10,7 @@
                 <div class="panel-heading">
                     <strong>In general, this instructor can</strong>
                 </div>
-                
+
                 <div class="panel-body">
                     <c:forEach items="${instructorPanel.permissionInputGroup1}" var="permissionCheckbox">
                         <div class="col-sm-3">
@@ -19,14 +19,14 @@
                     </c:forEach>
                     <br>
                     <br>
-                    
+
                     <div class="col-sm-6 border-right-gray">
                         <c:forEach items="${instructorPanel.permissionInputGroup2}" var="permissionCheckbox">
                             <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
                             <br>
                         </c:forEach>
                     </div>
-                    
+
                     <div class="col-sm-5 col-sm-offset-1">
                         <c:forEach items="${instructorPanel.permissionInputGroup3}" var="permissionCheckbox">
                             <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
@@ -35,16 +35,16 @@
                     </div>
                 </div>
             </div>
-            
+
             <c:if test="${not empty instructorPanel.sectionRows}" >
                 <c:forEach items="${instructorPanel.sectionRows}" var="sectionRow">
-                    <course:courseEditTuneSectionPermissionsDiv 
+                    <course:courseEditTuneSectionPermissionsDiv
                             instructorIndex="${instructorPanel.index}"
                             panelIndex="${sectionRow.panelIndex}"
                             sectionRow="${sectionRow}"
                     />
                 </c:forEach>
-                
+
                 <a ${instructorPanel.addSectionLevelForInstructorButton.attributesToString}>
                     ${instructorPanel.addSectionLevelForInstructorButton.content}
                 </a>

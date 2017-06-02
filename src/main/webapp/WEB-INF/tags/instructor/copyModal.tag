@@ -2,7 +2,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="editCopyActionLink" required="true" %>
 
-<div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" 
+<div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog"
      aria-labelledby="fsCopyModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

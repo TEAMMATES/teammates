@@ -19,7 +19,7 @@
                     <td>${sessionRow.name}</td>
                     <td>${sessionRow.endTime}</td>
                     <td>
-                        <span data-toggle="tooltip" data-placement="top" 
+                        <span data-toggle="tooltip" data-placement="top"
                               title="${sessionRow.tooltip}">
                             ${sessionRow.status}
                         </span>
