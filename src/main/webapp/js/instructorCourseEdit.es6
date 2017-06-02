@@ -480,6 +480,7 @@ function enableOnclicks() {
         const instructorIndex = $(this).attr('data-instructor-index');
         const panelIndex = $(this).attr('data-panel-index');
         const isSectionSpecial = $(this).attr('data-is-section-special') === 'true';
+        $(this).attr('data-is-section-special', isSectionSpecial ? 'false' : 'true');
         const handler = isSectionSpecial ? hideTuneSessionnPermissionsDiv : showTuneSessionnPermissionsDiv;
         handler(instructorIndex, panelIndex);
     });
