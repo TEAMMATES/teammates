@@ -9,7 +9,6 @@
 <%@ attribute name="groupByQuestionPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel" required="true" %>
 <%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 
-
 <div class="panel ${not empty groupByQuestionPanel.questionTables ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
         ${groupByQuestionPanel.giver? 'From:' : 'To:'}

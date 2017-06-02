@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="log" type="teammates.ui.template.AdminEmailTableRow" required="true" %>
 
-
 <tr class="email-log-header">
     <td class="email-receiver">${log.receiver}</td>
     <td class="email-subject">${log.subject}</td>

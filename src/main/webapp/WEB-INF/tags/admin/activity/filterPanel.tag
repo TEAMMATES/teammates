@@ -203,7 +203,6 @@
         <input type="hidden" name="testdata" value="${ifShowTestData}">
     </form>
 
-
     <%-- This form is used to store parameters for ajaxloader only --%>
     <form id="ajaxLoaderDataForm">
         <input type="hidden" name="searchTimeOffset" value="">

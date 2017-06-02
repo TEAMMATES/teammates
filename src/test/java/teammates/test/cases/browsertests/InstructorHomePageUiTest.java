@@ -271,8 +271,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
 
-
-
         ______TS("remind action: CLOSED feedback session - inner button");
 
         homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());

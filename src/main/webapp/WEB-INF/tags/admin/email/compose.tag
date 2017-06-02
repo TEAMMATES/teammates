@@ -57,7 +57,6 @@
                 </form>
     </div>
 
-
     <div style="display: none;">
         <form id="adminEmailFileForm" action=""
             method="POST" enctype="multipart/form-data">

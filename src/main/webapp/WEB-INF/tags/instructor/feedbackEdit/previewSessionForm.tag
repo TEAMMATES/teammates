@@ -5,7 +5,6 @@
 
 <%@ attribute name="previewForm" type="teammates.ui.template.FeedbackSessionPreviewForm" required="true"%>
 
-
 <div class="well well-plain inputTable" id="questionPreviewTable">
     <div class="row">
         <form class="form-horizontal">

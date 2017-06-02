@@ -9,7 +9,6 @@
 <%@ attribute name="questionIndex" type="java.lang.Integer"%>
 <%@ attribute name="questionPanel" type="teammates.ui.template.InstructorFeedbackResultsQuestionTable" required="true" %>
 
-
 <div class="panel ${questionPanel.panelClass}">
     <div class="panel-heading${questionPanel.ajaxClass}">
         <c:if test="${questionPanel.collapsible}">

@@ -140,7 +140,6 @@
                                     </div>
                                 </div>
 
-
                                 <c:forEach items="${addInstructorPanel.sectionRows}" var="sectionRow" varStatus="i">
                                     <div id="tuneSectionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" style="display: none;">
                                         <div class="panel panel-info">

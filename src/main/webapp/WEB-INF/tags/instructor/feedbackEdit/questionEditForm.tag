@@ -9,7 +9,6 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="numQn" required="true"%>
 
-
 <form class="form-horizontal form_question" role="form" method="post"
     action="${fqForm.action}"
     id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
