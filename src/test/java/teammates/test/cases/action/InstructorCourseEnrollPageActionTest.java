@@ -125,4 +125,15 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     protected InstructorCourseEnrollPageAction getAction(String... params) {
         return (InstructorCourseEnrollPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
+    }
 }

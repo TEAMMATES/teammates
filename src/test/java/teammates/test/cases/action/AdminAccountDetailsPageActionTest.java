@@ -51,4 +51,11 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
+    }
+
 }

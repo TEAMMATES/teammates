@@ -216,4 +216,21 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     protected InstructorFeedbackAddAction getAction(String... params) {
         return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1ofCourse1 =
+                dataBundle.instructors.get("instructor1OfCourse1");
+
+        String[] params =
+                createParamsForTypicalFeedbackSession(
+                        instructor1ofCourse1.courseId, "ifaat tca fs");
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
+
+        // delete the sessions
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade("ifaat tca fs", instructor1ofCourse1.courseId);
+    }
 }

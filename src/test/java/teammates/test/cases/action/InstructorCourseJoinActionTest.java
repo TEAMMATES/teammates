@@ -115,4 +115,15 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     protected InstructorCourseJoinAction getAction(String... params) {
         return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, invalidEncryptedKey
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+    }
 }
