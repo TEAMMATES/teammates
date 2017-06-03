@@ -78,8 +78,9 @@ Click the "Terminate" icon on the Eclipse console.
 1. Go to `Run → Edit Configurations...`.
 1. Click `+ → Google AppEngine Dev Server`.
 1. Set the `Name:` to `Dev Server`.
-1. Click `Configure...` next to the drop down menu of `Application server:`.
-1. Click `+ → ...`. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+1. Ensure the `Application server:` selected is of the name `AppEngine Dev <version>`.\
+   If you do not have an application server named `AppEngine Dev <version>`, make sure you have
+   [setup IntelliJ IDEA](ide-usage.md#prerequisites) correctly.
 1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
 1. Check in `JRE:` that the SDK used is the default of `1.7`.\
    Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).

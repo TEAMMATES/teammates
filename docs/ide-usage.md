@@ -103,6 +103,16 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
     1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under `Global Gradle settings`,
        add `-Dide=idea` to `Gradle VM options:`.
 
+1. You need to have an application server named `AppEngine Dev <version>` pointing to the SDK you downloaded previously as follows: 
+    
+    1. If you have no current projects open, click `Configure → Settings/Preferences`.\
+       **OR**\
+       If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
+    1. Go to `Build, Execution, Deployment → Application Servers`.
+    1. Click `+ → Google App Engine Dev Server → ... `. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder)
+       you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+    1. Ensure the `Name:` is of `AppEngine Dev <version>`.
+
 ### Automated Setup
 
 If you do not wish to use the automated setup, you can follow the [manual setup](#manual-setup) below.
