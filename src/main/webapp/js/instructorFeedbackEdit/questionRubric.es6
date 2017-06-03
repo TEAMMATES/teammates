@@ -46,8 +46,8 @@ function addRubricRow(questionNum) {
         </tr>`;
 
     // Row to insert new row after
-    const lastRow = $(`#rubricEditTable-${questionNum} tbody tr:nth-last-child(2)`);
-    $(newRubricRow).insertAfter(lastRow);
+    const secondLastRow = $(`#rubricEditTable-${questionNum} tbody tr:nth-last-child(2)`);
+    $(newRubricRow).insertAfter(secondLastRow);
 
     // Increment
     $(`#rubricNumRows-${questionNum}`).val(newRowNumber);
@@ -114,19 +114,19 @@ function addRubricCol(questionNum) {
         `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}" data-col="${newColNumber - 1}">
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l"
-                    onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, true)" data-toggle="tooltip"
-                    data-placement="top" title="Move column left">
+                        onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, true)" data-toggle="tooltip"
+                        data-placement="top" title="Move column left">
                     <span class="glyphicon glyphicon-arrow-left"></span>
                 </button>
                 <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
-                    onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
-                    onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)"
-                    onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
+                        onclick="removeRubricCol(${newColNumber - 1}, ${questionNum})"
+                        onmouseover="highlightRubricCol(${newColNumber - 1}, ${questionNum}, true)"
+                        onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
                 <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r"
-                    onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, false)" data-toggle="tooltip"
-                    data-placement="top" title="Move column right">
+                        onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, false)" data-toggle="tooltip"
+                        data-placement="top" title="Move column right">
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>
@@ -205,8 +205,8 @@ function removeRubricCol(index, questionNum) {
 
 function swapRubricCol(colIndex, questionNum, isSwapLeft) {
     if ($(`#rubricEditTable-${questionNum}`).length === 0
-        && $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
-        && typeof isSwapLeft !== 'boolean') {
+            && $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
+            && typeof isSwapLeft !== 'boolean') {
         // question and column should exist, isSwapLeft must be boolean
         return;
     }

@@ -433,8 +433,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfRubricChoices; ++i) {
             String tableBodyCell = Templates.populateTemplate(tableOptionsFragmentTemplate,
                     Slots.QUESTION_INDEX, questionNumberString,
-                    Slots.COL, Integer.toString(i),
-                    Slots.ROW, Integer.toString(11)); // Considering the options row to be row number 11. Removable?
+                    Slots.COL, Integer.toString(i));
             rubricColumnOptionsFragments.append(tableBodyCell).append(Const.EOL);
         }
 
