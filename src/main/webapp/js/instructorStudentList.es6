@@ -249,6 +249,7 @@ function removeDataToBeTransported() {
 const seeMoreRequest = function (e) {
     const panelHeading = $(this);
     const panelCollapse = $(this).parent().children('.panel-collapse');
+    const toggleCheveron = $(this).parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
     const panelBody = $(panelCollapse[0]).children('.panel-body');
     const displayIcon = $(this).children('.display-icon');
     const courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
@@ -314,20 +315,7 @@ const seeMoreRequest = function (e) {
                     $(panelHeading).removeClass('ajax_submit');
                     displayIcon.html('');
                     if ($(panelCollapse[0]).attr('class').indexOf('in') === -1) {
-                        clearStatusMessages();
-                        if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
-                            $(panelCollapse).collapse('show');
-                            $(panelCollapse[0]).addClass('checked');
-                            $(courseCheck).prop('checked', true);
-                        } else {
-                            $(panelCollapse[0]).collapse('hide');
-                            $(panelHeading).addClass('ajax_submit');
-                            $(panelBody[0]).html('');
-                            $(panelCollapse[0]).removeClass('checked');
-                            $(courseCheck).prop('checked', false);
-                            numStudents -= courseNumStudents;
-                        }
-                        checkCourseBinding(courseCheck);
+                        $(panelHeading).trigger('click');
                     }
                 },
             });
@@ -335,6 +323,12 @@ const seeMoreRequest = function (e) {
     } else {
         // Do not make ajax call if students shown already above limit
         showStudentLimitError(courseCheck, displayIcon);
+    }
+
+    if($(panelCollapse).attr('class').indexOf('checked') === -1) {
+        $(toggleCheveron).addClass('glyphicon-chevron-down').removeClass(' glyphicon-chevron-up');
+    } else {
+        $(toggleCheveron).addClass('glyphicon-chevron-up').removeClass(' glyphicon-chevron-down');
     }
 };
 
