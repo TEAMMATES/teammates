@@ -40,7 +40,7 @@ public class OfflineBackup extends RemoteApiClient {
     private String currentFileName = "";
     private boolean hasPreviousEntity;
     private Set<String> accountsSaved = new HashSet<String>();
-
+    private final String enterTabEnter = "\n\t},\n";
     public static void main(String[] args) throws IOException {
         OfflineBackup offlineBackup = new OfflineBackup();
         offlineBackup.doOperationRemotely();
@@ -165,9 +165,10 @@ public class OfflineBackup extends RemoteApiClient {
             saveInstructorAccount(instructor);
         }
 
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
         hasPreviousEntity = false;
     }
+    
 
     /**
      * Retrieves all the comments from a course and saves them.
@@ -182,7 +183,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveComment(comment);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -200,7 +201,7 @@ public class OfflineBackup extends RemoteApiClient {
         appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.getId()));
 
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -217,7 +218,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveFeedbackQuestion(feedbackQuestion);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -234,7 +235,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveFeedbackResponse(feedbackResponse);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -252,7 +253,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveFeedbackResponseComment(feedbackResponseComment);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -268,7 +269,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveFeedbackSession(feedbackSession);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -284,7 +285,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveInstructor(instructor);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**
@@ -300,7 +301,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveStudent(student);
         }
         hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
+        appendToFile(currentFileName, enterTabEnter);
     }
 
     /**

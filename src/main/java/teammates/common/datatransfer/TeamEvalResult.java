@@ -162,7 +162,9 @@ public class TeamEvalResult {
         if (sumOfActual == NA) {
             sumOfActual = sumOfPerceived;
         }
-
+        if(sumOfPerceived <= 0){
+            sumOfPerceived = 1;
+        }
         double factor = sumOfActual / sumOfPerceived;
 
         return doubleToInt(multiplyByFactor(factor,
