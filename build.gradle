@@ -431,8 +431,9 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
+import org.gradle.internal.serialize.PlaceholderException
 def checkConfigFailureClosure = { descriptor, result ->
-    if (result.exception instanceof org.gradle.messaging.remote.internal.PlaceholderException
+    if (result.exception instanceof PlaceholderException
             && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
         throw new GradleException('Detected TestNG configuration failure - check src/test/testng-ci.xml')
     }
