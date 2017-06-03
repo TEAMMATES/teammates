@@ -29,22 +29,39 @@ public class Url {
     }
 
     /**
-     * Returns The first part of the URL, including the protocol and
-     * authority (host name + port number if specified) but not the path.<br>
-     * Example:
-     * <ul>
-     * <li><code>new Url("http://localhost:8888/index.jsp").getBaseUrl()</code>
-     * returns <code>http://localhost:8888</code></li>
-     * <li><code>new Url("https://teammatesv4.appspot.com/index.jsp").getBaseUrl()</code>
-     * returns <code>https://teammatesv4.appspot.com</code></li>
-     * </ul>
-     */
+      * Returns the relative part (path) of the URL, after the
+      * authority (host name + port number if specified) but before the query.<br>
+      * Example:
+      * <ul>
+      * <li><code>new Url("http://localhost:8888/index.jsp").getRelativeUrl()</code>
+      * returns <code>/index.jsp</code></li>
+      * <li><code>new Url("http://google.com").getRelativeUrl()</code>
+      * returns <i>[empty string]</i></li>
+      * <li><code>new Url("https://teammatesv4.appspot.com/page/studentHomePage?user=abc").getRelativeUrl()</code>
+      * returns <code>/page/studentHomePage</code></li>
+      * </ul>
+      */
+    public String getRelativeUrl() {
+        return relativeUrl;
+    }
+
+    /**
+      * Returns the first part of the URL, including the protocol and
+      * authority (host name + port number if specified) but not the path.<br>
+      * Example:
+      * <ul>
+      * <li><code>new Url("http://localhost:8888/index.jsp").getBaseUrl()</code>
+      * returns <code>http://localhost:8888</code></li>
+      * <li><code>new Url("https://teammatesv4.appspot.com/index.jsp").getBaseUrl()</code>
+      * returns <code>https://teammatesv4.appspot.com</code></li>
+      * </ul>
+      */
     public String getBaseUrl() {
         return baseUrl;
     }
 
     /**
-     * Returns The value of the {@code parameterName} parameter. Null if no such parameter.
+     * Returns the value of the {@code parameterName} parameter. Null if no such parameter.
      */
     public String get(String parameterName) {
         /*

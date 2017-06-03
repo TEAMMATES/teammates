@@ -191,4 +191,15 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         return (InstructorCourseArchiveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
+
 }

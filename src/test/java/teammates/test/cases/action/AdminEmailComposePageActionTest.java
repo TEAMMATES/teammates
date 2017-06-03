@@ -89,4 +89,9 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertNull(data.emailToEdit);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

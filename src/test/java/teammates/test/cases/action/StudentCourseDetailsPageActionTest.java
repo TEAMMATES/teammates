@@ -175,4 +175,27 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                 submissionParams);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String idOfCourseOfStudent = dataBundle.students
+                .get("student1InCourse1").course;
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
+        };
+
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+
+        idOfCourseOfStudent = dataBundle.students.get("student2InCourse1").course;
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
+        };
+
+        verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+    }
+
 }

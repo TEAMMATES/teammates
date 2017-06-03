@@ -2,11 +2,14 @@ package teammates.test.cases.action;
 
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -17,6 +20,16 @@ import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
  * SUT: {@link StudentCourseJoinAction}.
  */
 public class StudentCourseJoinActionTest extends BaseActionTest {
+
+    @BeforeClass
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
 
     @Override
     protected String getActionUri() {
@@ -165,4 +178,24 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         return pageDestination;
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").getId()
+        };
+        verifyAccessibleWithoutLogin(submissionParams);
+
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.COURSE_ID, unregStudent1.course,
+                Const.ParamsNames.STUDENT_EMAIL, unregStudent1.email
+        };
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+        verifyAccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+    }
 }

@@ -189,4 +189,18 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, "ticac.tac.id",
+                Const.ParamsNames.COURSE_NAME, "ticac tac name",
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"};
+
+        verifyOnlyInstructorsCanAccess(submissionParams);
+
+        // remove course that was created
+        CoursesLogic.inst().deleteCourseCascade("ticac.tac.id");
+    }
 }

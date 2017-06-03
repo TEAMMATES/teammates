@@ -171,4 +171,10 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         return pageDestination;
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }

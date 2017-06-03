@@ -184,4 +184,18 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         return (InstructorHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyInstructorsCanAccess(submissionParams);
+
+        // check for persistence issue
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+    }
+
 }

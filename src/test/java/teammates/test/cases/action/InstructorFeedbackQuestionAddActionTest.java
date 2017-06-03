@@ -1010,4 +1010,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         return pageDestination;
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes fs =
+                dataBundle.feedbackSessions.get("empty.session");
+
+        String[] submissionParams =
+                createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
+        // set question number to be the last
+        submissionParams[9] = "5";
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+
+        // remove the session as removing questions is difficult
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
+    }
 }

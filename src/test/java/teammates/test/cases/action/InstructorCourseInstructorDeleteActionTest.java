@@ -130,4 +130,17 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         return pageDestination;
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
+        };
+
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
 }

@@ -213,4 +213,11 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         };
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = createValidParamsForProfile();
+        verifyAnyRegisteredUserCanAccess(submissionParams);
+    }
+
 }

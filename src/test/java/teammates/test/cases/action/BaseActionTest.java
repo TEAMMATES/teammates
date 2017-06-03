@@ -41,6 +41,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected abstract void testExecuteAndPostProcess() throws Exception;
 
+    protected abstract void testAccessControl() throws Exception;
+
     @BeforeClass
     public void baseClassSetup() {
         prepareTestData();
@@ -709,6 +711,18 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected void verifyNumberOfEmailsSent(Action action, int emailCount) {
         assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
+    }
+
+    protected static void addUnregStudentToCourse1() throws Exception {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes student = new StudentAttributes();
+        student.email = "student6InCourse1@gmail.tmt";
+        student.name = "unregistered student6 In Course1";
+        student.team = "Team Unregistered";
+        student.section = "Section 3";
+        student.course = "idOfTypicalCourse1";
+        student.comments = "";
+        StudentsLogic.inst().createStudentCascade(student);
     }
 
     protected String getPageResultDestination(String parentUri, boolean isError, String userId) {

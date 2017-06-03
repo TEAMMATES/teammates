@@ -215,4 +215,15 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
         return pageDestination;
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, invalidEncryptedKey
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+    }
 }

@@ -77,4 +77,17 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     protected FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes accessibleFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
 }

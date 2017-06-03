@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
@@ -34,6 +35,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
 
@@ -289,5 +291,36 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+
+        dataBundle = getTypicalDataBundle();
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.NEXT_URL, "randomUrl"
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForStudents(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

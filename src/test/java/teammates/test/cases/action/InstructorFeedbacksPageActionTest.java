@@ -123,4 +123,14 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         return (InstructorFeedbacksPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID,
+                dataBundle.instructors.get("instructor1OfCourse1").courseId
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
+
 }

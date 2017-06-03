@@ -3,6 +3,7 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -32,26 +33,26 @@ public class AdminSearchPageData extends PageData {
      * Data related to searched students
      */
     public StudentSearchResultBundle studentResultBundle = new StudentSearchResultBundle();
-    public HashMap<String, List<String>> studentOpenFeedbackSessionLinksMap = new HashMap<String, List<String>>();
-    public HashMap<String, List<String>> studentUnOpenedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
-    public HashMap<String, List<String>> studentPublishedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
-    public HashMap<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
-    public HashMap<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
-    public HashMap<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
-    public HashMap<String, String> studentInstituteMap = new HashMap<String, String>();
+    public Map<String, List<String>> studentOpenFeedbackSessionLinksMap = new HashMap<String, List<String>>();
+    public Map<String, List<String>> studentUnOpenedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
+    public Map<String, List<String>> studentPublishedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
+    public Map<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
+    public Map<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
+    public Map<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
+    public Map<String, String> studentInstituteMap = new HashMap<String, String>();
 
     /*
      * Data related to searched instructors
      */
     public InstructorSearchResultBundle instructorResultBundle = new InstructorSearchResultBundle();
-    public HashMap<String, String> instructorInstituteMap = new HashMap<String, String>();
-    public HashMap<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
-    public HashMap<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
+    public Map<String, String> instructorInstituteMap = new HashMap<String, String>();
+    public Map<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
+    public Map<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
 
     /*
      * Data related to both instructors and students
      */
-    public HashMap<String, String> courseIdToCourseNameMap = new HashMap<String, String>();
+    public Map<String, String> courseIdToCourseNameMap = new HashMap<String, String>();
 
     /*
      * Search result tables

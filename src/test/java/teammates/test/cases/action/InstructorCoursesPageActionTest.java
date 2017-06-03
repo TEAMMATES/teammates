@@ -113,4 +113,9 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         return (InstructorCoursesPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyInstructorsCanAccess(submissionParams);
+    }
 }

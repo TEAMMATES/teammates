@@ -27,6 +27,8 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
+    private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
@@ -41,6 +43,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
 
@@ -583,6 +586,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
     @Test
     public void testGracePeriodExecuteAndPostProcess() throws Exception {
+        dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Grace Period Session");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
@@ -644,5 +648,44 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Override
     protected InstructorFeedbackSubmissionEditSaveAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+        };
+        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        testGracePeriodAccessControlForInstructors();
+    }
+
+    private void testGracePeriodAccessControlForInstructors() throws Exception {
+
+        dataBundle = getTypicalDataBundle();
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+
+        closeSession(fs);
+
+        assertFalse(fs.isOpened());
+        assertTrue(fs.isInGracePeriod());
+        assertFalse(fs.isClosed());
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
+
+    private void closeSession(FeedbackSessionAttributes fs) throws Exception {
+        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        fsDb.updateFeedbackSession(fs);
     }
 }

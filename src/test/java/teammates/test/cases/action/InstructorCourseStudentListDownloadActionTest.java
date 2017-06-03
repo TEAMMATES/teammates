@@ -138,4 +138,16 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     protected InstructorCourseStudentListDownloadAction getAction(String... params) {
         return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, course.getId()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
 }
