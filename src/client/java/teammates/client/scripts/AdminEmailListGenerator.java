@@ -37,9 +37,13 @@ import teammates.storage.entity.Instructor;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
 
-    private enum StudentStatus { REG, UNREG, ALL }
+    private enum StudentStatus {
+        REG, UNREG, ALL
+    }
 
-    private enum InstructorStatus { REG, UNREG, ALL }
+    private enum InstructorStatus {
+        REG, UNREG, ALL
+    }
 
     private int iterationCounter;
 
@@ -81,16 +85,16 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         if (emailListConfig.student) {
             System.out.print("Student Status: ");
             switch (emailListConfig.studentStatus) {
-            case REG:
-                System.out.print("REG\n");
-                break;
-            case UNREG:
-                System.out.print("UNREG\n");
-                break;
-            case ALL:
-            default:
-                System.out.print("ALL\n");
-                break;
+                case REG:
+                    System.out.print("REG\n");
+                    break;
+                case UNREG:
+                    System.out.print("UNREG\n");
+                    break;
+                case ALL:
+                default:
+                    System.out.print("ALL\n");
+                    break;
             }
         }
 
@@ -107,16 +111,16 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         if (emailListConfig.instructor) {
             System.out.print("Instructor Status: ");
             switch (emailListConfig.studentStatus) {
-            case REG:
-                System.out.print("REG\n");
-                break;
-            case UNREG:
-                System.out.print("UNREG\n");
-                break;
-            case ALL:
-            default:
-                System.out.print("ALL\n");
-                break;
+                case REG:
+                    System.out.print("REG\n");
+                    break;
+                case UNREG:
+                    System.out.print("UNREG\n");
+                    break;
+                case ALL:
+                default:
+                    System.out.print("ALL\n");
+                    break;
             }
         }
 
@@ -194,16 +198,25 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
 
         for (Instructor instructor : allInstructors) {
-            if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
-                        || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
-                        || emailListConfig.instructorStatus == InstructorStatus.ALL)
-                    && isInstructorCreatedInRange(instructor)) {
-                instructorEmailSet.add(instructor.getEmail());
+            if (googleIdNotNullAndInstructorStatusREG(instructor)
+                    || googleIdNullAndInstructorStatusUNREG(instructor)
+                    || emailListConfig.instructorStatus == InstructorStatus.ALL) {
+                if (isInstructorCreatedInRange(instructor)) {
+                    instructorEmailSet.add(instructor.getEmail());
+                }
             }
             updateProgressIndicator();
         }
 
         return instructorEmailSet;
+    }
+
+    private boolean googleIdNotNullAndInstructorStatusREG(Instructor instructor) {
+        return instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG;
+    }
+
+    private boolean googleIdNullAndInstructorStatusUNREG(Instructor instructor) {
+        return instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG;
     }
 
     private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
@@ -213,8 +226,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
         for (CourseStudent student : allStudents) {
             if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
-                        || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
-                        || emailListConfig.studentStatus == StudentStatus.ALL)
+                    || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
+                    || emailListConfig.studentStatus == StudentStatus.ALL)
                     && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
             }
@@ -228,7 +241,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
-                                         HashSet<String> instructorEmailSet) {
+            HashSet<String> instructorEmailSet) {
 
         try {
 
@@ -281,19 +294,19 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             //no range set
             return true;
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
-                   && emailListConfig.instructorCreatedDateRangeEnd == null) {
+                && emailListConfig.instructorCreatedDateRangeEnd == null) {
             //after a specific date
             return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
         } else if (emailListConfig.instructorCreatedDateRangeStart == null
-                   && emailListConfig.instructorCreatedDateRangeEnd != null) {
+                && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //before a specific date
             return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
 
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
-                   && emailListConfig.instructorCreatedDateRangeEnd != null) {
+                && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //within a date interval
             return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
-                && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+                    && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
         }
 
         return false;
@@ -337,19 +350,19 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             //no range set
             return true;
         } else if (emailListConfig.studentCreatedDateRangeStart != null
-                   && emailListConfig.studentCreatedDateRangeEnd == null) {
+                && emailListConfig.studentCreatedDateRangeEnd == null) {
             //after a specific date
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
 
         } else if (emailListConfig.studentCreatedDateRangeStart == null
-                   && emailListConfig.studentCreatedDateRangeEnd != null) {
+                && emailListConfig.studentCreatedDateRangeEnd != null) {
             //before a specific date
             return studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
         } else if (emailListConfig.studentCreatedDateRangeStart != null
-                   && emailListConfig.studentCreatedDateRangeEnd != null) {
+                && emailListConfig.studentCreatedDateRangeEnd != null) {
             //within a date interval
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
-                && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+                    && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
         }
 
         return false;
@@ -478,6 +491,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private static class EmailListConfig {
+
         public boolean student;
         public boolean instructor;
         public StudentStatus studentStatus = StudentStatus.ALL;

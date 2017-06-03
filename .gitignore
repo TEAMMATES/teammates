@@ -51,3 +51,4 @@ gradle-app.setting
 .idea/
 *.iml
 out/
+/nbproject/private/
