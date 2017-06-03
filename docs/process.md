@@ -179,8 +179,8 @@ Your code will be reviewed, in this sequence, by:
 
 #### Updating the PR
 
-If you are tasked to update your PR either by Travis CI or by your reviewer, there is no need to close the PR and open a new one.
-You will simply make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
+If you are tasked to update your PR either by Travis CI or by your reviewer,**do not** close the PR and open a new one.
+You must make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
 
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
 If you have permission to change labels, you may additionally change the `s.*` PR label as appropriate.
