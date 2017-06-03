@@ -42,7 +42,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
             Assumption.fail("FeedbackResponseComment should not be null");
         } else {
             verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
-                                                               instructor, session, response);
+                    instructor, session, response);
         }
 
         InstructorFeedbackResponseCommentAjaxPageData data =

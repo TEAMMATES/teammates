@@ -30,7 +30,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFee
         Assumption.assertNotNull(response);
 
         verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
-                                                               instructor, session, response);
+                instructor, session, response);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
