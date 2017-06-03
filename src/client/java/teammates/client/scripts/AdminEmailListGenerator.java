@@ -295,8 +295,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             if (instructorCreatedDateRangeStartCheckIsNull) {
                 //no range set
                 return true;
-            }
-            else if (!instructorCreatedDateRangeStartCheckIsNull) {
+            } else if (!instructorCreatedDateRangeStartCheckIsNull) {
                 //after a specific date
                 return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
             }
@@ -343,31 +342,32 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private boolean isStudentCreatedInRange(CourseStudent student) {
 
         Date studentCreatedAt = getStudentCreatedDate(student);
-
+        boolean studentCreatedDateRangeEndIsNull = emailListConfig.studentCreatedDateRangeEnd == null;
+        boolean studentCreatedDateRangeStartIsNull = emailListConfig.studentCreatedDateRangeStart == null;
+        
         if (studentCreatedAt == null) {
             return false;
         }
 
-        if (emailListConfig.studentCreatedDateRangeEnd == null
-                && emailListConfig.studentCreatedDateRangeStart == null) {
-            //no range set
-            return true;
-        } else if (emailListConfig.studentCreatedDateRangeStart != null
-                && emailListConfig.studentCreatedDateRangeEnd == null) {
-            //after a specific date
-            return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
+        if (studentCreatedDateRangeEndIsNull) {
 
-        } else if (emailListConfig.studentCreatedDateRangeStart == null
-                && emailListConfig.studentCreatedDateRangeEnd != null) {
-            //before a specific date
-            return studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
-        } else if (emailListConfig.studentCreatedDateRangeStart != null
-                && emailListConfig.studentCreatedDateRangeEnd != null) {
-            //within a date interval
-            return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
-                    && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+            if (studentCreatedDateRangeStartIsNull) {
+                //no range set
+                return true;
+            } else if (!studentCreatedDateRangeStartIsNull) {
+                //after a specific date
+                return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
+            }
+        } else if (!studentCreatedDateRangeEndIsNull) {
+            if (studentCreatedDateRangeStartIsNull) {
+                //before a specific date
+                return studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+            } else if (!studentCreatedDateRangeStartIsNull) {
+                //within a date interval
+                return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
+                        && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+            }
         }
-
         return false;
 
     }
