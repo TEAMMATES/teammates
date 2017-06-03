@@ -420,6 +420,10 @@ public class EmailGenerator {
         return email;
     }
 
+    /**
+     * Generates the instructor preamble for the emails that have been sent to students and are also sent to the
+     * instructors in order to inform them about what has been sent to the former {@code courseId, @code courseName}.
+     */
     private String generateInstructorPreamble(String courseId, String courseName) {
 
         String courseIdentifier = "[" + SanitizationHelper.sanitizeForHtml(courseId) + "] "
