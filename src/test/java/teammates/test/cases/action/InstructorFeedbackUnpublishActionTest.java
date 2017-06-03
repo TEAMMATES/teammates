@@ -147,4 +147,30 @@ public class InstructorFeedbackUnpublishActionTest extends BaseActionTest {
     protected InstructorFeedbackUnpublishAction getAction(String... params) {
         return (InstructorFeedbackUnpublishAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        makeFeedbackSessionPublished(session); //we have to revert to the closed state
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        makeFeedbackSessionPublished(session); //we have to revert to the closed state
+
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
+    }
 }

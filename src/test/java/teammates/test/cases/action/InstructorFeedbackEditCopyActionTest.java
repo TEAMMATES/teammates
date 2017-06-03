@@ -409,4 +409,10 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     protected InstructorFeedbackEditCopyAction getAction(String... params) {
         return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }
