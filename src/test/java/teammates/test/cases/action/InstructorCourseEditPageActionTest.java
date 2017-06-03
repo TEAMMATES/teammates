@@ -44,8 +44,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         InstructorCourseEditPageAction editAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false, "idOfInstructor1OfCourse1"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -66,8 +67,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false,
+                "idOfInstructor1OfCourse1"), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -94,7 +95,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor4",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false, "idOfInstructor4"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
