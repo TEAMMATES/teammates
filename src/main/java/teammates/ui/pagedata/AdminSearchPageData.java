@@ -3,6 +3,7 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -51,7 +52,7 @@ public class AdminSearchPageData extends PageData {
     /*
      * Data related to both instructors and students
      */
-    public HashMap<String, String> courseIdToCourseNameMap = new HashMap<String, String>();
+    public Map<String, String> courseIdToCourseNameMap = new HashMap<String, String>();
 
     /*
      * Search result tables
