@@ -44,7 +44,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     }
 
     private void repairResponsesForQuestion(FeedbackQuestionAttributes question, boolean needRepairGiverSection,
-                                            boolean needRepairRecipientSection)
+            boolean needRepairRecipientSection)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
         for (FeedbackResponseAttributes response : responses) {
@@ -62,8 +62,8 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
 
             if (needRepairRecipientSection) {
                 if (isTeamRecipient(question.recipientType)) {
-                    String recipientSection =
-                            logic.getStudentsForTeam(response.recipient, question.courseId).get(0).section;
+                    String recipientSection
+                            = logic.getStudentsForTeam(response.recipient, question.courseId).get(0).section;
                     if (!recipientSection.equals(response.recipientSection)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = recipientSection;
@@ -95,11 +95,11 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
 
     private boolean isRecipientContaningSection(FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
         return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
-               || recipientType == FeedbackParticipantType.STUDENTS
-               || recipientType == FeedbackParticipantType.TEAMS
-               || recipientType == FeedbackParticipantType.OWN_TEAM
-               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+                || recipientType == FeedbackParticipantType.STUDENTS
+                || recipientType == FeedbackParticipantType.TEAMS
+                || recipientType == FeedbackParticipantType.OWN_TEAM
+                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     private boolean isTeamRecipient(FeedbackParticipantType recipientType) {

@@ -284,31 +284,34 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private boolean isInstructorCreatedInRange(Instructor instructor) {
 
         Date instructorCreatedAt = getInstructorCreatedDate(instructor);
-
+        boolean instructorCreatedDateRangeEndCheckIsNull = (emailListConfig.instructorCreatedDateRangeEnd == null);
+        boolean instructorCreatedDateRangeStartCheckIsNull = (emailListConfig.instructorCreatedDateRangeStart == null);
         if (instructorCreatedAt == null) {
             return false;
         }
 
-        if (emailListConfig.instructorCreatedDateRangeEnd == null
-                && emailListConfig.instructorCreatedDateRangeStart == null) {
-            //no range set
-            return true;
-        } else if (emailListConfig.instructorCreatedDateRangeStart != null
-                && emailListConfig.instructorCreatedDateRangeEnd == null) {
-            //after a specific date
-            return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
-        } else if (emailListConfig.instructorCreatedDateRangeStart == null
-                && emailListConfig.instructorCreatedDateRangeEnd != null) {
-            //before a specific date
-            return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+        if (instructorCreatedDateRangeEndCheckIsNull) {
 
-        } else if (emailListConfig.instructorCreatedDateRangeStart != null
-                && emailListConfig.instructorCreatedDateRangeEnd != null) {
-            //within a date interval
-            return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
-                    && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+            if (instructorCreatedDateRangeStartCheckIsNull) {
+                //no range set
+                return true;
+            }
+            else if (!instructorCreatedDateRangeStartCheckIsNull) {
+                //after a specific date
+                return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
+            }
+        } else if (!instructorCreatedDateRangeEndCheckIsNull) {
+
+            if (instructorCreatedDateRangeStartCheckIsNull) {
+                //before a specific date
+                return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+
+            } else if (!instructorCreatedDateRangeStartCheckIsNull) {
+                //within a date interval
+                return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
+                        && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+            }
         }
-
         return false;
 
     }
