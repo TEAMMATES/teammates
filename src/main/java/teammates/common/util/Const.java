@@ -745,7 +745,6 @@ public final class Const {
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
-        public static final String FEEDBACK_QUESTION_FILTER_TEXT = "filtertext";
 
         public static final String TEAM_NAME = "teamname";
         public static final String COMMENTS = "comments";

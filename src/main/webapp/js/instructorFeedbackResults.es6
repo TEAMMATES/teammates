@@ -140,11 +140,6 @@ function filterResults(rawSearchText) {
     }
 }
 
-function updateResultsFilter() {
-    $('input[id=filterTextForDownload]').val($('#results-search-box').val());
-    filterResults($('#results-search-box').val());
-}
-
 function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
@@ -354,15 +349,6 @@ function prepareInstructorFeedbackResultsPage() {
         expandOrCollapsePanels(e.currentTarget, panels);
     });
 
-    $('#results-search-box').keyup(updateResultsFilter);
-
-    // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress((e) => {
-        if (e.which === 13) {
-            e.preventDefault();
-        }
-    });
-
     if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
         $('#collapse-panels-button').show();
     } else {
@@ -385,13 +371,6 @@ function prepareInstructorFeedbackResultsPage() {
     bindUnpublishButtons();
 
     $('#button-print').on('click', () => {
-        // Fix to hide the filter placeholder when it is empty.
-        if ($('#results-search-box').val()) {
-            $('#filter-box-parent-div').removeClass('hide-for-print');
-        } else {
-            $('#filter-box-parent-div').addClass('hide-for-print');
-        }
-
         $('#mainContent').printThis({
             importCSS: true,
             importStyle: true,

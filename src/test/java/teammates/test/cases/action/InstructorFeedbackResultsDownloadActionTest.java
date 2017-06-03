@@ -48,21 +48,18 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         String[] paramsWithFilterText = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
 
         String[] paramsWithMissingResponsesShown = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
         };
 
         String[] paramsWithMissingResponsesHidden = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false"
         };
 
