@@ -178,4 +178,15 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     protected InstructorFeedbackEditSaveAction getAction(String... params) {
         return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams =
+                createParamsForTypicalFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
 }

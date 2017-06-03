@@ -221,4 +221,20 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         return (StudentProfilePictureEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.PROFILE_PICTURE_LEFTX, "0",
+                Const.ParamsNames.PROFILE_PICTURE_RIGHTX, "100",
+                Const.ParamsNames.PROFILE_PICTURE_TOPY, "0",
+                Const.ParamsNames.PROFILE_PICTURE_BOTTOMY, "100",
+                Const.ParamsNames.PROFILE_PICTURE_HEIGHT, "500",
+                Const.ParamsNames.PROFILE_PICTURE_WIDTH, "300",
+                Const.ParamsNames.PROFILE_PICTURE_ROTATE, "180",
+                Const.ParamsNames.BLOB_KEY, "random-blobKey"
+        };
+        verifyAnyRegisteredUserCanAccess(submissionParams);
+    }
+
 }
