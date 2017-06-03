@@ -420,7 +420,7 @@ public class EmailGenerator {
         return email;
     }
 
-    private String generateInstructorFragment(String courseId, String courseName) {
+    private String generateInstructorPreamble(String courseId, String courseName) {
 
         String courseIdentifier = SanitizationHelper.sanitizeForHtml(courseId) + ", "
                 + SanitizationHelper.sanitizeForHtml(courseName);
@@ -435,7 +435,7 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
 
-        String instructorFragment = generateInstructorFragment(course.getId(), course.getName());
+        String instructorFragment = generateInstructorPreamble(course.getId(), course.getName());
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
@@ -461,19 +461,20 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
-        // The instructor fragment is populated by calling the corresponding function along with the arguments.
-        String instructorFragment = generateInstructorFragment(course.getId(), course.getName());
+        /* The instructor preamble aims at informing the instructor about an email that has been sent to the students
+        of his course */
+        String instructorPreamble = generateInstructorPreamble(course.getId(), course.getName());
 
-        //The fragment for the students is blank since these are natural target of this email.
-        String studentFragment = "";
+        //The corresponding preamble for students is blank since these are the recipients of the initial email.
+        String studentPreamble = "";
 
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
-                    instructorFragment));
+                    instructorPreamble));
         }
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
-                    studentFragment));
+                    studentPreamble));
         }
 
         return emails;
