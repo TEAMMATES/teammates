@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" 
+<%@ taglib prefix="fn"
            uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page import="teammates.common.util.Const" %>
@@ -40,13 +40,13 @@
  <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
-    
+
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
-     
+
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
-    
+
     <c:if test="${empty data.qnForms}">
         <br>
         <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
@@ -56,14 +56,14 @@
     <c:forEach items="${data.qnForms}" var="question">
         <feedbackEdit:questionEditForm fqForm="${question}" numQn="${fn:length(data.qnForms)}"/>
     </c:forEach>
-    
+
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>
     <feedbackEdit:copyQuestionModal feedbackSessionName="${data.fsForm.fsName}" courseId="${data.fsForm.courseId}"/>
-    
+
     <br>
     <br>
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
-    
+
     <br>
     <br>
 </ti:instructorPage>
