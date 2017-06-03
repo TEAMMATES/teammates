@@ -422,7 +422,7 @@ public class EmailGenerator {
 
     private String generateInstructorPreamble(String courseId, String courseName) {
 
-        String courseIdentifier = SanitizationHelper.sanitizeForHtml(courseId) + ", "
+        String courseIdentifier = "[" + SanitizationHelper.sanitizeForHtml(courseId) + "] "
                 + SanitizationHelper.sanitizeForHtml(courseName);
 
         return "<p>The email below has been sent to students of course: "
