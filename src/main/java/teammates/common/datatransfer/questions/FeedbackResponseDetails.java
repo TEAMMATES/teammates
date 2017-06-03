@@ -31,6 +31,10 @@ public abstract class FeedbackResponseDetails {
 
     public abstract String getAnswerHtml(FeedbackQuestionDetails questionDetails);
 
+    public String getDetailedAnswerHtml(FeedbackQuestionDetails questionDetails) {
+        return getAnswerHtml(questionDetails);
+    }
+
     public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
 
     /**

@@ -103,6 +103,61 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
         return html.toString();
     }
+    
+    @Override
+    public String getDetailedAnswerHtml(FeedbackQuestionDetails questionDetails) {
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
+        StringBuilder html = new StringBuilder(100);
+        
+        html.append("<table class=\"table table-bordered\">");
+        
+        StringBuilder tableHeaderHtml = new StringBuilder(
+                "<thead>"
+                    + "<tr>"
+                        + "<th>Criteria</th>");
+        
+        List<String> subQuestions = fqd.getRubricSubQuestions();
+        List<String> rubricChoices = fqd.getRubricChoices();
+        
+        for (int i = 0; i < rubricChoices.size(); i++) {
+            tableHeaderHtml.append("<th class=\"text-center\">");
+            tableHeaderHtml.append(rubricChoices.get(i));
+            tableHeaderHtml.append("</th>");
+        }
+        
+        tableHeaderHtml.append(
+                    "</tr>"
+               + "</thead>");
+        
+        StringBuilder tableBodyHtml = new StringBuilder("<tbody>");
+        
+        for (int i = 0; i < answer.size(); i++) {
+            int chosenIndex = answer.get(i);
+            
+            tableBodyHtml.append(
+                    "<tr>"
+                        + "<td>");
+            tableBodyHtml.append(subQuestions.get(i));
+            tableBodyHtml.append("</td>");
+            
+            for (int j = 0; j < rubricChoices.size(); j++) {
+                tableBodyHtml.append("<td class=\"text-center\">");
+                
+                if (j == chosenIndex) {
+                    tableBodyHtml.append("<span class=\"glyphicon glyphicon-ok text-success\"></span>");
+                }
+                
+                tableBodyHtml.append("</td>");
+            }
+        }
+
+        tableBodyHtml.append("</tbody>");
+        html.append(tableHeaderHtml);
+        html.append(tableBodyHtml);
+        html.append("</table>");
+
+        return html.toString();
+    }
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {

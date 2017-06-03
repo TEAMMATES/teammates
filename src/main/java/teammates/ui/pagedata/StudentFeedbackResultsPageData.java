@@ -193,7 +193,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                 recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
 
-            String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
+            String answer = response.getResponseDetails().getDetailedAnswerHtml(questionDetails);
             List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
                                                                                           response.getId());
 
