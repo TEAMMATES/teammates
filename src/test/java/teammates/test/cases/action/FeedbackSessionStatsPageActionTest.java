@@ -41,7 +41,9 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         AjaxResult r = getAjaxResult(a);
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
 
-        assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination("", false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertEquals(10, data.sessionDetails.stats.expectedTotal);
         assertEquals(4, data.sessionDetails.stats.submittedTotal);
         assertEquals("", r.getStatusMessage());
