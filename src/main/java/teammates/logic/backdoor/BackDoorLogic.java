@@ -43,9 +43,11 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Provides additional business logic for non-production usage (e.g. testing, client scripts).
+ * Provides additional business logic for non-production usage (e.g. testing,
+ * client scripts).
  */
 public class BackDoorLogic extends Logic {
+
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
@@ -59,12 +61,13 @@ public class BackDoorLogic extends Logic {
 
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
-     *  //Any existing copies of the data in the datastore will be overwritten.
-     *      - edit: use removeDataBundle to remove.
-     *              made this change for speed when deletion is not necessary.
+     * //Any existing copies of the data in the datastore will be overwritten. -
+     * edit: use removeDataBundle to remove. made this change for speed when
+     * deletion is not necessary.
+     *
      * @return status of the request in the form 'status meassage'+'additional
-     *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
-     *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
+     * info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
+     * "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -74,99 +77,16 @@ public class BackDoorLogic extends Logic {
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
 
-        Map<String, AccountAttributes> accounts = dataBundle.accounts;
-        for (AccountAttributes account : accounts.values()) {
-            if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
-                account.studentProfile.googleId = account.googleId;
-            }
-        }
-        accountsDb.createAccounts(accounts.values(), true);
-
-        Map<String, CourseAttributes> courses = dataBundle.courses;
-        coursesDb.createCourses(courses.values());
-
-        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
-        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
-        for (InstructorAttributes instructor : instructors.values()) {
-
-            validateInstructorPrivileges(instructor);
-
-            if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
-                                                                  instructor.email, "TEAMMATES Test Institute 1");
-                if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                instructorAccounts.add(account);
-            }
-        }
-        accountsDb.createAccounts(instructorAccounts, false);
-        instructorsDb.createInstructorsWithoutSearchability(instructors.values());
-
-        Map<String, StudentAttributes> students = dataBundle.students;
-        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
-        for (StudentAttributes student : students.values()) {
-            student.section = student.section == null ? "None" : student.section;
-            if (student.googleId != null && !student.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
-                                                                  student.email, "TEAMMATES Test Institute 1");
-                if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                studentAccounts.add(account);
-            }
-        }
-        accountsDb.createAccounts(studentAccounts, false);
-        studentsDb.createStudentsWithoutSearchability(students.values());
-
-        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()) {
-            cleanSessionData(session);
-        }
-        fbDb.createFeedbackSessions(sessions.values());
-
-        Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
-        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
-
-        for (FeedbackQuestionAttributes question : questionList) {
-            question.removeIrrelevantVisibilityOptions();
-        }
-        fqDb.createFeedbackQuestions(questionList);
-
-        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
-        for (FeedbackResponseAttributes response : responses.values()) {
-            response = injectRealIds(response);
-        }
-        frDb.createFeedbackResponses(responses.values());
-
-        Set<String> sessionIds = new HashSet<String>();
-
-        for (FeedbackResponseAttributes response : responses.values()) {
-
-            String sessionId = response.feedbackSessionName + "%" + response.courseId;
-
-            if (!sessionIds.contains(sessionId)) {
-                updateRespondents(response.feedbackSessionName, response.courseId);
-                sessionIds.add(sessionId);
-            }
-        }
-
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            injectRealIds(responseComment);
-        }
-        fcDb.createFeedbackResponseComments(responseComments.values());
-
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        commentsDb.createComments(comments.values());
-
-        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
-        for (AdminEmailAttributes email : adminEmails.values()) {
-            adminEmailsDb.createAdminEmail(email);
-        }
+        createAccounts(dataBundle);
+        createCourses(dataBundle);
+        createInstructors(dataBundle);
+        createStudents(dataBundle);
+        createFeedbackSessions(dataBundle);
+        createFeedbackQuestions(dataBundle);
+        createFeedbackResponses(dataBundle);
+        createFeedbackResponseComments(dataBundle);
+        createComments(dataBundle);
+        createAdminEmail(dataBundle);
 
         // any Db can be used to commit the changes.
         // accountsDb is used as it is already used in the file
@@ -175,12 +95,123 @@ public class BackDoorLogic extends Logic {
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
+    private void createAdminEmail(DataBundle dataBundle) {
+        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
+        adminEmails.values().forEach((email) -> {
+            adminEmailsDb.createAdminEmail(email);
+        });
+    }
+
+    private void createComments(DataBundle dataBundle) {
+        Map<String, CommentAttributes> comments = dataBundle.comments;
+        commentsDb.createComments(comments.values());
+    }
+
+    private void createFeedbackResponseComments(DataBundle dataBundle) throws EntityDoesNotExistException {
+        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+        responseComments.values().forEach((responseComment) -> {
+            injectRealIds(responseComment);
+        });
+        fcDb.createFeedbackResponseComments(responseComments.values());
+    }
+
+    private void createFeedbackResponses(DataBundle dataBundle) throws EntityDoesNotExistException {
+        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
+        responses.values().forEach((response) -> {
+            response = injectRealIds(response);
+        });
+        frDb.createFeedbackResponses(responses.values());
+        
+        Set<String> sessionIds = new HashSet<>();
+        
+        responses.values().forEach((response) -> {
+            String sessionId = response.feedbackSessionName + "%" + response.courseId;
+            if (!sessionIds.contains(sessionId)) {
+                updateRespondents(response.feedbackSessionName, response.courseId);
+                sessionIds.add(sessionId);
+            }
+        });
+    }
+
+    private void createFeedbackQuestions(DataBundle dataBundle) {
+        Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
+        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        
+        questionList.forEach((question) -> {
+            question.removeIrrelevantVisibilityOptions();
+        });
+        fqDb.createFeedbackQuestions(questionList);
+    }
+
+    private void createFeedbackSessions(DataBundle dataBundle) {
+        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
+        sessions.values().forEach((session) -> {
+            cleanSessionData(session);
+        });
+        fbDb.createFeedbackSessions(sessions.values());
+    }
+
+    private void createStudents(DataBundle dataBundle) {
+        Map<String, StudentAttributes> students = dataBundle.students;
+        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
+        students.values().stream().map((student) -> {
+            student.section = student.section == null ? "None" : student.section;
+            return student;
+        }).filter((student) -> (student.googleId != null && !student.googleId.isEmpty())).map((student) -> new AccountAttributes(student.googleId, student.name, false,
+                student.email, "TEAMMATES Test Institute 1")).map((account) -> {
+                    if (account.studentProfile == null) {
+                        account.studentProfile = new StudentProfileAttributes();
+                        account.studentProfile.googleId = account.googleId;
+                    }
+            return account;
+        }).forEachOrdered((account) -> {
+            studentAccounts.add(account);
+        });
+        accountsDb.createAccounts(studentAccounts, false);
+        studentsDb.createStudentsWithoutSearchability(students.values());
+    }
+
+    private void createInstructors(DataBundle dataBundle) {
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
+        instructors.values().stream().map((instructor) -> {
+            validateInstructorPrivileges(instructor);
+            return instructor;
+        }).filter((instructor) -> (instructor.googleId != null && !instructor.googleId.isEmpty())).map((instructor) -> new AccountAttributes(instructor.googleId, instructor.name, true,
+                instructor.email, "TEAMMATES Test Institute 1")).map((account) -> {
+                    if (account.studentProfile == null) {
+                        account.studentProfile = new StudentProfileAttributes();
+                        account.studentProfile.googleId = account.googleId;
+                    }
+            return account;
+        }).forEachOrdered((account) -> {
+            instructorAccounts.add(account);
+        });
+        accountsDb.createAccounts(instructorAccounts, false);
+        instructorsDb.createInstructorsWithoutSearchability(instructors.values());
+    }
+
+    private void createCourses(DataBundle dataBundle) {
+        Map<String, CourseAttributes> courses = dataBundle.courses;
+        coursesDb.createCourses(courses.values());
+    }
+
+    private void createAccounts(DataBundle dataBundle) {
+        Map<String, AccountAttributes> accounts = dataBundle.accounts;
+        accounts.values().stream().filter((account) -> (account.studentProfile == null)).map((account) -> {
+            account.studentProfile = new StudentProfileAttributes();
+            return account;
+        }).forEachOrdered((account) -> {
+            account.studentProfile.googleId = account.googleId;
+        });
+        accountsDb.createAccounts(accounts.values(), true);
+    }
+
     /**
      * Checks if the role of {@code instructor} matches its privileges.
      *
-     * @param instructor
-     *            the {@link InstructorAttributes} of an instructor, cannot be
-     *            {@code null}
+     * @param instructor the {@link InstructorAttributes} of an instructor,
+     * cannot be {@code null}
      */
     private void validateInstructorPrivileges(InstructorAttributes instructor) {
 
@@ -192,65 +223,61 @@ public class BackDoorLogic extends Logic {
 
         switch (instructor.getRole()) {
 
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            Assumption.assertTrue(privileges.hasCoownerPrivileges());
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+                Assumption.assertTrue(privileges.hasCoownerPrivileges());
+                break;
 
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            Assumption.assertTrue(privileges.hasManagerPrivileges());
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+                Assumption.assertTrue(privileges.hasManagerPrivileges());
+                break;
 
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            Assumption.assertTrue(privileges.hasObserverPrivileges());
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+                Assumption.assertTrue(privileges.hasObserverPrivileges());
+                break;
 
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            Assumption.assertTrue(privileges.hasTutorPrivileges());
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+                Assumption.assertTrue(privileges.hasTutorPrivileges());
+                break;
 
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            break;
+            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+                break;
 
-        default:
-            Assumption.fail("Invalid instructor permission role name");
-            break;
+            default:
+                Assumption.fail("Invalid instructor permission role name");
+                break;
         }
     }
 
     /**
      * Creates document for entities that have document, i.e. searchable.
+     *
      * @return status of the request in the form 'status meassage'+'additional
-     *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
-     *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
+     * info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
+     * "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
     public String putDocuments(DataBundle dataBundle) {
         // query the entity in db first to get the actual data and create document for actual entity
 
         Map<String, StudentAttributes> students = dataBundle.students;
-        for (StudentAttributes student : students.values()) {
-            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
+        students.values().stream().map((student) -> studentsDb.getStudentForEmail(student.course, student.email)).forEachOrdered((studentInDb) -> {
             studentsDb.putDocument(studentInDb);
-        }
+        });
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
-        for (InstructorAttributes instructor : instructors.values()) {
-            InstructorAttributes instructorInDb =
-                    instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
+        instructors.values().stream().map((instructor) -> instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email)).forEachOrdered((instructorInDb) -> {
             instructorsDb.putDocument(instructorInDb);
-        }
+        });
 
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
-            fcDb.putDocument(fcInDb);
-        }
+        responseComments.values().stream().map((responseComment) -> fcDb.getFeedbackResponseComment(
+                responseComment.courseId, responseComment.createdAt, responseComment.giverEmail)).forEachOrdered((fcInDb) -> {
+                    fcDb.putDocument(fcInDb);
+        });
 
         Map<String, CommentAttributes> comments = dataBundle.comments;
-        for (CommentAttributes comment : comments.values()) {
-            CommentAttributes commentInDb = commentsDb.getComment(comment);
+        comments.values().stream().map((comment) -> commentsDb.getComment(comment)).forEachOrdered((commentInDb) -> {
             commentsDb.putDocument(commentInDb);
-        }
+        });
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
@@ -296,8 +323,8 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getFeedbackQuestionAsJson(String feedbackSessionName, String courseId, int qnNumber) {
-        FeedbackQuestionAttributes fq =
-                feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
+        FeedbackQuestionAttributes fq
+                = feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber);
         return JsonUtils.toJson(fq);
     }
 
@@ -307,20 +334,20 @@ public class BackDoorLogic extends Logic {
     }
 
     public String getFeedbackResponseAsJson(String feedbackQuestionId, String giverEmail, String recipient) {
-        FeedbackResponseAttributes fq =
-                feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
+        FeedbackResponseAttributes fq
+                = feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
         return JsonUtils.toJson(fq);
     }
 
     public String getFeedbackResponsesForGiverAsJson(String courseId, String giverEmail) {
-        List<FeedbackResponseAttributes> responseList =
-                feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
+        List<FeedbackResponseAttributes> responseList
+                = feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
         return JsonUtils.toJson(responseList);
     }
 
     public String getFeedbackResponsesForReceiverAsJson(String courseId, String recipient) {
-        List<FeedbackResponseAttributes> responseList =
-                feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
+        List<FeedbackResponseAttributes> responseList
+                = feedbackResponsesLogic.getFeedbackResponsesForReceiverForCourse(courseId, recipient);
         return JsonUtils.toJson(responseList);
     }
 
@@ -339,23 +366,23 @@ public class BackDoorLogic extends Logic {
 
     public void editFeedbackSessionAsJson(String feedbackSessionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSessionAttributes feedbackSession =
-                JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
+        FeedbackSessionAttributes feedbackSession
+                = JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
         updateFeedbackSession(feedbackSession);
     }
 
     public void editFeedbackQuestionAsJson(String feedbackQuestionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackQuestionAttributes feedbackQuestion =
-                JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
+        FeedbackQuestionAttributes feedbackQuestion
+                = JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
         updateFeedbackQuestion(feedbackQuestion);
     }
 
     /**
-     * This method ensures consistency for private feedback sessions
-     * between the type and visibility times. This allows easier creation
-     * of private sessions by setting the feedbackSessionType field as PRIVATE
-     * in the json file.
+     * This method ensures consistency for private feedback sessions between the
+     * type and visibility times. This allows easier creation of private
+     * sessions by setting the feedbackSessionType field as PRIVATE in the json
+     * file.
      */
     private FeedbackSessionAttributes cleanSessionData(FeedbackSessionAttributes session) {
         if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
@@ -366,15 +393,18 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId of the
-    * question the response is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number corresponding to the created response
-    * should be inserted in the json file in place of the actual response ID.<br>
-    * This method will then generate the correct ID and replace the field.
+     * This method is necessary to generate the feedbackQuestionId of the
+     * question the response is for.<br>
+     * Normally, the ID is already generated on creation, but the json file does
+     * not contain the actual response ID. <br>
+     * Therefore the question number corresponding to the created response
+     * should be inserted in the json file in place of the actual response
+     * ID.<br>
+     * This method will then generate the correct ID and replace the field.
+     *
      * @throws EntityDoesNotExistException
-    **/
+    *
+     */
     private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response)
             throws EntityDoesNotExistException {
         try {
@@ -395,22 +425,24 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId
-    * and feedbackResponseId of the question and response the comment is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number and questionNumber%giverEmail%recipient
-    * corresponding to the created comment should be inserted in the json
-    * file in place of the actual ID.<br>
-    * This method will then generate the correct ID and replace the field.
+     * This method is necessary to generate the feedbackQuestionId and
+     * feedbackResponseId of the question and response the comment is for.<br>
+     * Normally, the ID is already generated on creation, but the json file does
+     * not contain the actual response ID. <br>
+     * Therefore the question number and questionNumber%giverEmail%recipient
+     * corresponding to the created comment should be inserted in the json file
+     * in place of the actual ID.<br>
+     * This method will then generate the correct ID and replace the field.
+     *
      * @throws EntityDoesNotExistException
-    **/
+    *
+     */
     private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
 
-            responseComment.feedbackQuestionId =
-                    feedbackQuestionsLogic.getFeedbackQuestion(
+            responseComment.feedbackQuestionId
+                    = feedbackQuestionsLogic.getFeedbackQuestion(
                             responseComment.feedbackSessionName,
                             responseComment.courseId,
                             qnNumber).getId();
@@ -420,8 +452,8 @@ public class BackDoorLogic extends Logic {
 
         String[] responseIdParam = responseComment.feedbackResponseId.split("%");
 
-        responseComment.feedbackResponseId =
-                responseComment.feedbackQuestionId
+        responseComment.feedbackResponseId
+                = responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
     }
 
@@ -452,9 +484,9 @@ public class BackDoorLogic extends Logic {
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
         List<String> courseIds = new ArrayList<String>();
-        for (CourseAttributes course : courses) {
+        courses.forEach((course) -> {
             courseIds.add(course.getId());
-        }
+        });
         if (!courseIds.isEmpty()) {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
