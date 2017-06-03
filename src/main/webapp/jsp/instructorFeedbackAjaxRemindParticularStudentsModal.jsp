@@ -2,8 +2,8 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<table class="table-responsive table table-striped table-bordered">
-    <tr>
+<table class="table-responsive table table-bordered">
+    <tr class="background-color-medium-gray">
         <th></th>
         <th onclick="toggleSort(this);" class="button_sortsection button-sort-none">
             Section
@@ -21,9 +21,13 @@
             Email
             <span class="icon-sort unsorted"></span>
         </th>
+        <th onclick="toggleSort(this);" class="button_sortemail button-sort-none">
+            Submitted?
+            <span class="icon-sort unsorted"></span>
+        </th>
     </tr>
     <c:forEach items="${data.responseStatus.noResponse}" var="userToRemindEmail">
-        <tr>
+        <tr class="bg-danger">
             <td class="align-center">
                 <div class="checkbox">
                     <label>
@@ -42,6 +46,35 @@
             </td>
             <td>
                 ${userToRemindEmail}
+            </td>
+            <td>
+                No
+            </td>
+        </tr>
+    </c:forEach>
+    <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToRemindEmail">
+        <tr class="bg-info">
+            <td class="align-center">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
+                    </label>
+                </div>
+            </td>
+            <td>
+                ${data.responseStatus.emailSectionTable[userToRemindEmail]}
+            </td>
+            <td>
+                ${data.responseStatus.emailTeamNameTable[userToRemindEmail]}
+            </td>
+            <td>
+                ${data.responseStatus.emailNameTable[userToRemindEmail]}
+            </td>
+            <td>
+                ${userToRemindEmail}
+            </td>
+            <td>
+                Yes
             </td>
         </tr>
     </c:forEach>
