@@ -93,7 +93,7 @@ public class PageData {
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
+    protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<String>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
@@ -194,8 +194,8 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+        List<ElementTag> result = new ArrayList<ElementTag>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
                                              String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
