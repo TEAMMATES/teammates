@@ -289,4 +289,9 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         data = (AdminEmailComposePageData) pageResult.data;
         assertEquals(subject, data.emailToEdit.subject);
     }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
 }
