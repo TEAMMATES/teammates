@@ -94,12 +94,8 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     }
 
     private boolean isRecipientContaningSection(FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
-        return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
-                || recipientType == FeedbackParticipantType.STUDENTS
-                || recipientType == FeedbackParticipantType.TEAMS
-                || recipientType == FeedbackParticipantType.OWN_TEAM
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+                return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
+                || recipientType.isValidRecipient();
     }
 
     private boolean isTeamRecipient(FeedbackParticipantType recipientType) {

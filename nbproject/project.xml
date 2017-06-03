@@ -5,5 +5,6 @@
         <data xmlns="http://www.netbeans.org/ns/clientside-project/1">
             <name>teammates</name>
         </data>
+        <libraries xmlns="http://www.netbeans.org/ns/cdnjs-libraries/1"/>
     </configuration>
 </project>
