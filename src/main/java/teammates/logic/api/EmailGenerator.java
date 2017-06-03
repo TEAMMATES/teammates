@@ -426,9 +426,9 @@ public class EmailGenerator {
                 + SanitizationHelper.sanitizeForHtml(courseName);
 
         return "<p>The email below has been sent to students of course: "
-                + courseIdentifier
-                + ".<br>" + Const.EOL + "<br>" + Const.EOL
-                + "=== Email message as seen by the students ===</p>" + Const.EOL;
+        + courseIdentifier + ".<br>" + Const.EOL 
+        + "<br>" + Const.EOL
+        + "=== Email message as seen by the students ===</p>" + Const.EOL;
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
