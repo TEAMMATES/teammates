@@ -640,12 +640,12 @@ public class EmailGenerator {
 
     private String generateCoOwnersEmailsLine(String courseId) {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
-        StringBuffer coOwnersEmailsList = new StringBuffer();
+        StringBuilder coOwnersEmailsList = new StringBuilder();
         for (InstructorAttributes instructor : instructors) {
             if (!instructor.hasCoownerPrivileges()) {
                 continue;
             }
-            coOwnersEmailsList.append(instructor.getName() + "(" + instructor.getEmail() + "), ");
+            coOwnersEmailsList.append(instructor.getName()).append("(").append(instructor.getEmail()).append("), ");
         }
         return coOwnersEmailsList.length() == 0
                 ? "(No contactable instructors found)"
