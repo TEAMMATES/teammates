@@ -36,7 +36,7 @@ public class AdminSearchPageData extends PageData {
     public Map<String, List<String>> studentOpenFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public Map<String, List<String>> studentUnOpenedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public Map<String, List<String>> studentPublishedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
-    public Map<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
+    public Map<String, String> feedbackSessionLinkToNameMap = new HashMap<String, String>();
     public Map<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
     public Map<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
     public Map<String, String> studentInstituteMap = new HashMap<String, String>();
@@ -46,7 +46,7 @@ public class AdminSearchPageData extends PageData {
      */
     public InstructorSearchResultBundle instructorResultBundle = new InstructorSearchResultBundle();
     public Map<String, String> instructorInstituteMap = new HashMap<String, String>();
-    public Map<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
+    public Map<String, String> instructorHomePageLinkMap = new HashMap<String, String>();
     public Map<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
 
     /*
@@ -105,7 +105,7 @@ public class AdminSearchPageData extends PageData {
         String courseName = courseIdToCourseNameMap.get(instructor.courseId);
         String courseId = instructor.courseId;
         String googleId = instructor.googleId;
-        String googleIdLink = instructorHomaPageLinkMap.get(instructor.googleId);
+        String googleIdLink = instructorHomePageLinkMap.get(instructor.googleId);
         String institute = instructorInstituteMap.get(instructor.getIdentificationString());
         String viewRecentActionsId = createViewRecentActionsId(instructor);
         String email = instructor.email;
@@ -233,7 +233,7 @@ public class AdminSearchPageData extends PageData {
         if (links != null) {
             for (String link : links) {
                 sessions.add(new AdminSearchStudentFeedbackSession(
-                                                feedbackSeesionLinkToNameMap.get(link), link));
+                                                feedbackSessionLinkToNameMap.get(link), link));
             }
         }
 
