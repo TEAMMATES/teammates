@@ -116,11 +116,12 @@ public abstract class Action {
 
     /**
      * Parses and initializes the regkey from the http request.
-     *
      */
     private void parseAndInitializeRegkeyFromRequest() {
         String regkeyFromRequest = getRegkeyFromRequest();
-        if (regkeyFromRequest != null && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
+        boolean isNextParamInRegkey = regkeyFromRequest != null
+                                      && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=");
+        if (isNextParamInRegkey) {
             /*
              * Here regkey may contain the nextUrl as well. This is due to
              * a workaround which replaces "&" with a placeholder "${amp}", thus the
