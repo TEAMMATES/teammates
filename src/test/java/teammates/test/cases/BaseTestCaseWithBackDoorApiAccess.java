@@ -139,4 +139,16 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     protected String doPutDocuments(DataBundle testData) {
         return BackDoor.putDocuments(testData);
     }
+
+    protected String doPutStudent(StudentAttributes student) {
+        return BackDoor.createStudent(student);
+    }
+
+    protected String doPutFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        return BackDoor.createFeedbackQuestion(feedbackQuestion);
+    }
+
+    protected String doPutFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
+        return BackDoor.createFeedbackResponse(feedbackResponse);
+    }
 }

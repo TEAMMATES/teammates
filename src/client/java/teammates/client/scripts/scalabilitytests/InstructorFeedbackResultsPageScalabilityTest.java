@@ -58,6 +58,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         // perform test by reading each entity from datastore or persisting if absent
         verifyOrPersistTestDataToDatastore();
 
+        // removeAndRestoreDataBundle(testData) replaced with method to read only test data from Datastore
         readTestDataFromDatastore();
     }
 
@@ -81,21 +82,21 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             try {
                 verifyPresentInDatastore(student);
             } catch (AssertionError e) {
-                // BackDoor.createStudent(student);
+                doPutStudent(student);
             }
         }
         for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
             try {
                 verifyPresentInDatastore(question);
             } catch (AssertionError e) {
-                // BackDoor.createFeedbackQuestion(question);
+                doPutFeedbackQuestion(question);
             }
         }
         for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
             try {
                 verifyPresentInDatastore(feedbackResponse);
             } catch (AssertionError e) {
-                // BackDoor.createFeedbackResponse(feedbackResponse);
+                doPutFeedbackResponse(feedbackResponse);
             }
         }
     }
