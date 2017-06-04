@@ -39,8 +39,9 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         StudentProfilePageAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
 
-        AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="
-                                    + student.googleId, result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ViewURIs.STUDENT_PROFILE_PAGE, false, student.googleId),
+                result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -60,9 +61,9 @@ public class StudentProfilePageActionTest extends BaseActionTest {
                 student.googleId, submissionParams));
         ShowPageResult result = getShowPageResult(action);
 
-        AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE
-                                    + "?error=false&user=" + student.googleId,
-                                    result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ViewURIs.STUDENT_PROFILE_PAGE, false, student.googleId),
+                result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
