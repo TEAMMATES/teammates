@@ -325,7 +325,7 @@ const seeMoreRequest = function (e) {
         showStudentLimitError(courseCheck, displayIcon);
     }
 
-    if($(panelCollapse).attr('class').indexOf('checked') === -1) {
+    if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
         $(toggleCheveron).addClass('glyphicon-chevron-down').removeClass(' glyphicon-chevron-up');
     } else {
         $(toggleCheveron).addClass('glyphicon-chevron-up').removeClass(' glyphicon-chevron-down');
