@@ -486,7 +486,7 @@ public class EmailGenerator {
         email.setContent(emailBody);
         return email;
     }
-  
+
     private boolean isYetToJoinCourse(StudentAttributes student) {
         return student.googleId == null || student.googleId.isEmpty();
     }
@@ -645,7 +645,7 @@ public class EmailGenerator {
             if (!instructor.hasCoownerPrivileges()) {
                 continue;
             }
-            coOwnersEmailsList.append(instructor.getName()).append("(").append(instructor.getEmail()).append("), ");
+            coOwnersEmailsList.append(instructor.getName()).append('(').append(instructor.getEmail()).append("), ");
         }
         return coOwnersEmailsList.length() == 0
                 ? "(No contactable instructors found)"
