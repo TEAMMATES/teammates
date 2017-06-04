@@ -74,9 +74,12 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
         return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[] {};
+        verifyAccessibleForStudents(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
 }
