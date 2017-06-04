@@ -60,6 +60,7 @@ const FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = 'noofchoicecreated';
 const FEEDBACK_QUESTION_NUMSCALE_MIN = 'numscalemin';
 const FEEDBACK_QUESTION_NUMSCALE_MAX = 'numscalemax';
 const FEEDBACK_QUESTION_NUMSCALE_STEP = 'numscalestep';
+const FEEDBACK_QUESTION_RUBRIC_SUBQUESTION = 'rubricSubQn';
 const FEEDBACK_QUESTION_NUMBER = 'questionnum';
 const FEEDBACK_QUESTION_TEXT = 'questiontext';
 const FEEDBACK_QUESTION_DESCRIPTION = 'questiondescription';
@@ -147,6 +148,8 @@ const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. Th
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
         'Please enter valid options. The interval is not divisible by the specified increment.';
+const DISPLAY_FEEDBACK_QUESTION_RUBRIC_INVALIDSUBQUESTION =
+        'Sub-questions for Rubric question cannot be empty.';
 
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
