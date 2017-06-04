@@ -437,15 +437,15 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
 
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
     let id;
-    const viewType = opts && (opts == 'RGQ' || opts == 'GRQ');
+    const viewType = opts && (opts === 'RGQ' || opts === 'GRQ');
     const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
     if (giverIndex || qnIndex || commentIndex) {
         if (isIncludeSection) {
             id = `-${opts.sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-        } else if(viewType) {
+        } else if (viewType) {
             id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}-${opts}`;
         } else {
-			id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+            id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
         }
     } else if (isIncludeSection) {
         id = `-${opts.sectionIndex}-${recipientIndex}`;
@@ -503,15 +503,15 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, opts) {
 
 function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex, opts) {
     let id;
-    const viewType = opts && (opts == 'RGQ' || opts == 'GRQ');
+    const viewType = opts && (opts === 'RGQ' || opts === 'GRQ');
     const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
 
-	if (questionIdx || responseIdx || commentIndex) {
+    if (questionIdx || responseIdx || commentIndex) {
         if (commentIndex) {
             if (isIncludeSection) {
                 id = `-${opts.sectionIndex}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIndex}`;
             } else if (viewType) {
-				id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIndex}-${opts}`;
+                id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIndex}-${opts}`;
             } else {
                 id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIndex}`;
             }
@@ -540,15 +540,15 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
 
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
     let id;
-    const viewType = opts && (opts == 'RGQ' || opts == 'GRQ');
+    const viewType = opts && (opts === 'RGQ' || opts === 'GRQ');
     const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
     if (giverIndex || qnIndex || commentIndex) {
         if (isIncludeSection) {
             id = `-${opts.sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-        } else if(viewType) {
+        } else if (viewType) {
             id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}-${opts}`;
         } else {
-			id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+            id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
         }
     } else if (isIncludeSection) {
         id = `-${opts.sectionIndex}-${recipientIndex}`;
