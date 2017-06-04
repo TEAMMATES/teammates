@@ -1,27 +1,27 @@
 package teammates.ui.template;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 
 public class CourseEditSectionRow {
     private String sectionName;
+    private int instructorIndex;
     private int panelIndex;
     private InstructorAttributes instructor;
     private List<ElementTag> permissionInputGroup2;
     private List<ElementTag> permissionInputGroup3;
-    private ElementTag toggleSessionLevelInSectionButton;
     private List<CourseEditFeedbackSessionRow> feedbackSessions;
     private List<List<ElementTag>> specialSections;
+    private boolean isSessionsInSectionSpecial;
 
     public CourseEditSectionRow(String sectionName, List<String> sectionNames, int sectionIndex,
                                 int panelIndex, InstructorAttributes instructor,
                                 int instructorIndex, List<String> feedbackNames) {
         this.sectionName = sectionName;
+        this.instructorIndex = instructorIndex;
         this.panelIndex = panelIndex;
         this.instructor = instructor;
         feedbackSessions = new ArrayList<CourseEditFeedbackSessionRow>();
@@ -30,21 +30,8 @@ public class CourseEditSectionRow {
         permissionInputGroup2 = createCheckboxesForStudentPermissionsOfInstructors(panelIndex);
         permissionInputGroup3 = createCheckboxesForSessionPermissionsOfInstructors(panelIndex);
 
-        boolean isSectionSpecial = isSessionsInSectionSpecial();
-
-        String content = isSectionSpecial
-                ? "Hide session-level permissions"
-                : "Give different permissions for sessions in this section";
-
-        Map<String, String> attributes = new HashMap<>();
-        attributes.put("class", "small col-sm-5 toggle-session-level-in-section");
-        attributes.put("id", "toggleSessionLevelInSection" + panelIndex + "ForInstructor" + instructorIndex);
-        attributes.put("href", "javascript:;");
-        attributes.put("data-instructor-index", Integer.toString(instructorIndex));
-        attributes.put("data-panel-index", Integer.toString(panelIndex));
-        attributes.put("data-is-section-special", Boolean.toString(isSectionSpecial));
-
-        toggleSessionLevelInSectionButton = createButton(content, attributes);
+        isSessionsInSectionSpecial =
+                instructor != null && instructor.privileges.isSessionsInSectionSpecial(sectionName);
 
         String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
@@ -67,6 +54,10 @@ public class CourseEditSectionRow {
         }
     }
 
+    public int getInstructorIndex() {
+        return instructorIndex;
+    }
+
     public int getPanelIndex() {
         return panelIndex;
     }
@@ -87,7 +78,7 @@ public class CourseEditSectionRow {
     }
 
     public boolean isSessionsInSectionSpecial() {
-        return instructor != null && instructor.privileges.isSessionsInSectionSpecial(sectionName);
+        return isSessionsInSectionSpecial;
     }
 
     public List<List<ElementTag>> getSpecialSections() {
@@ -100,10 +91,6 @@ public class CourseEditSectionRow {
 
     public List<ElementTag> getPermissionInputGroup3() {
         return permissionInputGroup3;
-    }
-
-    public ElementTag getToggleSessionLevelInSectionButton() {
-        return toggleSessionLevelInSectionButton;
     }
 
     /**
@@ -213,13 +200,4 @@ public class CourseEditSectionRow {
         return result;
     }
 
-    private ElementTag createButton(String content, Map<String, String> attributes) {
-        ElementTag button = new ElementTag(content);
-
-        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-            button.setAttribute(attribute.getKey(), attribute.getValue());
-        }
-
-        return button;
-    }
 }

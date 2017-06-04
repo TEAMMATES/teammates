@@ -38,8 +38,8 @@ function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
         .html('Give different permissions for sessions in this section');
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .attr('onclick', `showTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).removeClass('hide-tune-session-permissions');
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).addClass('show-tune-session-permissions');
     $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
          } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'false');
 }
@@ -52,9 +52,8 @@ function setAddSectionLevelLink(instrNum) {
     for (let idx = 0; idx < allSectionSelects.length; idx += 1) {
         const item = $(allSectionSelects[idx]);
         if (item.attr('value') === 'false') {
-            const sectionNumStr = item.attr('name').substring(14).slice(0, -3);
-            $(`#addSectionLevelForInstructor${instrNum}`)
-                .attr('onclick', `showTuneSectionPermissionsDiv(${instrNum}, ${sectionNumStr})`);
+            const sectionNum = item.attr('name').substring(14).slice(0, -3);
+            $(`#addSectionLevelForInstructor${instrNum}`).data('panelindex', sectionNum);
             foundNewLink = true;
             break;
         }
@@ -104,8 +103,8 @@ function showTunePermissionsDiv(instrNum) {
 function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).html('Hide session-level permissions');
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .attr('onclick', `hideTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).removeClass('show-tune-session-permissions');
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).addClass('hide-tune-session-permissions');
     $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
          } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'true');
 }
@@ -472,21 +471,6 @@ function editFormRequest(e) {
 $(document).ready(() => {
     prepareInstructorPages();
 
-    $(document).on('click', '.add-section-level-for-instructor', (e) => {
-        const index = $(e.currentTarget).attr('data-index');
-        const firstBlankSectionRowIndex = $(e.currentTarget).attr('data-first-blank-section-row-index');
-        showTuneSectionPermissionsDiv(index, firstBlankSectionRowIndex);
-    });
-
-    $(document).on('click', '.toggle-session-level-in-section', (e) => {
-        const instructorIndex = $(e.currentTarget).attr('data-instructor-index');
-        const panelIndex = $(e.currentTarget).attr('data-panel-index');
-        const isSectionSpecial = $(e.currentTarget).attr('data-is-section-special') === 'true';
-        $(e.currentTarget).attr('data-is-section-special', isSectionSpecial ? 'false' : 'true');
-        const handler = isSectionSpecial ? hideTuneSessionnPermissionsDiv : showTuneSessionnPermissionsDiv;
-        handler(instructorIndex, panelIndex);
-    });
-
     $(document).on('click', '#btnShowNewInstructorForm', () => {
         showNewInstructorForm();
     });
@@ -527,6 +511,30 @@ $(document).ready(() => {
     const editLinks = $('a[id^=instrEditLink]');
     instructorSize = editLinks.length;
     $(editLinks).click(editFormRequest);
+
+    $(document).on('click', '.hide-tune-section-permissions', (e) => {
+        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
+        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
+        hideTuneSectionPermissionsDiv(instructorIndex, panelIndex);
+    });
+
+    $(document).on('click', '.show-tune-section-permissions', (e) => {
+        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
+        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
+        showTuneSectionPermissionsDiv(instructorIndex, panelIndex);
+    });
+
+    $(document).on('click', '.hide-tune-session-permissions', (e) => {
+        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
+        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
+        hideTuneSessionnPermissionsDiv(instructorIndex, panelIndex);
+    });
+
+    $(document).on('click', '.show-tune-session-permissions', (e) => {
+        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
+        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
+        showTuneSessionnPermissionsDiv(instructorIndex, panelIndex);
+    });
 });
 
 /*

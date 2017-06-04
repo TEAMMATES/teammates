@@ -1,7 +1,6 @@
 package teammates.ui.template;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,7 +18,6 @@ public class CourseEditInstructorPanel {
     private ElementTag editButton;
     private ElementTag cancelButton;
     private ElementTag deleteButton;
-    private ElementTag addSectionLevelForInstructorButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
     private int firstBlankSectionRowIndex;
@@ -40,24 +38,6 @@ public class CourseEditInstructorPanel {
         permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel();
         permissionInputGroup2 = createPermissionInputGroup2ForInstructorPanel();
         permissionInputGroup3 = createPermissionInputGroup3ForInstructorPanel();
-
-        if (instructor != null) {
-            String style = null;
-            if (instructor.privileges.numberOfSectionsSpecial() >= sectionNames.size()) {
-                style = "display: none;";
-            }
-            String content = "Give different permissions for a specific section";
-
-            Map<String, String> attributes = new HashMap<>();
-            attributes.put("class", "small add-section-level-for-instructor");
-            attributes.put("id", "addSectionLevelForInstructor" + index);
-            attributes.put("href", "javascript:;");
-            attributes.put("style", style);
-            attributes.put("data-index", Integer.toString(index));
-            attributes.put("data-first-blank-section-row-index", Integer.toString(firstBlankSectionRowIndex));
-
-            addSectionLevelForInstructorButton = createButton(content, attributes);
-        }
     }
 
     private List<CourseEditSectionRow> createSectionRows(
@@ -155,6 +135,10 @@ public class CourseEditInstructorPanel {
         return index;
     }
 
+    public int getFirstBlankSectionRowIndex() {
+        return firstBlankSectionRowIndex;
+    }
+
     public void setResendInviteButton(ElementTag resendInviteButton) {
         this.resendInviteButton = resendInviteButton;
     }
@@ -189,10 +173,6 @@ public class CourseEditInstructorPanel {
 
     public InstructorAttributes getInstructor() {
         return instructor;
-    }
-
-    public ElementTag getAddSectionLevelForInstructorButton() {
-        return addSectionLevelForInstructorButton;
     }
 
     public boolean isAccessControlDisplayed() {
@@ -267,13 +247,4 @@ public class CourseEditInstructorPanel {
         return result;
     }
 
-    private ElementTag createButton(String content, Map<String, String> attributes) {
-        ElementTag button = new ElementTag(content);
-
-        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-            button.setAttribute(attribute.getKey(), attribute.getValue());
-        }
-
-        return button;
-    }
 }
