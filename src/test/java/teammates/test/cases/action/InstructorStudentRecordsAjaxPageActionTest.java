@@ -78,10 +78,18 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         return (InstructorStudentRecordsAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    @Override
     @Test
+    @Override
     protected void testAccessControl() throws Exception {
-      //TODO: implement this
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        StudentAttributes student = dataBundle.students.get("student2InCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }
