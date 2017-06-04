@@ -149,6 +149,9 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    1. Ensure for `Gradle JVM:` that a JDK 7 with a name of `1.7` is selected.
    1. Click `Finish`.
    1. Create a `build` folder in your project root if it does not exist while waiting for IntelliJ to finish indexing.
+   1. If you used a different project root directory other than `teammates`, you will receive a dialog box with the
+      message `The modules below are not imported from Gradle anymore. Check those to be removed from the ide project too:`.\
+      You should see a module with your project root directory name being checked. Click `OK`.
    1. Go to `File → Project Structure... → Modules`.
       Click on the `teammates` module, then under `Sources`, click on the `build` folder and click `Excluded` and then `OK`.
    1. You should see a dialog box with the message:\
