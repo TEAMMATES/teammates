@@ -853,14 +853,15 @@ function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
     copyOptions(type);
-    $(`#questionTable-${NEW_QUESTION}`).show();
     prepareQuestionForm(type);
+    $(`#questionTable-${NEW_QUESTION}`).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
 
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
+
     getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
 }
 
