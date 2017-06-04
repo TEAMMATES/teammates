@@ -16,9 +16,8 @@
     <div class="well well-plain inputTable" id="addNewQuestionTable">
 
         <div class="row">
-            <div class="col-sm-12 row">
-                <div class="col-sm-offset-3 col-sm-9">
-
+            <div class="col-sm-offset-3 col-sm-9">
+                <div class="btn-group">
                     <button
                         id = "button_openframe"
                         class="btn btn-primary margin-bottom-7px dropdown-toggle"
@@ -28,21 +27,22 @@
                     <ul id="add-new-question-dropdown" class="dropdown-menu">
                         ${fqForm.questionTypeOptions}
                     </ul>
-
-                    <a href="/instructorHelp.jsp#fbQuestionTypes"
-                        target="_blank" rel="noopener noreferrer"> <i
-                        class="glyphicon glyphicon-info-sign"></i>
-                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px"
-                            data-actionlink="${data.instructorQuestionCopyPageLink}"
-                            data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
-                            data-target="#copyModal" data-toggle="modal">
-                        Copy Question
-                    </a>
-                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
-                        href="${fqForm.doneEditingLink}">
-                        Done Editing
-                    </a>
                 </div>
+
+                <a href="/instructorHelp.jsp#fbQuestionTypes"
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+                <a id="button_copy" class="btn btn-primary margin-bottom-7px"
+                        data-actionlink="${data.instructorQuestionCopyPageLink}"
+                        data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
+                        data-target="#copyModal" data-toggle="modal">
+                    Copy Question
+                </a>
+                <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
+                    href="${fqForm.doneEditingLink}">
+                    Done Editing
+                </a>
             </div>
         </div>
     </div>

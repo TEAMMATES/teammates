@@ -18,11 +18,6 @@ public class AdminHomePageActionTest extends BaseActionTest {
     }
 
     @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
-    @Override
     @Test
     public void testExecuteAndPostProcess() {
 
@@ -46,6 +41,13 @@ public class AdminHomePageActionTest extends BaseActionTest {
     @Override
     protected AdminHomePageAction getAction(String... params) {
         return (AdminHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }
