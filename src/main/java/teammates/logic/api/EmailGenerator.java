@@ -421,8 +421,8 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates the instructor preamble for the emails that have been sent to students and are also sent to the
-     * instructors in order to inform them about what has been sent to the former {@code courseId, @code courseName}.
+     * Generates the preamble for emails that are sent to students of course {@code courseId}
+     * to be shown in the email copies that are sent to the instructors of the same course.
      */
     private String generateInstructorPreamble(String courseId, String courseName) {
 
@@ -465,8 +465,8 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
-        /* The instructor preamble aims at informing the instructor about an email that has been sent to the students
-        of his course */
+        // The instructor preamble aims at informing the instructor about an email that has been sent to the students
+        // of his course
         String instructorPreamble = generateInstructorPreamble(course.getId(), course.getName());
 
         //The corresponding preamble for students is blank since these are the recipients of the initial email.
