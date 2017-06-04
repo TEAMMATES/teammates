@@ -50,9 +50,8 @@ const FeedbackPath = {
 
     updateInputTags(giverType, recipientType, containingForm) {
         containingForm.find('[id^=givertype]').val(giverType);
-        containingForm.find('[id^=givertype]').trigger('change');
-
         containingForm.find('[id^=recipienttype]').val(recipientType);
+
         containingForm.find('[id^=recipienttype]').trigger('change');
     },
 
