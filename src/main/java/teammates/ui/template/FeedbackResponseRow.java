@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mortbay.log.Log;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -44,8 +42,8 @@ public class FeedbackResponseRow {
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
-        
-        for(FeedbackParticipantType participant : question.showResponsesTo) {
+
+        for (FeedbackParticipantType participant : question.showResponsesTo) {
             responseVisibilities.put(participant, true);
         }
         Logger log = Logger.getLogger();
