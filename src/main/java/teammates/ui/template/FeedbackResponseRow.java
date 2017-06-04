@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mortbay.log.Log;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -41,8 +44,13 @@ public class FeedbackResponseRow {
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
-        responseVisibilities.put(FeedbackParticipantType.INSTRUCTORS,
-                question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS));
+        
+        for(FeedbackParticipantType participant : question.showResponsesTo) {
+            responseVisibilities.put(participant, true);
+        }
+        Logger log = Logger.getLogger();
+        log.info(responseVisibilities.toString() + " " + question.showResponsesTo.toString());
+        log.info("hello");
         String giverName = results.getNameForEmail(response.giver);
         if (frcs != null) {
             for (FeedbackResponseCommentAttributes frc : frcs) {
