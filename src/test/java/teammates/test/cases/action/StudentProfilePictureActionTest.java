@@ -333,9 +333,14 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         return (StudentProfilePictureAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.USER_ID, account.googleId,
+                Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
+        };
+        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
 
 }
