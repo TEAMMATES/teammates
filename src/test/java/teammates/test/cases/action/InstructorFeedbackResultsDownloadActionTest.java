@@ -71,7 +71,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
         FileDownloadResult result = getFileDownloadResult(action);
 
-        String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        String expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -90,7 +90,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsNormal);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -106,7 +106,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsNormalWithinSection);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -141,7 +141,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         action = getAction(paramsWithFilterText);
         result = getFileDownloadResult(action);
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -152,7 +152,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
         result = getFileDownloadResult(action);
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -163,7 +163,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
         result = getFileDownloadResult(action);
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -186,7 +186,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsQuestion2);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -212,7 +212,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsQuestion1WithinSection);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -434,6 +434,19 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     @Override
     protected InstructorFeedbackResultsDownloadAction getAction(String... params) {
         return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }
