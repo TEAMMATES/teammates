@@ -8,10 +8,10 @@
 <c:set var="isNewQuestion" value="${fqForm.questionIndex eq -1}" />
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-    <div class="col-sm-12 padding-0 margin-bottom-7px">
+    <div class="margin-bottom-7px">
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
-    <div class="feedback-path-dropdown col-sm-12 btn-group">
+    <div class="feedback-path-dropdown btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <c:choose>
                 <c:when test="${isNewQuestion}">
@@ -31,7 +31,7 @@
                 <li class="dropdown-submenu">
                     <c:set var="commonGiver" value="${commonPath.key}" />
                     <a>${commonGiver.displayNameGiver} will give feedback on...</a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" data-toggle="tooltip" data-trigger="manual" data-placement="top" data-container="body" title="Choose an option">
                         <li>
                             <c:forEach items="${commonPath.value}" var="commonRecipient">
                                 <a class="feedback-path-dropdown-option" href="javascript:;"

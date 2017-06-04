@@ -14,8 +14,8 @@ public class InstructorHomePageData extends PageData {
     private List<CourseTable> courseTables;
     private String sortCriteria;
 
-    public InstructorHomePageData(AccountAttributes account) {
-        super(account);
+    public InstructorHomePageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {

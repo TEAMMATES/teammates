@@ -29,9 +29,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testLinks();
-        testScript();
-        testVisibilityCheckboxScript();
-        testAction();
         testPanelsCollapseExpand();
     }
 
@@ -102,111 +99,22 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage = getStudentRecordsPage();
         viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
 
-    }
+        ______TS("content: profile with attemoted script and html injection with comment");
 
-    private void testLinks() {
-        // TODO add link to a feedback session
-    }
-
-    private void testScript() {
-        InstructorAttributes instructor = testData.instructors.get("teammates.test.CS2104");
-        StudentAttributes student = testData.students.get("benny.c.tmms@ISR.CS2104");
+        instructor = testData.instructors.get("instructor1OfTestingSanitizationCourse");
+        student = testData.students.get("student1InTestingSanitizationCourse");
 
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithScriptInjectionProfile.html");
 
-        ______TS("add comment button");
-        viewPage.verifyAddCommentButtonClick();
-
-        ______TS("edit comment button");
-        viewPage.verifyEditCommentButtonClick(1);
     }
 
-    private void testVisibilityCheckboxScript() {
-        viewPage.clickVisibilityOptionsButton(1);
-
-        ______TS("check giver when answer is unchecked");
-
-        viewPage.clickGiverCheckboxForCourse(1);
-        assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
-        assertTrue(viewPage.isGiverCheckboxForCourseSelected(1));
-        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
-
-        ______TS("uncheck answer when giver is checked");
-
-        viewPage.clickAnswerCheckboxForCourse(1);
-        assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
-        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
-        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
-
-        ______TS("check recipient when answer is unchecked");
-
-        viewPage.clickRecipientCheckboxForCourse(1);
-        assertTrue(viewPage.isAnswerCheckboxForCourseSelected(1));
-        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
-        assertTrue(viewPage.isRecipientCheckboxForCourseSelected(1));
-
-        ______TS("uncheck answer when recipient is checked");
-
-        viewPage.clickAnswerCheckboxForCourse(1);
-        assertFalse(viewPage.isAnswerCheckboxForCourseSelected(1));
-        assertFalse(viewPage.isGiverCheckboxForCourseSelected(1));
-        assertFalse(viewPage.isRecipientCheckboxForCourseSelected(1));
-
-        viewPage.clickVisibilityOptionsButton(1);
-    }
-
-    private void testAction() throws Exception {
-
-        ______TS("add comment: failure (empty comment)");
-
-        viewPage.addComment("").verifyStatus("Please enter a valid comment. The comment can't be empty.");
-
-        ______TS("add comment: success");
-
-        viewPage.addComment("New comment from teammates.test for Benny C")
-                .verifyStatus(String.format(Const.StatusMessages.COMMENT_ADDED,
-                                            "New comment from teammates.test for Benny C"));
-
-        ______TS("add comment with custom visibility: success");
-
-        viewPage.addCommentWithVisibility("New comment from teammates.test for Benny C, viewable by everyone", 4);
-        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageAddComment.html");
-
-        ______TS("delete comment: cancel");
-
-        viewPage.clickDeleteCommentAndCancel(1);
-
-        ______TS("delete comment: success");
-
-        viewPage.clickDeleteCommentAndConfirm(1).verifyStatus("Comment deleted");
-
-        ______TS("edit comment then cancel: success");
-
-        viewPage.clickEditCommentAndCancel(1);
-        viewPage.verifyCommentEditBoxNotVisible(1);
-
-        ______TS("edit comment: success");
-
-        viewPage.editComment(2, "Edited comment 2 from CS2104 teammates.test Instructor to Benny")
-                .verifyStatus("Comment edited");
-
-        // Edit back so that restoreDataBundle can identify and delete the comment.
-        viewPage.editComment(2, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
-
-        ______TS("edit other instructor's comment: success");
-
-        viewPage.editComment(5, "Edited comment 2 from CS2104 teammates.test.Helper Instructor to Benny, "
-                                + "viewable by instructors")
-                .verifyStatus("Comment edited");
-
-        ______TS("delete other instructor's comment: success");
-
-        viewPage.clickDeleteCommentAndConfirm(5).verifyStatus("Comment deleted");
-
+    private void testLinks() {
+        // TODO add link to a feedback session
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {
@@ -218,6 +126,16 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private void testPanelsCollapseExpand() {
+
+        DataBundle testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        InstructorAttributes instructor = testDataQuestionType.instructors.get("instructor1OfCourse1");
+        StudentAttributes student = testDataQuestionType.students.get("student1InCourse1");
+
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
+
+        viewPage = getStudentRecordsPage();
 
         ______TS("Typical case: panels expand/collapse");
 

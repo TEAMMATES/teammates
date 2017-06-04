@@ -50,6 +50,14 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         viewPage = getCourseStudentDetailsPage("registeredStudent");
         viewPage.verifyHtmlMainContent("/instructorCourseStudentDetailsRegisteredWithHelperView.html");
 
+        ______TS("content: registered student with attempted script and html injection");
+
+        instructorId = testData.instructors.get("instructor1OfTestingSanitizationCourse").googleId;
+        courseId = testData.courses.get("testingSanitizationCourse").getId();
+
+        viewPage = getCourseStudentDetailsPage("student1InTestingSanitizationCourse");
+        viewPage.verifyHtmlMainContent("/instructorCourseStudentDetailsRegisteredWithAttemptedScriptInjection.html");
+
         // TODO: add test for the comment box in this page
     }
 

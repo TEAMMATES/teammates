@@ -60,12 +60,12 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
         coursesToDisplay.add(new InstructorStudentListPageCourseData(sampleCourse, isCourseArchived,
                                                                      isInstructorAllowedToModify));
-        return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
+        return new InstructorStudentListPageData(acct, dummySessionToken, searchKey, displayArchive, coursesToDisplay);
     }
 
     private InstructorStudentListPageData initializeDataWithNoSearchKey() {
         searchKey = null;
-        return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
+        return new InstructorStudentListPageData(acct, dummySessionToken, searchKey, displayArchive, coursesToDisplay);
     }
 
     private void testSearchBox(InstructorStudentListSearchBox searchBox) {

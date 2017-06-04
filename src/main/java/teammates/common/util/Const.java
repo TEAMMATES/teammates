@@ -143,6 +143,58 @@ public final class Const {
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
+        public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
+                Arrays.asList(
+                        ActionURIs.ADMIN_ACCOUNT_DELETE,
+                        ActionURIs.ADMIN_EMAIL_COMPOSE_SAVE,
+                        ActionURIs.ADMIN_EMAIL_COMPOSE_SEND,
+                        ActionURIs.ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL,
+                        ActionURIs.ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL,
+                        ActionURIs.ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD,
+                        ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD,
+                        ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH,
+                        ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH,
+                        ActionURIs.ADMIN_EMAIL_TRASH_DELETE,
+                        ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD,
+                        ActionURIs.ADMIN_STUDENT_GOOGLE_ID_RESET,
+                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
+                        ActionURIs.IMAGE_UPLOAD,
+                        ActionURIs.INSTRUCTOR_COURSE_ADD,
+                        ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
+                        ActionURIs.INSTRUCTOR_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
+                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_REMIND,
+                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE,
+                        ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_COPY,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_DELETE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
+                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING,
+                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
+                        ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
+                        ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
+                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
+
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
                 Arrays.asList(
                         ActionURIs.STUDENT_COURSE_JOIN,
@@ -202,7 +254,6 @@ public final class Const {
         public static final String COURSE_STUDENT_DELETE =
                 "Delete the student and the corresponding submissions from the course";
         public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
-        public static final String COURSE_STUDENT_COMMENT = "Give a comment for this student, his/her team/section";
 
         public static final String COURSE_REMIND =
                 "Email an invitation to all students yet to join requesting them to join the course "
@@ -553,6 +604,7 @@ public final class Const {
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
 
         public static final String BLOB_KEY = "blob-key";
+        public static final String SESSION_TOKEN = "token";
 
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
         public static final String COPIED_COURSE_ID = "copiedcourseid";
@@ -585,16 +637,10 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
 
         public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS = "canviewcommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS = "cangivecommentinsection";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS = "canmodifycommentinsection";
-
         public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
         public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS =
                 "canmodifysessioncommentinsection";
-
-        public static final String SHOW_COMMENT_BOX = "addComment";
 
         public static final String COURSE_SORTING_CRITERIA = "sortby";
         public static final String COURSE_TO_LOAD = "coursetoload";
@@ -722,9 +768,6 @@ public final class Const {
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
-        public static final String FROM_COMMENTS_PAGE = "commentpage";
-        public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
-        public static final String FROM_STUDENT_DETAILS_PAGE = "studentdetailspage";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
 
         public static final String STUDENT_SHORT_NAME = "studentshortname";
@@ -737,13 +780,8 @@ public final class Const {
         public static final String STUDENT_PROFILE_PHOTOEDIT = "editphoto";
 
         public static final String STUDENT_NAME = "studentname";
-        public static final String RECIPIENT_TYPE = "recipienttype";
-        public static final String RECIPIENTS = "recipients";
         public static final String RESPONSE_COMMENTS_SHOWCOMMENTSTO = "showresponsecommentsto";
         public static final String RESPONSE_COMMENTS_SHOWGIVERTO = "showresponsegiverto";
-        public static final String COMMENTS_SHOWCOMMENTSTO = "showcommentsto";
-        public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
-        public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
         public static final String SECTION_NAME = "sectionname";
 
         public static final String TEAM_NAME = "teamname";
@@ -803,23 +841,18 @@ public final class Const {
         public static final String PROFILE_PICTURE_ROTATE = "picturerotate";
 
         public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
 
     public static class SearchIndex {
-        public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
     }
 
     public static class SearchDocumentField {
-        public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
-        public static final String COMMENT_GIVER_NAME = "commentGiverName";
-        public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
@@ -874,11 +907,7 @@ public final class Const {
 
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
-        public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
-        public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
         public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
-
-        public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
 
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
@@ -931,7 +960,6 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
         public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
-        public static final String STUDENT_COMMENTS_PAGE = "/page/studentCommentsPage";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
@@ -1023,16 +1051,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
 
-        public static final String PENDING_COMMENT_CLEARED_EMAIL_QUEUE_NAME =
-                "pending-comment-cleared-email-queue";
-        public static final String PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL =
-                "/worker/pendingCommentClearedEmail";
-
-        public static final String PRODUCE_SEARCH_DOCUMENTS_COMMENTS_QUEUE_NAME =
-                "put-comment-document-queue";
-        public static final String PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL =
-                "/worker/putCommentDocument";
-
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
 
@@ -1121,6 +1139,7 @@ public final class Const {
 
         public static final String GOOGLE_ACCOUNT_HINT = "/googleAccountHint.jsp";
         public static final String ENABLE_JS = "/enableJs.jsp";
+        public static final String INVALID_ORIGIN = "/invalidOrigin.jsp";
         public static final String UNAUTHORIZED = "/unauthorized.jsp";
         public static final String ERROR_PAGE = "/errorPage.jsp";
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp";

@@ -27,8 +27,8 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
 
-    public InstructorFeedbacksPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbacksPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public boolean isUsingAjax() {

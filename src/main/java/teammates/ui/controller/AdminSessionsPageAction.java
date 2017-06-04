@@ -39,7 +39,7 @@ public class AdminSessionsPageAction extends Action {
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        data = new AdminSessionsPageData(account);
+        data = new AdminSessionsPageData(account, sessionToken);
 
         isShowAll = getRequestParamAsBoolean("all");
 
@@ -63,7 +63,7 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private void putIntoUnknownList(
-            HashMap<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
+            Map<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
         if (map.get("Unknown") == null) {
             List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
             newList.add(fs);
@@ -301,7 +301,7 @@ public class AdminSessionsPageAction extends Action {
         return numOfTotal;
     }
 
-    private int getTotalInstitutes(HashMap<String, List<FeedbackSessionAttributes>> map) {
+    private int getTotalInstitutes(Map<String, List<FeedbackSessionAttributes>> map) {
 
         int numOfTotal = 0;
         for (String key : map.keySet()) {

@@ -23,7 +23,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         String institute = "Institute Name";
 
         InstructorCourseJoinConfirmationPageData pageData =
-                new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
+                new InstructorCourseJoinConfirmationPageData(account, dummySessionToken, regkey, institute);
 
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());
@@ -41,7 +41,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         account = dataBundle.accounts.get("instructor1OfCourse1");
         regkey = "someRandomKey";
 
-        pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, null);
+        pageData = new InstructorCourseJoinConfirmationPageData(account, dummySessionToken, regkey, null);
 
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());

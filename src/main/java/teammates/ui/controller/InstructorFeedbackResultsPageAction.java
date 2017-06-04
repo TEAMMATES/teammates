@@ -38,7 +38,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
-        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
+        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
         if (selectedSection == null) {
