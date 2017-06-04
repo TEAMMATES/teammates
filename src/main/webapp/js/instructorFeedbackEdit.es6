@@ -853,19 +853,15 @@ function showNewQuestionFrame(type) {
     $('#questiontype').val(type);
 
     copyOptions(type);
-    prepareQuestionForm(type);
     $(`#questionTable-${NEW_QUESTION}`).show();
+    prepareQuestionForm(type);
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
 
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
-
-    if (type !== 'CONTRIB') {
-        // visibility messages for CONTRIB question would already be set
-        getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
-    }
+    getVisibilityMessage($(`#questionTable-${NEW_QUESTION}`));
 }
 
 function prepareDescription(form) {
