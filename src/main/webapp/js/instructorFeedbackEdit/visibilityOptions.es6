@@ -378,6 +378,7 @@ function updateVisibilityMessageDiv($containingForm) {
         success(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
+
             $visibilityMessageDiv.html(formatVisibilityMessageDivHtml(data.visibilityMessage));
         },
         error() {
