@@ -74,9 +74,9 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                     instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
-            boolean shouldInstructorHaveSessionViewingPrivileges = canInstructorViewSessionInGiverSection
+            boolean hasSessionViewingPrivileges = canInstructorViewSessionInGiverSection
                                                             && canInstructorViewSessionInRecipientSection;
-            if (!shouldInstructorHaveSessionViewingPrivileges) {
+            if (!hasSessionViewingPrivileges) {
                 iter.remove();
             }
         }

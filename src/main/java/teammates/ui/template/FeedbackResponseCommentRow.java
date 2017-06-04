@@ -29,7 +29,7 @@ public class FeedbackResponseCommentRow {
 
     private String whoCanSeeComment;
 
-    private boolean isWithVisibilityIcon;
+    private boolean hasVisibilityIcon;
 
     private boolean isEditDeleteEnabled;
     private boolean isEditDeleteEnabledOnlyOnHover;
@@ -146,7 +146,7 @@ public class FeedbackResponseCommentRow {
     }
 
     public boolean isWithVisibilityIcon() {
-        return isWithVisibilityIcon;
+        return hasVisibilityIcon;
     }
 
     public boolean isEditDeleteEnabled() {
@@ -268,7 +268,7 @@ public class FeedbackResponseCommentRow {
     }
 
     public void enableVisibilityIcon(String whoCanSeeComment) {
-        this.isWithVisibilityIcon = true;
+        this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
 }

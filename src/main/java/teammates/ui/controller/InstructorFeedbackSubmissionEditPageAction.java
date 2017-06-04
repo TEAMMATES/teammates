@@ -18,8 +18,8 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     @Override
     protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes session) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        boolean isEnabledForCreatorOnly = false;
-        gateKeeper.verifyAccessible(instructor, session, isEnabledForCreatorOnly);
+        boolean isCreatorOnly = false;
+        gateKeeper.verifyAccessible(instructor, session, isCreatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
