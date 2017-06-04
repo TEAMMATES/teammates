@@ -59,7 +59,12 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_INDEX, "1"
+        };
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
 }
