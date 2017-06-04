@@ -424,9 +424,26 @@ public class EmailGenerator {
         return email;
     }
 
+    /**
+     * Generates the preamble for emails that are sent to students of course {@code courseId}
+     * to be shown in the email copies that are sent to the instructors of the same course.
+     */
+    private String generateInstructorPreamble(String courseId, String courseName) {
+
+        String courseIdentifier = "[" + SanitizationHelper.sanitizeForHtml(courseId) + "] "
+                + SanitizationHelper.sanitizeForHtml(courseName);
+
+        return "<p>The email below has been sent to students of course: "
+            + courseIdentifier + ".<br>" + Const.EOL
+            + "<br>" + Const.EOL
+            + "=== Email message as seen by the students ===</p>" + Const.EOL;
+    }
+
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject) {
+
+        String instructorFragment = generateInstructorPreamble(course.getId(), course.getName());
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
@@ -434,11 +451,7 @@ public class EmailGenerator {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${instructorFragment}",
-                        "<p>The email below has been sent to students of course: "
-                        + SanitizationHelper.sanitizeForHtml(course.getId())
-                        + ".<br>" + Const.EOL + "<br>" + Const.EOL
-                        + "=== Email message as seen by the students ===</p>" + Const.EOL,
+                "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
@@ -457,23 +470,38 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
 
+        // The instructor preamble aims at informing the instructor about an email that has been sent to the students
+        // of his course
+        String instructorPreamble = generateInstructorPreamble(course.getId(), course.getName());
+
+        //The corresponding preamble for students is blank since these are the recipients of the initial email.
+        String studentPreamble = "";
+
         for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
+                    instructorPreamble));
         }
         for (StudentAttributes student : students) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email));
+            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
+                    studentPreamble));
         }
 
         return emails;
     }
 
+    /**
+     * Generates the feedback session closed email for both the instructors and the students with the given
+     * {@code userName} and {@code userEmail}.
+     */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
-            FeedbackSessionAttributes session, String userName, String userEmail) {
+            FeedbackSessionAttributes session, String userName, String userEmail,
+            String instructorFragment) {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
 
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
+                "${instructorFragment}", instructorFragment,
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),

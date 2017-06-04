@@ -79,7 +79,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
                                        session1.getSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
 
-            String header = "The email below has been sent to students of course: " + session1.getCourseId();
+            String header = "The email below has been sent to students of course: [" + session1.getCourseId() + "]";
             String content = paramMap.get(ParamsNames.EMAIL_CONTENT)[0];
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
 
