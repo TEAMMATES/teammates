@@ -14,6 +14,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -21,6 +23,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
@@ -405,7 +408,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement moveColButton = browser.driver.findElement(By.id(elemId));
 
         if (moveColButton.getAttribute("disabled") == null) {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS + "-" + qnNumber;
+
+            WebElement element = browser.driver.findElement(By.id(elemId));
+            int lastRow = Integer.parseInt(element.getAttribute("value")) - 1;
+
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + qnNumber
+                     + "-" + lastRow + "-" + colNumber;
+
+            WebElement lastRubricDescription = browser.driver.findElement(By.id(elemId));
+            String text = lastRubricDescription.getAttribute("value");
+
             moveColButton.click();
+            WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+            wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(lastRubricDescription, "value", text)));
 
             return true;
         }

@@ -349,7 +349,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddRubricColLink(1);    // new column index 5
         feedbackEditPage.clickAddRubricRowLink(1);    // new row index 2
         feedbackEditPage.fillRubricSubQuestionBox("New subquestion 2", 1, 2);;
-        feedbackEditPage.fillRubricChoiceBox("New(3) choice", 1, 5);
+        feedbackEditPage.fillRubricChoiceBox("New Col 5 choice", 1, 5);
         feedbackEditPage.fillRubricWeightBox("0.3", 1, 5);
         feedbackEditPage.fillRubricDescriptionBox("New Row 0, Col 5 Text", 1, 0, 5);
         feedbackEditPage.fillRubricDescriptionBox("New Row 1, Col 5 Text", 1, 1, 5);
