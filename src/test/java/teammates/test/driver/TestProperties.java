@@ -89,24 +89,24 @@ public final class TestProperties {
             if (isCiEnvironment() || isGodModeEnabled()) {
                 // For CI and GodMode, we do not read the account details from the test properties file, but generate
                 // random account names. This is for detection and prevention of hard-coded account names in test files.
+                // The password values are not required for login to the dev server and hence, set to null.
 
                 String dotSalt = "." + StringHelperExtension.generateSaltOfLength(8);
-                String dummyPassword = "anypassword";
 
                 TEST_ADMIN_ACCOUNT = "yourGoogleId" + dotSalt;
-                TEST_ADMIN_PASSWORD = dummyPassword;
+                TEST_ADMIN_PASSWORD = null;
 
                 TEST_INSTRUCTOR_ACCOUNT = "teammates.coord" + dotSalt;
-                TEST_INSTRUCTOR_PASSWORD = dummyPassword;
+                TEST_INSTRUCTOR_PASSWORD = null;
 
                 TEST_STUDENT1_ACCOUNT = "alice.tmms" + dotSalt;
-                TEST_STUDENT1_PASSWORD = dummyPassword;
+                TEST_STUDENT1_PASSWORD = null;
 
                 TEST_STUDENT2_ACCOUNT = "charlie.tmms" + dotSalt;
-                TEST_STUDENT2_PASSWORD = dummyPassword;
+                TEST_STUDENT2_PASSWORD = null;
 
                 TEST_UNREG_ACCOUNT = "teammates.unreg" + dotSalt;
-                TEST_UNREG_PASSWORD = dummyPassword;
+                TEST_UNREG_PASSWORD = null;
 
             } else {
                 TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
