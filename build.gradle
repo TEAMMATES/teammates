@@ -201,17 +201,16 @@ task createEclipseLaunches {
         ]
         templatesToCopy.findAll {
             !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
-        }.each {
-            filename ->
-                copy {
-                    from filename
-                    into ".launches"
-                    rename '(.*).xml', '$1'
-                }
-                filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
-                def fileContents = new File(filename).getText("UTF-8")
-                def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
-                new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
+        }.each { filename ->
+            copy {
+                from filename
+                into ".launches"
+                rename '(.*).xml', '$1'
+            }
+            filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
+            def fileContents = new File(filename).getText("UTF-8")
+            def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
+            new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
         }
     }
 }
@@ -230,12 +229,11 @@ task createIntellijRunConfigs {
         ]
         templatesToCopy.findAll {
             !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
-        }.each {
-            filename ->
-                copy {
-                    from filename
-                    into ".idea/runConfigurations"
-                }
+        }.each { filename ->
+            copy {
+                from filename
+                into ".idea/runConfigurations"
+            }
         }
     }
 }
