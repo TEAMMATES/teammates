@@ -14,18 +14,19 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
     <c:if test="${!data.usingAjax}">
-        <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" 
-            courseNameToShow="${data.courseNameToShow}" 
-            googleId="${data.account.googleId}"/>
+        <course:addCoursePanel courseIdToShow="${data.courseIdToShow}"
+            courseNameToShow="${data.courseNameToShow}"
+            googleId="${data.account.googleId}"
+            sessionToken="${data.sessionToken}"/>
         <course:loadCoursesTableByAjaxForm />
     </c:if>
-    
+
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
     <br>
-    
+
     <div id="coursesList" class="align-center">
-        <c:if test="${data.usingAjax}"> 
+        <c:if test="${data.usingAjax}">
             <course:activeCoursesTable activeCourses="${data.activeCourses}"/>
             <br>
             <br>
@@ -35,9 +36,9 @@
             </c:if>
             <br>
             <br>
-            
+
             <c:if test="${not empty data.archivedCourses.rows}">
-                <course:archivedCoursesTable archivedCourses="${data.archivedCourses}" 
+                <course:archivedCoursesTable archivedCourses="${data.archivedCourses}"
                     activeCourses="${data.activeCourses}"/>
                 <br>
                 <br>

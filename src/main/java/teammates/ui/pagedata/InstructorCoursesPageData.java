@@ -30,8 +30,8 @@ public class InstructorCoursesPageData extends PageData {
     private String courseNameToShow;
     private Map<String, InstructorAttributes> instructorsForCourses;
 
-    public InstructorCoursesPageData(AccountAttributes account) {
-        super(account);
+    public InstructorCoursesPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,

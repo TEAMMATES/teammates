@@ -42,8 +42,8 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
 
         createStudent(name, email);
 
-        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), inputStudent, email,
-                hasSection, isOpenOrPublishedEmailSentForTheCourse);
+        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), dummySessionToken, inputStudent,
+                email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     private void createStudent(String name, String email) {

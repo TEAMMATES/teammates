@@ -78,7 +78,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorFeedbackResultsQuestionTable> questionPanels;
     // for giver > question > recipient, recipient > question > giver,
     // giver > recipient > question, recipient > giver > question
-    private LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
+    private Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
 
     private Map<FeedbackQuestionAttributes, FeedbackQuestionDetails> questionToDetailsMap = new HashMap<>();
     private Map<String, String> profilePictureLinks = new HashMap<>();
@@ -87,8 +87,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
 
-    public InstructorFeedbackResultsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     /**
@@ -313,7 +313,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                 List<FeedbackResponseAttributes>>> sortedResponses, String additionalInfoId) {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
                 viewType.isPrimaryGroupingOfGiverType() ? bundle.getQuestionResponseMapByGiverTeam()
                                                         : bundle.getQuestionResponseMapByRecipientTeam();
 

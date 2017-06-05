@@ -44,8 +44,9 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         InstructorCourseEditPageAction editAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false, "idOfInstructor1OfCourse1"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -66,8 +67,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false,
+                "idOfInstructor1OfCourse1"), pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -94,7 +95,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor4",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, false, "idOfInstructor4"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
@@ -136,5 +137,15 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         for (int i = 0; i < list1.size(); i++) {
             assertEquals(list1.get(i).toString(), list2.get(i).getInstructor().toString());
         }
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }
