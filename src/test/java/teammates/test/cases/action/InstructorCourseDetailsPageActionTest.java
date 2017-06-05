@@ -36,8 +36,9 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         InstructorCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, false, "idOfInstructor1OfCourse1"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -70,7 +71,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageAction = getAction(addUserIdToParams(instructor4.googleId, submissionParams));
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, false, "idOfInstructor4"),
                      pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY,
@@ -105,7 +106,9 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);
 
-        assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination("", false, "idOfInstructor1OfCourse1"),
+                ajaxResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
 

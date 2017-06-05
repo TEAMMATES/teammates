@@ -84,14 +84,15 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         joinAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(joinAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "?" + Const.ParamsNames.ERROR + "=false"
-                + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, false, idOfNewStudent),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
-                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE,
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                        newStudentKey,
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE),
                 ((StudentCourseJoinConfirmationPageData) pageResult.data).getConfirmUrl());
         assertEquals("", pageResult.getStatusMessage());
 
@@ -109,10 +110,12 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
-                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE.replace("/", "%2F")
-                + "&" + Const.ParamsNames.ERROR + "=false",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                        newStudentKey,
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE.replace("/", "%2F"),
+                        false),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
 
@@ -158,6 +161,21 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     @Override
     protected StudentCourseJoinAction getAction(String... params) {
         return (StudentCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, String regKey, String nextUrl, boolean isError) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, regKey);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.NEXT_URL, nextUrl);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        return pageDestination;
+    }
+
+    protected String getPageResultDestination(String parentUri, String regKey, String nextUrl) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, regKey);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.NEXT_URL, nextUrl);
+        return pageDestination;
     }
 
     @Override

@@ -10,8 +10,8 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Course Details" jsIncludes="${jsIncludes}">
-    <course:courseInformationContainer courseDetails="${data.courseDetails}" 
-                                       instructors="${data.instructors}" 
+    <course:courseInformationContainer courseDetails="${data.courseDetails}"
+                                       instructors="${data.instructors}"
                                        courseRemindButton="${data.courseRemindButton}"/>
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>

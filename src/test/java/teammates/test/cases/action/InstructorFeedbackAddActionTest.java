@@ -47,11 +47,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         InstructorFeedbackAddAction a = getAction(params);
         RedirectResult rr = getRedirectResult(a);
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=ifaat+tca+fs"
-                         + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false";
+        expectedString = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId,
+                "ifaat+tca+fs",
+                instructor1ofCourse1.googleId,
+                false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -75,9 +76,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         a = getAction(params);
         ShowPageResult pr = getShowPageResult(a);
-        expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
-                         + "?error=true"
-                         + "&user=idOfInstructor1OfCourse1";
+        expectedString = getPageResultDestination(
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS, true, "idOfInstructor1OfCourse1");
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
@@ -89,9 +89,8 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          instructor1ofCourse1.courseId, longFsName, 0);
         a = getAction(params);
         pr = getShowPageResult(a);
-        expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
-                         + "?error=true"
-                         + "&user=idOfInstructor1OfCourse1";
+        expectedString = getPageResultDestination(
+                Const.ViewURIs.INSTRUCTOR_FEEDBACKS, true, "idOfInstructor1OfCourse1");
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
 
@@ -110,11 +109,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=Course+with+extra+space"
-                         + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false";
+        expectedString = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId,
+                "Course+with+extra+space",
+                instructor1ofCourse1.googleId,
+                false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -141,11 +141,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=Course+with+minute+offset+timezone"
-                         + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false";
+        expectedString = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId,
+                "Course+with+minute+offset+timezone",
+                instructor1ofCourse1.googleId,
+                false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -176,11 +177,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=masquerade+session"
-                         + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false";
+        expectedString = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId,
+                "masquerade+session",
+                instructor1ofCourse1.googleId,
+                false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -215,6 +217,16 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     @Override
     protected InstructorFeedbackAddAction getAction(String... params) {
         return (InstructorFeedbackAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, String courseId, String fsname, String userId, boolean isError) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        return pageDestination;
     }
 
     @Override
