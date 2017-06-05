@@ -304,12 +304,12 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
     @Test
     public void testGenerateStudentCourseJoinEmail() throws IOException {
+    	
+    	______TS("student course join email");
 
-        ______TS("student course join email");
+    	CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
 
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
-
-        StudentAttributes student = new StudentAttributes();
+    	StudentAttributes student = new StudentAttributes();
         student.name = "Student Name";
         student.key = "skxxxxxxxxxks";
         student.email = "student@email.tmt";
@@ -317,16 +317,32 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
-        verifyEmail(email, student.email, subject, "/studentCourseJoinEmail.html");
+        verifyEmail(email, student.email, subject, "/studentCourseWithCoOwnersJoinEmail.html");
 
-        ______TS("student course join email after Google ID reset");
+        ______TS("student course with co-owners join email after Google ID reset");
 
         email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                                 course.getName(), course.getId());
 
-        verifyEmail(email, student.email, subject, "/studentCourseRejoinAfterGoogleIdResetEmail.html");
+        verifyEmail(email, student.email, subject, "/studentCourseWithCoOwnersRejoinAfterGoogleIdResetEmail.html");
 
+        ______TS("student course (without co-owners) join email");
+
+        course = new CourseAttributes("course-id", "Course Name", "UTC");
+
+        email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+        subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, student.email, subject, "/studentCourseWithoutCoOwnersJoinEmail.html");
+
+        ______TS("student course (without-co-owners) join email after Google ID reset");
+
+        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
+        subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
+                                course.getName(), course.getId());
+
+        verifyEmail(email, student.email, subject, "/studentCourseWithoutCoOwnersRejoinAfterGoogleIdResetEmail.html");
     }
 
     @Test
