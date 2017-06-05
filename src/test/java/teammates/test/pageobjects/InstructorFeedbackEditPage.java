@@ -1177,10 +1177,30 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isVisibilityDropdownSeparatorHidden(NEW_QUESTION_NUM);
     }
 
-    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
+    private String getFirstVisibilityMessage(int questionNumber) {
         By firstMessageBy = By.cssSelector("#visibilityMessage-" + questionNumber + " ul > li");
         WebElement firstMessage = waitForElementPresence(firstMessageBy);
-        return !firstMessage.getText().equals("Error loading visibility hint. Click here to retry.");
+        return firstMessage.getText();
+    }
+
+    public void verifyVisibilityMessageContains(int questionNumber, String message) {
+        waitForTextContainedInElementPresence(By.id("visibilityMessage-" + questionNumber), message);
+    }
+
+    public void verifyVisibilityMessageContainsForNewQuestion(String message) {
+        verifyVisibilityMessageContains(NEW_QUESTION_NUM, message);
+    }
+
+    public void verifyVisibilityMessageDoesNotContain(int questionNumber, String message) {
+        waitForTextContainedInElementAbsence(By.id("visibilityMessage-" + questionNumber), message);
+    }
+
+    public void verifyVisibilityMessageDoesNotContainForNewQuestion(String message) {
+        verifyVisibilityMessageDoesNotContain(NEW_QUESTION_NUM, message);
+    }
+
+    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
+        return !getFirstVisibilityMessage(questionNumber).equals("Error loading visibility hint. Click here to retry.");
     }
 
     public boolean verifyVisibilityMessageIsDisplayedForNewQuestion() {
@@ -1194,15 +1214,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
         return getVisibilityOptions(questionNumber).findElement(
                 By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
-    }
-
-    public WebElement getVisibilityMessageDiv(int questionNumber) {
-        return browser.driver.findElement(By.id("visibilityMessage-" + questionNumber));
-    }
-
-    public String getVisibilityMessage(int questionNumber) {
-        WebElement visibilityMessageDiv = getVisibilityMessageDiv(questionNumber);
-        return visibilityMessageDiv.getText();
     }
 
     public String getVisibilityParamShowResponsesTo(int questionNumber) {

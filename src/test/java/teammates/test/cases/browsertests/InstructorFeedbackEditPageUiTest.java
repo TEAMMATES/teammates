@@ -226,11 +226,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
-        feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage--1"),
+        feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "You can see your own feedback in the results page later on.");
-        feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage--1"),
+        feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "Instructors in this course can see your response, the name of the recipient, and your name.");
         assertTrue("Visibility preview for new question should be displayed",
                    feedbackEditPage.verifyVisibilityMessageIsDisplayedForNewQuestion());
@@ -333,14 +331,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.enableOtherVisibilityOptionsForNewQuestion();
         feedbackEditPage.clickResponseVisibilityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
 
-        feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage--1"),
+        feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
 
-        feedbackEditPage.waitForTextContainedInElementAbsence(
-                By.id("visibilityMessage--1"),
+        feedbackEditPage.verifyVisibilityMessageDoesNotContainForNewQuestion(
                 "The recipient's team members can see your response, but not the name of the recipient, or your name.");
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
@@ -368,15 +364,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertFalse(feedbackEditPage.getVisibilityOptionTableRow(2, 4).isDisplayed());
 
         ______TS("test visibility preview of question 2");
-        WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
-        feedbackEditPage.waitForElementVisibility(visibilityMessage2);
+        feedbackEditPage.verifyVisibilityMessageContains(2, "The receiving student can see your response, and your name.");
 
-        feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage-2"),
-                "The receiving student can see your response, and your name.");
-
-        feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage-2"),
+        feedbackEditPage.verifyVisibilityMessageContains(2,
                 "Instructors in this course can see your response, the name of the recipient, and your name.");
 
         feedbackEditPage.clickDeleteQuestionLink(2);
@@ -810,10 +800,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.enableOtherVisibilityOptions(1);
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
-        WebElement visibilityMessage1 = browser.driver.findElement(By.id("visibilityMessage-1"));
-        feedbackEditPage.waitForElementVisibility(visibilityMessage1);
-        feedbackEditPage.waitForTextContainedInElementPresence(
-                By.id("visibilityMessage-1"),
+        feedbackEditPage.verifyVisibilityMessageContains(1,
                 "Other students in the course can see your response, and your name, but not the name of the recipient");
 
         ______TS("Test visibility message corresponds to visibility options: going from Others to a predefined option");
@@ -824,10 +811,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickGiverNameVisibilityCheckBox("OWN_TEAM_MEMBERS", 1);
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
         feedbackEditPage.clickVisibilityDropdown("VISIBLE_TO_INSTRUCTORS_ONLY", 1);
-        WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-1"));
-        feedbackEditPage.waitForElementVisibility(visibilityMessage2);
-        feedbackEditPage.waitForTextContainedInElementAbsence(
-                By.id("visibilityMessage-1"), "The receiving student");
+        feedbackEditPage.verifyVisibilityMessageContains(1, "The receiving student");
 
         ______TS("Failure case: ajax on clicking visibility message button");
 
