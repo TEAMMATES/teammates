@@ -15,16 +15,16 @@
         </div>
         <div class="panel-body">
             <p>
-                The link you provided belongs to a user with Google ID (partially obscured for security) <strong>"${expectedId}"</strong> 
+                The link you provided belongs to a user with Google ID (partially obscured for security) <strong>"${expectedId}"</strong>
                 while you are currently logged in as <strong>"${actualId}"</strong>.
             </p>
             <ul class="small narrow-slight">
                 <li>
-                    If the Google ID <strong>"${expectedId}"</strong> 
+                    If the Google ID <strong>"${expectedId}"</strong>
                     belongs to you, please proceed to the login page.
                 </li>
                 <li>
-                    If that Google ID does not belong to you, please inform 
+                    If that Google ID does not belong to you, please inform
                     <a class="link" href="contact.jsp" target="_blank" rel="noopener noreferrer">TEAMMATES support team</a>.
                     <br><br>
                     <b>Note: </b>If the problematic link was received via email, please also forward us the original email containing the link you clicked, to help us with the troubleshooting.

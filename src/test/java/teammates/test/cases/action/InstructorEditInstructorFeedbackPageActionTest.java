@@ -52,8 +52,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         editInstructorFpAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editInstructorFpAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        instructor.googleId),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
@@ -74,8 +78,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         editInstructorFpAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editInstructorFpAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        instructor.googleId),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         String logMessage = "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||"
                             + "instructorEditInstructorFeedbackPage|||true|||Instructor|||IEIFPTCourseinstr|||"

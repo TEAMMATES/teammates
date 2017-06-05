@@ -48,10 +48,9 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         InstructorFeedbackPreviewAsInstructorAction paia = getAction(submissionParams);
         ShowPageResult showPageResult = getShowPageResult(paia);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                     + "?error=false"
-                     + "&user=" + idOfInstructor1,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor1),
+                showPageResult.getDestinationWithParams());
 
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -81,10 +80,9 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         paia = getAction(submissionParams);
         showPageResult = getShowPageResult(paia);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                     + "?error=false"
-                     + "&user=" + idOfInstructor2,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor2),
+                showPageResult.getDestinationWithParams());
 
         assertEquals("", showPageResult.getStatusMessage());
 
