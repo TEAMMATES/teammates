@@ -16,7 +16,7 @@
                     <th>Status</th>
                     <th>
                         <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" 
-                            data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                data-toggle="tooltip" data-placement="top">Response Rate</span>
                     </th>
                     <th class="no-print">Action(s)</th>
                 </tr>
