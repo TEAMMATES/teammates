@@ -472,17 +472,17 @@ function editFormRequest(e) {
 $(document).ready(() => {
     prepareInstructorPages();
 
-    $(document).on('click', '.add-section-level-for-instructor', function () {
-        const index = $(this).attr('data-index');
-        const firstBlankSectionRowIndex = $(this).attr('data-first-blank-section-row-index');
+    $(document).on('click', '.add-section-level-for-instructor', (e) => {
+        const index = $(e.currentTarget).attr('data-index');
+        const firstBlankSectionRowIndex = $(e.currentTarget).attr('data-first-blank-section-row-index');
         showTuneSectionPermissionsDiv(index, firstBlankSectionRowIndex);
     });
 
-    $(document).on('click', '.toggle-session-level-in-section', function () {
-        const instructorIndex = $(this).attr('data-instructor-index');
-        const panelIndex = $(this).attr('data-panel-index');
-        const isSectionSpecial = $(this).attr('data-is-section-special') === 'true';
-        $(this).attr('data-is-section-special', isSectionSpecial ? 'false' : 'true');
+    $(document).on('click', '.toggle-session-level-in-section', (e) => {
+        const instructorIndex = $(e.currentTarget).attr('data-instructor-index');
+        const panelIndex = $(e.currentTarget).attr('data-panel-index');
+        const isSectionSpecial = $(e.currentTarget).attr('data-is-section-special') === 'true';
+        $(e.currentTarget).attr('data-is-section-special', isSectionSpecial ? 'false' : 'true');
         const handler = isSectionSpecial ? hideTuneSessionnPermissionsDiv : showTuneSessionnPermissionsDiv;
         handler(instructorIndex, panelIndex);
     });
