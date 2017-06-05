@@ -63,7 +63,7 @@ $(document).ready(() => {
             const $panel = $(this);
             const formData = $panel.parent().find('form').serialize();
             const content = $panel.find('.pull-right')[0];
-            const panelCollapse = $(this).parent().children('.panel-collapse');
+            const $panelCollapse = $(this).parent().children('.panel-collapse');
 
             $.ajax({
                 type: 'POST',
@@ -79,7 +79,7 @@ $(document).ready(() => {
                     $(content).html(warningSign + errorMsg + chevronDown);
                 },
                 success(data) {
-                    updateCoursePanel(data, $panel, panelCollapse);
+                    updateCoursePanel(data, $panel, $panelCollapse);
 
                     $panel.off('click');
                     // changing click event handler to avoid repeated ajax calls
@@ -158,13 +158,13 @@ function toggleCourseVisibility(e) {
 /**
  * Updates the contents of course panel (collapse data, chevron icon)
  */
-function updateCoursePanel(data, panel, panelCollapse) {
+function updateCoursePanel(data, $panel, $panelCollapse) {
     const panelHeading = $(data).find('.panel-heading').html();
-    panel.find('.row').replaceWith(panelHeading);
+    $panel.find('.row').replaceWith(panelHeading);
     const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
-    const updatedContent = panel.find('.pull-right')[0];
-    $(updatedContent).append(chevronUp);
+    const $updatedContent = $panel.find('.pull-right');
+    $updatedContent.append(chevronUp);
     const collapseData = $(data).find('.panel-body');
-    $(panelCollapse[0]).html(collapseData[0]);
-    panel.removeClass('ajax_auto');
+    $panelCollapse.html(collapseData[0]);
+    $panel.removeClass('ajax_auto');
 }
