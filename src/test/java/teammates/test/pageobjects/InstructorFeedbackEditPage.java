@@ -369,42 +369,46 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private boolean isRubricColMovable(int qnNumber, int colNumber, boolean isMoveLeft) {
-        String elemId = "rubricMoveChoiceLink-" + qnNumber + "-" + colNumber;
+        StringBuffer elemId = new StringBuffer(100);
+
+        elemId.append("rubricMoveChoiceLink-" + qnNumber + "-" + colNumber);
 
         if (isMoveLeft) {
-            elemId += "-l";
+            elemId.append("-l");
         } else {
-            elemId += "-r";
+            elemId.append("-r");
         }
 
-        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId.toString()));
 
         return moveColButton.getAttribute("disabled") == null;
     }
 
     /**
-     * returns true if button is enabled and was successfully clicked
+     * Returns true if button is enabled and was successfully clicked.
      */
     public boolean moveRubricColLeft(int qnNumber, int colNumber) {
         return moveRubricCol(qnNumber, colNumber, true);
     }
 
     /**
-     * returns true if button is enabled and was successfully clicked
+     * Returns true if button is enabled and was successfully clicked.
      */
     public boolean moveRubricColRight(int qnNumber, int colNumber) {
         return moveRubricCol(qnNumber, colNumber, false);
     }
 
     private boolean moveRubricCol(int qnNumber, int colNumber, boolean isMoveLeft) {
-        String elemId = "rubricMoveChoiceLink-" + qnNumber + "-" + colNumber;
+        StringBuffer elemIdBuffer = new StringBuffer(100);
+        elemIdBuffer.append("rubricMoveChoiceLink-" + qnNumber + "-" + colNumber);
 
         if (isMoveLeft) {
-            elemId += "-l";
+            elemIdBuffer.append("-l");
         } else {
-            elemId += "-r";
+            elemIdBuffer.append("-r");
         }
 
+        String elemId = elemIdBuffer.toString();
         WebElement moveColButton = browser.driver.findElement(By.id(elemId));
 
         if (moveColButton.getAttribute("disabled") == null) {

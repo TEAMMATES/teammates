@@ -339,16 +339,16 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isRubricColLeftMovable(1, 3));
         assertFalse(feedbackEditPage.isRubricColRightMovable(1, 3));
 
-        feedbackEditPage.clickAddRubricColLink(1);    // new column index 4
+        feedbackEditPage.clickAddRubricColLink(1); // new column index 4
         assertTrue(feedbackEditPage.isRubricColRightMovable(1, 3));
         assertTrue(feedbackEditPage.isRubricColLeftMovable(1, 4));
         assertFalse(feedbackEditPage.isRubricColRightMovable(1, 4));
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
         assertFalse(feedbackEditPage.isRubricColRightMovable(1, 3));
 
-        feedbackEditPage.clickAddRubricColLink(1);    // new column index 5
-        feedbackEditPage.clickAddRubricRowLink(1);    // new row index 2
-        feedbackEditPage.fillRubricSubQuestionBox("New subquestion 2", 1, 2);;
+        feedbackEditPage.clickAddRubricColLink(1); // new column index 5
+        feedbackEditPage.clickAddRubricRowLink(1); // new row index 2
+        feedbackEditPage.fillRubricSubQuestionBox("New subquestion 2", 1, 2);
         feedbackEditPage.fillRubricChoiceBox("New Col 5 choice", 1, 5);
         feedbackEditPage.fillRubricWeightBox("0.3", 1, 5);
         feedbackEditPage.fillRubricDescriptionBox("New Row 0, Col 5 Text", 1, 0, 5);
