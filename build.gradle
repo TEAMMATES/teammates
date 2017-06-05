@@ -444,6 +444,7 @@ def afterTestClosure = { descriptor, result ->
 }
 
 import org.gradle.internal.serialize.PlaceholderException
+
 def checkConfigFailureClosure = { descriptor, result ->
     if (result.exception instanceof PlaceholderException
             && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
