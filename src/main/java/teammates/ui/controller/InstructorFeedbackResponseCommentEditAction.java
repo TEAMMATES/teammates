@@ -38,12 +38,9 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
 
         FeedbackResponseCommentAttributes frc =
                 logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
-        if (frc == null) {
-            Assumption.fail("FeedbackResponseComment should not be null");
-        } else {
-            verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
-                    instructor, session, response);
-        }
+        Assumption.assertNotNull("FeedbackResponseComment should not be null", frc);
+        verifyAccessibleForInstructorToFeedbackResponseComment(
+                feedbackResponseCommentId, instructor, session, response);
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);

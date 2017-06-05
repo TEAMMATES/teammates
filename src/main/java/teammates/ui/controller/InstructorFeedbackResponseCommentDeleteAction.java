@@ -29,8 +29,8 @@ public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFee
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
-                instructor, session, response);
+        verifyAccessibleForInstructorToFeedbackResponseComment(
+                feedbackResponseCommentId, instructor, session, response);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
