@@ -534,10 +534,10 @@ public final class CoursesLogic {
      * Omits archived courses if omitArchived == true<br>
      *
      * @param googleId The Google ID of the instructor
-     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * @return Map with courseId as key, and CourseDetailsBundle as value.
      *         Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived)
+    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId, boolean omitArchived)
             throws EntityDoesNotExistException {
 
         instructorsLogic.verifyInstructorExists(googleId);
@@ -551,10 +551,10 @@ public final class CoursesLogic {
     /**
      * Returns course summaries for instructors.<br>
      *
-     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * @return Map with courseId as key, and CourseDetailsBundle as value.
      *         Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(
+    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
@@ -587,7 +587,7 @@ public final class CoursesLogic {
      *
      * @param omitArchived if {@code true}, omits all the archived courses from the return
      */
-    public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
+    public Map<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
             String instructorId, boolean omitArchived) {
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId,
@@ -623,7 +623,7 @@ public final class CoursesLogic {
         coursesDb.deleteCourse(courseId);
     }
 
-    private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
+    private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
@@ -655,7 +655,7 @@ public final class CoursesLogic {
      */
     public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
 
-        HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
+        Map<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
 
