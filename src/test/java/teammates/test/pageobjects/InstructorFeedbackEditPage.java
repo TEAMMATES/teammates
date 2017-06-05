@@ -1177,12 +1177,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isVisibilityDropdownSeparatorHidden(NEW_QUESTION_NUM);
     }
 
-    private String getFirstVisibilityMessage(int questionNumber) {
-        By firstMessageBy = By.cssSelector("#visibilityMessage-" + questionNumber + " ul > li");
-        WebElement firstMessage = waitForElementPresence(firstMessageBy);
-        return firstMessage.getText();
-    }
-
     public void verifyVisibilityMessageContains(int questionNumber, String message) {
         waitForTextContainedInElementPresence(By.id("visibilityMessage-" + questionNumber), message);
     }
@@ -1200,7 +1194,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        return !getFirstVisibilityMessage(questionNumber).equals("Error loading visibility hint. Click here to retry.");
+        By firstMessageBy = By.cssSelector("#visibilityMessage-" + questionNumber + " ul > li");
+        WebElement firstMessage = waitForElementPresence(firstMessageBy);
+        return !firstMessage.getText().equals("Error loading visibility hint. Click here to retry.");
     }
 
     public boolean verifyVisibilityMessageIsDisplayedForNewQuestion() {
