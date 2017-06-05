@@ -57,23 +57,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // perform test by reading each entity from datastore or persisting if absent
         verifyOrPersistTestDataToDatastore();
-
-        // removeAndRestoreDataBundle(testData) replaced with method to read only test data from Datastore
-        readTestDataFromDatastore();
-    }
-
-    private void readTestDataFromDatastore() {
-        for (StudentAttributes student : testData.students.values()) {
-            verifyPresentInDatastore(student);
-        }
-
-        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
-            verifyPresentInDatastore(question);
-        }
-
-        for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
-            verifyPresentInDatastore(feedbackResponse);
-        }
     }
 
     // verify if entities for testing already exist in datastore
