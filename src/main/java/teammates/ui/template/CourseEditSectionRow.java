@@ -37,7 +37,7 @@ public class CourseEditSectionRow {
                 : "Give different permissions for sessions in this section";
 
         Map<String, String> attributes = new HashMap<>();
-        attributes.put("class", "small col-sm-5 toggleSessionLevelInSection");
+        attributes.put("class", "small col-sm-5 toggle-session-level-in-section");
         attributes.put("id", "toggleSessionLevelInSection" + panelIndex + "ForInstructor" + instructorIndex);
         attributes.put("href", "javascript:;");
         attributes.put("data-instructor-index", Integer.toString(instructorIndex));

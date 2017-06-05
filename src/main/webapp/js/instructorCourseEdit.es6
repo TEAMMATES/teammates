@@ -469,33 +469,16 @@ function editFormRequest(e) {
     });
 }
 
-function enableOnclicks() {
-    $(document).on('click', '.addSectionLevelForInstructor', function () {
-        const index = $(this).attr('data-index');
-        const firstBlankSectionRowIndex = $(this).attr('data-first-blank-section-row-index');
-        showTuneSectionPermissionsDiv(index, firstBlankSectionRowIndex);
-    });
-
-    $(document).on('click', '.toggleSessionLevelInSection', function () {
-        const instructorIndex = $(this).attr('data-instructor-index');
-        const panelIndex = $(this).attr('data-panel-index');
-        const isSectionSpecial = $(this).attr('data-is-section-special') === 'true';
-        $(this).attr('data-is-section-special', isSectionSpecial ? 'false' : 'true');
-        const handler = isSectionSpecial ? hideTuneSessionnPermissionsDiv : showTuneSessionnPermissionsDiv;
-        handler(instructorIndex, panelIndex);
-    });
-}
-
 $(document).ready(() => {
     prepareInstructorPages();
 
-    $(document).on('click', '.addSectionLevelForInstructor', function () {
+    $(document).on('click', '.add-section-level-for-instructor', function () {
         const index = $(this).attr('data-index');
         const firstBlankSectionRowIndex = $(this).attr('data-first-blank-section-row-index');
         showTuneSectionPermissionsDiv(index, firstBlankSectionRowIndex);
     });
 
-    $(document).on('click', '.toggleSessionLevelInSection', function () {
+    $(document).on('click', '.toggle-session-level-in-section', function () {
         const instructorIndex = $(this).attr('data-instructor-index');
         const panelIndex = $(this).attr('data-panel-index');
         const isSectionSpecial = $(this).attr('data-is-section-special') === 'true';

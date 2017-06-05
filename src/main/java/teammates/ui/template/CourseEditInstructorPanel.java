@@ -49,7 +49,7 @@ public class CourseEditInstructorPanel {
             String content = "Give different permissions for a specific section";
 
             Map<String, String> attributes = new HashMap<>();
-            attributes.put("class", "small addSectionLevelForInstructor");
+            attributes.put("class", "small add-section-level-for-instructor");
             attributes.put("id", "addSectionLevelForInstructor" + index);
             attributes.put("href", "javascript:;");
             attributes.put("style", style);

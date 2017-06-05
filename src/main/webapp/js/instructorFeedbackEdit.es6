@@ -959,6 +959,7 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
 
 $(document).ready(() => {
     prepareInstructorPages();
+
     prepareDatepickers();
 
     if (typeof richTextEditorBuilder !== 'undefined') {
