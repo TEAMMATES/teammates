@@ -686,10 +686,6 @@ input.inline {
     border-width: 0 0 1px;
 }
 
-.course-id-table-width {
-    min-width: 100px;
-}
-
 .question-recommended-length {
     color: gray;
 }
@@ -702,10 +698,6 @@ input.inline {
 .question-recommended-length > input {
     width: 80px;
     display: inline;
-}
-
-.session-name-table-width {
-    min-width: 130px;
 }
 
 .teamMembersDetailsCell {
