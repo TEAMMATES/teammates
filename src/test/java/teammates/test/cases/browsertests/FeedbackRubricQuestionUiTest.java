@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -359,6 +361,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 1 Text", 1, 2, 1);
         feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 0 Text", 1, 2, 0);
 
+        // move column buttons must be visible, otherwise test fails
+        browser.driver.findElement(By.id("rubricOptionsRow-" + 1)).sendKeys(Keys.ARROW_DOWN);
         // move last column to first
         assertTrue(feedbackEditPage.moveRubricColLeft(1, 5));
         assertTrue(feedbackEditPage.moveRubricColLeft(1, 3));

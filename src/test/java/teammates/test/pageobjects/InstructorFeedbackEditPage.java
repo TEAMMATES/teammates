@@ -422,8 +422,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
             WebElement lastRubricDescription = browser.driver.findElement(By.id(elemId));
             String text = lastRubricDescription.getAttribute("value");
-
             moveColButton.click();
+
             WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
             wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(lastRubricDescription, "value", text)));
 
