@@ -305,7 +305,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     @Test
     public void testGenerateStudentCourseJoinEmail() throws IOException {
 
-    	______TS("student course join email");
+        ______TS("student course join email");
 
     	CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
 
