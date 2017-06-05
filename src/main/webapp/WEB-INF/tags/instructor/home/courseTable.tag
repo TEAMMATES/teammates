@@ -9,13 +9,14 @@
             <thead>
                 <tr>
                     <th onclick="toggleSort(this);" class="button_sortname button-sort-none">
-                        Session Name<span class="icon-sort unsorted"></span></th>
+                        Session Name<span class="icon-sort unsorted"></span>
+                    </th>
                     <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button_sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
                     <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button_sortenddate button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
                     <th>Status</th>
                     <th>
                         <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" 
-                              data-toggle="tooltip" data-placement="top">Response Rate</span>
+                            data-toggle="tooltip" data-placement="top">Response Rate</span>
                     </th>
                     <th class="no-print">Action(s)</th>
                 </tr>
