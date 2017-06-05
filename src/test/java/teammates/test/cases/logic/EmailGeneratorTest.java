@@ -307,9 +307,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course join email");
 
-    	CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
+        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
 
-    	StudentAttributes student = new StudentAttributes();
+        StudentAttributes student = new StudentAttributes();
         student.name = "Student Name";
         student.key = "skxxxxxxxxxks";
         student.email = "student@email.tmt";
