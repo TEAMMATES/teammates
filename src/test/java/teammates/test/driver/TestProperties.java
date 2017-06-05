@@ -86,7 +86,7 @@ public final class TestProperties {
 
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
-            if (isCiEnvironment() || isGodModeEnabled()) {
+            if (isDevServer() && (isCiEnvironment() || isGodModeEnabled())) {
                 // For CI and GodMode, we do not read the account details from the test properties file, but generate
                 // random account names. This is for detection and prevention of hard-coded account names in test files.
                 // The password values are not required for login to the dev server and hence, set to null.
