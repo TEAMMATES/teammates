@@ -185,7 +185,7 @@ function enableEditFS() {
         destroyEditor('instructions');
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
-            inline: true
+            inline: true,
         });
         /* eslint-enable camelcase */
     }
@@ -213,7 +213,7 @@ function enableQuestion(questionNum) {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
-            inline: true
+            inline: true,
         });
         /* eslint-enable camelcase */
     }
@@ -301,7 +301,7 @@ function enableNewQuestion() {
         destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
-            inline: true
+            inline: true,
         });
         /* eslint-enable camelcase */
     }
@@ -960,7 +960,7 @@ $(document).ready(() => {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            readonly: true
+            readonly: true,
         });
         /* eslint-enable camelcase */
     }

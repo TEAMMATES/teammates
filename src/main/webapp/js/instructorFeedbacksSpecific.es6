@@ -66,7 +66,7 @@ $(document).ready(() => {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            readonly: false
+            readonly: false,
         });
         /* eslint-enable camelcase */
     }

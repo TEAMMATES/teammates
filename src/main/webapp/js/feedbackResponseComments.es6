@@ -408,7 +408,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
-            inline: true
+            inline: true,
         });
         /* eslint-enable camelcase */
     }
@@ -463,7 +463,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
         }
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#responsecommenttext${id}`, {
-            inline: true
+            inline: true,
         });
         /* eslint-enable camelcase */
     }
