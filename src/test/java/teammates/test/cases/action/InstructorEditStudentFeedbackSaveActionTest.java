@@ -77,11 +77,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email not sent if parameter does not exist
@@ -107,11 +111,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
@@ -135,11 +143,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("new response");
@@ -160,11 +172,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
@@ -327,11 +343,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCoursehelper1&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student2InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCoursehelper1",
+                        "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("failure case: privileges sufficient for section BUT insufficient for a session");
@@ -391,11 +411,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCoursehelper2&courseid=IESFPTCourse"
-                     + "&fsname=Another+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student2InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCoursehelper2",
+                        "IESFPTCourse",
+                        "Another+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Success case: insufficient for section, BUT sufficient for a session");
@@ -428,11 +452,15 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCoursehelper3&courseid=IESFPTCourse"
-                     + "&fsname=First+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student2InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCoursehelper3",
+                        "IESFPTCourse",
+                        "First+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Failure case: insufficient for section, although sufficient for another session");
@@ -599,16 +627,38 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals("/page/instructorEditStudentFeedbackPage"
-                     + "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt"
-                     + "&user=IESFPTCourseinstr&courseid=IESFPTCourse"
-                     + "&fsname=Closed+feedback+session",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "Closed+feedback+session"),
+                r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
     @Override
     protected InstructorEditStudentFeedbackSaveAction getAction(String... params) {
         return (InstructorEditStudentFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, boolean isError, String moderatedPerson, String userId, String courseId, String fsname) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(
+                pageDestination, Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
     }
 }

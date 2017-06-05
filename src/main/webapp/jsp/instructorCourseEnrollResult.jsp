@@ -19,15 +19,15 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enrollment Results for ${data.courseId}" jsIncludes="${jsIncludes}">
-    <form name='goBack' action="${data.instructorCourseEnrollLink}" method="post" role="form"> 
-        <div class = "alert alert-success"> 
+    <form name='goBack' action="${data.instructorCourseEnrollLink}" method="post" role="form">
+        <div class = "alert alert-success">
             Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to do further changes to the student list.
             <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
             <input type="hidden" name="${STUDENTS_ENROLLMENT_INFO}" value="${fn:escapeXml(data.enrollStudents)}">
         </div>
     </form>
-    
-    
+
+
     <c:forEach items="${data.enrollResultPanelList}" var="enrollResultPanel">
         <c:if test="${not empty enrollResultPanel.studentList}">
             <div class="panel ${enrollResultPanel.panelClass}">
@@ -35,7 +35,7 @@
                     ${enrollResultPanel.messageForEnrollmentStatus}
                 </div>
                 <table class="table table-striped table-bordered">
-                    <tr> 
+                    <tr>
                         <c:if test="${data.hasSection}">
                             <th>Section</th>
                         </c:if>
