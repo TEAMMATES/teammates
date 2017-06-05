@@ -139,7 +139,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         assertTrue(feedbackEditPage.isElementInViewport(Const.ParamsNames.STATUS_MESSAGES_LIST));
 
-        FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
+        FeedbackSessionAttributes savedSession = getFeedbackSessionWithRetry(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
@@ -266,7 +266,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
     }
 
@@ -470,16 +470,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("questions still editable even if questions numbers became inconsistent");
 
-        FeedbackQuestionAttributes firstQuestion =
-                                        BackDoor.getFeedbackQuestion(courseId,
-                                                                     feedbackSessionName,
-                                                                     1);
+        FeedbackQuestionAttributes firstQuestion = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 1);
         assertEquals(1, firstQuestion.questionNumber);
 
-        FeedbackQuestionAttributes secondQuestion =
-                                        BackDoor.getFeedbackQuestion(courseId,
-                                                                     feedbackSessionName,
-                                                                     2);
+        FeedbackQuestionAttributes secondQuestion = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2);
         assertEquals(2, secondQuestion.questionNumber);
         int originalSecondQuestionNumber = secondQuestion.questionNumber;
 
@@ -557,9 +551,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                     feedbackEditPage.isCopySubmitButtonEnabled());
 
         // revert back to state expected by tests after this by deleting new copied questions
-        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 4).getId();
+        String questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4).getId();
         BackDoor.deleteFeedbackQuestion(questionId);
-        questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 3).getId();
+        questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 3).getId();
         BackDoor.deleteFeedbackQuestion(questionId);
 
     }
@@ -849,14 +843,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
+        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, qnNumber));
 
         ______TS("qn " + qnNumber + " delete then accept");
 
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
+        assertNull(getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
 
     }
 
@@ -872,7 +866,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
 
         // Delete the new question through the backdoor so that it still appears in the browser
-        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
+        String questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 1).getId();
         String status = BackDoor.deleteFeedbackQuestion(questionId);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
@@ -1037,7 +1031,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("session delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteSessionLink());
-        assertNotNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+        assertNotNull(getFeedbackSessionWithRetry(courseId, feedbackSessionName));
 
         ______TS("session delete then accept");
 
@@ -1045,7 +1039,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED,
                                     feedbackPage.getStatus());
-        assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+        assertNull(getFeedbackSession(courseId, feedbackSessionName));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
