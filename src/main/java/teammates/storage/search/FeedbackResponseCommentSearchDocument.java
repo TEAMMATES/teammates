@@ -12,7 +12,6 @@ import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -250,7 +249,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocument(comment);
                 continue;
             }
-            comment.sendingState = CommentSendingState.SENT;
             List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
             if (commentList == null) {
                 commentList = new ArrayList<FeedbackResponseCommentAttributes>();

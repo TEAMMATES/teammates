@@ -22,20 +22,14 @@ public class InstructorCourseEditPage extends AppPage {
     public static final int COURSE_MODIFY_SESSIONS = 2;
     public static final int COURSE_MODIFY_STUDENTS = 3;
     public static final int COURSE_VIEW_STUDENTS = 4;
-    public static final int COURSE_GIVE_STUDENT_COMMENTS = 5;
-    public static final int COURSE_VIEW_OTHERS_COMMENTS = 6;
-    public static final int COURSE_MODIFY_OTHERS_COMMENTS = 7;
-    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 8;
-    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 9;
-    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 10;
+    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
+    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
+    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
 
     public static final int SECTION_VIEW_STUDENTS = 0;
-    public static final int SECTION_GIVE_STUDENT_COMMENTS = 1;
-    public static final int SECTION_VIEW_OTHERS_COMMENTS = 2;
-    public static final int SECTION_MODIFY_OTHERS_COMMENTS = 3;
-    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 4;
-    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 5;
-    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 6;
+    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
+    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 2;
+    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 3;
 
     public static final int SESSION_GIVE_RESPONSES = 0;
     public static final int SESSION_VIEW_RESPONSES = 1;

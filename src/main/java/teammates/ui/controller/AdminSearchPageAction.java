@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -20,8 +21,8 @@ import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
 
-    private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
-    private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
     @Override
     protected ActionResult execute() {
@@ -163,7 +164,7 @@ public class AdminSearchPageAction extends Action {
                                                         Const.ParamsNames.USER_ID,
                                                         instructor.googleId);
 
-            data.instructorHomaPageLinkMap.put(instructor.googleId, curLink);
+            data.instructorHomePageLinkMap.put(instructor.googleId, curLink);
         }
 
         return data;
@@ -317,7 +318,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -328,7 +329,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
         }
 
         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
@@ -347,7 +348,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
+            data.feedbackSessionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
         }
         return data;
     }
