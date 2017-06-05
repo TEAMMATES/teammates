@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +21,15 @@ public class FeedbackResponseCommentRow {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+    private String commentGiverName;
+    private String commentLastEditorName;
 
     private String showCommentToString;
     private String showGiverNameToString;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
+    private Map<String, String> instructorEmailNameTable;
 
     private String whoCanSeeComment;
     private boolean withVisibilityIcon;
@@ -61,6 +65,23 @@ public class FeedbackResponseCommentRow {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
+    }
+
+    public FeedbackResponseCommentRow(
+            FeedbackResponseCommentAttributes frc,
+            Map<String, String> instructorEmailNameTable, String giverDisplay,
+            String giverName, String recipientName,
+            String showCommentToString,
+            String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
+         
+        this(frc, giverDisplay);
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisibilities);
+        this.instructorEmailNameTable = instructorEmailNameTable;
+        setCommentGiverName(giverDisplay);
+        setCommentLastEditorName(frc.lastEditorEmail);
+        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
@@ -269,5 +290,37 @@ public class FeedbackResponseCommentRow {
     public void enableVisibilityIcon(String whoCanSeeComment) {
         this.withVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
+    }
+    
+    public String getCommentGiverName() {
+        return commentGiverName;
+    }
+    
+    public String getCommentLastEditorName() {
+        return commentLastEditorName;
+    }
+    
+    public void setCommentGiverName(String giverEmail) {
+        if(giverEmail.equals("Anonymous")) {
+            this.commentGiverName = "Anonymous";
+        }
+        this.commentGiverName = instructorEmailNameTable.get(giverEmail);
+    }
+    
+    public void setCommentLastEditorName(String lastEditorEmail) {
+        if(lastEditorEmail.equals("Anonymous")) {
+            this.commentLastEditorName = "Anonymous";
+        }
+        this.commentLastEditorName = instructorEmailNameTable.get(lastEditorEmail);
+    }
+    
+    public String setEditedAtText(Date createdAt, Date lastEditedAt) {
+        if(lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+            return "";
+        }
+        boolean isGiverAnonymous = commentLastEditorName.equals("Anonymous");
+        return "(last edited "
+        + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
+        + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
     }
 }

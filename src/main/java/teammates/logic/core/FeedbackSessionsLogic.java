@@ -1779,7 +1779,7 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionResponseStatus responseStatus = section == null && isIncludeResponseStatus
                                                      ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
                                                      : null;
-
+        Map<String, String> instructorEmailNameTable = new HashMap<>();
         StudentAttributes student = getStudent(courseId, userEmail, role);
         Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
 
@@ -1810,11 +1810,12 @@ public final class FeedbackSessionsLogic {
                 feedbackSessionName, courseId, userEmail, role, roster, relevantQuestions, section, student,
                 studentsEmailInTeam, relevantResponse, viewType, isGrqSortType, isRgqSortType);
 
+        addInstructorEmailNamePairsToTable(instructorEmailNameTable, responseComments, roster);
         addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
         return new FeedbackSessionResultsBundle(
                 session, responses, relevantQuestions, emailNameTable,
-                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
+                emailLastNameTable, emailTeamNameTable, instructorEmailNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
     }
 
@@ -2450,5 +2451,21 @@ public final class FeedbackSessionsLogic {
             newSession.setSentPublishedEmail(newSession.isPublished());
         }
     }
+    
+    private void addInstructorEmailNamePairsToTable(Map<String, String> instructorEmailNameTable,
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments, CourseRoster roster) {
+        for(Map.Entry<String, List<FeedbackResponseCommentAttributes>> entry: responseComments.entrySet()) {
+            List<FeedbackResponseCommentAttributes> frcList = entry.getValue();
+            for(FeedbackResponseCommentAttributes frc : frcList)
+                if (!frc.giverEmail.equals("Anonymous")) {
+                        String giverName = roster.getInstructorForEmail(frc.giverEmail).name;
+                        instructorEmailNameTable.put(frc.giverEmail, giverName);
+                        if(!(frc.lastEditorEmail.equals("Anonymous") || instructorEmailNameTable.containsKey(frc.lastEditorEmail))) {
+                            String lastEditorName = roster.getInstructorForEmail(frc.lastEditorEmail).name;
+                            instructorEmailNameTable.put(frc.lastEditorEmail, lastEditorName);
+                        }
+                }
+            }
+        }
 
 }

@@ -38,6 +38,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, String> emailNameTable;
     public Map<String, String> emailLastNameTable;
     public Map<String, String> emailTeamNameTable;
+    public Map<String, String> instructorEmailNameTable;
     public Map<String, Set<String>> rosterTeamNameMembersTable;
     public Map<String, Set<String>> rosterSectionTeamNameTable;
     public Map<String, boolean[]> visibilityTable;
@@ -772,6 +773,26 @@ public class FeedbackSessionResultsBundle {
         // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
+    }
+
+    public FeedbackSessionResultsBundle(
+            FeedbackSessionAttributes session,
+            List<FeedbackResponseAttributes> responses,
+            Map<String, FeedbackQuestionAttributes> relevantQuestions,
+            Map<String, String> emailNameTable,
+            Map<String, String> emailLastNameTable,
+            Map<String, String> emailTeamNameTable,
+            Map<String, String> instructorEmailNameTable,
+            Map<String, Set<String>> sectionTeamNameTable,
+            Map<String, boolean[]> visibilityTable,
+            FeedbackSessionResponseStatus responseStatus,
+            CourseRoster roster,
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments,
+            boolean isComplete) {
+        this(session, responses, relevantQuestions, emailNameTable, emailLastNameTable,
+                emailTeamNameTable, sectionTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
+           this.instructorEmailNameTable = instructorEmailNameTable;    
+        
     }
 
     /**
@@ -2223,5 +2244,7 @@ public class FeedbackSessionResultsBundle {
     public boolean isComplete() {
         return isComplete;
     }
-
+    public Map<String, String> getInstructorNameForEmailTable() {
+        return instructorEmailNameTable;
+    }
 }
