@@ -39,13 +39,21 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
 
         assertNull(AccountsLogic.inst().getAccount(instructor1OfCourse1.googleId));
         assertEquals(Const.StatusMessages.INSTRUCTOR_ACCOUNT_DELETED, result.getStatusMessage());
-        assertEquals("/admin/adminAccountManagementPage?error=false&user=admin.user",
-                     result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE, false, adminUserId),
+                result.getDestinationWithParams());
 
     }
 
     @Override
     protected AdminAccountDeleteAction getAction(String... params) {
         return (AdminAccountDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 }
