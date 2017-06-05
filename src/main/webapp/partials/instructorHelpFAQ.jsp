@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <h4>
     <a name="faq">Frequently Asked Questions</a>
 </h4>
@@ -182,7 +181,7 @@
                     <a name="faq14" id="question">Is there a size limit for a course?</a>
                 </b>
                 <div class="helpSectionContent">
-                    No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go. 
+                    No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go.
                     <br>
                     <br>
                 </div>

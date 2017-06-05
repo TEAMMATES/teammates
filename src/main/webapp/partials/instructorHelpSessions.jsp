@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <h4>
     <a name="sessionTypes">Sessions</a>
 </h4>
@@ -2668,7 +2667,7 @@
                                             </ul>
                                         </div>
                                         <div class="feedback-path-others margin-top-7px" style="display: none;">
-                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                                 <label class="col-sm-4 col-lg-5 control-label">
                                                     Who will give the feedback:
                                                 </label>
@@ -3089,7 +3088,7 @@
                                             </ul>
                                         </div>
                                         <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                                 <label class="col-sm-4 col-lg-5 control-label">
                                                     Who will give the feedback:
                                                 </label>
@@ -3647,7 +3646,7 @@
                                             </ul>
                                         </div>
                                         <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                                 <label class="col-sm-4 col-lg-5 control-label">
                                                     Who will give the feedback:
                                                 </label>
@@ -4264,7 +4263,7 @@
                                           </ul>
                                       </div>
                                       <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                          <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                          <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                               <label class="col-sm-4 col-lg-5 control-label">
                                                   Who will give the feedback:
                                               </label>
@@ -4874,7 +4873,7 @@
                                           </ul>
                                       </div>
                                       <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                          <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                          <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                               <label class="col-sm-4 col-lg-5 control-label">
                                                   Who will give the feedback:
                                               </label>
@@ -5277,7 +5276,7 @@
                                             </ul>
                                         </div>
                                         <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                                 <label class="col-sm-4 col-lg-5 control-label">
                                                     Who will give the feedback:
                                                 </label>
@@ -6611,7 +6610,7 @@
                                             </ul>
                                         </div>
                                         <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">  
+                                            <div data-original-title="Who will give feedback" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
                                                 <label class="col-sm-4 col-lg-5 control-label">
                                                     Who will give the feedback:
                                                 </label>
@@ -6925,16 +6924,16 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-sm-12">
                     <a name="fbRankOptions">
                         <h4>Rank Options question</h4>
                     </a>
-                    Rank options questions are question where the students rank options that are created by you. 
+                    Rank options questions are question where the students rank options that are created by you.
                     <br>
-                
-                    <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times. 
+
+                    <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
                     <br>
                     <br>
                     <div class="bs-example">
@@ -6945,12 +6944,12 @@
                                         <div class="col-sm-7">
                                             <span>
                                                 <strong>Question</strong>
-                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-2" disabled="">
+                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
 
                                                         <option value="1">
                                                             1
                                                         </option>
-                                                    
+
                                                 </select>
                                                 &nbsp;Rank (options) question
                                             </span>
@@ -7301,7 +7300,7 @@
                             <input type="hidden" name="user" value="inst@email.com">
                         </form>
                     </div>
-                    
+
 
             </div>
             <div class="row">
@@ -7309,9 +7308,9 @@
                     <a name="fbRankRecipients">
                         <h4>Rank Recipients question</h4>
                     </a>
-                    Rank recipients questions are questions where the students are to rank students, teams, or instructors. 
+                    Rank recipients questions are questions where the students are to rank students, teams, or instructors.
                     <br>
-                    <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times. 
+                    <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
                     <br>
                     <br>
                     <div class="bs-example">
@@ -7323,11 +7322,11 @@
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
-                                                    
+
                                                         <option value="1">
                                                             1
                                                         </option>
-                                                    
+
                                                 </select>
                                                 &nbsp;Rank (recipients) question
                                             </span>
@@ -7702,10 +7701,10 @@
                             <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
                             <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
                             <input type="hidden" name="user" value="inst@email.com">
-                        </form>  
+                        </form>
                     </div>
-                    
-                    <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}. 
+
+                    <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}.
                     <br>
                     <br>
                     <div class="bs-example">

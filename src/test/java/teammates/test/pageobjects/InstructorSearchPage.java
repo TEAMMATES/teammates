@@ -29,10 +29,6 @@ public class InstructorSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickStudentCommentCheckBox() {
-        click(getStudentCommentCheckBox());
-    }
-
     public void clickFeedbackResponseCommentCheckBox() {
         click(getFeedbackResponseCommentCheckBox());
     }
@@ -47,10 +43,6 @@ public class InstructorSearchPage extends AppPage {
 
     private WebElement getSearchButton() {
         return browser.driver.findElement(By.id("buttonSearch"));
-    }
-
-    private WebElement getStudentCommentCheckBox() {
-        return browser.driver.findElement(By.id("comments-for-student-check"));
     }
 
     private WebElement getFeedbackResponseCommentCheckBox() {
