@@ -178,7 +178,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        boolean isAvgExclSelfShown = getAverageExclSelfShown(question);
+        boolean isAvgExclSelfShown = shouldSelfBeExcludedFromRankings(question);
         Map<String, List<Integer>> recipientRanksExcludingSelf = new HashMap<>();
         if (isAvgExclSelfShown) {
             recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
@@ -195,7 +195,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(isAvgExclSelfShown, df, recipientRanksExcludingSelf, entry.getKey());
+                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
             String fragmentTemplateToUse = isAvgExclSelfShown
                     ? FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT_SELF_RESPONSE
                     : FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
@@ -229,7 +229,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        boolean isAvgExclSelfShown = getAverageExclSelfShown(question);
+        boolean isAvgExclSelfShown = shouldSelfBeExcludedFromRankings(question);
         Map<String, List<Integer>> recipientRanksExcludingSelf = new HashMap<>();
         if (isAvgExclSelfShown) {
             recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
@@ -245,7 +245,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             + SanitizationHelper.sanitizeForCsv(recipientName);
 
             String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(isAvgExclSelfShown, df, recipientRanksExcludingSelf, entry.getKey());
+                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
             fragments.append(option).append(',').append(df.format(average));
@@ -340,11 +340,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      * @param recipientKey recipient for which average is to be calculated
      * @return average excluding self text
      */
-    private String getAverageExcludingSelfText(boolean isAvgExclSelfShown, DecimalFormat df,
+    private String getAverageExcludingSelfText(DecimalFormat df,
             Map<String, List<Integer>> recipientRanksExcludingSelf, String recipientKey) {
         List<Integer> ranksExcludingSelf = recipientRanksExcludingSelf.get(recipientKey);
         if (ranksExcludingSelf == null) {
-            return isAvgExclSelfShown ? "-" : "";
+            return "-";
         } else {
             Double averageExcludingSelf = computeAverage(ranksExcludingSelf);
             return df.format(averageExcludingSelf);
@@ -359,7 +359,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         return generateOptionRanksMapping(responsesExcludingSelf);
     }
 
-    private boolean getAverageExclSelfShown(FeedbackQuestionAttributes question) {
+    private boolean shouldSelfBeExcludedFromRankings(FeedbackQuestionAttributes question) {
         return question.recipientType != FeedbackParticipantType.NONE
                 && question.recipientType != FeedbackParticipantType.SELF;
     }
