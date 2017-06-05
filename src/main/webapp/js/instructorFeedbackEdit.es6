@@ -876,6 +876,8 @@ function prepareDescription(form) {
  * This function is called on edit page load.
  */
 function readyFeedbackEditPage() {
+    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
+
     // Disable all questions
     disableAllQuestions();
 
@@ -955,13 +957,8 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     });
 }
 
-function enableOnclicks() {
-    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
-}
-
 $(document).ready(() => {
     prepareInstructorPages();
-    enableOnclicks();
     prepareDatepickers();
 
     if (typeof richTextEditorBuilder !== 'undefined') {
