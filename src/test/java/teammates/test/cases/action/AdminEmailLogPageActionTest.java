@@ -427,4 +427,9 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         return (AdminEmailLogPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
+    }
+
 }

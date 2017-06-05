@@ -5,6 +5,7 @@ import static teammates.common.util.Const.ActionURIs.*;
 // CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +19,7 @@ import teammates.common.util.Logger;
 public class ActionFactory {
     private static final Logger log = Logger.getLogger();
 
-    private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
+    private static Map<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
 
     static {
         map(ADMIN_HOME_PAGE, AdminHomePageAction.class);

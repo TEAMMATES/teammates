@@ -320,4 +320,41 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
     protected InstructorFeedbackResponseCommentEditAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        int questionNumber = 1;
+        FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(
+                "First feedback session", "idOfTypicalCourse1", questionNumber);
+
+        String giverEmail = "student1InCourse1@gmail.tmt";
+        String receiverEmail = "student1InCourse1@gmail.tmt";
+        FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestion.getId(),
+                giverEmail, receiverEmail);
+
+        FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S1C1");
+
+        feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
+                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
+        // this person is not the giver. so not accessible
+        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
+    }
 }
