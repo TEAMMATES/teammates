@@ -57,7 +57,7 @@
                     </c:choose>
                 </a>
             </div>
-            
+
         </div>
     </div>
 </ts:studentPage>
