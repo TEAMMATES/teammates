@@ -357,6 +357,62 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
 
+    public boolean isRubricColLeftMovable(int qnNumber, int colNumber) {
+        return isRubricColMovable(qnNumber, colNumber, true);
+    }
+
+    public boolean isRubricColRightMovable(int qnNumber, int colNumber) {
+        return isRubricColMovable(qnNumber, colNumber, false);
+    }
+
+    private boolean isRubricColMovable(int qnNumber, int colNumber, boolean isMoveLeft) {
+        String elemId = "rubricMoveChoiceLink-" + qnNumber + "-" + colNumber;
+
+        if (isMoveLeft) {
+            elemId += "-l";
+        } else {
+            elemId += "-r";
+        }
+
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    /**
+     * returns true if button is enabled and was successfully clicked
+     */
+    public boolean moveRubricColLeft(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, true);
+    }
+
+    /**
+     * returns true if button is enabled and was successfully clicked
+     */
+    public boolean moveRubricColRight(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, false);
+    }
+
+    private boolean moveRubricCol(int qnNumber, int colNumber, boolean isMoveLeft) {
+        String elemId = "rubricMoveChoiceLink-" + qnNumber + "-" + colNumber;
+
+        if (isMoveLeft) {
+            elemId += "-l";
+        } else {
+            elemId += "-r";
+        }
+
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        if (moveColButton.getAttribute("disabled") == null) {
+            moveColButton.click();
+
+            return true;
+        }
+
+        return false;
+    }
+
     public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 

@@ -325,6 +325,52 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
+
+        ______TS("RUBRIC: move rubric column success");
+        feedbackEditPage.clickEditQuestionButton(1);
+
+        // 4 choices as of now
+        assertFalse(feedbackEditPage.isRubricColLeftMovable(1, 0));
+        assertTrue(feedbackEditPage.isRubricColRightMovable(1, 0));
+        assertTrue(feedbackEditPage.isRubricColLeftMovable(1, 1));
+        assertTrue(feedbackEditPage.isRubricColRightMovable(1, 1));
+        assertTrue(feedbackEditPage.isRubricColLeftMovable(1, 2));
+        assertTrue(feedbackEditPage.isRubricColRightMovable(1, 2));
+        assertTrue(feedbackEditPage.isRubricColLeftMovable(1, 3));
+        assertFalse(feedbackEditPage.isRubricColRightMovable(1, 3));
+
+        feedbackEditPage.clickAddRubricColLink(1);    // new column index 4
+        assertTrue(feedbackEditPage.isRubricColRightMovable(1, 3));
+        assertTrue(feedbackEditPage.isRubricColLeftMovable(1, 4));
+        assertFalse(feedbackEditPage.isRubricColRightMovable(1, 4));
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
+        assertFalse(feedbackEditPage.isRubricColRightMovable(1, 3));
+
+        feedbackEditPage.clickAddRubricColLink(1);    // new column index 5
+        feedbackEditPage.clickAddRubricRowLink(1);    // new row index 2
+        feedbackEditPage.fillRubricSubQuestionBox("New subquestion 2", 1, 2);;
+        feedbackEditPage.fillRubricChoiceBox("New(3) choice", 1, 5);
+        feedbackEditPage.fillRubricWeightBox("0.3", 1, 5);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 0, Col 5 Text", 1, 0, 5);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 1, Col 5 Text", 1, 1, 5);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 5 Text", 1, 2, 5);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 3 Text", 1, 2, 3);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 2 Text", 1, 2, 2);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 1 Text", 1, 2, 1);
+        feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 0 Text", 1, 2, 0);
+
+        // move last column to first
+        assertTrue(feedbackEditPage.moveRubricColLeft(1, 5));
+        assertTrue(feedbackEditPage.moveRubricColLeft(1, 3));
+        assertTrue(feedbackEditPage.moveRubricColLeft(1, 2));
+        assertTrue(feedbackEditPage.moveRubricColLeft(1, 1));
+        // move second column to last
+        assertTrue(feedbackEditPage.moveRubricColRight(1, 1));
+        assertTrue(feedbackEditPage.moveRubricColRight(1, 2));
+        assertTrue(feedbackEditPage.moveRubricColRight(1, 3));
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnSuccess.html");
     }
 
     @Override
