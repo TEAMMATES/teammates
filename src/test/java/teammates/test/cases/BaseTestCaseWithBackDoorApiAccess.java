@@ -55,9 +55,23 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         });
     }
 
+    protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
+        return BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
+    }
+
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+        return getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+    }
+
+    protected FeedbackQuestionAttributes getFeedbackQuestionWithRetry(
+            final String courseId, final String feedbackSessionName, final int qnNumber) {
+        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackQuestionAttributes>("getFeedbackQuestion") {
+            @Override
+            public FeedbackQuestionAttributes run() {
+                return getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
+            }
+        });
     }
 
     @Override
