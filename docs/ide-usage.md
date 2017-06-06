@@ -1,5 +1,8 @@
 # Using an IDE
 
+- [Eclipse IDE](#eclipse-ide)
+- [IntelliJ IDEA](#intellij-idea)
+
 ## Eclipse IDE
 
 > - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.

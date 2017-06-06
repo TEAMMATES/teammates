@@ -16,11 +16,6 @@ public class AdminSearchPageActionTest extends BaseActionTest {
     }
 
     @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
-    @Override
     @Test
     public void testExecuteAndPostProcess() {
         // Test is done as a browser test,
@@ -30,6 +25,13 @@ public class AdminSearchPageActionTest extends BaseActionTest {
     @Override
     protected AdminSearchPageAction getAction(String... params) {
         return (AdminSearchPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

@@ -92,14 +92,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -118,14 +115,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -144,14 +138,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -170,14 +161,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -196,14 +184,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -901,48 +886,6 @@
       "createdAt": "2026-03-02 11:59 PM UTC",
       "commentText": {
         "value": "Other instructor's comment to student self feedback"
-      }
-    }
-  },
-  "comments": {
-    "comment1FromI1C1toS1C1": {
-      "courseId": "CS2104",
-      "giverEmail": "teammates.test@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "alice.b.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "PERSON"
-      ],
-      "showGiverNameTo": [
-        "PERSON"
-      ],
-      "showRecipientNameTo": [],
-      "createdAt": "2026-04-01 11:59 PM UTC",
-      "commentText": {
-        "value": "Comment 1 from Instructor to Alice in course CS2104"
-      }
-    },
-    "comment2FromI1C1toS1C1": {
-      "courseId": "CS2104",
-      "giverEmail": "teammates.test@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "COURSE"
-      ],
-      "showGiverNameTo": [
-        "COURSE"
-      ],
-      "showRecipientNameTo": [],
-      "createdAt": "2026-05-01 8:51 AM UTC",
-      "commentText": {
-        "value": "Comment 2 from Instructor to Benny in course CS2104"
       }
     }
   },

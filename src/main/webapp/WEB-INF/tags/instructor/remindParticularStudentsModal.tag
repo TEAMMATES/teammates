@@ -4,7 +4,7 @@
 
 <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" 
      aria-labelledby="remindModal" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form method="post" name="form_remind_list" role="form"
                   action="${remindParticularStudentsLink}"> 

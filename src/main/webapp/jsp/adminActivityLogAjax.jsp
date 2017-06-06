@@ -8,7 +8,7 @@
             <activity:activityLogTableRow log="${log}"/>
         </c:forEach>
     </table>
-    
+
     <div id="status-message">
         ${data.statusForAjax}
     </div>

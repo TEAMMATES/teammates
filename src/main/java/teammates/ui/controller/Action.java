@@ -221,7 +221,12 @@ public abstract class Action {
     }
 
     private boolean isSessionTokenValid(String actualToken) {
-        String sessionId = session.getId();
+        String sessionId = request.getRequestedSessionId();
+        if (sessionId == null) {
+            // Newly-created session
+            sessionId = session.getId();
+        }
+
         String expectedToken = CryptoHelper.computeSessionToken(sessionId);
 
         return actualToken.equals(expectedToken);
