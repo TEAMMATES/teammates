@@ -43,9 +43,9 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Run this command to download the correct version Google App Engine SDK as used in the project:
    ```sh
    ./gradlew appengineDownloadSdk
-   ```  
+   ```
    **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named appengine-sdk` should be present.
- 
+
 1. Run this command to download the necessary tools for JavaScript development:
    ```sh
    npm install

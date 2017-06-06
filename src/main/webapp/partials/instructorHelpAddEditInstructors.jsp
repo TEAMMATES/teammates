@@ -341,7 +341,6 @@
                                                         </div>
                                                     </div>
 
-
                                                     <div id="tuneSectionPermissionsDiv0ForInstructor1" style="">
                                                         <div class="panel panel-info">
                                                             <div class="panel-heading">

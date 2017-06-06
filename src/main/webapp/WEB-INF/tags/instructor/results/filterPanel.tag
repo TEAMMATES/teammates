@@ -3,7 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 <%@ attribute name="showAll" required="true" %>
-<form class="form-horizontal" role="form" method="post" action="${filterPanel.resultsLink}">
+<form class="form-horizontal" style="margin-bottom: 35px" role="form" method="post" action="${filterPanel.resultsLink}">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
@@ -50,12 +50,12 @@
                   </div>
                   <div data-toggle="tooltip" title="Indicate missing responses">
                       <div class="checkbox padding-top-0 min-height-0">
-                          <input type="checkbox" 
-                                onchange="this.form.submit()" 
-                                id="indicate-missing-responses-checkbox" 
-                                value="true" 
+                          <input type="checkbox"
+                                onchange="this.form.submit()"
+                                id="indicate-missing-responses-checkbox"
+                                value="true"
                                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
-                                <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>> 
+                                <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>>
                           Indicate Missing Responses
                       </div>
                   </div>
@@ -86,29 +86,31 @@
                         </div>
                     </div>
                 </c:if>
-                <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                    <c:choose>
-                        <c:when test="${not showAll}">
-                            <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
-                                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" disabled>
-                                    Expand ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
-                                </a>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" data-toggle="tooltip" title="Expand all panels. You can also click on the panel heading to toggle each one individually.">
-                                Expand ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
-                            </a>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
             </div>
         </div>
     </div>
+
+    <div class="pull-right" style="margin-top:50px">
+        <c:choose>
+            <c:when test="${not showAll}">
+                <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" disabled>
+                        Expand All ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
+                    </a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" data-toggle="tooltip" title="Expand all panels. You can also click on the panel heading to toggle each one individually.">
+                    Expand All ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
+                </a>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
         value="${filterPanel.feedbackSessionName}">
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
         value="${filterPanel.courseId}">
-    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" 
+    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
         value="${data.account.googleId}">
 </form>
