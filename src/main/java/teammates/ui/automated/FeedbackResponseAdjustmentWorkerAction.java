@@ -15,7 +15,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Logger;
 
-
 /**
  * Task queue worker action: adjusts feedback responses in the database due to
  * change in student enrollment details of a course.
