@@ -622,14 +622,14 @@ public final class StudentsLogic {
     }
 
     private List<String> getInvalidityInfoInDuplicatedEmail(String email,
-            ArrayList<String> studentEmailList, String[] linesArray) {
+            List<String> studentEmailList, String[] linesArray) {
         List<String> info = new ArrayList<String>();
         info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1] + "\"");
         return info;
     }
 
     private boolean isStudentEmailDuplicated(String email,
-            ArrayList<String> studentEmailList) {
+            List<String> studentEmailList) {
         return studentEmailList.contains(email);
     }
 

@@ -11,9 +11,9 @@
     <form class="form-group" method="post"
         action="${fsForm.formSubmitAction}"
         id="form_feedbacksession">
-        
+
         <feedbacks:feedbackSessionsFormHeader fsForm="${fsForm}" />
-        
+
         <br>
         <div class="panel panel-primary">
             <div class="panel-body">
@@ -69,7 +69,7 @@
                                             ${option.content}
                                         </option>
                                     </c:forEach>
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -230,25 +230,25 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="uncommonSettingsSection">
             <feedbacks:feedbackSessionsFormAdditionalSettings additionalSettings="${fsForm.additionalSettings}"/>
-            
+
             <div id="uncommonSettingsSessionResponsesVisible" class="margin-bottom-15px text-muted">
                 <span id="uncommonSettingsSessionResponsesVisibleInfoText"></span>
                 <a class="editUncommonSettingsButton enable-edit-fs"
-                   id="editUncommonSettingsSessionResponsesVisibleButton" 
+                   id="editUncommonSettingsSessionResponsesVisibleButton"
                    data-edit="[Edit]" data-done="[Done]">[Change]</a>
             </div>
-            
+
             <div id="uncommonSettingsSendEmails" class="margin-bottom-15px text-muted">
                 <span id="uncommonSettingsSendEmailsInfoText"></span>
                 <a class="editUncommonSettingsButton enable-edit-fs"
-                   id="editUncommonSettingsSendEmailsButton" 
+                   id="editUncommonSettingsSendEmailsButton"
                    data-edit="[Edit]" data-done="[Done]">[Change]</a>
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="row">
                 <div class="col-md-offset-5 col-md-3">
@@ -261,7 +261,7 @@
                 </div>
             </div>
         </div>
-        <c:if test="${fsForm.showNoCoursesMessage}"> 
+        <c:if test="${fsForm.showNoCoursesMessage}">
             <div class="row">
                 <div class="col-md-12 text-center">
                     <b>You need to have an active(unarchived) course to create a session!</b>
