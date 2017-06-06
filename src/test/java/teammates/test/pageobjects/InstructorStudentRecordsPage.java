@@ -134,7 +134,6 @@ public class InstructorStudentRecordsPage extends AppPage {
         }
     }
 
-
     /**
      * Waits for all the panels to collapse.
      */

@@ -11,7 +11,6 @@
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
 <%@ attribute name="viewType" %>
-    
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />

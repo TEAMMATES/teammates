@@ -34,7 +34,6 @@
                                             <%-- Note: When an element has class text-preserve-space, do not insert any HTML spaces --%>
                                             <div class="pull-left text-preserve-space">${response.responseText}</div>
                                         </div>
-                                        
                                         <c:if test="${not empty response.responseComments}">
                                             <ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
                                                 <c:forEach items="${response.responseComments}" var="responseComment" varStatus="status">
