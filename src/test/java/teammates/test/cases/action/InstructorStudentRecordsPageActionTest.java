@@ -85,8 +85,9 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorStudentRecordsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfInstructor3",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfInstructor3"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -124,8 +125,9 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfHelperOfCourse1",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfHelperOfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "
                          + "However, you do not have access to view this student's profile<br>"
@@ -185,7 +187,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         actualData = (InstructorStudentRecordsPageData) r.data;
         expectedProfile.modifiedDate = actualData.spa.modifiedDate;
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=" + instructorId,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, instructorId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
 
@@ -212,6 +215,20 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     @Override
     protected InstructorStudentRecordsPageAction getAction(String... params) {
         return (InstructorStudentRecordsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

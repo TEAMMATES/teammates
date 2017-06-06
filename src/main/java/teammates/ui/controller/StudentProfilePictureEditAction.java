@@ -34,7 +34,7 @@ public class StudentProfilePictureEditAction extends Action {
     @Override
     protected ActionResult execute() {
         gateKeeper.verifyLoggedInUserPrivileges();
-        readAllPostParamterValuesToFields();
+        readAllPostParameterValuesToFields();
         if (!validatePostParameters()) {
             return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         }
@@ -148,7 +148,7 @@ public class StudentProfilePictureEditAction extends Action {
     /**
      * Gets all the parameters from the Request and ensures that they are not null.
      */
-    private void readAllPostParamterValuesToFields() {
+    private void readAllPostParameterValuesToFields() {
         leftXString = getLeftXString();
         topYString = getTopYString();
         rightXString = getRightXString();

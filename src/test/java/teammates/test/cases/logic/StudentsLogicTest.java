@@ -487,7 +487,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
 
-
         ______TS("enrollLines with some empty fields");
 
         String lineWithTeamNameEmpty = " | StudentWithTeamFieldEmpty | student@email.tmt";

@@ -18,7 +18,7 @@
                   <div class="form-group">
                       <label class="col-lg-4 control-label">Session:</label>
                       <div class="col-lg-8">
-                        <p class="form-control-static">${sessionPanel.feedbackSessionName} 
+                        <p class="form-control-static">${sessionPanel.feedbackSessionName}
                             <c:if test="${not empty sessionPanel.editLink}">
                                 <a href="${sessionPanel.editLink}">[Edit]</a>
                             </c:if>

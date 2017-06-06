@@ -4,7 +4,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px"
-   href="${actions.editLink}" 
+   href="${actions.editLink}"
    title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
    data-toggle="tooltip"
    data-placement="top"
@@ -21,9 +21,9 @@
    <c:if test="${not actions.allowedToDelete}">disabled</c:if>>
     Delete
 </a>
-<div title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>" 
+<div title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>"
      data-toggle="tooltip"
-     data-placement="top" 
+     data-placement="top"
      style="display: inline-block; padding-right: 5px;">
     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
        href="#"

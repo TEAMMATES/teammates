@@ -109,9 +109,9 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(submissionParams);
         RedirectResult rr = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     rr.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, instructor.googleId),
+                rr.getDestinationWithParams());
         assertFalse(rr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
                      rr.getStatusMessage());
@@ -127,9 +127,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -140,9 +141,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -161,9 +163,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
 
@@ -182,9 +185,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
     }
@@ -192,5 +196,18 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     @Override
     protected InstructorFeedbackSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+        };
+        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }
