@@ -9,7 +9,6 @@
 <%@ attribute name="questionIndex" type="java.lang.Integer"%>
 <%@ attribute name="questionPanel" type="teammates.ui.template.InstructorFeedbackResultsQuestionTable" required="true" %>
 
-
 <div class="panel ${questionPanel.panelClass}">
     <div class="panel-heading${questionPanel.ajaxClass}">
         <c:if test="${questionPanel.collapsible}">
@@ -32,7 +31,7 @@
             <c:when test="${questionPanel.boldQuestionNumber}">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>" class="inline">
                 <div id="DownloadQuestion-${questionPanel.question.questionNumber}" class="inline">
-                    <input id="button_download-${questionPanel.question.questionNumber}" type="submit" 
+                    <input id="button_download-${questionPanel.question.questionNumber}" type="submit"
                         class="btn-link text-bold padding-0 color-inherit" data-toggle="tooltip" title="Download Question Results"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                         value="Question ${questionPanel.question.questionNumber}:">
@@ -53,7 +52,7 @@
                 </div>
             </c:when>
             <c:otherwise>
-                Question ${questionPanel.question.questionNumber}: 
+                Question ${questionPanel.question.questionNumber}:
                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                 <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>
             </c:otherwise>
@@ -61,13 +60,13 @@
     </div>
     <div <c:if test="${questionPanel.collapsible}">class="panel-collapse collapse"</c:if>>
         <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
-            
+
             <c:if test="${!questionPanel.hasResponses}">
                 <div class="col-sm-12 no-response">
                     <i class="text-muted">There are no responses for this question or you may not have the permission to see the response</i>
                 </div>
             </c:if>
-            
+
             <c:if test="${questionPanel.hasResponses}">
                 <div class="resultStatistics">
                     ${questionPanel.questionStatisticsTable}
@@ -78,7 +77,7 @@
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
                                     <c:forEach items="${questionPanel.columns}" var="thElement">
-                                        <th ${thElement.attributesToString}> 
+                                        <th ${thElement.attributesToString}>
                                             ${thElement.content}
                                             <c:if test="${questionPanel.isColumnSortable[thElement.content]}"><span class="icon-sort unsorted"></span></c:if>
                                         </th>
@@ -94,7 +93,7 @@
                     </div>
                 </c:if>
             </c:if>
-            
+
         </div>
     </div>
 </div>
