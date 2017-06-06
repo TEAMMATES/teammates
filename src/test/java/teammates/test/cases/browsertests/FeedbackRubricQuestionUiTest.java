@@ -375,7 +375,27 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.moveRubricColRight(1, 3));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnSuccess.html");
+
+        // check buttons for new rubric question
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Edit rubric question 2");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details about this new question");
+        assertFalse(feedbackEditPage.isRubricColLeftMovable(-1, 0));
+        assertTrue(feedbackEditPage.isRubricColRightMovable(-1, 0));
+        assertTrue(feedbackEditPage.isRubricColLeftMovable(-1, 3));
+        assertFalse(feedbackEditPage.isRubricColRightMovable(-1, 3));
+        // move last column to first
+        assertTrue(feedbackEditPage.moveRubricColLeft(-1, 3));
+        assertTrue(feedbackEditPage.moveRubricColLeft(-1, 2));
+        assertTrue(feedbackEditPage.moveRubricColLeft(-1, 1));
+        // move second column to last
+        assertTrue(feedbackEditPage.moveRubricColRight(-1, 1));
+        assertTrue(feedbackEditPage.moveRubricColRight(-1, 2));
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnNewQuestionSuccess.html");
     }
 
     @Override
