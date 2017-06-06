@@ -581,7 +581,6 @@
                         <br>
                     </div>
 
-
                 </div>
 
             </div>
@@ -605,7 +604,6 @@
                     <br>
                     <br> At the bottom of the page, you can add questions to the session:
                 </p>
-
 
             </div>
 
@@ -1125,7 +1123,6 @@
             <br>Here is another example question:
             <br>
             <br>
-
 
             <div class="bs-example">
                 <form class="form-horizontal form_question" role="form">
@@ -1772,7 +1769,6 @@
                                                 </button>
                                             </div>
 
-
                                         </div>
                                     </div>
 
@@ -1796,7 +1792,6 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -1822,7 +1817,6 @@
                                                 </button>
                                             </div>
 
-
                                         </div>
                                     </div>
 
@@ -1831,7 +1825,6 @@
 
                         </div>
                     </div>
-
 
                     <div class="panel panel-primary" id="benny">
                         <div class="panel-heading">
@@ -1858,7 +1851,6 @@
                                                 </button>
                                             </div>
 
-
                                         </div>
                                     </div>
 
@@ -1881,7 +1873,6 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -1916,7 +1907,6 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -1957,7 +1947,6 @@
             <br>
             <br>
             <br>
-
 
             <div class="bs-example">
 
@@ -2046,8 +2035,6 @@
                                         <td class="multiline">No</td>
                                     </tr>
 
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -2070,8 +2057,6 @@
                                         <td class="multiline">No</td>
                                     </tr>
 
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -2093,15 +2078,12 @@
                                         <td class="multiline">Yes</td>
                                     </tr>
 
-
-
                                 </tbody>
                             </table>
                         </div>
 
                     </div>
                 </div>
-
 
             </div>
             <br>
@@ -3952,7 +3934,6 @@
                     <b>Points to distribute X number of options</b>, which multiplies the points specified by the number of options.
                     <br> For example, if there are 5 options and
                     <b>Points to distribute X number of options</b> is set to 100, students will have to split 500 points in total to the 5 options.
-
 
                     <div class="bs-example">
                         <form class="form-horizontal form_question" role="form" method="post" >
@@ -7181,7 +7162,6 @@
                             <input type="hidden" name="user" value="inst@email.com">
                         </form>
                     </div>
-
 
             </div>
             <div class="row">
