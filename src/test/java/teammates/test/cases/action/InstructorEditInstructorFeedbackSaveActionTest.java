@@ -75,10 +75,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email not sent if parameter does not exist
@@ -103,10 +108,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
@@ -129,10 +139,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("new response");
@@ -152,10 +167,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
@@ -302,10 +322,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCourseintr%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCourseintr%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
@@ -420,15 +445,38 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCourseintr%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=Closed+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCourseintr%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "Closed+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
     @Override
     protected InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, boolean isError, String moderatedPerson, String userId, String courseId, String fsName) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(
+                pageDestination, Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
     }
 }

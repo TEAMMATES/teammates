@@ -101,7 +101,7 @@
                                 </td>
                                 <td class="no-print align-center">
                                     <c:set var="viewButtonEnabled" value="${section.allowedToViewStudentInSection}" />
-                                    <a class="btn btn-default btn-xs<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
                                            <c:when test="${not viewButtonEnabled}">
                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -118,7 +118,7 @@
                                         View
                                     </a>
                                     <c:set var="editButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="btn btn-default btn-xs<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
                                            <c:when test="${not editButtonEnabled}">
                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -136,7 +136,7 @@
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                                         <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                        <a class="course-student-remind-link btn btn-default btn-xs<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                        <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                            <c:choose>
                                                <c:when test="${not remindButtonEnabled}">
                                                   title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -153,7 +153,7 @@
                                         </a>
                                     </c:if>
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="course-student-delete-link btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                         data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
                                        <c:choose>
                                            <c:when test="${not deleteButtonEnabled}">
@@ -169,7 +169,7 @@
                                        data-placement="top">
                                         Delete
                                     </a>
-                                    <a class="btn btn-default btn-xs"
+                                    <a class="btn btn-default btn-xs margin-bottom-7px"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
                                        target="_blank" rel="noopener noreferrer"

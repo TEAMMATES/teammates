@@ -29,34 +29,34 @@ public final class TestProperties {
     /** The version number of the application under test. */
     public static final String TEAMMATES_VERSION;
 
-    /** The value of "test.instructor.account" in test.properties file. */
+    /** The Google ID of the test instructor account. */
     public static final String TEST_INSTRUCTOR_ACCOUNT;
 
-    /** The value of "test.instructor.password" in test.properties file. */
+    /** The password of the test instructor account. */
     public static final String TEST_INSTRUCTOR_PASSWORD;
 
-    /** The value of "test.student1.account" in test.properties file. */
+    /** The Google ID of the first test student account. */
     public static final String TEST_STUDENT1_ACCOUNT;
 
-    /** The value of "test.student1.password" in test.properties file. */
+    /** The password of the first test student account. */
     public static final String TEST_STUDENT1_PASSWORD;
 
-    /** The value of "test.student2.account" in test.properties file. */
+    /** The Google ID of the second test student account. */
     public static final String TEST_STUDENT2_ACCOUNT;
 
-    /** The value of "test.student2.password" in test.properties file. */
+    /** The password of the second test student account. */
     public static final String TEST_STUDENT2_PASSWORD;
 
-    /** The value of "test.admin.account" in test.properties file. */
+    /** The Google ID of the test admin account. */
     public static final String TEST_ADMIN_ACCOUNT;
 
-    /** The value of "test.admin.password" in test.properties file. */
+    /** The password of the test admin account. */
     public static final String TEST_ADMIN_PASSWORD;
 
-    /** The value of "test.unreg.account" in test.properties file. */
+    /** The Google ID of the test unregistered account. */
     public static final String TEST_UNREG_ACCOUNT;
 
-    /** The value of "test.unreg.password" in test.properties file. */
+    /** The password of the test unregistered account. */
     public static final String TEST_UNREG_PASSWORD;
 
     /** The value of "test.backdoor" in test.properties file. */
@@ -74,6 +74,9 @@ public final class TestProperties {
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
+    /** Maximum period for verification retries due to persistence delays. */
+    public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
+
     static {
         Properties prop = new Properties();
         try {
@@ -83,20 +86,44 @@ public final class TestProperties {
 
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
-            TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
-            TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
+            if (isDevServer() && (isCiEnvironment() || isGodModeEnabled())) {
+                // For CI and GodMode, we do not read the account details from the test properties file, but generate
+                // random account names. This is for detection and prevention of hard-coded account names in test files.
+                // The password values are not required for login to the dev server and hence, set to null.
 
-            TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
-            TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
+                String dotSalt = "." + StringHelperExtension.generateSaltOfLength(8);
 
-            TEST_STUDENT1_ACCOUNT = prop.getProperty("test.student1.account");
-            TEST_STUDENT1_PASSWORD = prop.getProperty("test.student1.password");
+                TEST_ADMIN_ACCOUNT = "yourGoogleId" + dotSalt;
+                TEST_ADMIN_PASSWORD = null;
 
-            TEST_STUDENT2_ACCOUNT = prop.getProperty("test.student2.account");
-            TEST_STUDENT2_PASSWORD = prop.getProperty("test.student2.password");
+                TEST_INSTRUCTOR_ACCOUNT = "teammates.coord" + dotSalt;
+                TEST_INSTRUCTOR_PASSWORD = null;
 
-            TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
-            TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
+                TEST_STUDENT1_ACCOUNT = "alice.tmms" + dotSalt;
+                TEST_STUDENT1_PASSWORD = null;
+
+                TEST_STUDENT2_ACCOUNT = "charlie.tmms" + dotSalt;
+                TEST_STUDENT2_PASSWORD = null;
+
+                TEST_UNREG_ACCOUNT = "teammates.unreg" + dotSalt;
+                TEST_UNREG_PASSWORD = null;
+
+            } else {
+                TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
+                TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
+
+                TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
+                TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
+
+                TEST_STUDENT1_ACCOUNT = prop.getProperty("test.student1.account");
+                TEST_STUDENT1_PASSWORD = prop.getProperty("test.student1.password");
+
+                TEST_STUDENT2_ACCOUNT = prop.getProperty("test.student2.account");
+                TEST_STUDENT2_PASSWORD = prop.getProperty("test.student2.password");
+
+                TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
+                TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
+            }
 
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
@@ -113,6 +140,14 @@ public final class TestProperties {
 
     private TestProperties() {
         // access static fields directly
+    }
+
+    public static boolean isCiEnvironment() {
+        return System.getenv("TRAVIS") != null || System.getenv("APPVEYOR") != null;
+    }
+
+    public static boolean isGodModeEnabled() {
+        return Boolean.parseBoolean(System.getProperty("godmode", "false"));
     }
 
     public static boolean isDevServer() {
@@ -138,30 +173,10 @@ public final class TestProperties {
         if (!isDevServer()) {
             fail("God mode regeneration works only in dev server.");
         }
-        if (!areTestAccountsReadyForGodMode()) {
-            fail("Please append a unique id (e.g your name) to each of the default account in "
-                    + "test.properties in order to use God mode, e.g change alice.tmms to "
-                    + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
-        }
         if (isStudentMotdUrlEmpty()) {
             fail("Student MOTD URL defined in app.student.motd.url in build.properties "
                     + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
-    }
-
-    private static boolean areTestAccountsReadyForGodMode() {
-        if (!TEST_STUDENT1_ACCOUNT.startsWith("alice.tmms.")) {
-            return false;
-        }
-        String uniqueId = TEST_STUDENT1_ACCOUNT.substring("alice.tmms.".length());
-        if (uniqueId.isEmpty()) {
-            return false;
-        }
-
-        boolean isSecondStudentAccountReady = ("charlie.tmms." + uniqueId).equals(TEST_STUDENT2_ACCOUNT);
-        boolean isInstructorAccountReady = ("teammates.coord." + uniqueId).equals(TEST_INSTRUCTOR_ACCOUNT);
-        boolean isAdminAccountReady = ("yourGoogleId." + uniqueId).equals(TEST_ADMIN_ACCOUNT);
-        return isSecondStudentAccountReady && isInstructorAccountReady && isAdminAccountReady;
     }
 
     private static boolean isStudentMotdUrlEmpty() {

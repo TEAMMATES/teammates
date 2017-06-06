@@ -33,6 +33,8 @@ import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.retry.RetryManager;
+import teammates.test.driver.retry.RetryableTaskReturnsThrows;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -164,6 +166,19 @@ public abstract class AppPage {
     public static LoginPage createCorrectLoginPageType(Browser browser) {
         return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
                                                                         : GoogleLoginPage.class);
+    }
+
+    /**
+     * Checks whether the URL currently loaded in the browser corresponds to the given page {@code uri}.
+     */
+    public boolean isPageUri(String uri) {
+        Url currentPageUrl;
+        try {
+            currentPageUrl = new Url(browser.driver.getCurrentUrl());
+        } catch (AssertionError e) { // due to MalformedURLException
+            return false;
+        }
+        return currentPageUrl.getRelativeUrl().equals(uri);
     }
 
     /**
@@ -875,6 +890,20 @@ public abstract class AppPage {
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
+    }
+
+    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
+        return RetryManager.runUntilNoException(new RetryableTaskReturnsThrows<AppPage, IOException>("HTML verification") {
+            @Override
+            public AppPage run() throws IOException {
+                return verifyHtmlPart(MAIN_CONTENT, filePath);
+            }
+
+            @Override
+            public void beforeRetry() {
+                reloadPage();
+            }
+        }, AssertionError.class);
     }
 
     /**
