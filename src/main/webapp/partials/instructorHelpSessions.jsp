@@ -1560,11 +1560,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
-                                    Collapse Questions
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
