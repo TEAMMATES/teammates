@@ -88,7 +88,7 @@ public class InstructorStudentRecordsPage extends AppPage {
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
-        ThreadHelper.waitFor(1000);
+        waitForAjaxLoaderGifToDisappear();
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
@@ -111,10 +111,8 @@ public class InstructorStudentRecordsPage extends AppPage {
                    || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
 
-    public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
-        WebElement commentForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentTableIdSuffix));
-        waitForElementPresence(By.xpath("//*[@id='errorMessage']"));
-        WebElement errorMessageSpan = commentForm.findElement(By.xpath("//*[@id='errorMessage']"));
+    public void verifyCommentFormErrorMessage(String errorMessage) {
+        WebElement errorMessageSpan = waitForElementPresence(By.xpath("//*[@id='errorMessage']"));
         assertEquals(errorMessage, errorMessageSpan.getText());
     }
 

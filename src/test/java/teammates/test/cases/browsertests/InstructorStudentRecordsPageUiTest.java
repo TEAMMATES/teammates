@@ -142,7 +142,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("Typical Case: Edit and add empty comment");
 
         viewPage.editFeedbackResponseComment("-1-1-1-1-GRQ", "");
-        viewPage.verifyCommentFormErrorMessage("-1-1-1-1-GRQ", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        viewPage.verifyCommentFormErrorMessage(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         viewPage.closeEditFeedbackResponseCommentForm("-1-1-1-1-GRQ");
 
         ______TS("Typical Case: Edit comment");
