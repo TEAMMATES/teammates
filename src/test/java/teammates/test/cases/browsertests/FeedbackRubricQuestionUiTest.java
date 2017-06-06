@@ -394,8 +394,12 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         // move second column to last
         assertTrue(feedbackEditPage.moveRubricColRight(-1, 1));
         assertTrue(feedbackEditPage.moveRubricColRight(-1, 2));
+        feedbackEditPage.clickAddQuestionButton();
 
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnNewQuestionSuccess.html");
+        feedbackEditPage.clickDeleteQuestionLink(2);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
     @Override
