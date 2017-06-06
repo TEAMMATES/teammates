@@ -194,7 +194,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyVisibilityAndCloseMoreInfoAboutEqualShareModal() {
-    	WebElement moreInfoAboutEqualShareModalLink = browser.driver.findElement(By.id("more-info-equal-share-modal-link"));
+        WebElement moreInfoAboutEqualShareModalLink = browser.driver.findElement(By.id("more-info-equal-share-modal-link"));
         click(moreInfoAboutEqualShareModalLink);
         WebElement moreInfoAboutEqualShareModal = browser.driver.findElement(By.id("more-info-equal-share-modal"));
         waitForElementVisibility(moreInfoAboutEqualShareModal);
