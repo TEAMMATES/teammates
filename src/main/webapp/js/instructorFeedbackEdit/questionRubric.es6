@@ -113,7 +113,7 @@ function addRubricCol(questionNum) {
     const optionsRow =
         `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}" data-col="${newColNumber - 1}">
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l"
+                <button type="button" class="btn btn-default" id="rubric-move-col-left-${questionNum}-${newColNumber - 1}"
                         onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, true)" data-toggle="tooltip"
                         data-placement="top" title="Move column left">
                     <span class="glyphicon glyphicon-arrow-left"></span>
@@ -124,7 +124,7 @@ function addRubricCol(questionNum) {
                         onmouseout="highlightRubricCol(${newColNumber - 1}, ${questionNum}, false)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
-                <button type="button" class="btn btn-default" id="rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r"
+                <button type="button" class="btn btn-default" id="rubric-move-col-right-${questionNum}-${newColNumber - 1}"
                         onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, false)" data-toggle="tooltip"
                         data-placement="top" title="Move column right">
                     <span class="glyphicon glyphicon-arrow-right"></span>
@@ -132,12 +132,12 @@ function addRubricCol(questionNum) {
             </div>
         </td>`;
 
-    const lastTd = $(`#rubricOptionsRow-${questionNum} td:last`);
+    const lastTd = $(`#rubric-options-row-${questionNum} td:last`);
     $(optionsRow).insertAfter(lastTd);
 
     // Initialize tooltips
-    $(`#rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-l`).tooltip({ container: 'body' });
-    $(`#rubricMoveChoiceLink-${questionNum}-${newColNumber - 1}-r`).tooltip({ container: 'body' });
+    $(`#rubric-move-col-left-${questionNum}-${newColNumber - 1}`).tooltip({ container: 'body' });
+    $(`#rubric-move-col-right-${questionNum}-${newColNumber - 1}`).tooltip({ container: 'body' });
 
     // Increment
     $(`#rubricNumCols-${questionNum}`).val(newColNumber);
@@ -203,7 +203,7 @@ function removeRubricCol(index, questionNum) {
                                          StatusType.WARNING);
 }
 
-function swapRubricCol(colIndex, questionNum, isSwapLeft) {
+function swapRubricCol(questionNum, colIndex, isSwapLeft) {
     if ($(`#rubricEditTable-${questionNum}`).length === 0
             && $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
             && typeof isSwapLeft !== 'boolean') {
@@ -213,7 +213,7 @@ function swapRubricCol(colIndex, questionNum, isSwapLeft) {
 
     const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
     let swapColIndex;
-    const swapCellAccessorStr = `#rubricOptionsRow-${questionNum} .rubricCol-${questionNum}-${colIndex}`;
+    const swapCellAccessorStr = `#rubric-options-row-${questionNum} .rubricCol-${questionNum}-${colIndex}`;
     const rubricCellSelector = `td[class*='rubricCol-${questionNum}']`;
 
     if (isSwapLeft) {
@@ -256,12 +256,12 @@ function swapRubricCol(colIndex, questionNum, isSwapLeft) {
 }
 
 function disableMoveColumnButtons(questionNum) {
-    const $optionColumns = $(`#rubricOptionsRow-${questionNum} td[class*='rubricCol-']`);
+    const $optionColumns = $(`#rubric-options-row-${questionNum} td[class*='rubricCol-']`);
 
     // check left button of leftmost column, should be disabled
     const $leftmostCol = $optionColumns.first();
     const leftmostColIndex = $leftmostCol.attr('data-col');
-    const $leftmostColLeftBtn = $leftmostCol.find(`#rubricMoveChoiceLink-${questionNum}-${leftmostColIndex}-l`);
+    const $leftmostColLeftBtn = $leftmostCol.find(`#rubric-move-col-left-${questionNum}-${leftmostColIndex}`);
 
     if (!$leftmostColLeftBtn.prop('disabled')) {
         $leftmostColLeftBtn.prop('disabled', true);
@@ -270,7 +270,7 @@ function disableMoveColumnButtons(questionNum) {
     // check right button of rightmost column, should be disabled
     const $rightmostCol = $optionColumns.last();
     const rightmostColIndex = $rightmostCol.attr('data-col');
-    const $rightmostColRightBtn = $rightmostCol.find(`#rubricMoveChoiceLink-${questionNum}-${rightmostColIndex}-r`);
+    const $rightmostColRightBtn = $rightmostCol.find(`#rubric-move-col-right-${questionNum}-${rightmostColIndex}`);
 
     if (!$rightmostColRightBtn.prop('disabled')) {
         $rightmostColRightBtn.prop('disabled', true);
@@ -280,7 +280,7 @@ function disableMoveColumnButtons(questionNum) {
     if ($optionColumns.length > 2) {
         const $secondlastCol = $rightmostCol.prev();
         const secondlastColIndex = $secondlastCol.attr('data-col');
-        const $secondlastColRightBtn = $secondlastCol.find(`#rubricMoveChoiceLink-${questionNum}-${secondlastColIndex}-r`);
+        const $secondlastColRightBtn = $secondlastCol.find(`#rubric-move-col-right-${questionNum}-${secondlastColIndex}`);
 
         if ($secondlastColRightBtn.prop('disabled')) {
             $secondlastColRightBtn.prop('disabled', false);
@@ -359,14 +359,27 @@ function hasAssignedWeights(questionNum) {
     return $(`#rubricAssignWeights-${questionNum}`).prop('checked');
 }
 
-// call disableMoveColumnButtons when "Edit" button is clicked for rubric questions
+// set onclick listener for edit and move column buttons
 $(() => {
     const numQuestions = $('a[id*="questionedittext-"]').length;
 
-    for (let index = 1; index <= numQuestions; index += 1) {
-        if ($(`#rubricOptionsRow-${index}`).length !== 0) {
-            $(`#questionedittext-${index}`).click(() => {
-                disableMoveColumnButtons(index);
+    for (let qNum = 0; qNum <= numQuestions; qNum += 1) {
+        // check if this question is a rubric question
+        if ($(`#rubric-options-row-${qNum}`).length !== 0) {
+            $(`#questionedittext-${qNum}`).click(() => {
+                disableMoveColumnButtons(qNum);
+            });
+
+            $(`#rubric-options-row-${qNum} td[class*="rubricCol-${qNum}"]`).each(function () {
+                const col = $(this).attr('data-col');
+
+                $(`#rubric-move-col-left-${qNum}-${col}`).click(() => {
+                    swapRubricCol(qNum, col, true);
+                });
+
+                $(`#rubric-move-col-right-${qNum}-${col}`).click(() => {
+                    swapRubricCol(qNum, col, false);
+                });
             });
         }
     }

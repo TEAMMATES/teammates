@@ -740,6 +740,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT = "rubricWeight";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
+        public static final String FEEDBACK_QUESTION_RUBRIC_OPTIONS_ROW = "rubric-options-row-";
+        public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT = "rubric-move-col-left";
+        public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT = "rubric-move-col-right";
         public static final String FEEDBACK_QUESTION_RANKOPTION = "rankOption";
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
