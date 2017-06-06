@@ -9,7 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false
+makeCsrfTokenParam:false, disableMoveColumnButtons:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false

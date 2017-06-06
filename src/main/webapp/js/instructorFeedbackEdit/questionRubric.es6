@@ -137,7 +137,14 @@ function addRubricCol(questionNum) {
 
     // Initialize tooltips
     $(`#rubric-move-col-left-${questionNum}-${newColNumber - 1}`).tooltip({ container: 'body' });
+    $(`#rubric-move-col-left-${questionNum}-${newColNumber - 1}`).click(() => {
+        swapRubricCol(questionNum, newColNumber - 1, true);
+    });
+
     $(`#rubric-move-col-right-${questionNum}-${newColNumber - 1}`).tooltip({ container: 'body' });
+    $(`#rubric-move-col-right-${questionNum}-${newColNumber - 1}`).click(() => {
+        swapRubricCol(questionNum, newColNumber - 1, false);
+    });
 
     // Increment
     $(`#rubricNumCols-${questionNum}`).val(newColNumber);
