@@ -63,7 +63,7 @@ $(document).ready(() => {
             const $panel = $(this);
             const formData = $panel.parent().find('form').serialize();
             const content = $panel.find('.pull-right')[0];
-            const $panelCollapse = $(this).parent().children('.panel-collapse');
+            const $panelCollapse = $panel.parent().children('.panel-collapse');
 
             $.ajax({
                 type: 'POST',
@@ -116,17 +116,17 @@ function instructorHomeDateComparator(x, y) {
 }
 
 function bindCoursePanels() {
-    const panels = $('div.panel');
+    const $panels = $('div.panel');
     let numPanels = 0;
-    for (let i = 0; i < panels.length; i += 1) {
-        const heading = $(panels[i]).children('.panel-heading');
-        const bodyCollapse = $(panels[i]).children('.panel-collapse');
-        if (heading.length !== 0 && bodyCollapse.length !== 0) {
-            $(heading[0]).attr('data-target', `#panelBodyCollapse-${numPanels}`);
-            $(heading[0]).attr('id', `panelHeading-${numPanels}`);
-            $(heading[0]).css('cursor', 'pointer');
-            $(heading[0]).attr('data-state', 'up');
-            $(bodyCollapse[0]).attr('id', `panelBodyCollapse-${numPanels}`);
+    for (let i = 0; i < $panels.length; i += 1) {
+        const $heading = $($panels[i]).children('.panel-heading');
+        const $bodyCollapse = $($panels[i]).children('.panel-collapse');
+        if ($heading.length !== 0 && $bodyCollapse.length !== 0) {
+            $heading.data('target', `#panelBodyCollapse-${numPanels}`);
+            $heading.attr('id', `panelHeading-${numPanels}`);
+            $heading.css('cursor', 'pointer');
+            $heading.data('state', 'up');
+            $bodyCollapse.attr('id', `panelBodyCollapse-${numPanels}`);
         }
         numPanels += 1;
     }
@@ -136,22 +136,20 @@ function bindCoursePanels() {
  * Changes the state of the course panel (collapsed/expanded).
  */
 function toggleCourseVisibility(e) {
-    if ($(e.target).is('a') || $(e.target).is('input') || $(e.target).hasClass('dropdown-toggle')) {
+    const $targetElement = $(e.target);
+    if ($targetElement.is('a') || $targetElement.is('input') || $targetElement.hasClass('dropdown-toggle')) {
         return;
     }
-    const dropdowns = $(this).find('.dropdown');
-    if ($(this).data('state') === 'up') {
-        for (let i = 0; i < dropdowns.length; i += 1) {
-            $(dropdowns[i]).show();
-        }
-        showSingleCollapse($(e.currentTarget).attr('data-target'));
-        $(this).data('state', 'down');
+    const $panel = $(this);
+    const $dropdowns = $panel.find('.dropdown');
+    if ($panel.data('state') === 'up') {
+        $dropdowns.show();
+        showSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'down');
     } else {
-        for (let j = 0; j < dropdowns.length; j += 1) {
-            $(dropdowns[j]).hide();
-        }
-        hideSingleCollapse($(e.currentTarget).attr('data-target'));
-        $(this).data('state', 'up');
+        $dropdowns.hide();
+        hideSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'up');
     }
 }
 
@@ -164,7 +162,7 @@ function updateCoursePanel(data, $panel, $panelCollapse) {
     const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
     const $updatedContent = $panel.find('.pull-right');
     $updatedContent.append(chevronUp);
-    const collapseData = $(data).find('.panel-body');
-    $panelCollapse.html(collapseData[0]);
+    const $collapseData = $(data).find('.panel-body');
+    $panelCollapse.html($collapseData[0]);
     $panel.removeClass('ajax_auto');
 }
