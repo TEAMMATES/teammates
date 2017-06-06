@@ -811,7 +811,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickGiverNameVisibilityCheckBox("OWN_TEAM_MEMBERS", 1);
         feedbackEditPage.clickGiverNameVisibilityCheckBox("STUDENTS", 1);
         feedbackEditPage.clickVisibilityDropdown("VISIBLE_TO_INSTRUCTORS_ONLY", 1);
-        feedbackEditPage.verifyVisibilityMessageContains(1, "The receiving student");
+        feedbackEditPage.verifyVisibilityMessageDoesNotContain(1, "The receiving student");
 
         ______TS("Failure case: ajax on clicking visibility message button");
 
