@@ -362,7 +362,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 0 Text", 1, 2, 0);
 
         // move column buttons must be visible, otherwise test fails
-        browser.driver.findElement(By.id("rubricOptionsRow-" + 1)).sendKeys(Keys.ARROW_DOWN);
+        browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_EDIT_TABLE + "-" + 1))
+                .sendKeys(Keys.ARROW_DOWN);
         // move last column to first
         assertTrue(feedbackEditPage.moveRubricColLeft(1, 5));
         assertTrue(feedbackEditPage.moveRubricColLeft(1, 3));
