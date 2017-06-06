@@ -55,7 +55,6 @@ public class FeedbackSessionsForm {
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
 
-    private ElementTag editButtonTags;
     private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
 
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
@@ -262,9 +261,4 @@ public class FeedbackSessionsForm {
     public boolean isEditFsButtonsVisible() {
         return isEditFsButtonsVisible;
     }
-
-    public ElementTag getEditButtonTags() {
-        return editButtonTags;
-    }
-
 }
