@@ -324,6 +324,7 @@ function enableNewQuestion() {
     $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
+    disableMoveColumnButtons(NEW_QUESTION);
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
