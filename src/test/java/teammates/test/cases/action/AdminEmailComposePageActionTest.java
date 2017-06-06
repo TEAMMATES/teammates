@@ -44,7 +44,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         AdminEmailComposePageAction action = getAction();
         ShowPageResult pageResult = getShowPageResult(action);
         assertEquals(
-                Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user", pageResult.getDestinationWithParams());
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, adminUserId),
+                pageResult.getDestinationWithParams());
 
         String normalLogSegment = "adminEmailComposePage Page Load";
         AssertHelper.assertContains(normalLogSegment, action.getLogMessage());
@@ -61,7 +62,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, email.emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
-                Const.ViewURIs.ADMIN_EMAIL + "?error=false&user=admin.user", pageResult.getDestinationWithParams());
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, false, "admin.user"),
+                pageResult.getDestinationWithParams());
 
         String expectedLogSegment = normalLogSegment + " : Edit Email [Admin Email 1 &lt;b&gt;bold tags&lt;&#x2f;b&gt;]";
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
@@ -76,7 +78,8 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
         pageResult = getShowPageResult(action);
         assertEquals(
-                Const.ViewURIs.ADMIN_EMAIL + "?error=true&user=admin.user", pageResult.getDestinationWithParams());
+                getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
+                pageResult.getDestinationWithParams());
 
         expectedLogSegment = normalLogSegment + " : " + Const.StatusMessages.EMAIL_NOT_FOUND;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
@@ -85,5 +88,10 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
 
         data = (AdminEmailComposePageData) pageResult.data;
         assertNull(data.emailToEdit);
+    }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
     }
 }
