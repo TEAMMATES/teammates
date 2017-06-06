@@ -2804,7 +2804,7 @@
         "RECEIVER",
         "INSTRUCTORS"
       ],
-        "showGiverNameTo": [
+      "showGiverNameTo": [
         "GIVER",
         "RECEIVER",
         "INSTRUCTORS"
