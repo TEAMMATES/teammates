@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
@@ -32,16 +31,6 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     protected Browser browser;
     protected DataBundle testData;
 
-    /**
-     * Checks if the current test-run should use godmode, if yes, enables GodMode.
-     */
-    @BeforeSuite
-    public static void checkAndEnableGodMode() {
-        if (TestProperties.IS_GODMODE_ENABLED) {
-            System.setProperty("godmode", "true");
-        }
-    }
-
     @BeforeClass
     public void baseClassSetup() throws Exception {
         prepareTestData();
@@ -64,7 +53,7 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
      */
     @AfterSuite
     public static void remindUserToDisableGodModeIfRequired() {
-        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
+        if (TestProperties.IS_GODMODE_ENABLED) {
             print("=============================================================");
             print("IMPORTANT: Remember to disable GodMode and rerun the test(s)!");
             print("=============================================================");
