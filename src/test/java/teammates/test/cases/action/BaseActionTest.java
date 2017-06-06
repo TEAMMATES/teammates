@@ -41,6 +41,8 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected abstract void testExecuteAndPostProcess() throws Exception;
 
+    protected abstract void testAccessControl() throws Exception;
+
     @BeforeClass
     public void baseClassSetup() {
         prepareTestData();
@@ -523,26 +525,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(String[] submissionParams) {
-
-        ______TS("without Give-Comment-In-Sections privilege cannot access");
-
-        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-
-        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
-    }
-
-    protected void verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(String[] submissionParams) {
-
-        ______TS("without Modify-Comment-In-Sections privilege cannot access");
-
-        InstructorAttributes helperOfCourse1 = dataBundle.instructors.get("helperOfCourse1");
-
-        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
-    }
-
     protected void verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(String[] submissionParams) {
 
         ______TS("without View-Student-In-Sections privilege cannot access");
@@ -729,6 +711,33 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected void verifyNumberOfEmailsSent(Action action, int emailCount) {
         assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
+    }
+
+    protected static void addUnregStudentToCourse1() throws Exception {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+        StudentAttributes student = new StudentAttributes();
+        student.email = "student6InCourse1@gmail.tmt";
+        student.name = "unregistered student6 In Course1";
+        student.team = "Team Unregistered";
+        student.section = "Section 3";
+        student.course = "idOfTypicalCourse1";
+        student.comments = "";
+        StudentsLogic.inst().createStudentCascade(student);
+    }
+
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
+    }
+
+    protected static String addParamToUrl(String url, String key, String value) {
+        if (key == null || key.isEmpty() || value == null || value.isEmpty()
+                || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
+            return url;
+        }
+        return url + (url.contains("?") ? "&" : "?") + key + "=" + value;
     }
 
 }

@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.helper2" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.helper2&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -143,7 +143,7 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.helper2" class="form-horizontal" method="post" role="form">
+  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.helper2" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
@@ -238,13 +238,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
-              Expand Questions
-            </a>
-          </div>
         </div>
       </div>
+    </div>
+    <div class="pull-right" style="margin-top:50px">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+        Expand All Questions
+      </a>
     </div>
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">

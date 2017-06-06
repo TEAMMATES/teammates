@@ -18,9 +18,6 @@ const instructorPrivilegeValues = [
     'canmodifysession',
     'canmodifystudent',
     'canviewstudentinsection',
-    'cangivecommentinsection',
-    'canviewcommentinsection',
-    'canmodifycommentinsection',
     'cansubmitsessioninsection',
     'canviewsessioninsection',
     'canmodifysessioncommentinsection',
@@ -205,8 +202,6 @@ function checkPrivilegesOfObserverForInstructor(instrNum) {
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifyinstructor']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifysession']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifystudent']`).prop('checked', false);
-    $(`#tunePermissionsDivForInstructor${instrNum} input[name='cangivecommentinsection']`).prop('checked', false);
-    $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifycommentinsection']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='cansubmitsessioninsection']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum
        } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
@@ -218,8 +213,6 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifyinstructor']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifysession']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifystudent']`).prop('checked', false);
-    $(`#tunePermissionsDivForInstructor${instrNum} input[name='canviewcommentinsection']`).prop('checked', false);
-    $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifycommentinsection']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum
        } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
 }
@@ -312,8 +305,6 @@ function checkPrivilegesOfObserverForModal() {
     $("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifystudent']").prop('checked', false);
-    $("#tunePermissionsDivForInstructorAll input[name='cangivecommentinsection']").prop('checked', false);
-    $("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='cansubmitsessioninsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop('checked', false);
 
@@ -327,8 +318,6 @@ function checkPrivilegesOfTutorForModal() {
     $("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifystudent']").prop('checked', false);
-    $("#tunePermissionsDivForInstructorAll input[name='canviewcommentinsection']").prop('checked', false);
-    $("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop('checked', false);
     $("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop('checked', false);
 
     $('#tunePermissionsDivForInstructorAll #instructorRoleModalLabel').html('Permissions for Tutor');
@@ -404,38 +393,6 @@ function bindChangingRole(index) {
 }
 
 function bindCheckboxToggle() {
-    $('body').on('click', 'input[name^="cangivecommentinsection"]', (e) => {
-        const target = $(e.target);
-        const permissionGroup = target.closest('div');
-        if (target.prop('checked')) {
-            permissionGroup.find('input[name^="canviewstudentinsection"]').prop('checked', true);
-        }
-    });
-
-    $('body').on('click', 'input[name^="canviewstudentinsection"]', (e) => {
-        const target = $(e.target);
-        const permissionGroup = target.closest('div');
-        if (!target.prop('checked')) {
-            permissionGroup.find('input[name^="cangivecommentinsection"]').prop('checked', false);
-        }
-    });
-
-    $('body').on('click', 'input[name^="canmodifycommentinsection"]', (e) => {
-        const target = $(e.target);
-        const permissionGroup = target.closest('div');
-        if (target.prop('checked')) {
-            permissionGroup.find('input[name^="canviewcommentinsection"]').prop('checked', true);
-        }
-    });
-
-    $('body').on('click', 'input[name^="canviewcommentinsection"]', (e) => {
-        const target = $(e.target);
-        const permissionGroup = target.closest('div');
-        if (!target.prop('checked')) {
-            permissionGroup.find('input[name^="canmodifycommentinsection"]').prop('checked', false);
-        }
-    });
-
     $('body').on('click', 'input[name^="canmodifysessioncommentinsection"]', (e) => {
         const target = $(e.target);
         const isIndividualSessionPrivilege = target.is('[name*="feedback"]');
@@ -514,6 +471,10 @@ function editFormRequest(e) {
 
 $(document).ready(() => {
     prepareInstructorPages();
+
+    $(document).on('click', '#btnShowNewInstructorForm', () => {
+        showNewInstructorForm();
+    });
 
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     for (let i = 0; i < numOfInstr; i += 1) {

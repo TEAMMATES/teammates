@@ -34,14 +34,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -88,6 +85,5 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

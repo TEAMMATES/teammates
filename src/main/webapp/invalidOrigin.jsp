@@ -16,6 +16,9 @@
                 <li>
                     Enable the HTTP referrer setting in your browser if you previously disabled it.
                 </li>
+                <li>
+                    Enable cookies in your browser.
+                </li>
             </ul>
             <br>
         </div>

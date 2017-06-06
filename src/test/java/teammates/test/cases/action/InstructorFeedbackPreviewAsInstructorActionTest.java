@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -47,10 +48,9 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         InstructorFeedbackPreviewAsInstructorAction paia = getAction(submissionParams);
         ShowPageResult showPageResult = getShowPageResult(paia);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                     + "?error=false"
-                     + "&user=" + idOfInstructor1,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor1),
+                showPageResult.getDestinationWithParams());
 
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -80,10 +80,9 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         paia = getAction(submissionParams);
         showPageResult = getShowPageResult(paia);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                     + "?error=false"
-                     + "&user=" + idOfInstructor2,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor2),
+                showPageResult.getDestinationWithParams());
 
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -143,5 +142,20 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
     @Override
     protected InstructorFeedbackPreviewAsInstructorAction getAction(String... params) {
         return (InstructorFeedbackPreviewAsInstructorAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.PREVIEWAS, instructor.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

@@ -20,7 +20,7 @@
               </span>
               Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="FContribQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FContribQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FContribQnUiT.instructor" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="FContribQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FContribQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FContribQnUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
               <span class="glyphicon glyphicon-trash">
               </span>
               Delete
@@ -752,6 +752,7 @@
       <input disabled="" name="fsname" type="hidden" value="First Session">
       <input disabled="" name="courseid" type="hidden" value="FContribQnUiT.CS2104">
       <input disabled="" name="user" type="hidden" value="FContribQnUiT.instructor">
+      <input disabled="" name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <br>
@@ -765,7 +766,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -884,13 +885,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -1049,13 +1050,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Shown anonymously to recipient and team members, visible to instructors
             </button>
@@ -1097,7 +1098,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-1" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-1" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -1197,7 +1198,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-1">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage-1">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
               <li>
@@ -1232,14 +1233,15 @@
     <input name="showgiverto" type="hidden" value="INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="FContribQnUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
   <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
-        <div class="col-sm-12 row">
-          <div class="col-sm-offset-3 col-sm-9">
+        <div class="col-sm-offset-3 col-sm-9">
+          <div class="btn-group">
             <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
               Add New Question
               <span class="caret">
@@ -1297,17 +1299,17 @@
                 </a>
               </li>
             </ul>
-            <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
-              <i class="glyphicon glyphicon-info-sign">
-              </i>
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=FContribQnUiT.instructor" data-courseid="FContribQnUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
-              Copy Question
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FContribQnUiT.instructor&courseid=FContribQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
-              Done Editing
-            </a>
           </div>
+          <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
+            <i class="glyphicon glyphicon-info-sign">
+            </i>
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=FContribQnUiT.instructor" data-courseid="FContribQnUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
+            Copy Question
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FContribQnUiT.instructor&courseid=FContribQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
+            Done Editing
+          </a>
         </div>
       </div>
     </div>
@@ -1926,13 +1928,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a feedback path
               <span class="caret">
@@ -2090,13 +2092,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a visibility option
               <span class="caret">
@@ -2140,7 +2142,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions--1" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -2240,7 +2242,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage--1">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
             </ul>
@@ -2264,6 +2266,7 @@
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="FContribQnUiT.instructor">
     <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -2286,6 +2289,7 @@
             <input name="fsname" type="hidden" value="First Session">
             <input name="user" type="hidden" value="FContribQnUiT.instructor">
             <input name="courseid" type="hidden" value="FContribQnUiT.CS2104">
+            <input name="token" type="hidden" value="${sessionToken}">
           </form>
           <div id="question-copy-modal-status">
           </div>

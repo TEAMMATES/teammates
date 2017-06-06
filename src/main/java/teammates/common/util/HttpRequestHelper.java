@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.util.Enumeration;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 public final class HttpRequestHelper {
@@ -90,6 +91,25 @@ public final class HttpRequestHelper {
             return link + "?" + query;
         }
         return link;
+    }
+
+    /**
+     * Returns the cookie value, or null if said cookie does not exist.
+     */
+    public static String getCookieValueFromRequest(HttpServletRequest req, String cookieName) {
+        Cookie[] existingCookies = req.getCookies();
+
+        if (existingCookies == null) {
+            return null;
+        }
+
+        for (Cookie cookie : existingCookies) {
+            if (cookie.getName().equals(cookieName)) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
     }
 
 }

@@ -29,12 +29,6 @@
                         Profile
                     </a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'StudentComments')}"> class="active"</c:if>>
-                    <a class="navLinks" id="studentCommentsNavLink" href="${data.studentCommentsLink}"
-                       <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
-                        Comments
-                    </a>
-                </li>
                 <li<c:if test="${fn:contains(data.class,'StudentHelp')}"> class="active"</c:if>>
                     <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank" rel="noopener noreferrer">Help</a>
                 </li>

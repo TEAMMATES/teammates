@@ -38,8 +38,8 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         InstructorFeedbackQuestionCopyPageAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
 
-        String expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL
-                         + "?error=false&user=" + instructor1OfCourse1.googleId;
+        String expectedString = getPageResultDestination(
+                Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL, false, instructor1OfCourse1.googleId);
         assertEquals(expectedString, result.getDestinationWithParams());
 
         assertTrue(result.getStatusMessage().isEmpty());
@@ -82,5 +82,11 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
     @Override
     protected InstructorFeedbackQuestionCopyPageAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
     }
 }
