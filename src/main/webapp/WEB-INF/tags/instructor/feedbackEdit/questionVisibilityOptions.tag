@@ -12,9 +12,10 @@
 <c:set var="FEEDBACK_STUDENTS"><%=FeedbackParticipantType.STUDENTS.name()%></c:set>
 <c:set var="FEEDBACK_INSTRUCTORS"><%=FeedbackParticipantType.INSTRUCTORS.name()%></c:set>
 
-<div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+<div class = "col-sm-12 margin-bottom-15px padding-15px <%= fqForm.isQuestionHasResponses() ? "alert alert-danger" : "background-color-light-green" %>">
     <div class="margin-bottom-7px">
-        <b class="visibility-title">Visibility</b> (Who can see the responses?)
+        <h4><%= fqForm.isQuestionHasResponses() ? "Changing the visibility after collecting responses is not recommended." : "" %></h4>
+        <b class=<%= fqForm.isQuestionHasResponses() ? "" : "visibility-title" %>>Visibility</b> (Who can see the responses?)
     </div>
     <div class="visibility-options-dropdown btn-group margin-bottom-10px">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -153,7 +154,7 @@
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
     <div class="visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
         This is the visibility hint as seen by the feedback giver:
-        <ul class="text-muted background-color-warning">
+        <ul class="text-muted <%= fqForm.isQuestionHasResponses() ? "" : "background-color-warning" %>">
         <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
             <li>${msg}</li>
         </c:forEach>
