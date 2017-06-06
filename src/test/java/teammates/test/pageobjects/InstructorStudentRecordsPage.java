@@ -113,8 +113,8 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         WebElement commentForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentTableIdSuffix));
-        waitForElementPresence(By.id("errorMessage"));
-        WebElement errorMessageSpan = commentForm.findElement(By.id("errorMessage"));
+        waitForElementPresence(By.xpath("//*[@id='errorMessage']"));
+        WebElement errorMessageSpan = commentForm.findElement(By.xpath("//*[@id='errorMessage']"));
         assertEquals(errorMessage, errorMessageSpan.getText());
     }
 
