@@ -87,7 +87,7 @@ public class InstructorStudentRecordsPage extends AppPage {
 
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
-        click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
+        click(commentEditForm.findElement(By.id("button_save_comment_for_edit" + commentIdSuffix)));
         waitForAjaxLoaderGifToDisappear();
     }
 
