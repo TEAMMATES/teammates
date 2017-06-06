@@ -110,10 +110,6 @@
                                                                     </td>
                                                                 </tr>
 
-
-
-
-
                                                                 <tr id="response-instructors-8-0-1">
                                                                     <td class="text-left">
                                                                         <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">

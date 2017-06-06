@@ -56,7 +56,7 @@
                                 <th>Course ID</th>
                                 <th>Feedback Session Name</th>
                             </tr>
-                        </thead>                                
+                        </thead>
                             <c:forEach items="${copyFromModal.existingFeedbackSessions}" var="session" varStatus="i">
                                 <tr style="cursor:pointer;">
                                     <td><input type="radio"></td>

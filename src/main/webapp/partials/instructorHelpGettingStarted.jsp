@@ -338,7 +338,6 @@
                             <br> Feedback recipient: giver's team members
                             <br>
 
-
                         </li>
                         <br>
                         <li>You can set the visibility options for each question:
@@ -350,9 +349,6 @@
 
                     </ul>
                     <br>
-
-
-
 
                 </div>
             </div>
