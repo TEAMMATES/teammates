@@ -43,7 +43,7 @@
             </p>
         </div>
     </div>
-        
+
     <div class="row">
         <div class="col-xs-12 col-sm-3">
             <img class="center-block img-responsive" alt="TEAMMATES - Award winning, mature, field-tested and improving all the time" src="images/award_winning.png">

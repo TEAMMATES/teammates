@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="log" type="teammates.ui.template.AdminEmailTableRow" required="true" %>
 
-
 <tr class="email-log-header">
     <td class="email-receiver">${log.receiver}</td>
     <td class="email-subject">${log.subject}</td>
@@ -16,7 +15,7 @@
             <li class="list-group-item list-group-item-info">
                 <input type="text" value="${log.sanitizedContent}" class="form-control" readonly>
             </li>
-        </ul>    
+        </ul>
     </td>
 </tr>
 

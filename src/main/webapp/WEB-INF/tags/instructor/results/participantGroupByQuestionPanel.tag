@@ -9,10 +9,9 @@
 <%@ attribute name="groupByQuestionPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel" required="true" %>
 <%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 
-
 <div class="panel ${not empty groupByQuestionPanel.questionTables ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
-        ${groupByQuestionPanel.giver? 'From:' : 'To:'} 
+        ${groupByQuestionPanel.giver? 'From:' : 'To:'}
         <c:choose>
             <c:when test="${groupByQuestionPanel.emailValid}">
                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
@@ -43,7 +42,7 @@
             <c:choose>
                 <c:when test="${not empty groupByQuestionPanel.questionTables}">
                     <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                        <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}"/>        
+                        <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}"/>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

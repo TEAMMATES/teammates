@@ -15,9 +15,9 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
     <input type="hidden" id="course-time-zone" value="${data.course.timeZone}">
-    <course:courseEditCourseInfo 
+    <course:courseEditCourseInfo
             editCourseButton="${data.editCourseButton}"
-            deleteCourseButton="${data.deleteCourseButton}" 
+            deleteCourseButton="${data.deleteCourseButton}"
             course="${data.course}" />
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
@@ -30,7 +30,7 @@
     <br>
     <br>
     <course:courseEditInstructorList instructorPanelList="${data.instructorPanelList}" />
-    <course:courseEditAddInstructorPanel 
+    <course:courseEditAddInstructorPanel
             addInstructorButton="${data.addInstructorButton}"
             courseId="${data.course.id}"
             addInstructorPanel="${data.addInstructorPanel}"
