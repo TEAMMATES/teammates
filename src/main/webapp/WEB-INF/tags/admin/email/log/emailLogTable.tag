@@ -8,22 +8,22 @@
     <div class="panel-heading">
         <strong>Email Log</strong>
     </div>
-    
-    <div class="table-responsive">  
+
+    <div class="table-responsive">
         <table class="table dataTable" id="email-logs-table">
             <thead>
                 <tr>
                     <th><strong>Receiver</strong></th>
                     <th><strong>Subject</strong></th>
-                    <th><strong>Date</strong></th>     
+                    <th><strong>Date</strong></th>
                 </tr>
             </thead>
-            
+
             <tbody>
                 <c:forEach items="${logs}" var="log">
                     <adminEmailLog:emailLogTableRow log="${log}" />
                 </c:forEach>
             </tbody>
-        </table>  
+        </table>
     </div>
 </div>

@@ -9,7 +9,7 @@
 
     <rule ref="rulesets/java/logging-java.xml">
         <!-- Not worth the added safety -->
-        <exclude name="GuardLogStatementJavaUtil"/>        
+        <exclude name="GuardLogStatementJavaUtil"/>
     </rule>
 
     <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
