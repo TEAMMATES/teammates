@@ -2784,12 +2784,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2017-06-03 9:17 PM +0530",
+      "createdAt": "2012-04-30 9:17 PM UTC",
       "commentText": {
         "value": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2017-06-03 9:17 PM +0530"
+      "lastEditedAt": "2012-04-30 9:17 PM UTC"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
@@ -2810,12 +2810,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2017-06-03 9:20 PM +0530",
+      "createdAt": "2012-04-30 9:20 PM UTC",
       "commentText": {
         "value": "<p>Completely agree, the application does look pretty.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2017-06-03 9:20 PM +0530"
+      "lastEditedAt": "2012-04-30 9:20 PM UTC"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
@@ -2836,12 +2836,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2017-06-03 9:23 PM +0530",
+      "createdAt": "2012-04-30 9:23 PM UTC",
       "commentText": {
         "value": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2017-06-03 9:23 PM +0530"
+      "lastEditedAt": "2012-04-30 9:23 PM UTC"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "courseId": "demo.course",
@@ -2862,12 +2862,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2017-06-03 9:23 PM +0530",
+      "createdAt": "2012-04-30 9:26 PM UTC",
       "commentText": {
         "value": "<p>Hoping you keep using them on future projects.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2017-06-03 9:23 PM +0530"
+      "lastEditedAt": "2012-04-30 9:26 PM UTC"
     }
   },
   "profiles": {}
