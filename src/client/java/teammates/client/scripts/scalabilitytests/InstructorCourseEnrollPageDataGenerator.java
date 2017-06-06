@@ -9,7 +9,6 @@ import org.kohsuke.randname.RandomNameGenerator;
 
 import teammates.test.driver.FileHelper;
 
-
 /**
  * Generates test data for InstructorCourseEnrollPageScaleTest.
  */

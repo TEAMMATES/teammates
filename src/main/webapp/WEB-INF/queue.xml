@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>  
+<?xml version="1.0" encoding="UTF-8"?>
 <queue-entries>
-  
+
     <queue>
         <name>admin-prepare-email-address-mode-queue</name>
         <rate>1/s</rate>
@@ -111,4 +111,4 @@
         </retry-parameters>
     </queue>
 
-</queue-entries> 
+</queue-entries>

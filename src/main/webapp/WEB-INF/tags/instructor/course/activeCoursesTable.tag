@@ -54,7 +54,7 @@
             </td>
         </tr>
     </c:forEach>
-    
+
     <c:if test="${empty activeCourses.rows}">
         <tr>
             <td></td>
