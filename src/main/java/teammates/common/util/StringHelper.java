@@ -555,7 +555,6 @@ public final class StringHelper {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 
-
     /**
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
