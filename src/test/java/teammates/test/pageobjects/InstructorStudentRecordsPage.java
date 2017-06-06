@@ -81,14 +81,20 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
-        waitForElementPresence(By.id("responseCommentRow" + commentIdSuffix));
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElements(By.tagName("a")).get(1));
-
-        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
-        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
-        click(commentEditForm.findElement(By.id("button_save_comment_for_edit" + commentIdSuffix)));
-        waitForAjaxLoaderGifToDisappear();
+        WebElement editButton = browser.driver.findElement(By.xpath("//*[@id='commentedit-1-1-1-1-GRQ']"));
+        click(editButton);
+        WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
+        WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
+        click(editCommentForm.findElement(By.id("button_save_comment_for_edit" + commentIdSuffix)));
+        if (newCommentText.isEmpty()) {
+            // empty comment: wait until the textarea is clickable again
+            waitForElementToBeClickable(editorElement);
+        } else {
+            // non-empty comment: wait until the add comment form disappears
+            waitForElementToDisappear(By.id("responseCommentEditForm" + commentIdSuffix));
+        }
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
