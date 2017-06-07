@@ -269,8 +269,28 @@ task addAppEngineSdkHomePath(dependsOn: appengineDownloadSdk) {
     }
 }
 
+task deleteIdeaFolder(type: Delete) {
+    delete '.idea'
+}
+
 task copyIntelliJProjectSettings(type: Copy) {
     group intellijSetupGroup
+    if (file('.idea').exists()) {
+        if (!file('.idea').isDirectory()) {
+            throw new GradleException('Found file with name .idea where it should be a folder.' +
+                    'Please rename or delete it otherwise setup cannot proceed.')
+        }
+
+        if (project.hasProperty('delete_previous_idea')) {
+            println 'Your previous project will be overwritten.'
+            dependsOn deleteIdeaFolder
+        } else {
+            doLast {
+                throw new GradleException('A project folder is found, you can delete it manually or ' +
+                        'call the setup again with the property -Pdelete_previous_idea')
+            }
+        }
+    }
     from '.templates/.idea'
     into '.idea'
 }
