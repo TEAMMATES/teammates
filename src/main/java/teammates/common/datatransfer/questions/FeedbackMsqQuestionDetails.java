@@ -404,7 +404,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        int numChoicesSelected = getNumberOfResponse(responses, answerFrequency);
+        int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
@@ -416,7 +416,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.MCQ_CHOICE_VALUE, entry.getKey(),
                                 Slots.COUNT, entry.getValue().toString(),
                                 Slots.PERCENTAGE,
-                                df.format(100 * divideOrReturnZero((double) entry.getValue(), numChoicesSelected))));
+                                df.format(100 * divideOrReturnZero(entry.getValue(), numChoicesSelected))));
 
         }
         //Use same template as MCQ for now, until they need to be different.
@@ -433,7 +433,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        int numChoicesSelected = getNumberOfResponse(responses, answerFrequency);
+        int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
@@ -525,7 +525,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
      * Getting number of responses.
      * @return -1 if there is no empty response else number of response.
      */
-    private int getNumberOfResponse(
+    private int getNumberOfResponses(
             List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
         boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
 
@@ -558,10 +558,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 answerStrings.remove(otherAnswer);
             }
 
-            int numEmptyChoicesSelected = getNumberOfEmptyResponseOfQuestion(answerStrings, answerFrequency);
-            if (numEmptyChoicesSelected > 0) {
+            int numNonEmptyChoicesSelected = getNumberOfNonEmptyResponsesOfQuestion(answerStrings, answerFrequency);
+            if (numNonEmptyChoicesSelected > 0) {
                 isContainsNonEmptyResponse = true;
-                numChoicesSelected += numEmptyChoicesSelected;
+                numChoicesSelected += numNonEmptyChoicesSelected;
             }
 
             // restore other answer if any
@@ -577,7 +577,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
-    private int getNumberOfEmptyResponseOfQuestion(List<String> answerStrings, Map<String, Integer> answerFrequency) {
+    private int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String, Integer> answerFrequency) {
         int numChoices = 0;
         for (String answerString : answerStrings) {
             if (answerString.isEmpty()) {
@@ -594,8 +594,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoices;
     }
 
-    private double divideOrReturnZero(double entryValue, int numChoice) {
-        return (numChoice == 0) ? 0 : entryValue / numChoice;
+    private double divideOrReturnZero(double numerator, int denominator) {
+        return (denominator == 0) ? 0 : numerator / denominator;
     }
 
 }
