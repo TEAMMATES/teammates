@@ -26,8 +26,8 @@
             &nbsp;${data.timeZoneAsString}
         </small>
         <br>
-        <a href="#" class="btn btn-info" onclick="openAllSections(${data.tableCount})">Open All</a>
-        <a href="#" class="btn btn-warning" onclick="closeAllSections(${data.tableCount})">Collapse All</a>
+        <a href="#" class="btn btn-info" id="btn-open-all-sections">Open All</a>
+        <a href="#" class="btn btn-warning" id="btn-close-all-sections">Collapse All</a>
     </h1>
     <br>
     <adminSessions:filter filter="${data.filter}"/>
