@@ -12,7 +12,7 @@
 <br>
 <c:set var="teamIndex" value="${0}"/>
 <c:forEach items="${data.sectionPanels}" var="sectionPanel" varStatus="i">
-    <results:sectionPanel isShowingAll="${isShowingAll}" sectionPanel="${sectionPanel.value}" 
+    <results:sectionPanel isShowingAll="${isShowingAll}" sectionPanel="${sectionPanel.value}"
                           sectionIndex="${i.index}" teamIndexOffset="${teamIndex}"
                           courseId="${data.courseId}" feedbackSessionName="${data.feedbackSessionName}"
                           isGroupedByQuestion="${isGroupedByQuestion}"

@@ -6,8 +6,8 @@
 <%@ attribute name="panelIndex" required="true" %>
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>
 
-<div id="tuneSectionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" data-is-originally-displayed="${sectionRow.sectionSpecial}" 
-    <c:if test="${not sectionRow.sectionSpecial}"> 
+<div id="tuneSectionPermissionsDiv${panelIndex}ForInstructor${instructorIndex}" data-is-originally-displayed="${sectionRow.sectionSpecial}"
+    <c:if test="${not sectionRow.sectionSpecial}">
         style="display: none;"
     </c:if> >
     <div class="panel panel-info">
@@ -16,20 +16,20 @@
                 <div class="col-sm-2">
                     <p><strong>But in section(s)</strong></p>
                 </div>
-                
+
                 <div class="col-sm-9">
                     <c:forEach items="${sectionRow.specialSections}" var="specialSectionSmallGroup">
                         <div class="col-sm-12">
                             <c:forEach items="${specialSectionSmallGroup}" var="specialSection">
                                 <div class="col-sm-4">
-                                    <input ${specialSection.attributesToString}> 
+                                    <input ${specialSection.attributesToString}>
                                     ${specialSection.content}
                                 </div>
                             </c:forEach>
                         </div>
                     </c:forEach>
                 </div>
-                
+
                 <div class="col-sm-1">
                     <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${instructorIndex}, ${panelIndex})" class="pull-right">
                         <span class="glyphicon glyphicon-trash"></span>
@@ -37,16 +37,16 @@
                 </div>
             </div>
             <br>
-            
+
             <div class="row">
                 <div class="col-sm-12">
                     <p><strong> the instructor can only,</strong></p>
                 </div>
             </div>
-            
+
             <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${panelIndex}set" value="${sectionRow.sectionSpecial}"/>
         </div>
-        
+
         <div class="panel-body">
             <br>
             <div class="col-sm-6 border-right-gray">
@@ -56,7 +56,7 @@
                 </c:forEach>
                 <br>
             </div>
-            
+
             <div class="col-sm-5 col-sm-offset-1">
                 <c:forEach items="${sectionRow.permissionInputGroup3}" var="checkbox">
                     <input ${checkbox.attributesToString} /> ${checkbox.content}
@@ -64,12 +64,12 @@
                 </c:forEach>
                 <br>
             </div>
-          
+
             <a ${sectionRow.toggleSessionLevelInSectionButton.attributesToString}>
                 ${sectionRow.toggleSessionLevelInSectionButton.content}
             </a>
-            
-            <course:courseEditTuneSessionPermissionsDiv 
+
+            <course:courseEditTuneSessionPermissionsDiv
                     instructorIndex="${instructorIndex}"
                     panelIndex="${panelIndex}"
                     sectionRow="${sectionRow}"

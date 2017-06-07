@@ -9,7 +9,7 @@
 <div class="well well-plain" id="courseInformationHeader">
     <div class="form form-horizontal">
         <course:courseInformation courseDetails="${courseDetails}" instructors="${instructors}" />
-        
+
         <c:if test="${courseDetails.stats.studentsTotal > 1}">
             <course:studentInformationButtons courseDetails="${courseDetails}" courseRemindButton="${courseRemindButton}"/>
         </c:if>
