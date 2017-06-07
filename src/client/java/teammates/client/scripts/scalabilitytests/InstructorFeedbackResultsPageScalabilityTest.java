@@ -7,8 +7,12 @@ import org.testng.annotations.Test;
 
 import teammates.client.scripts.util.Stopwatch;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -61,6 +65,30 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
     // verify if entities for testing already exist in datastore
     private void verifyOrPersistTestDataToDatastore() {
+        for (CourseAttributes course : testData.courses.values()) {
+            try {
+                verifyPresentInDatastore(course);
+            } catch (AssertionError e) {
+                doPutCourse(course);
+            }
+        }
+
+        for (AccountAttributes account : testData.accounts.values()) {
+            try {
+                verifyPresentInDatastore(account);
+            } catch (AssertionError e) {
+                doPutAccount(account);
+            }
+        }
+
+        for (InstructorAttributes instructor : testData.instructors.values()) {
+            try {
+                verifyPresentInDatastore(instructor);
+            } catch (AssertionError e) {
+                doPutInstructor(instructor);
+            }
+        }
+
         for (StudentAttributes student : testData.students.values()) {
             try {
                 verifyPresentInDatastore(student);
