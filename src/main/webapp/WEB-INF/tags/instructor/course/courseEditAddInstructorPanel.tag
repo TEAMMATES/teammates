@@ -17,11 +17,12 @@
     </div>
 
     <div class="panel-body fill-plain">
-        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor" 
+        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor"
                 class="form form-horizontal" id="formAddInstructor">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-            
+            <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
+
             <div id="instructorAddTable">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Name:</label>
@@ -32,7 +33,7 @@
                                 maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="8"/>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Email:</label>
                     <div class="col-sm-9"><input class="form-control" type="text"
@@ -41,7 +42,7 @@
                         maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="9"/>
                     </div>
                 </div>
-                
+
                 <div id="accessControlEditDivForInstr${addInstructorPanel.index}">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">
@@ -50,29 +51,29 @@
                             Display to students as:
                         </label>
                         <div class="col-sm-9">
-                            <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
+                            <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
                                 placeholder="E.g.Co-lecturer, Teaching Assistant"
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="col-sm-3">
                             <label class="control-label pull-right">Access-level</label>
                         </div>
-                        
+
                         <div class="col-sm-9">
-                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
-                                    value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
+                                    value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>"
                                     checked>
                             &nbsp;Co-owner: Can do everything
                             <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
                                 View Details
                             </a>
                             <br>
-                            
-                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+
+                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>" >
                             &nbsp;Manager: Can do everything except for deleting the course
@@ -80,8 +81,8 @@
                                 View Details
                             </a>
                             <br>
-                            
-                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+
+                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
                             &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.
@@ -89,8 +90,8 @@
                                 View Details
                             </a>
                             <br>
-                            
-                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+
+                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
                             &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
@@ -98,14 +99,14 @@
                                 View Details
                             </a>
                             <br>
-                            
-                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
+
+                            <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM%>">
                             &nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                         </div>
                     </div>
-                    
+
                     <div id="tunePermissionsDivForInstructor${addInstructorPanel.index}" style="display: none;">
                         <div class="form-group">
                             <div class="col-xs-12">
@@ -113,7 +114,7 @@
                                     <div class="panel-heading">
                                         <strong>In general, this instructor can</strong>
                                     </div>
-                                    
+
                                     <div class="panel-body">
                                         <c:forEach items="${addInstructorPanel.permissionInputGroup1}" var="permissionCheckbox">
                                             <div class="col-sm-3">
@@ -122,14 +123,14 @@
                                         </c:forEach>
                                         <br>
                                         <br>
-                                        
+
                                         <div class="col-sm-6 border-right-gray">
                                             <c:forEach items="${addInstructorPanel.permissionInputGroup2}" var="permissionCheckbox">
                                                 <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
                                                 <br>
                                             </c:forEach>
                                         </div>
-                                        
+
                                         <div class="col-sm-5 col-sm-offset-1">
                                             <c:forEach items="${addInstructorPanel.permissionInputGroup3}" var="permissionCheckbox">
                                                 <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
@@ -138,8 +139,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                            
+
                                 <c:forEach items="${addInstructorPanel.sectionRows}" var="sectionRow" varStatus="i">
                                     <div id="tuneSectionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" style="display: none;">
                                         <div class="panel panel-info">
@@ -148,20 +148,20 @@
                                                     <div class="col-sm-2">
                                                         <p><strong>But in section(s)</strong></p>
                                                     </div>
-                                                    
+
                                                     <div class="col-sm-9">
                                                         <c:forEach items="${sectionRow.specialSections}" var="specialSectionSmallGroup">
                                                             <div class="col-sm-12">
                                                                 <c:forEach items="${specialSectionSmallGroup}" var="specialSection">
                                                                     <div class="col-sm-4">
-                                                                        <input ${specialSection.attributesToString}> 
+                                                                        <input ${specialSection.attributesToString}>
                                                                         ${specialSection.content}
                                                                     </div>
                                                                 </c:forEach>
                                                             </div>
                                                         </c:forEach>
                                                     </div>
-                                                    
+
                                                     <div class="col-sm-1">
                                                         <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${addInstructorPanel.index}, ${i.index})" class="pull-right">
                                                             <span class="glyphicon glyphicon-trash"></span>
@@ -169,7 +169,7 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                
+
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <p><strong> the instructor can only,</strong></p>
@@ -177,7 +177,7 @@
                                                 </div>
                                                 <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}set" value="false"/>
                                             </div>
-                                            
+
                                             <div class="panel-body">
                                                 <br>
                                                 <div class="col-sm-6 border-right-gray">
@@ -187,7 +187,7 @@
                                                     </c:forEach>
                                                     <br>
                                                 </div>
-                                                
+
                                                 <div class="col-sm-5 col-sm-offset-1">
                                                     <c:forEach items="${sectionRow.permissionInputGroup3}" var="checkbox">
                                                         <input ${checkbox.attributesToString} /> ${checkbox.content}
@@ -195,11 +195,11 @@
                                                     </c:forEach>
                                                     <br>
                                                 </div>
-                                                
+
                                                 <a ${sectionRow.toggleSessionLevelInSectionButton.attributesToString}>
                                                     ${sectionRow.toggleSessionLevelInSectionButton.content}
                                                 </a>
-                                                
+
                                                 <div id="tuneSessionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" class="row" style="display: none;">
                                                     <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}sessionsset" value="false"/>
                                                     <table class="table table-striped">
@@ -217,12 +217,12 @@
                                                                     <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
                                                                 </tr>
                                                             </c:if>
-                                                            
+
                                                             <c:forEach items="${sectionRow.feedbackSessions}" var="feedbackSession">
                                                                 <tr>
                                                                     <td>${feedbackSession.feedbackSessionName}</td>
                                                                     <td class="align-center">
-                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
+                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
                                                                                 + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
                                                                     </td>
                                                                     <td class="align-center">
@@ -243,7 +243,7 @@
                                     </div>
                                 </c:forEach>
                                 <c:if test="${not empty addInstructorPanel.sectionRows}">
-                                    <a href="javascript:;" onclick="showTuneSectionPermissionsDiv(${addInstructorPanel.index}, 0)" class="small" 
+                                    <a href="javascript:;" onclick="showTuneSectionPermissionsDiv(${addInstructorPanel.index}, 0)" class="small"
                                             id="addSectionLevelForInstructor${addInstructorPanel.index}">
                                         Give different permissions for a specific section
                                     </a>
@@ -252,7 +252,7 @@
                         </div>
                      </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="align-center">
                         <input id="btnAddInstructor" type="submit" class="btn btn-primary" value="Add Instructor" tabindex="10">

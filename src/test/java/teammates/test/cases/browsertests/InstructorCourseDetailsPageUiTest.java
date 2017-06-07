@@ -49,7 +49,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     @Test
     public void allTests() throws Exception {
         testContent();
-        testCommentToWholeCourse();
         testTableSort();
         //No input validation required
         testLinks();
@@ -93,42 +92,30 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyHtmlMainContent("/instructorCourseDetailsWithoutSections.html");
     }
 
-    private void testCommentToWholeCourse() {
-        ______TS("comment to whole course: submit empty comment");
-        detailsPage.submitCommentToCourse("");
-        detailsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
-        detailsPage.clickAddCommentToCourseButton();
-
-        ______TS("comment to whole course: any comment");
-        String commentText = "this is a comment";
-        detailsPage.submitCommentToCourse(commentText);
-        detailsPage.verifyStatus(String.format(Const.StatusMessages.COMMENT_ADDED, commentText));
-    }
-
     private void testTableSort() {
         ______TS("content: sorting");
 
         //the first table is the hidden table used for comments' visibility options
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
-        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(0, 4, patternString);
         patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
-        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(0, 4, patternString);
 
         patternString = "Alice Betsy</option></td></div>'\"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByName().verifyTablePattern(0, 3, patternString);
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
-        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByName().verifyTablePattern(0, 3, patternString);
 
         patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                         + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                         + "Team 2{*}"
                         + "Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(0, 2, patternString);
         patternString = "Team 2{*}"
                         + "Team 2{*}"
                         + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                         + "Team 1</option><option value=\"dump\"></td><td>'\"";
-        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(0, 2, patternString);
     }
 
     private void testLinks() {
@@ -150,18 +137,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("link: all records");
 
         InstructorStudentRecordsPage studentAllRecordsPage = detailsPage.clickAllRecordsLink(student2.name);
-        studentAllRecordsPage.verifyIsCorrectPage(student2.email);
+        studentAllRecordsPage.verifyIsCorrectPage(student2.name);
         studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         studentAllRecordsPage = detailsPage.clickAllRecordsLink(student1.name);
-        studentAllRecordsPage.verifyIsCorrectPage(student1.email);
+        studentAllRecordsPage.verifyIsCorrectPage(student1.name.replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
         studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
-
-        ______TS("link: add comment");
-
-        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(student1.name);
-        studentCommentsPage.verifyIsCorrectPage(student1.email);
-        studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: download student list");
 
@@ -214,22 +195,22 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         // verify if sort is preserved after sending invite
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
 
-        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(0, 4, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1, 4, patternString);
+        detailsPage.verifyTablePattern(0, 4, patternString);
 
         patternString = "Alice Betsy</option></td></div>'\"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByName().verifyTablePattern(0, 3, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1, 3, patternString);
+        detailsPage.verifyTablePattern(0, 3, patternString);
 
         patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                 + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                 + "Team 2{*}"
                 + "Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(0, 2, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1, 2, patternString);
+        detailsPage.verifyTablePattern(0, 2, patternString);
     }
 
     private void testDeleteAction() throws Exception {

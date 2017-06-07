@@ -23,11 +23,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
         String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         statusToAdmin = "Show instructor feedback result page<br>"
                       + "Session Name: " + feedbackSessionName + "<br>"
@@ -39,7 +38,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
-        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
+        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
         if (selectedSection == null) {
@@ -56,7 +55,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(
                     courseId, feedbackSessionName, instructor, data, selectedSection,
-                    filterText, isMissingResponsesShown, Boolean.valueOf(showStats));
+                    isMissingResponsesShown, Boolean.valueOf(showStats));
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
@@ -216,7 +215,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection, String filterText, boolean isMissingResponsesShown,
+                                    String selectedSection, boolean isMissingResponsesShown,
                                     boolean isStatsShown)
                                     throws EntityDoesNotExistException {
         try {
@@ -225,13 +224,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        filterText, isMissingResponsesShown, isStatsShown, null)));
+                                        isMissingResponsesShown, isStatsShown, null)));
             } else {
                 data.setSessionResultsHtmlTableAsString(
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, null, filterText, isMissingResponsesShown, isStatsShown)));
+                                        selectedSection, null, isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

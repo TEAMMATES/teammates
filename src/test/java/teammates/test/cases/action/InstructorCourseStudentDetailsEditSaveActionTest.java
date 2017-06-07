@@ -9,10 +9,11 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -73,10 +74,13 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                     + "?error=" + "false&user=idOfInstructor1OfCourse1&"
-                     + "courseid=" + "idOfTypicalCourse1",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        false,
+                        "idOfInstructor1OfCourse1",
+                        "idOfTypicalCourse1"),
+                r.getDestinationWithParams());
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT, r.getStatusMessage());
@@ -119,10 +123,13 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorCourseStudentDetailsEditSaveAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
         RedirectResult rToBeTrimmed = getRedirectResult(aToBeTrimmed);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                     + "?error=" + "false&user=idOfInstructor1OfCourse1&"
-                     + "courseid=" + "idOfTypicalCourse1",
-                     rToBeTrimmed.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        false,
+                        "idOfInstructor1OfCourse1",
+                        "idOfTypicalCourse1"),
+                rToBeTrimmed.getDestinationWithParams());
 
         assertFalse(rToBeTrimmed.isError);
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
@@ -142,7 +149,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
 
         ______TS("Error case, invalid email parameter (email has too many characters)");
 
-        String invalidStudentEmail = StringHelper.generateStringOfLength(255 - "@gmail.tmt".length()) + "@gmail.tmt";
+        String invalidStudentEmail = StringHelperExtension.generateStringOfLength(255 - "@gmail.tmt".length())
+                + "@gmail.tmt";
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
         submissionParams = new String[]{
@@ -158,10 +166,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT
-                     + "?error=" + "true"
-                     + "&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                        true,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
 
         assertTrue(result.isError);
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
@@ -199,9 +209,11 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         result = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT
-                + "?error=" + "true"
-                + "&user=idOfInstructor1OfCourse1",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT,
+                        true,
+                        "idOfInstructor1OfCourse1"),
                 result.getDestinationWithParams());
 
         assertTrue(result.isError);
@@ -239,10 +251,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         a = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
-                + "?error=" + "true"
-                + "&user=" + instructorId
-                + "&courseid=" + instructor1OfCourse1.courseId,
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE,
+                        true,
+                        instructorId,
+                        instructor1OfCourse1.courseId),
                 redirectResult.getDestinationWithParams());
 
         assertTrue(redirectResult.isError);
@@ -288,6 +302,29 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     @Override
     protected InstructorCourseStudentDetailsEditSaveAction getAction(String... params) {
         return (InstructorCourseStudentDetailsEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
+        String pageDestination = parentUri;
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student3InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
 
 }

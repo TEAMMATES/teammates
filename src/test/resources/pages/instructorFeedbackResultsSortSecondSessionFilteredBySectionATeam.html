@@ -71,13 +71,12 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="Section A">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
                     Publish Results
                   </a>
                 </div>
@@ -146,7 +145,7 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
@@ -176,23 +175,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 col-md-5">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
-                Filter:
-              </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
-                <div class="input-group">
-                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
-                  <a class="input-group-addon btn btn-default">
-                    <span class="glyphicon glyphicon-search">
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+          <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
@@ -241,13 +224,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
-              Collapse Questions
-            </a>
-          </div>
         </div>
       </div>
+    </div>
+    <div class="pull-right" style="margin-top:50px">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+        Collapse All Questions
+      </a>
     </div>
     <input name="fsname" type="hidden" value="Second Session">
     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -283,7 +266,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -330,7 +312,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -706,7 +687,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1096,7 +1076,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1496,7 +1475,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1552,6 +1530,11 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
+                      <td class="button-sort-none" id="button_sorttotal" onclick="toggleSort(this);">
+                        Total Points
+                        <span class="icon-sort unsorted">
+                        </span>
+                      </td>
                       <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this);" style="width:25%;">
                         Average Points
                         <span class="icon-sort unsorted">
@@ -1570,10 +1553,16 @@
                       <td>
                         55
                       </td>
+                      <td>
+                        55
+                      </td>
                     </tr>
                     <tr>
                       <td>
                         Grades
+                      </td>
+                      <td>
+                        45
                       </td>
                       <td>
                         45
@@ -1899,7 +1888,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1953,6 +1941,11 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
+                      <td class="button-sort-none" id="button_sorttotal" onclick="toggleSort(this);" style="width:15%;">
+                        Total Points
+                        <span class="icon-sort unsorted">
+                        </span>
+                      </td>
                       <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this);" style="width:15%;">
                         Average Points
                         <span class="icon-sort unsorted">
@@ -1974,6 +1967,9 @@
                       <td>
                         110
                       </td>
+                      <td>
+                        110
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -1981,6 +1977,9 @@
                       </td>
                       <td>
                         Benny Charles
+                      </td>
+                      <td>
+                        90
                       </td>
                       <td>
                         90
@@ -2002,6 +2001,9 @@
                       <td>
                         50
                       </td>
+                      <td>
+                        50
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -2009,6 +2011,9 @@
                       </td>
                       <td>
                         Danny Engrid
+                      </td>
+                      <td>
+                        150
                       </td>
                       <td>
                         150
@@ -3001,7 +3006,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -4265,7 +4269,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -4418,7 +4421,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -4601,7 +4603,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -5056,7 +5057,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -5164,7 +5164,6 @@
         <input name="fsname" type="hidden" value="Second Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="Section A">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">

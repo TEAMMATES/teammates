@@ -4,7 +4,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -18,10 +17,9 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.test.driver.BackDoor;
 
 /**
- * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
+ * Base class for all test cases which are allowed to access the Datastore.
  */
 public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
 
@@ -55,9 +53,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
     private EntityAttributes getEntity(EntityAttributes expected) {
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
-
-        } else if (expected instanceof CommentAttributes) {
-            return getComment((CommentAttributes) expected);
 
         } else if (expected instanceof CourseAttributes) {
             return getCourse((CourseAttributes) expected);
@@ -114,14 +109,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
             equalizeIrrelevantData(expectedAccount, actualAccount);
             assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
 
-        } else if (expected instanceof CommentAttributes) {
-            CommentAttributes expectedComment = (CommentAttributes) expected;
-            CommentAttributes actualComment = (CommentAttributes) actual;
-            assertEquals(expectedComment.courseId, actualComment.courseId);
-            assertEquals(expectedComment.giverEmail, actualComment.giverEmail);
-            assertEquals(expectedComment.recipients, actualComment.recipients);
-            assertEquals(expectedComment.commentText, actualComment.commentText);
-
         } else if (expected instanceof CourseAttributes) {
             CourseAttributes expectedCourse = (CourseAttributes) expected;
             CourseAttributes actualCourse = (CourseAttributes) actual;
@@ -171,9 +158,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected AccountAttributes getAccount(AccountAttributes account) {
-        return BackDoor.getAccount(account.googleId);
-    }
+    protected abstract AccountAttributes getAccount(AccountAttributes account);
 
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
@@ -190,51 +175,35 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected CommentAttributes getComment(CommentAttributes comment) {
-        throw new UnsupportedOperationException("Method not used");
-    }
-
-    protected CourseAttributes getCourse(CourseAttributes course) {
-        return BackDoor.getCourse(course.getId());
-    }
+    protected abstract CourseAttributes getCourse(CourseAttributes course);
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
     }
 
-    protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
-    }
+    protected abstract FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq);
 
     private void equalizeIrrelevantData(FeedbackQuestionAttributes expected, FeedbackQuestionAttributes actual) {
         expected.setId(actual.getId());
     }
 
-    protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        throw new UnsupportedOperationException("Method not used");
-    }
+    protected abstract FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc);
 
-    protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
-    }
+    protected abstract FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr);
 
     private void equalizeIrrelevantData(FeedbackResponseAttributes expected, FeedbackResponseAttributes actual) {
         expected.setId(actual.getId());
     }
 
-    protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
-        return BackDoor.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
-    }
+    protected abstract FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs);
 
     private void equalizeIrrelevantData(FeedbackSessionAttributes expected, FeedbackSessionAttributes actual) {
         expected.setRespondingInstructorList(actual.getRespondingInstructorList());
         expected.setRespondingStudentList(actual.getRespondingStudentList());
     }
 
-    protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return BackDoor.getInstructorByEmail(instructor.email, instructor.courseId);
-    }
+    protected abstract InstructorAttributes getInstructor(InstructorAttributes instructor);
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
         // pretend keys match because the key is generated only before storing into database
@@ -243,9 +212,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected StudentAttributes getStudent(StudentAttributes student) {
-        return BackDoor.getStudent(student.course, student.email);
-    }
+    protected abstract StudentAttributes getStudent(StudentAttributes student);
 
     private void equalizeIrrelevantData(StudentAttributes expected, StudentAttributes actual) {
         // For these fields, we consider null and "" equivalent.
@@ -279,9 +246,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) {
-        return BackDoor.removeAndRestoreDataBundle(testData);
-    }
+    protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
@@ -295,8 +260,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    protected String doPutDocuments(DataBundle testData) {
-        return BackDoor.putDocuments(testData);
-    }
+    protected abstract String doPutDocuments(DataBundle testData);
 
 }

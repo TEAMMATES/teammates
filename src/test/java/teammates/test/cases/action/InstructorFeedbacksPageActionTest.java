@@ -40,8 +40,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         InstructorFeedbacksPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -67,7 +68,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
         assertFalse(r.isError);
@@ -96,7 +97,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
                      r.getDestinationWithParams());
         assertEquals("You have not created any courses yet, or you have no active courses. "
                      + "Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> "
@@ -114,12 +115,22 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
     }
 
     @Override
     protected InstructorFeedbacksPageAction getAction(String... params) {
         return (InstructorFeedbacksPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID,
+                dataBundle.instructors.get("instructor1OfCourse1").courseId
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

@@ -9,7 +9,6 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="numQn" required="true"%>
 
-
 <form class="form-horizontal form_question" role="form" method="post"
     action="${fqForm.action}"
     id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
@@ -40,23 +39,23 @@
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_EDIT %>"
                             onclick="enableEdit(${fqForm.questionIndex},${numQn})">
-                            Edit
+                            <span class="glyphicon glyphicon-pencil"></span> Edit
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT %>-${fqForm.questionIndex}">
-                            Save Changes
+                            <span class="glyphicon glyphicon-ok"></span> Save
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             onclick="discardChanges(${fqForm.questionIndex})"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_DISCARDCHANGES %>">
-                            Discard Changes
+                            <span class="glyphicon glyphicon-ban-circle"></span> Discard
                         </a>
                         <a class="btn btn-primary btn-xs"
                             onclick="deleteQuestion(${fqForm.questionIndex})"
                             data-toggle="tooltip" data-placement="top">
-                            Delete
+                            <span class=" glyphicon glyphicon-trash"></span> Delete
                         </a>
                     </span>
                 </div>
@@ -107,7 +106,7 @@
 
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
-            
+
             <div>
                 <span class="pull-right">
                     <input id="button_question_submit-${fqForm.questionIndex}"
@@ -128,5 +127,6 @@
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO %>" >
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO %>" >
     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
 </form>
 <br><br>

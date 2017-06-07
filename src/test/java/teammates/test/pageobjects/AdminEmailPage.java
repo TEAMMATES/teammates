@@ -1,11 +1,21 @@
 package teammates.test.pageobjects;
 
+import java.io.File;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.test.driver.TestProperties;
 
 public class AdminEmailPage extends AppPage {
+    @FindBy (id = "adminEmailGroupReceiverListUploadBox")
+    private WebElement groupReceiverListUploadBox;
+
+    @FindBy (id = "adminEmailGroupReceiverList")
+    private WebElement inputFieldForGroupList;
+
     public AdminEmailPage(Browser browser) {
         super(browser);
     }
@@ -20,6 +30,18 @@ public class AdminEmailPage extends AppPage {
         recipientBox.sendKeys(recipient);
     }
 
+    /**
+     * Makes the groupReceiverListUploadBox visible, uploads file and makes it invisible again.
+     * @param fileName to be uploaded
+     */
+    public void inputGroupRecipient(String fileName) {
+        executeScript("arguments[0].style.display = 'inline'", groupReceiverListUploadBox);
+        File file = new File(TestProperties.TEST_EMAILS_FOLDER + File.separator + fileName);
+        inputFieldForGroupList.sendKeys(file.getAbsolutePath());
+        executeScript("arguments[0].style.display = 'none'", groupReceiverListUploadBox);
+        waitForAjaxLoaderGifToDisappear();
+    }
+
     public void inputSubject(String subject) {
         WebElement subjectBox = this.getSubjectBox();
         subjectBox.sendKeys(subject);
@@ -30,6 +52,13 @@ public class AdminEmailPage extends AppPage {
         WebElement contentBox = browser.driver.findElement(By.cssSelector("body"));
         contentBox.sendKeys(content);
         browser.driver.switchTo().defaultContent();
+    }
+
+    public void inputEmailContent(String content) {
+        WebElement textEditor = browser.driver.findElement(By.id("adminEmailMainForm"));
+        WebElement editorElement = textEditor.findElement(By.name("emailcontent"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), content);
     }
 
     public void clickSendButton() {
@@ -67,8 +96,16 @@ public class AdminEmailPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public String getGroupListFileKey() {
+        return this.getGroupRecipientBox().getAttribute("value");
+    }
+
     private WebElement getRecipientBox() {
         return browser.driver.findElement(By.id("addressReceiverEmails"));
+    }
+
+    private WebElement getGroupRecipientBox() {
+        return browser.driver.findElement(By.name("adminemailgroupreceiverlistfilekey"));
     }
 
     private WebElement getSubjectBox() {
@@ -94,4 +131,5 @@ public class AdminEmailPage extends AppPage {
     private WebElement getTrashTab() {
         return browser.driver.findElement(By.cssSelector("a[href='" + Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE + "']"));
     }
+
 }

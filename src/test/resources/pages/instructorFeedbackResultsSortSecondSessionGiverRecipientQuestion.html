@@ -71,13 +71,12 @@
                   <input name="fsname" type="hidden" value="Second Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
                     Publish Results
                   </a>
                 </div>
@@ -146,7 +145,7 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
@@ -176,23 +175,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 col-md-5">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
-                Filter:
-              </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
-                <div class="input-group">
-                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
-                  <a class="input-group-addon btn btn-default">
-                    <span class="glyphicon glyphicon-search">
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+          <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
@@ -241,13 +224,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
-              Expand Sections
-            </a>
-          </div>
         </div>
       </div>
+    </div>
+    <div class="pull-right" style="margin-top:50px">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+        Expand All Sections
+      </a>
     </div>
     <input name="fsname" type="hidden" value="Second Session">
     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -523,6 +506,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -674,6 +658,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -792,6 +777,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -924,6 +910,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1055,6 +1042,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1219,6 +1207,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1373,6 +1362,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1530,6 +1520,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1684,6 +1675,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1838,6 +1830,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1976,6 +1969,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2133,6 +2127,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2271,6 +2266,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2428,6 +2424,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2602,6 +2599,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2725,6 +2723,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2880,6 +2879,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>

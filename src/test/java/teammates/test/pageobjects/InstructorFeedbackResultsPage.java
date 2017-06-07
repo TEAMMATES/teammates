@@ -24,9 +24,6 @@ import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
-    @FindBy(id = "button_sortFromName")
-    public WebElement sortTableGiverButton;
-
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
 
@@ -125,10 +122,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickIndicateMissingResponses() {
         click(indicateMissingResponsesCheckbox);
-    }
-
-    public void fillSearchBox(String s) {
-        this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
 
     public InstructorFeedbackEditPage clickEditLink() {

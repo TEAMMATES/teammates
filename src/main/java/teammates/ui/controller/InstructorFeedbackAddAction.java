@@ -59,7 +59,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account, sessionToken);
         try {
             logic.createFeedbackSession(fs);
 
@@ -95,8 +95,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         }
         // isError == true if an exception occurred above
 
-        boolean omitArchived = true;
-        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        boolean shouldOmitArchived = true;
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);

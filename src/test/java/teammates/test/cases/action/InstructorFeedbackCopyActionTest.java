@@ -75,11 +75,12 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         InstructorFeedbackCopyAction a = getAction(params);
         RedirectResult rr = getRedirectResult(a);
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=Copied+Session"
-                         + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false";
+        expectedString = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId,
+                "Copied+Session",
+                instructor1ofCourse1.googleId,
+                false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -155,7 +156,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Masquerade mode");
-        gaeSimulation.loginAsAdmin("admin.user");
+
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
 
         params = new String[]{
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Second copied feedback session",
@@ -168,11 +171,12 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = getRedirectResult(a);
 
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?courseid=" + instructor1ofCourse1.courseId
-                         + "&fsname=Second+copied+feedback+session"
-                         + "&user=" + instructor1ofCourse1.googleId
-                         + "&error=false";
+        expectedString = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                instructor1ofCourse1.courseId,
+                "Second+copied+feedback+session",
+                instructor1ofCourse1.googleId,
+                false);
         assertEquals(expectedString, rr.getDestinationWithParams());
 
         expectedString =
@@ -187,11 +191,21 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Wed Apr 29 23:59:00 UTC 2026<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
-        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
     }
 
     @Override
     protected InstructorFeedbackCopyAction getAction(String... params) {
         return (InstructorFeedbackCopyAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, String courseId, String fsname, String userId, boolean isError) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        return pageDestination;
     }
 }

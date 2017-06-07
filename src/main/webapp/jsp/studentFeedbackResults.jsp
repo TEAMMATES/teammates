@@ -15,15 +15,15 @@
             ${data.registerMessage}
         </div>
     </c:if>
-    
+
     <feedbackResults:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
-    
+
     <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">
         <feedbackResults:questionWithResponses questionWithResponses="${questionWithResponses}"/>
     </c:forEach>
-    
+
     <c:if test="${empty data.feedbackResultsQuestionsWithResponses}">
         <div class="col-sm-12" style="color: red">
             There are currently no responses for you for this feedback session.

@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Date" %>
 <%@ page import="org.joda.time.DateTimeZone" %>
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
@@ -10,7 +11,7 @@
         <table>
             <tr>
                 <td id="jodatime">
-                    <% 
+                    <%
                     long date = new Date().getTime();
                     for (String timeZone: DateTimeZone.getAvailableIDs()) {
                         int offset = DateTimeZone.forID(timeZone).getOffset(date) / 60 / 1000; %>

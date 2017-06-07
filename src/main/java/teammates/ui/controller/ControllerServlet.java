@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +15,14 @@ import com.google.apphosting.api.DeadlineExceededException;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
+import teammates.common.exception.InvalidOriginException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -46,6 +48,8 @@ public class ControllerServlet extends HttpServlet {
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         UserType userType = new GateKeeper().getCurrentUser();
+        String url = HttpRequestHelper.getRequestedUrl(req);
+        Map<String, String[]> params = HttpRequestHelper.getParameterMap(req);
 
         try {
             /* We are using the Template Method Design Pattern here.
@@ -62,6 +66,7 @@ public class ControllerServlet extends HttpServlet {
             Action c = new ActionFactory().getAction(req);
             if (c.isValidUser()) {
                 ActionResult actionResult = c.executeAndPostProcess();
+                actionResult.writeSessionTokenToCookieIfRequired(req, resp);
                 actionResult.send(req, resp);
             } else {
                 resp.sendRedirect(c.getAuthenticationRedirectUrl());
@@ -73,22 +78,32 @@ public class ControllerServlet extends HttpServlet {
             log.info(c.getLogMessage() + "|||" + timeTaken);
 
         } catch (PageNotFoundException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         } catch (EntityNotFoundException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
 
         } catch (FeedbackSessionNotVisibleException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
             resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
 
+        } catch (InvalidOriginException e) {
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
+            cleanUpStatusMessageInSession(req);
+            resp.sendRedirect(Const.ViewURIs.INVALID_ORIGIN);
+
         } catch (UnauthorizedAccessException e) {
-            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e, userType));
+            log.warning(new LogMessageGenerator()
+                                .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 

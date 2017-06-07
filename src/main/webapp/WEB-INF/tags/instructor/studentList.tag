@@ -101,7 +101,7 @@
                                 </td>
                                 <td class="no-print align-center">
                                     <c:set var="viewButtonEnabled" value="${section.allowedToViewStudentInSection}" />
-                                    <a class="btn btn-default btn-xs<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
                                            <c:when test="${not viewButtonEnabled}">
                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -118,7 +118,7 @@
                                         View
                                     </a>
                                     <c:set var="editButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="btn btn-default btn-xs<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                        <c:choose>
                                            <c:when test="${not editButtonEnabled}">
                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -136,7 +136,7 @@
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                                         <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                        <a class="course-student-remind-link btn btn-default btn-xs<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                        <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                            <c:choose>
                                                <c:when test="${not remindButtonEnabled}">
                                                   title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
@@ -153,7 +153,7 @@
                                         </a>
                                     </c:if>
                                     <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
-                                    <a class="course-student-delete-link btn btn-default btn-xs<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                                    <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
                                         data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
                                        <c:choose>
                                            <c:when test="${not deleteButtonEnabled}">
@@ -169,7 +169,7 @@
                                        data-placement="top">
                                         Delete
                                     </a>
-                                    <a class="btn btn-default btn-xs"
+                                    <a class="btn btn-default btn-xs margin-bottom-7px"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
                                        target="_blank" rel="noopener noreferrer"
@@ -177,58 +177,6 @@
                                        data-placement="top">
                                         All Records
                                     </a>
-                                    <c:set var="commentButtonEnabled" value="${section.allowedToGiveCommentInSection}" />
-                                    <div class="btn-group">
-                                        <a class="btn btn-default btn-xs cursor-default<c:if test="${not commentButtonEnabled}"> disabled mouse-hover-only</c:if>"
-                                        <c:choose>
-                                            <c:when test="${not commentButtonEnabled}">
-                                               title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                                               disabled
-                                            </c:when>
-                                            <c:otherwise>
-                                               title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
-                                               href="$javascript:;"
-                                            </c:otherwise>
-                                        </c:choose>
-                                           data-toggle="tooltip"
-                                           data-placement="top">
-                                            Add Comment
-                                        </a>
-                                        <a class="btn btn-default btn-xs dropdown-toggle<c:if test="${not commentButtonEnabled}"> disabled</c:if>"
-                                           href="javascript:;"
-                                           data-toggle="dropdown"
-                                           <c:if test="${not commentButtonEnabled}">disabled</c:if>>
-                                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                                        </a>
-                                        <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                                            <li role="presentation">
-                                                <a target="_blank" rel="noopener noreferrer"
-                                                   role="menuitem"
-                                                   tabindex="-1"
-                                                   href="${student.courseStudentDetailsLink}&addComment=student">
-                                                    Comment on student: <c:out value="${student.studentName}"/>
-                                                </a>
-                                            </li>
-                                            <li role="presentation">
-                                                <a target="_blank" rel="noopener noreferrer"
-                                                   role="menuitem"
-                                                   tabindex="-1"
-                                                   href="${student.courseStudentDetailsLink}&addComment=team">
-                                                    Comment on team: <c:out value="${team.teamName}"/>
-                                                </a>
-                                            </li>
-                                            <c:if test="${hasSection}">
-                                                <li role="presentation">
-                                                    <a target="_blank" rel="noopener noreferrer"
-                                                       role="menuitem"
-                                                       tabindex="-1"
-                                                       href="${student.courseStudentDetailsLink}&addComment=section">
-                                                        Comment on section: <c:out value="${section.sectionName}"/>
-                                                    </a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>

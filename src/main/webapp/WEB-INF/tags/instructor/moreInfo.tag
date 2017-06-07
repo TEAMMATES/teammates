@@ -14,7 +14,7 @@
             <div class="modal-body">
                 <br>
                 <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-                <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : student.moreInfo}</p>
+                <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : fn:escapeXml(student.moreInfo)}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -30,7 +30,7 @@
                     class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
                 <h5>More Info </h5>
                 <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-                <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : student.moreInfo}</p>
+                <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : fn:escapeXml(student.moreInfo)}</p>
             </div>
         </div>
     </div>

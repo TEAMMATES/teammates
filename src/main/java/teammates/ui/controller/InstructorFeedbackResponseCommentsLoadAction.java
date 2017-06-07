@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -26,13 +25,13 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(fsName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
 
         String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
-        Assumption.assertNotNull(fsIndexString);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_INDEX, fsIndexString);
         int fsIndex = 0;
         try {
             fsIndex = Integer.parseInt(fsIndexString);
@@ -47,12 +46,9 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));
 
-        int numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
-                + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsName, roster);
         InstructorFeedbackResponseCommentsLoadPageData data =
-                new InstructorFeedbackResponseCommentsLoadPageData(
-                        account, fsIndex, numberOfPendingComments, instructor, bundle);
+                new InstructorFeedbackResponseCommentsLoadPageData(account, sessionToken, fsIndex, instructor, bundle);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 
@@ -78,9 +74,9 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                     instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
-            boolean instructorHasSessionViewingPrivileges = canInstructorViewSessionInGiverSection
+            boolean hasSessionViewingPrivileges = canInstructorViewSessionInGiverSection
                                                             && canInstructorViewSessionInRecipientSection;
-            if (!instructorHasSessionViewingPrivileges) {
+            if (!hasSessionViewingPrivileges) {
                 iter.remove();
             }
         }

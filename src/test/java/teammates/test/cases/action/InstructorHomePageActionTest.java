@@ -40,8 +40,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?" + "error=false&user=instructorWithoutCourses",
-                                         r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, "instructorWithoutCourses"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
 
@@ -62,7 +63,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_ID
         };
-        gaeSimulation.loginAsAdmin("admin.user");
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
 
         //access page in masquerade mode
         String instructorWithMultipleCourses = dataBundle.accounts.get("instructor3").googleId;
@@ -77,8 +79,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
-                      r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -100,7 +103,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                               + "|||idOfInstructor3|||instr3@course1n2.tmt"
                               + "|||instructorHome Page Load<br>Total Courses: 3"
                               + "|||/page/instructorHomePage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
 
         ______TS("instructor with multiple courses, sort by course name, masquerade mode");
 
@@ -111,8 +114,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -152,8 +156,9 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/instructorHome.jsp?error=false&user=" + instructorWithMultipleCourses,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_HOME, false, instructorWithMultipleCourses),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -177,6 +182,20 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     @Override
     protected InstructorHomePageAction getAction(String... params) {
         return (InstructorHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyInstructorsCanAccess(submissionParams);
+
+        // check for persistence issue
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 
 }

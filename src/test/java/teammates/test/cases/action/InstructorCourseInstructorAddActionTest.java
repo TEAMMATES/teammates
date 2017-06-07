@@ -193,4 +193,31 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.tmt",
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+
+        // remove the newly added instructor
+        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");
+    }
+
 }

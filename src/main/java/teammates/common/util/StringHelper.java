@@ -25,10 +25,6 @@ public final class StringHelper {
         // utility class
     }
 
-    public static String generateStringOfLength(int length) {
-        return StringHelper.generateStringOfLength(length, 'a');
-    }
-
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
@@ -126,7 +122,7 @@ public final class StringHelper {
     public static String encrypt(String value) {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
@@ -146,7 +142,7 @@ public final class StringHelper {
     public static String decrypt(String message) throws InvalidParametersException {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
@@ -211,17 +207,17 @@ public final class StringHelper {
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
     public static int countWords(String s) {
         int wordCount = 0;
-        boolean word = false;
+        boolean isWord = false;
         int endOfLine = s.length() - 1;
         for (int i = 0; i < s.length(); i++) {
             // if the char is a letter, word = true.
             if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
-                word = true;
+                isWord = true;
                 // if char isn't a letter and there have been letters before,
                 // counter goes up.
-            } else if (!Character.isLetter(s.charAt(i)) && word) {
+            } else if (!Character.isLetter(s.charAt(i)) && isWord) {
                 wordCount++;
-                word = false;
+                isWord = false;
                 // last word of String; if it doesn't end with a non letter, it
                 // wouldn't count without this.
             } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
@@ -340,7 +336,7 @@ public final class StringHelper {
         return String.valueOf(charArray);
     }
 
-    private static String byteArrayToHexString(byte[] bytes) {
+    public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
             int v = b & 0xff;
@@ -352,7 +348,7 @@ public final class StringHelper {
         return sb.toString().toUpperCase();
     }
 
-    private static byte[] hexStringToByteArray(String s) {
+    public static byte[] hexStringToByteArray(String s) {
         byte[] b = new byte[s.length() / 2];
         for (int i = 0; i < b.length; i++) {
             int index = i * 2;
@@ -395,14 +391,14 @@ public final class StringHelper {
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        boolean inquote = false;
+        boolean isInQuote = false;
 
         for (char c : chars) {
             if (c == '"') {
-                inquote = !inquote;
+                isInQuote = !isInQuote;
             }
 
-            if (c == '\n' && inquote) {
+            if (c == '\n' && isInQuote) {
                 buffer.append("<br>");
             } else {
                 buffer.append(c);
@@ -559,7 +555,6 @@ public final class StringHelper {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 
-
     /**
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
@@ -575,4 +570,24 @@ public final class StringHelper {
         return result.toString();
     }
 
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    public static boolean isTextContainingAny(String text, String... strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.length == 0) {
+            return true;
+        }
+
+        for (String string : strings) {
+            if (text.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

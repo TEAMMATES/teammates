@@ -28,8 +28,8 @@ public class AdminSessionsPageData extends PageData {
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
 
-    public AdminSessionsPageData(AccountAttributes account) {
-        super(account);
+    public AdminSessionsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
 
     }
 
@@ -103,7 +103,7 @@ public class AdminSessionsPageData extends PageData {
     }
 
     @SuppressWarnings("deprecation")
-    public ArrayList<String> getHourOptionsAsHtml(Date date) {
+    public List<String> getHourOptionsAsHtml(Date date) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
@@ -114,7 +114,7 @@ public class AdminSessionsPageData extends PageData {
     }
 
     @SuppressWarnings("deprecation")
-    public ArrayList<String> getMinuteOptionsAsHtml(Date date) {
+    public List<String> getMinuteOptionsAsHtml(Date date) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
@@ -124,7 +124,7 @@ public class AdminSessionsPageData extends PageData {
         return result;
     }
 
-    public ArrayList<String> getTimeZoneOptionsAsHtml() {
+    public List<String> getTimeZoneOptionsAsHtml() {
         return getTimeZoneOptionsAsHtml(zone);
     }
 

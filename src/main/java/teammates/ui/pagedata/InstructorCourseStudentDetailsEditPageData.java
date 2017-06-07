@@ -9,15 +9,15 @@ public class InstructorCourseStudentDetailsEditPageData extends InstructorCourse
     private boolean isOpenOrPublishedEmailSentForTheCourse;
 
     public InstructorCourseStudentDetailsEditPageData(
-            AccountAttributes account, StudentAttributes student, boolean hasSection,
+            AccountAttributes account, String sessionToken, StudentAttributes student, boolean hasSection,
             boolean isOpenOrPublishedEmailSentForTheCourse) {
-        this(account, student, student.email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
+        this(account, sessionToken, student, student.email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     public InstructorCourseStudentDetailsEditPageData(
-            AccountAttributes account, StudentAttributes student, String newEmail, boolean hasSection,
+            AccountAttributes account, String sessionToken, StudentAttributes student, String newEmail, boolean hasSection,
             boolean isOpenOrPublishedEmailSentForTheCourse) {
-        super(account, student, null, false, hasSection, null);
+        super(account, sessionToken, student, null, hasSection);
         this.newEmail = newEmail;
         this.isOpenOrPublishedEmailSentForTheCourse = isOpenOrPublishedEmailSentForTheCourse;
     }

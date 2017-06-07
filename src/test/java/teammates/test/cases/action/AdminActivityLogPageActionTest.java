@@ -506,7 +506,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     private void verifyLogsIdInRange(List<ActivityLogEntry> actualLogs, int first, int last) {
         assertEquals(last - first + 1, actualLogs.size());
         for (int i = 0; i < actualLogs.size(); i++) {
-            assertEquals(String.format("id4%02d", first + i), actualLogs.get(i).getId());
+            assertEquals(String.format("id4%02d", first + i), actualLogs.get(i).getLogId());
         }
     }
 
@@ -565,6 +565,13 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     @Override
     protected AdminActivityLogPageAction getAction(String... params) {
         return (AdminActivityLogPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

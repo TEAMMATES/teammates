@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
@@ -11,7 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
@@ -26,21 +27,19 @@ import teammates.test.pageobjects.LoginPage;
  * <p>This type of test has no knowledge of the workings of the application,
  * and can only communicate via the UI or via {@link teammates.test.driver.BackDoor} to obtain/transmit data.
  */
-public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
-
-    /** Indicates if the test-run is to use GodMode. */
-    private static boolean isGodModeEnabled;
+public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     protected Browser browser;
     protected DataBundle testData;
 
     /**
-     * Checks if the current test-run should use godmode, if yes, enables GodMode.
+     * Ensure that GodMode is not enabled in CI.
      */
     @BeforeSuite
-    public static void checkAndEnableGodMode() {
-        if (isGodModeEnabled) {
-            System.setProperty("godmode", "true");
+    public void checkIfGodModeEnabledInCi() {
+        if (TestProperties.IS_GODMODE_ENABLED && TestProperties.isCiEnvironment()) {
+            fail("GodMode should only be run locally, not in a CI environment. Please revert the change "
+                    + "to the test properties template file that enabled GodMode in CI.");
         }
     }
 
@@ -59,6 +58,18 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected void releaseBrowser() {
         BrowserPool.release(browser);
+    }
+
+    /**
+     * Reminder to disable GodMode and re-run the test(s).
+     */
+    @AfterSuite
+    public static void remindUserToDisableGodModeIfRequired() {
+        if (TestProperties.IS_GODMODE_ENABLED) {
+            print("=============================================================");
+            print("IMPORTANT: Remember to disable GodMode and rerun the test(s)!");
+            print("=============================================================");
+        }
     }
 
     /**

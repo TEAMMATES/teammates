@@ -27,7 +27,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         ______TS("typical success case");
 
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
-        StudentCourseDetailsPageData pageData = new StudentCourseDetailsPageData(account);
+        StudentCourseDetailsPageData pageData = new StudentCourseDetailsPageData(account, dummySessionToken);
 
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");

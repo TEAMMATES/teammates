@@ -45,8 +45,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId),
                      redirectResult.getStatusMessage());
@@ -65,7 +66,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId),
@@ -85,8 +86,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
                      redirectResult.getStatusMessage());
@@ -105,7 +107,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
@@ -124,7 +126,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
@@ -144,8 +146,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId),
                      redirectResult.getStatusMessage());
@@ -170,14 +173,15 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
             AssertHelper.assertContains("name cannot be null or empty", e.getMessage());
         }
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseArchive|||instructorCourseArchive|||true|||"
                              + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                             + "instr1@course1.tmt|||null|||/page/instructorCourseArchive";
+                             + "instr1@course1.tmt|||Unknown|||/page/instructorCourseArchive";
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
 
     }
@@ -185,6 +189,17 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseArchiveAction getAction(String... params) {
         return (InstructorCourseArchiveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

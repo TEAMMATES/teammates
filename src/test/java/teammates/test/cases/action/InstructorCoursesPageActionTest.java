@@ -58,8 +58,9 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         InstructorCoursesPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -78,14 +79,17 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode, 0 courses");
 
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
+
         CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        gaeSimulation.loginAsAdmin("admin.user");
+
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1",
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false, "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
         assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
         assertFalse(r.isError);
@@ -101,7 +105,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 + "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
                 + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0"
                 + "|||/page/instructorCoursesPage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
     }
 
     @Override
@@ -109,4 +113,9 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         return (InstructorCoursesPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyInstructorsCanAccess(submissionParams);
+    }
 }

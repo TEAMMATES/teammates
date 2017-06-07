@@ -7,8 +7,6 @@
   <br>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <input id="show-comment-box" type="hidden" value="false">
-  <input id="comment-recipient" type="hidden" value="">
   <div class="row">
     <div class="col-xs-12">
       <div class="row" id="studentProfile">
@@ -70,10 +68,6 @@
     </div>
   </div>
   <div class="well well-plain">
-    <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" disabled="" id="button_add_comment" title="" type="button">
-      <span class="glyphicon glyphicon-comment glyphicon-primary">
-      </span>
-    </button>
     <div class="form form-horizontal" id="studentInfomationTable">
       <div class="form-group">
         <label class="col-sm-1 control-label">
@@ -81,7 +75,7 @@
         </label>
         <div class="col-sm-11" id="studentname">
           <p class="form-control-static">
-            José Gómez&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+            José Gómez
           </p>
         </div>
       </div>
@@ -91,7 +85,7 @@
         </label>
         <div class="col-sm-11" id="teamname">
           <p class="form-control-static">
-            Team 1&lt;/td&gt;&lt;/div&gt;'"
+            Team 1
           </p>
         </div>
       </div>
@@ -111,144 +105,11 @@
         </label>
         <div class="col-sm-11" id="comments">
           <p class="form-control-static">
-            This student's name is José Gómez&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+            This student's name is José Gómez
           </p>
         </div>
       </div>
     </div>
-  </div>
-  <div class="well well-plain" id="commentArea" style="display: none;">
-    <form action="/page/instructorStudentCommentAdd" method="post" name="form_commentadd">
-      <div class="form-group form-inline">
-        <label style="margin-right: 24px;">
-          Recipient:
-        </label>
-        <select class="form-control" id="comment_recipient_select">
-          <option selected="" value="PERSON">
-            José Gómez&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-          </option>
-          <option value="TEAM">
-            Team 1&lt;/td&gt;&lt;/div&gt;'"
-          </option>
-        </select>
-        <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger">
-          <span class="glyphicon glyphicon-eye-close">
-          </span>
-          Show Visibility Options
-        </a>
-      </div>
-      <p class="form-group text-muted">
-        The default visibility for your comment is private. You may change it using the visibility options above.
-      </p>
-      <div class="panel panel-default" id="visibility-options" style="display: none;">
-        <div class="panel-heading">
-          Visibility Options
-        </div>
-        <table class="table text-center" style="background: #fff;">
-          <tbody>
-            <tr>
-              <th class="text-center">
-                User/Group
-              </th>
-              <th class="text-center">
-                Can see this comment
-              </th>
-              <th class="text-center">
-                Can see comment giver's name
-              </th>
-              <th class="text-center">
-                Can see comment recipient's name
-              </th>
-            </tr>
-            <tr id="recipient-person">
-              <td class="text-left">
-                <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                  Recipient(s)
-                </div>
-              </td>
-              <td>
-                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON">
-              </td>
-              <td>
-                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON">
-              </td>
-              <td>
-                <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
-              </td>
-            </tr>
-            <tr id="recipient-team">
-              <td class="text-left">
-                <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                  Recipient's Team
-                </div>
-              </td>
-              <td>
-                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM">
-              </td>
-              <td>
-                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM">
-              </td>
-              <td>
-                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
-              </td>
-            </tr>
-            <tr id="recipient-course">
-              <td class="text-left">
-                <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                  Other students in this course
-                </div>
-              </td>
-              <td>
-                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE">
-              </td>
-              <td>
-                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE">
-              </td>
-              <td>
-                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE">
-              </td>
-            </tr>
-            <tr>
-              <td class="text-left">
-                <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                  Instructors
-                </div>
-              </td>
-              <td>
-                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR">
-              </td>
-              <td>
-                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR">
-              </td>
-              <td>
-                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div id="rich-text-toolbar-comment-container">
-      </div>
-      <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" id="commenttext" spellcheck="false" style="margin-bottom: 15px; position: relative;">
-        <p>
-          <br data-mce-bogus="1">
-        </p>
-      </div>
-      <input name="commenttext" type="hidden">
-      <div style="text-align: center;">
-        <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save">
-        <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel">
-        <input name="courseid" type="hidden" value="CCSDetailsUiT.CS2104">
-        <input name="studentemail" type="hidden" value="CCSDetailsUiT.jose.tmms@gmail.tmt">
-        <input name="recipienttype" type="hidden" value="PERSON">
-        <input name="recipients" type="hidden" value="CCSDetailsUiT.jose.tmms@gmail.tmt">
-        <input name="showcommentsto" type="hidden" value="">
-        <input name="showgiverto" type="hidden" value="">
-        <input name="showrecipientto" type="hidden" value="">
-        <input name="user" type="hidden" value="CCSDetailsUiT.Helper">
-        <input name="studentdetailspage" type="hidden" value="true">
-      </div>
-    </form>
   </div>
   <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentProfileMoreInfo" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -258,7 +119,7 @@
             ×
           </button>
           <h4 class="modal-title">
-            José Gómez&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"'s Profile - More Info
+            José Gómez's Profile - More Info
           </h4>
         </div>
         <div class="modal-body">

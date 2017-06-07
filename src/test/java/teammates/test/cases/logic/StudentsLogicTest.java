@@ -8,7 +8,6 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -33,7 +32,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -41,8 +39,9 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.CourseStudent;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link StudentsLogic}.
@@ -75,7 +74,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         testValidateSections();
         testupdateStudentCascadeWithoutDocument();
-        testKeyGeneration();
         testEnrollLinesChecking();
         testEnrollStudents();
 
@@ -312,17 +310,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testKeyGeneration() {
-
-        ______TS("key generation");
-
-        long key = 5;
-        String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
-        long reverseKey = KeyFactory.stringToKey(longKey).getId();
-        assertEquals(key, reverseKey);
-        assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
-    }
-
     private void testAdjustFeedbackResponseForEnrollments() throws Exception {
 
         // the case below will not cause the response to be deleted
@@ -417,8 +404,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         List<String> expectedInvalidInfoList = new ArrayList<String>();
 
         ______TS("enrollLines with invalid parameters");
-        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
-        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        String invalidStudentName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         String headerLine = "Team | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
@@ -499,7 +486,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
-
 
         ______TS("enrollLines with some empty fields");
 
@@ -622,9 +608,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
                 courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2),
-                TimeHelper.getHoursOffsetToCurrentTime(5), TimeHelper.getHoursOffsetToCurrentTime(1),
-                TimeHelper.getHoursOffsetToCurrentTime(6),
+                TimeHelperExtension.getHoursOffsetToCurrentTime(0), TimeHelperExtension.getHoursOffsetToCurrentTime(2),
+                TimeHelperExtension.getHoursOffsetToCurrentTime(5), TimeHelperExtension.getHoursOffsetToCurrentTime(1),
+                TimeHelperExtension.getHoursOffsetToCurrentTime(6),
                 8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
         fsLogic.createFeedbackSession(fsAttr);
 
@@ -1079,9 +1065,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyPresentInDatastore(student1InCourse1);
-
-        // verify comments made to this student are gone
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 

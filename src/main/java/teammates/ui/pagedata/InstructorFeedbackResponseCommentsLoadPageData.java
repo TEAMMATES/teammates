@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -22,15 +21,13 @@ import teammates.ui.template.InstructorFeedbackResponseComment;
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
     private InstructorAttributes instructor;
-    private int numberOfPendingComments;
     private int feedbackSessionIndex;
     private Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> questionCommentsMap;
 
-    public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account, int feedbackSessionIndex,
-            int numberOfPendingComments, InstructorAttributes currentInstructor, FeedbackSessionResultsBundle bundle) {
-        super(account);
+    public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account, String sessionToken,
+            int feedbackSessionIndex, InstructorAttributes currentInstructor, FeedbackSessionResultsBundle bundle) {
+        super(account, sessionToken);
         this.feedbackSessionIndex = feedbackSessionIndex;
-        this.numberOfPendingComments = numberOfPendingComments;
         this.instructor = currentInstructor;
         init(bundle);
     }
@@ -72,7 +69,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             String responseAnswerHtml =
                     response.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
 
-            boolean instructorAllowedToAddComment = isInstructorAllowedForSectionalPrivilege(
+            boolean isInstructorAllowedToAddComment = isInstructorAllowedForSectionalPrivilege(
                     response.giverSection, response.recipientSection, response.feedbackSessionName,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
@@ -88,7 +85,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
             responseCommentList.add(new InstructorFeedbackResponseComment(
                     giverName, recipientName, frcList, responseAnswerHtml,
-                    instructorAllowedToAddComment, feedbackResponseCommentAdd));
+                    isInstructorAllowedToAddComment, feedbackResponseCommentAdd));
         }
 
         return responseCommentList;
@@ -106,23 +103,20 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(
                     response.giverSection, response.recipientSection, response.feedbackSessionName,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            boolean allowedToEditAndDeleteComment = isInstructorGiver || isInstructorAllowedToModify;
+            boolean isAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorAllowedToModify;
 
             String showCommentToString = getResponseCommentVisibilityString(frca, question);
             String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
 
             String whoCanSeeComment = null;
             boolean isVisibilityIconShown = false;
-            boolean isNotificationIconShown = false;
             if (feedbackSession.isPublished()) {
-                boolean responseCommentPublicToRecipient = !frca.showCommentTo.isEmpty();
-                isVisibilityIconShown = responseCommentPublicToRecipient;
+                boolean isResponseCommentPublicToRecipient = !frca.showCommentTo.isEmpty();
+                isVisibilityIconShown = isResponseCommentPublicToRecipient;
 
                 if (isVisibilityIconShown) {
                     whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
                 }
-
-                isNotificationIconShown = frca.sendingState == CommentSendingState.PENDING;
             }
 
             FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
@@ -131,16 +125,13 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
             frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
 
-            if (allowedToEditAndDeleteComment) {
+            if (isAllowedToEditAndDeleteComment) {
                 frc.enableEdit();
                 frc.enableDelete();
                 frc.enableEditDeleteOnHover();
             }
             if (isVisibilityIconShown) {
                 frc.enableVisibilityIcon(whoCanSeeComment);
-            }
-            if (isNotificationIconShown) {
-                frc.enableNotificationIcon();
             }
 
             comments.add(frc);
@@ -232,10 +223,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
              + (giverEmail.equals(instructorEmail) ? "you" : "others")
              + " status_display-"
              + (isPublic ? "public" : "private");
-    }
-
-    public int getNumberOfPendingComments() {
-        return numberOfPendingComments;
     }
 
     public Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> getQuestionCommentsMap() {
