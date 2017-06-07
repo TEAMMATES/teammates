@@ -28,14 +28,14 @@
             <courseDetails:displayDetails id="<%=Const.ParamsNames.COURSE_NAME%>">
                 <jsp:attribute name="heading">Course Name:</jsp:attribute>
                 <jsp:body>
-                    <c:out value="${data.studentCourseDetailsPanel.courseName}" /> 
+                    <c:out value="${data.studentCourseDetailsPanel.courseName}" />
                 </jsp:body>
             </courseDetails:displayDetails>
 
             <%-- Instructors Names --%>
             <courseDetails:displayDetails id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>">
                 <jsp:attribute name="heading">Instructors:</jsp:attribute>
-                <jsp:body>                    
+                <jsp:body>
                     <courseDetails:displayInstructors/>
                 </jsp:body>
             </courseDetails:displayDetails>
@@ -44,7 +44,7 @@
             <courseDetails:displayDetails id="<%=Const.ParamsNames.TEAM_NAME%>">
                 <jsp:attribute name="heading">Your team:</jsp:attribute>
                 <jsp:body>
-                    <c:out value="${data.studentCourseDetailsPanel.studentTeam}" /> 
+                    <c:out value="${data.studentCourseDetailsPanel.studentTeam}" />
                 </jsp:body>
             </courseDetails:displayDetails>
 
@@ -52,7 +52,7 @@
             <courseDetails:displayDetails id="<%=Const.ParamsNames.STUDENT_NAME%>">
                 <jsp:attribute name="heading">Your name:</jsp:attribute>
                 <jsp:body>
-                    <c:out value="${data.studentCourseDetailsPanel.studentName}" /> 
+                    <c:out value="${data.studentCourseDetailsPanel.studentName}" />
                 </jsp:body>
             </courseDetails:displayDetails>
 
@@ -60,7 +60,7 @@
             <courseDetails:displayDetails id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
                 <jsp:attribute name="heading">Your e-mail:</jsp:attribute>
                 <jsp:body>
-                    ${data.studentCourseDetailsPanel.studentEmail} 
+                    ${data.studentCourseDetailsPanel.studentEmail}
                 </jsp:body>
             </courseDetails:displayDetails>
         </div>
@@ -70,7 +70,7 @@
         <courseDetails:displayDetails id="<%=Const.ParamsNames.TEAMMATES%>">
             <jsp:attribute name="heading">Your teammates:</jsp:attribute>
             <jsp:body>
-                    <courseDetails:displayTeammates />   
+                    <courseDetails:displayTeammates />
             </jsp:body>
         </courseDetails:displayDetails>
     </div>

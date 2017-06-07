@@ -10,7 +10,7 @@
         <span class="pull-right">
             <button class="btn btn-primary btn-xs" type="button"
                     onclick="adminSearchDiscloseAllInstructors()">Disclose All</button>
-                    
+
             <button class="btn btn-primary btn-xs" type="button"
                     onclick="adminSearchCollapseAllInstructors()">Collapse All</button>
         </span>
@@ -27,7 +27,7 @@
                     <th>Options</th>
                 </tr>
             </thead>
-                            
+
             <tbody>
                 <c:forEach items="${instructorResultsTable.instructorRows}" var="instructor">
                     <adminSearch:instructorRow instructor="${instructor}"/>

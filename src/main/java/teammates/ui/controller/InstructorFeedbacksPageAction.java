@@ -37,9 +37,9 @@ public class InstructorFeedbacksPageAction extends Action {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account, sessionToken);
         data.setUsingAjax(isUsingAjax != null);
 
-        boolean omitArchived = true; // TODO: implement as a request parameter
+        boolean shouldOmitArchived = true; // TODO: implement as a request parameter
         // HashMap with courseId as key and InstructorAttributes as value
-        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
 
         List<InstructorAttributes> instructorList =
                 new ArrayList<InstructorAttributes>(instructors.values());
@@ -91,7 +91,7 @@ public class InstructorFeedbacksPageAction extends Action {
     /**
      * Gets a Map with courseId as key, and InstructorAttributes as value.
      */
-    protected HashMap<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
+    protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
         for (InstructorAttributes instructor : instructors) {

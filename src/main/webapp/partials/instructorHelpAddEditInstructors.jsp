@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <h4>
     <a name="editCourse">Add/Edit instructors</a>
 </h4>
@@ -341,7 +340,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
 
                                                     <div id="tuneSectionPermissionsDiv0ForInstructor1" style="">
                                                         <div class="panel panel-info">
