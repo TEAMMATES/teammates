@@ -365,7 +365,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
             boolean isGoogleIdSame = instructor.googleId != null
                                      && instructor.googleId.equals(googleId);
-            boolean isOmittedDueToArchiveStatus = isOmitArchived && instructor.isArchived;
+            boolean isOmittedDueToArchiveStatus = isOmitArchived
+                                                  && instructor.isArchived != null
+                                                  && instructor.isArchived;
             if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
                 iter.remove();
             }
