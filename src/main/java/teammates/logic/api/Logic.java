@@ -235,17 +235,13 @@ public class Logic {
             accountsLogic.createAccount(account);
         }
 
+        // In case when roleParam is null, default values used both for role and for privileges.
+        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
         InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
                 .withRole(roleParam).withDisplayedName(displayedNameParam)
                 .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
                 .withIsArchived(isArchived)
                 .build();
-
-        // In case when roleParam is null, default values used both for role and for privileges.
-        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
-        if (privileges == null && roleParam != null) {
-            instructor.privileges = new InstructorPrivileges(roleParam);
-        }
 
         instructorsLogic.createInstructor(instructor);
     }
