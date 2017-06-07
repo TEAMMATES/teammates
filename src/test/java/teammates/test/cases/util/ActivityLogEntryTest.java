@@ -78,7 +78,7 @@ public class ActivityLogEntryTest extends BaseTestCase {
         assertEquals(20, entry.getActionTimeTaken());
         assertEquals(statusToAdmin, entry.getLogMessage());
         assertTrue(entry.isTestingData());
-        assertTrue(entry.getLogToShow());
+        assertTrue(entry.getShouldShowLog());
     }
 
     @Test

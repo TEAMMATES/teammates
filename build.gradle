@@ -1,6 +1,15 @@
 apply plugin: "eclipse"
+apply plugin: 'idea'
+
 apply plugin: "war"
+// Use a different buildDir for IntelliJ builds so they do not conflict with building with Gradle
+// Must be done before applying the appengine plugin as a discovery-docs folder
+// is added to WEB-INF which is added to the build
+if (System.properties['ide'] == 'idea') {
+    buildDir = new File(projectDir, 'buildIdea')
+}
 apply plugin: "appengine"
+
 apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
@@ -155,6 +164,18 @@ eclipse {
     }
 }
 
+idea {
+    module {
+        // Removes the source directories added by the appengine plugin
+        testSourceDirs -= sourceSets.functionalTest.allSource.srcDirs
+    }
+}
+
+// removes unused sourceSets from the appengine plugin
+// the appengine plugin also adds source directories to the IDEA plugin, which are removed from the idea block above
+sourceSets.remove(sourceSets.functionalTest)
+sourceSets.remove(sourceSets.endpointsSrc)
+
 eclipseProject {
     onlyIf {
         !(new File(".project")).exists()
@@ -215,27 +236,258 @@ task createEclipseLaunches {
     }
 }
 
-task createIntellijRunConfigs {
+String intellijSetupGroup = 'IntelliJ IDEA Setup'
+
+// IntelliJ Project Setup
+import groovy.xml.StreamingMarkupBuilder
+
+task addAppEngineSdkHomePath(dependsOn: appengineDownloadSdk) {
+    group intellijSetupGroup
     doLast {
-        def templatesToCopy = [
-                ".templates/intellijRunConfigs/All_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/All_Tests.xml",
-                ".templates/intellijRunConfigs/CI_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/CI_Tests.xml",
-                ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/Failed_Tests.xml",
-                ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
-                ".templates/intellijRunConfigs/Local_Tests.xml"
-        ]
-        templatesToCopy.findAll {
-            !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
-        }.each { filename ->
-            copy {
-                from filename
-                into ".idea/runConfigurations"
+        String moduleXmlFilePath = '.idea/modules/teammates.iml'
+        Node moduleXml = new XmlParser().parse(moduleXmlFilePath)
+        Node facetComponent = (Node) (moduleXml.component.find { it.@name == 'FacetManager' })
+        Node googleAppEngineFacet = (Node) (facetComponent.find { it.@type == 'google-app-engine' })
+        Node configuration = googleAppEngineFacet.configuration[0]
+
+        NodeList sdkHomePathList = configuration.'sdk-home-path'
+        if (sdkHomePathList.size() > 1) {
+            throw new GradleException('More than one sdk-home-path found in Google App Engine Facet')
+        } else if (sdkHomePathList.size() == 1) {
+            configuration.'sdk-home-path'[0].value = System.properties['appengine.sdk.root']
+        } else {
+            List configurationChildren = configuration.children()
+            configurationChildren.add(0, new Node(null, 'sdk-home-path', null, System.properties['appengine.sdk.root']))
+        }
+
+        new File(moduleXmlFilePath).withWriter('UTF-8') { out ->
+            out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
+            def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
+            xmlNodePrinter.preserveWhitespace = true
+            xmlNodePrinter.print(moduleXml)
+        }
+    }
+}
+
+task deleteIdeaFolder(type: Delete) {
+    delete '.idea'
+}
+
+task copyIntelliJProjectSettings(type: Copy) {
+    group intellijSetupGroup
+    if (file('.idea').exists()) {
+        if (!file('.idea').isDirectory()) {
+            throw new GradleException('Found file with name .idea where it should be a folder.' +
+                    'Please rename or delete it otherwise setup cannot proceed.')
+        }
+
+        if (project.hasProperty('delete_previous_idea')) {
+            println 'Your previous project will be overwritten.'
+            dependsOn deleteIdeaFolder
+        } else {
+            doLast {
+                throw new GradleException('A project folder is found, you can delete it manually or ' +
+                        'call the setup again with the property -Pdelete_previous_idea')
             }
         }
     }
+    from '.templates/.idea'
+    into '.idea'
+}
+
+task setupIntellijRunConfigs(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/.idea/runConfigurations'
+    into '.idea/runConfigurations'
+}
+
+task setupIntellijProject {
+    description 'Sets up an IntelliJ project'
+    group intellijSetupGroup
+
+    dependsOn copyIntelliJProjectSettings
+    finalizedBy addAppEngineSdkHomePath
+}
+
+// IntelliJ project settings setup
+static void throwUnexpectedNodeListSizeException(String taskName, String currentNode, String parentNode, int size) {
+    throw new GradleException('[' + taskName +  '] ' + currentNode + ' size in ' + parentNode +
+            ' node not expected to be' + size)
+}
+
+static Node findOrCreateExternalProjectsManagerComponent(Node xml, String parentTaskName) {
+    String componentName = 'ExternalProjectsManager'
+    Node componentNode = (Node)(xml.component.find { it.@name == componentName })
+
+    if (componentNode == null) {
+        xml.appendNode('component', [name: componentName])
+        componentNode = (Node) (xml.component.find { it.@name == componentName })
+
+        componentNode.appendNode('system', [id: 'GRADLE'])
+
+        Node systemNode = (Node)(componentNode.system[0])
+        Node stateNode = systemNode.appendNode('state')
+        Node projectsViewNode = stateNode.appendNode('projects_view')
+        Node treeStateNode = projectsViewNode.appendNode('tree_state')
+        Node pathNode = treeStateNode.appendNode('PATH')
+
+        Node firstPathElementNode = pathNode.appendNode('PATH_ELEMENT')
+        firstPathElementNode.appendNode('option', [name: 'myItemId', value: ''])
+        firstPathElementNode.appendNode('option', [name: 'myItemType', value: 'com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode'])
+
+        Node secondPathElementNode = pathNode.appendNode('PATH_ELEMENT')
+        secondPathElementNode.appendNode('option', [name: 'myItemId', value: 'teammates'])
+        secondPathElementNode.appendNode('option', [name: 'myItemType', value: 'com.intellij.openapi.externalSystem.view.ProjectNode'])
+    }
+
+    return componentNode
+}
+
+static NodeList getSystemNodeList(Node externalProjectsComponentNode, String parentTaskName) {
+    NodeList systemNodeList = externalProjectsComponentNode.system
+    if (systemNodeList.size() == 0) {
+        throw new GradleException('[' + parentTaskName + '] Cannot find system node in ExternalProjectsManager')
+    }
+
+    return systemNodeList
+}
+
+static Node findGradleSystemNode(NodeList systemNodeList, String parentTaskName) {
+    Node gradleSystemNode = (Node)(systemNodeList.find { it.@id == 'GRADLE' })
+    if (gradleSystemNode == null) {
+        throw new GradleException('[' + parentTaskName + '] Cannot find GRADLE from system node(s)')
+    }
+
+    return gradleSystemNode
+}
+
+static Node getStateNode(Node gradleSystemNode, String parentTaskName) {
+    NodeList stateNodeList = gradleSystemNode.state
+    if (stateNodeList.size() != 1) {
+        throwUnexpectedNodeListSizeException(parentTaskName, 'state', 'system', stateNodeList.size())
+    }
+    Node stateNode = (Node)(stateNodeList[0])
+
+    return stateNode
+}
+
+static NodeList getTaskPathNodeList(Node stateNode, String parentTaskName) {
+    NodeList taskPathNodeList = stateNode.task
+
+    if (taskPathNodeList.size() > 1) {
+        throwUnexpectedNodeListSizeException(parentTaskName, 'task', 'state', taskPathNodeList.size())
+    }
+
+    return taskPathNodeList
+}
+
+static Node getOrCreateTaskPathNode(NodeList taskPathNodeList, Node stateNode) {
+    if (taskPathNodeList.size() == 0) {
+        List stateNodeChildren = stateNode.children()
+        stateNodeChildren.add(0, new Node(null, 'task', [path: '$PROJECT_DIR$']))
+
+        NodeList newTaskPathNodeList = stateNode.task
+        Node taskPathNode = (Node)newTaskPathNodeList[0]
+
+        taskPathNode.appendNode('activation')
+
+        return taskPathNode
+    }
+
+    NodeList newTaskPathNodeList = taskPathNodeList
+    Node taskPathNode = (Node)newTaskPathNodeList[0]
+    return taskPathNode
+}
+
+static Node getActivationNode(Node taskPathNode, String parentTaskName) {
+    NodeList activationNodeList = taskPathNode.activation
+    if (activationNodeList.size() != 1) {
+        throwUnexpectedNodeListSizeException(parentTaskName, 'activation', 'state', activationNodeList.size())
+    }
+
+    return (Node)(activationNodeList[0])
+}
+
+static NodeList getAfterCompileNodeList(Node activationNode, String parentTaskName) {
+    NodeList afterCompileNodeList = activationNode.after_compile
+    if (afterCompileNodeList.size() > 1) {
+        throwUnexpectedNodeListSizeException(parentTaskName, 'after_compile', 'activation', afterCompileNodeList.size())
+    }
+
+    return afterCompileNodeList
+}
+
+task addIntelliJAfterBuildTask {
+    description 'Adds enhanceIntellijOutputClasses task to execute after build'
+    group intellijSetupGroup
+    doLast {
+        String workspaceXmlFilePath = '.idea/workspace.xml'
+        Node workspaceXml = new XmlParser().parse(workspaceXmlFilePath)
+
+        Node externalProjectsComponentNode = findOrCreateExternalProjectsManagerComponent(workspaceXml, name)
+        NodeList systemNodeList = getSystemNodeList(externalProjectsComponentNode, name)
+        Node gradleSystemNode = findGradleSystemNode(systemNodeList, name)
+        Node stateNode = getStateNode(gradleSystemNode, name)
+
+        // if the user somehow messed with the gradle tool window, the task path node may exist
+        // otherwise we create it
+        NodeList taskPathNodeList = getTaskPathNodeList(stateNode, name)
+        Node taskPathNode = getOrCreateTaskPathNode(taskPathNodeList, stateNode)
+
+        Node activationNode = getActivationNode(taskPathNode, name)
+
+        NodeList afterCompileNodeList = getAfterCompileNodeList(activationNode, name)
+
+        // activation node may exist but there is no after_compile node, for example if they have a after_sync node
+        String afterBuildTask = 'enhanceIntellijOutputClasses'
+        if (afterCompileNodeList.size() == 0) {
+            activationNode.appendNode('after_compile')
+            activationNode.after_compile[0].appendNode('task', [name: afterBuildTask])
+        } else {
+            Node afterCompileNode = (Node)(afterCompileNodeList[0])
+            Node taskNode = (Node)(afterCompileNode.task.find {it.@name == afterBuildTask})
+            if (taskNode == null) {
+                afterCompileNode.appendNode('task', [name: afterBuildTask])
+            }
+        }
+
+        new File(workspaceXmlFilePath).withWriter('UTF-8') { out ->
+            out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
+            def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
+            xmlNodePrinter.preserveWhitespace = true
+            xmlNodePrinter.print(workspaceXml)
+        }
+    }
+}
+
+task setupIntellijProjectSettings {
+    description 'Sets up settings in the IntelliJ project'
+    group intellijSetupGroup
+
+    dependsOn addIntelliJAfterBuildTask
+}
+
+// IntelliJ project static analysis plugins setup
+
+task copyIntelliJProjectPluginsSettings(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/ideaPlugins'
+    into '.idea'
+}
+
+task copyStylelintConfiguration(type: Copy) {
+    group intellijSetupGroup
+    from 'static-analysis/teammates-stylelint.yml'
+    into projectDir
+    rename {
+        '.stylelintrc.yml'
+    }
+}
+
+task setupIntellijStaticAnalysis {
+    description 'Sets up the static analysis plugins in the IntelliJ project'
+    dependsOn copyIntelliJProjectPluginsSettings
+    finalizedBy copyStylelintConfiguration
 }
 
 task copyDepsToWebInfLib(type: Copy) {
@@ -269,12 +521,6 @@ task setupEclipse {
     dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
 }
 
-task setupIntellij {
-    description "Sets up the IntelliJ-specific configurations for the project."
-    group "Setup"
-    dependsOn createIntellijRunConfigs
-}
-
 // RUN SERVER TASKS
 
 compileJava.options.encoding = "UTF-8"
@@ -283,7 +529,11 @@ compileTestJava.options.encoding = "UTF-8"
 appengine {
     httpPort = 8888
     downloadSdk = true
-    jvmFlags = ["-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"]
+    jvmFlags = ["-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8",
+                // absolute paths are not supported, the following is relative to the exploded war directory
+                // this only specifies the datastore path, but the indexes are still generated in
+                // WEB-INF/appengine-generated.
+                "-Ddatastore.backing_store=../../local_db.bin"]
     appcfg {
         oauth2 = true
     }
@@ -327,6 +577,20 @@ enhancerRun.dependsOn appengineDownloadSdk
 enhancerRun.dependsOn project.classes
 enhancerRun.shouldRunAfter project.testClasses
 war.dependsOn enhancerRun
+
+task copyEnhancedClassesToExplodedWar(type: Copy) {
+    description 'Copy the enhanced classes to the exploded war'
+    group intellijSetupGroup
+
+    from sourceSets.main.output.classesDir.canonicalPath + '/teammates/storage/entity'
+    into war.destinationDir.canonicalPath + '/exploded/' + war.archiveName + '/WEB-INF/classes/teammates/storage/entity'
+}
+
+task enhanceIntellijOutputClasses(dependsOn: enhancerRun) {
+    description 'Enhance IntelliJ IDEA build output classes'
+    group intellijSetupGroup
+    finalizedBy copyEnhancedClassesToExplodedWar
+}
 
 // STATIC ANALYSIS TASKS
 
