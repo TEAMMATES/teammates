@@ -939,7 +939,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     public String checkIfEqualShareHelpLinkIsNeeded(int responseIdx) {
-    	return responseIdx == 0
+        return responseIdx == 0
                 ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"
                       + " More info about the equal share scale"
                 : "";
