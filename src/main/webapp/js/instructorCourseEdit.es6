@@ -512,29 +512,21 @@ $(document).ready(() => {
     instructorSize = editLinks.length;
     $(editLinks).click(editFormRequest);
 
-    $(document).on('click', '.hide-tune-section-permissions', (e) => {
-        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
-        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
-        hideTuneSectionPermissionsDiv(instructorIndex, panelIndex);
-    });
+    const clickHandlerMap = new Map();
+    clickHandlerMap.set('.hide-tune-section-permissions', hideTuneSectionPermissionsDiv);
+    clickHandlerMap.set('.show-tune-section-permissions', showTuneSectionPermissionsDiv);
+    clickHandlerMap.set('.hide-tune-session-permissions', hideTuneSessionnPermissionsDiv);
+    clickHandlerMap.set('.show-tune-session-permissions', showTuneSessionnPermissionsDiv);
 
-    $(document).on('click', '.show-tune-section-permissions', (e) => {
-        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
-        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
-        showTuneSectionPermissionsDiv(instructorIndex, panelIndex);
-    });
-
-    $(document).on('click', '.hide-tune-session-permissions', (e) => {
-        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
-        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
-        hideTuneSessionnPermissionsDiv(instructorIndex, panelIndex);
-    });
-
-    $(document).on('click', '.show-tune-session-permissions', (e) => {
-        const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
-        const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
-        showTuneSessionnPermissionsDiv(instructorIndex, panelIndex);
-    });
+    /* eslint-disable no-restricted-syntax */
+    for (const [className, clickHandler] of clickHandlerMap) {
+        $(document).on('click', className, (e) => {
+            const instructorIndex = parseInt($(e.target).closest('a').data('instructorindex'), 10);
+            const panelIndex = parseInt($(e.target).closest('a').data('panelindex'), 10);
+            clickHandler(instructorIndex, panelIndex);
+        });
+    }
+    /* eslint-enable no-restricted-syntax */
 });
 
 /*
