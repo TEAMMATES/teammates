@@ -18,7 +18,7 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <div class="instructionImg">
-        <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" > 
+        <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" >
     </div>
     <br>
     <div class="panel panel-primary">
@@ -35,9 +35,9 @@
                         <div class="col-sm-11">
                             <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
                             <br>
-                            
+
                             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-                            
+
                             <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
                                 Enroll students
                             </button>
@@ -49,27 +49,27 @@
     </div>
 
     <br>
-        
+
     <div class="moreInfo">
         <h2> More info </h2>
         <hr style="width: 80%; margin-left: 0px;">
         <ul>
             <li><span class="moreInfoPointTitle">Sample spreadsheet</span>
                 <div class="moreInfoPointDetails">
-                    If you are not sure about the format of the spreadsheet, 
+                    If you are not sure about the format of the spreadsheet,
                     <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing">here</a> is a sample file.
                 </div>
             </li>
             <li><span class="moreInfoPointTitle">Column headings</span>
                 <div class="moreInfoPointDetails">
-                    The column order is not important. 
+                    The column order is not important.
                         Column headings are <u>not</u> case sensitive. e.g. Team, TEAM, team are all acceptable.
                 </div>
             </li>
             <li><span class="moreInfoPointTitle">Columns to include</span>
                 <div class="moreInfoPointDetails">
                     <ul>
-                        <li class="moreInfoColumnInfo"><samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID</li> 
+                        <li class="moreInfoColumnInfo"><samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID</li>
                         <li class="moreInfoColumnInfo"><samp>Team</samp> [Compulsory]: Team name/ID
                             <div class="moreInfoPointDetails">
                                 <ul>
@@ -83,7 +83,7 @@
                             <div class="moreInfoPointDetails">
                                 <ul>
                                     <li class="moreInfoEmailDetails">This need not be a Gmail address.</li>
-                                    <li class="moreInfoEmailDetails">It should be unique for each student. 
+                                    <li class="moreInfoEmailDetails">It should be unique for each student.
                                             If two students are given the same email, they will be considered the same student.</li>
                                 </ul>
                             </div>
@@ -103,7 +103,7 @@
             </li>
             <li><span class="moreInfoPointTitle">Enrolling without spreadsheets</span>
                 <div class="moreInfoPointDetails">
-                    The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
+                    The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar,
                         not to be confused with upper case i or lower case L) to separate values.
                     <br> Here is an example.
                     <br><br>
@@ -119,5 +119,5 @@
                 </div>
             </li>
         </ul>
-    </div>   
+    </div>
 </ti:instructorPage>

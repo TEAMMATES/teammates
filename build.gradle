@@ -187,49 +187,53 @@ task createConfigs {
     }
 }
 
-task createEclipseLaunches << {
-    def templatesToCopy = [
-        ".templates/eclipseLaunches/All tests.launch.xml",
-        ".templates/eclipseLaunches/All tests (GodMode).launch.xml",
-        ".templates/eclipseLaunches/CI tests.launch.xml",
-        ".templates/eclipseLaunches/CI tests (GodMode).launch.xml",
-        ".templates/eclipseLaunches/Failed tests.launch.xml",
-        ".templates/eclipseLaunches/Failed tests (GodMode).launch.xml",
-        ".templates/eclipseLaunches/Local tests.launch.xml",
-        ".templates/eclipseLaunches/Local tests (GodMode).launch.xml"
-    ]
-    templatesToCopy.findAll {
-        !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
-    }.each {
-        filename -> copy {
-            from filename
-            into ".launches"
-            rename '(.*).xml', '$1'
+task createEclipseLaunches {
+    doLast {
+        def templatesToCopy = [
+                ".templates/eclipseLaunches/All tests.launch.xml",
+                ".templates/eclipseLaunches/All tests (GodMode).launch.xml",
+                ".templates/eclipseLaunches/CI tests.launch.xml",
+                ".templates/eclipseLaunches/CI tests (GodMode).launch.xml",
+                ".templates/eclipseLaunches/Failed tests.launch.xml",
+                ".templates/eclipseLaunches/Failed tests (GodMode).launch.xml",
+                ".templates/eclipseLaunches/Local tests.launch.xml",
+                ".templates/eclipseLaunches/Local tests (GodMode).launch.xml"
+        ]
+        templatesToCopy.findAll {
+            !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
+        }.each { filename ->
+            copy {
+                from filename
+                into ".launches"
+                rename '(.*).xml', '$1'
+            }
+            filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
+            def fileContents = new File(filename).getText("UTF-8")
+            def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
+            new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
         }
-        filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
-        def fileContents = new File(filename).getText("UTF-8")
-        def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
-        new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
     }
 }
 
-task createIntellijRunConfigs << {
-    def templatesToCopy = [
-        ".templates/intellijRunConfigs/All_Tests__Godmode_.xml",
-        ".templates/intellijRunConfigs/All_Tests.xml",
-        ".templates/intellijRunConfigs/CI_Tests__Godmode_.xml",
-        ".templates/intellijRunConfigs/CI_Tests.xml",
-        ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
-        ".templates/intellijRunConfigs/Failed_Tests.xml",
-        ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
-        ".templates/intellijRunConfigs/Local_Tests.xml"
-    ]
-    templatesToCopy.findAll {
-        !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
-    }.each {
-        filename -> copy {
-            from filename
-            into ".idea/runConfigurations"
+task createIntellijRunConfigs {
+    doLast {
+        def templatesToCopy = [
+                ".templates/intellijRunConfigs/All_Tests__Godmode_.xml",
+                ".templates/intellijRunConfigs/All_Tests.xml",
+                ".templates/intellijRunConfigs/CI_Tests__Godmode_.xml",
+                ".templates/intellijRunConfigs/CI_Tests.xml",
+                ".templates/intellijRunConfigs/Failed_Tests__Godmode_.xml",
+                ".templates/intellijRunConfigs/Failed_Tests.xml",
+                ".templates/intellijRunConfigs/Local_Tests__Godmode_.xml",
+                ".templates/intellijRunConfigs/Local_Tests.xml"
+        ]
+        templatesToCopy.findAll {
+            !(new File(it.replace(".templates/intellijRunConfigs", ".idea/runConfigurations"))).exists()
+        }.each { filename ->
+            copy {
+                from filename
+                into ".idea/runConfigurations"
+            }
         }
     }
 }
@@ -253,8 +257,10 @@ task resetEclipseDeps {
     finalizedBy eclipseClasspath, copyDepsToWebInfLib
 }
 
-task printUserHomeDir << {
-    println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
+task printUserHomeDir {
+    doLast {
+        println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
+    }
 }
 
 task setupEclipse {
@@ -300,18 +306,20 @@ task removeDuplicateLibs(type: Delete) {
 
 appengineExplodeApp.finalizedBy removeDuplicateLibs
 
-task enhancerRun << {
-    def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
-    ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
-    ant.enhance(failonerror: true, verbose: true) {
-        classpath {
-            pathelement(path: path)
-            pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
-            pathelement(path: project.configurations.enhancer.asPath)
+task enhancerRun {
+    doLast {
+        def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
+        ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
+        ant.enhance(failonerror: true, verbose: true) {
+            classpath {
+                pathelement(path: path)
+                pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
+                pathelement(path: project.configurations.enhancer.asPath)
+            }
+            fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
+            arg(value: "-enhancerVersion"); arg(value: "v1")
+            arg(value: "-api"); arg(value: "JPA")
         }
-        fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
-        arg(value: "-enhancerVersion"); arg(value: "v1")
-        arg(value: "-api"); arg(value: "JPA")
     }
 }
 
@@ -366,13 +374,15 @@ task lintTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
-task macker << {
-    logging.setLevel(LogLevel.INFO)
-    ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
-    ant.macker(failonerror: true, verbose: false) {
-        rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
-        classes(dir: "${buildDir}/classes") {
-            include(name: "**/*.class")
+task macker {
+    doLast {
+        logging.setLevel(LogLevel.INFO)
+        ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
+        ant.macker(failonerror: true, verbose: false) {
+            rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
+            classes(dir: "${buildDir}/classes") {
+                include(name: "**/*.class")
+            }
         }
     }
 }
@@ -431,8 +441,10 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
+import org.gradle.internal.serialize.PlaceholderException
+
 def checkConfigFailureClosure = { descriptor, result ->
-    if (result.exception instanceof org.gradle.messaging.remote.internal.PlaceholderException
+    if (result.exception instanceof PlaceholderException
             && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
         throw new GradleException('Detected TestNG configuration failure - check src/test/testng-ci.xml')
     }
@@ -573,9 +585,11 @@ task generateFailedCmd(type: Exec) {
     }
 }
 
-task cleanTestOutputDir << {
-    def testOutputDir = new File("test-output")
-    testOutputDir.deleteDir()
+task cleanTestOutputDir {
+    doLast {
+        def testOutputDir = new File("test-output")
+        testOutputDir.deleteDir()
+    }
 }
 
 task downloadFailedXml {

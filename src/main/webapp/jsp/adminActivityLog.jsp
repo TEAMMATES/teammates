@@ -13,7 +13,7 @@
 
 <ta:adminPage bodyTitle="Admin Activity Log" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
     <activity:filterPanel excludedLogRequestURIs="${data.excludedLogRequestUris}" actionListAsHtml="${data.actionListAsHtml}"
-                            ifShowAll="${data.ifShowAll}" ifShowTestData="${data.ifShowTestData}" filterQuery="${data.filterQuery}" 
+                            shouldShowAllLogs="${data.shouldShowAllLogs}" shouldShowTestData="${data.shouldShowTestData}" filterQuery="${data.filterQuery}"
                             queryKeywordsForInfo="${data.queryKeywordsForInfo}"/>
 
     <c:if test="${not empty data.queryMessage}">
@@ -26,15 +26,15 @@
     <br> <br>
 
     <activity:activityLogTable logs="${data.logs}" />
-    
+
     <t:statusMessage doNotFocusToStatus="${true}" statusMessagesToUser="${data.statusMessagesToUser}" />
 
     <br>
 
-    <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
-    
+    <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a>
+
     <a href="#" class="back-to-top-right">Top&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
-    
+
     <br> <br>
 
 </ta:adminPage>

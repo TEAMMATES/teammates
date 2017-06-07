@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
@@ -47,10 +48,9 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         InstructorFeedbackPreviewAsStudentAction paia = getAction(submissionParams);
         ShowPageResult showPageResult = getShowPageResult(paia);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
-                     + "?error=false"
-                     + "&user=" + idOfInstructor,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
         AssertHelper.assertLogMessageEquals(
@@ -108,5 +108,20 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
     @Override
     protected InstructorFeedbackPreviewAsStudentAction getAction(String... params) {
         return (InstructorFeedbackPreviewAsStudentAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.PREVIEWAS, student.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

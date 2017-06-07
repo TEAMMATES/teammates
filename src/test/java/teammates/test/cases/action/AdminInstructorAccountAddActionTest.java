@@ -21,11 +21,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         return Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
     }
 
-    @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
     @Test
     public void testGenerateNextDemoCourseId() throws Exception {
         testGenerateNextDemoCourseIdForLengthLimit(40);
@@ -184,6 +179,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String emailAbbreviation = splitedEmail[1].substring(0, 3);
         return head + "." + emailAbbreviation
                 + "-demo";
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }
