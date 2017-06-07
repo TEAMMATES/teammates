@@ -47,7 +47,7 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorName = "";
         data.instructorEmail = "";
         data.instructorInstitution = "";
-        data.instructorAddingResultForAjax = true;
+        data.isInstructorAddingResultForAjax = true;
         data.statusForAjax = "";
 
         // If there is input from the instructorDetailsSingleLine form,
@@ -67,7 +67,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 data.instructorInstitution = instructorInfo[2];
             } catch (InvalidParametersException e) {
                 data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
-                data.instructorAddingResultForAjax = false;
+                data.isInstructorAddingResultForAjax = false;
                 statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
                 return createAjaxResult(data);
             }
@@ -83,7 +83,7 @@ public class AdminInstructorAccountAddAction extends Action {
                                               data.instructorInstitution, data.instructorEmail);
         } catch (InvalidParametersException e) {
             data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
-            data.instructorAddingResultForAjax = false;
+            data.isInstructorAddingResultForAjax = false;
             statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
             return createAjaxResult(data);
         }
@@ -114,7 +114,7 @@ public class AdminInstructorAccountAddAction extends Action {
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
 
-            data.instructorAddingResultForAjax = false;
+            data.isInstructorAddingResultForAjax = false;
             data.statusForAjax = errorMessage.toString();
             return createAjaxResult(data);
         }
