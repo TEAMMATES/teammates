@@ -42,14 +42,14 @@ public class AdminActivityLogPageData extends PageData {
      * logs despite any action or change in the page unless the page is reloaded with "?all=false"
      * or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowAll;
+    private boolean shouldShowAllLogs;
 
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowTestData;
+    private boolean shouldShowTestData;
 
     private String statusForAjax;
     private QueryParameters q;
@@ -87,20 +87,20 @@ public class AdminActivityLogPageData extends PageData {
         }
     }
 
-    public void setIfShowAll(boolean val) {
-        ifShowAll = val;
+    public void setShowAllLogs(boolean val) {
+        shouldShowAllLogs = val;
     }
 
-    public void setIfShowTestData(boolean val) {
-        ifShowTestData = val;
+    public void setShowTestData(boolean val) {
+        shouldShowTestData = val;
     }
 
-    public boolean getIfShowAll() {
-        return ifShowAll;
+    public boolean getShouldShowAllLogs() {
+        return shouldShowAllLogs;
     }
 
-    public boolean getIfShowTestData() {
-        return ifShowTestData;
+    public boolean getShouldShowTestData() {
+        return shouldShowTestData;
     }
 
     public String getFilterQuery() {
@@ -165,7 +165,7 @@ public class AdminActivityLogPageData extends PageData {
      * Returns true if the current log entry should be included.
      */
     private boolean shouldIncludeLogEntry(ActivityLogEntry logEntry) {
-        if (ifShowAll) {
+        if (shouldShowAllLogs) {
             return true;
         }
 

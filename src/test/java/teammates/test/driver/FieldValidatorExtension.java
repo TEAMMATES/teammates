@@ -13,7 +13,6 @@ public final class FieldValidatorExtension {
         // utility class
     }
 
-
     /**
      * Checks if the given string is a non-null non-empty string no longer than
      * the specified length {@code maxLength}.

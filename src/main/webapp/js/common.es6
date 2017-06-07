@@ -1038,7 +1038,6 @@ function toggleSingleCollapse(e) {
     }
 }
 
-
 // Toggle the visibility of additional question information for the specified question.
 function toggleAdditionalQuestionInfo(identifier) {
     const $questionButton = $(`#questionAdditionalInfoButton-${identifier}`);

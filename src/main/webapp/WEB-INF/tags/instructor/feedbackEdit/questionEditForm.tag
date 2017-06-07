@@ -9,7 +9,6 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="numQn" required="true"%>
 
-
 <form class="form-horizontal form_question" role="form" method="post"
     action="${fqForm.action}"
     id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
@@ -107,7 +106,7 @@
 
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
-            
+
             <div>
                 <span class="pull-right">
                     <input id="button_question_submit-${fqForm.questionIndex}"
