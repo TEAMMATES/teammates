@@ -249,7 +249,7 @@ function removeDataToBeTransported() {
 const seeMoreRequest = function (e) {
     const panelHeading = $(this);
     const panelCollapse = $(this).parent().children('.panel-collapse');
-    const toggleCheveron = $(this).parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    const toggleChevron = $(this).parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
     const panelBody = $(panelCollapse[0]).children('.panel-body');
     const displayIcon = $(this).children('.display-icon');
     const courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
@@ -326,9 +326,9 @@ const seeMoreRequest = function (e) {
     }
 
     if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
-        $(toggleCheveron).addClass('glyphicon-chevron-down').removeClass(' glyphicon-chevron-up');
+        $(toggleCheveron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
     } else {
-        $(toggleCheveron).addClass('glyphicon-chevron-up').removeClass(' glyphicon-chevron-down');
+        $(toggleCheveron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
     }
 };
 
