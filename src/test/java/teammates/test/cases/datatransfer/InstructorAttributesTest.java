@@ -59,31 +59,42 @@ public class InstructorAttributesTest extends BaseTestCase {
                 .build();
 
         assertFalse(instructorNew.isDisplayedToStudents);
+    }
 
-        Instructor entity = instructor2.toEntity();
-        InstructorAttributes instructor3 = InstructorAttributes.valueOf(entity);
+    @Test
+    public void testValueOf() {
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
+                .withDisplayedName(InstructorAttributes.DEFAULT_DISPLAY_NAME)
+                .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                .withPrivileges(privileges)
+                .build();
+        Instructor entity = instructor.toEntity();
+        InstructorAttributes instructor1 = InstructorAttributes.valueOf(entity);
 
-        assertEquals(instructor2.googleId, instructor3.googleId);
-        assertEquals(instructor2.courseId, instructor3.courseId);
-        assertEquals(instructor2.name, instructor3.name);
-        assertEquals(instructor2.email, instructor3.email);
-        assertEquals(instructor2.role, instructor3.role);
-        assertEquals(instructor2.displayedName, instructor3.displayedName);
-        assertEquals(instructor2.privileges, instructor3.privileges);
+        assertEquals(instructor.googleId, instructor1.googleId);
+        assertEquals(instructor.courseId, instructor1.courseId);
+        assertEquals(instructor.name, instructor1.name);
+        assertEquals(instructor.email, instructor1.email);
+        assertEquals(instructor.role, instructor1.role);
+        assertEquals(instructor.displayedName, instructor1.displayedName);
+        assertEquals(instructor.privileges, instructor1.privileges);
 
         entity.setRole(null);
         entity.setDisplayedName(null);
         entity.setInstructorPrivilegeAsText(null);
-        InstructorAttributes instructor4 = InstructorAttributes.valueOf(entity);
 
-        assertEquals(instructor2.googleId, instructor4.googleId);
-        assertEquals(instructor2.courseId, instructor4.courseId);
-        assertEquals(instructor2.name, instructor4.name);
-        assertEquals(instructor2.email, instructor4.email);
+        InstructorAttributes instructor2 = InstructorAttributes.valueOf(entity);
+        assertEquals(instructor.googleId, instructor2.googleId);
+        assertEquals(instructor.courseId, instructor2.courseId);
+        assertEquals(instructor.name, instructor2.name);
+        assertEquals(instructor.email, instructor2.email);
         // default values for these
-        assertEquals(instructor2.role, instructor4.role);
-        assertEquals(instructor2.displayedName, instructor4.displayedName);
-        assertEquals(instructor2.privileges, instructor4.privileges);
+        assertEquals(instructor.role, instructor2.role);
+        assertEquals(instructor.displayedName, instructor2.displayedName);
+        assertEquals(instructor.privileges, instructor2.privileges);
     }
 
     @Test
