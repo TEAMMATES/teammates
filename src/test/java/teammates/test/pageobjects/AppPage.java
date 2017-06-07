@@ -863,8 +863,7 @@ public abstract class AppPage {
     }
 
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
-        return Boolean.parseBoolean(System.getProperty("godmode"))
-                && regenerateHtmlFile(filePath, content, isPart);
+        return TestProperties.IS_GODMODE_ENABLED && regenerateHtmlFile(filePath, content, isPart);
     }
 
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
