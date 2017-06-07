@@ -371,6 +371,60 @@ function registerResponseCommentsEvent() {
             showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex);
         }
     });
+
+    $(document).on('click', '.hide-frc-add-form', (e) => {
+        const ev = $(e.target);
+        const recipientIndex = ev.data('recipientindex');
+        const giverIndex = ev.data('giverindex');
+        const qnIndex = ev.data('qnindex');
+        if (ev.data('sectionindex') !== undefined) {
+            const sectionIndex = ev.data('sectionindex');
+            hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex);
+        } else {
+            hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex);
+        }
+    });
+
+    $(document).on('click', '.hide-frc-edit-form', (e) => {
+        const ev = $(e.target);
+        const recipientIndex = ev.data('recipientindex');
+        const giverIndex = ev.data('giverindex');
+        const qnIndex = ev.data('qnindex');
+        const frcIndex = ev.data('frcindex');
+        if (ev.data('sectionindex') !== undefined) {
+            const sectionIndex = ev.data('sectionindex');
+            hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex, sectionIndex);
+        } else {
+            hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex);
+        }
+    });
+
+    $(document).on('click', '.toggle-visib-add-form', (e) => {
+        const ev = $(e.target).closest('a');
+        const sessionIndex = ev.data('sessionindex');
+        const qnIndex = ev.data('qnindex');
+        const responseIndex = ev.data('responseindex');
+        if (ev.data('sectionindex') !== undefined) {
+            const sectionIndex = ev.data('sectionindex');
+            toggleVisibilityAddForm(sessionIndex, qnIndex, responseIndex, sectionIndex);
+        } else {
+            toggleVisibilityAddForm(sessionIndex, qnIndex, responseIndex);
+        }
+    });
+
+    $(document).on('click', '.toggle-visib-edit-form', (e) => {
+        const ev = $(e.target).closest('a');
+        const sessionIndex = ev.data('sessionindex');
+        const qnIndex = ev.data('qnindex');
+        const responseIndex = ev.data('responseindex');
+        const frcIndex = ev.data('frcindex');
+        if (ev.data('sectionindex') !== undefined) {
+            const sectionIndex = ev.data('sectionindex');
+            toggleVisibilityEditForm(sessionIndex, qnIndex, responseIndex, frcIndex, sectionIndex);
+        } else {
+            toggleVisibilityEditForm(sessionIndex, qnIndex, responseIndex, frcIndex);
+        }
+    });
 }
 
 function registerResponseCommentCheckboxEvent() {
@@ -436,15 +490,8 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     $(`#responseCommentAddForm${id}`).focus();
 }
 
-function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, opts) {
-    let id;
-    const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
-
-    if (isIncludeSection) {
-        id = `-${opts.sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndx}`;
-    } else {
-        id = `-${recipientIndex}-${giverIndex}-${qnIndx}`;
-    }
+function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
+    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
         $(`#responseCommentTable${id}`).css('margin-top', '0');
@@ -477,21 +524,8 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     }
 }
 
-function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, opts) {
-    let id;
-    const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
-
-    if (questionIdx || responseIdx) {
-        if (isIncludeSection) {
-            id = `-${opts.sectionIndex}-${sessionIdx}-${questionIdx}-${responseIdx}`;
-        } else {
-            id = `-${sessionIdx}-${questionIdx}-${responseIdx}`;
-        }
-    } else if (isIncludeSection) {
-        id = `-${opts.sectionIndex}-${sessionIdx}`;
-    } else {
-        id = `-${sessionIdx}`;
-    }
+function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionIdx) {
+    const id = `${sectionIdx !== undefined ? `-${sectionIdx}` : ''}-${sessionIdx}-${questionIdx}-${responseIdx}`;
 
     const visibilityEditForm = $(`#visibility-options${id}`);
     if (visibilityEditForm.is(':visible')) {
@@ -505,27 +539,9 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, opts) {
     }
 }
 
-function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex, opts) {
-    let id;
-    const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
-
-    if (questionIdx || responseIdx || commentIndex) {
-        if (commentIndex) {
-            if (isIncludeSection) {
-                id = `-${opts.sectionIndex}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIndex}`;
-            } else {
-                id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIndex}`;
-            }
-        } else if (isIncludeSection) {
-            id = `-${opts.sectionIndex}-${sessionIdx}-${questionIdx}-${responseIdx}`;
-        } else {
-            id = `-${sessionIdx}-${questionIdx}-${responseIdx}`;
-        }
-    } else if (isIncludeSection) {
-        id = `-${opts.sectionIndex}-${sessionIdx}`;
-    } else {
-        id = `-${sessionIdx}`;
-    }
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIdx, sectionIdx) {
+    const id = `${sectionIdx !== undefined ? `-${sectionIdx}` : ''
+            }-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
 
     const visibilityEditForm = $(`#visibility-options${id}`);
     if (visibilityEditForm.is(':visible')) {
@@ -539,21 +555,9 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
     }
 }
 
-function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, opts) {
-    let id;
-    const isIncludeSection = opts && typeof opts.sectionIndex !== 'undefined';
-
-    if (giverIndex || qnIndex || commentIndex) {
-        if (isIncludeSection) {
-            id = `-${opts.sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-        } else {
-            id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-        }
-    } else if (isIncludeSection) {
-        id = `-${opts.sectionIndex}-${recipientIndex}`;
-    } else {
-        id = `-${recipientIndex}`;
-    }
+function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex) {
+    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''
+            }-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
 
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.show();

@@ -13,15 +13,12 @@
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
-        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}, { sectionIndex: ${fourthIndex} }" />
     </c:when>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
-        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}" />
     </c:when>
     <c:otherwise>
         <c:set var="divId" value="${frc.commentId}" />
-        <c:set var="divIdAsJsParams" value="" />
     </c:otherwise>
 </c:choose>
 
@@ -86,9 +83,12 @@
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
         <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
+                                            secondIndex="${secondIndex}"
+                                            thirdIndex="${thirdIndex}"
+                                            fourthIndex="${fourthIndex}"
+                                            frcIndex="${frcIndex}"
                                             frc="${frc}"
                                             divId="${divId}"
-                                            divIdAsJsParams="${divIdAsJsParams}"
                                             formType="Edit"
                                             textAreaId="${textAreaId}"
                                             submitLink="${submitLink}"
