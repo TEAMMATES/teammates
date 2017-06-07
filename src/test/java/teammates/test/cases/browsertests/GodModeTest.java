@@ -1,6 +1,8 @@
 package teammates.test.cases.browsertests;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -45,8 +47,8 @@ public class GodModeTest extends BaseUiTestCase {
     @Test
     public void testGodMode() throws Exception {
 
-        System.clearProperty("godmode");
-        assertNull(System.getProperty("godmode"));
+        setIsGodModeEnabled(false);
+        assertFalse(TestProperties.IS_GODMODE_ENABLED);
 
         ______TS("test verifyHtml");
 
@@ -90,12 +92,12 @@ public class GodModeTest extends BaseUiTestCase {
 
     private void runGodModeRoutine(boolean isPart) throws Exception {
 
-        System.setProperty("godmode", "true");
+        setIsGodModeEnabled(true);
         // automatically generates the file and hence passes
         verifyHtml(OUTPUT_FILENAME, isPart);
 
-        System.clearProperty("godmode");
-        assertNull(System.getProperty("godmode"));
+        setIsGodModeEnabled(false);
+        assertFalse(TestProperties.IS_GODMODE_ENABLED);
 
         // should pass without need for godmode as the file has already been generated
         verifyHtml(OUTPUT_FILENAME, isPart);
@@ -118,8 +120,21 @@ public class GodModeTest extends BaseUiTestCase {
 
     @AfterClass
     public void classTearDown() throws Exception {
-        System.clearProperty("godmode");
         FileHelper.saveFile(ACTUAL_FILEPATH, initialContent);
     }
 
+    private static void setIsGodModeEnabled(boolean isGodModeEnabled) throws Exception {
+        setFinalStatic(TestProperties.class.getDeclaredField("IS_GODMODE_ENABLED"), isGodModeEnabled);
+    }
+
+    private static void setFinalStatic(Field field, Object newValue) throws Exception {
+        field.setAccessible(true);
+
+        // remove final modifier from field
+        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+        field.set(null, newValue);
+    }
 }
