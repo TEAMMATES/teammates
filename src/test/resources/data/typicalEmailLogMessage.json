@@ -6,8 +6,8 @@
     "TEAMMATESEMAILLOG|||email3@email.com|||subject1 subject2 subject3|||id03 keyword1 keyword3",
 
     "TEAMMATESEMAILLOG|||email1@test.tmt|||subject1 subject2 subject3|||id04 keyword1 keyword3",
-    "TEAMMATESEMAILLOG|||email2@test.tmt|||subject1 subject3|||id05 keyword2", 
-    "TEAMMATESEMAILLOG|||email3@test.tmt|||subject1 subject2 subject3|||id06 keyword1",    
+    "TEAMMATESEMAILLOG|||email2@test.tmt|||subject1 subject3|||id05 keyword2",
+    "TEAMMATESEMAILLOG|||email3@test.tmt|||subject1 subject2 subject3|||id06 keyword1",
 
     "Not Desired Format"
   ],

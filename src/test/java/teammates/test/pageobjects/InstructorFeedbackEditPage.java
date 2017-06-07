@@ -1177,8 +1177,19 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isVisibilityDropdownSeparatorHidden(NEW_QUESTION_NUM);
     }
 
+    private By getVisibilityMessageBy(int questionNumber) {
+        return By.id("visibilityMessage-" + questionNumber);
+    }
+
+    private WebElement waitForAndGetVisibilityMessage(int questionNumber) {
+        WebElement visibilityMessage = waitForElementPresence(getVisibilityMessageBy(questionNumber));
+        waitForElementVisibility(visibilityMessage);
+        return visibilityMessage;
+    }
+
     public void verifyVisibilityMessageContains(int questionNumber, String message) {
-        waitForTextContainedInElementPresence(By.id("visibilityMessage-" + questionNumber), message);
+        waitForAndGetVisibilityMessage(questionNumber);
+        waitForTextContainedInElementPresence(getVisibilityMessageBy(questionNumber), message);
     }
 
     public void verifyVisibilityMessageContainsForNewQuestion(String message) {
@@ -1186,7 +1197,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyVisibilityMessageDoesNotContain(int questionNumber, String message) {
-        waitForTextContainedInElementAbsence(By.id("visibilityMessage-" + questionNumber), message);
+        waitForAndGetVisibilityMessage(questionNumber);
+        waitForTextContainedInElementAbsence(getVisibilityMessageBy(questionNumber), message);
     }
 
     public void verifyVisibilityMessageDoesNotContainForNewQuestion(String message) {
@@ -1194,8 +1206,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
-        By firstMessageBy = By.cssSelector("#visibilityMessage-" + questionNumber + " ul > li");
-        WebElement firstMessage = waitForElementPresence(firstMessageBy);
+        WebElement firstMessage = waitForAndGetVisibilityMessage(questionNumber).findElement(By.cssSelector("ul > li"));
         return !firstMessage.getText().equals("Error loading visibility hint. Click here to retry.");
     }
 

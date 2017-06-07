@@ -28,12 +28,13 @@ public class FeedbackResponseCommentRow {
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
 
     private String whoCanSeeComment;
-    private boolean withVisibilityIcon;
 
-    private boolean editDeleteEnabled;
-    private boolean editDeleteEnabledOnlyOnHover;
-    private boolean instructorAllowedToDelete;
-    private boolean instructorAllowedToEdit;
+    private boolean hasVisibilityIcon;
+
+    private boolean isEditDeleteEnabled;
+    private boolean isEditDeleteEnabledOnlyOnHover;
+    private boolean isInstructorAllowedToDelete;
+    private boolean isInstructorAllowedToEdit;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
@@ -145,23 +146,23 @@ public class FeedbackResponseCommentRow {
     }
 
     public boolean isWithVisibilityIcon() {
-        return withVisibilityIcon;
+        return hasVisibilityIcon;
     }
 
     public boolean isEditDeleteEnabled() {
-        return editDeleteEnabled;
+        return isEditDeleteEnabled;
     }
 
     public boolean isEditDeleteEnabledOnlyOnHover() {
-        return editDeleteEnabledOnlyOnHover;
+        return isEditDeleteEnabledOnlyOnHover;
     }
 
     public boolean isInstructorAllowedToDelete() {
-        return instructorAllowedToDelete;
+        return isInstructorAllowedToDelete;
     }
 
     public boolean isInstructorAllowedToEdit() {
-        return instructorAllowedToEdit;
+        return isInstructorAllowedToEdit;
     }
 
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
@@ -249,25 +250,25 @@ public class FeedbackResponseCommentRow {
     }
 
     private void enableEditDelete() {
-        this.editDeleteEnabled = true;
+        this.isEditDeleteEnabled = true;
     }
 
     public void enableEdit() {
         enableEditDelete();
-        this.instructorAllowedToEdit = true;
+        this.isInstructorAllowedToEdit = true;
     }
 
     public void enableDelete() {
         enableEditDelete();
-        this.instructorAllowedToDelete = true;
+        this.isInstructorAllowedToDelete = true;
     }
 
     public void enableEditDeleteOnHover() {
-        this.editDeleteEnabledOnlyOnHover = true;
+        this.isEditDeleteEnabledOnlyOnHover = true;
     }
 
     public void enableVisibilityIcon(String whoCanSeeComment) {
-        this.withVisibilityIcon = true;
+        this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
 }
