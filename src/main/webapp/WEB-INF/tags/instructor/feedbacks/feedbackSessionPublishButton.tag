@@ -3,7 +3,7 @@
 <%@ attribute name="publishButton" type="teammates.ui.template.FeedbackSessionPublishButton" required="true" %>
 <%@ attribute name="showTooltip" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="buttonType" %>
-<a href="${publishButton.actionLink}" 
+<a href="${publishButton.actionLink}"
    class="<c:if test="${not empty buttonType}">${buttonType} </c:if>session-${publishButton.actionNameLowercase}-for-test"
    <c:if test="${showTooltip}">
      title="${publishButton.tooltipText}"

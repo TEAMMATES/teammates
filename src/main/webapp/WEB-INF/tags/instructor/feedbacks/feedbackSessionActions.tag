@@ -45,7 +45,7 @@
        <c:if test="${not actions.allowedToSubmit}">disabled</c:if>>
         Submit
     </a>
-</div> 
+</div>
 <c:choose>
   <c:when test="${actions.privateSession}">
     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
