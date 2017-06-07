@@ -172,62 +172,62 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientAndInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isResponsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean giverNameVisibleToNoOne = question.showGiverNameTo.isEmpty();
+        boolean isGiverNameVisibleToNoOne = question.showGiverNameTo.isEmpty();
 
-        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleToNoOne;
+        return isResponsesVisibleOnlyToRecipientAndInstructors && isGiverNameVisibleToNoOne;
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientVisibleToInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isResponsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+        boolean isGiverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
+        return isResponsesVisibleOnlyToRecipientAndInstructors && isGiverNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientAndTeamVisibleToInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientTeamAndInstructors = question.showResponsesTo.size() == 4
+        boolean isResponsesVisibleOnlyToRecipientTeamAndInstructors = question.showResponsesTo.size() == 4
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                 && question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+        boolean isGiverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleOnlyToRecipientTeamAndInstructors && giverNameVisibleOnlyToInstructors;
+        return isResponsesVisibleOnlyToRecipientTeamAndInstructors && isGiverNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToVisibleToInstructorsOnly(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToInstructors = question.showResponsesTo.size() == 1
+        boolean isResponsesVisibleOnlyToInstructors = question.showResponsesTo.size() == 1
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+        boolean isGiverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean recipientNameVisibleOnlyToInstructors = question.showRecipientNameTo.size() == 1
+        boolean isRecipientNameVisibleOnlyToInstructors = question.showRecipientNameTo.size() == 1
                 && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleOnlyToInstructors && giverNameVisibleOnlyToInstructors
-                && recipientNameVisibleOnlyToInstructors;
+        return isResponsesVisibleOnlyToInstructors && isGiverNameVisibleOnlyToInstructors
+                && isRecipientNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToVisibleToRecipientAndInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isResponsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean giverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
+        boolean isGiverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean recipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isRecipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showRecipientNameTo.size() == 2
                 && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER);
 
-        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToRecipientAndInstructors
-                && recipientNameVisibleOnlyToRecipientAndInstructors;
+        return isResponsesVisibleOnlyToRecipientAndInstructors && isGiverNameVisibleOnlyToRecipientAndInstructors
+                && isRecipientNameVisibleOnlyToRecipientAndInstructors;
     }
 
     private FeedbackQuestionFeedbackPathSettings configureFeedbackPathSettings(

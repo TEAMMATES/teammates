@@ -1642,8 +1642,8 @@ public final class FeedbackSessionsLogic {
                                 question, userEmail, role, section);
             }
 
-            boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-            if (thisQuestionHasResponses) {
+            boolean hasResponses = !responsesForThisQn.isEmpty();
+            if (hasResponses) {
                 relevantQuestions.put(question.getId(), question);
                 responses.addAll(responsesForThisQn);
                 for (FeedbackResponseAttributes response : responsesForThisQn) {
@@ -1907,8 +1907,8 @@ public final class FeedbackSessionsLogic {
                                                     question, userEmail, UserRole.INSTRUCTOR, section);
                 }
 
-                boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-                if (thisQuestionHasResponses) {
+                boolean hasResponses = !responsesForThisQn.isEmpty();
+                if (hasResponses) {
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
                         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
                         boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,

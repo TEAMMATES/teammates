@@ -44,11 +44,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private int iterationCounter;
 
     //handle test data
-    private boolean includeTestData = true;
+    private boolean shouldIncludeTestData = true;
 
     //admin email configuration
-    private boolean student;
-    private boolean instructor = true;
+    private boolean shouldIncludeStudent;
+    private boolean shouldIncludeInstructor = true;
     private StudentStatus studentStatus = StudentStatus.ALL;
     private InstructorStatus instructorStatus = InstructorStatus.ALL;
     private String studentCreatedDateRangeStart = "02/03/2013";
@@ -76,9 +76,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             System.out.print(e.getMessage() + "\n");
         }
 
-        System.out.print("\n\nstudent : " + emailListConfig.student + "\n");
+        System.out.print("\n\nstudent : " + emailListConfig.shouldIncludeStudent + "\n");
 
-        if (emailListConfig.student) {
+        if (emailListConfig.shouldIncludeStudent) {
             System.out.print("Student Status: ");
             switch (emailListConfig.studentStatus) {
             case REG:
@@ -102,9 +102,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd + "\n");
         }
 
-        System.out.print("instructor : " + emailListConfig.instructor + "\n");
+        System.out.print("instructor : " + emailListConfig.shouldIncludeInstructor + "\n");
 
-        if (emailListConfig.instructor) {
+        if (emailListConfig.shouldIncludeInstructor) {
             System.out.print("Instructor Status: ");
             switch (emailListConfig.studentStatus) {
             case REG:
@@ -131,8 +131,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private void getInstructorEmailConfiguration() throws InvalidParametersException {
-        emailListConfig.instructor = this.instructor;
-        if (!emailListConfig.instructor) {
+        emailListConfig.shouldIncludeInstructor = this.shouldIncludeInstructor;
+        if (!emailListConfig.shouldIncludeInstructor) {
             return;
         }
         emailListConfig.instructorStatus = this.instructorStatus;
@@ -141,8 +141,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private void getStudentEmailConfiguration() throws InvalidParametersException {
-        emailListConfig.student = this.student;
-        if (!emailListConfig.student) {
+        emailListConfig.shouldIncludeStudent = this.shouldIncludeStudent;
+        if (!emailListConfig.shouldIncludeStudent) {
             return;
         }
         emailListConfig.studentStatus = this.studentStatus;
@@ -169,7 +169,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
     private void printToFile() {
 
-        if (!emailListConfig.student && !emailListConfig.instructor) {
+        if (!emailListConfig.shouldIncludeStudent && !emailListConfig.shouldIncludeInstructor) {
             System.out.print("No email list to be generated. Exiting now..\n\n");
             return;
         }
@@ -177,11 +177,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         HashSet<String> studentEmailSet = new HashSet<String>();
         HashSet<String> instructorEmailSet = new HashSet<String>();
 
-        if (emailListConfig.student) {
+        if (emailListConfig.shouldIncludeStudent) {
             studentEmailSet = addStudentEmailIntoSet(studentEmailSet);
         }
 
-        if (emailListConfig.instructor) {
+        if (emailListConfig.shouldIncludeInstructor) {
             instructorEmailSet = addInstructorEmailIntoSet(instructorEmailSet);
         }
 
@@ -240,7 +240,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             int studentEmailCount = 0;
             if (!studentEmailSet.isEmpty()) {
                 for (String email : studentEmailSet) {
-                    if (!includeTestData && email.endsWith(".tmt")) {
+                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
                         continue;
                     }
                     w.write(email + ",");
@@ -251,7 +251,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             int instructorEmailCount = 0;
             if (!instructorEmailSet.isEmpty()) {
                 for (String email : instructorEmailSet) {
-                    if (!includeTestData && email.endsWith(".tmt")) {
+                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
                         continue;
                     }
                     w.write(email + ",");
@@ -478,8 +478,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private static class EmailListConfig {
-        public boolean student;
-        public boolean instructor;
+        public boolean shouldIncludeStudent;
+        public boolean shouldIncludeInstructor;
         public StudentStatus studentStatus = StudentStatus.ALL;
         public InstructorStatus instructorStatus = InstructorStatus.ALL;
         public Date studentCreatedDateRangeStart;
