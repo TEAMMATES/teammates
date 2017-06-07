@@ -96,13 +96,13 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetValidityInfoForNonHtmlField_unsanitizedInput_returnErrorString() {
-        String unsanitizedInput = "Invalid unsanitized input <>\\/'&";
+        String unsanitizedInput = "Invalid unsanitized input <>\"/'&";
         String testFieldName = "Inconsequential test field name";
         String actual = validator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
         assertEquals("Invalid unsanitized input should return error string",
                      "The provided Inconsequential test field name is not acceptable to TEAMMATES as it "
-                         + "cannot contain the following special html characters in brackets: (&lt; &gt; \\ "
-                         + "&#x2f; &#39; &amp;)",
+                         + "cannot contain the following special html characters in brackets: (&lt; &gt; &quot;" +
+			 "&#x2f; &#39; &amp;)",
                      actual);
     }
 
