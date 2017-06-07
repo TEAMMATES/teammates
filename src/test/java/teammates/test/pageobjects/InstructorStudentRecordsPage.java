@@ -96,6 +96,7 @@ public class InstructorStudentRecordsPage extends AppPage {
             // non-empty comment: wait until the add comment form disappears
             waitForElementToDisappear(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
         }
+        ThreadHelper.waitFor(1500);
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
