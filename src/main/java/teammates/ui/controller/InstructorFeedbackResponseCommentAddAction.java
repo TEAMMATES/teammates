@@ -2,11 +2,16 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.mortbay.log.Log;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -18,6 +23,8 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.template.FeedbackResponseCommentRow;
+import teammates.ui.template.QuestionTable;
 
 /**
  * Action: Create a new {@link FeedbackResponseCommentAttributes}.
@@ -40,6 +47,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
 
@@ -119,9 +127,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
         data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
-        data.commentGiverName = instructor.name;
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.question = question;
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
-
 }

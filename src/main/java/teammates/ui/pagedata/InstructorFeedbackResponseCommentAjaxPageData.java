@@ -5,6 +5,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.ui.template.FeedbackResponseCommentRow;
 
@@ -13,6 +14,7 @@ import teammates.ui.template.FeedbackResponseCommentRow;
  */
 public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentAttributes comment;
+    public FeedbackQuestionAttributes question;
     public String commentId;
     public String giverName;
     public String recipientName;
@@ -21,6 +23,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String errorMessage;
     public boolean isError;
     public String commentGiverName;
+    public Map<String, String> instructorEmailNameTable;
 
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -28,13 +31,17 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
     public FeedbackResponseCommentRow getComment() {
         FeedbackResponseCommentRow frc =
-                new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
+                new FeedbackResponseCommentRow(comment, instructorEmailNameTable, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
                                                getResponseVisibilities());
         frc.enableEdit();
         frc.enableDelete();
 
         return frc;
+    }
+
+    public String[] getCommentIds() {
+        return commentId.split("-");
     }
 
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilities() {
@@ -45,16 +52,12 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                 FeedbackParticipantType.STUDENTS,
                 FeedbackParticipantType.INSTRUCTORS
         };
-
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
         for (FeedbackParticipantType type : relevantTypes) {
-            responseVisibilities.put(type, true);
+            responseVisibilities.put(type, question.isResponseVisibleTo(type));
         }
 
         return responseVisibilities;
     }
 
-    public String[] getCommentIds() {
-        return commentId.split("-");
-    }
 }
