@@ -180,7 +180,7 @@
                 <img class="row img-responsive" src="images/raised-edge.png">
             </div>
         </section>
-        
+
         <div class="row">
             <p class="col-xs-12 col-sm-8 col-sm-offset-2">
             For more details about these features, visit the <a href="instructorHelp.jsp" target="_blank" rel="noopener noreferrer">Instructor Help</a> page or <a href="contact.jsp">email us</a>.

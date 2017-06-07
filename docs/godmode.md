@@ -6,22 +6,19 @@ Typically browser tests involve comparing the source of the webpage to an existi
 
 GodMode has been extended and now is also able to create and update *expected* source files for email content tests. It works with the same underlying principle as the one for browser tests.
 
-
 ## How does GodMode work?
 
 The essential idea is to reverse the process of testing. We use the _actual_ source of the webpage to overwrite the _expected_ source in the test. To remove redundancy, even if GodMode is enabled, this overwriting procedure only happens when a test fails during the test run. Finally before the changes are committed, a *manual* (by the developer) verification to ensure only the intended changes have occurred is mandatory.
 
-
 ## How do we use GodMode?
 
-GodMode can be activated in two different ways. 
+GodMode can be activated in two different ways.
 
 1. If we want to execute arbitrary tests using GodMode, then update `BaseUiTestCase` class (or `EmailGeneratorTest` class if testing email content) and set `isGodModeEnabled = true` at the top of the class implementation. Now all test runs would have GodMode enabled. Please remember to set it back to false when done.
 
 2. If we want to run a particular test suite using GodMode, then go to `Run -> Run Configurations` and update the appropriate one with the `-Dgodmode=true` VM argument. Please remember to remove the argument before committing the changes
 
 Note: The first option encompasses the functionality of the second. By updating the BaseUiTestCase and running the intended test suite, we achieve the second option's effect.
-
 
 ## When do we use GodMode?
 
@@ -38,7 +35,7 @@ studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
 
 Here are three possible situations and the corresponding behaviours of GodMode when the test is executed with GodMode enabled:
 
-1. If `studentHomeTypicalHTML.html` exists and has the correct content, GodMode will not make any updates to the source file. 
+1. If `studentHomeTypicalHTML.html` exists and has the correct content, GodMode will not make any updates to the source file.
 
 2. If `studentHomeTypicalHTML.html` exists but has the wrong content, GodMode will update the source file with the correct content. The effect of this is that the test case will pass subsequent test runs with/without GodMode enabled.
 
@@ -49,7 +46,6 @@ The same idea applies to email content test:
 EmailChecker.verifyEmailContent(email, recipient, subject, "/studentCourseJoinEmail.html");
 ```
 
-
 ## Best Practices
 
 1. Ensure that GodMode is only used when necessary, that is when there are new test cases being created or when an update to the existing tests is foreseen.
@@ -58,8 +54,7 @@ EmailChecker.verifyEmailContent(email, recipient, subject, "/studentCourseJoinEm
 
 3. Please confirm that all the changes made by GodMode are EXPECTED. If any unexpected changes are made, please ask for assistance in the issue tracker or create a new issue if need be.
 
-4. After all the necessary changes have been made, run the test suite once without GodMode enabled to ensure that the tests pass without GodMode. 
-
+4. After all the necessary changes have been made, run the test suite once without GodMode enabled to ensure that the tests pass without GodMode.
 
 ## Final Notes
 
