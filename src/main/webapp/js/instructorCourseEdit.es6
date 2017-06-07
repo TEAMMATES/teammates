@@ -512,6 +512,10 @@ $(document).ready(() => {
     const editLinks = $('a[id^=instrEditLink]');
     instructorSize = editLinks.length;
     $(editLinks).click(editFormRequest);
+
+    $(document).on('click', '.view-role-details', (e) => {
+        showInstructorRoleModal($(e.target).data('role'));
+    });
 });
 
 /*
