@@ -22,7 +22,6 @@ buildscript {
 
 configurations {
     staticAnalysis
-    exclude
     testExclude
 }
 
@@ -57,10 +56,6 @@ dependencies {
                     "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.10.2"
-
-    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
-
-    runtime         configurations.exclude
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
@@ -117,7 +112,7 @@ eclipse {
         containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.27"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
-        minusConfigurations = [configurations.exclude, configurations.testExclude]
+        minusConfigurations = [configurations.testExclude]
         file {
             whenMerged { cp ->
                 cp.entries.findAll {
@@ -219,12 +214,6 @@ task createIntellijRunConfigs {
     }
 }
 
-task copyDepsToWebInfLib(type: Copy) {
-    from configurations.runtime
-    into "src/main/webapp/WEB-INF/lib/"
-    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
-}
-
 task resetEclipseDeps {
     description "Updates the project's dependencies to be used by Eclipse configurations"
     group "Setup"
@@ -232,7 +221,7 @@ task resetEclipseDeps {
         delete  ".classpath",
                 "src/main/webapp/WEB-INF/lib"
     }
-    finalizedBy eclipseClasspath, copyDepsToWebInfLib
+    finalizedBy eclipseClasspath
 }
 
 task printUserHomeDir {
@@ -274,12 +263,6 @@ appengineRun {
         daemon = true
     }
 }
-
-task removeDuplicateLibs(type: Delete) {
-    delete  "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
-}
-
-appengineExplodeApp.finalizedBy removeDuplicateLibs
 
 // STATIC ANALYSIS TASKS
 
