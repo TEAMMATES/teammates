@@ -4,17 +4,23 @@ setStatusMessage:false StatusType:false bindBackToTopButtons:false addLoadingInd
 
 $(document).ready(() => {
     $('#filterReference').toggle();
-    enableOnclicks();
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
     highlightKeywordsInLogMessages();
-});
 
-function enableOnclicks() {
     $(document).on('click', '#button_older', () => {
         const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
         submitFormAjax(nextEndTimeToSearch);
     });
-}
+
+    $('#btn-toggle-reference').on('click', () => {
+        toggleReference();
+    });
+
+    $(document).on('click', '.log-entry', (e) => {
+        submitLocalTimeAjaxRequest($(e.target).data('logtime'), $(e.target).data('googleid'),
+                $(e.target).data('displayedrole'), e.target);
+    });
+});
 
 function toggleReference() {
     $('#filterReference').toggle('slow');
@@ -121,12 +127,3 @@ function highlightKeywordsInLogMessages() {
         className: ' ',
     });
 }
-
-/*
-export default {
-    toggleReference,
-    submitLocalTimeAjaxRequest,
-    submitFormAjax,
-};
-*/
-/* exported toggleReference, submitLocalTimeAjaxRequest, submitFormAjax */
