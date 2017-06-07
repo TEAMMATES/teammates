@@ -142,6 +142,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("Typical Case: Edit comment");
 
         //Edit First Comment.
+        viewPage.waitForPanelsToExpand();
         viewPage.editFeedbackResponseComment("Instructor first edited comment to Alice about feedback to Benny");
         viewPage.verifyCommentRowContent("Instructor first edited comment to Alice about feedback to Benny",
                 "teammates.test@gmail.tmt");
