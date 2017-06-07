@@ -60,8 +60,17 @@
             </form>
             <a type="button"
                id="commentedit-${divId}"
-               class="btn btn-default btn-xs icon-button pull-right"
-               onclick="showResponseCommentEditForm(${divIdAsJsParams})"
+               <c:choose>
+                   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
+                       class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
+                       data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
+                       data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+                       <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+                   </c:when>
+                   <c:otherwise>
+                       class="btn btn-default btn-xs icon-button pull-right"
+                   </c:otherwise>
+               </c:choose>
                data-toggle="tooltip"
                data-placement="top"
                title="<%= Const.Tooltips.COMMENT_EDIT %>"
