@@ -95,7 +95,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         for (InstructorAttributes instructor : instructorsOfCourse) {
 
             // only update if migration had not been done for the instructor
-            if (instructor.isArchived == null) {
+            if (!instructor.isArchived) {
                 instructor.isArchived = true;
                 logic.updateInstructorByEmail(instructor.email, instructor);
 
@@ -121,7 +121,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         for (InstructorAttributes instructor : instructorsOfCourse) {
             System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
 
-            if (instructor.isArchived == null) {
+            if (!instructor.isArchived) {
                 System.out.println("======= Migration has not been done yet =======");
             }
         }

@@ -277,7 +277,7 @@ public class InstructorAttributes extends EntityAttributes {
         }
 
         public Builder withRole(String role) {
-            if(role != null) {
+            if (role != null) {
                 instructorAttributes.role = SanitizationHelper.sanitizeName(role);
             }
             return this;
