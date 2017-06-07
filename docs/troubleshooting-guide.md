@@ -139,10 +139,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
    **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 
-* **ERROR (on IntelliJ)**: Error message in console when running dev server : `Cannot start process, the working directory '{project home directory}/build/libs/exploded/teammates.war' does not exist` or `Could not locate /.../appengine-web.xml`.
-
-  **SOLUTION**: The path to the exploded application may be configured wrongly. Go to `File → Project Structure...`. Under `Under Artifacts → Gradle : <your-project-name>.war (exploded)`, change `Output directory` to `{path to repo}/build/exploded-app`, which contains `appengine-web.xml`.
-
 ## Submitting help request
 
 If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to request for help.

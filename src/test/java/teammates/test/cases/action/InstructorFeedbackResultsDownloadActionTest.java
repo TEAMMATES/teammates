@@ -46,23 +46,15 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
 
-        String[] paramsWithFilterText = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
-        };
-
         String[] paramsWithMissingResponsesShown = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
         };
 
         String[] paramsWithMissingResponsesHidden = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false"
         };
 
@@ -137,18 +129,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
 
-        ______TS("Typical case: results with a filter text");
-
-        action = getAction(paramsWithFilterText);
-        result = getFileDownloadResult(action);
-        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForDownloadWithFilterText(result.getFileContent(), session);
-
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
         result = getFileDownloadResult(action);
@@ -219,30 +199,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1" + "_question1";
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
-    }
-
-    private void verifyFileContentForDownloadWithFilterText(String fileContent,
-            FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
-
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 3,\"My comments on the class\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-
     }
 
     private void verifyFileContentForDownloadWithMissingResponsesShown(String fileContent,
