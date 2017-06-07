@@ -36,6 +36,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -43,7 +44,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
+        prepareTestData();
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
 

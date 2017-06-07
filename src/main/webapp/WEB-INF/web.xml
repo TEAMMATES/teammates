@@ -77,7 +77,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>BackDoorServlet</servlet-name>
         <servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
@@ -108,7 +108,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>EntityModifiedLogs</servlet-name>
         <url-pattern>/entityModifiedLogs</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
@@ -122,7 +122,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <description>Servlet that handles all automated requests, e.g cron jobs and task queues</description>
         <servlet-name>AutomatedServlet</servlet-name>
@@ -133,18 +133,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>PublicImageServlet</servlet-name>
         <servlet-class>teammates.ui.controller.PublicImageServlet</servlet-class>
     </servlet>
-    
+
      <servlet-mapping>
         <servlet-name>PublicImageServlet</servlet-name>
         <url-pattern>/public/publicEmailImageServe</url-pattern>
         <url-pattern>/public/publicImageServe</url-pattern>
     </servlet-mapping>
-    
+
     <security-constraint>
       <web-resource-collection>
           <web-resource-name>AllPage</web-resource-name>
