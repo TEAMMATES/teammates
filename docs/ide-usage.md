@@ -124,12 +124,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    ./gradlew setupIntellijProject
    ```
 
-1. Open the project in IntelliJ IDEA. It will generate some user specific settings. Wait for it to finish indexing.
-
-1. Run this command to automatically configure your user specific settings:
-   ```sh
-   ./gradlew setupIntellijProjectSettings
-   ```
+1. You can now open the project in IntelliJ IDEA.
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
 
@@ -182,11 +177,6 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
    #### Javascript
    Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
-
-   #### Additional Build Tasks
-   1. Open `View → Tool Windows → Gradle`.
-   1. Under `Tasks → intellij idea setup`, look for the task `enhanceIntellijOutputClasses`.
-   1. Right click and select `Execute After Build`.
 
 1. Click `OK`.
 

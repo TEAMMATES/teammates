@@ -286,12 +286,6 @@ The syntax for the pre-configured settings found below are as follows:
 | `Directory`      | `/mapping[@directory]` | `$PROJECT_DIR$` |
 | `vcs`            | `/mapping[@vcs]`       | `Git`           |
 
-When the following command is executed,
-```sh
-./gradlew setupIntellijSettings
-```
-The Gradle task `enhanceIntellijOutputClasses` is added to IntelliJ to run after every build.
-
 ## Static Analysis Tools Setup Behavior
 When the following command is executed,
 ```sh
