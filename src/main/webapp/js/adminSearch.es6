@@ -52,6 +52,24 @@ $(document).ready(() => {
 
     $('.resetGoogleIdButton').click((e) => {
         e.stopPropagation();
+        submitResetGoogleIdAjaxRequest($(e.target).data('courseid'), $(e.target).data('studentemail'),
+                $(e.target).data('googleid'), e.target);
+    });
+
+    $('#btn-disclose-all-instructors').on('click', () => {
+        adminSearchDiscloseAllInstructors();
+    });
+
+    $('#btn-collapse-all-instructors').on('click', () => {
+        adminSearchCollapseAllInstructors();
+    });
+
+    $('#btn-disclose-all-students').on('click', () => {
+        adminSearchDiscloseAllStudents();
+    });
+
+    $('#btn-collapse-all-students').on('click', () => {
+        adminSearchCollapseAllStudents();
     });
 });
 
@@ -110,19 +128,3 @@ function adminSearchCollapseAllInstructors() {
     $('.fslink_instructor').hide();
     $('.instructorRow').attr('class', 'instructorRow');
 }
-/*
-export default {
-    submitResetGoogleIdAjaxRequest,
-    adminSearchDiscloseAllStudents,
-    adminSearchCollapseAllStudents,
-    adminSearchDiscloseAllInstructors,
-    adminSearchCollapseAllInstructors,
-};
-*/
-/*
-exported submitResetGoogleIdAjaxRequest,
-         adminSearchDiscloseAllStudents,
-         adminSearchCollapseAllStudents,
-         adminSearchDiscloseAllInstructors,
-         adminSearchCollapseAllInstructors
-*/
