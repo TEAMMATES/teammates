@@ -210,17 +210,9 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
 Travis CI will run static analysis _before_ testing.
 If violations are found, the build will be terminated with an error before any testing is done in order to save time and resources.
 
-### Local build
+### CLI
 
-Eclipse allows CheckStyle, PMD, and FindBugs analysis on the spot; just right-click on the source class or folder and select the appropriate commands.
-Remember to configure the tools to use the ruleset provided.
-The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
-
-To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin, right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`. The report can be found in the `Markers` window in Eclipse.
-
-To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`. The report can be viewed in the PMD Perspective view under `Violations Overview`.
-
-Alternatively, run the tools via Gradle or NPM. The violations caught, if any, will be printed to the console itself.
+You can run the static analysis tools via Gradle or NPM. The violations caught, if any, will be printed to the console itself.
 ```
 ./gradlew {toolType}{sourceCodeType}
 ```
@@ -242,6 +234,44 @@ To run all static analysis tasks in one sitting, run the following two commands:
 npm run lint
 ```
 
+### Eclipse
+
+Eclipse allows CheckStyle, PMD, and FindBugs analysis on the spot;
+just right-click on the source class or folder and select the appropriate commands.
+Remember to configure the tools to use the ruleset provided.
+The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
+
+To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin,
+right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`.
+The report can be found in the `Markers` window in Eclipse.
+
+To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`.
+The report can be viewed in the PMD Perspective view under `Violations Overview`.
+
+### IntelliJ IDEA
+
+`CheckStyle`, `ESLint` and `Stylelint` are configured as inspection tools in IntelliJ IDEA.\
+This means they automatically run on every open file in the editor. Any code issues will show up on the right of the
+editor and you can also see the analysis status of the whole file from by hovering over the icon on the top-right of the
+editor. You may also be able to see some code inspection status on the line itself (e.g. wriggly red lines).
+
+`FindBugs` is also an inspection tool but it does not run automatically. You can run it by going to `Analyze → FindBugs`
+and choosing the option you want. Alternatively, you can select a number of files and right click, select `FindBugs` and
+the option you want.
+
+If you wish to run inspections for the whole project, you can do `Analyze → Inspect Code... → Whole project`. You may
+also wish to learn more about code inspections by referring to
+[IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-inspection.html).
+
+**NOTE**
+> `FindBugs` will only appear in the inspection results if you ran it manually before running
+> `Analyze → Inspect Code... → Whole project`.
+
+`PMD` is provided as a plugin and do not run automatically. You can run it by selecting a number of files, right clicking,
+select `Run PMD` and then the option you want.
+
+`Macker` is not available in IntelliJ IDEA and you have to run it on the command line.
+
 ## Running code coverage session
 
 ### Travis CI
@@ -252,17 +282,37 @@ The link to the report will be displayed in each PR, or by clicking the badge on
 For JavaScript unit tests, coverage is done concurrently with the tests themselves.
 A coverage lower bound is enforced via `AllJsTests.java`, lower than which the build will fail.
 
-### Local build
+### CLI
+
+You can use use Gradle to run tests, and obtain the coverage data with `jacocoReport` task, i.e:
+```sh
+./gradlew appengineRun ciTests
+./gradlew jacocoReport appengineStop
+```
+The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+
+For JavaScript unit tests, coverage is done concurrently with the tests themselves.
+A coverage lower bound is enforced via `AllJsTests.java`, lower than which the build will fail.
+
+### Eclipse
 
 For Java tests, choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite.
 The coverage will be reported in Eclipse after the test run is over.
 
-Alternatively, use Gradle to run the tests, and obtain the coverage data with `jacocoReport` task, i.e:
-```sh
-./gradlew ciTests
-./gradlew jacocoReport
-```
-The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
+The coverage will be reported immediately in the test page.
+
+### IntelliJ IDEA
+
+For Java tests, you can measure code coverage for the project using `Run → Run... → CI Tests → ▶ → Cover `.
+
+**NOTE**
+> There are some packages and classes that are excluded when using Jacoco on the comamnd line which are not excluded
+when you run them in IntelliJ, thus the coverage statistics you see in IntelliJ may not match what you see on `Codecov`. 
+
+Alternatively, you can right click a class with TestNG test(s), and click `Run '$FileClass$' with Coverage`, this will use
+IntelliJ IDEA's code coverage runner. You can further configure your code coverage settings by referring to
+[IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-coverage.html).
 
 For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
 The coverage will be reported immediately in the test page.
