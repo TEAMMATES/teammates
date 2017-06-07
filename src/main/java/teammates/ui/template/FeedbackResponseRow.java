@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -46,9 +45,6 @@ public class FeedbackResponseRow {
         for (FeedbackParticipantType participant : question.showResponsesTo) {
             responseVisibilities.put(participant, true);
         }
-        Logger log = Logger.getLogger();
-        log.info(responseVisibilities.toString() + " " + question.showResponsesTo.toString());
-        log.info("hello");
         String giverName = results.getNameForEmail(response.giver);
         if (frcs != null) {
             for (FeedbackResponseCommentAttributes frc : frcs) {

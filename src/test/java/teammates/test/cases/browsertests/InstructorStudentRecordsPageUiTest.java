@@ -29,7 +29,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testLinks();
-        testFeedbackResponseCommentEditAndDeleteAction();
         testPanelsCollapseExpand();
     }
 
@@ -124,34 +123,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);
         return loginAdminToPage(viewPageUrl, InstructorStudentRecordsPage.class);
-    }
-
-    private void testFeedbackResponseCommentEditAndDeleteAction() {
-        InstructorAttributes instructor;
-        StudentAttributes student;
-
-        instructor = testData.instructors.get("teammates.test.CS2104");
-        student = testData.students.get("benny.c.tmms@ISR.CS2104");
-
-        instructorId = instructor.googleId;
-        courseId = instructor.courseId;
-        studentEmail = student.email;
-
-        viewPage = getStudentRecordsPage();
-
-        ______TS("Typical Case: Edit comment");
-
-        //Edit First Comment.
-        viewPage.waitForPanelsToExpand();
-        viewPage.editFeedbackResponseComment("Instructor first edited comment to Alice about feedback to Benny");
-        viewPage.verifyCommentRowContent("Instructor first edited comment to Alice about feedback to Benny",
-                "teammates.test@gmail.tmt");
-
-        ______TS("Typical Case: Delete comment");
-
-        //Delete second Comment.
-        viewPage.deleteFeedbackResponseComment("1-1-1-2-GRQ");
-        viewPage.verifyRowMissing("1-1-1-2-GRQ");
     }
 
     private void testPanelsCollapseExpand() {
