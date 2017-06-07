@@ -326,9 +326,9 @@ const seeMoreRequest = function (e) {
     }
 
     if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
-        $(toggleCheveron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+        $(toggleChevron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
     } else {
-        $(toggleCheveron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        $(toggleChevron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
     }
 };
 
