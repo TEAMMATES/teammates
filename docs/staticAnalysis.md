@@ -267,8 +267,8 @@ also wish to learn more about code inspections by referring to
 > `FindBugs` will only appear in the inspection results if you ran it manually before running
 > `Analyze → Inspect Code... → Whole project`.
 
-`PMD` is provided as a plugin and do not run automatically. You can run it by selecting a number of files, right clicking,
-select `Run PMD` and then the option you want.
+`PMD` is provided as a plugin and does not run automatically. You can run it by selecting a number of files, right clicking,
+selecting `Run PMD` and then choosing the option you want.
 
 `Macker` is not available in IntelliJ IDEA and you have to run it on the command line.
 
@@ -284,7 +284,7 @@ A coverage lower bound is enforced via `AllJsTests.java`, lower than which the b
 
 ### CLI
 
-You can use use Gradle to run tests, and obtain the coverage data with `jacocoReport` task, i.e:
+You can use Gradle to run tests and obtain the coverage data with `jacocoReport` task, i.e:
 ```sh
 ./gradlew appengineRun ciTests
 ./gradlew jacocoReport appengineStop
@@ -310,7 +310,7 @@ For Java tests, you can measure code coverage for the project using `Run → Run
 > There are some packages and classes that are excluded when using Jacoco on the comamnd line which are not excluded
 when you run them in IntelliJ, thus the coverage statistics you see in IntelliJ may not match what you see on `Codecov`. 
 
-Alternatively, you can right click a class with TestNG test(s), and click `Run '$FileClass$' with Coverage`, this will use
+Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use
 IntelliJ IDEA's code coverage runner. You can further configure your code coverage settings by referring to
 [IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-coverage.html).
 

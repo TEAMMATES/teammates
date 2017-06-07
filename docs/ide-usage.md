@@ -165,7 +165,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
       `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`.\
       **OR**\
       `Frameworks detected: OSGi, Google App Engine, Web, JPA frameworks are detected in the project`.\
-      Click `Configure`, ensure that there is only `Google App Engine` and `JPA` frameworks being shown, otherwise make
+      Click `Configure` and ensure that only `Google App Engine` and `JPA` frameworks are shown, otherwise make
       sure you have excluded the `build` folder in your `teammates` module. Then click `OK`.
 	  > If you missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the dialog box, click `Configure` and then `OK`.
