@@ -188,13 +188,9 @@ task createEclipseLaunches {
     doLast {
         def templatesToCopy = [
                 ".templates/eclipseLaunches/All tests.launch.xml",
-                ".templates/eclipseLaunches/All tests (GodMode).launch.xml",
                 ".templates/eclipseLaunches/CI tests.launch.xml",
-                ".templates/eclipseLaunches/CI tests (GodMode).launch.xml",
                 ".templates/eclipseLaunches/Failed tests.launch.xml",
-                ".templates/eclipseLaunches/Failed tests (GodMode).launch.xml",
-                ".templates/eclipseLaunches/Local tests.launch.xml",
-                ".templates/eclipseLaunches/Local tests (GodMode).launch.xml"
+                ".templates/eclipseLaunches/Local tests.launch.xml"
         ]
         templatesToCopy.findAll {
             !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
@@ -485,11 +481,7 @@ test {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    if (project.hasProperty("godmode")) {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
-    } else {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
-    }
+    jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     testLogging {
         events "passed"
@@ -505,11 +497,7 @@ task localTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    if (project.hasProperty("godmode")) {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
-    } else {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
-    }
+    jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     testLogging {
         events "passed"
@@ -525,11 +513,7 @@ task failedTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    if (project.hasProperty("godmode")) {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
-    } else {
-        jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
-    }
+    jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     testLogging {
         events "passed"
@@ -555,8 +539,6 @@ task ciTests {
         reports.junitXml.enabled = false
         if (isTravis) {
             jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        } else if (project.hasProperty("godmode")) {
-            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
         } else {
             jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
         }

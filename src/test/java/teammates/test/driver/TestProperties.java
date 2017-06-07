@@ -74,6 +74,9 @@ public final class TestProperties {
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
+    /** The value of "test.godmode.enabled" in test.properties file. */
+    public static final boolean IS_GODMODE_ENABLED;
+
     /** Maximum period for verification retries due to persistence delays. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
 
@@ -86,7 +89,9 @@ public final class TestProperties {
 
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
 
-            if (isDevServer() && (isCiEnvironment() || isGodModeEnabled())) {
+            IS_GODMODE_ENABLED = Boolean.parseBoolean(prop.getProperty("test.godmode.enabled", "false"));
+
+            if (isDevServer() && (isCiEnvironment() || IS_GODMODE_ENABLED)) {
                 // For CI and GodMode, we do not read the account details from the test properties file, but generate
                 // random account names. This is for detection and prevention of hard-coded account names in test files.
                 // The password values are not required for login to the dev server and hence, set to null.
@@ -146,10 +151,6 @@ public final class TestProperties {
         return System.getenv("TRAVIS") != null || System.getenv("APPVEYOR") != null;
     }
 
-    public static boolean isGodModeEnabled() {
-        return Boolean.parseBoolean(System.getProperty("godmode", "false"));
-    }
-
     public static boolean isDevServer() {
         return TEAMMATES_URL.contains("localhost");
     }
@@ -165,13 +166,13 @@ public final class TestProperties {
 
     /**
      * Verifies that the test properties specified in test.properties file allows for HTML
-     * regeneration via God mode to work smoothly (i.e all test HTML files are correctly regenerated,
+     * regeneration via GodMode to work smoothly (i.e all test HTML files are correctly regenerated,
      * strings that need to be replaced with placeholders are correctly replaced, and
      * strings that are not supposed to be replaced with placeholders are not replaced).
      */
     public static void verifyReadyForGodMode() {
         if (!isDevServer()) {
-            fail("God mode regeneration works only in dev server.");
+            fail("GodMode regeneration works only in dev server.");
         }
         if (isStudentMotdUrlEmpty()) {
             fail("Student MOTD URL defined in app.student.motd.url in build.properties "
