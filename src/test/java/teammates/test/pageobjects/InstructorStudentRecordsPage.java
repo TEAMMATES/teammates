@@ -80,20 +80,21 @@ public class InstructorStudentRecordsPage extends AppPage {
         click(cancelButton);
     }
 
-    public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
-        WebElement editButton = browser.driver.findElement(By.xpath("//*[@id='commentedit-1-1-1-1-GRQ']"));
+    public void editFeedbackResponseComment(String newCommentText) {
+        waitForPageToLoad();
+        WebElement editButton = browser.driver.findElement(By.cssSelector("#commentedit-1-1-1-1-GRQ"));
         click(editButton);
-        WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
+        WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
         WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
         waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
-        click(editCommentForm.findElement(By.id("button_save_comment_for_edit" + commentIdSuffix)));
+        click(editCommentForm.findElement(By.id("button_save_comment_for_edit-1-1-1-1-GRQ")));
         if (newCommentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
             waitForElementToBeClickable(editorElement);
         } else {
             // non-empty comment: wait until the add comment form disappears
-            waitForElementToDisappear(By.id("responseCommentEditForm" + commentIdSuffix));
+            waitForElementToDisappear(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
         }
     }
 
@@ -109,10 +110,10 @@ public class InstructorStudentRecordsPage extends AppPage {
         return webElements;
     }
 
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
-        By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
+    public void verifyCommentRowContent(String commentText, String giverName) {
+        By commentRowSelector = By.id("responseCommentRow-1-1-1-1-GRQ");
         WebElement commentRow = waitForElementPresence(commentRowSelector);
-        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
+        waitForTextContainedInElementPresence(By.id("plainCommentText-1-1-1-1-GRQ"), commentText);
         assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
                    || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
@@ -123,7 +124,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow-" + commentIdSuffix));
         click(commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")));
         waitForConfirmationModalAndClickOk();
         ThreadHelper.waitFor(1500);
@@ -132,7 +133,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     public void verifyRowMissing(String rowIdSuffix) {
         try {
             waitForAjaxLoaderGifToDisappear();
-            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
+            browser.driver.findElement(By.id("responseCommentRow-" + rowIdSuffix));
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException expected) {
             // row expected to be missing
