@@ -37,9 +37,9 @@ public class InstructorFeedbacksPageAction extends Action {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account, sessionToken);
         data.setUsingAjax(isUsingAjax != null);
 
-        boolean omitArchived = true; // TODO: implement as a request parameter
+        boolean shouldOmitArchived = true; // TODO: implement as a request parameter
         // HashMap with courseId as key and InstructorAttributes as value
-        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
 
         List<InstructorAttributes> instructorList =
                 new ArrayList<InstructorAttributes>(instructors.values());

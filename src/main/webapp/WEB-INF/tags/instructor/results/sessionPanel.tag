@@ -18,7 +18,7 @@
                   <div class="form-group">
                       <label class="col-lg-4 control-label">Session:</label>
                       <div class="col-lg-8">
-                        <p class="form-control-static">${sessionPanel.feedbackSessionName} 
+                        <p class="form-control-static">${sessionPanel.feedbackSessionName}
                             <c:if test="${not empty sessionPanel.editLink}">
                                 <a href="${sessionPanel.editLink}">[Edit]</a>
                             </c:if>
@@ -55,7 +55,6 @@
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
                             <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
-                            <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
                             <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
                         </form>
