@@ -212,11 +212,7 @@ Any individual test | `./gradlew test -Dtest.single=TestClassName` | `{project f
 `CI tests` will be run once and the failed tests will be re-run a few times.
 All other test suites will be run once and only once.
 
-To run any test suite or individual test with [GodMode turned on](godmode.md), append `-Pgodmode=true` to the command, e.g.:
-```sh
-./gradlew ciTests -Pgodmode=true
-./gradlew test -Dtest.single=InstructorFeedbackResultsPageUiTest -Pgodmode=true
-```
+To run any test suite or individual test with [GodMode turned on](godmode.md), set the value of `test.godmode.enabled` to `true` in `test.properties`.
 
 ### Running the test suite with an IDE
 
