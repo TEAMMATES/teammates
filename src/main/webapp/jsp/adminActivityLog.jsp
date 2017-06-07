@@ -13,7 +13,7 @@
 
 <ta:adminPage bodyTitle="Admin Activity Log" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
     <activity:filterPanel excludedLogRequestURIs="${data.excludedLogRequestUris}" actionListAsHtml="${data.actionListAsHtml}"
-                            ifShowAll="${data.ifShowAll}" ifShowTestData="${data.ifShowTestData}" filterQuery="${data.filterQuery}"
+                            shouldShowAllLogs="${data.shouldShowAllLogs}" shouldShowTestData="${data.shouldShowTestData}" filterQuery="${data.filterQuery}"
                             queryKeywordsForInfo="${data.queryKeywordsForInfo}"/>
 
     <c:if test="${not empty data.queryMessage}">

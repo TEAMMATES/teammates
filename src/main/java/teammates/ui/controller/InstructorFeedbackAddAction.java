@@ -95,8 +95,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         }
         // isError == true if an exception occurred above
 
-        boolean omitArchived = true;
-        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        boolean shouldOmitArchived = true;
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
