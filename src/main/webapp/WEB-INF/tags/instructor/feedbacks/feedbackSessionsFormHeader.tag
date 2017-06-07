@@ -46,7 +46,7 @@
                     ${fsForm.editButtonTags.attributesToString}>
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
-                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
+                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm">
                     <span class="glyphicon glyphicon-ok"></span> Save
                 </button>
                 <a href="${fsForm.fsDeleteLink}"

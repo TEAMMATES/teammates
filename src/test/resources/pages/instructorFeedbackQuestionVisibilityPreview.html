@@ -15,7 +15,7 @@
               </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
+            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
               <span class="glyphicon glyphicon-ok">
               </span>
               Save
@@ -795,6 +795,7 @@
     </div>
   </div>
   <br>
+  <input id="num-questions" type="hidden" value="1">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
@@ -814,7 +815,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,1)" style="display: none;" title="">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questionedittext-1" style="display: none;" title="">
                 <span class="glyphicon glyphicon-pencil">
                 </span>
                 Edit
@@ -824,12 +825,12 @@
                 </span>
                 Save
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questiondiscardchanges-1" style="" title="">
                 <span class="glyphicon glyphicon-ban-circle">
                 </span>
                 Discard
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="1" data-toggle="tooltip" title="">
                 <span class=" glyphicon glyphicon-trash">
                 </span>
                 Delete
@@ -977,7 +978,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype-1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -998,7 +999,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1331,7 +1332,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
                 Cancel
               </a>
             </span>
@@ -2014,7 +2015,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -2035,7 +2036,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>

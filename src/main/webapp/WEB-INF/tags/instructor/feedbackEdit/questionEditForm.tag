@@ -7,7 +7,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
-<%@ attribute name="numQn" required="true"%>
 
 <form class="form-horizontal form_question" role="form" method="post"
     action="${fqForm.action}"
@@ -34,26 +33,26 @@
                 </div>
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
-                        <a class="btn btn-primary btn-xs"
+                        <a class="btn btn-primary btn-xs btn-edit-qn"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_EDIT %>"
-                            onclick="enableEdit(${fqForm.questionIndex},${numQn})">
+                            data-qnnumber="${fqForm.questionIndex}">
                             <span class="glyphicon glyphicon-pencil"></span> Edit
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT %>-${fqForm.questionIndex}">
                             <span class="glyphicon glyphicon-ok"></span> Save
                         </a>
-                        <a class="btn btn-primary btn-xs" style="display:none"
-                            onclick="discardChanges(${fqForm.questionIndex})"
+                        <a class="btn btn-primary btn-xs btn-discard-changes" style="display:none"
+                            data-qnnumber="${fqForm.questionIndex}"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES %>-${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_DISCARDCHANGES %>">
                             <span class="glyphicon glyphicon-ban-circle"></span> Discard
                         </a>
-                        <a class="btn btn-primary btn-xs"
-                            onclick="deleteQuestion(${fqForm.questionIndex})"
+                        <a class="btn btn-primary btn-xs btn-delete-qn"
+                            data-qnnumber="${fqForm.questionIndex}"
                             data-toggle="tooltip" data-placement="top">
                             <span class=" glyphicon glyphicon-trash"></span> Delete
                         </a>

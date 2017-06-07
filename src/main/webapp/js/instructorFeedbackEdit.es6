@@ -9,7 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false
+makeCsrfTokenParam:false, checkEditFeedbackSession:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -284,8 +284,8 @@ function enableQuestion(questionNum) {
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
-function enableEdit(questionNum, maxQuestions) {
-    let i = maxQuestions;
+function enableEdit(questionNum) {
+    let i = parseInt($('#num-questions').val(), 10);
     while (i) {
         if (questionNum === i) {
             backupQuestion(i);
@@ -980,8 +980,25 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
-});
 
-/* exported
-enableEditFS, enableEdit, deleteQuestion, discardChanges
-*/
+    $('#fsSaveLink').on('click', (e) => {
+        checkEditFeedbackSession(e.target.form);
+    });
+
+    $(document).on('change', '.participantSelect', (e) => {
+        matchVisibilityOptionToFeedbackPath(e.target);
+        getVisibilityMessage(e.target);
+    });
+
+    $(document).on('click', '.btn-discard-changes', (e) => {
+        discardChanges($(e.target).data('qnnumber'));
+    });
+
+    $(document).on('click', '.btn-edit-qn', (e) => {
+        enableEdit($(e.target).data('qnnumber'));
+    });
+
+    $(document).on('click', '.btn-delete-qn', (e) => {
+        deleteQuestion($(e.target).data('qnnumber'));
+    });
+});
