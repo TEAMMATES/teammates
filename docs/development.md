@@ -85,6 +85,10 @@ Click the "Terminate" icon on the Eclipse console.
    This will place your local datastore on your project root, and if you delete your `buildIdea` folder your local
    datastore will still be preserved. Note that IntelliJ IDEA does not delete the whole `buildIdea` folder on rebuild so
    your datastore will not be wiped on rebuild.
+1. If you have a previous datastore file `local_db.bin` that you would like to use, you can copy it to the project root 
+   if you have changed the datastore path in the previous step. Otherwise, you would need to check the `Output directory:`
+   of `Gradle : teammates.war (exploded)` from `File → Project Structure... → Artifacts`, copy `local_db.bin` into
+   `<OutputDirYouFound>/WEB-INF/appengine-generated` (create the folder if it does not exist).
 1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
 1. Check in `JRE:` that the SDK used is the default of `1.7`.\
    Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).

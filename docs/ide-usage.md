@@ -89,8 +89,9 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 **NOTE**
 > If you are migrating from Eclipse, you should delete `.project`, `.classpath`, `.launches`,
 > `src/main/webapp/WEB-INF/classes`, `src/main/webapp/WEB-INF/lib` and `src/main/webapp/WEB-INF/appengine-generated`.\
-> You can also copy `local_db.bin` from `src/main/webapp/WEB-INF/appengine-generated` and copy it to the appropriate
-> location your dev server in IntelliJ reads the datastore from after your IntelliJ setup.
+> You can also copy `local_db.bin` from `src/main/webapp/WEB-INF/appengine-generated` to the location your dev server in
+> IntelliJ reads the datastore from after your IntelliJ setup. See [dev server setup](development.md#with-intellij) for
+> more details.
 
 ### Prerequisites
 1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA as follows:
