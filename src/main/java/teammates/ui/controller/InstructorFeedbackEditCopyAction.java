@@ -121,9 +121,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
         for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =
                     logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
-            boolean fsAlreadyExists = existingFs != null;
+            boolean hasExistingFs = existingFs != null;
 
-            if (fsAlreadyExists) {
+            if (hasExistingFs) {
                 courses.add(existingFs.getCourseId());
             }
         }
