@@ -143,7 +143,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         //Edit First Comment.
         viewPage.editFeedbackResponseComment("Instructor first edited comment to Alice about feedback to Benny");
-        viewPage.verifyCommentRowContent("Instructor first edited comment to Alice about feedback to Benny", "teammates.test@gmail.tmt");
+        viewPage.verifyCommentRowContent("Instructor first edited comment to Alice about feedback to Benny",
+                "teammates.test@gmail.tmt");
 
         ______TS("Typical Case: Delete comment");
 
