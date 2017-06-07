@@ -81,6 +81,10 @@ Click the "Terminate" icon on the Eclipse console.
 1. Ensure the `Application server:` selected is of the name `AppEngine Dev <version>`.\
    If you do not have an application server named `AppEngine Dev <version>`, make sure you have
    [setup IntelliJ IDEA](ide-usage.md#prerequisites) correctly.
+1. You can optionally choose to add `-Ddatastore.backing_store=../../../../local_db.bin` to `VM options:`.\
+   This will place your local datastore on your project root, and if you delete your `buildIdea` folder your local
+   datastore will still be preserved. Note that IntelliJ IDEA does not delete the whole `buildIdea` folder on rebuild so
+   your datastore will not be wiped on rebuild.
 1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
 1. Check in `JRE:` that the SDK used is the default of `1.7`.\
    Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).

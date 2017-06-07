@@ -509,7 +509,11 @@ compileTestJava.options.encoding = "UTF-8"
 appengine {
     httpPort = 8888
     downloadSdk = true
-    jvmFlags = ["-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"]
+    jvmFlags = ["-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8",
+                // absolute paths are not supported, the following is relative to the exploded war directory
+                // this only specifies the datastore path, but the indexes are still generated in
+                // WEB-INF/appengine-generated.
+                "-Ddatastore.backing_store=../../local_db.bin"]
     appcfg {
         oauth2 = true
     }
