@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="excludedLogRequestURIs" required="true" %>
 <%@ attribute name="actionListAsHtml" required="true" %>
-<%@ attribute name="ifShowAll" required="true" %>
-<%@ attribute name="ifShowTestData" required="true" %>
+<%@ attribute name="shouldShowAllLogs" required="true" %>
+<%@ attribute name="shouldShowTestData" required="true" %>
 <%@ attribute name="filterQuery" required="true" %>
 <%@ attribute name="queryKeywordsForInfo" required="true"%>
 
@@ -195,12 +195,12 @@
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
         logs despite any action or change in the page unless the page is reloaded with "?all=false"
         or simply reloaded with this parameter omitted. --%>
-        <input type="hidden" name="all" value="${ifShowAll}">
+        <input type="hidden" name="all" value="${shouldShowAllLogs}">
 
         <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
         unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
-        <input type="hidden" name="testdata" value="${ifShowTestData}">
+        <input type="hidden" name="testdata" value="${shouldShowTestData}">
     </form>
 
     <%-- This form is used to store parameters for ajaxloader only --%>
@@ -211,12 +211,12 @@
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
         logs despite any action or change in the page unless the page is reloaded with "?all=false"
         or simply reloaded with this parameter omitted. --%>
-        <input type="hidden" name="all" value="${ifShowAll}">
+        <input type="hidden" name="all" value="${shouldShowAllLogs}">
 
         <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
         unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
-        <input type="hidden" name="testdata" value="${ifShowTestData}">
+        <input type="hidden" name="testdata" value="${shouldShowTestData}">
 
         <input type="hidden" id="filterQuery" name="filterQuery" value="${filterQuery}">
     </form>
