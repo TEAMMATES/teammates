@@ -33,7 +33,6 @@ public class InstructorAttributes extends EntityAttributes {
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
-
     /**
      * Return new builder instance with default values for optional fields.
      *
@@ -277,16 +276,18 @@ public class InstructorAttributes extends EntityAttributes {
         }
 
         public Builder withRole(String role) {
-            instructorAttributes.role = (role == null)
-                    ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-                    : SanitizationHelper.sanitizeName(role);
+            if (role != null) {
+                instructorAttributes.role = SanitizationHelper.sanitizeName(role);
+            }
+
             return this;
         }
 
         public Builder withDisplayedName(String displayedName) {
-            instructorAttributes.displayedName = (displayedName == null)
-                    ? DEFAULT_DISPLAY_NAME
-                    : SanitizationHelper.sanitizeName(displayedName);
+            if (displayedName != null) {
+                instructorAttributes.displayedName = SanitizationHelper.sanitizeName(displayedName);
+            }
+
             return this;
         }
 
@@ -302,14 +303,14 @@ public class InstructorAttributes extends EntityAttributes {
 
         public Builder withPrivileges(InstructorPrivileges privileges) {
             instructorAttributes.privileges = (privileges == null)
-                    ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                    ? new InstructorPrivileges(instructorAttributes.role)
                     : privileges;
             return this;
         }
 
         public Builder withPrivileges(String privilegesAsText) {
             instructorAttributes.privileges = (privilegesAsText == null)
-                    ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                    ? new InstructorPrivileges(instructorAttributes.role)
                     : getInstructorPrivilegesFromText(privilegesAsText);
             return this;
         }
