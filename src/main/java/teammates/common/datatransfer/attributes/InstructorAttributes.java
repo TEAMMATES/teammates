@@ -29,7 +29,7 @@ public class InstructorAttributes extends EntityAttributes {
     public String key;
     public String role;
     public String displayedName;
-    public Boolean isArchived;
+    public boolean isArchived;
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
@@ -277,9 +277,9 @@ public class InstructorAttributes extends EntityAttributes {
         }
 
         public Builder withRole(String role) {
-            instructorAttributes.role = (role == null)
-                    ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-                    : SanitizationHelper.sanitizeName(role);
+            if(role != null) {
+                instructorAttributes.role = SanitizationHelper.sanitizeName(role);
+            }
             return this;
         }
 
@@ -290,8 +290,8 @@ public class InstructorAttributes extends EntityAttributes {
             return this;
         }
 
-        public Builder withIsArchived(Boolean isArchived) {
-            instructorAttributes.isArchived = isArchived != null && isArchived;
+        public Builder withIsArchived(boolean isArchived) {
+            instructorAttributes.isArchived = isArchived;
             return this;
         }
 
@@ -302,14 +302,14 @@ public class InstructorAttributes extends EntityAttributes {
 
         public Builder withPrivileges(InstructorPrivileges privileges) {
             instructorAttributes.privileges = (privileges == null)
-                    ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                    ? new InstructorPrivileges(instructorAttributes.role)
                     : privileges;
             return this;
         }
 
         public Builder withPrivileges(String privilegesAsText) {
             instructorAttributes.privileges = (privilegesAsText == null)
-                    ? new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                    ? new InstructorPrivileges(instructorAttributes.role)
                     : getInstructorPrivilegesFromText(privilegesAsText);
             return this;
         }
