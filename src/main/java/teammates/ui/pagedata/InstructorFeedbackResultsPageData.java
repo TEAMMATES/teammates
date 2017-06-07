@@ -1436,7 +1436,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         log.info(bundle.getInstructorNameForEmailTable().toString());
         log.info("hello");
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                                           frcAttributes, bundle.getInstructorNameForEmailTable(), frcAttributes.giverEmail, giverName, recipientName,
+                                           frcAttributes, bundle.instructorEmailNameTable, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                            responseVisibilityMap);

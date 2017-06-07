@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
@@ -58,7 +59,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         String giverName = bundle.getGiverNameForResponse(response);
         String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
         data.giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
-
+        
         String recipientName = bundle.getRecipientNameForResponse(response);
         String recipientTeamName = bundle.getTeamNameForEmail(recipientEmail);
         data.recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
@@ -118,6 +119,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
         data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        data.commentGiverName = instructor.name;
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }

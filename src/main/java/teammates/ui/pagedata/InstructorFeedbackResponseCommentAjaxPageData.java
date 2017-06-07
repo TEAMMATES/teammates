@@ -20,6 +20,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showGiverNameToString;
     public String errorMessage;
     public boolean isError;
+    public String commentGiverName;
 
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
