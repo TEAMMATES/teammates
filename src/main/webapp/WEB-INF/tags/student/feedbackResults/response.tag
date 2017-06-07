@@ -14,16 +14,15 @@
     <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
     <td class="text-preserve-space">${response.answer}</td>
 </tr>
-                                                            
+
 <c:if test="${not empty response.comments}">
     <tr>
         <td>
-            <ul class="list-group comment-list">                                                                           
+            <ul class="list-group comment-list">
                 <c:forEach items="${response.comments}" var="comment">
                     <shared:feedbackResponseCommentRow frc="${comment}" />
-                </c:forEach>                                                                                   
+                </c:forEach>
             </ul>
         </td>
-    </tr>                                                            
+    </tr>
 </c:if>
-                                                            

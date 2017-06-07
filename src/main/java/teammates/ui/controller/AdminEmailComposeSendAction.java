@@ -22,8 +22,8 @@ public class AdminEmailComposeSendAction extends Action {
     private List<String> addressReceiver = new ArrayList<String>();
     private List<String> groupReceiver = new ArrayList<String>();
 
-    private boolean addressModeOn;
-    private boolean groupModeOn;
+    private boolean isAddressModeOn;
+    private boolean isGroupModeOn;
 
     //params needed to move heavy jobs into a address mode task
     private String addressReceiverListString;
@@ -42,12 +42,12 @@ public class AdminEmailComposeSendAction extends Action {
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
 
         addressReceiverListString = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
-        addressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();
+        isAddressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();
         emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
-        groupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
+        isGroupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
 
-        if (groupModeOn) {
+        if (isGroupModeOn) {
             try {
                 groupReceiver.add(groupReceiverListFileKey);
                 GoogleCloudStorageHelper.getGroupReceiverList(new BlobKey(groupReceiverListFileKey));
@@ -57,7 +57,7 @@ public class AdminEmailComposeSendAction extends Action {
             }
         }
 
-        if (addressModeOn) {
+        if (isAddressModeOn) {
             addressReceiver.add(addressReceiverListString);
             try {
                 checkAddressReceiverString(addressReceiverListString);
@@ -67,7 +67,7 @@ public class AdminEmailComposeSendAction extends Action {
             }
         }
 
-        if (!addressModeOn && !groupModeOn) {
+        if (!isAddressModeOn && !isGroupModeOn) {
             isError = true;
             statusToAdmin = "Error : No receiver address or file given";
             statusToUser.add(new StatusMessage("Error : No receiver address or file given", StatusMessageColor.DANGER));
@@ -119,7 +119,7 @@ public class AdminEmailComposeSendAction extends Action {
     }
 
     private void moveJobToGroupModeTaskQueue() {
-        if (!groupModeOn) {
+        if (!isGroupModeOn) {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
@@ -130,7 +130,7 @@ public class AdminEmailComposeSendAction extends Action {
     }
 
     private void moveJobToAddressModeTaskQueue() {
-        if (!addressModeOn) {
+        if (!isAddressModeOn) {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);

@@ -69,9 +69,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(typicalParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-                     + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "idOfTypicalCourse1",
+                        "First+feedback+session",
+                        "idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -98,9 +103,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(customParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-                     + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "idOfTypicalCourse1",
+                        "First+feedback+session",
+                        "idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -126,9 +136,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(teamParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-                     + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "idOfTypicalCourse1",
+                        "First+feedback+session",
+                        "idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -154,9 +169,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(selfParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-                     + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "idOfTypicalCourse1",
+                        "First+feedback+session",
+                        "idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -261,9 +281,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(deleteParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=idOfTypicalCourse1"
-                     + "&fsname=First+feedback+session&user=idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "idOfTypicalCourse1",
+                        "First+feedback+session",
+                        "idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -367,9 +392,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -410,9 +440,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editOptionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -448,9 +483,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editToGeneratedOptionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -481,9 +521,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(deleteParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MCQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
     }
@@ -533,9 +578,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -576,9 +626,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editOptionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -614,9 +669,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editToGeneratedOptionParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                    + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                    r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -648,9 +708,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(deleteParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=MSQ+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
     }
@@ -701,9 +766,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=NUMSCALE+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "NUMSCALE+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -735,9 +805,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editScalesParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=NUMSCALE+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "NUMSCALE+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -793,9 +868,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -832,9 +912,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editPointsParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -891,9 +976,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should remain
@@ -931,9 +1021,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editPointsParams);
         r = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
 
@@ -985,9 +1080,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=CONTRIB+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONTRIB+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should remain
@@ -1020,9 +1120,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                      + "<br>" + Const.StatusMessages.FEEDBACK_QUESTION_EDITED,
                      r.getStatusMessage());
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=CONTRIB+Session&user=FSQTT.idOfInstructor1OfCourse1&error=true",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONTRIB+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        true),
+                r.getDestinationWithParams());
         assertTrue(r.isError);
 
         // delete session to clean database
@@ -1084,9 +1189,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should remain
@@ -1131,9 +1241,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should remain
@@ -1178,9 +1293,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should remain
@@ -1225,9 +1345,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should be deleted
@@ -1281,9 +1406,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
-                     + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1&error=false",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "RUBRIC+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
 
         // All existing responses should be deleted
@@ -1410,6 +1540,16 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Override
     protected InstructorFeedbackQuestionEditAction getAction(String... params) {
         return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, String courseId, String fsname, String userId, boolean isError) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        return pageDestination;
     }
 
     @Override

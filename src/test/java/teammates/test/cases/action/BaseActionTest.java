@@ -725,4 +725,19 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         StudentsLogic.inst().createStudentCascade(student);
     }
 
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
+    }
+
+    protected static String addParamToUrl(String url, String key, String value) {
+        if (key == null || key.isEmpty() || value == null || value.isEmpty()
+                || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
+            return url;
+        }
+        return url + (url.contains("?") ? "&" : "?") + key + "=" + value;
+    }
+
 }

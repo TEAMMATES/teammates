@@ -11,7 +11,7 @@
         <table>
             <tr>
                 <td id="jodatime">
-                    <% 
+                    <%
                     long date = new Date().getTime();
                     for (String timeZone: DateTimeZone.getAvailableIDs()) {
                         int offset = DateTimeZone.forID(timeZone).getOffset(date) / 60 / 1000; %>

@@ -76,8 +76,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?error=true&user=" + student1InCourse1.googleId,
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, student1InCourse1.googleId),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You (student1InCourse1) have already joined this course",
@@ -142,9 +142,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?persistencecourse=idOfCourseNoEvals"
-                + "&error=false&user=idOfNoFSStudent",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE, "idOfCourseNoEvals", false, "idOfNoFSStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -183,9 +183,12 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?persistencecourse=idOfCourseNoEvals"
-                + "&error=false&user=idOfNoFSStudent2",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE,
+                        "idOfCourseNoEvals",
+                        false,
+                        "idOfNoFSStudent2"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -224,9 +227,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?persistencecourse=idOfCourseNoEvals"
-                + "&error=false&user=idOfNoFSStudent3",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE, "idOfCourseNoEvals", false, "idOfNoFSStudent3"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -265,9 +268,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_PROFILE_PAGE
-                + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=false&user=idOfNewStudent",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE, "idOfTypicalCourse1", false, "idOfNewStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -280,6 +283,14 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     @Override
     protected StudentCourseJoinAuthenticatedAction getAction(String... params) {
         return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, String persistenceCourse, boolean isError, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, persistenceCourse);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
     }
 
     @Override

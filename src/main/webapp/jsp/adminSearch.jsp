@@ -14,14 +14,14 @@
 
 <ta:adminPage bodyTitle="Admin Search" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
     <adminSearch:searchPageInput searchKey="${data.searchKey}"/>
-    
+
     <c:if test="${not empty data.instructorResultList}">
         <adminSearch:instructorResultsTable instructorResultsTable="${data.instructorTable}"/>
     </c:if>
-    
+
     <c:if test="${not empty data.studentResultList}">
         <adminSearch:studentResultsTable studentResultsTable="${data.studentTable}"/>
     </c:if>
-    
+
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </ta:adminPage>

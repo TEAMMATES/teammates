@@ -16,7 +16,7 @@
         <results:participantGroupBySecondaryParticipantPanel groupByParticipantPanel="${participantPanel}"/>
     </c:when>
     <c:otherwise>
-        <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}" 
+        <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}"
                                                  isShowingAll="${isShowingAll}"/>
     </c:otherwise>
 </c:choose>

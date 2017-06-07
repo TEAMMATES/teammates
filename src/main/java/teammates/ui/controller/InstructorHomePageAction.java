@@ -48,9 +48,9 @@ public class InstructorHomePageAction extends Action {
     }
 
     private ActionResult loadPage() {
-        boolean omitArchived = true;
+        boolean shouldOmitArchived = true;
         Map<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
-                                                                 account.googleId, omitArchived);
+                                                                 account.googleId, shouldOmitArchived);
 
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
 
