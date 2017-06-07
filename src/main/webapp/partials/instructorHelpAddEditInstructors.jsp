@@ -1,7 +1,7 @@
 <h4>
     <a name="editCourse">Add/Edit instructors</a>
 </h4>
-<div id="contentHolder">
+<div id="contentHolder" class="helpGuideData">
     <br>
     <ul>
         <li>

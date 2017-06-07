@@ -1,7 +1,7 @@
-<h4>
-    <a name="gs">Getting Started</a>
-</h4>
-<div id="contentHolder">
+<div id="contentHolder" class="helpGuideData">
+    <h4>
+        <a name="gs">Getting Started</a>
+    </h4>
     <br>
     <ol type="1">
         <li>
