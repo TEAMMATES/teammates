@@ -370,7 +370,7 @@ function bindUnpublishButtons() {
         event.preventDefault();
 
         const $button = $(event.target);
-        const messageText = `Are you sure you want to unpublish the session ${$button.data('fsname')}?`;
+        const messageText = `Are you sure you want to unpublish the session "${$button.data('fsname')}"? An email will be sent to students to inform them that the session has been unpublished and the session results will no longer be viewable by students.`;
         const okCallback = function () {
             window.location = $button.attr('href');
         };
