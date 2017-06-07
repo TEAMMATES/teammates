@@ -14,6 +14,6 @@
     <br>
 
     <div>
-        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructorDetailsSingleLineForm" onclick="addInstructorFromFirstFormByAjax()">Add Instructor</button>
+        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructorDetailsSingleLineForm" onclick="addInstructorFromFirstFormByAjax()">Add Instructors</button>
     </div>
 </div>
