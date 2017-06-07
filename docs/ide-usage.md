@@ -86,6 +86,12 @@ The following plugins are needed:
 Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work with Google App Engine).
 You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
 
+**NOTE**
+> If you are migrating from Eclipse, you should delete `.project`, `.classpath`, `.launches`,
+> `src/main/webapp/WEB-INF/classes`, `src/main/webapp/WEB-INF/lib` and `src/main/webapp/WEB-INF/appengine-generated`.\
+> You can also copy `local_db.bin` from `src/main/webapp/WEB-INF/appengine-generated` and copy it to the appropriate
+> location your dev server in IntelliJ reads the datastore from after your IntelliJ setup.
+
 ### Prerequisites
 1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA as follows:
 
