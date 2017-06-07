@@ -28,7 +28,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        prepareTestData();
+        removeAndRestoreDataBundle(dataBundle);
+
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
