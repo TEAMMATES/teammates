@@ -672,7 +672,6 @@ input.inline {
     .helpGuideSideBar {
         display: none;
     }
-
 }
 
 @media (max-width: 768px) {
