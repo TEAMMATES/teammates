@@ -46,8 +46,8 @@ function addRubricRow(questionNum) {
         </tr>`;
 
     // Row to insert new row after
-    const secondLastRow = $(`#rubricEditTable-${questionNum} tbody tr:nth-last-child(2)`);
-    $(newRubricRow).insertAfter(secondLastRow);
+    const $secondLastRow = $(`#rubricEditTable-${questionNum} tbody tr:nth-last-child(2)`);
+    $(newRubricRow).insertAfter($secondLastRow);
 
     // Increment
     $(`#rubricNumRows-${questionNum}`).val(newRowNumber);
@@ -114,8 +114,7 @@ function addRubricCol(questionNum) {
         `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}" data-col="${newColNumber - 1}">
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="rubric-move-col-left-${questionNum}-${newColNumber - 1}"
-                        onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, true)" data-toggle="tooltip"
-                        data-placement="top" title="Move column left">
+                        data-toggle="tooltip" data-placement="top" title="Move column left">
                     <span class="glyphicon glyphicon-arrow-left"></span>
                 </button>
                 <button type="button" class="btn btn-default" id="rubricRemoveChoiceLink-${questionNum}-${newColNumber - 1}"
@@ -125,24 +124,27 @@ function addRubricCol(questionNum) {
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
                 <button type="button" class="btn btn-default" id="rubric-move-col-right-${questionNum}-${newColNumber - 1}"
-                        onclick="swapRubricCol(${newColNumber - 1}, ${questionNum}, false)" data-toggle="tooltip"
-                        data-placement="top" title="Move column right">
+                        data-toggle="tooltip" data-placement="top" title="Move column right">
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>
         </td>`;
 
-    const lastTd = $(`#rubric-options-row-${questionNum} td:last`);
-    $(optionsRow).insertAfter(lastTd);
+    const $lastTd = $(`#rubric-options-row-${questionNum} td:last`);
+    $(optionsRow).insertAfter($lastTd);
 
-    // Initialize tooltips
-    $(`#rubric-move-col-left-${questionNum}-${newColNumber - 1}`).tooltip({ container: 'body' });
-    $(`#rubric-move-col-left-${questionNum}-${newColNumber - 1}`).click(() => {
+    // Initialize tooltips and set click event handlers for move column buttons
+    const $newColMoveLeftBtn = $(`#rubric-move-col-left-${questionNum}-${newColNumber - 1}`);
+    const $newColMoveRightBtn = $(`#rubric-move-col-right-${questionNum}-${newColNumber - 1}`);
+
+    $newColMoveLeftBtn.tooltip({ container: 'body' });
+    $newColMoveRightBtn.tooltip({ container: 'body' });
+
+    $newColMoveLeftBtn.click(() => {
         swapRubricCol(questionNum, newColNumber - 1, true);
     });
 
-    $(`#rubric-move-col-right-${questionNum}-${newColNumber - 1}`).tooltip({ container: 'body' });
-    $(`#rubric-move-col-right-${questionNum}-${newColNumber - 1}`).click(() => {
+    $newColMoveRightBtn.click(() => {
         swapRubricCol(questionNum, newColNumber - 1, false);
     });
 

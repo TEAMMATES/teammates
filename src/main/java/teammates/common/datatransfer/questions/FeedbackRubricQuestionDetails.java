@@ -456,7 +456,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.CHECK_ASSIGN_WEIGHTS, hasAssignedWeights ? "checked" : "",
                 Slots.RUBRIC_TOOLTIPS_ASSIGN_WEIGHTS, Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS,
                 Slots.RUBRIC_PARAM_ASSIGN_WEIGHTS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED,
-                Slots.RUBRIC_TABLE_OPTIONS, tableOptionsHtml.toString()); // resume here! fix compilation errors
+                Slots.RUBRIC_TABLE_OPTIONS, tableOptionsHtml.toString());
     }
 
     @Override
