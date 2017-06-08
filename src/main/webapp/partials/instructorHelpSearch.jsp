@@ -11,7 +11,7 @@
                     <h3>1. Searching for students</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 You can search for students by clicking on
                 <b>'Search'</b> on the top nav bar. You should see a search bar similar to the one below -
                 <br><br>
@@ -292,10 +292,10 @@
         <li>
             <span class="text-bold">
                 <a name="searchCommentForResponses">
-                    <h3>2. Searching for comments for responses</h3>
+                    <h3>2. Searching for comments on responses</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 You can search for your comments on responses given by students. To do this check
                 <b>'Comments for responses'</b> below the search box and type your keywords. When done hit <b>'Search'</b>.
                 <br>Suppose you entered <b>'good'</b> in the search box and let's assume relevant data exists, then the search results would look something similar to this -

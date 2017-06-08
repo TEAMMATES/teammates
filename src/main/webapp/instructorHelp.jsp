@@ -139,10 +139,10 @@
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>
-                            <a href="#viewStudentProfile">View student's profile</a>
+                            <a href="#viewStudentProfile">Viewing student profiles</a>
                         </li>
                         <li>
-                            <a href="#editStudentProfile">Editing student's profile</a>
+                            <a href="#editStudentProfile">Editing student profiles</a>
                         </li>
                     </ul>
                 </div>
@@ -152,10 +152,10 @@
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>
-                            <a href="#searchStudents">Search students</a>
+                            <a href="#searchStudents">Searching for students</a>
                         </li>
                         <li>
-                            <a href="#searchCommentForResponses">Searching for comments for responses</a>
+                            <a href="#searchCommentForResponses">Searching for comments on responses</a>
                         </li>
                     </ul>
                 </div>
@@ -165,13 +165,13 @@
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>
-                            <a href="#sectionsWhatIsItMeantFor">What is it meant for?</a>
+                            <a href="#sectionsWhatIsItMeantFor">What are sections meant for?</a>
                         </li>
                         <li>
                             <a href="#sectionsEnrollingStudents">Enrolling students into sections</a>
                         </li>
                         <li>
-                            <a href="#sectionsEditing">Editing student's section</a>
+                            <a href="#sectionsEditing">Editing a student's section</a>
                         </li>
                     </ul>
                 </div>
@@ -181,13 +181,13 @@
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>
-                            <a href="#archivingCourse">Archiving Course</a>
+                            <a href="#archivingCourse">Archiving a course</a>
                         </li>
                         <li>
-                            <a href="#archivingViewArchivedCourses">View archived courses</a>
+                            <a href="#archivingViewArchivedCourses">Viewing archived courses</a>
                         </li>
                         <li>
-                            <a href="#archivingUnarchiveCourses">Unarchive courses</a>
+                            <a href="#archivingUnarchiveCourses">Unarchiving a course</a>
                         </li>
                     </ul>
                 </div>

@@ -8,10 +8,10 @@
         <li>
             <span class="text-bold">
                 <a name="archivingCourse">
-                    <h3>1. Archiving course</h3>
+                    <h3>1. Archiving a course</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 You can archive a course so that it doesn't appear in your home page anymore. You cannot create feedback sessions, or enroll students, or edit an archived course.
                 <br>Go to your
                 <b>'Home'</b> page. You will see a separate panel for each course and a table of feedback sessions inside it. It looks something similar to this -
@@ -79,10 +79,10 @@
         <li>
             <span class="text-bold">
                 <a name="archivingViewArchivedCourses">
-                    <h3>2. View archived courses</h3>
+                    <h3>2. Viewing archived courses</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 You can view all your archived courses in the <b>'Courses'</b> page, under the <b>Archived Courses</b> heading. It will look similar to this -
                 <h2 class="text-muted">Archived courses</h2>
                 <table class="table table-bordered table-striped">
@@ -111,10 +111,10 @@
         <li>
             <span class="text-bold">
                 <a name="archivingUnarchiveCourses">
-                    <h3>3. Unarchive courses</h3>
+                    <h3>3. Unarchiving a course</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 You can unarchive a course by clicking on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button in the list of archived courses, in the
                 <b>'Courses'</b> page.
                 <br>If your course was successfully unarchived, you should see a message in the home page which looks similar to this -

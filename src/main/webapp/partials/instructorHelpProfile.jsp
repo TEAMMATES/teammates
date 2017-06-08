@@ -8,10 +8,10 @@
         <li>
             <span class="text-bold">
                 <a name="viewStudentProfile">
-                    <h3>1. View student's profile</h3>
+                    <h3>1. Viewing student profiles</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 Go to the
                 <b>'Students'</b> page, click the panel heading for the relevant course. You will see a list of students for the course, then click
                 <b>'View'</b> button in the last column of the row corresponding to the student whose details you want to see.
@@ -138,10 +138,10 @@
         <li>
             <span class="text-bold">
                 <a name="editStudentProfile">
-                    <h3>2. Editing student's profile</h3>
+                    <h3>2. Editing student profiles</h3>
                 </a>
             </span>
-            <div class="row">
+            <div>
                 Go to the
                 <b>'Students'</b> page, click the panel heading for the relevant course. You will see a list of students for the course, then click
                 <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to see.
