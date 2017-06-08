@@ -1048,10 +1048,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private boolean verifyIfVisibilityOptionsDivHasAlertClassEnabled() {
-    	final String visibilityOptionsDivXPath = "//div[@id='questionTable-1']//div[@class='panel-body']"
-    			                               + "//div[contains(@class, 'col-sm-12 margin-bottom-15px padding-15px')]";
-    	return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
-    			.getAttribute("class").matches(".*\\balert alert-danger\\b.*");
+        final String visibilityOptionsDivXPath = "//div[@id='questionTable-1']//div[@class='panel-body']"
+                                               + "//div[contains(@class, 'col-sm-12 margin-bottom-15px padding-15px')]";
+        return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
+                .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
     }
 
 }
