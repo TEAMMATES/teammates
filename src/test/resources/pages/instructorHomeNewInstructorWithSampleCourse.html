@@ -104,7 +104,7 @@
   </div>
   <br>
   <div class="panel panel-primary" id="course-0">
-    <div class="panel-heading ajax_auto">
+    <div class="panel-heading" id="panelHeading-0" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-6">
           <strong>
@@ -179,11 +179,18 @@
                 </li>
               </ul>
             </div>
+            <span class="glyphicon glyphicon-chevron-up">
+            </span>
           </span>
         </div>
       </div>
     </div>
-    <div class="panel-collapse collapse">
+    <form>
+      <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.new">
+      <input name="coursetoload" type="hidden" value="newIns.wit-demo">
+      <input name="index" type="hidden" value="0">
+    </form>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-0" style="height: auto;">
       <div class="panel-body padding-0">
         <table class="table-responsive table table-striped table-bordered">
           <thead>
@@ -236,10 +243,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-    <div class="panel-collapse collapse">
-      <div class="panel-body padding-0">
       </div>
     </div>
   </div>
