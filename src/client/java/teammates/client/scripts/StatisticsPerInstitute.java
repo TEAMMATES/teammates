@@ -13,8 +13,11 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+
+import org.datanucleus.store.appengine.query.JDOCursorHelper;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
@@ -43,11 +46,38 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     @SuppressWarnings("unchecked")
     protected void doOperation() {
 
-        String q = "SELECT FROM " + CourseStudent.class.getName();
-        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(q).execute();
+        String queryString = "SELECT FROM " + CourseStudent.class.getName();
+        List<CourseStudent> allStudents = new ArrayList<CourseStudent>();
+        List<CourseStudent> allStudentsTemp;
+        Query q = PM.newQuery(queryString);
+        Cursor cursor;
+        
+        q.setRange(0, 500);
+        allStudentsTemp = (List<CourseStudent>) q.execute();
+        allStudents.addAll(allStudentsTemp);
+        cursor = JDOCursorHelper.getCursor(allStudentsTemp);
+        allStudentsTemp.clear();
+        
+        String cursorString = cursor.toWebSafeString();
+        String prevCursorString = "";
+        Map<String, Object> extensionMap;
+        
+        while (!cursorString.equals(prevCursorString)) {
+            cursor = Cursor.fromWebSafeString(cursorString);
+            extensionMap = new HashMap<String, Object>();
+            extensionMap.put(JDOCursorHelper.CURSOR_EXTENSION, cursor);
+            q.setExtensions(extensionMap);
+            q.setRange(0, 500);
+            allStudentsTemp = (List<CourseStudent>) q.execute();
+            allStudents.addAll(allStudentsTemp);
+            cursor = JDOCursorHelper.getCursor(allStudentsTemp);
+            allStudentsTemp.clear();
+            prevCursorString = cursorString;
+            cursorString = cursor.toWebSafeString();
+        }
 
-        q = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
+        queryString = "SELECT FROM " + Instructor.class.getName();
+        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(queryString).execute();
 
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
