@@ -521,8 +521,8 @@ $(document).ready(() => {
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandler] of clickHandlerMap) {
         $(document).on('click', className, (e) => {
-            const instructorIndex = parseInt($(e.currentTarget).data('instructorindex'), 10);
-            const panelIndex = parseInt($(e.currentTarget).data('panelindex'), 10);
+            const instructorIndex = $(e.currentTarget).data('instructorindex');
+            const panelIndex = $(e.currentTarget).data('panelindex');
             clickHandler(instructorIndex, panelIndex);
         });
     }
