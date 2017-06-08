@@ -5,6 +5,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
@@ -39,6 +40,8 @@ public class FeedbackResponseCommentRow {
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
+        Logger log = Logger.getLogger();
+        log.info(frc.createdAt.toString());
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
