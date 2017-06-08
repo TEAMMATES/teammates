@@ -1497,21 +1497,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
-                                <div class="form-group">
-                                    <label for="viewSelect" class="col-sm-2 control-label">
-                                        Filter:
-                                    </label>
-                                    <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <input type="text" id="results-search-box" class="form-control" placeholder="Type keywords from the question to filter">
-                                            <a class="input-group-addon btn btn-default">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-sm-2 pull-right">
                                 <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
                                     <div class="margin-0 checkbox padding-top-0 min-height-0">
