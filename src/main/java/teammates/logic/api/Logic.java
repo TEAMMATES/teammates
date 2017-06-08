@@ -1296,12 +1296,12 @@ public class Logic {
      * Generates summary results (without comments) in CSV format. <br>
      * Preconditions: <br>
      * * All parameters(except questionId) are non-null. <br>
-     * @see FeedbackSessionsLogic#getFeedbackSessionResultsSummaryAsCsv(String, String, String,
+     * @see FeedbackSessionsLogic#getFeedbackSessionResultsSummaryAsCsv(String, String,
      *      String, String, boolean, boolean)
      */
     public String getFeedbackSessionResultSummaryAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String filterText, boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
+            boolean isMissingResponsesShown, boolean isStatsShown, String questionId)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(courseId);
@@ -1309,7 +1309,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 feedbackSessionName, courseId, instructorEmail, questionId,
-                filterText, isMissingResponsesShown, isStatsShown);
+                isMissingResponsesShown, isStatsShown);
     }
 
     /**
@@ -1317,11 +1317,11 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters(except questionId) are non-null. <br>
      * @see FeedbackSessionsLogic#getFeedbackSessionResultsSummaryInSectionAsCsv(String, String, String,
-     *      String, String, String, boolean, boolean)
+     *      String, String, boolean, boolean)
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(courseId);
@@ -1330,7 +1330,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, instructorEmail, section,
-                questionId, filterText, isMissingResponsesShown, isStatsShown);
+                questionId, isMissingResponsesShown, isStatsShown);
     }
 
     /**
