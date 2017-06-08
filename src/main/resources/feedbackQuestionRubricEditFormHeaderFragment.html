@@ -1,9 +1,15 @@
 <th class="rubricCol-${questionIndex}-${col}">
     <div class="col-sm-12 input-group">
         <input type="text" class="form-control" value="${rubricChoiceValue}" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${questionIndex}-${col}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}">
+        <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionIndex}" data-toggle="tooltip" data-placement="top" title="Move column to left" onclick="swapRubricCol(${col}, ${questionIndex}, -1)">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </span>
         <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionIndex}" id="rubricRemoveChoiceLink-${questionIndex}-${col}" onclick="removeRubricCol(${col}, ${questionIndex})"
         onmouseover="highlightRubricCol(${col}, ${questionIndex}, true)" onmouseout="highlightRubricCol(${col}, ${questionIndex}, false)">
             <span class="glyphicon glyphicon-remove"></span>
+        </span>
+        <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${questionIndex}" data-toggle="tooltip" data-placement="top" title="Move column to right" onclick="swapRubricCol(${col}, ${questionIndex}, 1)">
+            <span class="glyphicon glyphicon-arrow-right"></span>
         </span>
     </div>
 </th>
