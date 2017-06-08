@@ -90,7 +90,7 @@ public class InstructorStudentRecordsPage extends AppPage {
         }
         WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
         try {
-            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
+            WebElement editorElement = browser.driver.findElement(By.id("responsecommenttext-1-1-1-1-GRQ"));
             fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
             click(editCommentForm.findElement(By.id("button_save_comment_for_edit-1-1-1-1-GRQ")));
             if (newCommentText.isEmpty()) {
@@ -101,7 +101,7 @@ public class InstructorStudentRecordsPage extends AppPage {
                 waitForElementToDisappear(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
             }
         } catch (NoSuchElementException e) {
-            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
+            WebElement editorElement = browser.driver.findElement(By.id("responsecommenttext-1-1-1-1-GRQ"));
             waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         }
     }
