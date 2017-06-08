@@ -486,7 +486,7 @@ function setCommentsEditedTime() {
             const length = $(this).text().length;
             const editedText = $(this).text();
             const textWithoutBrackets = editedText.substr(1, length-2);
-            const utcTime = textWithoutBrackets.substr(textWithoutBrackets.indexOf("at") + 3);
+            const utcTime = textWithoutBrackets.substr(textWithoutBrackets.search(/\bat\b/) + 3);
             const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
             const finalEditedText = editedText.replace(utcTime, localTime);
             $(this).text(finalEditedText);
