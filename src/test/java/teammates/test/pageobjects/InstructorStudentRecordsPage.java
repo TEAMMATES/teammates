@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.ThreadHelper;
@@ -81,22 +82,28 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void editFeedbackResponseComment(String newCommentText) {
-        waitForPageToLoad();
-        WebElement editButton = browser.driver.findElement(By.cssSelector("#commentedit-1-1-1-1-GRQ"));
-        click(editButton);
-        WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
-        WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
-        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
-        fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
-        click(editCommentForm.findElement(By.id("button_save_comment_for_edit-1-1-1-1-GRQ")));
-        if (newCommentText.isEmpty()) {
-            // empty comment: wait until the textarea is clickable again
-            waitForElementToBeClickable(editorElement);
-        } else {
-            // non-empty comment: wait until the add comment form disappears
-            waitForElementToDisappear(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
+        try {
+            WebElement editButton = browser.driver.findElement(By.xpath("//*[@id='commentedit-1-1-1-1-GRQ']"));
+            click(editButton);
+        } catch (NoSuchElementException e) {
+            waitForElementPresence(By.xpath("//*[@id='commentedit-1-1-1-1-GRQ']"));
         }
-        ThreadHelper.waitFor(1500);
+        WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
+        try {
+            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
+            fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
+            click(editCommentForm.findElement(By.id("button_save_comment_for_edit-1-1-1-1-GRQ")));
+            if (newCommentText.isEmpty()) {
+                // empty comment: wait until the textarea is clickable again
+                waitForElementToBeClickable(editorElement);
+            } else {
+                // non-empty comment: wait until the add comment form disappears
+                waitForElementToDisappear(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
+            }
+        } catch (NoSuchElementException e) {
+            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
+            waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        }
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
@@ -112,11 +119,14 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void verifyCommentRowContent(String commentText, String giverName) {
-        By commentRowSelector = By.id("responseCommentRow-1-1-1-1-GRQ");
-        WebElement commentRow = waitForElementPresence(commentRowSelector);
-        waitForTextContainedInElementPresence(By.id("plainCommentText-1-1-1-1-GRQ"), commentText);
-        assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
-                   || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
+        WebElement commentRowSelector = browser.driver.findElement(By.id("responseCommentRow-1-1-1-1-GRQ"));
+        try {
+            WebElement commentTextElement = commentRowSelector.findElement(By.tagName("p"));
+            assertTrue(commentTextElement.getText().equals(commentText));
+        } catch (TimeoutException e) {
+            waitForTextContainedInElementPresence(By.id("plainCommentText-1-1-1-1-GRQ"), commentText);
+        }
+        assertTrue(commentRowSelector.findElement(By.className("text-muted")).getText().contains(giverName));
     }
 
     public void verifyCommentFormErrorMessage(String errorMessage) {
