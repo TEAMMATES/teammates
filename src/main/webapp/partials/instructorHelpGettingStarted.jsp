@@ -136,7 +136,7 @@
                                                     Course ID
                                                 </label>
                                             </h5>
-                                            <div class="col-sm-10 col-md-8">                                                    
+                                            <div class="col-sm-10 col-md-8">
                                                 <select class="form-control" name="courseid" id="courseid">
                                                     <option value="teammates.instructor.uni-demo">teammates.instructor.uni-demo</option>
                                                 </select>

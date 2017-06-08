@@ -627,9 +627,9 @@
                                     <li data-questiontype="RANK_OPTIONS"><a href="javascript:;">Rank (options) question</a></li>
                                     <li data-questiontype="RANK_RECIPIENTS"><a href="javascript:;">Rank (recipients) question</a></li>
                                 </ul>
-                                <a target="_blank" rel="noopener noreferrer"> 
+                                <a target="_blank" rel="noopener noreferrer">
                                     <i class="glyphicon glyphicon-info-sign"></i>
-                                </a> 
+                                </a>
                                 <a id="button_copy" class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=test%40example.com" data-fsname="hgc" data-courseid="teammates.instructor.uni-demo" data-target="#copyModal" data-toggle="modal">
                                     Copy Question
                                 </a>
@@ -970,7 +970,7 @@
                                             Recommended length for the answer: <span id="recommendedLength-1-0">0 </span>words
                                         </div>
                                         <div class="pull-right">
-                                            Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words 
+                                            Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words
                                         </div>
                                     </div>
                                 </div>
@@ -995,7 +995,7 @@
                                             Recommended length for the answer: <span id="recommendedLength-1-0">0 </span>words
                                         </div>
                                         <div class="pull-right">
-                                            Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words 
+                                            Response length: <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">0</span> words
                                         </div>
                                     </div>
                                 </div>
@@ -1102,14 +1102,14 @@
                                                             </span>
                                                         </div>
                                                     </div>
-            
+
                                                     <div id="mcqAddOptionRow--1">
                                                         <div colspan="2">
                                                             <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink--1" onclick="addMcqOption(-1)" style="">
                                                                 <span class="glyphicon glyphicon-plus">
                                                                 </span> add more options
                                                             </a>
-                    
+
                                                             <div class="checkbox">
                                                                 <label class="bold-label">
                                                                     <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag--1" onchange="toggleMcqOtherOptionEnabled(this, -1)">
@@ -1136,7 +1136,7 @@
                                                         <option value="INSTRUCTORS">instructors</option>
                                                     </select>
                                                 </div>
-                                                <input type="hidden" id="generatedOptions--1" name="generatedOptions" value="NONE"> 
+                                                <input type="hidden" id="generatedOptions--1" name="generatedOptions" value="NONE">
                                             </div>
                                             <br>
                                         </div>
@@ -1563,13 +1563,13 @@
                             <strong>Alice Betsy (Team 2)</strong>
                             <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
                             <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank"> 
+                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
                                     <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
                                 </form>
                                 &nbsp;
                                 <div class="display-icon" style="display:inline;">
                                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                                </div>                
+                                </div>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1577,18 +1577,18 @@
                             <div class="row ">
                                 <div class="col-md-2">
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                                        To: 
+                                        To:
                                         <br>
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             <strong>-</strong>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                                        From: 
+                                        From:
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             Alice Betsy (Team 2)
-                                        </div>               
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
@@ -1630,18 +1630,18 @@
                             <div class="row border-top-gray">
                                 <div class="col-md-2">
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                                        To: 
+                                        To:
                                         <br>
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             <strong>Alice Betsy (Team 2)</strong>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                                        From: 
+                                        From:
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             Alice Betsy (Team 2)
-                                        </div>               
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
@@ -1667,18 +1667,18 @@
                             <div class="row border-top-gray">
                                 <div class="col-md-2">
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                                        To: 
+                                        To:
                                         <br>
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             <strong>Benny Charles (Team 1)</strong>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                                        From: 
+                                        From:
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             Alice Betsy (Team 2)
-                                        </div>               
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
@@ -1709,13 +1709,13 @@
                             <strong>Benny Charles (Team 1)</strong>
                             <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
                             <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank"> 
+                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
                                     <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
                                 </form>
                                 &nbsp;
                                 <div class="display-icon" style="display:inline;">
                                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                                </div>                
+                                </div>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1723,18 +1723,18 @@
                             <div class="row ">
                                 <div class="col-md-2">
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                                        To: 
+                                        To:
                                         <br>
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             <strong>Charlie Davis (Team 1)</strong>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                                        From: 
+                                        From:
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             Benny Charles (Team 1)
-                                        </div>               
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
@@ -1758,18 +1758,18 @@
                             <div class="row border-top-gray">
                                 <div class="col-md-2">
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                                        To: 
+                                        To:
                                         <br>
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             <strong>Danny Engrid (Team 2)</strong>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                                        From: 
+                                        From:
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             Benny Charles (Team 1)
-                                        </div>               
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
@@ -1799,13 +1799,13 @@
                             <strong>Charlie Davis (Team 1)</strong>
                             <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
                             <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank"> 
+                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
                                     <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
                                 </form>
                                 &nbsp;
                                 <div class="display-icon" style="display:inline;">
                                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                                </div>                
+                                </div>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1813,18 +1813,18 @@
                             <div class="row ">
                                 <div class="col-md-2">
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                                        To: 
+                                        To:
                                         <br>
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             <strong>Alice Betsy (Team 2)</strong>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                                        From: 
+                                        From:
                                         <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
                                             Charlie Davis (Team 1)
-                                        </div>               
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-10">
@@ -1878,7 +1878,7 @@
                                             <td>Team 3</td>
                                             <td>Danny Engrid</td>
                                             <td class="action-button-item">
-                                                <form class="inline" method="post"> 
+                                                <form class="inline" method="post">
                                                     <input type="submit" class="btn btn-default btn-xs" value="Submit Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
                                                 </form>
                                             </td>
@@ -2135,7 +2135,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-2" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Comments about my contribution (shown to other teammates)</textarea>
                                             </div>
                                         </div>
@@ -2162,7 +2162,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <br>
                                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
@@ -2452,7 +2452,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-6" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Did you understand today's lecture?</textarea>
                                             </div>
                                         </div>
@@ -2499,14 +2499,14 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                    
+
                                                         <div id="mcqAddOptionRow-6">
                                                             <div colspan="2">
                                                                 <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink-6" onclick="addMcqOption(6)" style="display:none">
                                                                     <span class="glyphicon glyphicon-plus">
                                                                     </span> add more options
                                                                 </a>
-                                                                
+
                                                                 <div class="checkbox">
                                                                     <label class="bold-label">
                                                                         <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag-6" onchange="toggleMcqOtherOptionEnabled(this, 6)" disabled="">
@@ -2516,7 +2516,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                            
+
                                                     <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-6" value="2" disabled="">
                                                 </div>
                                                 <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
@@ -2534,7 +2534,7 @@
                                                             <option value="INSTRUCTORS">instructors</option>
                                                         </select>
                                                     </div>
-                                                    <input type="hidden" id="generatedOptions-6" name="generatedOptions" value="NONE" disabled=""> 
+                                                    <input type="hidden" id="generatedOptions-6" name="generatedOptions" value="NONE" disabled="">
                                                 </div>
                                                 <br>
                                             </div>
@@ -2901,7 +2901,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Which team do you think has the best feature?</textarea>
                                             </div>
                                         </div>
@@ -2920,14 +2920,14 @@
                                                 <br>
                                                 <div class="col-sm-6">
                                                     <div id="mcqChoiceTable-1">
-                                                                    
+
                                                         <div id="mcqAddOptionRow-1">
                                                             <div colspan="2">
                                                                 <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink-1" onclick="addMcqOption(1)" style="display:none">
                                                                     <span class="glyphicon glyphicon-plus">
                                                                     </span> add more options
                                                                 </a>
-                                                                
+
                                                                 <div class="checkbox" style="display: none;">
                                                                     <label class="bold-label">
                                                                         <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag-1" onchange="toggleMcqOtherOptionEnabled(this, 1)" disabled="">
@@ -2937,7 +2937,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-        
+
                                                     <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-1" value="0" disabled="">
                                                 </div>
                                                 <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
@@ -2955,7 +2955,7 @@
                                                             <option value="INSTRUCTORS">instructors</option>
                                                         </select>
                                                     </div>
-                                                    <input type="hidden" id="generatedOptions-1" name="generatedOptions" value="TEAMS" disabled=""> 
+                                                    <input type="hidden" id="generatedOptions-1" name="generatedOptions" value="TEAMS" disabled="">
                                                 </div>
                                                 <br>
                                             </div>
@@ -3478,7 +3478,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-6" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).</textarea>
                                             </div>
                                         </div>
@@ -3501,7 +3501,7 @@
                                                             <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Minimum acceptable response value">Minimum value:
                                                                 <input disabled="" type="number" class="form-control minScaleBox" id="minScaleBox-6" name="numscalemin" value="1" onchange="updateNumScalePossibleValues(6)">
                                                             </div>
-                                                            <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Value to be increased/decreased each step">Increment:    
+                                                            <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Value to be increased/decreased each step">Increment:
                                                                 <input disabled="" type="number" class="form-control stepBox" id="stepBox-6" name="numscalestep" value="1" min="0.001" step="0.001" onchange="updateNumScalePossibleValues(6)">
                                                             </div>
                                                             <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Maximum acceptable response value">Maximum value:
@@ -4013,7 +4013,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-6" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">How important are the following factors to you? Give points accordingly.</textarea>
                                             </div>
                                         </div>
@@ -4645,7 +4645,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-6" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Split points among the your team members and yourself, according to how much you think each member has contributed.</textarea>
                                             </div>
                                         </div>
@@ -4663,7 +4663,7 @@
                                             <div class="row">
                                                 <br>
                                                 <div class="col-sm-6" id="constSumOptionTable-6" style="display:none">
-                                                    
+
                                                     <div id="constSumAddOptionRow-6">
                                                         <div colspan="2">
                                                             <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink-6" onclick="addConstSumOption(6)" style="display:none">
@@ -6344,7 +6344,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">How well did the team member communicate?</textarea>
                                             </div>
                                         </div>
@@ -6417,7 +6417,7 @@
 
                                                             </tr>
                                                         </thead>
-                                                        <tbody>                
+                                                        <tbody>
                                                             <tr id="rubricRow-1-0">
                                                                 <td>
                                                                     <div class="col-sm-12 input-group">
@@ -7013,7 +7013,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-2" value="4" disabled="">
                                                 </div>
                                                 <div class="col-sm-6">
@@ -7024,7 +7024,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <br>
                                             </div>
                                         </div>
@@ -7318,7 +7318,7 @@
                                                 </label>
                                             </h5>
                                             <div class="col-sm-10">
-                                                
+
                                                 <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" tabindex="9" disabled="" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rank the teams in your class, based on how much work you think the teams have put in. </textarea>
                                             </div>
                                         </div>
@@ -7435,7 +7435,7 @@
                                             </ul>
                                         </div>
                                         <div class="feedback-path-others margin-top-7px" style="display:none;">
-                                            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">
                                                 <label class="col-sm-4 col-lg-5 control-label">
                                                     Who will give the feedback:
                                                 </label>
