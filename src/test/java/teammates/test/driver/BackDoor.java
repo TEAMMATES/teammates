@@ -303,6 +303,15 @@ public final class BackDoor {
     }
 
     /**
+     * Persists a feedback session into the datastore.
+     */
+    public static String createFeedbackSession(FeedbackSessionAttributes feedbackSession) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackSessions.put("dummy-key", feedbackSession);
+        return restoreDataBundle(dataBundle);
+    }
+
+    /**
      * Gets a feedback question data from the datastore.
      */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,

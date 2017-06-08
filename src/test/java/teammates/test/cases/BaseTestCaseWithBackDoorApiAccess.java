@@ -162,6 +162,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.createAccount(account);
     }
 
+    protected String doPutFeedbackSession(FeedbackSessionAttributes feedbackSession) {
+        return BackDoor.createFeedbackSession(feedbackSession);
+    }
+
     protected String doPutInstructor(InstructorAttributes instructor) {
         return BackDoor.createInstructor(instructor);
     }

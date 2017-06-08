@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
@@ -65,47 +66,43 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     // verify if entities for testing already exist in datastore
     private void verifyOrPersistTestDataToDatastore() {
         for (CourseAttributes course : testData.courses.values()) {
-            try {
-                verifyPresentInDatastore(course);
-            } catch (AssertionError e) {
+            if (getCourse(course) == null) {
                 doPutCourse(course);
             }
         }
 
         for (AccountAttributes account : testData.accounts.values()) {
-            try {
-                verifyPresentInDatastore(account);
-            } catch (AssertionError e) {
+            if (getAccount(account) == null) {
                 doPutAccount(account);
             }
         }
 
+        for (FeedbackSessionAttributes feedbackSession : testData.feedbackSessions.values()) {
+            if (getFeedbackSession(feedbackSession) == null) {
+                doPutFeedbackSession(feedbackSession);
+            }
+        }
+
         for (InstructorAttributes instructor : testData.instructors.values()) {
-            try {
-                verifyPresentInDatastore(instructor);
-            } catch (AssertionError e) {
+            if (getInstructor(instructor) == null) {
                 doPutInstructor(instructor);
             }
         }
 
         for (StudentAttributes student : testData.students.values()) {
-            try {
-                verifyPresentInDatastore(student);
-            } catch (AssertionError e) {
+            if (getStudent(student) == null) {
                 doPutStudent(student);
             }
         }
+
         for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
-            try {
-                verifyPresentInDatastore(question);
-            } catch (AssertionError e) {
+            if (getFeedbackQuestion(question) == null) {
                 doPutFeedbackQuestion(question);
             }
         }
+
         for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
-            try {
-                verifyPresentInDatastore(feedbackResponse);
-            } catch (AssertionError e) {
+            if (getFeedbackResponse(feedbackResponse) == null) {
                 doPutFeedbackResponse(feedbackResponse);
             }
         }
