@@ -476,6 +476,16 @@ input.inline {
     border: 2px solid red;
 }
 
+/* Add this class to inner table content when using bootstrap's responsive tables and cell content spills off table*/
+
+@media (min-width: 767px) {
+    .td-responsive-wrap {
+        word-wrap: break-word;
+        max-width: 300px;
+        white-space: pre-wrap;
+    }
+}
+
 /* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
 /* Prevents content overflow in navbar*/
 

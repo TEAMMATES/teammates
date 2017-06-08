@@ -574,6 +574,15 @@ public abstract class AppPage {
     }
 
     /**
+     * Returns the url passed to the href for the given link. "linkText" is the hyperlink text from
+     *         user's perspective
+     */
+    public String getLinkUrl(String linkText) {
+        WebElement link = browser.driver.findElement(By.linkText(linkText));
+        return link.getAttribute("href");
+    }
+
+    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */

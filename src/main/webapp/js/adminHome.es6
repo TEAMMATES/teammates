@@ -16,7 +16,29 @@
  * @param {String} status
  * @returns {String} a HTML row of action result table
  */
+ /**
+* Substring used to check if join link was created
+*/
+const successStatus = 'successfully created with join link:';
+/* eslint-disable no-param-reassign */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
+    /* check if status is successful */
+    const linkIndex = status.indexOf(successStatus);
+    const isSuccessStatus = linkIndex !== -1;
+    if (isSuccessStatus) {
+        const link = status.slice(linkIndex + successStatus.length).replace(/<br>/g, '');
+        status = status.slice(0, linkIndex + successStatus.length);
+        return `
+        <tr class="${isSuccess ? 'success' : 'danger'}">
+            <td>${encodeHtmlString(shortName)}</td>
+            <td>${encodeHtmlString(name)}</td>
+            <td>${encodeHtmlString(email)}</td>
+            <td>${encodeHtmlString(institution)}</td>
+            <td>${isSuccess ? 'Success' : 'Fail'}</td>
+            <td class="td-responsive-wrap">${status} <a href="${link}">link</a></td>
+        </tr>
+        `;
+    }
     return `
     <tr class="${isSuccess ? 'success' : 'danger'}">
         <td>${encodeHtmlString(shortName)}</td>
@@ -24,10 +46,11 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
         <td>${encodeHtmlString(email)}</td>
         <td>${encodeHtmlString(institution)}</td>
         <td>${isSuccess ? 'Success' : 'Fail'}</td>
-        <td>${status}</td>
-    </tr>
-    `;
+        <td class="td-responsive-wrap">${status}</td>
+      </tr>
+      `;
 }
+/* eslint-enable no-param-reassign */
 
 let paramsCounter = 0;
 let paramsList = [];    // list of parameter strings that will be sent via ajax
