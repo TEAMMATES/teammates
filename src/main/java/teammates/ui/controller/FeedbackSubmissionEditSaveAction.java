@@ -55,7 +55,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         setAdditionalParameters();
-        verifyAccesibleForSpecificUser();
+        verifyAccessibleForSpecificUser();
 
         String userEmailForCourse = getUserEmailForCourse();
 
@@ -392,7 +392,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     protected abstract void removeRespondent();
 
-    protected abstract void verifyAccesibleForSpecificUser();
+    protected abstract void verifyAccessibleForSpecificUser();
 
     protected abstract String getUserEmailForCourse();
 
