@@ -1,5 +1,5 @@
 /* global TEAMNAME_MAX_LENGTH:false setStatusMessage:false DISPLAY_FIELDS_EMPTY:false */
-/* global StatusType:false isNameValid:false DISPLAY_NAME_INVALID:false */
+/* global StatusType:false isNameValid:false DISPLAY_NAME_INVALID:false moment:false */
 /* global DISPLAY_STUDENT_TEAMNAME_INVALID:false isEmailValid:false DISPLAY_EMAIL_INVALID:false BootboxWrapper:false
 
 /*
@@ -472,22 +472,23 @@ function prepareInstructorPages() {
 }
 
 function setCommentsCreatedTime() {
-    $('.createdAt').each(function() {
+    $('.createdAt').each(function () {
         const length = $(this).text().length;
-        const utcTime = $(this).text().substr(1, length-2);
-        const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
-        $(this).text("[" + localTime + "]");
+        const utcTime = $(this).text().substr(1, length - 2);
+        const localTime = moment.utc(utcTime, 'ddd, DD MMM YYYY, hh:mm A').local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
+        $(this).text(`[${localTime}]`);
     });
 }
 
 function setCommentsEditedTime() {
-    $('.editedAt').each(function() {
-        if($(this).text().length !== 0) {
+    $('.editedAt').each(function () {
+        if ($(this).text().length !== 0) {
             const length = $(this).text().length;
             const editedText = $(this).text();
-            const textWithoutBrackets = editedText.substr(1, length-2);
+            const textWithoutBrackets = editedText.substr(1, length - 2);
             const utcTime = textWithoutBrackets.substr(textWithoutBrackets.search(/\bat\b/) + 3);
-            const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
+            const localTime = moment.utc(utcTime, 'ddd, DD MMM YYYY, hh:mm A').local().format(
+                              'ddd, D MMM YYYY, hh:mm a UTCZ');
             const finalEditedText = editedText.replace(utcTime, localTime);
             $(this).text(finalEditedText);
         }
@@ -496,7 +497,7 @@ function setCommentsEditedTime() {
 
 function setTimeForNewComment(e) {
     const length = e.text().length;
-    const utcTime = e.text().substr(1, length-2);
-    const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
-    e.text("[" + localTime + "]");
+    const utcTime = e.text().substr(1, length - 2);
+    const localTime = moment.utc(utcTime, 'ddd, DD MMM YYYY, hh:mm A').local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
+    e.text(`[${localTime}]`);
 }

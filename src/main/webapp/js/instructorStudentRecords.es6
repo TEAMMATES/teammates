@@ -1,4 +1,5 @@
-/* global toggleSingleCollapse:false prepareInstructorPages:false */
+/* global toggleSingleCollapse:false prepareInstructorPages:false setCommentsCreatedTime:false setCommentsEditedTime:false
+*/
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();

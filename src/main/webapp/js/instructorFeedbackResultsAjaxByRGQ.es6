@@ -6,6 +6,8 @@
            bindStudentPhotoHoverLink:false,
            bindCollapseEvents:false,
            toggleSingleCollapse:false,
+           setCommentsCreatedTime:false,
+           setCommentsEditedTime:false
            showHideStats:false
            prepareInstructorPages:false
            prepareInstructorFeedbackResultsPage:false

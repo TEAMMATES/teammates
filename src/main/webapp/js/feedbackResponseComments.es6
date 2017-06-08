@@ -4,7 +4,9 @@
           richTextEditorBuilder:false,
           tinymce:false,
           toggleChevron:false,
-          StatusType:false
+          StatusType:false,
+          setTimeForNewComment:false,
+          moment:false
  */
 
 function isInCommentsPage() {
@@ -228,7 +230,7 @@ const addCommentHandler = (e) => {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
                 const $data = $(data);
-                setTimeForNewComment($data.find(".createdAt"));
+                setTimeForNewComment($data.find('.createdAt'));
                 addFormRow.before($data);
                 removeUnwantedVisibilityOptions(commentId);
 
