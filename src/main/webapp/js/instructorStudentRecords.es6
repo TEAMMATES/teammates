@@ -21,8 +21,12 @@ $(document).ready(() => {
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
     $('.load-feedback-session').on('click', (e) => {
-        loadFeedbackSession($(e.target).data('courseid'), $(e.target).data('studentemail'),
-                $(e.target).data('googleid'), $(e.target).data('fsname'), e.target);
+        const entry = e.target;
+        const courseId = $(entry).data('courseid');
+        const studentEmail = $(entry).data('studentemail');
+        const googleId = $(entry).data('googleid');
+        const fsName = $(entry).data('fsname');
+        loadFeedbackSession(courseId, studentEmail, googleId, fsName, entry);
     });
 
     // Auto-loading for feedback responses

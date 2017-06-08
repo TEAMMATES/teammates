@@ -17,8 +17,11 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.log-entry', (e) => {
-        submitLocalTimeAjaxRequest($(e.target).data('logtime'), $(e.target).data('googleid'),
-                $(e.target).data('displayedrole'), e.target);
+        const entry = e.target;
+        const logTime = $(entry).data('logtime');
+        const googleId = $(entry).data('googleid');
+        const displayedRole = $(entry).data('displayedrole');
+        submitLocalTimeAjaxRequest(logTime, googleId, displayedRole, entry);
     });
 });
 
