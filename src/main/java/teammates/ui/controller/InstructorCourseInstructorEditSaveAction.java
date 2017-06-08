@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -28,7 +29,24 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-
+        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+        if (!isDisplayedToStudents) {
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+            InstructorAttributes instructortoEdit;
+            if (instructorId == null) {
+                instructortoEdit = logic.getInstructorForEmail(courseId, instructorEmail);
+            } else {
+                instructortoEdit = logic.getInstructorForGoogleId(courseId, instructorId);
+            }
+            isError = !logic.isAtLeastOneInstructorVisibleToStudents(instructors, instructortoEdit.email);
+            if (isError) {
+                statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR,
+                                 StatusMessageColor.DANGER));
+                RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+                result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+                return result;
+            }
+        }
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);

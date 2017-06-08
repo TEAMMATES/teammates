@@ -1083,6 +1083,13 @@ public class Logic {
     }
 
     /**
+     * Returns {@code true} if at least one of the instructors is visible to students.
+     */
+    public boolean isAtLeastOneInstructorVisibleToStudents(List<InstructorAttributes> instructors, String email) {
+        return coursesLogic.isAtLeastOneInstructorVisibleToStudents(instructors, email);
+    }
+
+    /**
      * Batch creates or updates search documents for the given students.
      */
     public void putStudentDocuments(List<StudentAttributes> students) {

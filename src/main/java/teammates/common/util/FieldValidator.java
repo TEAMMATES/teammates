@@ -185,6 +185,8 @@ public class FieldValidator {
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
 
+    public static final String IS_DISPLAYED_TO_STUDENTS_ERROR = "At least one instructor should display to students.";
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
