@@ -54,7 +54,8 @@ dependencies {
 
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    compile         "com.google.appengine.tools:appengine-gcs-client:0.4.4",
+    compile         "com.google.appengine.orm:datanucleus-appengine:1.0.10",
+                    "com.google.appengine.tools:appengine-gcs-client:0.4.4",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.8.0",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
@@ -71,7 +72,6 @@ dependencies {
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints:${appengineVersion}",
                     "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
                     "javax.jdo:jdo2-api:2.3-eb",
                     "net.sf.jsr107cache:jsr107cache:1.1",
                     "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
