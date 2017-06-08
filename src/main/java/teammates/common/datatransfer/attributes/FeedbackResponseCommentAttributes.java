@@ -37,7 +37,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public Text commentText;
     public String lastEditorEmail;
     public Date lastEditedAt;
-    private Long feedbackResponseCommentId;
+    public Long feedbackResponseCommentId;
 
     public FeedbackResponseCommentAttributes() {
         this.feedbackResponseCommentId = null;
