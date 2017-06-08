@@ -12,7 +12,7 @@
                 </a>
             </span>
             <p>
-                Sections are meant to organize students where the course has significantly large number of students. It is mandatory for courses with more than 100 students to organize a student into a section. 
+                Sections are meant to organize students where the course has significantly large number of students. It is mandatory for courses with more than 100 students to organize a student into a section.
                 You are allowed to have sections for courses with less than 100 students, but it is not mandatory.
             </p>
         </li>
@@ -49,7 +49,7 @@
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
-                         The student has been edited successfully. 
+                         The student has been edited successfully.
                     </div>
                 </div>
             </p>

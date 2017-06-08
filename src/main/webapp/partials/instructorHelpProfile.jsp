@@ -46,7 +46,7 @@
                                 <tr>
                                     <td class="text-bold">Nationality</td>
                                     <td>American</td>
-                                </tr>                                
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -150,7 +150,7 @@
                 <div class="panel panel-primary" id="studentEditProfile">
                     <div class="panel-body fill-plain">
                         <form class="form form-horizontal">
-                            <div class="form-group"> 
+                            <div class="form-group">
                                 <label class="col-sm-1 control-label">Student Name:</label>
                                 <div class="col-sm-11">
                                     <input class="form-control" value="Alice Betsy">
@@ -194,7 +194,7 @@
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
-                         The student has been edited successfully. 
+                         The student has been edited successfully.
                     </div>
                 </div>
             </div>

@@ -107,14 +107,14 @@
                                             <td class="align-center">Joined</td>
                                             <td><span class="highlight">alice</span>@email.com</td>
                                             <td class="no-print align-center">
-                                                <a class="btn btn-default btn-xs" title="View details of the student" 
+                                                <a class="btn btn-default btn-xs" title="View details of the student"
                                                     href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">View</a>
                                                 <a class="btn btn-default btn-xs" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"
                                                    href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">Edit</a>
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
+                                                   data-toggle="tooltip" data-placement="top">All Records</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -179,7 +179,7 @@
                                             <td class="align-center">Joined</td>
                                             <td><span class="highlight">alice</span>@email.com</td>
                                             <td class="no-print align-center">
-                                                <a class="btn btn-default btn-xs" title="View details of the student" 
+                                                <a class="btn btn-default btn-xs" title="View details of the student"
                                                     href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">View</a>
                                                 <a class="btn btn-default btn-xs" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"
                                                    href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">Edit</a>
@@ -202,14 +202,14 @@
                                             <td class="align-center">Joined</td>
                                             <td>jean@email.com</td>
                                             <td class="no-print align-center">
-                                                <a class="btn btn-default btn-xs" title="View details of the student" 
+                                                <a class="btn btn-default btn-xs" title="View details of the student"
                                                     href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">View</a>
                                                 <a class="btn btn-default btn-xs" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"
                                                    href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">Edit</a>
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
+                                                   data-toggle="tooltip" data-placement="top">All Records</a>
                                             </td>
                                         </tr>
                                         <tr class="student_row">
@@ -225,14 +225,14 @@
                                             <td class="align-center">Joined</td>
                                             <td>oliver@email.com</td>
                                             <td class="no-print align-center">
-                                                <a class="btn btn-default btn-xs" title="View details of the student" 
+                                                <a class="btn btn-default btn-xs" title="View details of the student"
                                                     href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">View</a>
                                                 <a class="btn btn-default btn-xs" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"
                                                    href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">Edit</a>
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
+                                                   data-toggle="tooltip" data-placement="top">All Records</a>
                                             </td>
                                         </tr>
                                         <tr class="student_row">
@@ -248,7 +248,7 @@
                                             <td class="align-center">Joined</td>
                                             <td>thora@email.com</td>
                                             <td class="no-print align-center">
-                                                <a class="btn btn-default btn-xs" title="View details of the student" 
+                                                <a class="btn btn-default btn-xs" title="View details of the student"
                                                     href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">View</a>
                                                 <a class="btn btn-default btn-xs" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"
                                                    href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">Edit</a>
@@ -271,14 +271,14 @@
                                             <td class="align-center">Joined</td>
                                             <td><span class="highlight">jack@email.com</span></td>
                                             <td class="no-print align-center">
-                                                <a class="btn btn-default btn-xs" title="View details of the student" 
+                                                <a class="btn btn-default btn-xs" title="View details of the student"
                                                     href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">View</a>
                                                 <a class="btn btn-default btn-xs" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly"
                                                    href="" target="_blank" rel="noopener noreferrer" data-toggle="tooltip" data-placement="top">Edit</a>
                                                 <a class="course-student-delete-link btn btn-default btn-xs"
                                                 title="Delete the student and the corresponding submissions from the course" href="" data-toggle="tooltip" data-placement="top">Delete</a>
                                                 <a class="btn btn-default btn-xs" href="" title="View all data about this student" target="_blank" rel="noopener noreferrer"
-                                                   data-toggle="tooltip" data-placement="top">All Records</a> 
+                                                   data-toggle="tooltip" data-placement="top">All Records</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -311,13 +311,13 @@
                                     Session: Session 1 (Course 1)
                                 </strong>
                             </div>
-                            <div class="col-md-10">         
+                            <div class="col-md-10">
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
-                                        <b>Question 2</b>: What has been a highlight for you working on this project? 
+                                        <b>Question 2</b>: What has been a highlight for you working on this project?
                                     </div>
                                     <table class="table">
-                                        <tbody>       
+                                        <tbody>
                                             <tr>
                                                 <td>
                                                     <b>From:</b> Alice Betsy (Team A)
@@ -341,7 +341,7 @@
                                                                     From: instructor@university.edu [Tue, 23 May 2017, 11:59 PM UTC]
                                                                 </span>
                                                             </div>
-                                                            <div style="margin-left: 15px;">Alice, <span class="highlight">good</span> to know that you liked applying software engineering skills in the project.</div> 
+                                                            <div style="margin-left: 15px;">Alice, <span class="highlight">good</span> to know that you liked applying software engineering skills in the project.</div>
                                                         </li>
                                                     </ul>
                                                 </td>

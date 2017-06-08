@@ -121,7 +121,7 @@
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
-                       The course AI532 has been unarchived. 
+                       The course AI532 has been unarchived.
                     </div>
                 </div>
             </div>
