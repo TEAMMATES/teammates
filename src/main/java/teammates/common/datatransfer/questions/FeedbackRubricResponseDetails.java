@@ -83,10 +83,12 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
-        StringBuilder html = new StringBuilder(100);
+        StringBuilder html = new StringBuilder(500);
         for (int i = 0; i < answer.size(); i++) {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
+            String additionalInfo = getAddtionalInfoHtml(fqd.getRubricSubQuestions().get(i));
+
             if (chosenIndex == -1) {
                 chosenChoice = "<span class=\"color_neutral\"><i>"
                              + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE
@@ -96,12 +98,19 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 chosenChoice = SanitizationHelper.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
                             + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
-                            + ")</i></span><br>");
+                            + ")</i></span>");
+                html.append(additionalInfo);
+                html.append("<br>");
             }
 
         }
 
         return html.toString();
+    }
+
+    private String getAddtionalInfoHtml(String subQuestion) {
+        return " <span data-toggle=\"tooltip\" data-placement=\"right\" title=\"" + subQuestion + "\""
+                + " class=\"glyphicon glyphicon-exclamation-sign text-info\"></span>";
     }
 
     @Override
