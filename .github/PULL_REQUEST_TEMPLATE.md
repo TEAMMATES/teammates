@@ -7,7 +7,7 @@ Fixes #
 Ensure that you have:
 - [ ] Read and understood our PR guideline: https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr
   - [ ] Added the issue number to the "Fixes" keyword above
-  - [ ] Titled the PR as specified in the abovementioned document
+  - [ ] Titled the PR as specified in the above mentioned document
 - [ ] Made your changes on a branch other than `master` and `release`
 - [ ] Gone through all the changes in this PR and ensured that:
   - [ ] They addressed one (and only one) issue
