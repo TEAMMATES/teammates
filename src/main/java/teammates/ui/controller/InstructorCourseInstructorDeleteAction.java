@@ -5,6 +5,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
@@ -27,6 +28,15 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
         /* Process deleting an instructor and setup status to be shown to user and admin */
         if (hasAlternativeInstructor(courseId, instructorEmail)) {
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+            isError = !logic.isAtLeastOneInstructorVisibleToStudents(instructors, instructorEmail);
+            if (isError) {
+                statusToUser.add(new StatusMessage(FieldValidator.IS_DISPLAYED_TO_STUDENTS_ERROR,
+                                                   StatusMessageColor.DANGER));
+                RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+                result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+                return result;
+            }
             logic.deleteInstructor(courseId, instructorEmail);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));

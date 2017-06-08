@@ -720,4 +720,16 @@ public final class CoursesLogic {
         return archivedCourseIds;
     }
 
+    /**
+     * Returns {@code true} if at least one of the instructors is visible to students.
+     */
+    public boolean isAtLeastOneInstructorVisibleToStudents(List<InstructorAttributes> instructors, String email) {
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isDisplayedToStudents && !instructor.email.equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
