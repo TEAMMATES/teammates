@@ -81,7 +81,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
         StringBuilder html = new StringBuilder(100);
         for (int i = 0; i < answer.size(); i++) {
@@ -105,7 +105,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getDetailedAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
         StringBuilder html = new StringBuilder(100);
 
@@ -115,7 +115,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
         tableHeaderHtml.append(
                 "<thead>"
-                    + "<tr>"
+                   + "<tr>"
                         + "<th>Criteria</th>");
 
         List<String> subQuestions = fqd.getRubricSubQuestions();
@@ -128,7 +128,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         }
 
         tableHeaderHtml.append(
-                    "</tr>"
+                      "</tr>"
                 + "</thead>");
 
         StringBuilder tableBodyHtml = new StringBuilder(200);

@@ -29,10 +29,10 @@ public abstract class FeedbackResponseDetails {
 
     public abstract String getAnswerString();
 
-    public abstract String getAnswerHtml(FeedbackQuestionDetails questionDetails);
+    public abstract String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails);
 
-    public String getDetailedAnswerHtml(FeedbackQuestionDetails questionDetails) {
-        return getAnswerHtml(questionDetails);
+    public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
+        return getAnswerHtmlInstructorView(questionDetails);
     }
 
     public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
@@ -45,7 +45,7 @@ public abstract class FeedbackResponseDetails {
      */
     public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                 FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getAnswerHtml(question.getQuestionDetails());
+        return getAnswerHtmlInstructorView(question.getQuestionDetails());
     }
 
     /**
