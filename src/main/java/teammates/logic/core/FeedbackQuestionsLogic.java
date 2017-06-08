@@ -453,36 +453,6 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Checks if a question has been fully answered by a team.
-     * @return {@code True} if there are no more recipients to give feedback to for the given
-     * {@code teamName}. {@code False} if not.
-     */
-    public boolean isQuestionFullyAnsweredByTeam(FeedbackQuestionAttributes question,
-            String teamName) throws EntityDoesNotExistException {
-
-        List<StudentAttributes> studentsInTeam =
-                studentsLogic.getStudentsForTeam(question.courseId, teamName);
-
-        int numberOfPendingResponses =
-                question.numberOfEntitiesToGiveFeedbackTo;
-
-        if (numberOfPendingResponses == Const.MAX_POSSIBLE_RECIPIENTS) {
-            numberOfPendingResponses = getRecipientsForQuestion(question, teamName).size();
-        }
-
-        for (StudentAttributes student : studentsInTeam) {
-            List<FeedbackResponseAttributes> responses =
-                    frLogic.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
-            for (FeedbackResponseAttributes response : responses) {
-                if (response.giver.equals(student.email)) {
-                    numberOfPendingResponses -= 1;
-                }
-            }
-        }
-        return numberOfPendingResponses <= 0;
-    }
-
-    /**
      * Updates the feedback question number, shifts other questions up/down
      * depending on the change.
      */
