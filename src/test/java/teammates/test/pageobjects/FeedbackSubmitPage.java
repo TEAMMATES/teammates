@@ -198,18 +198,14 @@ public class FeedbackSubmitPage extends AppPage {
         click(moreInfoAboutEqualShareModalLink);
         WebElement moreInfoAboutEqualShareModal = browser.driver.findElement(By.id("more-info-equal-share-modal"));
         waitForElementVisibility(moreInfoAboutEqualShareModal);
-        closeModal();
+        closeMoreInfoAboutEqualShareModal();
     }
 
-    public void closeModal() {
+    public void closeMoreInfoAboutEqualShareModal() {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
         waitForElementToBeClickable(closeButton);
         click(closeButton);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        waitForElementToDisappear(By.id("more-info-equal-share-modal"));
     }
 
 }
