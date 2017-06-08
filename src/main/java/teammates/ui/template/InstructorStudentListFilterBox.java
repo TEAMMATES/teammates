@@ -5,12 +5,12 @@ import java.util.List;
 public class InstructorStudentListFilterBox {
 
     private List<InstructorStudentListFilterCourse> courses;
-    private boolean displayArchive;
+    private boolean shouldDisplayArchive;
 
     public InstructorStudentListFilterBox(List<InstructorStudentListFilterCourse> courses,
                                           boolean displayArchive) {
         this.courses = courses;
-        this.displayArchive = displayArchive;
+        this.shouldDisplayArchive = displayArchive;
     }
 
     public List<InstructorStudentListFilterCourse> getCourses() {
@@ -18,7 +18,7 @@ public class InstructorStudentListFilterBox {
     }
 
     public boolean isDisplayArchive() {
-        return displayArchive;
+        return shouldDisplayArchive;
     }
 
 }
