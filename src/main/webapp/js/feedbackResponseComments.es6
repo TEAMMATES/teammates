@@ -345,86 +345,30 @@ function registerResponseCommentsEvent() {
                  editCommentHandler);
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
 
-    $(document).on('click', '.show-frc-add-form', (e) => {
-        const ev = $(e.target).closest('button');
-        const recipientIndex = ev.data('recipientindex');
-        const giverIndex = ev.data('giverindex');
-        const qnIndex = ev.data('qnindex');
-        if (ev.data('sectionindex') !== undefined) {
-            const sectionIndex = ev.data('sectionindex');
-            showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex);
-        } else {
-            showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex);
-        }
-    });
+    const clickHandlerMap = new Map();
+    clickHandlerMap.set('.show-frc-add-form',
+            [showResponseCommentAddForm, ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set('.show-frc-edit-form',
+            [showResponseCommentEditForm, ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex']]);
+    clickHandlerMap.set('.hide-frc-add-form',
+            [hideResponseCommentAddForm, ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set('.hide-frc-edit-form',
+            [hideResponseCommentEditForm, ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex']]);
+    clickHandlerMap.set('.toggle-visib-add-form',
+            [toggleVisibilityAddForm, ['sessionindex', 'qnindex', 'responseindex', 'sectionindex']]);
+    clickHandlerMap.set('.toggle-visib-edit-form',
+            [toggleVisibilityEditForm, ['sessionindex', 'qnindex', 'responseindex', 'frcindex', 'sectionindex']]);
 
-    $(document).on('click', '.show-frc-edit-form', (e) => {
-        const ev = $(e.target).closest('a');
-        const recipientIndex = ev.data('recipientindex');
-        const giverIndex = ev.data('giverindex');
-        const qnIndex = ev.data('qnindex');
-        const frcIndex = ev.data('frcindex');
-        if (ev.data('sectionindex') !== undefined) {
-            const sectionIndex = ev.data('sectionindex');
-            showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex, sectionIndex);
-        } else {
-            showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex);
-        }
-    });
-
-    $(document).on('click', '.hide-frc-add-form', (e) => {
-        const ev = $(e.target);
-        const recipientIndex = ev.data('recipientindex');
-        const giverIndex = ev.data('giverindex');
-        const qnIndex = ev.data('qnindex');
-        if (ev.data('sectionindex') !== undefined) {
-            const sectionIndex = ev.data('sectionindex');
-            hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex);
-        } else {
-            hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex);
-        }
-    });
-
-    $(document).on('click', '.hide-frc-edit-form', (e) => {
-        const ev = $(e.target);
-        const recipientIndex = ev.data('recipientindex');
-        const giverIndex = ev.data('giverindex');
-        const qnIndex = ev.data('qnindex');
-        const frcIndex = ev.data('frcindex');
-        if (ev.data('sectionindex') !== undefined) {
-            const sectionIndex = ev.data('sectionindex');
-            hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex, sectionIndex);
-        } else {
-            hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, frcIndex);
-        }
-    });
-
-    $(document).on('click', '.toggle-visib-add-form', (e) => {
-        const ev = $(e.target).closest('a');
-        const sessionIndex = ev.data('sessionindex');
-        const qnIndex = ev.data('qnindex');
-        const responseIndex = ev.data('responseindex');
-        if (ev.data('sectionindex') !== undefined) {
-            const sectionIndex = ev.data('sectionindex');
-            toggleVisibilityAddForm(sessionIndex, qnIndex, responseIndex, sectionIndex);
-        } else {
-            toggleVisibilityAddForm(sessionIndex, qnIndex, responseIndex);
-        }
-    });
-
-    $(document).on('click', '.toggle-visib-edit-form', (e) => {
-        const ev = $(e.target).closest('a');
-        const sessionIndex = ev.data('sessionindex');
-        const qnIndex = ev.data('qnindex');
-        const responseIndex = ev.data('responseindex');
-        const frcIndex = ev.data('frcindex');
-        if (ev.data('sectionindex') !== undefined) {
-            const sectionIndex = ev.data('sectionindex');
-            toggleVisibilityEditForm(sessionIndex, qnIndex, responseIndex, frcIndex, sectionIndex);
-        } else {
-            toggleVisibilityEditForm(sessionIndex, qnIndex, responseIndex, frcIndex);
-        }
-    });
+    /* eslint-disable no-restricted-syntax */
+    for (const [className, clickHandlerAndParams] of clickHandlerMap) {
+        $(document).on('click', className, (e) => {
+            const ev = $(e.currentTarget);
+            const clickHandler = clickHandlerAndParams[0];
+            const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
+            clickHandler(params[0], params[1], params[2], params[3], params[4]);
+        });
+    }
+    /* eslint-enable no-restricted-syntax */
 }
 
 function registerResponseCommentCheckboxEvent() {
