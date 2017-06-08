@@ -27,7 +27,6 @@
         </div>
     </form>
 
-
     <c:forEach items="${data.enrollResultPanelList}" var="enrollResultPanel">
         <c:if test="${not empty enrollResultPanel.studentList}">
             <div class="panel ${enrollResultPanel.panelClass}">

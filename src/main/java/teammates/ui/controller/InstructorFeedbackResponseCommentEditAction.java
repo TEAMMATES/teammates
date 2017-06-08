@@ -19,7 +19,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
-public class InstructorFeedbackResponseCommentEditAction extends Action {
+public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -36,8 +36,11 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
-                                                               instructor, session, response);
+        FeedbackResponseCommentAttributes frc =
+                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+        Assumption.assertNotNull("FeedbackResponseComment should not be null", frc);
+        verifyAccessibleForInstructorToFeedbackResponseComment(
+                feedbackResponseCommentId, instructor, session, response);
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
@@ -97,22 +100,5 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         data.comment = feedbackResponseComment;
 
         return createAjaxResult(data);
-    }
-
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(
-            String feedbackResponseCommentId, InstructorAttributes instructor,
-            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
-        FeedbackResponseCommentAttributes frc =
-                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
-        if (frc == null) {
-            Assumption.fail("FeedbackResponseComment should not be null");
-        }
-        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
-            return;
-        }
-        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

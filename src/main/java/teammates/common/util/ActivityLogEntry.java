@@ -52,7 +52,7 @@ public final class ActivityLogEntry {
     private long actionTimeTaken;
 
     // this field will always be true in log message for history reason
-    private boolean logToShow = true;
+    private boolean shouldShowLog = true;
 
     private ActivityLogEntry() {
         // private constructor to prevent instantiation
@@ -65,7 +65,7 @@ public final class ActivityLogEntry {
         // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
         String userRoleSuffix = isMasqueradeUserRole ? Const.ActivityLog.ROLE_MASQUERADE_POSTFIX : "";
         return StringHelper.join(Const.ActivityLog.FIELD_SEPARATOR, Const.ActivityLog.TEAMMATESLOG,
-                actionName, actionResponse, Boolean.toString(logToShow), userRole + userRoleSuffix,
+                actionName, actionResponse, Boolean.toString(shouldShowLog), userRole + userRoleSuffix,
                 userName, userGoogleId, userEmail, logMessage, actionUrl, logId);
     }
 
@@ -73,8 +73,8 @@ public final class ActivityLogEntry {
         return logId;
     }
 
-    public boolean getLogToShow() {
-        return logToShow;
+    public boolean getShouldShowLog() {
+        return shouldShowLog;
     }
 
     public String getActionUrl() {
