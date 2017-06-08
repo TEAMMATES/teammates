@@ -1709,7 +1709,11 @@ public class FeedbackSessionResultsBundle {
         return sortedMap;
     }
 
-    public LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+    /**
+     * Returns an ordered Map with {@code recipientTeam} name as key
+     * sorted by recipientTeam > question > recipientName > giverTeam > giverName.
+     */
+    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
@@ -1742,7 +1746,11 @@ public class FeedbackSessionResultsBundle {
         return sortedMap;
     }
 
-    public LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+    /**
+     * Returns an ordered Map with {@code giverTeam} name as key
+     * sorted by giverTeam > question > giverName > recipientTeam > recipientName.
+     */
+    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
@@ -1874,7 +1882,7 @@ public class FeedbackSessionResultsBundle {
      * @return The responses in this bundle sorted by recipient identifier > giver identifier > question number.
      * @see #getResponsesSortedByRecipient
      */
-    public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
 
         LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =

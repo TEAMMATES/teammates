@@ -25,11 +25,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         super(account, sessionToken);
     }
 
-    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor,
-            int pendingComments) {
+    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor) {
         this.index = tableIndex;
-        this.courseTable = createCourseTable(
-                courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments);
+        this.courseTable = createCourseTable(courseSummary.course, instructor, courseSummary.feedbackSessions);
     }
 
     public CourseTable getCourseTable() {
@@ -41,10 +39,10 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
 
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
-            List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
+            List<FeedbackSessionAttributes> feedbackSessions) {
         String courseId = course.getId();
         return new CourseTable(course,
-                               createCourseTableLinks(instructor, courseId, pendingCommentsCount),
+                               createCourseTableLinks(instructor, courseId),
                                createSessionRows(feedbackSessions, instructor));
     }
 
@@ -58,8 +56,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         }
     }
 
-    private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId,
-            int pendingCommentsCount) {
+    private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId) {
         String disabled = "disabled";
         String className = "btn-tm-actions course-";
 
@@ -116,24 +113,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         courses.addNestedElement(archive);
         courses.addNestedElement(delete);
 
-        if (pendingCommentsCount <= 0) {
-            return Arrays.asList(students, instructors, sessions, courses);
-        }
-
-        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span> "
-                                + "<span class=\"glyphicon glyphicon-comment\"></span> "
-                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span> "
-                                + "<span class=\"glyphicon glyphicon-envelope\"></span>";
-        String plural = pendingCommentsCount > 1 ? "s" : "";
-
-        ElementTag pending = createButton(
-                pendingGraphic,
-                className + "notify-pending-comments-for-test btn btn-primary btn-xs",
-                getInstructorStudentCommentClearPendingLink(courseId),
-                String.format(Const.Tooltips.COURSE_EMAIL_PENDING_COMMENTS,
-                              pendingCommentsCount, plural));
-
-        return Arrays.asList(students, instructors, sessions, courses, pending);
+        return Arrays.asList(students, instructors, sessions, courses);
     }
 
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,

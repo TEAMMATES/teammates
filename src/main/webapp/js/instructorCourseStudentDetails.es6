@@ -1,6 +1,5 @@
-/* global prepareInstructorPages:false prepareComments:false */
+/* global prepareInstructorPages:false */
 
 $(document).ready(() => {
     prepareInstructorPages();
-    prepareComments();
 });

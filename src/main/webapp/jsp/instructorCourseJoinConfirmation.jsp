@@ -19,7 +19,7 @@
             <p class="lead">
                 You are currently logged in as <span><strong>${data.account.googleId}</strong></span>.
                 <br>If this is not you please <a
-                    href="${logoutUrl}">log out</a> and re-login using your own Google account. 
+                    href="${logoutUrl}">log out</a> and re-login using your own Google account.
                     <br>If this is you, please confirm below to complete your registration. <br>
             <div class="align-center">
                 <a href="${data.confirmationLink}" id="button_confirm"

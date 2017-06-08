@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
@@ -46,12 +45,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testFrontEndActions() throws Exception {
-        testDefaultSort();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
         testShowStats();
-        testSearchScript();
     }
 
     @Test
@@ -511,19 +508,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: panels expand/collapse");
 
-        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
         clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsVisible();
 
         clickCollapseExpandButtonAndWaitForPanelsToCollapse();
-        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
@@ -564,38 +561,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
-    }
-
-    private void testSearchScript() throws Exception {
-
-        ______TS("Typical case: test search/filter script");
-
-        resultsPage.fillSearchBox("question 1");
-        ThreadHelper.waitFor(1000);
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
-
-        ______TS("Verify that search works on RGQ view");
-        resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.clickGroupByTeam();
-        clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        resultsPage.fillSearchBox("team 2");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
-
-        resultsPage.fillSearchBox("alice");
-        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
-
-        resultsPage.fillSearchBox("Alice");
-        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
-
-        resultsPage.displayByQuestion();
-    }
-
-    private void testDefaultSort() throws Exception {
-
-        ______TS("Typical case: test default sort Team Name-->Giver display name");
-
-        resultsPage.fillSearchBox("default sort");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.

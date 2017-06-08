@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <h4>
     <a name="gs">Getting Started</a>
 </h4>
@@ -123,7 +122,6 @@
                             <br> Feedback recipient: giver's team members
                             <br>
 
-
                         </li>
                         <br>
                         <li>You can set the visibility options for each question:
@@ -135,9 +133,6 @@
 
                     </ul>
                     <br>
-
-
-
 
                 </div>
             </div>
