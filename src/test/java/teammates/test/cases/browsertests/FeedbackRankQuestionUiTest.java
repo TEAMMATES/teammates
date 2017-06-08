@@ -207,7 +207,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-section-1-2", "ajax_auto");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
-    
+
     @Test
     public void testInstructorResultsPageForRankRecipientQuestion() throws Exception {
         ______TS("Rank recipient self excluding instructor results : question");
