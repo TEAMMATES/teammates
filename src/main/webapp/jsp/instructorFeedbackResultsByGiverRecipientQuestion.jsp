@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGRQ.js"></script>
+    <script type="text/javascript" src="/js/instructor.js"></script>
 </c:set>
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
