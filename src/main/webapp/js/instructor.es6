@@ -470,3 +470,33 @@ function prepareInstructorPages() {
     bindCourseDeleteLinks();
     bindSessionDeleteLinks();
 }
+
+function setCommentsCreatedTime() {
+    $('.createdAt').each(function() {
+        const length = $(this).text().length;
+        const utcTime = $(this).text().substr(1, length-2);
+        const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
+        $(this).text("[" + localTime + "]");
+    });
+}
+
+function setCommentsEditedTime() {
+    $('.editedAt').each(function() {
+        if($(this).text().length !== 0) {
+            const length = $(this).text().length;
+            const editedText = $(this).text();
+            const textWithoutBrackets = editedText.substr(1, length-2);
+            const utcTime = textWithoutBrackets.substr(textWithoutBrackets.indexOf("at") + 3);
+            const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
+            const finalEditedText = editedText.replace(utcTime, localTime);
+            $(this).text(finalEditedText);
+        }
+    });
+}
+
+function setTimeForNewComment(e) {
+    const length = e.text().length;
+    const utcTime = e.text().substr(1, length-2);
+    const localTime = moment.utc(utcTime, "ddd, DD MMM YYYY, hh:mm A").local().format('ddd, D MMM YYYY, hh:mm a UTCZ');
+    e.text("[" + localTime + "]");
+}
