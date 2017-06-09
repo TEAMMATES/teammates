@@ -526,23 +526,62 @@ function toggleSort(divElement, comparator) {
 
     const $selectedDivElement = $(divElement);
 
-    if ($selectedDivElement.attr('class') === 'button-sort-none') {
+    if ($selectedDivElement.hasClass('button-sort-none')) {
         sortTable(divElement, colIdx, comparator, true, row);
-        $selectedDivElement.parent().find('.button-sort-ascending').attr('class', 'button-sort-none');
-        $selectedDivElement.parent().find('.button-sort-descending').attr('class', 'button-sort-none');
+        $selectedDivElement.parent().find('.button-sort-ascending')
+            .removeClass('button-sort-ascending').addClass('button-sort-none');
+        $selectedDivElement.parent().find('.button-sort-descending')
+            .removeClass('button-sort-descending').addClass('button-sort-none');
         $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
-        $selectedDivElement.attr('class', 'button-sort-ascending');
+        $selectedDivElement.removeClass('button-sort-none').addClass('button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
-    } else if ($selectedDivElement.attr('class') === 'button-sort-ascending') {
+    } else if ($selectedDivElement.hasClass('button-sort-ascending')) {
         sortTable(divElement, colIdx, comparator, false, row);
-        $selectedDivElement.attr('class', 'button-sort-descending');
+        $selectedDivElement.removeClass('button-sort-ascending').addClass('button-sort-descending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
     } else {
         sortTable(divElement, colIdx, comparator, true, row);
-        $selectedDivElement.attr('class', 'button-sort-ascending');
+        $selectedDivElement.removeClass('button-sort-descending').addClass('button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     }
 }
+
+const comparators = {
+    /*
+     * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
+     * possibly a tag that surrounds it.
+     */
+    sortByPoints(a, b) {
+        const a0 = getPointValue(a, true);
+        const b0 = getPointValue(b, true);
+        if (isNumber(a0) && isNumber(b0)) {
+            return sortNum(a0, b0);
+        }
+        return sortBase(a0, b0);
+    },
+    /*
+     * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
+     * surrounds it.
+     */
+    sortByDiff(a, b) {
+        const a0 = getPointValue(a, false);
+        const b0 = getPointValue(b, false);
+        if (isNumber(a0) && isNumber(b0)) {
+            return sortNum(a0, b0);
+        }
+        return sortBase(a0, b0);
+    },
+};
+
+$(document).on('click', '.toggle-sort', (e) => {
+    const comparatorString = $(e.currentTarget).data('toggle-sort-comparator');
+    if (comparatorString !== undefined) {
+        const comparator = comparators[comparatorString];
+        toggleSort(e.currentTarget, comparator);
+    } else {
+        toggleSort(e.currentTarget);
+    }
+});
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
