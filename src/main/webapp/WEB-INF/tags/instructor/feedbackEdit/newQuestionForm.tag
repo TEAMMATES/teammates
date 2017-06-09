@@ -105,7 +105,6 @@
                         </label>
                     </h5>
                     <div class="col-sm-10">
-                        <div id="rich-text-toolbar-q-descr-container"></div>
                         <div class="panel panel-default panel-body question-description"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"

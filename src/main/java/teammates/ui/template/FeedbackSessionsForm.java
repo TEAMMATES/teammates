@@ -55,7 +55,6 @@ public class FeedbackSessionsForm {
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
 
-    private ElementTag editButtonTags;
     private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
 
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
@@ -93,8 +92,6 @@ public class FeedbackSessionsForm {
         fsForm.isSubmitButtonVisible = false;
         fsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
         fsForm.submitButtonText = "Save Changes";
-
-        fsForm.editButtonTags = new ElementTag("onclick", "enableEditFS()");
 
         fsForm.additionalSettings = additionalSettings;
 
@@ -264,9 +261,4 @@ public class FeedbackSessionsForm {
     public boolean isEditFsButtonsVisible() {
         return isEditFsButtonsVisible;
     }
-
-    public ElementTag getEditButtonTags() {
-        return editButtonTags;
-    }
-
 }
