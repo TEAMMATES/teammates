@@ -571,6 +571,17 @@ const comparators = {
         }
         return sortBase(a0, b0);
     },
+    /*
+     * Comparator for date. Allows for the same format as isDate()
+     */
+    sortDate(x, y) {
+        const x0 = Date.parse(x);
+        const y0 = Date.parse(y);
+        if (x0 > y0) {
+            return 1;
+        }
+        return x0 < y0 ? -1 : 0;
+    },
 };
 
 $(document).on('click', '.toggle-sort', (e) => {
