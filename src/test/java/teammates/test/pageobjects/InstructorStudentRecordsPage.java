@@ -81,21 +81,12 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void editFeedbackResponseComment(String newCommentText) {
-        try {
-            WebElement editButton = browser.driver.findElement(By.xpath("//*[@id='commentedit-1-1-1-1-GRQ']"));
-            click(editButton);
-        } catch (NoSuchElementException e) {
-            waitForElementPresence(By.xpath("//*[@id='commentedit-1-1-1-1-GRQ']"));
-        }
-        WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
-        try {
-            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
-            fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
-            click(editCommentForm.findElement(By.id("button_save_comment_for_edit-1-1-1-1-GRQ")));
-        } catch (NoSuchElementException e) {
-            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
-            waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
-        }
+        waitForAjaxLoaderGifToDisappear();
+        executeScript("scroll(0, 300)"); // if the element is on bottom.
+        browser.driver.findElement(By.id("commentedit-1-1-1-1-GRQ")).click();
+        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
+        fillRichTextEditor("responsecommenttext-1-1-1-1-GRQ", newCommentText);
+        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
@@ -111,6 +102,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void verifyCommentRowContent(String commentText, String giverName) {
+        waitForAjaxLoaderGifToDisappear();
         WebElement commentRowSelector = browser.driver.findElement(By.id("responseCommentRow-1-1-1-1-GRQ"));
         try {
             WebElement commentTextElement = commentRowSelector.findElement(By.id("plainCommentText-1-1-1-1-GRQ"));
