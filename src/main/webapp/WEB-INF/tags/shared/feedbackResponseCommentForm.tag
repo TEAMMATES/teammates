@@ -189,7 +189,6 @@
         </table>
     </div>
     <div class="form-group">
-        <div id="rich-text-toolbar-comment-container-${divId}"></div>
         <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
             ${frc.commentText}
         </div>
