@@ -114,7 +114,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void verifyCommentFormErrorMessage(String errorMessage) {
-        WebElement errorMessageSpan = waitForElementPresence(By.xpath("//*[@id='errorMessage']"));
+        WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
         assertEquals(errorMessage, errorMessageSpan.getText());
     }
 
