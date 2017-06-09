@@ -77,7 +77,6 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertEquals(1, sectionRow.getPermissionInputGroup2().size());
         assertEquals(3, sectionRow.getPermissionInputGroup3().size());
         assertEquals(feedbackSessionNames.size(), sectionRow.getFeedbackSessions().size());
-        assertNotNull(sectionRow.getToggleSessionLevelInSectionButton());
         assertFalse(sectionRow.isSectionSpecial());
         /*
          * Comment for below Assertion:
@@ -134,9 +133,6 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         pageData = new InstructorCourseEditPageData(account, dummySessionToken, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
         assertNotNull(pageData.getAddInstructorPanel());
-        panel = pageData.getInstructorPanelList().get(0);
-        assertEquals("display: none;", panel.getAddSectionLevelForInstructorButton().getAttributes()
-                                                                                        .get("style"));
 
     }
 }

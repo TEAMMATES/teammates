@@ -67,7 +67,6 @@ $(document).ready(() => {
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             readonly: false,
-            fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
     }
