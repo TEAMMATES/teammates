@@ -175,6 +175,17 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor.courseId;
+        String courseName = CoursesLogic.inst().getCourse(courseId).getName();
+        String courseTimeZone = "UTC";
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
 }
