@@ -9,10 +9,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 
 public class InstructorStudentRecordsPage extends AppPage {
