@@ -1,4 +1,5 @@
-/* global toggleSingleCollapse:false prepareInstructorPages:false */
+/* global toggleSingleCollapse:false prepareInstructorPages:false setCommentsCreatedTime:false setCommentsEditedTime:false
+*/
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
@@ -10,6 +11,8 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     targetDiv.load(url, (response, status) => {
         if (status === 'success') {
             $(sender).removeAttr('onclick');
+            setCommentsCreatedTime();
+            setCommentsEditedTime();
         }
         $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
