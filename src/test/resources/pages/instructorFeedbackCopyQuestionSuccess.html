@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
-            <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" title="">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit
@@ -211,8 +211,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
                     <p>
                       Please fill in the edited feedback session.
@@ -489,7 +487,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -735,7 +733,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -864,8 +862,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-1">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-1" spellcheck="false" tabindex="9" title="">
                 <p>
                   more details
@@ -1304,8 +1300,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-2">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-2" spellcheck="false" tabindex="9" title="">
                 <p>
                   more details
@@ -1806,8 +1800,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container">
-              </div>
               <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
               <input name="questiondescription" type="hidden">

@@ -31,7 +31,8 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${instructorIndex}, ${panelIndex})" class="pull-right">
+                    <a href="javascript:;" data-instructorindex="${instructorIndex}" data-panelindex="${panelIndex}"
+                            class="pull-right hide-tune-section-permissions">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </div>
@@ -65,9 +66,24 @@
                 <br>
             </div>
 
-            <a ${sectionRow.toggleSessionLevelInSectionButton.attributesToString}>
-                ${sectionRow.toggleSessionLevelInSectionButton.content}
-            </a>
+            <c:choose>
+                <c:when test="${sectionRow.sessionsInSectionSpecial}">
+                    <a class="small col-sm-5 hide-tune-session-permissions"
+                            id="toggleSessionLevelInSection${sectionRow.panelIndex}ForInstructor${sectionRow.instructorIndex}"
+                            data-instructorindex="${sectionRow.instructorIndex}" data-panelindex="${sectionRow.panelIndex}"
+                            href="javascript:;">
+                        Hide session-level permissions
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a class="small col-sm-5 show-tune-session-permissions"
+                            id="toggleSessionLevelInSection${sectionRow.panelIndex}ForInstructor${sectionRow.instructorIndex}"
+                            data-instructorindex="${sectionRow.instructorIndex}" data-panelindex="${sectionRow.panelIndex}"
+                            href="javascript:;">
+                        Give different permissions for sessions in this section
+                    </a>
+                </c:otherwise>
+            </c:choose>
 
             <course:courseEditTuneSessionPermissionsDiv
                     instructorIndex="${instructorIndex}"
