@@ -8,10 +8,10 @@
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 
-<form class="form-horizontal form_question" role="form" method="post"
+<form class="form-horizontal form_question tally-checkboxes" role="form" method="post"
     action="${fqForm.action}"
     id="form_editquestion-${fqForm.questionIndex}" name="form_editquestions"
-    onsubmit="tallyCheckboxes(${fqForm.questionIndex})"
+    data-qnnumber="${fqForm.questionIndex}"
     ${ fqForm.questionHasResponses ? 'editStatus="hasResponses"' : '' }>
     <div class="panel panel-primary questionTable" id="questionTable-${fqForm.questionIndex}">
         <div class="panel-heading">

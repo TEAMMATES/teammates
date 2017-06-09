@@ -1001,4 +1001,8 @@ $(document).ready(() => {
     $(document).on('click', '.btn-delete-qn', (e) => {
         deleteQuestion($(e.target).data('qnnumber'));
     });
+
+    $(document).on('submit', '.tally-checkboxes', (e) => {
+        tallyCheckboxes($(e.target).data('qnnumber'));
+    });
 });

@@ -6722,7 +6722,7 @@
                     <br>
                     <br>
                     <div class="bs-example">
-                        <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)">
+                        <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
                             <div class="panel panel-primary questionTable" id="questionTable3">
                                 <div class="panel-heading">
                                     <div class="row">

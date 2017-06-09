@@ -796,7 +796,7 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
-  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
         <div class="row">
@@ -1379,7 +1379,7 @@
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-offset-3 col-sm-9">
