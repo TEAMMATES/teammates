@@ -33,7 +33,7 @@
             <span class="glyphicon glyphicon-chevron-up"></span>
         </div>
     </div>
-    
+
     <div class="panel-collapse collapse in">
         <div class="panel-body background-color-warning">
             <c:if test="${isDisplayingTeamStatistics}">
@@ -67,10 +67,10 @@
                     </c:if>
              </div>
              </c:if>
-             
+
             <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
                 <c:forEach items="${participantPanels}" var="participantPanel">
-                    <results:participantPanel isShowingAll="${isShowingAll}" participantPanel="${participantPanel}" 
+                    <results:participantPanel isShowingAll="${isShowingAll}" participantPanel="${participantPanel}"
                                               isSecondaryParticipantType="${isSecondaryParticipantType}"/>
                 </c:forEach>
              </c:if>

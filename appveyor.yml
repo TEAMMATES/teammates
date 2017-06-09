@@ -24,7 +24,7 @@ install:
   - npm install
 
 build_script:
-  - gradlew.bat createConfigs testClasses 
+  - gradlew.bat createConfigs testClasses
 
 test_script:
   - npm run build
