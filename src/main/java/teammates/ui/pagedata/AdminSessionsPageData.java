@@ -72,10 +72,6 @@ public class AdminSessionsPageData extends PageData {
         return totalInstitutes;
     }
 
-    public int getTableCount() {
-        return institutionPanels.size();
-    }
-
     public boolean isShowAll() {
         return isShowAll;
     }

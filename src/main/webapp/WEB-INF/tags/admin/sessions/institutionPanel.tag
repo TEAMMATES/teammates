@@ -5,10 +5,10 @@
 <%@ attribute name="institutionPanel" type="teammates.ui.template.InstitutionPanel" required="true"%>
 <%@ attribute name="tableIndex" required="true"%>
 <%@ attribute name="showAll" required="true"%>
-<div class="panel panel-primary">
+<div class="panel panel-primary institution-panel">
     <ul class="nav nav-pills nav-stacked">
         <li id="pill_${tableIndex}" class="active">
-            <a href="#" onclick="toggleContent(${tableIndex}); return false;">
+            <a href="javascript:;" class="toggle-content" data-index="${tableIndex}">
                 <span class="badge pull-right" id="badge_${tableIndex}" style="display: none">
                     ${fn:length(institutionPanel.feedbackSessionRows)}
                 </span>
