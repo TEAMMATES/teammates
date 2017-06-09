@@ -87,6 +87,12 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        String[] params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
 }
