@@ -12,6 +12,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 
 public class InstructorStudentRecordsPage extends AppPage {
@@ -90,18 +91,11 @@ public class InstructorStudentRecordsPage extends AppPage {
         }
         WebElement editCommentForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
         try {
-            WebElement editorElement = browser.driver.findElement(By.id("responsecommenttext-1-1-1-1-GRQ"));
+            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
             fillRichTextEditor(editorElement.getAttribute("id"), newCommentText);
             click(editCommentForm.findElement(By.id("button_save_comment_for_edit-1-1-1-1-GRQ")));
-            if (newCommentText.isEmpty()) {
-                // empty comment: wait until the textarea is clickable again
-                waitForElementToBeClickable(editorElement);
-            } else {
-                // non-empty comment: wait until the add comment form disappears
-                waitForElementToDisappear(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
-            }
         } catch (NoSuchElementException e) {
-            WebElement editorElement = browser.driver.findElement(By.id("responsecommenttext-1-1-1-1-GRQ"));
+            WebElement editorElement = browser.driver.findElement(By.className("mce-content-body"));
             waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         }
     }
@@ -121,9 +115,9 @@ public class InstructorStudentRecordsPage extends AppPage {
     public void verifyCommentRowContent(String commentText, String giverName) {
         WebElement commentRowSelector = browser.driver.findElement(By.id("responseCommentRow-1-1-1-1-GRQ"));
         try {
-            WebElement commentTextElement = commentRowSelector.findElement(By.tagName("p"));
-            assertTrue(commentTextElement.getText().equals(commentText));
-        } catch (TimeoutException e) {
+            WebElement commentTextElement = commentRowSelector.findElement(By.id("plainCommentText-1-1-1-1-GRQ"));
+            assertTrue(commentTextElement.findElement(By.tagName("p")).getText().equals(commentText));
+        } catch (NoSuchElementException e) {
             waitForTextContainedInElementPresence(By.id("plainCommentText-1-1-1-1-GRQ"), commentText);
         }
         assertTrue(commentRowSelector.findElement(By.className("text-muted")).getText().contains(giverName));
