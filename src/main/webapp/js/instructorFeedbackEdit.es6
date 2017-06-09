@@ -284,8 +284,8 @@ function enableQuestion(questionNum) {
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
-function enableEdit(questionNum) {
-    let i = parseInt($('#num-questions').val(), 10);
+function enableEdit(questionNum, maxQuestions) {
+    let i = maxQuestions;
     while (i) {
         if (questionNum === i) {
             backupQuestion(i);
@@ -995,7 +995,8 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.btn-edit-qn', (e) => {
-        enableEdit($(e.target).data('qnnumber'));
+        const maxQuestions = parseInt($('#num-questions').val(), 10);
+        enableEdit($(e.target).data('qnnumber'), maxQuestions);
     });
 
     $(document).on('click', '.btn-delete-qn', (e) => {
