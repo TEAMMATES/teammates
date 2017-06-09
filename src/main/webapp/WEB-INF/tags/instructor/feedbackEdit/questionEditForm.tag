@@ -89,7 +89,6 @@
                         </label>
                     </h5>
                     <div class="col-sm-10">
-                        <div id="rich-text-toolbar-q-descr-container-${fqForm.questionIndex}"></div>
                         <div class="well panel panel-default panel-body question-description"
                             data-placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION_DESCRIPTION %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}"
