@@ -444,6 +444,11 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
+
+function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex) {
+    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''
+            }-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.hide();
     $(`#plainCommentText${id}`).hide();
@@ -477,6 +482,11 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionId
             .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
     }
 }
+
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIdx, sectionIdx) {
+    const id = `${sectionIdx !== undefined ? `-${sectionIdx}` : ''
+            }-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+
     const visibilityEditForm = $(`#visibility-options${id}`);
     if (visibilityEditForm.is(':visible')) {
         visibilityEditForm.hide();
@@ -488,6 +498,11 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionId
             .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
     }
 }
+
+function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex) {
+    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''
+            }-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.show();
     $(`#plainCommentText${id}`).show();
