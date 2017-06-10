@@ -271,6 +271,7 @@ function enableQuestion(questionNum) {
     $(`#${FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
     $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     $(`#button_question_submit-${questionNum}`).show();
+    disableMoveColumnButtons(questionNum);
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
