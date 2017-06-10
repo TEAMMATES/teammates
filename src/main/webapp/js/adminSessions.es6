@@ -1,29 +1,5 @@
 /* global bindBackToTopButtons:false linkAjaxForResponseRate:false prepareDatepickers:false */
 
-$(document).ready(() => {
-    $('#timeFramePanel').toggle();
-    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
-    linkAjaxForResponseRate();
-    prepareDatepickers();
-
-    $('#btn-open-all-sections').on('click', () => {
-        openAllSections($('.institution-panel').length);
-    });
-
-    $('#btn-close-all-sections').on('click', () => {
-        closeAllSections($('.institution-panel').length);
-    });
-
-    $('#btn-toggle-filter').on('click', () => {
-        toggleFilter();
-    });
-
-    $(document).on('click', '.toggle-content', (e) => {
-        const tableIndex = $(e.target).data('index');
-        toggleContent(tableIndex);
-    });
-});
-
 function toggleContent(id) {
     const duration = 500;
 
@@ -71,3 +47,27 @@ function toggleFilter() {
         $('#referenceText').text('Show Filter');
     }
 }
+
+$(document).ready(() => {
+    $('#timeFramePanel').toggle();
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    linkAjaxForResponseRate();
+    prepareDatepickers();
+
+    $('#btn-open-all-sections').on('click', () => {
+        openAllSections($('.institution-panel').length);
+    });
+
+    $('#btn-close-all-sections').on('click', () => {
+        closeAllSections($('.institution-panel').length);
+    });
+
+    $('#btn-toggle-filter').on('click', () => {
+        toggleFilter();
+    });
+
+    $(document).on('click', '.toggle-content', (e) => {
+        const tableIndex = $(e.target).data('index');
+        toggleContent(tableIndex);
+    });
+});

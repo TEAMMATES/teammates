@@ -39,21 +39,6 @@ function highlightKeywordsInEmailLogMessages() {
     $('.email-content').highlight($('#query-keywords-for-content').val().split(','));
 }
 
-$(document).ready(() => {
-    bindClickAction();
-    highlightKeywordsInEmailLogMessages();
-    $('#filterReference').toggle();
-
-    $(document).on('click', '#button_older', () => {
-        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
-        submitFormAjax(nextEndTimeToSearch);
-    });
-
-    $('#btn-toggle-reference').on('click', () => {
-        toggleReference();
-    });
-});
-
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
     const formObject = $('#ajaxLoaderDataForm');
@@ -80,3 +65,18 @@ function submitFormAjax(offset) {
         },
     });
 }
+
+$(document).ready(() => {
+    bindClickAction();
+    highlightKeywordsInEmailLogMessages();
+    $('#filterReference').toggle();
+
+    $(document).on('click', '#button_older', () => {
+        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+        submitFormAjax(nextEndTimeToSearch);
+    });
+
+    $('#btn-toggle-reference').on('click', () => {
+        toggleReference();
+    });
+});

@@ -324,9 +324,6 @@ function formatVisibilityMessageDivHtml(visibilityMessage) {
     return htmlString;
 }
 
-// TODO: remove cyclic dependency
-/* eslint-disable no-use-before-define */
-
 /**
  * Updates visibility message div with error message and add onclick event for re-loading the visibility message
  */
@@ -341,7 +338,7 @@ function showAjaxErrorMessage($containingForm) {
     $visibilityMessageDiv.html(htmlString);
     $visibilityMessageDiv.find('ul').on('click', () => {
         $visibilityMessageDiv.html('');
-        updateVisibilityMessageDiv($containingForm);
+        updateVisibilityMessageDiv($containingForm); // eslint-disable-line no-use-before-define
     });
 }
 
@@ -386,8 +383,6 @@ function updateVisibilityMessageDiv($containingForm) {
         },
     });
 }
-
-/* eslint-enable no-use-before-define */
 
 // ////////////// //
 // EVENT HANDLERS //
