@@ -40,7 +40,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 margin-bottom-7px">
             <select class="form-control" id="msqGenerateForSelect-${questionNumber}"
                 onchange="changeMsqGenerateFor(${questionNumber})"
                 disabled>
@@ -48,6 +48,22 @@
                 <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
                 <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
             </select>
+        </div>
+        <br>
+        <div class="col-md-9 margin-bottom-7px">
+            <div class="checkbox">
+                <label class="bold-label">
+                    <input type="checkbox"
+                        disabled
+                        id="generateOptionsCheckbox-${questionNumber}"
+                        ${checkedGeneratedOptions}
+                        onchange="toggleMsqGeneratedOptions(this,${questionNumber})">
+                    Set maximum number of selectable choices
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" name="max-selectable-choices" min="1" value="5" max="5"/>
         </div>
         <input type="hidden"
             id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
