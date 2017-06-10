@@ -36,6 +36,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
+    private int maxSelectableChoices;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -44,6 +45,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<String>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
+        this.maxSelectableChoices = Integer.MIN_VALUE;
     }
 
     @Override
@@ -60,6 +62,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         if ("on".equals(otherOptionFlag)) {
             msqOtherEnabled = true;
+        }
+
+        int msqMaxSelectableChoices = Integer.MIN_VALUE;
+
+        String maxSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES);
+
+        if (maxSelectableChoicesParam != null) {
+            msqMaxSelectableChoices = Integer.parseInt(maxSelectableChoicesParam);
         }
 
         String generatedMsqOptions =
@@ -82,29 +93,32 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
 
-            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
+            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled, msqMaxSelectableChoices);
         } else {
-            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
+            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions), msqMaxSelectableChoices);
         }
         return true;
     }
 
     private void setMsqQuestionDetails(int numOfMsqChoices,
             List<String> msqChoices,
-            boolean otherEnabled) {
+            boolean otherEnabled,
+            int maxSelectableChoices) {
 
         this.numOfMsqChoices = numOfMsqChoices;
         this.msqChoices = msqChoices;
         this.otherEnabled = otherEnabled;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
+        this.maxSelectableChoices = maxSelectableChoices;
     }
 
-    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
+    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor, int maxSelectableChoices) {
 
         this.numOfMsqChoices = 0;
         this.msqChoices = new ArrayList<String>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
+        this.maxSelectableChoices = maxSelectableChoices;
         Assumption.assertTrue("Can only generate students, teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
                 || generateOptionsFor == FeedbackParticipantType.TEAMS
@@ -131,6 +145,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
+            return true;
+        }
+
+        if (this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
             return true;
         }
 
