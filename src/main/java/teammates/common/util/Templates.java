@@ -367,7 +367,7 @@ public final class Templates {
             public static final String CONTRIB_TOOLTIPS_POINTS_RECEIVED =
                     "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}";
             public static final String CONTRIB_PARAM_STUDENT_NAME = "${Const.ParamsNames.STUDENT_NAME}";
-            public static final String EQUAL_SHARE_HELP = "${equalShareHelp}";
+            public static final String CONTRIB_EQUAL_SHARE_HELP = "${equalShareHelp}";
 
             // Rank
             public static final String RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";

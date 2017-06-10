@@ -87,7 +87,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                 Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectFragmentsHtml,
-                Slots.EQUAL_SHARE_HELP, checkIfEqualShareHelpLinkIsNeeded(responseIdx));
+                Slots.CONTRIB_EQUAL_SHARE_HELP, checkIfEqualShareHelpLinkIsNeeded(responseIdx));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                 Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml,
-                Slots.EQUAL_SHARE_HELP, checkIfEqualShareHelpLinkIsNeeded(responseIdx));
+                Slots.CONTRIB_EQUAL_SHARE_HELP, checkIfEqualShareHelpLinkIsNeeded(responseIdx));
     }
 
     @Override
