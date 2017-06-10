@@ -4,7 +4,6 @@
 /* global showSingleCollapse:false hideSingleCollapse:false */
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
-const CURRENT_YEAR = (new Date()).getFullYear();
 
 $(document).ready(() => {
     prepareInstructorPages();

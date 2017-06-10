@@ -3,8 +3,6 @@
  * Contains functions to be used to display email logs in `/adminEmailLog`
  */
 
-const numOfEntriesPerPage = 50;
-
 function toggleReference() {
     $('#filterReference').toggle('slow');
 

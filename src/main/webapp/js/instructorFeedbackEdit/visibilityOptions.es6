@@ -398,38 +398,6 @@ function matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption) {
     updateVisibilityCheckboxesDiv($containingForm);
 }
 
-function toggleVisibilityEditTab(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    const $editTab = $containingForm.find('.visibilityOptions');
-    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
-
-    // enable edit
-    $containingForm.find('[id|="questionedittext"]').click();
-
-    if ($editTab.is(':hidden')) {
-        $editTab.show();
-        $visibilityMessageDiv.hide();
-        updateVisibilityCheckboxesDiv($containingForm);
-    } else {
-        $editTab.hide();
-        $visibilityMessageDiv.show();
-    }
-}
-
-function toggleVisibilityPreviewTab(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    const $editTab = $containingForm.find('.visibilityOptions');
-
-    $editTab.hide();
-    const $disabledInputs = $containingForm.find('input:disabled, select:disabled');
-    $disabledInputs.prop('disabled', false);
-
-    updateVisibilityCheckboxesDiv($containingForm);
-
-    updateVisibilityMessageDiv($containingForm);
-    $disabledInputs.prop('disabled', true);
-}
-
 function getVisibilityMessage(clickedButton) {
     const $containingForm = $(clickedButton).closest('form');
     updateVisibilityMessageDiv($containingForm);

@@ -9,7 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false, checkEditFeedbackSession:false
+makeCsrfTokenParam:false, checkEditFeedbackSession:false, tallyCheckboxes:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -383,28 +383,6 @@ function getQuestionNum($elementInQuestionForm) {
     }
     const splitCssId = cssId.split('-');
     return splitCssId[splitCssId.length - 1];
-}
-
-/**
- * Pushes the values of all checked check boxes for the specified question
- * into the appropriate feedback question parameters.
- * @returns questionNum
- */
-function tallyCheckboxes(questionNum) {
-    // update hidden parameters (the values in checkboxTypes)
-    const checkboxTypes = {
-        '.answerCheckbox': FEEDBACK_QUESTION_SHOWRESPONSESTO,
-        '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
-        '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO,
-    };
-
-    $.each(checkboxTypes, (classSelector, checkboxType) => {
-        const checked = [];
-        $(`#form_questionedit-${questionNum}`).find(`${classSelector}:checked`).each(function () {
-            checked.push($(this).val());
-        });
-        $(`[name=${checkboxType}]`).val(checked.toString());
-    });
 }
 
 /**

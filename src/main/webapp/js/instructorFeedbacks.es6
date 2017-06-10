@@ -287,11 +287,6 @@ function showUncommonPanelsForSendEmails() {
     $('#uncommonSettingsSendEmailsInfoText').parent().hide();
 }
 
-function showUncommonPanels() {
-    showUncommonPanelsForSessionResponsesVisible();
-    showUncommonPanelsForSendEmails();
-}
-
 function showUncommonPanelsIfNotInDefaultValues() {
     if (!isDefaultSessionResponsesVisibleSetting()) {
         showUncommonPanelsForSessionResponsesVisible();
