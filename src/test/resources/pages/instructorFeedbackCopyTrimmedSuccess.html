@@ -10,12 +10,12 @@
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
-            <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" title="">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
+            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
               <span class="glyphicon glyphicon-ok">
               </span>
               Save
@@ -211,8 +211,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
                     <p>
                       Instructions for first session
@@ -489,7 +487,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -735,7 +733,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -800,11 +798,12 @@
   </div>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
+  <input id="num-questions" type="hidden" value="0">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
-        <div class="col-sm-12 row">
-          <div class="col-sm-offset-3 col-sm-9">
+        <div class="col-sm-offset-3 col-sm-9">
+          <div class="btn-group">
             <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
               Add New Question
               <span class="caret">
@@ -862,17 +861,17 @@
                 </a>
               </li>
             </ul>
-            <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
-              <i class="glyphicon glyphicon-info-sign">
-              </i>
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session ## Trimmed (Copied)" data-target="#copyModal" data-toggle="modal" id="button_copy">
-              Copy Question
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=CFeedbackUiT.instructor&courseid=CFeedbackUiT.CS1101&fsname=New+Session+%23%23+Trimmed+%28Copied%29" id="button_done_editing">
-              Done Editing
-            </a>
           </div>
+          <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
+            <i class="glyphicon glyphicon-info-sign">
+            </i>
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session ## Trimmed (Copied)" data-target="#copyModal" data-toggle="modal" id="button_copy">
+            Copy Question
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=CFeedbackUiT.instructor&courseid=CFeedbackUiT.CS1101&fsname=New+Session+%23%23+Trimmed+%28Copied%29" id="button_done_editing">
+            Done Editing
+          </a>
         </div>
       </div>
     </div>
@@ -896,7 +895,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
                 Cancel
               </a>
             </span>
@@ -925,8 +924,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container">
-              </div>
               <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
               <input name="questiondescription" type="hidden">
@@ -1488,13 +1485,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a feedback path
               <span class="caret">
@@ -1579,7 +1576,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1600,7 +1597,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1652,13 +1649,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a visibility option
               <span class="caret">
@@ -1702,7 +1699,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions--1" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -1802,7 +1799,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage--1">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
             </ul>

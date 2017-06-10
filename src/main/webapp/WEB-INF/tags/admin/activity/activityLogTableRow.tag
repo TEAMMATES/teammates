@@ -4,9 +4,9 @@
 <%@ tag import="teammates.common.util.Const" %>
 
 <tr>
-    <td class="${log.isActionTimeTakenModerate ? "warning" 
+    <td class="${log.isActionTimeTakenModerate ? "warning"
                                                : log.isActionTimeTakenSlow ? "danger" : "" }">
-        <a onclick="submitLocalTimeAjaxRequest('${log.logTime}','${log.userGoogleId}','${log.displayedRole}', this);">
+        <a class="log-entry" data-logtime="${log.logTime}" data-googleid="${log.userGoogleId}" data-displayedrole="${log.displayedRole}">
             ${log.displayedLogTime}
         </a>
         <p class="localTime"></p>
@@ -15,7 +15,7 @@
             <strong>${log.displayedLogTimeTaken}</strong>
         </p>
     </td>
-    <td class="${log.isActionTimeTakenModerate ? "warning" 
+    <td class="${log.isActionTimeTakenModerate ? "warning"
                                                : log.isActionTimeTakenSlow ? "danger" : "" }">
         <form method="get" action="<%= Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE %>">
             <h4 class="list-group-item-heading">
@@ -39,13 +39,13 @@
                 <c:if test="${log.isMasqueradeUserRole}">
                     <span class="glyphicon glyphicon-eye-open text-danger"></span>
                 </c:if>
-                <a href="${log.displayedActionUrl}" 
-                   class="${log.isActionFailure || log.isActionErrorReport ? "text-danger" : "" }" 
+                <a href="${log.displayedActionUrl}"
+                   class="${log.isActionFailure || log.isActionErrorReport ? "text-danger" : "" }"
                    target="_blank">
                     ${log.actionName}
                 </a>
                 <small>
-                    id: ${log.logId} 
+                    id: ${log.logId}
                     [
                     ${log.userName}
                     <c:choose>
@@ -55,7 +55,7 @@
                         <c:otherwise>
                             <%-- Display user role for user who don't have home link --%>
                             ${log.displayedRole}
-                        </c:otherwise>   
+                        </c:otherwise>
                     </c:choose>
                     <c:choose>
                         <c:when test="${log.hasUserEmail}">
@@ -67,8 +67,8 @@
                     </c:choose>
                     ]
                 </small>
-                <button type="submit" class="btn btn-xs ${log.isActionFailure ? "btn-warning" 
-                                                                              : log.isActionErrorReport ? "btn-danger" 
+                <button type="submit" class="btn btn-xs ${log.isActionFailure ? "btn-warning"
+                                                                              : log.isActionErrorReport ? "btn-danger"
                                                                                                         : "btn-info"}">
                     <span class="glyphicon glyphicon-zoom-in"></span>
                 </button>

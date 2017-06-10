@@ -12,7 +12,7 @@ public class AdminLogQuery {
     /**
      * A flag to decide whether to include application logs in result or not.
      */
-    private static final boolean INCLUDE_APP_LOG = true;
+    private static final boolean SHOULD_INCLUDE_APP_LOG = true;
 
     /**
      * Affects the internal strategy to get logs. It doesn't affect the result.
@@ -35,7 +35,7 @@ public class AdminLogQuery {
         Assumption.assertNotNull(versionsToQuery);
 
         query = LogQuery.Builder.withDefaults();
-        query.includeAppLogs(INCLUDE_APP_LOG);
+        query.includeAppLogs(SHOULD_INCLUDE_APP_LOG);
         query.batchSize(BATCH_SIZE);
         query.minLogLevel(MIN_LOG_LEVEL);
         setTimePeriod(startTime, endTime);

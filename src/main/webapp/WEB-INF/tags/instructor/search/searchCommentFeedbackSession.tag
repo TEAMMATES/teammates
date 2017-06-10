@@ -11,10 +11,10 @@
                 Session: ${feedbackSessionRow.feedbackSessionName} (${feedbackSessionRow.courseId})
             </strong>
         </div>
-        <div class="col-md-10">         
+        <div class="col-md-10">
             <c:forEach items="${feedbackSessionRow.questionTables}" var="questionTable" varStatus="i">
                 <search:searchCommentFeedbackQuestion questionTable="${questionTable}" qnIndx="${i.count}" fsIndx="${fsIndx}" />
-            </c:forEach>  
+            </c:forEach>
         </div>
     </div>
 </div>

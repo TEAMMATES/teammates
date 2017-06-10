@@ -83,8 +83,8 @@
           <div>
             <span class="help-block">
               Non-English characters not displayed properly in the downloaded file?
-              <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                click here
+              <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" id="btn-display-table">
+                Click here.
               </span>
             </span>
           </div>
@@ -111,7 +111,7 @@
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                     Close
                   </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );" type="button">
+                  <button class="btn btn-primary" id="btn-select-element-contents" type="button">
                     Select Table
                   </button>
                 </div>
@@ -198,16 +198,16 @@
           ${test.student1}@gmail.com
         </td>
         <td class="no-print align-center">
-          <a class="btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             View
           </a>
-          <a class="btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             Edit
           </a>
-          <a class="course-student-delete-link btn btn-default btn-xs disabled mouse-hover-only" data-course-id="CCDetailsUiT.CS2103" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Alice Betsy" data-toggle="tooltip" disabled="" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="CCDetailsUiT.CS2103" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Alice Betsy" data-toggle="tooltip" disabled="" title="">
             Delete
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=${test.student1}%40gmail.com&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=${test.student1}%40gmail.com&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
             All Records
           </a>
         </td>
@@ -237,19 +237,19 @@
           ${test.student2}@gmail.com
         </td>
         <td class="no-print align-center">
-          <a class="btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             View
           </a>
-          <a class="btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             Edit
           </a>
-          <a class="course-student-remind-link btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             Send Invite
           </a>
-          <a class="course-student-delete-link btn btn-default btn-xs disabled mouse-hover-only" data-course-id="CCDetailsUiT.CS2103" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Charlie Davis" data-toggle="tooltip" disabled="" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="CCDetailsUiT.CS2103" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Charlie Davis" data-toggle="tooltip" disabled="" title="">
             Delete
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=${test.student2}%40gmail.com&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=${test.student2}%40gmail.com&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
             All Records
           </a>
         </td>
@@ -279,19 +279,19 @@
           benny.tmms@gmail.tmt
         </td>
         <td class="no-print align-center">
-          <a class="btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             View
           </a>
-          <a class="btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             Edit
           </a>
-          <a class="course-student-remind-link btn btn-default btn-xs disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
+          <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
             Send Invite
           </a>
-          <a class="course-student-delete-link btn btn-default btn-xs disabled mouse-hover-only" data-course-id="CCDetailsUiT.CS2103" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" disabled="" title="">
+          <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="CCDetailsUiT.CS2103" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" disabled="" title="">
             Delete
           </a>
-          <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.tmt&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
+          <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2103&studentemail=benny.tmms%40gmail.tmt&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
             All Records
           </a>
         </td>

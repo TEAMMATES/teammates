@@ -72,10 +72,6 @@ public class AdminSessionsPageData extends PageData {
         return totalInstitutes;
     }
 
-    public int getTableCount() {
-        return institutionPanels.size();
-    }
-
     public boolean isShowAll() {
         return isShowAll;
     }
@@ -103,7 +99,7 @@ public class AdminSessionsPageData extends PageData {
     }
 
     @SuppressWarnings("deprecation")
-    public ArrayList<String> getHourOptionsAsHtml(Date date) {
+    public List<String> getHourOptionsAsHtml(Date date) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
@@ -114,7 +110,7 @@ public class AdminSessionsPageData extends PageData {
     }
 
     @SuppressWarnings("deprecation")
-    public ArrayList<String> getMinuteOptionsAsHtml(Date date) {
+    public List<String> getMinuteOptionsAsHtml(Date date) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
@@ -124,7 +120,7 @@ public class AdminSessionsPageData extends PageData {
         return result;
     }
 
-    public ArrayList<String> getTimeZoneOptionsAsHtml() {
+    public List<String> getTimeZoneOptionsAsHtml() {
         return getTimeZoneOptionsAsHtml(zone);
     }
 

@@ -1,5 +1,8 @@
 # Using an IDE
 
+- [Eclipse IDE](#eclipse-ide)
+- [IntelliJ IDEA](#intellij-idea)
+
 ## Eclipse IDE
 
 > - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
@@ -68,7 +71,7 @@ The following plugins are needed:
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
-   * Validation: 
+   * Validation:
      * We do not validate HTML, JSP, and XML. `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
      * Disable JavaScript validation for `node_modules` folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
 
@@ -83,27 +86,119 @@ The following plugins are needed:
 Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work with Google App Engine).
 You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
 
-1. If you are an existing IntelliJ user and have a project open, close the project (`File → Close Project`) before continuing.
+**NOTE**
+> If you are migrating from Eclipse, you should delete `.project`, `.classpath`, `.launches`,
+> `src/main/webapp/WEB-INF/classes`, `src/main/webapp/WEB-INF/lib` and `src/main/webapp/WEB-INF/appengine-generated`.\
+> You can also copy `local_db.bin` from `src/main/webapp/WEB-INF/appengine-generated` to the location your dev server in
+> IntelliJ reads the datastore from after your IntelliJ setup. See [dev server setup](development.md#with-intellij) for
+> more details.
 
-1. Configure IntelliJ as follows:
-   * JRE: Click `Configure → Project Defaults → Project Structure`. Under `Project SDK`, click `New → JDK`. Locate the `Java` folder where you have installed `JDK 1.7`. Select `jdk1.7.*` and click `OK`.
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentation. Go to `Configure → Settings → Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `HTML`, `CSS` and `XML`.
-   * Text Encoding: Go to `Configure → Settings → Editor → File Encodings` and ensure that `IDE Encoding` and `Project Encoding` are set to `UTF-8`.
-   * HTML/JSP syntax: We prefer not to use the HTML/JSP Inspections provided by IntelliJ. Go to `Configure → Settings → Editor → Inspections` and uncheck `HTML` and `JSP Inspections`.
+### Prerequisites
+1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA as follows:
 
-1. Import the project into IntelliJ.
-   * Click `Import project` and select the local repository folder.
-   * Click `Import project from external model → Gradle`.
-   * Click `Next`.
-   * Check `Use auto-import`. Ensure that `1.7` is used for the `Gradle JVM`.
-   * Click `Finish`.
+    1. If you have no current projects open, click `Configure → Project Defaults → Project Structure`.\
+       **OR**\
+       If you currently have projects open, click `File → Project Structure`.
+    1. Select SDKs in Platform Settings and check if there is a SDK named `1.7` with a JDK home path pointing to a
+       JDK 7 path. Otherwise add a new SDK using JDK 7 with a name of `1.7`.
 
-1. In your `Event Log`, you should see this line: `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`. Click `Configure` and `OK` in the dialog box that appears.
+1. You need the system property `ide=idea` for `Gradle VM options:` under `Global Gradle settings` as follows:
 
-1. Run this command to set up the necessary configuration files for IntelliJ:
+    1. If you have no current projects open, click `Configure → Settings/Preferences`.\
+       **OR**\
+       If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
+    1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under `Global Gradle settings`,
+       add `-Dide=idea` to `Gradle VM options:`.
+
+1. You need to have an application server named `AppEngine Dev <version>` pointing to the SDK you downloaded previously as follows: 
+    
+    1. If you have no current projects open, click `Configure → Settings/Preferences`.\
+       **OR**\
+       If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
+    1. Go to `Build, Execution, Deployment → Application Servers`.
+    1. Click `+ → Google App Engine Dev Server → ... `. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder)
+       you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+    1. Ensure the `Name:` is of `AppEngine Dev <version>`.
+
+### Automated Setup
+
+If you do not wish to use the automated setup, you can follow the [manual setup](#manual-setup) below.
+
+1. Run this command to create a pre-configured IntelliJ IDEA project:
+   ```sh
+   ./gradlew setupIntellijProject
+   ```
+
+1. Open the project in IntelliJ IDEA. It will generate some user specific settings. Wait for it to finish indexing.
+
+1. Run this command to automatically configure your user specific settings:
+   ```sh
+   ./gradlew setupIntellijProjectSettings
+   ```
+
+1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
+
+**NOTE**
+>The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#project-setup-behavior).
+
+### Manual Setup
+
+1. Import the project as a Gradle project as follows:
+   1. If you have no current projects open, click `Import Project`.\
+       **OR**\
+       If you currently have projects open, click `New | Project from Existing Sources...`.
+   1. Select the local repository folder and click `Open`.
+   1. Select `Import project from external model` and then `Gradle`.
+   1. Click `Next`.
+   1. Check `Use auto-import` and uncheck `Create separate module per source set`.
+   1. Ensure `Create directories for empty content root automatically` is unchecked.
+   1. Ensure `Use default gradle wrapper` is selected.
+   1. Ensure for `Gradle JVM:` that a JDK 7 with a name of `1.7` is selected.
+   1. Click `Finish`.
+   1. Create a `build` folder in your project root if it does not exist while waiting for IntelliJ to finish indexing.
+   1. If you used a different project root directory other than `teammates`, you will receive a dialog box with the
+      message `The modules below are not imported from Gradle anymore. Check those to be removed from the ide project too:`.\
+      You should see a module with your project root directory name being checked. Click `OK`.
+   1. Go to `File → Project Structure... → Modules`.
+      Click on the `teammates` module, then under `Sources`, click on the `build` folder and click `Excluded` and then `OK`.
+   1. You should see a dialog box with the message:\
+      `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`.\
+      **OR**\
+      `Frameworks detected: OSGi, Google App Engine, Web, JPA frameworks are detected in the project`.\
+      Click `Configure` and ensure that only `Google App Engine` and `JPA` frameworks are shown, otherwise make
+      sure you have excluded the `build` folder in your `teammates` module. Then click `OK`.
+	  > If you missed the dialog box, go to `View → Tool Windows → Event Log`.
+        You should see the same message as the dialog box, click `Configure` and then `OK`.
+
+1. Configure the project settings as follows:
+
+   #### Indentation
+   In TEAMMATES, we have standards defined for indentation.
+   See [Coding standards in Supplementary documents](README.md#supplementary-documents).
+   1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
+   1. Go to `Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `JSON`, `CSS` and `XML`.
+   1. Ensure that `Tab size:`, `Indent:` and `Continuation indent:` are `4`, `4` and `8` respectively for the different languages.
+   1. Ensure `HTML` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
+   1. Ensure `JSP` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
+
+   #### Text Encoding
+   Go to `Editor → File Encodings` and ensure that  `Project Encoding` and
+      `Default Encoding for properties files` is set to `UTF-8`.
+
+   #### Javascript
+   Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
+
+   #### Additional Build Tasks
+   1. Open `View → Tool Windows → Gradle`.
+   1. Under `Tasks → intellij idea setup`, look for the task `enhanceIntellijOutputClasses`.
+   1. Right click and select `Execute After Build`.
+
+1. Click `OK`.
+
+1. Run this command to set up the run configurations for IntelliJ:
 
    ```sh
-   ./gradlew setupIntellij
+   ./gradlew setupIntellijRunConfigs
    ```
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).

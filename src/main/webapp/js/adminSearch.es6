@@ -52,6 +52,27 @@ $(document).ready(() => {
 
     $('.resetGoogleIdButton').click((e) => {
         e.stopPropagation();
+        const entry = e.target;
+        const courseId = $(entry).data('courseid');
+        const studentEmail = $(entry).data('studentemail');
+        const googleId = $(entry).data('googleid');
+        submitResetGoogleIdAjaxRequest(courseId, studentEmail, googleId, entry);
+    });
+
+    $('#btn-disclose-all-instructors').on('click', () => {
+        adminSearchDiscloseAllInstructors();
+    });
+
+    $('#btn-collapse-all-instructors').on('click', () => {
+        adminSearchCollapseAllInstructors();
+    });
+
+    $('#btn-disclose-all-students').on('click', () => {
+        adminSearchDiscloseAllStudents();
+    });
+
+    $('#btn-collapse-all-students').on('click', () => {
+        adminSearchCollapseAllStudents();
     });
 });
 
@@ -110,19 +131,3 @@ function adminSearchCollapseAllInstructors() {
     $('.fslink_instructor').hide();
     $('.instructorRow').attr('class', 'instructorRow');
 }
-/*
-export default {
-    submitResetGoogleIdAjaxRequest,
-    adminSearchDiscloseAllStudents,
-    adminSearchCollapseAllStudents,
-    adminSearchDiscloseAllInstructors,
-    adminSearchCollapseAllInstructors,
-};
-*/
-/*
-exported submitResetGoogleIdAjaxRequest,
-         adminSearchDiscloseAllStudents,
-         adminSearchCollapseAllStudents,
-         adminSearchDiscloseAllInstructors,
-         adminSearchCollapseAllInstructors
-*/

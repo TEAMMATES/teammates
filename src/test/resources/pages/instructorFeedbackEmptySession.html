@@ -216,8 +216,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Please answer all the given questions.
@@ -732,7 +730,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -740,7 +738,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -822,7 +820,7 @@
     <br>
   </div>
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">

@@ -239,4 +239,30 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     protected InstructorCourseInstructorEditSaveAction getAction(String... params) {
         return (InstructorCourseInstructorEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
+                Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+    }
 }

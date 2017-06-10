@@ -1,7 +1,8 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -47,9 +48,9 @@ public class InstructorHomePageAction extends Action {
     }
 
     private ActionResult loadPage() {
-        boolean omitArchived = true;
-        HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
-                                                                 account.googleId, omitArchived);
+        boolean shouldOmitArchived = true;
+        Map<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
+                                                                 account.googleId, shouldOmitArchived);
 
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
 
@@ -76,7 +77,7 @@ public class InstructorHomePageAction extends Action {
         return sortCriteria;
     }
 
-    private void sortCourse(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
+    private void sortCourse(List<CourseSummaryBundle> courseList, String sortCriteria) {
         switch (sortCriteria) {
         case Const.SORT_BY_COURSE_ID:
             CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);

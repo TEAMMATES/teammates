@@ -988,7 +988,7 @@ function setChevronToDown(chevronContainer) {
 function toggleChevron(clickedElement) {
     const $clickedElement = $(clickedElement);
     const isChevronDown = $clickedElement.find('.glyphicon-chevron-down').length > 0;
-    const $chevronContainer = $clickedElement.find('.glyphicon');
+    const $chevronContainer = $clickedElement.find('.glyphicon-chevron-up, .glyphicon-chevron-down');
 
     // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
@@ -1037,7 +1037,6 @@ function toggleSingleCollapse(e) {
         hideSingleCollapse($(e.currentTarget).attr('data-target'));
     }
 }
-
 
 // Toggle the visibility of additional question information for the specified question.
 function toggleAdditionalQuestionInfo(identifier) {

@@ -18,7 +18,7 @@
                 </div>
                 <br>
                 <div class="checkbox">
-                    <input type="checkbox" value="" id="course_all"> 
+                    <input type="checkbox" value="" id="course_all">
                     <label for="course_all"><strong>Select all</strong></label>
                 </div>
                 <br>
@@ -37,7 +37,7 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input type="checkbox" value="" id="section_all"> 
+                    <input type="checkbox" value="" id="section_all">
                     <label for="section_all"><strong>Select all</strong></label>
                 </div>
                 <br>
