@@ -8,7 +8,7 @@
         <table class="table-responsive table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th onclick="toggleSort(this);" class="button_sortname button-sort-none">
+                    <th class="button_sortname button-sort-none toggle-sort">
                         Session Name<span class="icon-sort unsorted"></span>
                     </th>
                     <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button_sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
