@@ -203,7 +203,7 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void closeMoreInfoAboutEqualShareModal() {
         WebElement closeButton = browser.driver.findElement(By
-        		.xpath("//div[@id='more-info-equal-share-modal']//button[@class='close']"));
+                .xpath("//div[@id='more-info-equal-share-modal']//button[@class='close']"));
         waitForElementToBeClickable(closeButton);
         click(closeButton);
         waitForElementToDisappear(By.id("more-info-equal-share-modal"));
