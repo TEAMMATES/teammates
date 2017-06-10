@@ -213,7 +213,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         }
         return "(last edited "
              + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
-             + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
+             + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt, 1.0) + ")";
     }
 
 }

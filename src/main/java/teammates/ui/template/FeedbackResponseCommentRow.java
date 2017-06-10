@@ -1,10 +1,12 @@
 package teammates.ui.template;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
@@ -20,6 +22,7 @@ public class FeedbackResponseCommentRow {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+    private double sessionTimeZone;
 
     private String showCommentToString;
     private String showGiverNameToString;
@@ -39,7 +42,20 @@ public class FeedbackResponseCommentRow {
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
-        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
+        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt, this.sessionTimeZone);
+        Logger log = Logger.getLogger();
+        log.info(this.createdAt);
+        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
+        this.commentText = frc.commentText.getValue();
+    }
+
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay, Double sessionTimeZone) {
+        this.sessionTimeZone = sessionTimeZone;
+        this.commentId = frc.getId();
+        this.giverDisplay = giverDisplay;
+        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt, this.sessionTimeZone);
+        Logger log = Logger.getLogger();
+        log.info(this.createdAt);
         this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
     }
@@ -62,6 +78,19 @@ public class FeedbackResponseCommentRow {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
+    }
+
+    public FeedbackResponseCommentRow(
+            FeedbackResponseCommentAttributes frc, String giverDisplay,
+            String giverName, String recipientName, double sessionTimeZone,
+            String showCommentToString,
+            String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
+
+        this(frc, giverDisplay, sessionTimeZone);
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisibilities);
+
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
@@ -271,4 +300,5 @@ public class FeedbackResponseCommentRow {
         this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
+
 }
