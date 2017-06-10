@@ -88,10 +88,12 @@ $(document).ready(() => {
     attachEventToRemindStudentsButton();
     attachEventToSendInviteLink();
     attachEventToDeleteStudentLink();
-});
 
-/*
-export default {
-    submitFormAjax,
-};
-*/
+    $('#btn-select-element-contents').on('click', () => {
+        selectElementContents(document.getElementById('detailsTable'));
+    });
+
+    $('#btn-display-table').on('click', () => {
+        submitFormAjax();
+    });
+});
