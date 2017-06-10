@@ -10,14 +10,9 @@
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
-<%@ attribute name="viewType" %>
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
-    </c:when>
-    <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex && not empty viewType}">
-        <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}-${viewType}" />
-        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex},'${viewType}'"/>
     </c:when>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
