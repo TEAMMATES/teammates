@@ -527,6 +527,10 @@ $(document).ready(() => {
         });
     }
     /* eslint-enable no-restricted-syntax */
+
+    $(document).on('click', '.view-role-details', (e) => {
+        showInstructorRoleModal($(e.target).data('role'));
+    });
 });
 
 /*

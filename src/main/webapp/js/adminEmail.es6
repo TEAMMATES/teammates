@@ -180,6 +180,10 @@ $(document).ready(() => {
         $('#adminEmailGroupReceiverList').click();
     });
 
+    $('#composeSubmitButton').on('click', () => {
+        $('#adminEmailMainForm').submit();
+    });
+
     $('#composeSaveButton').on('click', () => {
         $('#adminEmailMainForm').attr('action', `/admin/adminEmailComposeSave?${makeCsrfTokenParam()}`);
         $('#composeSubmitButton').click();
