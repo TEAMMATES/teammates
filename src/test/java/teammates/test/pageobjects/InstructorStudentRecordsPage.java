@@ -82,16 +82,18 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
         //WebElement commentList = browser.driver.findElement(responseCommentTable)
+        ThreadHelper.waitFor(1000);
         executeScript("scroll(0,300)");
-        WebElement commentList = browser.driver.findElement(By.id("responseCommentTable-0-1-1-GRQ"));
-        WebElement commentRow = commentList.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.cssSelector("#commentedit" + commentIdSuffix)));
+        //WebElement commentList = browser.driver.findElement(By.id("responseCommentTable-0-1-1-GRQ"));
+        //waitForElementVisibility(browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix)));
+        //WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        waitForPanelsToExpand();
+        executeScript("document.getElementById('commentedit-GRQ-1-1-1-1').click()");
+        //click(commentRow.findElement(By.className("glyphicon-pencil")));
         WebElement commentEditForm = browser.driver.findElement(By.className("mce-content-body"));
         waitForRichTextEditorToLoad(commentEditForm.getAttribute("id"));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
-        click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
-        ThreadHelper.waitFor(1000);
-
+        executeScript("document.getElementById('button_save_comment_for_edit-GRQ-1-1-1-1').click()");
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
