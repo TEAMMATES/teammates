@@ -1,5 +1,7 @@
 /* global
 FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false, FEEDBACK_QUESTION_MSQCHOICE:false
+
+getQuestionNum: false
 */
 
 function addMsqOption(questionNum) {
@@ -70,10 +72,24 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
     }
 }
 
+function toggleMsqMaxSelectableChoices(questionNum) {
+    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+
+    $(`#msqMaxSelectableChoices-${questionNum}`).prop('disabled', !$checkbox.prop('checked'));
+}
+
 function changeMsqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
 }
+
+$(document).ready(() => {
+    $(document).on('change', 'input[name*="msqEnableMaxSelectableChoices"]', (e) => {
+        const questionNumber = getQuestionNum($(e.target));
+
+        toggleMsqMaxSelectableChoices(questionNumber);
+    });
+});
 
 /* exported
 addMsqOption, removeMsqOption, toggleMsqGeneratedOptions, changeMsqGenerateFor

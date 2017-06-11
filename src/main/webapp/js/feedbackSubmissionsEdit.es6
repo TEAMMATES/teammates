@@ -106,6 +106,27 @@ function updateMsqOtherOptionField() {
     }
 }
 
+// Binds change event on MSQ checkboxes which
+// imposes and upper limit on selectable choices
+function bindMaxSelectableChoicesForMSQ(qNum) {
+    const $hiddenInput = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
+
+    if (!$hiddenInput.prop('disabled')) {
+        $hiddenInput.each(function () {
+            const maxSelectableChoices = $(this).val();
+            const $responseTable = $(this).siblings('table');
+
+            $responseTable.find(`input[name^="responsetext-${qNum}-"]`).change(function () {
+                const selectedChoices = $responseTable.find(`input[name^="responsetext-${qNum}-"]:checked`).length;
+
+                if (selectedChoices > maxSelectableChoices) {
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+    }
+}
+
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('#moderated-question').length > 0) {
@@ -248,6 +269,8 @@ function prepareMSQQuestions() {
                 updateOtherOptionAttributes($(this), indexSuffix);
             }
         });
+
+        bindMaxSelectableChoicesForMSQ(qnNum);
     });
 }
 

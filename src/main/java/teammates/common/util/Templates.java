@@ -282,7 +282,12 @@ public final class Templates {
             public static final String MSQ_CHECKED_GENERATED_OPTIONS = "${checkedGeneratedOptions}";
             public static final String MSQ_ADDITIONAL_INFO_FRAGMENTS = "${msqAdditionalInfoFragments}";
             public static final String MSQ_MAX_SELECTABLE_CHOICES = "${msqMaxSelectableChoices}";
-            public static final String MSQ_PARAM_MAX_SELECTABLE_CHOICES = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}";
+            public static final String MSQ_CHECKED_ENABLE_MAX_SELECTABLE_CHOICES =
+                    "${enabledMaxSelectableChoices}";
+            public static final String MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_MAX_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}";
             public static final String MSQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}";
             public static final String MSQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}";
             public static final String MSQ_PARAM_OTHER_OPTION_FLAG =

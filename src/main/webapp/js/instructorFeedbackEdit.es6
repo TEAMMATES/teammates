@@ -9,7 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false, checkEditFeedbackSession:false
+makeCsrfTokenParam:false, checkEditFeedbackSession:false, toggleMsqMaxSelectableChoices: false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -241,6 +241,7 @@ function enableQuestion(questionNum) {
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
+        toggleMsqMaxSelectableChoices(questionNum);
     } else {
         $(`#mcqChoiceTable-${questionNum}`).show();
         $(`#msqChoiceTable-${questionNum}`).show();
@@ -248,6 +249,7 @@ function enableQuestion(questionNum) {
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
+        toggleMsqMaxSelectableChoices(questionNum);
     }
 
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {

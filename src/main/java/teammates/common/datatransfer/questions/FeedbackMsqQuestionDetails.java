@@ -209,13 +209,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
+        boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.MSQ_SUBMISSION_FORM,
                 Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
-                Slots.DISABLED, maxSelectableChoices != Integer.MIN_VALUE ? "" : "disabled",
+                Slots.DISABLED, isMaxSelectableChoicesDisabled ? "disabled" : "",
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_MAX_SELECTABLE_CHOICES, Integer.toString(maxSelectableChoices 
-                            != Integer.MIN_VALUE ? maxSelectableChoices : -1));
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.MSQ_MAX_SELECTABLE_CHOICES,
+                        Integer.toString(isMaxSelectableChoicesDisabled ? -1 : maxSelectableChoices));
     }
 
     @Override
@@ -268,13 +271,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
+        boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.MSQ_SUBMISSION_FORM,
                 Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
-                Slots.DISABLED, maxSelectableChoices != Integer.MIN_VALUE ? "" : "disabled",
+                Slots.DISABLED, isMaxSelectableChoicesDisabled ? "disabled" : "",
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_MAX_SELECTABLE_CHOICES, Integer.toString(maxSelectableChoices 
-                            != Integer.MIN_VALUE ? maxSelectableChoices : -1));
+                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                Slots.MSQ_MAX_SELECTABLE_CHOICES,
+                        Integer.toString(isMaxSelectableChoicesDisabled ? -1 : maxSelectableChoices));
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -341,6 +347,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
+        boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.MSQ_EDIT_FORM,
                 Slots.MSQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
@@ -359,9 +367,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Slots.MSQ_CHECKED_ENABLE_MAX_SELECTABLE_CHOICES, isMaxSelectableChoicesDisabled ? "" : "checked",
+                Slots.MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES,
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_MAX_SELECTABLE_CHOICES, maxSelectableChoices != Integer.MIN_VALUE
-                        ? Integer.toString(maxSelectableChoices) : "");
+                Slots.MSQ_MAX_SELECTABLE_CHOICES,
+                        isMaxSelectableChoicesDisabled ? "" : Integer.toString(maxSelectableChoices));
     }
 
     @Override
@@ -549,7 +560,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> getMsqChoices() {
         return msqChoices;
     }
-    
+
     /**
      * Returns maximum selectable choices for this MSQ question.
      * @return Integer.MIN_VALUE if not set by instructor.
