@@ -379,40 +379,6 @@ function getPointValue(s, ditchZero) {
     return baseValue + parseFloat(s0); // Other typical cases
 }
 
-/**
- * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
- * possibly a tag that surrounds it.
- *
- * @param a
- * @param b
- */
-function sortByPoint(a, b) {
-    const a0 = getPointValue(a, true);
-    const b0 = getPointValue(b, true);
-
-    if (isNumber(a0) && isNumber(b0)) {
-        return sortNum(a0, b0);
-    }
-    return sortBase(a0, b0);
-}
-
-/**
- * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
- * surrounds it.
- *
- * @param a
- * @param b
- */
-function sortByDiff(a, b) {
-    const a0 = getPointValue(a, false);
-    const b0 = getPointValue(b, false);
-
-    if (isNumber(a0) && isNumber(b0)) {
-        return sortNum(a0, b0);
-    }
-    return sortBase(a0, b0);
-}
-
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
@@ -573,6 +539,7 @@ const comparators = {
     },
     /*
      * Comparator for date. Allows for the same format as isDate()
+     * @returns 1 if Date x is after y, 0 if same and -1 if before
      */
     sortDate(x, y) {
         const x0 = Date.parse(x);
