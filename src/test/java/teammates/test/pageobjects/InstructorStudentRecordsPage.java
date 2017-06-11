@@ -81,10 +81,14 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElements(By.tagName("a")).get(1));
-
+        //WebElement commentList = browser.driver.findElement(responseCommentTable)
+        waitForAjaxLoaderGifToDisappear();
+        executeScript("scroll(0,300)");
+        WebElement commentList = browser.driver.findElement(By.id("responseCommentTable-0-1-1-GRQ"));
+        WebElement commentRow = commentList.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        click(commentRow.findElement(By.cssSelector("#commentedit" + commentIdSuffix)));
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
+        waitForRichTextEditorToLoad("responsecommenttext" + commentIdSuffix);
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
