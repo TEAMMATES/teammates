@@ -13,7 +13,7 @@
                             View:
                         </label>
                         <div class="col-sm-10" data-toggle="tooltip" title="View results in different formats">
-                            <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
+                            <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>">
                                 <option value="<%=Const.FeedbackSessionResults.QUESTION_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
                                     Group by - Question
                                 </option>
@@ -33,38 +33,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-5">
-                    <div class="form-group">
-                        <label for="viewSelect" class="col-sm-2 control-label">
-                            Filter:
-                        </label>
-                        <div id="filter-box-parent-div" class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
-                            <div class="input-group">
-                                <input type="text" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT%>" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
-                                <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+                <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
                   <div data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"<c:if test="${filterPanel.groupedByTeam}"> checked</c:if><c:if test="${filterPanel.sortType != 'question'}"> onchange="this.form.submit()"</c:if>> Group by Teams
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
+                                      id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
+                                      <c:if test="${filterPanel.groupedByTeam}">checked</c:if>
+                                      <c:if test="${filterPanel.sortType != 'question'}">class="checkbox-group-by-team"</c:if>> Group by Teams
                           </label>
                       </div>
                   </div>
                   <div data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" id="show-stats-checkbox" onchange="updateStatsCheckBox();" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox"
+                                      name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"
+                                      <c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
                           </label>
                       </div>
                   </div>
                   <div data-toggle="tooltip" title="Indicate missing responses">
                       <div class="checkbox padding-top-0 min-height-0">
                           <input type="checkbox"
-                                onchange="this.form.submit()"
                                 id="indicate-missing-responses-checkbox"
                                 value="true"
                                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
@@ -82,7 +73,7 @@
                                 Section:
                             </label>
                             <div class="col-sm-10">
-                                <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" onchange="this.form.submit()">
+                                <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>">
                                     <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected</c:if>>
                                         All
                                     </option>
@@ -107,13 +98,13 @@
         <c:choose>
             <c:when test="${not showAll}">
                 <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" disabled>
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" disabled>
                         Expand All ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
                     </a>
                 </div>
             </c:when>
             <c:otherwise>
-                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" data-toggle="tooltip" title="Expand all panels. You can also click on the panel heading to toggle each one individually.">
+                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" data-toggle="tooltip" title="Expand all panels. You can also click on the panel heading to toggle each one individually.">
                     Expand All ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
                 </a>
             </c:otherwise>

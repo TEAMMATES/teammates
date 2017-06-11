@@ -46,13 +46,13 @@
                         <li>
                             <a href="#faq11">How are the contribution numbers calculated?</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#faq12">Is it compulsory for students to use Google accounts?</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#faq13">What if my course doesn’t have teams?</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#faq14">Is there a size limit for a course?</a>
                         </li>
                     </ul>

@@ -149,7 +149,6 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -172,8 +171,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -206,7 +205,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>
@@ -234,7 +233,7 @@
                 View:
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
+                <select class="form-control" id="viewSelect" name="frsorttype">
                   <option selected="" value="question">
                     Group by - Question
                   </option>
@@ -254,23 +253,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 col-md-5">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
-                Filter:
-              </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
-                <div class="input-group">
-                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type keywords from the question to filter" type="text">
-                  <a class="input-group-addon btn btn-default">
-                    <span class="glyphicon glyphicon-search">
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+          <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
@@ -282,14 +265,14 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
             </div>
             <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
-                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
                 Indicate Missing Responses
               </div>
             </div>
@@ -302,7 +285,7 @@
                 Section:
               </label>
               <div class="col-sm-10">
-                <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
+                <select class="form-control" id="sectionSelect" name="frgroupbysection">
                   <option selected="" value="All">
                     All
                   </option>
@@ -323,7 +306,7 @@
       </div>
     </div>
     <div class="pull-right" style="margin-top:50px">
-      <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
         Collapse All Questions
       </a>
     </div>
@@ -361,7 +344,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -733,7 +715,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1087,7 +1068,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1193,7 +1173,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1301,7 +1280,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1348,7 +1326,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1395,7 +1372,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1844,7 +1820,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2299,7 +2274,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2705,7 +2679,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -3120,7 +3093,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
