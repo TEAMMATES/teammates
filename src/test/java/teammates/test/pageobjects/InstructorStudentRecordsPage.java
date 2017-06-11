@@ -80,12 +80,12 @@ public class InstructorStudentRecordsPage extends AppPage {
         click(cancelButton);
     }
 
-    public void editFeedbackResponseComment(String newCommentText) {
+    public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
         waitForAjaxLoaderGifToDisappear();
         executeScript("scroll(0, 300)"); // if the element is on bottom.
-        browser.driver.findElement(By.id("commentedit-1-1-1-1-GRQ")).click();
-        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm-1-1-1-1-GRQ"));
-        fillRichTextEditor("responsecommenttext-1-1-1-1-GRQ", newCommentText);
+        browser.driver.findElement(By.id("commentedit" + commentIdSuffix)).click();
+        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
+        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
     }
 
@@ -101,14 +101,14 @@ public class InstructorStudentRecordsPage extends AppPage {
         return webElements;
     }
 
-    public void verifyCommentRowContent(String commentText, String giverName) {
+    public void verifyCommentRowContent(String commentIdSuffix, String commentText, String giverName) {
         waitForAjaxLoaderGifToDisappear();
-        WebElement commentRowSelector = browser.driver.findElement(By.id("responseCommentRow-1-1-1-1-GRQ"));
+        WebElement commentRowSelector = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         try {
-            WebElement commentTextElement = commentRowSelector.findElement(By.id("plainCommentText-1-1-1-1-GRQ"));
+            WebElement commentTextElement = commentRowSelector.findElement(By.id("plainCommentText" + commentIdSuffix));
             assertTrue(commentTextElement.findElement(By.tagName("p")).getText().equals(commentText));
         } catch (NoSuchElementException e) {
-            waitForTextContainedInElementPresence(By.id("plainCommentText-1-1-1-1-GRQ"), commentText);
+            waitForTextContainedInElementPresence(By.id("plainCommentText" + commentIdSuffix), commentText);
         }
         assertTrue(commentRowSelector.findElement(By.className("text-muted")).getText().contains(giverName));
     }
