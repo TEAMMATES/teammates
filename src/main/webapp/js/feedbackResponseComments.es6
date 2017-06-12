@@ -450,9 +450,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
-	console.log(`${sectionIndex}` !== 'undefined');
-	console.log(typeof `${viewType}` !== 'undefined');
-    console.log(id);
+
     if (`${sectionIndex}` !== 'undefined') {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else if (`${viewType}` !== 'undefined') {
