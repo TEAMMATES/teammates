@@ -50,16 +50,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         List<CourseStudent> allStudents = new ArrayList<CourseStudent>();
         Query q = PM.newQuery(queryString);
         Cursor cursor;
-        
+
         q.setRange(0, 500);
         List<CourseStudent> allStudentsInitial = (List<CourseStudent>) q.execute();
         allStudents.addAll(allStudentsInitial);
         cursor = JDOCursorHelper.getCursor(allStudentsInitial);
-        
+
         String cursorString = cursor.toWebSafeString();
         String prevCursorString = "";
         Map<String, Object> extensionMap;
-        
+
         while (!cursorString.equals(prevCursorString)) {
             cursor = Cursor.fromWebSafeString(cursorString);
             extensionMap = new HashMap<String, Object>();
