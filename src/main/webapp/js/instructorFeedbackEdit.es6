@@ -241,7 +241,6 @@ function enableQuestion(questionNum) {
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
-        toggleMsqMaxSelectableChoices(questionNum);
     } else {
         $(`#mcqChoiceTable-${questionNum}`).show();
         $(`#msqChoiceTable-${questionNum}`).show();
@@ -249,9 +248,9 @@ function enableQuestion(questionNum) {
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
-        toggleMsqMaxSelectableChoices(questionNum);
     }
 
+    toggleMsqMaxSelectableChoices(questionNum);
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {
         $(`#constSumOptionTable-${questionNum}`).hide();
         $(`#constSumOption_Option-${questionNum}`).hide();
@@ -337,6 +336,7 @@ function enableNewQuestion() {
         $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
+    toggleMsqMaxSelectableChoices(NEW_QUESTION);
     $(`#${FEEDBACK_QUESTION_EDITTEXT}-${NEW_QUESTION}`).hide();
     $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
     $(`#${FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');

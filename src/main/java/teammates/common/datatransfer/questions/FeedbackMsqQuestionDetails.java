@@ -218,7 +218,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
-                        Integer.toString(isMaxSelectableChoicesDisabled ? -1 : maxSelectableChoices));
+                        Integer.toString(isMaxSelectableChoicesDisabled ? 2 : maxSelectableChoices));
     }
 
     @Override
@@ -280,7 +280,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
-                        Integer.toString(isMaxSelectableChoicesDisabled ? -1 : maxSelectableChoices));
+                        Integer.toString(isMaxSelectableChoicesDisabled ? 2 : maxSelectableChoices));
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -372,7 +372,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES,
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
-                        isMaxSelectableChoicesDisabled ? "" : Integer.toString(maxSelectableChoices));
+                        isMaxSelectableChoicesDisabled ? "2" : Integer.toString(maxSelectableChoices));
     }
 
     @Override

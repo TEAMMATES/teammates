@@ -34,6 +34,8 @@ function addMsqOption(questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
+
+    setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
 function removeMsqOption(index, questionNum) {
@@ -53,6 +55,32 @@ function removeMsqOption(index, questionNum) {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
+
+    setMaxValForMaxSelectableChoicesInput(questionNum);
+}
+
+function setMaxValForMaxSelectableChoicesInput(questionNum) {
+    // don't count last div as it is the "add option button"
+    const numberOfChoices = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
+    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+
+    if ($checkbox.prop('checked') && numberOfChoices > 1) {
+        const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
+        const val = $msqMaxSelectableChoices.val();
+
+        $msqMaxSelectableChoices.prop('max', numberOfChoices);
+        $msqMaxSelectableChoices.val(Math.min(numberOfChoices, val));
+    }
+}
+
+function removeMaxValForMaxSelectableChoicesInput(questionNum) {
+    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+
+    if ($checkbox.prop('checked')) {
+        const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
+
+        $msqMaxSelectableChoices.removeProp('max');
+    }
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNum) {
@@ -63,12 +91,14 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#generatedOptions-${questionNum}`).attr('value',
                                                    $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
+        removeMaxValForMaxSelectableChoicesInput(questionNum);
     } else {
         $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#msqChoiceTable-${questionNum}`).show();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#generatedOptions-${questionNum}`).attr('value', 'NONE');
+        setMaxValForMaxSelectableChoicesInput(questionNum);
     }
 }
 
@@ -76,6 +106,7 @@ function toggleMsqMaxSelectableChoices(questionNum) {
     const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
 
     $(`#msqMaxSelectableChoices-${questionNum}`).prop('disabled', !$checkbox.prop('checked'));
+    setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
 function changeMsqGenerateFor(questionNum) {
