@@ -9,7 +9,7 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false
+makeCsrfTokenParam:false, checkEditFeedbackSession:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -111,7 +111,6 @@ function disableQuestion(questionNum) {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
             readonly: true,
         });
         /* eslint-enable camelcase */
@@ -187,7 +186,6 @@ function enableEditFS() {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
     }
@@ -216,7 +214,6 @@ function enableQuestion(questionNum) {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
         });
         /* eslint-enable camelcase */
     }
@@ -305,7 +302,6 @@ function enableNewQuestion() {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
             inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container',
         });
         /* eslint-enable camelcase */
     }
@@ -876,6 +872,8 @@ function prepareDescription(form) {
  * This function is called on edit page load.
  */
 function readyFeedbackEditPage() {
+    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
+
     // Disable all questions
     disableAllQuestions();
 
@@ -965,7 +963,6 @@ $(document).ready(() => {
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             readonly: true,
-            fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
     }
@@ -980,8 +977,30 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
-});
 
-/* exported
-enableEditFS, enableEdit, deleteQuestion, discardChanges
-*/
+    $('#fsSaveLink').on('click', (e) => {
+        checkEditFeedbackSession(e.target.form);
+    });
+
+    $(document).on('change', '.participantSelect', (e) => {
+        matchVisibilityOptionToFeedbackPath(e.target);
+        getVisibilityMessage(e.target);
+    });
+
+    $(document).on('click', '.btn-discard-changes', (e) => {
+        discardChanges($(e.target).data('qnnumber'));
+    });
+
+    $(document).on('click', '.btn-edit-qn', (e) => {
+        const maxQuestions = parseInt($('#num-questions').val(), 10);
+        enableEdit($(e.target).data('qnnumber'), maxQuestions);
+    });
+
+    $(document).on('click', '.btn-delete-qn', (e) => {
+        deleteQuestion($(e.target).data('qnnumber'));
+    });
+
+    $(document).on('submit', '.tally-checkboxes', (e) => {
+        tallyCheckboxes($(e.target).data('qnnumber'));
+    });
+});
