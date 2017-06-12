@@ -211,8 +211,8 @@ function removeRubricCol(index, questionNum) {
 
 function swapRubricCol(questionNum, colIndex, isSwapLeft) {
     if ($(`#rubricEditTable-${questionNum}`).length === 0
-            && $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
-            && typeof isSwapLeft !== 'boolean') {
+            || $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
+            || typeof isSwapLeft !== 'boolean') {
         // question and column should exist, isSwapLeft must be boolean
         return;
     }
