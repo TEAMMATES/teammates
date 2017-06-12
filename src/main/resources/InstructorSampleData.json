@@ -2880,11 +2880,15 @@
       "showCommentTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -2906,11 +2910,15 @@
       "showCommentTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -2932,11 +2940,15 @@
       "showCommentTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -2958,11 +2970,15 @@
       "showCommentTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "GIVER",
         "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
