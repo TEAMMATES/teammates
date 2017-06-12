@@ -87,7 +87,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                 Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectFragmentsHtml,
-                Slots.CONTRIB_EQUAL_SHARE_HELP, checkIfEqualShareHelpLinkIsNeeded(responseIdx));
+                Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                 Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml,
-                Slots.CONTRIB_EQUAL_SHARE_HELP, checkIfEqualShareHelpLinkIsNeeded(responseIdx));
+                Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx));
     }
 
     @Override
@@ -938,7 +938,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return null;
     }
 
-    private String checkIfEqualShareHelpLinkIsNeeded(int responseIdx) {
+    private String getEqualShareHelpLinkIfNeeded(int responseIdx) {
         return responseIdx == 0
                 ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"
                       + " More info about the equal share scale"
