@@ -31,6 +31,7 @@ buildscript {
 
 configurations {
     staticAnalysis
+    exclude
     testExclude
 }
 
@@ -65,6 +66,14 @@ dependencies {
                     "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.10.2"
+
+    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
+                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
+                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
+                    "net.sf.jsr107cache:jsr107cache:1.1"
+
+    runtime         configurations.exclude
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
@@ -121,7 +130,7 @@ eclipse {
         containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.27"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
-        minusConfigurations = [configurations.testExclude]
+        minusConfigurations = [configurations.exclude, configurations.testExclude]
         file {
             whenMerged { cp ->
                 cp.entries.findAll {
@@ -304,6 +313,15 @@ task setupIntellijStaticAnalysis {
     finalizedBy copyStylelintConfiguration
 }
 
+task copyDepsToWebInfLib(type: Copy) {
+    from configurations.runtime
+    into "src/main/webapp/WEB-INF/lib/"
+    rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
+    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
+    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
+    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
+}
+
 task resetEclipseDeps {
     description "Updates the project's dependencies to be used by Eclipse configurations"
     group "Setup"
@@ -311,7 +329,7 @@ task resetEclipseDeps {
         delete  ".classpath",
                 "src/main/webapp/WEB-INF/lib"
     }
-    finalizedBy eclipseClasspath
+    finalizedBy eclipseClasspath, copyDepsToWebInfLib
 }
 
 task printUserHomeDir {
@@ -351,6 +369,15 @@ appengineRun {
         daemon = true
     }
 }
+
+task removeDuplicateLibs(type: Delete) {
+    delete  "${buildDir}/exploded-app/WEB-INF/lib/datanucleus-appengine-1.0.10.final.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints-deps.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints.jar",
+            "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
+}
+
+appengineExplodeApp.finalizedBy removeDuplicateLibs
 
 // STATIC ANALYSIS TASKS
 
