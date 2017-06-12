@@ -157,10 +157,12 @@ function addInstructorFromSecondFormByAjax() {
     addInstructorByAjaxRecursively();
 }
 
-/*
-export default {
-    addInstructorFromFirstFormByAjax,
-    addInstructorFromSecondFormByAjax,
-};
-*/
-/* exported addInstructorFromFirstFormByAjax, addInstructorFromSecondFormByAjax */
+$(document).ready(() => {
+    $('#btnAddInstructorDetailsSingleLineForm').on('click', () => {
+        addInstructorFromFirstFormByAjax();
+    });
+
+    $('#btnAddInstructor').on('click', () => {
+        addInstructorFromSecondFormByAjax();
+    });
+});

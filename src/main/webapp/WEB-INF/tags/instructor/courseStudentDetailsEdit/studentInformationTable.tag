@@ -56,9 +56,7 @@
                 <label class="col-sm-1 control-label">Comments:</label>
                 <div class="col-sm-11">
                     <textarea class="form-control" rows="6" name="<%=Const.ParamsNames.COMMENTS%>"
-                              id="<%=Const.ParamsNames.COMMENTS%>">
-                        <c:out value="${studentInfoTable.comments}"/>
-                    </textarea>
+                            id="<%=Const.ParamsNames.COMMENTS%>"><c:out value="${studentInfoTable.comments}"/></textarea>
                 </div>
             </div>
             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
