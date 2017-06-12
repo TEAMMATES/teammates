@@ -450,12 +450,12 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
-
-    if (`${sectionIndex}` !== undefined) {
+	console.log(`${sectionIndex}` !== 'undefined');
+	console.log(typeof `${viewType}` !== 'undefined');
+    console.log(id);
+    if (`${sectionIndex}` !== 'undefined') {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    }
-
-    if (`${viewType}` !== undefined) {
+    } else if (`${viewType}` !== 'undefined') {
         id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
@@ -498,11 +498,9 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionId
 function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIdx, sectionIdx, viewType) {
     let id;
 
-    if (`${sectionIdx}` !== undefined) {
+    if (`${sectionIdx}` !== 'undefined') {
         id = `-${sectionIdx}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
-    }
-
-    if (`${viewType}` !== undefined) {
+    } else if (`${viewType}` !== 'undefined') {
         id = `-${viewType}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
     } else {
         id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
@@ -523,11 +521,9 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== undefined) {
+    if (`${sectionIndex}` !== 'undefined') {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    }
-
-    if (`${viewType}` !== undefined) {
+    } else if (`${viewType}` !== 'undefined') {
         id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
