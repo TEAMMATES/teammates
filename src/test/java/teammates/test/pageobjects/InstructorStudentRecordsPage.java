@@ -82,11 +82,12 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
         //WebElement commentList = browser.driver.findElement(responseCommentTable)
-        ThreadHelper.waitFor(1000);
+        ThreadHelper.waitFor(1500);
         executeScript("scroll(0,300)");
         //WebElement commentList = browser.driver.findElement(By.id("responseCommentTable-0-1-1-GRQ"));
         //waitForElementVisibility(browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix)));
         //WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        waitForPageToLoad();
         waitForPanelsToExpand();
         executeScript("document.getElementById('commentedit-GRQ-1-1-1-1').click()");
         //click(commentRow.findElement(By.className("glyphicon-pencil")));
