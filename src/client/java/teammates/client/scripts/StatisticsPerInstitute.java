@@ -13,11 +13,11 @@ import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
+import org.datanucleus.store.appengine.query.JDOCursorHelper;
+
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-
-import org.datanucleus.store.appengine.query.JDOCursorHelper;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
