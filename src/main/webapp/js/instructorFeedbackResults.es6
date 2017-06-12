@@ -4,7 +4,8 @@
           setStatusMessage:false,
           showSingleCollapse:false,
           hideSingleCollapse:false,
-          toggleSingleCollapse:false
+          toggleSingleCollapse:false,
+          prepareRemindModal:false
 */
 /* exported     submitFormAjax,
                 updateStatsCheckBox,
@@ -314,13 +315,17 @@ function prepareInstructorFeedbackResultsPage() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success(data) {
+                const remindButtonContent = $(data).find('.remind-no-response')[0];
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
                 $(panelHeading).removeClass('ajax-response-submit');
                 $(panelHeading).removeClass('ajax-response-auto');
                 $(panelHeading).off('click');
-                displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
-                $(panelHeading).click(toggleSingleCollapse);
+                displayIcon.html(remindButtonContent);
+                displayIcon.append('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
+                $(panelHeading).data('state', 'up');
+                $(panelHeading).click(toggleNoResponsePanel);
                 $(panelHeading).trigger('click');
+                prepareRemindModal();
             },
         });
     };
@@ -361,4 +366,22 @@ function prepareInstructorFeedbackResultsPage() {
     $('#btn-display-table').on('click', () => {
         submitFormAjax();
     });
+}
+
+function toggleNoResponsePanel(e) {
+    const $targetElement = $(e.target);
+    if ($targetElement.is('a') || $targetElement.is('input')) {
+        return;
+    }
+    const $panel = $(this);
+    const $remindButton = $panel.find('.remind-no-response');
+    if ($panel.data('state') === 'up') {
+        $remindButton.show();
+        showSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'down');
+    } else {
+        $remindButton.hide();
+        hideSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'up');
+    }
 }

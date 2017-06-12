@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%-- When the page structure is loaded, bundle.questions will contain every question --%>
@@ -9,6 +10,7 @@
 <c:set var="isLoadingStructure" value="${not empty data.bundle.questions}" />
 
 <c:if test="${data.allSectionsSelected}">
+    <ti:remindParticularStudentsModal remindParticularStudentsLink="${data.noResponsePanel.remindParticularStudentsLink}" />
     <div class="panel panel-default">
         <%-- see instructorFeedbackResultsAjaxResponse.js --%>
         <div class="panel-heading ${data.largeNumberOfResponses ? 'ajax-response-submit' : 'ajax-response-auto'}">
@@ -19,6 +21,9 @@
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="-1">
             </form>
             <div class="display-icon pull-right">
+                <c:if test="${!isLoadingStructure}">
+                    <r:remindButton remindButton="${data.noResponsePanel.remindButton}" />
+                </c:if>
                 <span class="glyphicon ${!isLoadingStructure ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
             </div>
             Participants who have not responded to any question
