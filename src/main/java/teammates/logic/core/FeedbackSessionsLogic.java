@@ -927,7 +927,7 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(statistics).append(Const.EOL);
         }
 
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
+        
 
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
@@ -935,6 +935,7 @@ public final class FeedbackSessionsLogic {
 
         for (FeedbackResponseAttributes response : allResponses) {
 
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(fsrBundle, question, response));
             // do not show all possible givers and recipients if there are anonymous givers and recipients
             if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();

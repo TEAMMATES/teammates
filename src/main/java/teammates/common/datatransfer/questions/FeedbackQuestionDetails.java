@@ -8,8 +8,10 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.FeedbackSessionResults;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -72,7 +74,15 @@ public abstract class FeedbackQuestionDetails {
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + this.getCsvHeader() + Const.EOL;
+               + this.getCsvHeader() + this.getFeedbackResponseCommentHeader() + Const.EOL;
+    }
+    
+    public String getCsvDetailedResponsesHeader(FeedbackSessionResultsBundle fsrBundle) {
+        return "Team" + "," + "Giver's Full Name" + ","
+               + "Giver's Last Name" + "," + "Giver's Email" + ","
+               + "Recipient's Team" + "," + "Recipient's Full Name" + ","
+               + "Recipient's Last Name" + "," + "Recipient's Email" + ","
+               + this.getCsvHeader() + this.getFeedbackResponseCommentHeader(fsrBundle) + Const.EOL;
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
@@ -235,6 +245,10 @@ public abstract class FeedbackQuestionDetails {
 
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
+    }
+    
+    public String getFeedbackResponseCommentHeader(FeedbackSessionResultsBundle fsrBundle, FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
+        fsrBundle.responseComments.get(response.getId());
     }
 
 }
