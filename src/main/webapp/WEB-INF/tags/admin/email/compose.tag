@@ -42,7 +42,7 @@
             </textarea>
         </p>
         <p>
-            <button type="button" id="composeSubmitButton" onclick="$('#adminEmailMainForm').submit();">Send</button>
+            <button type="button" id="composeSubmitButton">Send</button>
             <button type="button" id="composeSaveButton">save</button>
         </p>
     </form>

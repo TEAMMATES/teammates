@@ -80,7 +80,7 @@
                     <span class="btn-link"
                           data-toggle="modal"
                           data-target="#fsResultsTableWindow"
-                          onclick="submitFormAjax()">click here</span>
+                          id="btn-display-table">Click here.</span>
                 </span>
             </div>
         </div>

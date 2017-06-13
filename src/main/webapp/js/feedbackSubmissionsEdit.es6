@@ -938,12 +938,10 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
-            const idSuffix = id.match(/^responsetext(.*)$/)[1];
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
-                fixed_toolbar_container: `#rich-text-toolbar-response-text-container${idSuffix}`,
                 setup(ed) {
                     ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));

@@ -59,8 +59,7 @@
                 <select class="form-control participantSelect"
                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>-${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
-                    <c:if test="${!fqForm.editable}">disabled</c:if>
-                    onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                    <c:if test="${!fqForm.editable}">disabled</c:if>>
                     <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">
                         <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
                             ${giverType.displayNameGiver}
@@ -78,7 +77,7 @@
                 <select class="form-control participantSelect"
                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>-${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
-                    <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                    <c:if test="${!fqForm.editable}">disabled</c:if>>
                     <c:forEach items="<%= FeedbackParticipantType.RECIPIENTS %>" var="recipientType">
                         <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
                             ${recipientType.displayNameRecipient}
