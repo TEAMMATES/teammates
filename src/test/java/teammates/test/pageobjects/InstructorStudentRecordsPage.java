@@ -81,10 +81,8 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
-        executeScript("scroll(0,300)");
         WebElement commentRow = waitForElementPresence(By.id("responseCommentRow" + commentIdSuffix));
         click(commentRow.findElements(By.tagName("a")).get(1));
-
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
@@ -108,7 +106,7 @@ public class InstructorStudentRecordsPage extends AppPage {
         WebElement commentRow = waitForElementPresence(commentRowSelector);
         waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
         assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
-                   || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
+                || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
     }
 
     public void verifyCommentFormErrorMessage(String errorMessage) {

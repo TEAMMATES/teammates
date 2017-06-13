@@ -758,15 +758,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
     }
 
-    private void clickAjaxLoadedPanelAndWaitForExpansion(String panelId, String ajaxClass) {
-        resultsPage.clickElementById(panelId);
-        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
-    }
-
     private void verifyQuestionAdditionalInfoExpand(int qnNumber, String additionalInfoId) {
         resultsPage.clickQuestionAdditionalInfoButton(qnNumber, additionalInfoId);
         assertTrue(resultsPage.isQuestionAdditionalInfoVisible(qnNumber, additionalInfoId));
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(qnNumber, additionalInfoId));
+    }
+
+    private void clickAjaxLoadedPanelAndWaitForExpansion(String panelId, String ajaxClass) {
+        resultsPage.clickElementById(panelId);
+        resultsPage.waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
     }
 
     private void clickCollapseExpandButtonAndWaitForPanelsToExpand() {

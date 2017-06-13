@@ -39,11 +39,11 @@
                                                 <c:forEach items="${response.responseComments}" var="responseComment" varStatus="status">
                                                     <c:if test="${viewType == 'GRQ'}">
                                                         <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${personIndex.index + 1}"
-                                                                                       secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
+                                                                secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
                                                     </c:if>
                                                     <c:if test="${viewType == 'RGQ'}">
                                                         <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="1"
-                                                                                       secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
+                                                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
                                                     </c:if>
                                                 </c:forEach>
                                             </ul>

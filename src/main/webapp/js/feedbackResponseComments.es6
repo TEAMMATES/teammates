@@ -346,21 +346,24 @@ function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
 
     const clickHandlerMap = new Map();
-    clickHandlerMap.set('.show-frc-add-form',
-        [showResponseCommentAddForm, ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set('.show-frc-edit-form',
-        [showResponseCommentEditForm, ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex',
-            'viewtype']]);
-    clickHandlerMap.set('.hide-frc-add-form',
-        [hideResponseCommentAddForm, ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set('.hide-frc-edit-form',
-        [hideResponseCommentEditForm, ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex',
-            'viewtype']]);
-    clickHandlerMap.set('.toggle-visib-add-form',
-        [toggleVisibilityAddForm, ['sessionindex', 'qnindex', 'responseindex', 'sectionindex']]);
-    clickHandlerMap.set('.toggle-visib-edit-form',
-        [toggleVisibilityEditForm, ['sessionindex', 'qnindex', 'responseindex', 'frcindex', 'sectionindex',
-            'viewtype']]);
+    clickHandlerMap.set(
+            '.show-frc-add-form', [showResponseCommentAddForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.show-frc-edit-form', [showResponseCommentEditForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.hide-frc-add-form', [hideResponseCommentAddForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.hide-frc-edit-form', [hideResponseCommentEditForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.toggle-visib-add-form', [toggleVisibilityAddForm,
+                    ['sessionindex', 'qnindex', 'responseindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.toggle-visib-edit-form', [toggleVisibilityEditForm,
+                    ['sessionindex', 'qnindex', 'responseindex', 'frcindex', 'sectionindex', 'viewtype']]);
 
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandlerAndParams] of clickHandlerMap) {
