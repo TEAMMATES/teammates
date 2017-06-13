@@ -3,9 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetailsEdit" prefix="csde" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorCourses.js"></script>
-    <script type="text/javascript" src="/js/instructorStudentEdit.js"></script>
+    <script type="text/javascript" src="/js/instructorCourseStudentEdit.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Student Details" jsIncludes="${jsIncludes}">
     <csde:studentInformationTable
