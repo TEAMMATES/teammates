@@ -1,4 +1,4 @@
-import { StatusType } from '../common/const.es6';
+import { ParamsNames, StatusType } from '../common/const.es6';
 import { prepareInstructorPages } from '../common/instructor.es6';
 import { toggleSort } from '../common/sortBy.es6';
 import { appendStatusMessage, clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
@@ -98,7 +98,7 @@ $(document).ready(() => {
     $('#ajaxForCourses').trigger('submit');
 
     if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${COURSE_TIME_ZONE}`);
+        const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
         TimeZone.prepareTimeZoneInput($selectElement);
         TimeZone.autoDetectAndUpdateTimeZone($selectElement);
     }

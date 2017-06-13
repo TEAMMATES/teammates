@@ -1,8 +1,10 @@
+import { ParamsNames } from './const.es6';
+
 function addMsqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
     const curNumberOfChoiceCreated =
-            parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
+            parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
     $(`
     <div id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
@@ -10,8 +12,8 @@ function addMsqOption(questionNum) {
             <span class="input-group-addon">
                 <input type="checkbox" disabled>
             </span>
-            <input type="text" name="${FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}"
-                    id="${FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
+            <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}"
+                    id="${ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
                     class="form-control msqOptionTextBox">
             <span class="input-group-btn">
                 <button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink"
@@ -23,7 +25,7 @@ function addMsqOption(questionNum) {
     </div>
     `).insertBefore($(`#msqAddOptionRow-${questionNum}`));
 
-    $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
+    $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');

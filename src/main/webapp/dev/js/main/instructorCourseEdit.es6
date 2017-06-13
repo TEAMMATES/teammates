@@ -1,5 +1,5 @@
 import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
+import { ParamsNames, StatusType } from '../common/const.es6';
 import { prepareInstructorPages } from '../common/instructor.es6';
 import { scrollToElement } from '../common/scrollTo.es6';
 import { TimeZone } from '../common/timezone.es6';
@@ -414,14 +414,14 @@ function bindCheckboxToggle() {
  */
 function editCourse() {
     $('#btnSaveCourse').show();
-    $(`#${COURSE_NAME}`).prop('disabled', false);
-    $(`#${COURSE_TIME_ZONE}`).prop('disabled', false);
+    $(`#${ParamsNames.COURSE_NAME}`).prop('disabled', false);
+    $(`#${ParamsNames.COURSE_TIME_ZONE}`).prop('disabled', false);
     $('#auto-detect-time-zone').prop('disabled', false);
     $('#courseEditLink').hide();
 }
 
 function autoDetectTimeZone() {
-    const $selectElement = $(`#${COURSE_TIME_ZONE}`);
+    const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
     TimeZone.autoDetectAndUpdateTimeZone($selectElement);
 }
 
@@ -497,7 +497,7 @@ $(document).ready(() => {
     const courseTimeZone = $('#course-time-zone').val();
 
     if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${COURSE_TIME_ZONE}`);
+        const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
         TimeZone.prepareTimeZoneInput($selectElement);
         TimeZone.updateTimeZone($selectElement, courseTimeZone);
 

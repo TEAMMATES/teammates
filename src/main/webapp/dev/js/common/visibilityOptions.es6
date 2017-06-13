@@ -1,3 +1,4 @@
+import { ParamsNames } from './const.es6';
 
 const ROW_RECIPIENT = 1;
 const ROW_GIVER_TEAM = 2;
@@ -142,9 +143,9 @@ function fixCheckboxValuesForTeamContribQuestion($containingForm) {
 function tallyCheckboxes(questionNum) {
     // update hidden parameters (the values in checkboxTypes)
     const checkboxTypes = {
-        '.answerCheckbox': FEEDBACK_QUESTION_SHOWRESPONSESTO,
-        '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
-        '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO,
+        '.answerCheckbox': ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO,
+        '.giverCheckbox': ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO,
+        '.recipientCheckbox': ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO,
     };
 
     $.each(checkboxTypes, (className, checkboxType) => {

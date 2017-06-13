@@ -1,7 +1,7 @@
 /* global tinymce:false */
 
 import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
+import { ParamsNames, StatusType } from '../common/const.es6';
 import { makeCsrfTokenParam } from '../common/crypto.es6';
 import { prepareDatepickers } from '../common/datepicker.es6';
 import { FeedbackPath } from '../common/feedbackPath.es6';
@@ -37,12 +37,33 @@ const CONFIRM_EDIT_DELETE_RESPONSES =
         '<p>Editing these fields will result in <strong>all existing responses for this question to be deleted.</strong></p>'
         + '<p>Are you sure you want to continue?</p>';
 
+const FEEDBACK_QUESTION_TYPENAME_TEXT = 'Essay question';
+const FEEDBACK_QUESTION_TYPENAME_MCQ = 'Multiple-choice (single answer)';
+const FEEDBACK_QUESTION_TYPENAME_MSQ = 'Multiple-choice (multiple answers)';
+const FEEDBACK_QUESTION_TYPENAME_NUMSCALE = 'Numerical-scale question';
+const FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = 'Distribute points (among options) question';
+const FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = 'Distribute points (among recipients) question';
+const FEEDBACK_QUESTION_TYPENAME_CONTRIB = 'Team contribution question';
+const FEEDBACK_QUESTION_TYPENAME_RUBRIC = 'Rubric question';
+const FEEDBACK_QUESTION_TYPENAME_RANK_OPTION = 'Rank options question';
+const FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT = 'Rank recipients question';
+
+const DISPLAY_FEEDBACK_QUESTION_COPY_INVALID = 'There are no questions to be copied.';
+const DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
+        'Please enter the maximum number of recipients each respondents should give feedback to.';
+const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
+const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
+const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
+        'Please enter valid options. The interval is not divisible by the specified increment.';
+const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
+const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
+
 const questionsBeforeEdit = [];
 
 function getCustomDateTimeFields() {
-    return $(`#${FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${FEEDBACK_SESSION_PUBLISHTIME}`)
-                                                .add(`#${FEEDBACK_SESSION_VISIBLEDATE}`)
-                                                .add(`#${FEEDBACK_SESSION_VISIBLETIME}`);
+    return $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`)
+                                                .add(`#${ParamsNames.FEEDBACK_SESSION_VISIBLEDATE}`)
+                                                .add(`#${ParamsNames.FEEDBACK_SESSION_VISIBLETIME}`);
 }
 
 function extractQuestionNumFromEditFormId(id) {
@@ -62,24 +83,24 @@ function getQuestionNumFromEditForm(form) {
  * @returns {Boolean}
  */
 function checkFeedbackQuestion(form) {
-    const recipientType = $(form).find(`select[name|=${FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
+    const recipientType = $(form).find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
                                .find(':selected')
                                .val();
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
-        if ($(form).find(`[name|=${FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
+        if ($(form).find(`[name|=${ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
             return false;
         }
     }
-    if (!$(form).find(`[name=${FEEDBACK_QUESTION_TEXT}]`).val()) {
+    if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TEXT}]`).val()) {
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
         return false;
     }
-    if ($(form).find(`[name=${FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
-        if (!$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
-                || !$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
-                || !$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
+    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
+        if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
+                || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
+                || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
             return false;
         }
@@ -171,15 +192,15 @@ function bindFeedbackSessionEditFormSubmission() {
  */
 function disableQuestion(questionNum) {
     if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
+        destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
+        richTextEditorBuilder.initEditor(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
             readonly: true,
         });
         /* eslint-enable camelcase */
     }
-    $(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).addClass('well');
+    $(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).addClass('well');
 
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
@@ -210,8 +231,8 @@ function disableQuestion(questionNum) {
         $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
     }
 
-    $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
-    $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
     $(`#button_question_submit-${questionNum}`).hide();
 }
 
@@ -274,14 +295,14 @@ function backupQuestion(questionNum) {
  */
 function enableQuestion(questionNum) {
     if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
+        destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
+        richTextEditorBuilder.initEditor(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
         });
         /* eslint-enable camelcase */
     }
-    $(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).removeClass('well');
+    $(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`).removeClass('well');
 
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
@@ -330,10 +351,10 @@ function enableQuestion(questionNum) {
         setContribQnVisibilityFormat(questionNum);
     }
 
-    $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).hide();
-    $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).show();
-    $(`#${FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
-    $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).hide();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).show();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     $(`#button_question_submit-${questionNum}`).show();
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
@@ -362,9 +383,9 @@ function enableEdit(questionNum, maxQuestions) {
 
 function enableNewQuestion() {
     if (typeof richTextEditorBuilder !== 'undefined') {
-        destroyEditor(`${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
+        destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
+        richTextEditorBuilder.initEditor(`#${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
             inline: true,
         });
         /* eslint-enable camelcase */
@@ -399,9 +420,9 @@ function enableNewQuestion() {
         $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
-    $(`#${FEEDBACK_QUESTION_EDITTEXT}-${NEW_QUESTION}`).hide();
-    $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
-    $(`#${FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${NEW_QUESTION}`).hide();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
     $(`#button_question_submit-${NEW_QUESTION}`).show();
 }
 
@@ -417,7 +438,7 @@ function deleteQuestion(questionNum) {
     }
 
     const okCallback = function () {
-        $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
     showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null, null, null, StatusType.DANGER);
@@ -483,15 +504,15 @@ function restoreOriginal(questionNum) {
     } else {
         $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
 
-        $(`#${FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
-        $(`#${FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
-        $(`#${FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
-        $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
         $(`#button_question_submit-${questionNum}`).hide();
     }
 
     // re-attach events for form elements
-    $(`#${FEEDBACK_QUESTION_RECIPIENTTYPE}-${questionNum}`).change(updateVisibilityOfNumEntitiesBox);
+    $(`#${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}-${questionNum}`).change(updateVisibilityOfNumEntitiesBox);
     FeedbackPath.attachEvents();
 }
 
@@ -523,7 +544,7 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input.pointsBox'), false, false);
     disallowNonNumericEntries($('input[id^="rubricWeight"]'), true, true);
 
-    $(`select[name=${FEEDBACK_QUESTION_RECIPIENTTYPE}]`).each(updateVisibilityOfNumEntitiesBox)
+    $(`select[name=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`).each(updateVisibilityOfNumEntitiesBox)
                                                              .change(updateVisibilityOfNumEntitiesBox);
 }
 
@@ -549,13 +570,13 @@ function prepareQuestionForm(type) {
         $('#textForm').show();
         break;
     case 'MCQ':
-        $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MCQ);
 
         $('#mcqForm').show();
         break;
     case 'MSQ':
-        $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_MSQ);
 
         $('#msqForm').show();
@@ -564,11 +585,12 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
 
         $('#numScaleForm').show();
-        $(`#${FEEDBACK_QUESTION_TEXT}`).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_TEXT}`).attr(
+                'placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
         break;
     case 'CONSTSUM_OPTION':
-        $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
-        $(`#${FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
@@ -578,7 +600,7 @@ function prepareQuestionForm(type) {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
         const tooltipText = $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title');
 
-        $(`#${FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('true');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('true');
         $(`#constSumOption_Option-${NEW_QUESTION}`).hide();
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).show();
         hideConstSumOptionTable(NEW_QUESTION);
@@ -603,15 +625,15 @@ function prepareQuestionForm(type) {
         $('#rubricForm').show();
         break;
     case 'RANK_OPTIONS':
-        $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
-        $(`#${FEEDBACK_QUESTION_RANKTORECIPIENTS}-${NEW_QUESTION}`).val('false');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#rankOption_Recipient-${NEW_QUESTION}`).hide();
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
 
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
-        $(`#${FEEDBACK_QUESTION_RANKTORECIPIENTS}-${NEW_QUESTION}`).val('true');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${NEW_QUESTION}`).val('true');
         $(`#rankOption_Option-${NEW_QUESTION}`).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
@@ -753,7 +775,7 @@ function setupQuestionCopyModal() {
                     $questionCopyStatusMessage.html('');
                 } else {
                     $questionCopyStatusMessage.addClass('alert alert-danger');
-                    $questionCopyStatusMessage.prepend('<br>').html(FEEDBACK_QUESTION_COPY_INVALID);
+                    $questionCopyStatusMessage.prepend('<br>').html(DISPLAY_FEEDBACK_QUESTION_COPY_INVALID);
                 }
             },
         });

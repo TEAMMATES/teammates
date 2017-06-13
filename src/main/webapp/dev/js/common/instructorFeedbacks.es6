@@ -1,3 +1,5 @@
+import { ParamsNames } from './const.es6';
+
 function updateUncommonSettingsSessionVisibilityInfo() {
     const info = 'Session is visible at submission opening time, '
              + 'responses are only visible when you publish the results.';
@@ -76,7 +78,7 @@ function toggleDisabledAndStoreLast(id, bool) {
  * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
  */
 function collapseIfPrivateSession() {
-    if ($(`[name=${FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`).filter(':checked').val() === 'never') {
+    if ($(`[name=${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`).filter(':checked').val() === 'never') {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
     } else {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
@@ -89,14 +91,14 @@ function collapseIfPrivateSession() {
  * @param $privateBtn
  */
 function formatResponsesVisibilityGroup() {
-    const $responsesVisibilityBtnGroup = $(`[name=${FEEDBACK_SESSION_RESULTSVISIBLEBUTTON}]`);
+    const $responsesVisibilityBtnGroup = $(`[name=${ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON}]`);
     $responsesVisibilityBtnGroup.change(() => {
         if ($responsesVisibilityBtnGroup.filter(':checked').val() === 'custom') {
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, false);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, false);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, false);
         } else {
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, true);
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHTIME, true);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, true);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, true);
         }
     });
 }
@@ -109,15 +111,15 @@ function formatResponsesVisibilityGroup() {
  * @param $privateBtn
  */
 function formatSessionVisibilityGroup() {
-    const $sessionVisibilityBtnGroup = $(`[name=${FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`);
+    const $sessionVisibilityBtnGroup = $(`[name=${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`);
     $sessionVisibilityBtnGroup.change(() => {
         collapseIfPrivateSession();
         if ($sessionVisibilityBtnGroup.filter(':checked').val() === 'custom') {
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, false);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, false);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_VISIBLETIME, false);
         } else {
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, true);
-            toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, true);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, true);
+            toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_VISIBLETIME, true);
         }
     });
 }

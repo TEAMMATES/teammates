@@ -1,5 +1,5 @@
 import { linkAjaxForResponseRate } from '../common/ajaxResponseRate.es6';
-import { StatusType } from '../common/const.es6';
+import { ParamsNames, StatusType } from '../common/const.es6';
 import { prepareDatepickers } from '../common/datepicker.es6';
 import { bindDeleteButtons, bindPublishButtons, bindRemindButtons, bindUnpublishButtons,
         prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
@@ -15,6 +15,10 @@ let isSessionsAjaxSending = false;
 let oldStatus = null;
 
 const TIMEZONE_SELECT_UNINITIALISED = '-9999';
+
+const DISPLAY_FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
+const DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
+        'This feedback session name already existed in this course. Please use another name.';
 
 function isTimeZoneIntialized() {
     return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
@@ -61,9 +65,9 @@ function selectDefaultTimeOptions() {
     const timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
-        $(`#${FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
-        $(`#${FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
-        $(`#${FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
+        $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
+        $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
+        $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
     }
 
     const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
@@ -75,14 +79,14 @@ function selectDefaultTimeOptions() {
 function bindCopyButton() {
     $('#button_copy').on('click', (e) => {
         e.preventDefault();
-        const selectedCourseId = $(`#${COURSE_ID} option:selected`).text();
-        const newFeedbackSessionName = $(`#${FEEDBACK_SESSION_NAME}`).val();
+        const selectedCourseId = $(`#${ParamsNames.COURSE_ID} option:selected`).text();
+        const newFeedbackSessionName = $(`#${ParamsNames.FEEDBACK_SESSION_NAME}`).val();
 
         let isExistingSession = false;
 
         const $sessionsList = $('tr[id^="session"]');
         if (!$sessionsList.length) {
-            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, StatusType.DANGER);
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_COPY_INVALID, StatusType.DANGER);
             return false;
         }
 

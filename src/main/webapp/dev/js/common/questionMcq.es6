@@ -1,8 +1,10 @@
+import { ParamsNames } from './const.es6';
+
 function addMcqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
     const curNumberOfChoiceCreated =
-            parseInt($(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
+            parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
     $(`
     <div id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
@@ -10,8 +12,8 @@ function addMcqOption(questionNum) {
             <span class="input-group-addon">
                 <input type="radio" disabled>
             </span>
-            <input type="text" name="${FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}"
-                    id="${FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
+            <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}"
+                    id="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
                     class="form-control mcqOptionTextBox">
             <span class="input-group-btn">
                 <button type="button" class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink"
@@ -23,7 +25,7 @@ function addMcqOption(questionNum) {
     </div>
     `).insertBefore($(`#mcqAddOptionRow-${questionNum}`));
 
-    $(`#${FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
+    $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
