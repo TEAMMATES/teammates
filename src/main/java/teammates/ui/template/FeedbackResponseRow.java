@@ -29,7 +29,7 @@ public class FeedbackResponseRow {
                                                                               personType + "-" + personIndex
                                                                                          + "-session-" + fbIndex);
         if ("recipient".equals(personType)) {
-            this.responseText = response.getResponseDetails().getAnswerHtml(questionDetails);
+            this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
