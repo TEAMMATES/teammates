@@ -503,18 +503,6 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
 }
 
 /**
- * Binds a default image if the image is missing.
- * @param element Image element.
- */
-function bindDefaultImageIfMissing(element) {
-    $(element).on('error', function () {
-        if ($(this).attr('src') !== '') {
-            $(this).attr('src', '/images/profile_picture_default.png');
-        }
-    });
-}
-
-/**
  * Checks if the current device is touch based device
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
@@ -1052,10 +1040,6 @@ function toggleAdditionalQuestionInfo(identifier) {
 }
 
 $(document).on('ajaxComplete ready', () => {
-    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function () {
-        bindDefaultImageIfMissing(this);
-    });
-
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific

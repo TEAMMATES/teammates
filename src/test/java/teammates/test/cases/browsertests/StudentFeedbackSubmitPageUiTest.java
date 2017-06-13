@@ -83,6 +83,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageOpen.html");
+        submitPage.verifyVisibilityAndCloseMoreInfoAboutEqualShareModal();
 
         ______TS("Grace period session");
 
