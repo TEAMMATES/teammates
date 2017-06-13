@@ -1,7 +1,6 @@
 /* globals displayAjaxRetryMessageForPanelHeading:false,
            isEmptySection:false,
            removeSection:false,
-           bindDefaultImageIfMissing:false,
            bindStudentPhotoLink:false,
            bindStudentPhotoHoverLink:false,
            bindCollapseEvents:false,
@@ -67,9 +66,6 @@ $(document).ready(() => {
                     }
                 }
 
-                $sectionBody.find('.profile-pic-icon-hover, .profile-pic-icon-click').children('img').each(function () {
-                    bindDefaultImageIfMissing(this);
-                });
                 // bind the show picture onclick events
                 bindStudentPhotoLink($sectionBody.find('.profile-pic-icon-click > .student-profile-pic-view-link'));
                 // bind the show picture onhover events
