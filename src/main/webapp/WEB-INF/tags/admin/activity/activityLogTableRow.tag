@@ -6,7 +6,7 @@
 <tr>
     <td class="${log.isActionTimeTakenModerate ? "warning"
                                                : log.isActionTimeTakenSlow ? "danger" : "" }">
-        <a onclick="submitLocalTimeAjaxRequest('${log.logTime}','${log.userGoogleId}','${log.displayedRole}', this);">
+        <a class="log-entry" data-logtime="${log.logTime}" data-googleid="${log.userGoogleId}" data-displayedrole="${log.displayedRole}">
             ${log.displayedLogTime}
         </a>
         <p class="localTime"></p>

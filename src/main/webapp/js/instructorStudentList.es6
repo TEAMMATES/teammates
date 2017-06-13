@@ -1,6 +1,6 @@
 /* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
 /* global toggleSort:false match:false prepareInstructorPages:false */
-/* global bindDefaultImageIfMissing:false bindStudentPhotoLink:false setStatusMessage:false */
+/* global bindStudentPhotoLink:false setStatusMessage:false */
 /* global StatusType:false clearStatusMessages:false checkCourseBinding:false */
 
 // Trigger ajax request for a course through clicking the heading
@@ -219,9 +219,6 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $(`td[id^="studentphoto-c${courseIdx}"]`).each(function () {
-        $(this).children('.profile-pic-icon-click > img').each(function () {
-            bindDefaultImageIfMissing(this);
-        });
         bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }
@@ -249,6 +246,7 @@ function removeDataToBeTransported() {
 const seeMoreRequest = function (e) {
     const panelHeading = $(this);
     const panelCollapse = $(this).parent().children('.panel-collapse');
+    const toggleChevron = $(this).parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
     const panelBody = $(panelCollapse[0]).children('.panel-body');
     const displayIcon = $(this).children('.display-icon');
     const courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
@@ -322,6 +320,12 @@ const seeMoreRequest = function (e) {
     } else {
         // Do not make ajax call if students shown already above limit
         showStudentLimitError(courseCheck, displayIcon);
+    }
+
+    if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
+        $(toggleChevron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+    } else {
+        $(toggleChevron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
     }
 };
 

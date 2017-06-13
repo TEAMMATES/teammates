@@ -122,7 +122,6 @@
                                 </label>
                             </h5>
                             <div class="col-sm-10">
-                                <div id="richtext-toolbar-container"></div>
                                 <div id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>" class="panel panel-default panel-body">
                                     ${fsForm.instructions}
                                 </div>
@@ -236,16 +235,16 @@
 
             <div id="uncommonSettingsSessionResponsesVisible" class="margin-bottom-15px text-muted">
                 <span id="uncommonSettingsSessionResponsesVisibleInfoText"></span>
-                <a class="editUncommonSettingsButton"
+                <a class="editUncommonSettingsButton enable-edit-fs"
                    id="editUncommonSettingsSessionResponsesVisibleButton"
-                   data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Change]</a>
+                   data-edit="[Edit]" data-done="[Done]">[Change]</a>
             </div>
 
             <div id="uncommonSettingsSendEmails" class="margin-bottom-15px text-muted">
                 <span id="uncommonSettingsSendEmailsInfoText"></span>
-                <a class="editUncommonSettingsButton"
+                <a class="editUncommonSettingsButton enable-edit-fs"
                    id="editUncommonSettingsSendEmailsButton"
-                   data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Change]</a>
+                   data-edit="[Edit]" data-done="[Done]">[Change]</a>
             </div>
         </div>
 

@@ -45,8 +45,9 @@
                     />
                 </c:forEach>
 
-                <a ${instructorPanel.addSectionLevelForInstructorButton.attributesToString}>
-                    ${instructorPanel.addSectionLevelForInstructorButton.content}
+                <a class="small show-tune-section-permissions" id="addSectionLevelForInstructor${instructorPanel.index}" href="javascript:;"
+                        data-instructorindex="${instructorPanel.index}" data-panelindex="${instructorPanel.firstBlankSectionRowIndex}">
+                    Give different permissions for a specific section
                 </a>
             </c:if>
         </div>

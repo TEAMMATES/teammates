@@ -93,8 +93,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -127,7 +127,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>
@@ -167,7 +167,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -222,7 +222,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -268,7 +268,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -314,7 +314,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -360,7 +360,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">

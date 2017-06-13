@@ -5,6 +5,23 @@ $(document).ready(() => {
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
     linkAjaxForResponseRate();
     prepareDatepickers();
+
+    $('#btn-open-all-sections').on('click', () => {
+        openAllSections($('.institution-panel').length);
+    });
+
+    $('#btn-close-all-sections').on('click', () => {
+        closeAllSections($('.institution-panel').length);
+    });
+
+    $('#btn-toggle-filter').on('click', () => {
+        toggleFilter();
+    });
+
+    $(document).on('click', '.toggle-content', (e) => {
+        const tableIndex = $(e.target).data('index');
+        toggleContent(tableIndex);
+    });
 });
 
 function toggleContent(id) {
@@ -54,12 +71,3 @@ function toggleFilter() {
         $('#referenceText').text('Show Filter');
     }
 }
-
-/*
-export default {
-    openAllSections,
-    closeAllSections,
-    toggleFilter,
-};
-*/
-/* exported openAllSections, closeAllSections, toggleFilter */
