@@ -194,8 +194,8 @@ function initializeMap(err, countryCoordinates, userData) {
 
 document.addEventListener('DOMContentLoaded', () => {
     let map;
-    d3.json('/js/countryCoordinates.json', (countryCoordinates) => {
-        d3.json('/js/userMapData.json', (err, userData) => {
+    d3.json('/data/countryCoordinates.json', (countryCoordinates) => {
+        d3.json('/data/userMapData.json', (err, userData) => {
             map = initializeMap(err, countryCoordinates, userData);
         });
     });
