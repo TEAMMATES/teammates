@@ -193,4 +193,20 @@ public class FeedbackSubmitPage extends AppPage {
         waitForElementToBeClickable(element);
     }
 
+    public void verifyVisibilityAndCloseMoreInfoAboutEqualShareModal() {
+        WebElement moreInfoAboutEqualShareModalLink = browser.driver.findElement(By.id("more-info-equal-share-modal-link"));
+        click(moreInfoAboutEqualShareModalLink);
+        WebElement moreInfoAboutEqualShareModal = browser.driver.findElement(By.id("more-info-equal-share-modal"));
+        waitForElementVisibility(moreInfoAboutEqualShareModal);
+        closeMoreInfoAboutEqualShareModal();
+    }
+
+    private void closeMoreInfoAboutEqualShareModal() {
+        WebElement closeButton = browser.driver
+                .findElement(By.xpath("//div[@id='more-info-equal-share-modal']//button[@class='close']"));
+        waitForElementToBeClickable(closeButton);
+        click(closeButton);
+        waitForElementToDisappear(By.id("more-info-equal-share-modal"));
+    }
+
 }
