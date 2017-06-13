@@ -27,7 +27,8 @@
   },
   "scripts": {
     "build:src": "webpack --config webpack-main.config.js",
-    "build": "npm run build:src",
+    "build:test": "webpack --config webpack-test.config.js",
+    "build": "npm run build:src && npm run build:test",
     "lint:js": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint.yml --ext es6",
     "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
