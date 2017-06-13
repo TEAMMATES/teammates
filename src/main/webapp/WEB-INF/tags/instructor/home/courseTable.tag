@@ -12,9 +12,11 @@
                         Session Name<span class="icon-sort unsorted"></span>
                     </th>
                     <th class="button_sortstartdate button-sort-none toggle-sort"
-                        data-toggle-sort-comparator="sortDate">Start Date<span class="icon-sort unsorted"></span></th>
+                        data-toggle-sort-comparator="sortDate"
+                        data-toggle-sort-extractor="tooltipExtractor">Start Date<span class="icon-sort unsorted"></span></th>
                     <th  class="button_sortenddate button-sort-none toggle-sort"
-                         data-toggle-sort-comparator="sortDate">End Date<span class="icon-sort unsorted"></span></th>
+                         data-toggle-sort-comparator="sortDate"
+                         data-toggle-sort-extractor="tooltipExtractor">End Date<span class="icon-sort unsorted"></span></th>
                     <th>Status</th>
                     <th>
                         <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>"
