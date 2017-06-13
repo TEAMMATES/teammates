@@ -216,9 +216,6 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
        } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
 }
 
-// TODO: remove cyclic dependency
-/* eslint-disable no-use-before-define */
-
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     const originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
@@ -235,7 +232,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
             }
         } else {
             // 'Not Custom' => 'Custom'
-            checkPrivilegesOfRoleForInstructor(instrNum, originalRole);
+            checkPrivilegesOfRoleForInstructor(instrNum, originalRole); // eslint-disable-line no-use-before-define
         }
     } else {
         // New Instructor?
@@ -263,8 +260,6 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 
     // do nothing if role not recognized
 }
-
-/* eslint-enable no-use-before-define */
 
 function checkTheRoleThatApplies(instrNum) {
     const instrRole = $(`#accessControlInfoForInstr${instrNum} div div p span`).html();

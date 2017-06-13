@@ -166,16 +166,6 @@ function checkCourseBinding(e) {
     applyFilters();
 }
 
-/**
- * Custom function containsIN, for case insensitive matching
- * TODO: expand to fuzzy search
- */
-$.extend($.expr[':'], {
-    containsIN(elem) {
-        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
-    },
-});
-
 function bindCollapseEvents(panels) {
     let numPanels = -1;
     for (let i = 0; i < panels.length; i += 1) {
