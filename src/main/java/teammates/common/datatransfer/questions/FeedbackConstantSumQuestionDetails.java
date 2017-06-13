@@ -486,6 +486,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             double total = computeTotal(points);
 
             fragments.append(option)
+                    .append(',').append(appendDoubleQuotes(points.toString()))
                     .append(',').append(df.format(average))
                     .append(',').append(df.format(total))
                     .append(Const.EOL);
@@ -493,8 +494,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
-               + ", Average Points, Total Points" + Const.EOL
+               + ", Received Points, Average Points, Total Points" + Const.EOL
                + fragments + Const.EOL;
+    }
+
+    private String appendDoubleQuotes(String str) {
+        return "\"" + str + "\"";
     }
 
     /**
