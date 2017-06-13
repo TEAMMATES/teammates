@@ -1094,3 +1094,7 @@ window.removeRubricCol = removeRubricCol;
 window.highlightRubricCol = highlightRubricCol;
 
 window.isWithinView = isWithinView;
+
+export {
+    extractQuestionNumFromEditFormId,
+};

@@ -70,3 +70,7 @@ $('document').ready(() => {
 
     checkBrowserVersion();
 });
+
+export {
+    submissionCounter,
+};

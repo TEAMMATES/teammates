@@ -62,5 +62,6 @@ function updateNumScalePossibleValues(questionNum) {
 }
 
 export {
+    roundToThreeDp, // for test
     updateNumScalePossibleValues,
 };

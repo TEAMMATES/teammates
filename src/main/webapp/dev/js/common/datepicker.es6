@@ -95,5 +95,8 @@ function prepareDatepickers() {
 }
 
 export {
+    getMaxDateForVisibleDate, // for test
+    getMinDateForPublishDate, // for test
     prepareDatepickers,
+    triggerDatepickerOnClick, // for test
 };

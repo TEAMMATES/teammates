@@ -2,14 +2,15 @@ import { showModalAlert } from '../common/bootboxWrapper.es6';
 import { StatusType } from '../common/const.es6';
 import { prepareInstructorPages } from '../common/instructor.es6';
 
+function isUserTyping(str) {
+    return str.indexOf('\t') === -1 && str.indexOf('|') === -1;
+}
+
+window.isUserTyping = isUserTyping;
+
 const loadUpFunction = function () {
     const typingErrMsg = 'Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.';
     let notified = false;
-
-    function isUserTyping(str) {
-        return str.indexOf('\t') === -1 && str.indexOf('|') === -1;
-    }
-    window.isUserTyping = isUserTyping;
 
     const ENTER_KEYCODE = 13;
     let enrolTextbox = $('#enrollstudents');
@@ -36,3 +37,7 @@ if (window.addEventListener) {
 $(document).ready(() => {
     prepareInstructorPages();
 });
+
+export {
+    isUserTyping,
+};
