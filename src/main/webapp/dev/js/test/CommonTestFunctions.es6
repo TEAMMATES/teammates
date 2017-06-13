@@ -57,6 +57,8 @@ $.ajax = function () {
     // do not actually make the AJAX request
 };
 
-/* exported
-generateRandomString, ensureCorrectModal, clearBootboxButtonClickEvent, clearBootboxModalStub
-*/
+export {
+    clearBootboxButtonClickEvent,
+    clearBootboxModalStub,
+    ensureCorrectModal,
+};

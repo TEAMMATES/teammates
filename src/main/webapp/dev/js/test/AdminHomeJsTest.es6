@@ -1,7 +1,6 @@
-/* global
-addInstructorAjax:false, enableAddInstructorForm:true, createRowForResultTable:false
-addInstructorByAjaxRecursively:true, addInstructorFromFirstFormByAjax:false, addInstructorFromSecondFormByAjax:false
-*/
+import { addInstructorAjax, addInstructorByAjaxRecursively, addInstructorFromFirstFormByAjax,
+        addInstructorFromSecondFormByAjax, createRowForResultTable, enableAddInstructorForm }
+        from '../main/adminHome.es6';
 
 QUnit.module('AdminHome.js');
 

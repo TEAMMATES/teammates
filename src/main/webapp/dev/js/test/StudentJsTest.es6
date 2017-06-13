@@ -1,7 +1,6 @@
-/* global
-clearBootboxButtonClickEvent:false, bindLinksInUnregisteredPage:false, ensureCorrectModal:false, Const:false
-clearBootboxModalStub:false
-*/
+import { clearBootboxButtonClickEvent, clearBootboxModalStub, ensureCorrectModal } from './CommonTestFunctions.es6';
+import { Const } from '../common/const.es6';
+import { bindLinksInUnregisteredPage } from '../common/student.es6';
 
 QUnit.module('student.js');
 

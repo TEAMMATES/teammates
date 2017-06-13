@@ -1,4 +1,4 @@
-/* global submissionCounter:false */
+import { submissionCounter } from '../main/index.es6';
 
 QUnit.module('index.js');
 
