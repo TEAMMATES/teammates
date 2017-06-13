@@ -10,8 +10,8 @@ public class InstructorFeedbackResultsRemindButton {
     private String urlLink;
 
     public InstructorFeedbackResultsRemindButton(boolean isDisabled, String className,
-                             String courseId, String feedbackSessionName,
-                             String buttonText, String urlLink) {
+            String courseId, String feedbackSessionName,
+            String buttonText, String urlLink) {
 
         this.isDisabled = isDisabled;
         this.className = className;

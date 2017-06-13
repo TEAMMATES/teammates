@@ -1561,10 +1561,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         actionLink = addSessionTokenToUrl(actionLink);
 
         return new InstructorFeedbackResultsRemindButton(isSessionClosed,
-                                                         "btn btn-default btn-xs btn-tm-actions remind-btn-no-response",
-                                                         bundle.feedbackSession.getCourseId(),
-                                                         bundle.feedbackSession.getFeedbackSessionName(),
-                                                         "Remind All", actionLink);
+                "btn btn-default btn-xs btn-tm-actions remind-btn-no-response",
+                bundle.feedbackSession.getCourseId(),
+                bundle.feedbackSession.getFeedbackSessionName(),
+                "Remind All", actionLink);
     }
 
     private String getRemindParticularStudentsLink() {
@@ -1573,9 +1573,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String nextUrl = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
         nextUrl = Url.addParamToUrl(nextUrl, Const.ParamsNames.COURSE_ID, bundle.feedbackSession.getCourseId());
         nextUrl = Url.addParamToUrl(nextUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                                    bundle.feedbackSession.getFeedbackSessionName());
+                bundle.feedbackSession.getFeedbackSessionName());
         remindParticularStudentsLink = Url.addParamToUrl(remindParticularStudentsLink, Const.ParamsNames.NEXT_URL,
-                                                         nextUrl);
+                nextUrl);
         remindParticularStudentsLink = addSessionTokenToUrl(remindParticularStudentsLink);
         return remindParticularStudentsLink;
     }
@@ -1701,9 +1701,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
-                                                            buildModerateButtonsForNoResponsePanel(),
-                                                            buildRemindButtonForNoResponsePanel(),
-                                                            getRemindParticularStudentsLink());
+                buildModerateButtonsForNoResponsePanel(),
+                buildRemindButtonForNoResponsePanel(),
+                getRemindParticularStudentsLink());
     }
 
     public void setStartIndex(int startIndex) {
