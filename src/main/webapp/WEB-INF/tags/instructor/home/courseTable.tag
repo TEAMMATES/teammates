@@ -5,7 +5,7 @@
 <%@ attribute name="sessionRows" type="java.util.Collection" required="true" %>
 <div class="panel-collapse collapse">
     <div class="panel-body padding-0">
-        <table class="table-responsive table table-striped table-bordered">
+        <table class="table-responsive table table-striped table-bordered margin-0">
             <thead>
                 <tr>
                     <th onclick="toggleSort(this);" class="button_sortname button-sort-none">
