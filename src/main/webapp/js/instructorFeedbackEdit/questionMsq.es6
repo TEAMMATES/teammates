@@ -4,6 +4,20 @@ FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false, FEEDBACK_QUESTION_MSQCHOICE:false
 getQuestionNum: false
 */
 
+function setMaxValForMaxSelectableChoicesInput(questionNum) {
+    // don't count last div as it is the "add option button"
+    const numberOfChoices = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
+    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+
+    if ($checkbox.prop('checked') && numberOfChoices > 1) {
+        const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
+        const val = $msqMaxSelectableChoices.val();
+
+        $msqMaxSelectableChoices.prop('max', numberOfChoices);
+        $msqMaxSelectableChoices.val(Math.min(numberOfChoices, val));
+    }
+}
+
 function addMsqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -59,18 +73,11 @@ function removeMsqOption(index, questionNum) {
     setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
-function setMaxValForMaxSelectableChoicesInput(questionNum) {
-    // don't count last div as it is the "add option button"
-    const numberOfChoices = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
+function toggleMsqMaxSelectableChoices(questionNum) {
     const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
 
-    if ($checkbox.prop('checked') && numberOfChoices > 1) {
-        const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
-        const val = $msqMaxSelectableChoices.val();
-
-        $msqMaxSelectableChoices.prop('max', numberOfChoices);
-        $msqMaxSelectableChoices.val(Math.min(numberOfChoices, val));
-    }
+    $(`#msqMaxSelectableChoices-${questionNum}`).prop('disabled', !$checkbox.prop('checked'));
+    setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
 function removeMaxValForMaxSelectableChoicesInput(questionNum) {
@@ -102,11 +109,12 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
     }
 }
 
-function toggleMsqMaxSelectableChoices(questionNum) {
-    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
+    const questionId = `#form_editquestion-${questionNum}`;
 
-    $(`#msqMaxSelectableChoices-${questionNum}`).prop('disabled', !$checkbox.prop('checked'));
-    setMaxValForMaxSelectableChoicesInput(questionNum);
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
+    }
 }
 
 function changeMsqGenerateFor(questionNum) {

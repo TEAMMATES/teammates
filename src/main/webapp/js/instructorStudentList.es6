@@ -1,6 +1,6 @@
 /* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
 /* global toggleSort:false match:false prepareInstructorPages:false */
-/* global bindDefaultImageIfMissing:false bindStudentPhotoLink:false setStatusMessage:false */
+/* global bindStudentPhotoLink:false setStatusMessage:false */
 /* global StatusType:false clearStatusMessages:false checkCourseBinding:false */
 
 // Trigger ajax request for a course through clicking the heading
@@ -166,16 +166,6 @@ function checkCourseBinding(e) {
     applyFilters();
 }
 
-/**
- * Custom function containsIN, for case insensitive matching
- * TODO: expand to fuzzy search
- */
-$.extend($.expr[':'], {
-    containsIN(elem) {
-        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
-    },
-});
-
 function bindCollapseEvents(panels) {
     let numPanels = -1;
     for (let i = 0; i < panels.length; i += 1) {
@@ -219,9 +209,6 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $(`td[id^="studentphoto-c${courseIdx}"]`).each(function () {
-        $(this).children('.profile-pic-icon-click > img').each(function () {
-            bindDefaultImageIfMissing(this);
-        });
         bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }

@@ -68,7 +68,7 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForHtml(getAnswerString());
     }
 
