@@ -536,11 +536,3 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $(`#responseCommentEditForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_edit${id}`));
 }
-
-function showNewlyAddedResponseCommentEditForm(addedIndex) {
-    $(`#responseCommentRow-${addedIndex}`).hide();
-    if ($(`#responseCommentEditForm-${addedIndex}`).prev().is(':visible')) {
-        $(`#responseCommentEditForm-${addedIndex}`).prev().remove();
-    }
-    $(`#responseCommentEditForm-${addedIndex}`).show();
-}

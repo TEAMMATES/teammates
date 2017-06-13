@@ -1,5 +1,61 @@
 /* global highlightSearchResult:false StatusType:false setStatusMessage:false makeCsrfTokenParam:false */
 
+function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button) {
+    const params = `studentemail=${studentEmail
+                  }&courseid=${studentCourseId
+                  }&googleid=${wrongGoogleId}`;
+
+    const googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
+    const originalButton = $(button).html();
+
+    const originalGoogleIdEntry = $(googleIdEntry).html();
+
+    $.ajax({
+        type: 'POST',
+        url: `/admin/adminStudentGoogleIdReset?${makeCsrfTokenParam()}&${params}`,
+        beforeSend() {
+            $(button).html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error() {
+            $(button).html('An Error Occurred, Please Retry');
+        },
+        success(data) {
+            setTimeout(() => {
+                if (data.isError) {
+                    $(button).html('An Error Occurred, Please Retry');
+                } else if (data.isGoogleIdReset) {
+                    googleIdEntry.html('');
+                    $(button).hide();
+                } else {
+                    googleIdEntry.html(originalGoogleIdEntry);
+                    $(button).html(originalButton);
+                }
+                setStatusMessage(data.statusForAjax, StatusType.INFO);
+            }, 500);
+        },
+    });
+}
+
+function adminSearchDiscloseAllStudents() {
+    $('.fslink_student').slideDown();
+    $('.studentRow').attr('class', 'studentRow active');
+}
+
+function adminSearchCollapseAllStudents() {
+    $('.fslink_student').hide();
+    $('.studentRow').attr('class', 'studentRow');
+}
+
+function adminSearchDiscloseAllInstructors() {
+    $('.fslink_instructor').slideDown();
+    $('.instructorRow').attr('class', 'instructorRow active');
+}
+
+function adminSearchCollapseAllInstructors() {
+    $('.fslink_instructor').hide();
+    $('.instructorRow').attr('class', 'instructorRow');
+}
+
 $(document).ready(() => {
     $('.fslink').hide();
 
@@ -75,59 +131,3 @@ $(document).ready(() => {
         adminSearchCollapseAllStudents();
     });
 });
-
-function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button) {
-    const params = `studentemail=${studentEmail
-                  }&courseid=${studentCourseId
-                  }&googleid=${wrongGoogleId}`;
-
-    const googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
-    const originalButton = $(button).html();
-
-    const originalGoogleIdEntry = $(googleIdEntry).html();
-
-    $.ajax({
-        type: 'POST',
-        url: `/admin/adminStudentGoogleIdReset?${makeCsrfTokenParam()}&${params}`,
-        beforeSend() {
-            $(button).html("<img src='/images/ajax-loader.gif'/>");
-        },
-        error() {
-            $(button).html('An Error Occurred, Please Retry');
-        },
-        success(data) {
-            setTimeout(() => {
-                if (data.isError) {
-                    $(button).html('An Error Occurred, Please Retry');
-                } else if (data.isGoogleIdReset) {
-                    googleIdEntry.html('');
-                    $(button).hide();
-                } else {
-                    googleIdEntry.html(originalGoogleIdEntry);
-                    $(button).html(originalButton);
-                }
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
-            }, 500);
-        },
-    });
-}
-
-function adminSearchDiscloseAllStudents() {
-    $('.fslink_student').slideDown();
-    $('.studentRow').attr('class', 'studentRow active');
-}
-
-function adminSearchCollapseAllStudents() {
-    $('.fslink_student').hide();
-    $('.studentRow').attr('class', 'studentRow');
-}
-
-function adminSearchDiscloseAllInstructors() {
-    $('.fslink_instructor').slideDown();
-    $('.instructorRow').attr('class', 'instructorRow active');
-}
-
-function adminSearchCollapseAllInstructors() {
-    $('.fslink_instructor').hide();
-    $('.instructorRow').attr('class', 'instructorRow');
-}
