@@ -9,12 +9,19 @@ import { prepareInstructorPages, setupFsCopyModal } from '../common/instructor.e
 import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
         formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
         from '../common/instructorFeedbacks.es6';
-import { hideConstSumOptionTable } from '../common/questionConstSum.es6';
+import { addConstSumOption, hideConstSumOptionTable, removeConstSumOption,
+        updateConstSumPointsValue } from '../common/questionConstSum.es6';
 import { fixContribQnGiverRecipient, setContribQnVisibilityFormat, setDefaultContribQnVisibilityIfNeeded }
         from '../common/questionContrib.es6';
+import { addMcqOption, removeMcqOption, toggleMcqGeneratedOptions,
+        toggleMcqOtherOptionEnabled, changeMcqGenerateFor } from '../common/questionMcq.es6';
+import { addMsqOption, removeMsqOption, toggleMsqGeneratedOptions,
+        toggleMsqOtherOptionEnabled, changeMsqGenerateFor } from '../common/questionMsq.es6';
 import { updateNumScalePossibleValues } from '../common/questionNumScale.es6';
-import { hideRankOptionTable } from '../common/questionRank.es6';
-import { bindAssignWeightsCheckboxes, hasAssignedWeights, moveAssignWeightsCheckbox } from '../common/questionRubric.es6';
+import { addRankOption, hideRankOptionTable, removeRankOption } from '../common/questionRank.es6';
+import { addRubricCol, addRubricRow, bindAssignWeightsCheckboxes, hasAssignedWeights,
+        highlightRubricCol, highlightRubricRow, moveAssignWeightsCheckbox,
+        removeRubricCol, removeRubricRow } from '../common/questionRubric.es6';
 import { destroyEditor, richTextEditorBuilder } from '../common/richTextEditor.es6';
 import { scrollToElement } from '../common/scrollTo.es6';
 import { clearStatusMessages, setStatusMessage, setStatusMessageToForm } from '../common/statusMessage.es6';
@@ -1061,3 +1068,26 @@ $(document).ready(() => {
         tallyCheckboxes($(e.target).data('qnnumber'));
     });
 });
+
+window.updateConstSumPointsValue = updateConstSumPointsValue;
+window.addConstSumOption = addConstSumOption;
+window.removeConstSumOption = removeConstSumOption;
+window.addMcqOption = addMcqOption;
+window.removeMcqOption = removeMcqOption;
+window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;
+window.toggleMcqOtherOptionEnabled = toggleMcqOtherOptionEnabled;
+window.changeMcqGenerateFor = changeMcqGenerateFor;
+window.addMsqOption = addMsqOption;
+window.removeMsqOption = removeMsqOption;
+window.toggleMsqGeneratedOptions = toggleMsqGeneratedOptions;
+window.toggleMsqOtherOptionEnabled = toggleMsqOtherOptionEnabled;
+window.changeMsqGenerateFor = changeMsqGenerateFor;
+window.updateNumScalePossibleValues = updateNumScalePossibleValues;
+window.addRankOption = addRankOption;
+window.removeRankOption = removeRankOption;
+window.addRubricRow = addRubricRow;
+window.removeRubricRow = removeRubricRow;
+window.highlightRubricRow = highlightRubricRow;
+window.addRubricCol = addRubricCol;
+window.removeRubricCol = removeRubricCol;
+window.highlightRubricCol = highlightRubricCol;

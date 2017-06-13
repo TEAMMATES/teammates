@@ -1036,3 +1036,7 @@ $(document).ready(() => {
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
+
+window.validateNumScaleAnswer = validateNumScaleAnswer;
+window.updateConstSumMessageQn = updateConstSumMessageQn;
+window.updateRankMessageQn = updateRankMessageQn;

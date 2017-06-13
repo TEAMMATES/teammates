@@ -4,7 +4,9 @@ import { bindStudentPhotoHoverLink, bindStudentPhotoLink, prepareInstructorPages
 import { bindCollapseEvents, displayAjaxRetryMessageForPanelHeading, isEmptySection,
         prepareInstructorFeedbackResultsPage, removeSection, showHideStats }
         from '../common/instructorFeedbackResults.es6';
-import { toggleSingleCollapse } from '../common/ui.es6';
+import { toggleAdditionalQuestionInfo, toggleSingleCollapse } from '../common/ui.es6';
+
+window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
 
 $(document).ready(() => {
     prepareInstructorPages();

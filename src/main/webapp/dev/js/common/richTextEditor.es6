@@ -69,6 +69,8 @@ function initEditorCallback(editor) {
     });
 }
 
+window.initEditorCallback = initEditorCallback;
+
 /**
  * Destroys an instance of TinyMCE rich-text editor.
  */
@@ -84,6 +86,5 @@ function destroyEditor(id) {
 
 export {
     destroyEditor,
-    initEditorCallback,
     richTextEditorBuilder,
 };
