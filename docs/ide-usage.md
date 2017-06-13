@@ -49,6 +49,7 @@ The following plugins are needed:
      ![setupguide-4.png](images/setupguide-4.png)
 
    * Google App Engine: set up the following by going to `Google → ...`:
+     * Disable Datanucleus: `App Engine` → uncheck `Use Datanucleus JDO/JPA to access the datastore`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
