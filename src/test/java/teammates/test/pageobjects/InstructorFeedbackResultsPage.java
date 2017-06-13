@@ -19,7 +19,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
@@ -308,7 +307,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
@@ -319,7 +318,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
@@ -329,7 +328,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -343,7 +342,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
