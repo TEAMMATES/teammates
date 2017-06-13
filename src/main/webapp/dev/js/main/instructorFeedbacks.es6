@@ -262,3 +262,7 @@ $(document).ready(() => {
 
     readyFeedbackPage();
 });
+
+window.setIsSessionsAjaxSendingFalse = () => {
+    isSessionsAjaxSending = false;
+};

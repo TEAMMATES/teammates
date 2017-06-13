@@ -5,6 +5,7 @@ import { ParamsNames, StatusType } from '../common/const.es6';
 import { makeCsrfTokenParam } from '../common/crypto.es6';
 import { prepareDatepickers } from '../common/datepicker.es6';
 import { FeedbackPath } from '../common/feedbackPath.es6';
+import { isWithinView } from '../common/helper.es6';
 import { prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
 import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
         formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
@@ -1091,3 +1092,5 @@ window.highlightRubricRow = highlightRubricRow;
 window.addRubricCol = addRubricCol;
 window.removeRubricCol = removeRubricCol;
 window.highlightRubricCol = highlightRubricCol;
+
+window.isWithinView = isWithinView;
