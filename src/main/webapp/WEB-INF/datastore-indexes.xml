@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datastore-indexes autoGenerate="false">
+    <datastore-index kind="Instructor" ancestor="false" source="auto">
+        <property name="googleId" direction="asc"/>
+        <property name="isArchived" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="AdminEmail" ancestor="false" source="auto">
+        <property name="isInTrashBin" direction="asc"/>
+        <property name="sendDate" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="isClosingEmailEnabled" direction="asc"/>
+        <property name="sentClosedEmail" direction="asc"/>
+        <property name="endTime" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="isClosingEmailEnabled" direction="asc"/>
+        <property name="sentClosingEmail" direction="asc"/>
+        <property name="endTime" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="sentOpenEmail" direction="asc"/>
+        <property name="startTime" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
+        <property name="isPublishedEmailEnabled" direction="asc"/>
+        <property name="sentPublishedEmail" direction="asc"/>
+        <property name="feedbackSessionType" direction="asc"/>
+    </datastore-index>
+</datastore-indexes>
