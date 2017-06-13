@@ -380,7 +380,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewGiverPhotoOnTableCell(
                 0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by question for helper 1");
 
@@ -411,7 +411,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by giver > question > recipient");
 
@@ -425,7 +425,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink("1-2", "profile_picture_default.png");
+        resultsPage.clickViewPhotoLink("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
 
@@ -455,7 +455,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
     }
 
     private void testFilterAction() throws Exception {

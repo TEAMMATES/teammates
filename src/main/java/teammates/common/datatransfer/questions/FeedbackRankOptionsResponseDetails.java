@@ -62,7 +62,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
 
         SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
