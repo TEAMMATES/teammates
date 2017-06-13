@@ -265,45 +265,23 @@ function encodeHtmlString(stringToEncode) {
 }
 
 /**
- * The base comparator (ascending)
- *
- * @param x
- * @param y
- * @returns
+ * Binds a default image if the image is missing.
+ * @param element Image element.
  */
-function sortBase(x, y) {
-    // Text sorting
-    if (x < y) {
-        return -1;
-    }
-    return x > y ? 1 : 0;
+function bindDefaultImageIfMissing(element) {
+    $(element).on('error', function () {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '/images/profile_picture_default.png');
+        }
+    });
 }
 
 /**
- * Comparator for numbers (integer, double) (ascending)
- *
- * @param x
- * @param y
- * @returns
+ * Checks if the current device is touch based device
+ * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
-function sortNum(x, y) {
-    return x - y;
-}
-
-/**
- * Comparator for date. Allows for the same format as isDate()
- *
- * @param x
- * @param y
- * @returns 1 if Date x is after y, 0 if same and -1 if before
- */
-function sortDate(x, y) {
-    const x0 = Date.parse(x);
-    const y0 = Date.parse(y);
-    if (x0 > y0) {
-        return 1;
-    }
-    return x0 < y0 ? -1 : 0;
+function isTouchDevice() {
+    return 'ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch;
 }
 
 /**
@@ -313,31 +291,6 @@ function sortDate(x, y) {
 */
 function getDayMonthYearFormat() {
     return /^\s*(\d{2})[/\- ](\d{2})[/\- ](\d{4}|\d{2})\s*$/;
-}
-
-/**
- * Tests whether the passed object is an actual date
- * with an accepted format
- *
- * Allowed formats : http://dygraphs.com/date-formats.html
- *
- * TEAMMATES currently follows the RFC2822 / IETF date syntax
- * e.g. 02 Apr 2012, 23:59
- *
- * @param date
- * @returns boolean
- */
-function isDate(date) {
-    return !isNaN(Date.parse(date));
-}
-
-/**
-* Function to test if param is a numerical value
-* @param num
-* @returns boolean
-*/
-function isNumber(num) {
-    return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
 }
 
 /**
@@ -379,46 +332,223 @@ function getPointValue(s, ditchZero) {
     return baseValue + parseFloat(s0); // Other typical cases
 }
 
+/**
+ * Returns false if the parameter is either one of null or undefined.
+ * Returns true otherwise.
+ *
+ * @param varToCheck
+ */
+function isDefined(varToCheck) {
+    return varToCheck !== null && varToCheck !== undefined;
+}
+
+/**
+ * Tests whether the passed object is an actual date
+ * with an accepted format
+ *
+ * Allowed formats : http://dygraphs.com/date-formats.html
+ *
+ * TEAMMATES currently follows the RFC2822 / IETF date syntax
+ * e.g. 02 Apr 2012, 23:59
+ *
+ * @param date
+ * @returns boolean
+ */
+function isDate(date) {
+    return !isNaN(Date.parse(date));
+}
+
+/**
+* Function to test if param is a numerical value
+* @param num
+* @returns boolean
+*/
+function isNumber(num) {
+    return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
+}
+
+/** -----------------------Table Sort Helper Functions-----------------------* */
+
+/**
+ * Sorting comparison functions.
+ */
+class Comparators {
+    /*
+     * The base comparator (ascending)
+     */
+    static sortBase(x, y) {
+        // Text sorting
+        if (x < y) {
+            return -1;
+        }
+        return x > y ? 1 : 0;
+    }
+
+    /*
+     * Comparator for numbers (integer, double) (ascending)
+     */
+    static sortNum(x, y) {
+        return x - y;
+    }
+
+    /*
+     * Comparator for date. Allows for the same format as isDate()
+     * @returns 1 if Date x is after y, 0 if same and -1 if before
+     */
+    static sortDate(x, y) {
+        const x0 = Date.parse(x);
+        const y0 = Date.parse(y);
+        if (x0 > y0) {
+            return 1;
+        }
+        return x0 < y0 ? -1 : 0;
+    }
+
+    /*
+     * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
+     * possibly a tag that surrounds it.
+     */
+    static sortByPoints(a, b) {
+        const a0 = getPointValue(a, true);
+        const b0 = getPointValue(b, true);
+        if (isNumber(a0) && isNumber(b0)) {
+            return Comparators.sortNum(a0, b0);
+        }
+        return Comparators.sortBase(a0, b0);
+    }
+
+    /*
+     * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
+     * surrounds it.
+     */
+    static sortByDiff(a, b) {
+        const a0 = getPointValue(a, false);
+        const b0 = getPointValue(b, false);
+        if (isNumber(a0) && isNumber(b0)) {
+            return Comparators.sortNum(a0, b0);
+        }
+        return Comparators.sortBase(a0, b0);
+    }
+
+    static getDefaultComparator(columnType) {
+        let defaultComparator;
+
+        if (columnType === 1) {
+            defaultComparator = Comparators.sortNum;
+        } else if (columnType === 2) {
+            defaultComparator = Comparators.sortDate;
+        } else {
+            defaultComparator = Comparators.sortBase;
+        }
+
+        return defaultComparator;
+    }
+}
+
+/**
+ * Functions that pull data out of a table cell.
+ */
+class Extractors {
+    static textExtractor($tableCell) {
+        return $tableCell.text();
+    }
+
+    static tooltipExtractor($tableCell) {
+        return $tableCell.find('span').attr('data-original-title');
+    }
+
+    static getDefaultExtractor() {
+        return Extractors.textExtractor;
+    }
+}
+
+class TableButtonHelpers {
+    /*
+     * Given a button, get the innermost table enclosing it.
+     */
+    static getEnclosingTable($button) {
+        return $($button.parents('table')[0]);
+    }
+    /*
+     * Given a button and an index idx,
+     * find the button's column position in the table
+     * where the columns are treated as idx-indexed.
+     */
+    static getColumnPositionOfButton($button, idx) {
+        return $button.parent().children().index($button) + idx;
+    }
+    /*
+     * Given a table, clear all the sort states.
+     */
+    static clearAllSortStates($table) {
+        $table.find('.icon-sort').attr('class', 'icon-sort unsorted'); // clear the icons
+        $table.find('.button-sort-ascending')
+            .removeClass('button-sort-ascending')
+            .addClass('button-sort-none');
+        $table.find('.button-sort-descending')
+            .removeClass('button-sort-descending')
+            .addClass('button-sort-none');
+    }
+    /*
+    * Given a button in table, set its state to sorted ascending.
+    * Clear all other button states.
+    */
+    static setButtonToSortedAscending($button) {
+        this.clearAllSortStates(this.getEnclosingTable($button));
+        $button.addClass('button-sort-ascending');
+        $button.find('.icon-sort').attr('class', 'icon-sort sorted-ascending'); // set the icon to ascending
+    }
+    /*
+     * Given a button in table, set its state to sorted descending.
+     * Clear all other button states.
+     */
+    static setButtonToSortedDescending($button) {
+        this.clearAllSortStates(this.getEnclosingTable($button));
+        $button.addClass('button-sort-descending');
+        $button.find('.icon-sort').attr('class', 'icon-sort sorted-descending'); // set the icon to descending
+    }
+}
+
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
  *
- * @param oneOfTableCell
- *     One of the table cell
+ * @param $table
+ *     A jQuery object representing the table.
  * @param colIdx
  *     The column index (1-based) as key for the sort
- * @param ascending
- *     if this is true, it will be ascending order, else it will be descending order
+ * @param comparatorOrNull
+ *     Function to compare two elements.
+ *     May be null.
+ * @param extractorOrNull
+ *     Function to pull out data from a table cell for comparison.
+ *     May be null.
+ * @param shouldSortAscending
+ *     If this is true, sort in ascending order.
+ *     Otherwise, sort in descending order
+ * @param rowOffset
+ *     Ignore rows above this when sorting. Start sorting from this row.
+ *     The main use case for this is to ignore the first row, which usually contains the table headers.
+ *     In that case, set rowOffset to 1 (thus ignoring row 0).
  */
-function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
-    // Get the table
-    let $table = $(oneOfTableCell);
-
-    if (!$table.is('table')) {
-        $table = $table.parents('table');
-    }
-
+function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending, rowOffset) {
     let columnType = 0;
     let store = [];
     const $RowList = $('tr', $table);
-    // For date comparisons in instructor home page we should use
-    // the tool-tip value instead of display text since display text does not contain the year.
-    const shouldConsiderToolTipYear = comp && comp.toString().includes('instructorHomeDateComparator');
 
     // Iterate through column's contents to decide which comparator to use
-    let textToCompare;
-    for (let i = row; i < $RowList.length; i += 1) {
+    for (let i = rowOffset; i < $RowList.length; i += 1) {
         if ($RowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
 
+        const extractor = isDefined(extractorOrNull) ? extractorOrNull :
+                Extractors.getDefaultExtractor();
+
         // $.trim trims leading/trailing whitespaces
         // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
         // $RowList[i].cells[colIdx - 1] is where we get the table cell from
-        // If shouldConsiderToolTipYear is true, we consider the tooltip value instead of innerText
-        textToCompare = shouldConsiderToolTipYear
-                ? $.trim($($RowList[i].cells[colIdx - 1]).find('span').attr('data-original-title'))
-                : $.trim($($RowList[i].cells[colIdx - 1]).text());
+        const textToCompare = $.trim(extractor($($RowList[i].cells[colIdx - 1])));
 
         // Store rows together with the innerText to compare
         store.push([textToCompare, $RowList[i], i]);
@@ -432,19 +562,11 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
         }
     }
 
-    let comparator = comp;
-    if (comparator === null || comparator === undefined) {
-        if (columnType === 1) {
-            comparator = sortNum;
-        } else if (columnType === 2) {
-            comparator = sortDate;
-        } else {
-            comparator = sortBase;
-        }
-    }
+    const comparator = isDefined(comparatorOrNull) ? comparatorOrNull :
+        Comparators.getDefaultComparator(columnType);
 
     store.sort((x, y) => {
-        const compareResult = ascending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
+        const compareResult = shouldSortAscending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
                                       : comparator(y[0].toUpperCase(), x[0].toUpperCase());
         if (compareResult === 0) {
             return x[2] - y[2];
@@ -469,96 +591,45 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
 }
 
 /**
- * Checks if the current device is touch based device
- * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
- */
-function isTouchDevice() {
-    return 'ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch;
-}
-
-/**
  * Sorts a table
- * @param divElement
- *     The sort button
- * @param comparator
- *     The function to compare 2 elements
+ * @param sortButtonClicked
+ *     The jQuery object representing the sort button that was clicked.
+ * @param comparatorStringOrNull
+ *     String representing the function to compare 2 elements.
+ *     May be null.
+ * @param extractorStringOrNull
+ *     String representing the function to pull out data from a table cell for comparison.
+ *     May be null.
  */
-function toggleSort(divElement, comparator) {
-    // The column index (1-based) as key for the sort
-    const colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+function toggleSort($button, comparatorStringOrNull, extractorStringOrNull) {
+    const isSortedAscending = $button.hasClass('button-sort-ascending');
 
-    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
-    const row = 1;
+    const $table = TableButtonHelpers.getEnclosingTable($button);
+    const colIdx = TableButtonHelpers.getColumnPositionOfButton($button, 1);
+    const comparatorOrNull = !isDefined(comparatorStringOrNull) ? null :
+            Comparators[comparatorStringOrNull];
+    const extractorOrNull = !isDefined(extractorStringOrNull) ? null :
+            Extractors[extractorStringOrNull];
+    const shouldSortAscending = !isSortedAscending;
+    const rowToStartSortingFrom = 1; // <th> occupies row 0
 
-    const $selectedDivElement = $(divElement);
+    sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending, rowToStartSortingFrom);
 
-    if ($selectedDivElement.hasClass('button-sort-none')) {
-        sortTable(divElement, colIdx, comparator, true, row);
-        $selectedDivElement.parent().find('.button-sort-ascending')
-            .removeClass('button-sort-ascending').addClass('button-sort-none');
-        $selectedDivElement.parent().find('.button-sort-descending')
-            .removeClass('button-sort-descending').addClass('button-sort-none');
-        $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
-        $selectedDivElement.removeClass('button-sort-none').addClass('button-sort-ascending');
-        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
-    } else if ($selectedDivElement.hasClass('button-sort-ascending')) {
-        sortTable(divElement, colIdx, comparator, false, row);
-        $selectedDivElement.removeClass('button-sort-ascending').addClass('button-sort-descending');
-        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
+    // update the button and icon states
+    if (shouldSortAscending) {
+        TableButtonHelpers.setButtonToSortedAscending($button);
     } else {
-        sortTable(divElement, colIdx, comparator, true, row);
-        $selectedDivElement.removeClass('button-sort-descending').addClass('button-sort-ascending');
-        $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
+        TableButtonHelpers.setButtonToSortedDescending($button);
     }
 }
-
-const comparators = {
-    /*
-     * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
-     * possibly a tag that surrounds it.
-     */
-    sortByPoints(a, b) {
-        const a0 = getPointValue(a, true);
-        const b0 = getPointValue(b, true);
-        if (isNumber(a0) && isNumber(b0)) {
-            return sortNum(a0, b0);
-        }
-        return sortBase(a0, b0);
-    },
-    /*
-     * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
-     * surrounds it.
-     */
-    sortByDiff(a, b) {
-        const a0 = getPointValue(a, false);
-        const b0 = getPointValue(b, false);
-        if (isNumber(a0) && isNumber(b0)) {
-            return sortNum(a0, b0);
-        }
-        return sortBase(a0, b0);
-    },
-    /*
-     * Comparator for date. Allows for the same format as isDate()
-     * @returns 1 if Date x is after y, 0 if same and -1 if before
-     */
-    sortDate(x, y) {
-        const x0 = Date.parse(x);
-        const y0 = Date.parse(y);
-        if (x0 > y0) {
-            return 1;
-        }
-        return x0 < y0 ? -1 : 0;
-    },
-};
 
 $(document).on('click', '.toggle-sort', (e) => {
-    const comparatorString = $(e.currentTarget).data('toggle-sort-comparator');
-    if (comparatorString !== undefined) {
-        const comparator = comparators[comparatorString];
-        toggleSort(e.currentTarget, comparator);
-    } else {
-        toggleSort(e.currentTarget);
-    }
+    const $button = $(e.currentTarget); // the button clicked on
+
+    const comparatorStringOrNull = $button.data('toggle-sort-comparator');
+    const extractorStringOrNull = $button.data('toggle-sort-extractor');
+
+    toggleSort($button, comparatorStringOrNull, extractorStringOrNull);
 });
 
 /** -----------------------UI Related Helper Functions-----------------------* */
