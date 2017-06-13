@@ -4,8 +4,7 @@
 <%@ attribute name="actions" type="teammates.ui.template.StudentFeedbackSessionActions" required="true" %>
 <%@ attribute name="index" required="true" %>
 <a class="btn btn-default btn-xs btn-tm-actions"
-   <c:if test="${not actions.sessionPublished}">onclick="return false"</c:if>
-   href="${actions.studentFeedbackResultsLink}"
+   href="${actions.sessionPublished ? actions.studentFeedbackResultsLink : 'javascript:;'}"
    name="viewFeedbackResults${index}"
    id="viewFeedbackResults${index}"
    data-toggle="tooltip"
@@ -30,8 +29,7 @@
     </c:when>
     <c:otherwise>
         <a class="btn btn-default btn-xs btn-tm-actions"
-           <c:if test="${not actions.sessionVisible}">onclick="return false"</c:if>
-           href="${actions.studentFeedbackResponseEditLink}"
+           href="${actions.sessionVisible ? actions.studentFeedbackResponseEditLink : 'javascript:;'}"
            id="submitFeedback${index}"
            data-toggle="tooltip"
            data-placement="top"

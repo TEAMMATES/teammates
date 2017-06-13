@@ -43,17 +43,18 @@ function highlightKeywordsInEmailLogMessages() {
 
 $(document).ready(() => {
     bindClickAction();
-    enableOnclicks();
     highlightKeywordsInEmailLogMessages();
     $('#filterReference').toggle();
-});
 
-function enableOnclicks() {
     $(document).on('click', '#button_older', () => {
         const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
         submitFormAjax(nextEndTimeToSearch);
     });
-}
+
+    $('#btn-toggle-reference').on('click', () => {
+        toggleReference();
+    });
+});
 
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
@@ -81,11 +82,3 @@ function submitFormAjax(offset) {
         },
     });
 }
-
-/*
-export default {
-    toggleReference,
-    submitFormAjax,
-};
-*/
-/* exported toggleReference, submitFormAjax */
