@@ -511,7 +511,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
                        + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
         }
+
         //TODO: check that msq options do not repeat. needed?
+
+        if (maxSelectableChoices != Integer.MIN_VALUE
+                && msqChoices.size() > maxSelectableChoices) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_EXCEEDED_MAX_SELECTABLE_CHOICES
+                       + maxSelectableChoices);
+        }
 
         return errors;
     }
@@ -529,6 +536,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 if (!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE) {
                     errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
                 }
+            }
+
+            if (maxSelectableChoices != Integer.MIN_VALUE && frd.answers.size() > maxSelectableChoices) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_EXCEEDED_MAX_SELECTABLE_CHOICES
+                        + maxSelectableChoices);
             }
         }
         return errors;
