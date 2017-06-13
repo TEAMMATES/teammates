@@ -4,7 +4,73 @@
 /* global showSingleCollapse:false hideSingleCollapse:false */
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
-const CURRENT_YEAR = (new Date()).getFullYear();
+
+/**
+ * This is the comparator that is used for sorting start and end times on the InstructorHome page
+ * @param x
+ * @param y
+ * @returns 1 if Date x is after y, 0 if same and -1 if before
+ */
+function instructorHomeDateComparator(x, y) {
+    const x0 = Date.parse(x);
+    const y0 = Date.parse(y);
+    if (x0 > y0) {
+        return 1;
+    }
+    return x0 < y0 ? -1 : 0;
+}
+
+function bindCoursePanels() {
+    const $panels = $('div.panel');
+    let numPanels = 0;
+    for (let i = 0; i < $panels.length; i += 1) {
+        const $heading = $($panels[i]).children('.panel-heading');
+        const $bodyCollapse = $($panels[i]).children('.panel-collapse');
+        if ($heading.length !== 0 && $bodyCollapse.length !== 0) {
+            $heading.data('target', `#panelBodyCollapse-${numPanels}`);
+            $heading.attr('id', `panelHeading-${numPanels}`);
+            $heading.css('cursor', 'pointer');
+            $heading.data('state', 'up');
+            $bodyCollapse.attr('id', `panelBodyCollapse-${numPanels}`);
+        }
+        numPanels += 1;
+    }
+}
+
+/**
+ * Changes the state of the course panel (collapsed/expanded).
+ */
+function toggleCourseVisibility(e) {
+    const $targetElement = $(e.target);
+    if ($targetElement.is('a') || $targetElement.is('input') || $targetElement.hasClass('dropdown-toggle')) {
+        return;
+    }
+    const $panel = $(this);
+    const $dropdowns = $panel.find('.dropdown');
+    if ($panel.data('state') === 'up') {
+        $dropdowns.show();
+        showSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'down');
+    } else {
+        $dropdowns.hide();
+        hideSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'up');
+    }
+}
+
+/**
+ * Updates the contents of course panel (collapse data, chevron icon)
+ */
+function updateCoursePanel(data, $panel, $panelCollapse) {
+    const panelHeading = $(data).find('.panel-heading').html();
+    $panel.find('.row').replaceWith(panelHeading);
+    const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
+    const $updatedContent = $panel.find('.pull-right');
+    $updatedContent.append(chevronUp);
+    const $collapseData = $(data).find('.panel-body');
+    $panelCollapse.html($collapseData[0]);
+    $panel.removeClass('ajax_auto');
+}
 
 $(document).ready(() => {
     prepareInstructorPages();
@@ -99,70 +165,3 @@ $(document).ready(() => {
 
     prepareRemindModal();
 });
-
-/**
- * This is the comparator that is used for sorting start and end times on the InstructorHome page
- * @param x
- * @param y
- * @returns 1 if Date x is after y, 0 if same and -1 if before
- */
-function instructorHomeDateComparator(x, y) {
-    const x0 = Date.parse(x);
-    const y0 = Date.parse(y);
-    if (x0 > y0) {
-        return 1;
-    }
-    return x0 < y0 ? -1 : 0;
-}
-
-function bindCoursePanels() {
-    const $panels = $('div.panel');
-    let numPanels = 0;
-    for (let i = 0; i < $panels.length; i += 1) {
-        const $heading = $($panels[i]).children('.panel-heading');
-        const $bodyCollapse = $($panels[i]).children('.panel-collapse');
-        if ($heading.length !== 0 && $bodyCollapse.length !== 0) {
-            $heading.data('target', `#panelBodyCollapse-${numPanels}`);
-            $heading.attr('id', `panelHeading-${numPanels}`);
-            $heading.css('cursor', 'pointer');
-            $heading.data('state', 'up');
-            $bodyCollapse.attr('id', `panelBodyCollapse-${numPanels}`);
-        }
-        numPanels += 1;
-    }
-}
-
-/**
- * Changes the state of the course panel (collapsed/expanded).
- */
-function toggleCourseVisibility(e) {
-    const $targetElement = $(e.target);
-    if ($targetElement.is('a') || $targetElement.is('input') || $targetElement.hasClass('dropdown-toggle')) {
-        return;
-    }
-    const $panel = $(this);
-    const $dropdowns = $panel.find('.dropdown');
-    if ($panel.data('state') === 'up') {
-        $dropdowns.show();
-        showSingleCollapse($(e.currentTarget).data('target'));
-        $panel.data('state', 'down');
-    } else {
-        $dropdowns.hide();
-        hideSingleCollapse($(e.currentTarget).data('target'));
-        $panel.data('state', 'up');
-    }
-}
-
-/**
- * Updates the contents of course panel (collapse data, chevron icon)
- */
-function updateCoursePanel(data, $panel, $panelCollapse) {
-    const panelHeading = $(data).find('.panel-heading').html();
-    $panel.find('.row').replaceWith(panelHeading);
-    const chevronUp = '<span class="glyphicon glyphicon-chevron-down"></span>';
-    const $updatedContent = $panel.find('.pull-right');
-    $updatedContent.append(chevronUp);
-    const $collapseData = $(data).find('.panel-body');
-    $panelCollapse.html($collapseData[0]);
-    $panel.removeClass('ajax_auto');
-}
