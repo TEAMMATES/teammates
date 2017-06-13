@@ -70,6 +70,14 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
     }
 }
 
+function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
+    const questionId = `#form_editquestion-${questionNum}`;
+
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
+    }
+}
+
 function changeMsqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
