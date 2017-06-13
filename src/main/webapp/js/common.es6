@@ -265,18 +265,6 @@ function encodeHtmlString(stringToEncode) {
 }
 
 /**
- * Binds a default image if the image is missing.
- * @param element Image element.
- */
-function bindDefaultImageIfMissing(element) {
-    $(element).on('error', function () {
-        if ($(this).attr('src') !== '') {
-            $(this).attr('src', '/images/profile_picture_default.png');
-        }
-    });
-}
-
-/**
  * Checks if the current device is touch based device
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
@@ -373,8 +361,9 @@ function isNumber(num) {
  * Sorting comparison functions.
  */
 class Comparators {
-    /*
+    /**
      * The base comparator (ascending)
+     * @returns 1 if x comes after y, -1 if x comes before y, 0 if they are the same
      */
     static sortBase(x, y) {
         // Text sorting
@@ -384,14 +373,15 @@ class Comparators {
         return x > y ? 1 : 0;
     }
 
-    /*
+    /**
      * Comparator for numbers (integer, double) (ascending)
+     * @returns +ve if x > y, -ve if x < y and 0 otherwise
      */
     static sortNum(x, y) {
         return x - y;
     }
 
-    /*
+    /**
      * Comparator for date. Allows for the same format as isDate()
      * @returns 1 if Date x is after y, 0 if same and -1 if before
      */
@@ -404,7 +394,7 @@ class Comparators {
         return x0 < y0 ? -1 : 0;
     }
 
-    /*
+    /**
      * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
      * possibly a tag that surrounds it.
      */
@@ -417,7 +407,7 @@ class Comparators {
         return Comparators.sortBase(a0, b0);
     }
 
-    /*
+    /**
      * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
      * surrounds it.
      */
@@ -463,13 +453,13 @@ class Extractors {
 }
 
 class TableButtonHelpers {
-    /*
+    /**
      * Given a button, get the innermost table enclosing it.
      */
     static getEnclosingTable($button) {
         return $($button.parents('table')[0]);
     }
-    /*
+    /**
      * Given a button and an index idx,
      * find the button's column position in the table
      * where the columns are treated as idx-indexed.
@@ -477,7 +467,7 @@ class TableButtonHelpers {
     static getColumnPositionOfButton($button, idx) {
         return $button.parent().children().index($button) + idx;
     }
-    /*
+    /**
      * Given a table, clear all the sort states.
      */
     static clearAllSortStates($table) {
@@ -489,16 +479,16 @@ class TableButtonHelpers {
             .removeClass('button-sort-descending')
             .addClass('button-sort-none');
     }
-    /*
-    * Given a button in table, set its state to sorted ascending.
-    * Clear all other button states.
-    */
+    /**
+     * Given a button in table, set its state to sorted ascending.
+     * Clear all other button states.
+     */
     static setButtonToSortedAscending($button) {
         this.clearAllSortStates(this.getEnclosingTable($button));
         $button.addClass('button-sort-ascending');
         $button.find('.icon-sort').attr('class', 'icon-sort sorted-ascending'); // set the icon to ascending
     }
-    /*
+    /**
      * Given a button in table, set its state to sorted descending.
      * Clear all other button states.
      */
