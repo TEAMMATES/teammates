@@ -1,6 +1,6 @@
 /* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
 /* global toggleSort:false match:false prepareInstructorPages:false */
-/* global bindDefaultImageIfMissing:false bindStudentPhotoLink:false setStatusMessage:false */
+/* global bindStudentPhotoLink:false setStatusMessage:false */
 /* global StatusType:false clearStatusMessages:false checkCourseBinding:false */
 
 // Trigger ajax request for a course through clicking the heading
@@ -209,9 +209,6 @@ function transportEmailChoices() {
 
 function bindPhotos(courseIdx) {
     $(`td[id^="studentphoto-c${courseIdx}"]`).each(function () {
-        $(this).children('.profile-pic-icon-click > img').each(function () {
-            bindDefaultImageIfMissing(this);
-        });
         bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }
