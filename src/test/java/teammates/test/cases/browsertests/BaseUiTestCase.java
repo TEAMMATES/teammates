@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
@@ -28,19 +29,17 @@ import teammates.test.pageobjects.LoginPage;
  */
 public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
-    /** Indicates if the test-run is to use GodMode. */
-    private static boolean isGodModeEnabled;
-
     protected Browser browser;
     protected DataBundle testData;
 
     /**
-     * Checks if the current test-run should use godmode, if yes, enables GodMode.
+     * Ensure that GodMode is not enabled in CI.
      */
     @BeforeSuite
-    public static void checkAndEnableGodMode() {
-        if (isGodModeEnabled) {
-            System.setProperty("godmode", "true");
+    public void checkIfGodModeEnabledInCi() {
+        if (TestProperties.IS_GODMODE_ENABLED && TestProperties.isCiEnvironment()) {
+            fail("GodMode should only be run locally, not in a CI environment. Please revert the change "
+                    + "to the test properties template file that enabled GodMode in CI.");
         }
     }
 
@@ -59,6 +58,18 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
     protected void releaseBrowser() {
         BrowserPool.release(browser);
+    }
+
+    /**
+     * Reminder to disable GodMode and re-run the test(s).
+     */
+    @AfterSuite
+    public static void remindUserToDisableGodModeIfRequired() {
+        if (TestProperties.IS_GODMODE_ENABLED) {
+            print("=============================================================");
+            print("IMPORTANT: Remember to disable GodMode and rerun the test(s)!");
+            print("=============================================================");
+        }
     }
 
     /**

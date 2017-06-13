@@ -503,18 +503,6 @@ function sortTable(oneOfTableCell, colIdx, comp, ascending, row) {
 }
 
 /**
- * Binds a default image if the image is missing.
- * @param element Image element.
- */
-function bindDefaultImageIfMissing(element) {
-    $(element).on('error', function () {
-        if ($(this).attr('src') !== '') {
-            $(this).attr('src', '/images/profile_picture_default.png');
-        }
-    });
-}
-
-/**
  * Checks if the current device is touch based device
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
@@ -988,7 +976,7 @@ function setChevronToDown(chevronContainer) {
 function toggleChevron(clickedElement) {
     const $clickedElement = $(clickedElement);
     const isChevronDown = $clickedElement.find('.glyphicon-chevron-down').length > 0;
-    const $chevronContainer = $clickedElement.find('.glyphicon');
+    const $chevronContainer = $clickedElement.find('.glyphicon-chevron-up, .glyphicon-chevron-down');
 
     // clearQueue to clear the animation queue to prevent animation build up
     $chevronContainer.clearQueue();
@@ -1038,7 +1026,6 @@ function toggleSingleCollapse(e) {
     }
 }
 
-
 // Toggle the visibility of additional question information for the specified question.
 function toggleAdditionalQuestionInfo(identifier) {
     const $questionButton = $(`#questionAdditionalInfoButton-${identifier}`);
@@ -1053,10 +1040,6 @@ function toggleAdditionalQuestionInfo(identifier) {
 }
 
 $(document).on('ajaxComplete ready', () => {
-    $('.profile-pic-icon-hover, .profile-pic-icon-click, .teamMembersPhotoCell').children('img').each(function () {
-        bindDefaultImageIfMissing(this);
-    });
-
     /**
      * Initializing then disabling is better than simply
      * not initializing for mobile due to some tooltips-specific

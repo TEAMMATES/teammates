@@ -3,8 +3,6 @@
  * Contains functions to be used to display email logs in `/adminEmailLog`
  */
 
-const numOfEntriesPerPage = 50;
-
 function toggleReference() {
     $('#filterReference').toggle('slow');
 
@@ -41,20 +39,6 @@ function highlightKeywordsInEmailLogMessages() {
     $('.email-content').highlight($('#query-keywords-for-content').val().split(','));
 }
 
-$(document).ready(() => {
-    bindClickAction();
-    enableOnclicks();
-    highlightKeywordsInEmailLogMessages();
-    $('#filterReference').toggle();
-});
-
-function enableOnclicks() {
-    $(document).on('click', '#button_older', () => {
-        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
-        submitFormAjax(nextEndTimeToSearch);
-    });
-}
-
 function submitFormAjax(offset) {
     $('input[name=offset]').val(offset);
     const formObject = $('#ajaxLoaderDataForm');
@@ -82,10 +66,17 @@ function submitFormAjax(offset) {
     });
 }
 
-/*
-export default {
-    toggleReference,
-    submitFormAjax,
-};
-*/
-/* exported toggleReference, submitFormAjax */
+$(document).ready(() => {
+    bindClickAction();
+    highlightKeywordsInEmailLogMessages();
+    $('#filterReference').toggle();
+
+    $(document).on('click', '#button_older', () => {
+        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+        submitFormAjax(nextEndTimeToSearch);
+    });
+
+    $('#btn-toggle-reference').on('click', () => {
+        toggleReference();
+    });
+});

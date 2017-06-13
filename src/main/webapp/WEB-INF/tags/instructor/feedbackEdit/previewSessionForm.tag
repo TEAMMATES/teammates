@@ -5,7 +5,6 @@
 
 <%@ attribute name="previewForm" type="teammates.ui.template.FeedbackSessionPreviewForm" required="true"%>
 
-
 <div class="well well-plain inputTable" id="questionPreviewTable">
     <div class="row">
         <form class="form-horizontal">
@@ -16,7 +15,7 @@
         <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT %>">
             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT %>"
                 name="form_previewasstudent" class="form_preview" target="_blank">
-                
+
                 <div class="col-sm-6">
                     <select class="form-control margin-bottom-7px" name="<%= Const.ParamsNames.PREVIEWAS %>">
                         <c:forEach items="${previewForm.studentToPreviewAsOptions}" var="option">

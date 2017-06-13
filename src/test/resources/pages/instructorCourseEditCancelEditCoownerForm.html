@@ -47,7 +47,7 @@
             <span>
               Co-owner
             </span>
-            <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+            <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                View Details
             </a>
           </p>
@@ -64,25 +64,25 @@
         <div class="col-sm-9">
           <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Co-owner">
            Co-owner: Can do everything 
-          <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+          <a class="view-role-details" data-role="Co-owner" href="javascript:;">
             View Details
           </a>
           <br>
           <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Manager">
            Manager: Can do everything except for deleting the course 
-          <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
+          <a class="view-role-details" data-role="Manager" href="javascript:;">
             View Details
           </a>
           <br>
           <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Observer">
            Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
-          <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
+          <a class="view-role-details" data-role="Observer" href="javascript:;">
             View Details
           </a>
           <br>
           <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Tutor">
            Tutor: Can view student details, give/view comments, submit/view responses for sessions 
-          <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
+          <a class="view-role-details" data-role="Tutor" href="javascript:;">
             View Details
           </a>
           <br>
@@ -165,7 +165,7 @@
                       </div>
                     </div>
                     <div class="col-sm-1">
-                      <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(7, 0)">
+                      <a class="pull-right hide-tune-section-permissions" data-instructorindex="7" data-panelindex="0" href="javascript:;">
                         <span class="glyphicon glyphicon-trash">
                         </span>
                       </a>
@@ -203,7 +203,7 @@
                     <br>
                     <br>
                   </div>
-                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor7" onclick="showTuneSessionnPermissionsDiv(7, 0)">
+                  <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="7" data-panelindex="0" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor7">
                     Give different permissions for sessions in this section
                   </a>
                   <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv0ForInstructor7" style="display: none;">
@@ -274,7 +274,7 @@
                       </div>
                     </div>
                     <div class="col-sm-1">
-                      <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(7, 1)">
+                      <a class="pull-right hide-tune-section-permissions" data-instructorindex="7" data-panelindex="1" href="javascript:;">
                         <span class="glyphicon glyphicon-trash">
                         </span>
                       </a>
@@ -312,7 +312,7 @@
                     <br>
                     <br>
                   </div>
-                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor7" onclick="showTuneSessionnPermissionsDiv(7, 1)">
+                  <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="7" data-panelindex="1" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor7">
                     Give different permissions for sessions in this section
                   </a>
                   <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv1ForInstructor7" style="display: none;">
@@ -383,7 +383,7 @@
                       </div>
                     </div>
                     <div class="col-sm-1">
-                      <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(7, 2)">
+                      <a class="pull-right hide-tune-section-permissions" data-instructorindex="7" data-panelindex="2" href="javascript:;">
                         <span class="glyphicon glyphicon-trash">
                         </span>
                       </a>
@@ -421,7 +421,7 @@
                     <br>
                     <br>
                   </div>
-                  <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor7" onclick="showTuneSessionnPermissionsDiv(7, 2)">
+                  <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="7" data-panelindex="2" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor7">
                     Give different permissions for sessions in this section
                   </a>
                   <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv2ForInstructor7" style="display: none;">
@@ -464,7 +464,7 @@
                 </div>
               </div>
             </div>
-            <a class="small" href="javascript:;" id="addSectionLevelForInstructor7" onclick="showTuneSectionPermissionsDiv(7, 0)" style="display: inline;">
+            <a class="small show-tune-section-permissions" data-instructorindex="7" data-panelindex="0" href="javascript:;" id="addSectionLevelForInstructor7" style="display: inline;">
               Give different permissions for a specific section
             </a>
           </div>

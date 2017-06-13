@@ -573,14 +573,13 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-5 col-md-3">
-                                    <button onclick="return false" class="btn btn-primary">Create Feedback Session</button>
+                                    <button class="btn btn-primary">Create Feedback Session</button>
                                 </div>
                             </div>
                         </form>
                         <br>
                         <br>
                     </div>
-
 
                 </div>
 
@@ -605,7 +604,6 @@
                     <br>
                     <br> At the bottom of the page, you can add questions to the session:
                 </p>
-
 
             </div>
 
@@ -754,7 +752,7 @@
                                         </select> &nbsp; Essay question
                                     </span>
                                     <span class="pull-right">
-                                        <a onclick="return false" class="btn btn-primary btn-xs">Save Changes
+                                        <a class="btn btn-primary btn-xs">Save Changes
                                         </a>
                                         <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                     </span>
@@ -843,7 +841,7 @@
                                             Who will give the feedback:
                                         </label>
                                         <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this)">
+                                            <select class="form-control participantSelect" id="givertype-1" name="givertype">
                                                 <option value="SELF">
                                                 Feedback session creator (i.e., me)
                                                 </option>
@@ -864,7 +862,7 @@
                                             Who the feedback is about:
                                         </label>
                                         <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessageIfPreviewIsActive(this);">
+                                            <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype">
                                                 <option value="SELF">
                                                 Giver (Self feedback)
                                                 </option>
@@ -1043,7 +1041,7 @@
                             </div>
                             <div>
                                 <span class="pull-right">
-                                    <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
+                                    <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
                                 </span>
                             </div>
                         </div>
@@ -1126,7 +1124,6 @@
             <br>
             <br>
 
-
             <div class="bs-example">
                 <form class="form-horizontal form_question" role="form">
                     <div class="panel panel-primary questionTable" id="questionTable1">
@@ -1156,7 +1153,7 @@
                                     </span>
                                     <span class="pull-right">
                                         <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="Edit this question" style="display: none;">Edit</a>
-                                        <a class="btn btn-primary btn-xs" style="" onclick="return false" id="questionsavechangestext-1">Save Changes</a>
+                                        <a class="btn btn-primary btn-xs" style="" id="questionsavechangestext-1">Save Changes</a>
                                         <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                     </span>
                                 </div>
@@ -1321,7 +1318,7 @@
                                             Who will give the feedback:
                                         </label>
                                         <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                            <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                 <option value="SELF">
                                                 Feedback session creator (i.e., me)
@@ -1347,7 +1344,7 @@
                                             Who the feedback is about:
                                         </label>
                                         <div class="col-sm-8 col-lg-7">
-                                            <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                            <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                 <option value="SELF">
                                                 Giver (Self feedback)
@@ -1537,7 +1534,7 @@
                             </div>
                             <div>
                                 <span class="pull-right">
-                                    <input id="button_question_submit-1" type="submit" onclick="return false;" class="btn btn-primary" value="save changes" tabindex="0" style="">
+                                    <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="save changes" tabindex="0" style="">
                                 </span>
                             </div>
                         </div>
@@ -1660,21 +1657,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
-                                <div class="form-group">
-                                    <label for="viewSelect" class="col-sm-2 control-label">
-                                        Filter:
-                                    </label>
-                                    <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <input type="text" id="results-search-box" class="form-control" placeholder="Type question info to filter results">
-                                            <a class="input-group-addon btn btn-default">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-sm-2 pull-right">
                                 <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
                                     <div class="margin-0 checkbox padding-top-0 min-height-0">
@@ -1772,7 +1754,6 @@
                                                 </button>
                                             </div>
 
-
                                         </div>
                                     </div>
 
@@ -1796,7 +1777,6 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -1822,7 +1802,6 @@
                                                 </button>
                                             </div>
 
-
                                         </div>
                                     </div>
 
@@ -1831,7 +1810,6 @@
 
                         </div>
                     </div>
-
 
                     <div class="panel panel-primary" id="benny">
                         <div class="panel-heading">
@@ -1858,7 +1836,6 @@
                                                 </button>
                                             </div>
 
-
                                         </div>
                                     </div>
 
@@ -1881,7 +1858,6 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -1916,7 +1892,6 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-
 
                                         </div>
                                     </div>
@@ -1957,7 +1932,6 @@
             <br>
             <br>
             <br>
-
 
             <div class="bs-example">
 
@@ -2046,8 +2020,6 @@
                                         <td class="multiline">No</td>
                                     </tr>
 
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -2070,8 +2042,6 @@
                                         <td class="multiline">No</td>
                                     </tr>
 
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -2093,15 +2063,12 @@
                                         <td class="multiline">Yes</td>
                                     </tr>
 
-
-
                                 </tbody>
                             </table>
                         </div>
 
                     </div>
                 </div>
-
 
             </div>
             <br>
@@ -2181,9 +2148,9 @@
                                                 &nbsp; Essay question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" onclick="enableEdit(1,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-1">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -2289,7 +2256,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -2315,7 +2282,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -2494,7 +2461,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -2539,9 +2506,9 @@
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-7" data-toggle="tooltip" data-placement="top" onclick="enableEdit(7,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-7" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-7">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(7)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -2562,7 +2529,7 @@
                                                             </span>
                                                             <input class="form-control" type="text" disabled="" name="mcqOption-0" id="mcqOption-0-7" value="Yes">
                                                             <span class="input-group-btn">
-                                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,7)" style="display: none;" tabindex="-1" disabled="">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" style="display: none;" tabindex="-1" disabled="">
                                                                     <span class="glyphicon glyphicon-remove">
                                                                     </span>
                                                                 </button>
@@ -2576,7 +2543,7 @@
                                                             </span>
                                                             <input class="form-control" type="text" disabled="" name="mcqOption-1" id="mcqOption-1-7" value="No">
                                                             <span class="input-group-btn">
-                                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,7)" style="display: none;" tabindex="-1" disabled="">
+                                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" style="display: none;" tabindex="-1" disabled="">
                                                                     <span class="glyphicon glyphicon-remove">
                                                                     </span>
                                                                 </button>
@@ -2586,7 +2553,7 @@
 
                                                     <div id="mcqAddOptionRow-7">
                                                         <div colspan="2">
-                                                            <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(7)" style="display: none;">
+                                                            <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" style="display: none;">
                                                                 <span class="glyphicon glyphicon-plus">
                                                                 </span> add more options
                                                             </a>
@@ -2598,9 +2565,9 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="control-label col-sm-8">
-                                                    <input type="checkbox" disabled="" id="generateOptionsCheckbox-7" onchange="toggleMcqGeneratedOptions(this,7)">Or, generate options from the list of all </label>
+                                                    <input type="checkbox" disabled="" id="generateOptionsCheckbox-7">Or, generate options from the list of all </label>
                                                 <div class="col-sm-4">
-                                                    <select class="form-control" id="mcqGenerateForSelect-7" onchange="changeMcqGenerateFor(7)" disabled="">
+                                                    <select class="form-control" id="mcqGenerateForSelect-7" disabled="">
                                                         <option value="STUDENTS">students</option>
                                                         <option value="TEAMS">teams</option>
                                                         <option value="INSTRUCTORS">instructors</option>
@@ -2705,7 +2672,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -2731,7 +2698,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -2910,7 +2877,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-7" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-7" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -2945,9 +2912,9 @@
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" onclick="enableEdit(4,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-4">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(4)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -2964,7 +2931,7 @@
 
                                                     <div id="mcqAddOptionRow-4">
                                                         <div colspan="2">
-                                                            <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" onclick="addMcqOption(4)" style="display: none;">
+                                                            <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" style="display: none;">
                                                                 <span class="glyphicon glyphicon-plus">
                                                                 </span> add more options
                                                             </a>
@@ -2976,9 +2943,9 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="control-label col-sm-8">
-                                                    <input type="checkbox" disabled="" id="generateOptionsCheckbox-4" checked="" onchange="toggleMcqGeneratedOptions(this,4)">Or, generate options from the list of all </label>
+                                                    <input type="checkbox" disabled="" id="generateOptionsCheckbox-4" checked="">Or, generate options from the list of all </label>
                                                 <div class="col-sm-4">
-                                                    <select class="form-control" id="mcqGenerateForSelect-4" onchange="changeMcqGenerateFor(4)" disabled="">
+                                                    <select class="form-control" id="mcqGenerateForSelect-4" disabled="">
                                                         <option value="STUDENTS">students</option>
                                                         <option selected="" value="TEAMS">teams</option>
                                                         <option value="INSTRUCTORS">instructors</option>
@@ -3083,7 +3050,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -3109,7 +3076,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -3288,7 +3255,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-4" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -3307,7 +3274,7 @@
                                 </div>
                                 <strong>Question 4: </strong>
                                 <span >Which team do you think has the best feature?&nbsp;
-                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
+                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-4-" style="display:none;">Multiple-choice (single answer) question options:
                                             <br>The options for this question is automatically generated from the list of all teams in this course.</span>
@@ -3375,23 +3342,23 @@
                                         <table class="table table-striped table-bordered dataTable margin-0">
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
-                                                    <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                    <th id="button_sortFromName" class="button-sort-none" style="width: 15%;">
                                                         Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                    <th id="button_sortFromTeam" class="button-sort-none" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                    <th id="button_sortToName" class="button-sort-none" style="width: 15%;">
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                    <th id="button_sortToTeam" class="button-sort-ascending" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -3479,9 +3446,9 @@
                                                 &nbsp; Numerical-scale question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" onclick="enableEdit(3,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-3">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -3497,13 +3464,13 @@
                                                 <div>
                                                     <div class="row">
                                                         <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Minimum acceptable response value">Minimum value:
-                                                            <input disabled="" type="number" class="minScaleBox" id="minScaleBox-3" name="numscalemin" value="1" onchange="updateNumScalePossibleValues(3)">
+                                                            <input disabled="" type="number" class="minScaleBox" id="minScaleBox-3" name="numscalemin" value="1">
                                                         </div>
                                                         <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Value to be increased/decreased each step">Increment:
-                                                            <input disabled="" type="number" class="stepBox" id="stepBox-3" name="numscalestep" value="1" min="0.001" step="0.001" onchange="updateNumScalePossibleValues(3)">
+                                                            <input disabled="" type="number" class="stepBox" id="stepBox-3" name="numscalestep" value="1" min="0.001" step="0.001">
                                                         </div>
                                                         <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Maximum acceptable response value">Maximum value:
-                                                            <input disabled="" type="number" class="maxScaleBox" id="maxScaleBox-3" name="numscalemax" value="5" onchange="updateNumScalePossibleValues(3)">
+                                                            <input disabled="" type="number" class="maxScaleBox" id="maxScaleBox-3" name="numscalemax" value="5">
                                                         </div>
                                                     </div>
                                                     <br>
@@ -3610,7 +3577,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -3636,7 +3603,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -3817,7 +3784,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-3" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -3838,7 +3805,7 @@
                                 </div>
                                 <strong>Question 3: </strong>
                                 <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
-                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
+                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-3-" style="display:none;">Numerical-scale question:
                                             <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
@@ -3885,23 +3852,23 @@
                                         <table class="table table-striped table-bordered dataTable margin-0">
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
-                                                    <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                    <th id="button_sortFromName" class="button-sort-none" style="width: 15%;">
                                                         Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                    <th id="button_sortFromTeam" class="button-sort-none" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                    <th id="button_sortToName" class="button-sort-none" style="width: 15%;">
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                    <th id="button_sortToTeam" class="button-sort-ascending" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -3953,7 +3920,6 @@
                     <br> For example, if there are 5 options and
                     <b>Points to distribute X number of options</b> is set to 100, students will have to split 500 points in total to the 5 options.
 
-
                     <div class="bs-example">
                         <form class="form-horizontal form_question" role="form" method="post" >
                             <div class="panel panel-primary questionTable" id="questionTable9">
@@ -3980,9 +3946,9 @@
                                                 &nbsp; Distribute points (among options) question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-9" data-toggle="tooltip" data-placement="top" onclick="enableEdit(9,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-9" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-9">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(9)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -3999,7 +3965,7 @@
                                                     <div class="input-group col-sm-12">
                                                         <input class="form-control" type="text" disabled="" name="constSumOption-0" id="constSumOption-0-9" value="Grades">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,9)" style="display: none;" tabindex="-1" disabled="">
+                                                            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" style="display: none;" tabindex="-1" disabled="">
                                                                 <span class="glyphicon glyphicon-remove">
                                                                 </span>
                                                             </button>
@@ -4010,7 +3976,7 @@
                                                     <div class="input-group col-sm-12">
                                                         <input class="form-control" type="text" disabled="" name="constSumOption-1" id="constSumOption-1-9" value="Fun">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,9)" style="display: none;" tabindex="-1" disabled="">
+                                                            <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" style="display: none;" tabindex="-1" disabled="">
                                                                 <span class="glyphicon glyphicon-remove">
                                                                 </span>
                                                             </button>
@@ -4020,7 +3986,7 @@
 
                                                 <div id="constSumAddOptionRow-9">
                                                     <div colspan="2">
-                                                        <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(9)" style="display:none">
+                                                        <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" style="display:none">
                                                             <span class="glyphicon glyphicon-plus">
                                                             </span> add more options
                                                         </a>
@@ -4049,7 +4015,7 @@
                                                               <input type="number" disabled class="form-control width-100-pc pointsBox"
                                                                       name="constSumPoints"
                                                                       id="constSumPoints-9" value="100" min="1" step="1"
-                                                                      onChange="updateConstSumPointsValue(9)">
+                                                                     >
                                                           </div>
                                                           <div class="col-xs-6 padding-0">
                                                               <label class="margin-top-7px padding-left-7px">in total</label>
@@ -4069,7 +4035,7 @@
                                                                       name="constSumPoints"
                                                                       id="constSumPoints-9"
                                                                       value="100" min="1" step="1"
-                                                                      onChange="updateConstSumPointsValue(9)">
+                                                                     >
                                                           </div>
                                                           <div class="col-xs-6 padding-0">
                                                               <label class="margin-top-7px padding-left-7px">X</label>
@@ -4086,7 +4052,7 @@
                                                               <input type="number" disabled
                                                                       class="form-control width-100-pc pointsBox" name="constSumPoints"
                                                                       id="constSumPoints-9" value="100" min="1" step="1"
-                                                                      onChange="updateConstSumPointsValue(9)">
+                                                                     >
                                                           </div>
                                                           <div class="col-xs-6 padding-0">
                                                               <label class="margin-top-7px padding-left-7px">X</label>
@@ -4208,7 +4174,7 @@
                                                   Who will give the feedback:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                       <option selected="" value="SELF">
                                                       Feedback session creator (i.e., me)
@@ -4234,7 +4200,7 @@
                                                   Who the feedback is about:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                       <option value="SELF">
                                                       Giver (Self feedback)
@@ -4413,7 +4379,7 @@
                                   </div>
                                   <div>
                                       <span class="pull-right">
-                                          <input id="button_question_submit-9" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                          <input id="button_question_submit-9" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                       </span>
                                   </div>
                                 </div>
@@ -4430,7 +4396,7 @@
                                 <strong>Question 9: </strong>
                                 <span >How important are the following factors to you? Give points accordingly.&nbsp;
                                     <span >
-                                        <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
                                             <ul style="list-style-type: disc;margin-left: 20px;">
@@ -4492,23 +4458,23 @@
                                         <table class="table table-striped table-bordered dataTable margin-0">
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
-                                                    <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                    <th id="button_sortFromName" class="button-sort-none" style="width: 15%;">
                                                         Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                    <th id="button_sortFromTeam" class="button-sort-none" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                    <th id="button_sortToName" class="button-sort-none" style="width: 15%;">
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                    <th id="button_sortToTeam" class="button-sort-ascending" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -4597,9 +4563,9 @@
                                                 &nbsp; Distribute points (among recipients) question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-10" data-toggle="tooltip" data-placement="top" onclick="enableEdit(10,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-10" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-10">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(10)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -4614,7 +4580,7 @@
                                             <div class="col-sm-6" id="constSumOptionTable-10" style="display:none">
                                                 <div id="constSumAddOptionRow-10">
                                                     <div colspan="2">
-                                                        <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(10)" style="display:none">
+                                                        <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" style="display:none">
                                                             <span class="glyphicon glyphicon-plus">
                                                             </span> add more options
                                                         </a>
@@ -4642,7 +4608,7 @@
                                                                         class="form-control width-100-pc pointsBox"
                                                                         name="constSumPoints" id="constSumPoints-10"
                                                                         value="100" min="1" step="1"
-                                                                        onChange="updateConstSumPointsValue(10)">
+                                                                       >
                                                             </div>
                                                             <div class="col-xs-6 padding-0">
                                                                 <label class="margin-top-7px padding-left-7px">
@@ -4661,7 +4627,7 @@
                                                                         class="form-control width-100-pc pointsBox"
                                                                         name="constSumPoints" id="constSumPoints-10"
                                                                         value="100" min="1" step="1"
-                                                                        onChange="updateConstSumPointsValue(10)">
+                                                                       >
                                                             </div>
                                                             <div class="col-xs-6 padding-0">
                                                                 <label class="margin-top-7px padding-left-7px">X</label>
@@ -4682,7 +4648,7 @@
                                                                     class="form-control width-100-pc pointsBox"
                                                                     name="constSumPoints" id="constSumPoints-10"
                                                                     value="100" min="1" step="1"
-                                                                    onChange="updateConstSumPointsValue(10)">
+                                                                   >
                                                             </div>
                                                             <div class="col-xs-6 padding-0">
                                                                 <label class="margin-top-7px padding-left-7px">X</label>
@@ -4808,7 +4774,7 @@
                                                   Who will give the feedback:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                       <option selected="" value="SELF">
                                                       Feedback session creator (i.e., me)
@@ -4834,7 +4800,7 @@
                                                   Who the feedback is about:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                       <option value="SELF">
                                                       Giver (Self feedback)
@@ -5013,7 +4979,7 @@
                                   </div>
                                   <div>
                                       <span class="pull-right">
-                                          <input id="button_question_submit-10" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                          <input id="button_question_submit-10" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                       </span>
                                   </div>
                             </div>
@@ -5064,9 +5030,9 @@
                                                 &nbsp; Team contribution question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-11" data-toggle="tooltip" data-placement="top" onclick="enableEdit(11,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-11" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-11">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(11)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -5172,7 +5138,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype--1" name="givertype">
 
                                                         <option disabled="" style="display: none;" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -5198,7 +5164,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
 
                                                         <option disabled="" style="display: block;" value="SELF">
                                                         Giver (Self feedback)
@@ -5377,7 +5343,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-11" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-11" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -5396,7 +5362,7 @@
                                 <strong>Question 1: </strong>
                                 <span >Please rate the estimated contribution of your team members and yourself.&nbsp;
                                     <span >
-                                        <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
                                     </span>
@@ -5423,21 +5389,21 @@
                                                     <table class="table table-bordered table-responsive margin-0">
                                                         <thead>
                                                             <tr>
-                                                                <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
+                                                                <td class="button-sort-ascending" id="button_sortteamname">Team
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                                <td class="button-sort-none" id="button_sortname">Student
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
+                                                                <td class="button-sort-none" id="button_sortclaimed" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
                                                                     <abbr title="Claimed Contribution">CC</abbr>
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
+                                                                <td class="button-sort-none" id="button_sortperceived" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
                                                                     <abbr title="Percived Contribution">PC</abbr>
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
+                                                                <td class="button-sort-none" id="button_sortdiff" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
                                                                 <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="The list of points that this student received from others">Ratings Received</td>
@@ -5614,23 +5580,23 @@
                                         <table class="table table-striped table-bordered dataTable margin-0">
                                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                                 <tr>
-                                                    <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                    <th id="button_sortFromName" class="button-sort-none" style="width: 15%;">
                                                         Giver
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                    <th id="button_sortFromTeam" class="button-sort-none" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                    <th id="button_sortToName" class="button-sort-none" style="width: 15%;">
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                    <th id="button_sortToTeam" class="button-sort-ascending" style="width: 15%;">
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -6243,9 +6209,9 @@
                                                 &nbsp; Rubric question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-12" data-toggle="tooltip" data-placement="top" onclick="enableEdit(12,12)" title="Edit this question">Edit</a>
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-12" data-toggle="tooltip" data-placement="top" title="Edit this question">Edit</a>
                                                 <a class="btn btn-primary btn-xs" style="display: none;" id="questionsavechangestext-12">Save Changes</a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(12)" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete this question">Delete</a>
                                             </span>
                                         </div>
                                     </div>
@@ -6265,7 +6231,7 @@
                                                             <th class="rubricCol-12-0">
                                                                 <div class="col-sm-12 input-group">
                                                                     <input type="text" class="form-control" value="Yes" id="rubricChoice-12-0" name="rubricChoice-0" disabled="">
-                                                                    <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-0" onclick="removeRubricCol(0, 12)" onmouseover="highlightRubricCol(0, 12, true)" onmouseout="highlightRubricCol(0, 12, false)" style="display: none;">
+                                                                    <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-0" style="display: none;">
                                                                         <span class="glyphicon glyphicon-remove"></span>
                                                                     </span>
                                                                 </div>
@@ -6273,7 +6239,7 @@
                                                             <th class="rubricCol-12-1">
                                                                 <div class="col-sm-12 input-group">
                                                                     <input type="text" class="form-control" value="No" id="rubricChoice-12-1" name="rubricChoice-1" disabled="">
-                                                                    <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-1" onclick="removeRubricCol(1, 12)" onmouseover="highlightRubricCol(1, 12, true)" onmouseout="highlightRubricCol(1, 12, false)" style="display: none;">
+                                                                    <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-12" id="rubricRemoveChoiceLink-12-1" style="display: none;">
                                                                         <span class="glyphicon glyphicon-remove"></span>
                                                                     </span>
                                                                 </div>
@@ -6293,7 +6259,7 @@
                                                         <tr id="rubricRow-12-0">
                                                             <td>
                                                                 <div class="col-sm-12 input-group">
-                                                                    <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-0" onclick="removeRubricRow(0,12)" onmouseover="highlightRubricRow(0, 12, true)" onmouseout="highlightRubricRow(0, 12, false)" style="display: none;">
+                                                                    <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-0" style="display: none;">
                                                                         <span class="glyphicon glyphicon-remove"></span>
                                                                     </span>
                                                                     <textarea class="form-control" rows="3" id="rubricSubQn-12-0" name="rubricSubQn-0" disabled="">This student has done a good job.</textarea>
@@ -6310,7 +6276,7 @@
                                                         <tr id="rubricRow-12-1">
                                                             <td>
                                                                 <div class="col-sm-12 input-group">
-                                                                    <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-1" onclick="removeRubricRow(1,12)" onmouseover="highlightRubricRow(1, 12, true)" onmouseout="highlightRubricRow(1, 12, false)" style="display: none;">
+                                                                    <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-12" id="rubricRemoveSubQuestionLink-12-1" style="display: none;">
                                                                         <span class="glyphicon glyphicon-remove"></span>
                                                                     </span>
                                                                     <textarea class="form-control" rows="3" id="rubricSubQn-12-1" name="rubricSubQn-1" disabled="">This student has tried his/her best.</textarea>
@@ -6333,11 +6299,11 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6 align-left">
-                                                <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-12" onclick="addRubricRow(12)" style="display: none;">
+                                                <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-12" style="display: none;">
                                                     <span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
                                             </div>
                                             <div class="col-sm-6 align-right">
-                                                <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-12" onclick="addRubricCol(12)" style="display: none;">add column
+                                                <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-12" style="display: none;">add column
                                                     <span class="glyphicon glyphicon-arrow-right"></span>
                                                 </a>
                                             </div>
@@ -6438,7 +6404,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -6464,7 +6430,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -6645,7 +6611,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-12" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-12" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -6756,7 +6722,7 @@
                     <br>
                     <br>
                     <div class="bs-example">
-                        <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)">
+                        <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
                             <div class="panel panel-primary questionTable" id="questionTable3">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -6773,16 +6739,16 @@
                                                 &nbsp;Rank (options) question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(3,4)" data-original-title="Edit this question">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this question">
                                                     Edit
                                                 </a>
                                                 <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-3">
                                                     Save Changes
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(3)" id="questiondiscardchanges-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questiondiscardchanges-3" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
                                                     Cancel
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
                                                     Delete
                                                 </a>
                                             </span>
@@ -6802,7 +6768,7 @@
                                                     <div class="input-group col-sm-12">
                                                         <input class="form-control" type="text" disabled="" name="rankOption-0" id="rankOption-0-3" value="Clearly defined goals for the next milestone">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(0,3)" style="display:none" tabindex="-1" disabled="">
+                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" style="display:none" tabindex="-1" disabled="">
                                                                 <span class="glyphicon glyphicon-remove">
                                                                 </span>
                                                             </button>
@@ -6813,7 +6779,7 @@
                                                     <div class="input-group col-sm-12">
                                                         <input class="form-control" type="text" disabled="" name="rankOption-1" id="rankOption-1-3" value="Commitment of all group members">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(1,3)" style="display:none" tabindex="-1" disabled="">
+                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" style="display:none" tabindex="-1" disabled="">
                                                                 <span class="glyphicon glyphicon-remove">
                                                                 </span>
                                                             </button>
@@ -6824,7 +6790,7 @@
                                                     <div class="input-group col-sm-12">
                                                         <input class="form-control" type="text" disabled="" name="rankOption-2" id="rankOption-2-3" value="Good coordination between group members">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(2,3)" style="display:none" tabindex="-1" disabled="">
+                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" style="display:none" tabindex="-1" disabled="">
                                                                 <span class="glyphicon glyphicon-remove">
                                                                 </span>
                                                             </button>
@@ -6835,7 +6801,7 @@
                                                     <div class="input-group col-sm-12">
                                                         <input class="form-control" type="text" disabled="" name="rankOption-3" id="rankOption-3-3" value="Better time management">
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" onclick="removeRankOption(3,3)" style="display:none" tabindex="-1" disabled="">
+                                                            <button class="btn btn-default removeOptionLink" type="button" id="rankRemoveOptionLink" style="display:none" tabindex="-1" disabled="">
                                                                 <span class="glyphicon glyphicon-remove">
                                                                 </span>
                                                             </button>
@@ -6845,7 +6811,7 @@
 
                                                 <div id="rankAddOptionRow-3">
                                                     <div colspan="2">
-                                                        <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" onclick="addRankOption(3)" style="display:none">
+                                                        <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-3" style="display:none">
                                                             <span class="glyphicon glyphicon-plus">
                                                             </span> add more options
                                                         </a>
@@ -6958,7 +6924,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -6984,7 +6950,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -7182,7 +7148,6 @@
                         </form>
                     </div>
 
-
             </div>
             <div class="row">
                 <div class="col-sm-12">
@@ -7212,16 +7177,16 @@
                                                 &nbsp;Rank (recipients) question
                                             </span>
                                             <span class="pull-right">
-                                                <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(4,4)" data-original-title="Edit this question">
+                                                <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this question">
                                                     Edit
                                                 </a>
                                                 <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-4">
                                                     Save Changes
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" style="display:none" onclick="discardChanges(4)" id="questiondiscardchanges-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
+                                                <a class="btn btn-primary btn-xs" style="display:none" id="questiondiscardchanges-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Discard your changes">
                                                     Cancel
                                                 </a>
-                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(4)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
+                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">
                                                     Delete
                                                 </a>
                                             </span>
@@ -7339,7 +7304,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -7365,7 +7330,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -7580,13 +7545,13 @@
                                     <table class="table table-bordered table-responsive margin-0">
                                         <thead>
                                         <tr>
-                                            <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
+                                            <td class="button-sort-ascending" id="button_sortteamname" style="width: 35%;">Recipient
                                                 <span class="icon-sort unsorted"></span></td>
-                                            <td class="button-sort-none" onclick="toggleSort(this,2);">Team
+                                            <td class="button-sort-none">Team
                                                 <span class="icon-sort unsorted"></span></td>
-                                            <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
+                                            <td class="button-sort-none" id="button_sortname" style="width:15%;">Ranks Received
                                                 <span class="icon-sort unsorted"></span></td>
-                                            <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
+                                            <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Average Rank
                                                 <span class="icon-sort unsorted"></span></td>
                                         </tr>
                                         </thead>

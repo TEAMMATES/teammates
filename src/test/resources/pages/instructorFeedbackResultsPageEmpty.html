@@ -71,7 +71,6 @@
                   <input name="fsname" type="hidden" value="Third Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -94,8 +93,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -128,7 +127,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>

@@ -10,7 +10,7 @@
 
 <div class="panel ${not empty groupByParticipantPanel.secondaryParticipantPanels ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
-        ${groupByParticipantPanel.giver ? 'From' : 'To'}: 
+        ${groupByParticipantPanel.giver ? 'From' : 'To'}:
         <c:choose>
             <c:when test="${groupByParticipantPanel.emailValid}">
                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByParticipantPanel.profilePictureLink}">
@@ -32,7 +32,7 @@
             &nbsp;
             <div class="display-icon" style="display:inline;">
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
-            </div>                
+            </div>
         </div>
     </div>
     <div class="panel-collapse collapse in">
@@ -40,7 +40,7 @@
             <c:choose>
                 <c:when test="${not empty groupByParticipantPanel.secondaryParticipantPanels}">
                     <c:forEach items="${groupByParticipantPanel.secondaryParticipantPanels}" var="secondaryParticipantPanel" varStatus="i">
-                        <results:secondaryParticipantPanel secondaryParticipantPanelBody="${secondaryParticipantPanel}" 
+                        <results:secondaryParticipantPanel secondaryParticipantPanelBody="${secondaryParticipantPanel}"
                                                            primaryParticipantPanel="${groupByParticipantPanel}"
                                                            secondaryParticipantIndex="${i.index}"/>
                      </c:forEach>
