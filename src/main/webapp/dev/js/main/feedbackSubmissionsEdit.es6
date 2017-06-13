@@ -1,15 +1,14 @@
-/* global richTextEditorBuilder:false,
-          addLoadingIndicator:false,
-          disallowNonNumericEntries:false,
-          scrollToElement:false,
-          setStatusMessage:false,
-          StatusType:false,
-          sanitizeForJs:false,
-          tinymce:false,
-          BootboxWrapper:false,
-          isNumber:false
-          bindLinksInUnregisteredPage:false
- */
+/* global tinymce:false */
+
+import { showModalAlert } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { isNumber } from '../common/helper.es6';
+import { richTextEditorBuilder } from '../common/richTextEditor.es6';
+import { sanitizeForJs } from '../common/sanitizer.es6';
+import { scrollToElement } from '../common/scrollTo.es6';
+import { setStatusMessage } from '../common/statusMessage.es6';
+import { bindLinksInUnregisteredPage } from '../common/student.es6';
+import { addLoadingIndicator, disallowNonNumericEntries } from '../common/ui.es6';
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
@@ -899,8 +898,7 @@ function getWarningMessage() {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        BootboxWrapper.showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), BootboxWrapper.DEFAULT_OK_TEXT,
-                                      StatusType.WARNING);
+        showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
     }
 }
 

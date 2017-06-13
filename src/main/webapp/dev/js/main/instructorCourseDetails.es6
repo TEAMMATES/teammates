@@ -1,5 +1,8 @@
-/* global toggleSort:false selectElementContents:false attachEventToDeleteStudentLink:false setStatusMessage:false */
-/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false */
+import { showModalConfirmation } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { attachEventToDeleteStudentLink, prepareInstructorPages, selectElementContents } from '../common/instructor.es6';
+import { toggleSort } from '../common/sortBy.es6';
+import { setStatusMessage } from '../common/statusMessage.es6';
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -46,8 +49,8 @@ function attachEventToRemindStudentsButton() {
             window.location = $clickedButton.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm sending join requests', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+        showModalConfirmation('Confirm sending join requests', messageText, okCallback, null,
+                null, null, StatusType.INFO);
     });
 }
 
@@ -66,8 +69,8 @@ function attachEventToSendInviteLink() {
             });
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+        showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
+                null, null, StatusType.INFO);
     });
 }
 

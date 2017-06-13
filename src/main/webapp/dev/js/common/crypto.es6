@@ -27,6 +27,6 @@ function makeCsrfTokenParam() {
     return `${tokenParamName}=${tokenCookieValue}`;
 }
 
-/*
-exported makeCsrfTokenParam
-*/
+export {
+    makeCsrfTokenParam,
+};

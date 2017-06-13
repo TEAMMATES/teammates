@@ -1,4 +1,6 @@
-/* global bindBackToTopButtons:false linkAjaxForResponseRate:false prepareDatepickers:false */
+import { bindBackToTopButtons } from '../common/administrator.es6';
+import { linkAjaxForResponseRate } from '../common/ajaxResponseRate.es6';
+import { prepareDatepickers } from '../common/datepicker.es6';
 
 function toggleContent(id) {
     const duration = 500;

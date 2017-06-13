@@ -123,6 +123,8 @@ function fixContribQnGiverRecipient(questionNum) {
     $questionTable.find('.feedback-path-dropdown > button').addClass('disabled');
 }
 
-/* exported
-setDefaultContribQnVisibility, setContribQnVisibilityFormat, fixContribQnGiverRecipient
-*/
+export {
+    fixContribQnGiverRecipient,
+    setContribQnVisibilityFormat,
+    setDefaultContribQnVisibilityIfNeeded,
+};

@@ -1,6 +1,6 @@
-/* global
-disallowNonNumericEntries:false, BootboxWrapper:false, StatusType:false
-*/
+import { showModalConfirmation } from './bootboxWrapper.es6';
+import { StatusType } from './const.es6';
+import { disallowNonNumericEntries } from './ui.es6';
 
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
@@ -144,9 +144,7 @@ function removeRubricRow(index, questionNum) {
             }
         }
     };
-    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
-                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-                                         StatusType.WARNING);
+    showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
 }
 
 function removeRubricCol(index, questionNum) {
@@ -171,9 +169,7 @@ function removeRubricCol(index, questionNum) {
             }
         }
     };
-    BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
-                                         BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-                                         StatusType.WARNING);
+    showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
 }
 
 function highlightRubricRow(index, questionNum, highlight) {
@@ -247,7 +243,14 @@ function hasAssignedWeights(questionNum) {
     return $(`#rubricAssignWeights-${questionNum}`).prop('checked');
 }
 
-/* exported
-addRubricRow, addRubricCol, removeRubricRow, removeRubricCol, highlightRubricRow, highlightRubricCol
-bindAssignWeightsCheckboxes, hasAssignedWeights
-*/
+export {
+    addRubricCol,
+    addRubricRow,
+    bindAssignWeightsCheckboxes,
+    hasAssignedWeights,
+    highlightRubricCol,
+    highlightRubricRow,
+    moveAssignWeightsCheckbox,
+    removeRubricCol,
+    removeRubricRow,
+};

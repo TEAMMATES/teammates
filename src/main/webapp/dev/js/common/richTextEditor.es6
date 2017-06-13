@@ -1,5 +1,4 @@
-/* global tinymce:false, tinyMCE:false
- */
+/* global tinymce:false */
 
 /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
 const richTextEditorBuilder = {
@@ -74,11 +73,17 @@ function initEditorCallback(editor) {
  * Destroys an instance of TinyMCE rich-text editor.
  */
 function destroyEditor(id) {
-    if (typeof tinyMCE === 'undefined') {
+    if (typeof tinymce === 'undefined') {
         return;
     }
-    const currentEditor = tinyMCE.get(id);
+    const currentEditor = tinymce.get(id);
     if (currentEditor) {
         currentEditor.destroy();
     }
 }
+
+export {
+    destroyEditor,
+    initEditorCallback,
+    richTextEditorBuilder,
+};

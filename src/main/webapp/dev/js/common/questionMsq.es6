@@ -1,7 +1,3 @@
-/* global
-FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false, FEEDBACK_QUESTION_MSQCHOICE:false
-*/
-
 function addMsqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -83,6 +79,10 @@ function changeMsqGenerateFor(questionNum) {
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
 }
 
-/* exported
-addMsqOption, removeMsqOption, toggleMsqGeneratedOptions, changeMsqGenerateFor
-*/
+export {
+    addMsqOption,
+    changeMsqGenerateFor,
+    removeMsqOption,
+    toggleMsqGeneratedOptions,
+    toggleMsqOtherOptionEnabled,
+};

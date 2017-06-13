@@ -1,7 +1,3 @@
-/* global
-FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false, FEEDBACK_QUESTION_MCQCHOICE:false
-*/
-
 function addMcqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -83,6 +79,10 @@ function changeMcqGenerateFor(questionNum) {
                                                $(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
 }
 
-/* exported
-addMcqOption, removeMcqOption, toggleMcqGeneratedOptions, toggleMcqOtherOptionEnabled, changeMcqGenerateFor
-*/
+export {
+    addMcqOption,
+    changeMcqGenerateFor,
+    removeMcqOption,
+    toggleMcqGeneratedOptions,
+    toggleMcqOtherOptionEnabled,
+};

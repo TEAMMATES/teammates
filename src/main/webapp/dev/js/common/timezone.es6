@@ -1,5 +1,4 @@
-/* global moment:false
- */
+/* global moment:false */
 
 const TimeZone = {
     /**
@@ -49,4 +48,8 @@ const TimeZone = {
             $selectElement.val(timeZone);
         }
     },
+};
+
+export {
+    TimeZone,
 };

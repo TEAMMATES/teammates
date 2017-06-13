@@ -1,11 +1,9 @@
-/* global tinyMCE:false,
-          destroyEditor:false,
-          BootboxWrapper:false,
-          richTextEditorBuilder:false,
-          tinymce:false,
-          toggleChevron:false,
-          StatusType:false
- */
+/* global tinymce:false */
+
+import { showModalConfirmation } from './bootboxWrapper.es6';
+import { StatusType } from './const.es6';
+import { destroyEditor, richTextEditorBuilder } from './richTextEditor.es6';
+import { toggleChevron } from './ui.es6';
 
 function isInCommentsPage() {
     return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
@@ -193,7 +191,7 @@ const addCommentHandler = (e) => {
 
     e.preventDefault();
 
-    const editor = tinyMCE.get(`responseCommentAddForm-${responseCommentId}`);
+    const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
     formObject.find('input[name=responsecommenttext]').val(editor.getContent());
 
     const formData = formObject.serialize();
@@ -256,7 +254,7 @@ const editCommentHandler = (e) => {
     e.preventDefault();
 
     const commentTextId = formObject.find('div[id^="responsecommenttext-"]').attr('id');
-    formObject.find('input[name=responsecommenttext]').val(tinyMCE.get(commentTextId).getContent());
+    formObject.find('input[name=responsecommenttext]').val(tinymce.get(commentTextId).getContent());
 
     const formData = formObject.serialize();
 
@@ -311,7 +309,7 @@ const deleteCommentHandler = (e) => {
     const submitButton = $(e.currentTarget);
     e.preventDefault();
 
-    BootboxWrapper.showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
+    showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
         const formObject = submitButton.parent();
         const formData = formObject.serialize();
         const panelHeading = submitButton.parents("[id^='panel_display-']").find('.panel-heading').first();
@@ -335,7 +333,7 @@ const deleteCommentHandler = (e) => {
                 }
             },
         });
-    }, null, BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+    }, null, null, null, StatusType.WARNING);
 };
 
 function enableHoverToDisplayEditOptions() {
@@ -536,3 +534,9 @@ function registerResponseCommentCheckboxEvent() {
         form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
     });
 }
+
+export {
+    enableHoverToDisplayEditOptions,
+    registerResponseCommentCheckboxEvent,
+    registerResponseCommentsEvent,
+};

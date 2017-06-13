@@ -1,4 +1,7 @@
-/* global BootboxWrapper:false StatusType:false toggleSort:false bindBackToTopButtons:false */
+import { bindBackToTopButtons } from '../common/administrator.es6';
+import { showModalConfirmation } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { toggleSort } from '../common/sortBy.es6';
 
 const entryPerPage = 200;
 
@@ -132,8 +135,7 @@ function bindDeleteAccountAction() {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+        showModalConfirmation('Confirm deletion', messageText, okCallback, null, null, null, StatusType.DANGER);
     });
 }
 

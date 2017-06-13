@@ -1,34 +1,27 @@
-/* global
-FeedbackPath:false, BootboxWrapper:false, richTextEditorBuilder:false, destroyEditor:false, StatusType:false
-bindUncommonSettingsEvents:false, updateUncommonSettingsInfo:false, showUncommonPanelsIfNotInDefaultValues:false
-attachVisibilityDropdownEvent:false, attachVisibilityCheckboxEvent:false, formatCheckBoxes:false
-addLoadingIndicator:false, removeLoadingIndicator:false, checkFeedbackQuestion:false, scrollToElement:false
-formatSessionVisibilityGroup:false, formatResponsesVisibilityGroup:false, collapseIfPrivateSession:false
-setupFsCopyModal:false, bindAssignWeightsCheckboxes:false, tinyMCE:false, moveAssignWeightsCheckbox:false
-setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:false, setContribQnVisibilityFormat:false
-showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
-getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
-hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false, checkEditFeedbackSession:false, tallyCheckboxes:false
-setStatusMessageToForm:false, updateNumScalePossibleValues:false
+/* global tinymce:false */
 
-FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
-FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
-FEEDBACK_QUESTION_SAVECHANGESTEXT:false, FEEDBACK_QUESTION_DISCARDCHANGES:false, FEEDBACK_QUESTION_EDITTYPE:false
-FEEDBACK_QUESTION_RECIPIENTTYPE:false, FEEDBACK_QUESTION_SHOWRESPONSESTO:false, FEEDBACK_QUESTION_SHOWGIVERTO:false
-FEEDBACK_QUESTION_TYPENAME_TEXT:false, FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false
-FEEDBACK_QUESTION_SHOWRECIPIENTTO:false, FEEDBACK_QUESTION_TYPENAME_MCQ:false, FEEDBACK_QUESTION_TYPENAME_MSQ:false
-FEEDBACK_QUESTION_TYPENAME_NUMSCALE:false, FEEDBACK_QUESTION_TEXT:false, FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS:false
-FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION:false, FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT:false
-FEEDBACK_QUESTION_TYPENAME_CONTRIB:false, FEEDBACK_QUESTION_TYPENAME_RUBRIC:false
-FEEDBACK_QUESTION_RANKTORECIPIENTS:false, FEEDBACK_QUESTION_TYPENAME_RANK_OPTION:false,
-FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT:false, FEEDBACK_QUESTION_COPY_INVALID:false
-FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE:false, FEEDBACK_QUESTION_TYPE:false, FEEDBACK_SESSION_STARTDATE:false
-DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID:false, DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID:false
-DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID:false, DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID:false
-DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID:false, DISPLAY_FEEDBACK_QUESTION_TEXTINVALID:false
-FEEDBACK_QUESTION_NUMSCALE_MIN:false, FEEDBACK_QUESTION_NUMSCALE_MAX:false, FEEDBACK_QUESTION_NUMSCALE_STEP:false
-*/
+import { showModalConfirmation } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { makeCsrfTokenParam } from '../common/crypto.es6';
+import { prepareDatepickers } from '../common/datepicker.es6';
+import { FeedbackPath } from '../common/feedbackPath.es6';
+import { prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
+import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
+        formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
+        from '../common/instructorFeedbacks.es6';
+import { hideConstSumOptionTable } from '../common/questionConstSum.es6';
+import { fixContribQnGiverRecipient, setContribQnVisibilityFormat, setDefaultContribQnVisibilityIfNeeded }
+        from '../common/questionContrib.es6';
+import { updateNumScalePossibleValues } from '../common/questionNumScale.es6';
+import { hideRankOptionTable } from '../common/questionRank.es6';
+import { bindAssignWeightsCheckboxes, hasAssignedWeights, moveAssignWeightsCheckbox } from '../common/questionRubric.es6';
+import { destroyEditor, richTextEditorBuilder } from '../common/richTextEditor.es6';
+import { scrollToElement } from '../common/scrollTo.es6';
+import { clearStatusMessages, setStatusMessage, setStatusMessageToForm } from '../common/statusMessage.es6';
+import { addLoadingIndicator, disallowNonNumericEntries, removeLoadingIndicator } from '../common/ui.es6';
+import { attachVisibilityCheckboxEvent, attachVisibilityDropdownEvent, formatCheckBoxes, getVisibilityMessage,
+        matchVisibilityOptionToFeedbackPath, showVisibilityCheckboxesIfCustomOptionSelected, tallyCheckboxes }
+        from '../common/visibilityOptions.es6';
 
 const NEW_QUESTION = -1;
 
@@ -147,8 +140,8 @@ function bindFeedbackSessionEditFormSubmission() {
         event.preventDefault();
 
         // populate hidden input
-        if (typeof tinyMCE !== 'undefined') {
-            tinyMCE.get('instructions').save();
+        if (typeof tinymce !== 'undefined') {
+            tinymce.get('instructions').save();
         }
         const $form = $(event.target);
         // Use Ajax to submit form data
@@ -427,10 +420,7 @@ function deleteQuestion(questionNum) {
         $(`#${FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
-    BootboxWrapper.showModalConfirmation(
-            WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null,
-            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-            StatusType.DANGER);
+    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null, null, null, StatusType.DANGER);
     return false;
 }
 
@@ -515,9 +505,7 @@ function discardChanges(questionNum) {
     const okCallback = function () {
         restoreOriginal(questionNum);
     };
-    BootboxWrapper.showModalConfirmation(
-            WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null,
-            BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
+    showModalConfirmation(WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null, null, null,
             StatusType.WARNING);
 }
 
@@ -912,7 +900,7 @@ function showNewQuestionFrame(type) {
 
 function prepareDescription(form) {
     const questionNum = getQuestionNum(form);
-    const content = tinyMCE.get(`questiondescription-${questionNum}`).getContent();
+    const content = tinymce.get(`questiondescription-${questionNum}`).getContent();
     form.find('input[name=questiondescription]').val(content);
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
@@ -942,10 +930,8 @@ function readyFeedbackEditPage() {
             const okCallback = function () {
                 event.currentTarget.submit();
             };
-            BootboxWrapper.showModalConfirmation(
-                    WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
-                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
-                    StatusType.DANGER);
+            showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
+                    null, null, StatusType.DANGER);
         }
     });
 

@@ -1,4 +1,5 @@
-/* global StatusType:false BootboxWrapper:false */
+import { showModalConfirmation } from './bootboxWrapper.es6';
+import { StatusType } from './const.es6';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -279,8 +280,8 @@ function bindDeleteButtons() {
             window.location = $button.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
     });
 }
 
@@ -296,8 +297,8 @@ function bindCourseDeleteLinks() {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+        showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
     });
 }
 
@@ -312,8 +313,8 @@ function bindSessionDeleteLinks() {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
     });
 }
 
@@ -328,8 +329,8 @@ function attachEventToDeleteStudentLink() {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm deletion', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+        showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
     });
 }
 
@@ -344,8 +345,8 @@ function bindRemindButtons() {
             window.location = $button.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+        showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
+                null, null, StatusType.INFO);
     });
 }
 
@@ -366,8 +367,8 @@ function bindPublishButtons() {
             window.location = $button.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm publishing responses', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+        showModalConfirmation('Confirm publishing responses', messageText, okCallback, null,
+                null, null, StatusType.WARNING);
     });
 }
 
@@ -383,8 +384,8 @@ function bindUnpublishButtons() {
             window.location = $button.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm unpublishing responses', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+        showModalConfirmation('Confirm unpublishing responses', messageText, okCallback, null,
+                null, null, StatusType.WARNING);
     });
 }
 
@@ -436,3 +437,17 @@ function prepareInstructorPages() {
     bindCourseDeleteLinks();
     bindSessionDeleteLinks();
 }
+
+export {
+    attachEventToDeleteStudentLink,
+    bindDeleteButtons,
+    bindPublishButtons,
+    bindRemindButtons,
+    bindStudentPhotoHoverLink,
+    bindStudentPhotoLink,
+    bindUnpublishButtons,
+    executeCopyCommand,
+    prepareInstructorPages,
+    selectElementContents,
+    setupFsCopyModal,
+};

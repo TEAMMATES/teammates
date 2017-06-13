@@ -23,3 +23,7 @@ function prepareRemindModal() {
         });
     });
 }
+
+export {
+    prepareRemindModal,
+};

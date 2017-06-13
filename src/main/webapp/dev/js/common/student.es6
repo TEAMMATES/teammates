@@ -1,4 +1,6 @@
-/* global Const:false BootboxWrapper:false StatusType:false */
+import { Const, StatusType } from './const.es6';
+import { showModalConfirmation } from './bootboxWrapper.es6';
+
 /**
  * Contains functions common to the student pages.
  */
@@ -13,14 +15,10 @@ function bindLinksInUnregisteredPage(selector) {
             window.location = $clickedLink.attr('href');
         }
 
-        BootboxWrapper.showModalConfirmation(header, messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+        showModalConfirmation(header, messageText, okCallback, null, null, null, StatusType.INFO);
     });
 }
 
-/*
-export default {
+export {
     bindLinksInUnregisteredPage,
 };
-*/
-/* exported bindLinksInUnregisteredPage */

@@ -26,9 +26,6 @@ function bindBackToTopButtons(backToTopClasses) {
     });
 }
 
-/*
-export default {
+export {
     bindBackToTopButtons,
 };
-*/
-/* exported bindBackToTopButtons */

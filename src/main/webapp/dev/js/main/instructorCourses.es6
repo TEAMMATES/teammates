@@ -1,6 +1,8 @@
-/* global COURSE_TIME_ZONE:false TimeZone:false */
-/* global setStatusMessage:false StatusType:false clearStatusMessages:false */
-/* global appendStatusMessage:false toggleSort:false prepareInstructorPages:false */
+import { StatusType } from '../common/const.es6';
+import { prepareInstructorPages } from '../common/instructor.es6';
+import { toggleSort } from '../common/sortBy.es6';
+import { appendStatusMessage, clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
+import { TimeZone } from '../common/timezone.es6';
 
 let isFetchingCourses = false;
 let needsRetrying = false;

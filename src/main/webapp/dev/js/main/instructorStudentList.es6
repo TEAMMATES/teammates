@@ -1,7 +1,8 @@
-/* global attachEventToDeleteStudentLink:false selectElementContents:false executeCopyCommand:false */
-/* global toggleSort:false match:false prepareInstructorPages:false */
-/* global bindStudentPhotoLink:false setStatusMessage:false */
-/* global StatusType:false clearStatusMessages:false checkCourseBinding:false */
+import { StatusType } from '../common/const.es6';
+import { attachEventToDeleteStudentLink, bindStudentPhotoLink, executeCopyCommand, prepareInstructorPages,
+        selectElementContents } from '../common/instructor.es6';
+import { toggleSort } from '../common/sortBy.es6';
+import { clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
 
 // Trigger ajax request for a course through clicking the heading
 function triggerAjax(e) {

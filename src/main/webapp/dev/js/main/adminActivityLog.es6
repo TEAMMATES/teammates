@@ -1,6 +1,7 @@
-/* global
-setStatusMessage:false StatusType:false bindBackToTopButtons:false addLoadingIndicator:false removeLoadingIndicator:false
-*/
+import { bindBackToTopButtons } from '../common/administrator.es6';
+import { StatusType } from '../common/const.es6';
+import { setStatusMessage } from '../common/statusMessage.es6';
+import { addLoadingIndicator, removeLoadingIndicator } from '../common/ui.es6';
 
 function toggleReference() {
     $('#filterReference').toggle('slow');

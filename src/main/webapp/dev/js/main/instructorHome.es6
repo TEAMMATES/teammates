@@ -1,7 +1,10 @@
-/* global bindDeleteButtons:false bindRemindButtons:false bindPublishButtons:false */
-/* global bindUnpublishButtons:false setupFsCopyModal:false BootboxWrapper:false */
-/* global StatusType:false global linkAjaxForResponseRate:false prepareRemindModal:false prepareInstructorPages:false */
-/* global showSingleCollapse:false hideSingleCollapse:false */
+import { linkAjaxForResponseRate } from '../common/ajaxResponseRate.es6';
+import { showModalConfirmation } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { bindDeleteButtons, bindPublishButtons, bindRemindButtons, bindUnpublishButtons,
+        prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
+import { prepareRemindModal } from '../common/remindModal.es6';
+import { showSingleCollapse, hideSingleCollapse } from '../common/ui.es6';
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 
@@ -100,8 +103,8 @@ $(document).ready(() => {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm archiving course', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+        showModalConfirmation('Confirm archiving course', messageText, okCallback, null,
+                null, null, StatusType.INFO);
     });
 
     // AJAX loading of course panels

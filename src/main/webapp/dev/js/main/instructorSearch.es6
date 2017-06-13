@@ -1,4 +1,5 @@
-/* global highlightSearchResult:false prepareInstructorPages:false */
+import { prepareInstructorPages } from '../common/instructor.es6';
+import { highlightSearchResult } from '../common/ui.es6';
 
 $(document).ready(() => {
     prepareInstructorPages();

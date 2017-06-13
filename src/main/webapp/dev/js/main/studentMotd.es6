@@ -25,11 +25,3 @@ $(document).ready(() => {
     fetchMotd(motdUrl, '#student-motd', '#student-motd-container');
     bindCloseMotdButton('#btn-close-motd', '#student-motd-container');
 });
-
-/*
-export default {
-    fetchMotd,
-    bindCloseMotdButton,
-};
-*/
-/* exported fetchMotd, bindCloseMotdButton */

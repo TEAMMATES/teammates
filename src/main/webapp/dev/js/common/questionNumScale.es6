@@ -61,4 +61,6 @@ function updateNumScalePossibleValues(questionNum) {
     return true;
 }
 
-/* exported updateNumScalePossibleValues */
+export {
+    updateNumScalePossibleValues,
+};

@@ -529,3 +529,7 @@ function getCountryCode(countryName) {
     // no such country or country code
     return null;
 }
+
+export {
+    getCountryCode,
+};

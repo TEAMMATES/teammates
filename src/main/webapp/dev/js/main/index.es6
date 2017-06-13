@@ -1,3 +1,5 @@
+import { checkBrowserVersion } from '../common/checkBrowserVersion.es6';
+
 // TESTIMONIALS
 /* eslint-disable max-len */ // testimonials are better left off as is
 const TESTIMONIALS = [
@@ -65,4 +67,6 @@ $('document').ready(() => {
     $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
 
     window.setInterval(loopTestimonials, LOOP_INTERVAL);
+
+    checkBrowserVersion();
 });

@@ -1,8 +1,3 @@
-/* global
-FEEDBACK_QUESTION_RANKPOINTS:false, FEEDBACK_QUESTION_RANKOPTION:false, FEEDBACK_QUESTION_RANKOPTIONTABLE:false
-FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false
-*/
-
 function addRankOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -53,6 +48,8 @@ function removeRankOption(index, questionNum) {
     }
 }
 
-/* exported
-updateRankPointsValue, addRankOption, hideRankOptionTable, removeRankOption
-*/
+export {
+    addRankOption,
+    hideRankOptionTable,
+    removeRankOption,
+};

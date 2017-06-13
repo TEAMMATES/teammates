@@ -1,9 +1,3 @@
-/* global
-FEEDBACK_QUESTION_CONSTSUMPOINTS:false, FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION:false
-FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT:false, FEEDBACK_QUESTION_CONSTSUMOPTION:false
-FEEDBACK_QUESTION_NUMBEROFCHOICECREATED:false, FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE:false
-*/
-
 function updateConstSumPointsValue(questionNum) {
     if ($(`#${FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val() < 1) {
         $(`#${FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val(1);
@@ -67,6 +61,9 @@ function removeConstSumOption(index, questionNum) {
     }
 }
 
-/* exported
-updateConstSumPointsValue, addConstSumOption, hideConstSumOptionTable, removeConstSumOption
-*/
+export {
+    addConstSumOption,
+    hideConstSumOptionTable,
+    removeConstSumOption,
+    updateConstSumPointsValue,
+};

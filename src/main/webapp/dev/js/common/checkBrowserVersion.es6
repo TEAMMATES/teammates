@@ -93,4 +93,7 @@ function checkBrowserVersion() {
         message.html(unsupportedBrowserErrorString);
     }
 }
-$('document').ready(checkBrowserVersion);
+
+export {
+    checkBrowserVersion,
+};

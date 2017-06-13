@@ -1,15 +1,15 @@
-/* global prepareDatepickers:false linkAjaxForResponseRate:false readyFeedbackPage:false richTextEditorBuilder:false
-setStatusMessage:false, appendStatusMessage:false, clearStatusMessages:false, bindEventsAfterAjax:false, StatusType:false
-loadSessionsByAjax:false prepareRemindModal:false prepareInstructorPages:false
-bindPublishButtons:false, bindRemindButtons:false, bindUnpublishButtons:false, bindDeleteButtons:false
-linkAjaxForResponseRate:falsem addLoadingIndicator:false, setupFsCopyModal:false, bindCopyEvents:false
-formatSessionVisibilityGroup:false, formatResponsesVisibilityGroup:false, collapseIfPrivateSession:false
-bindUncommonSettingsEvents:false, updateUncommonSettingsInfo:false, showUncommonPanelsIfNotInDefaultValues:false
-
-FEEDBACK_SESSION_STARTDATE:false, FEEDBACK_SESSION_STARTTIME:false, FEEDBACK_SESSION_TIMEZONE:false
-COURSE_ID:false, FEEDBACK_SESSION_NAME:false, FEEDBACK_SESSION_COPY_INVALID:false
-DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE:false
-*/
+import { linkAjaxForResponseRate } from '../common/ajaxResponseRate.es6';
+import { StatusType } from '../common/const.es6';
+import { prepareDatepickers } from '../common/datepicker.es6';
+import { bindDeleteButtons, bindPublishButtons, bindRemindButtons, bindUnpublishButtons,
+        prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
+import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
+        formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
+        from '../common/instructorFeedbacks.es6';
+import { prepareRemindModal } from '../common/remindModal.es6';
+import { richTextEditorBuilder } from '../common/richTextEditor.es6';
+import { appendStatusMessage, clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
+import { addLoadingIndicator } from '../common/ui.es6';
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;

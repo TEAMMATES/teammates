@@ -1,4 +1,6 @@
-/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false */
+import { showModalConfirmation, showModalConfirmationWithCancel } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { prepareInstructorPages } from '../common/instructor.es6';
 
 const INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 
@@ -14,7 +16,7 @@ function sendEmailToNewEmailOption(event, newStudentEmail) {
         $('#isSendEmail').val(false);
         event.target.submit();
     };
-    BootboxWrapper.showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
+    showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
             yesCallback, noCallback, null, 'Yes, save changes and resend links',
             'No, just save the changes', 'Cancel', StatusType.PRIMARY);
 }
@@ -43,8 +45,7 @@ function readyInstructorStudentEditPage() {
                 }
             };
 
-            BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
-                    BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
+            showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
         } else if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
             sendEmailToNewEmailOption(event, newStudentEmail);
         }

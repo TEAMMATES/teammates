@@ -1,11 +1,7 @@
-/* globals displayAjaxRetryMessageForPanelHeading:false,
-           bindStudentPhotoLink:false,
-           bindStudentPhotoHoverLink:false,
-           toggleSingleCollapse:false,
-           showHideStats:false
-           prepareInstructorPages:false
-           prepareInstructorFeedbackResultsPage:false
-*/
+import { bindStudentPhotoHoverLink, bindStudentPhotoLink, prepareInstructorPages } from '../common/instructor.es6';
+import { displayAjaxRetryMessageForPanelHeading, prepareInstructorFeedbackResultsPage,
+        showHideStats } from '../common/instructorFeedbackResults.es6';
+import { toggleSingleCollapse } from '../common/ui.es6';
 
 $(document).ready(() => {
     prepareInstructorPages();

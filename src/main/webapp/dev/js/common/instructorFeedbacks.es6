@@ -1,8 +1,3 @@
-/* global
-FEEDBACK_SESSION_RESULTSVISIBLEBUTTON:false, FEEDBACK_SESSION_VISIBLEDATE:false, FEEDBACK_SESSION_VISIBLETIME:false
-FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_SESSIONVISIBLEBUTTON:false
-*/
-
 function updateUncommonSettingsSessionVisibilityInfo() {
     const info = 'Session is visible at submission opening time, '
              + 'responses are only visible when you publish the results.';
@@ -127,6 +122,11 @@ function formatSessionVisibilityGroup() {
     });
 }
 
-/* exported
-checkFeedbackQuestion, checkEditFeedbackSession, readyFeedbackPage, bindEventsAfterAjax, showUncommonPanels
-*/
+export {
+    bindUncommonSettingsEvents,
+    collapseIfPrivateSession,
+    formatResponsesVisibilityGroup,
+    formatSessionVisibilityGroup,
+    showUncommonPanelsIfNotInDefaultValues,
+    updateUncommonSettingsInfo,
+};

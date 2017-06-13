@@ -1,13 +1,11 @@
-/* global
-FEEDBACK_QUESTION_SHOWRESPONSESTO:false, FEEDBACK_QUESTION_SHOWGIVERTO:false, FEEDBACK_QUESTION_SHOWRECIPIENTTO:false
-NEW_QUESTION:false
-*/
 
 const ROW_RECIPIENT = 1;
 const ROW_GIVER_TEAM = 2;
 const ROW_RECIPIENT_TEAM = 3;
 const ROW_OTHER_STUDENTS = 4;
 const ROW_INSTRUCTORS = 5;
+
+const NEW_QUESTION = -1;
 
 // ////////////// //
 // HELPER METHODS //
@@ -452,7 +450,12 @@ function attachVisibilityCheckboxEvent() {
     });
 }
 
-/* exported
-matchVisibilityOptionToFeedbackPath, toggleVisibilityEditTab, toggleVisibilityPreviewTab, attachVisibilityCheckboxEvent
-attachVisibilityDropdownEvent, showVisibilityCheckboxesIfCustomOptionSelected, formatCheckBoxes, getVisibilityMessage
-*/
+export {
+    attachVisibilityCheckboxEvent,
+    attachVisibilityDropdownEvent,
+    formatCheckBoxes,
+    getVisibilityMessage,
+    matchVisibilityOptionToFeedbackPath,
+    showVisibilityCheckboxesIfCustomOptionSelected,
+    tallyCheckboxes,
+};

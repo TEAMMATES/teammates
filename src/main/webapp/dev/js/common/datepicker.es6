@@ -93,3 +93,7 @@ function prepareDatepickers() {
 
     triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
 }
+
+export {
+    prepareDatepickers,
+};

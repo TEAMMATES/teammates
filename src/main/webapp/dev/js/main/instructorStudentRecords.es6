@@ -1,9 +1,7 @@
-/* global toggleSingleCollapse:false,
-          prepareInstructorPages:false,
-          registerResponseCommentsEvent:false
-          registerResponseCommentCheckboxEvent:false
-          enableHoverToDisplayEditOptions:false
-*/
+import { enableHoverToDisplayEditOptions, registerResponseCommentCheckboxEvent,
+        registerResponseCommentsEvent } from '../common/feedbackResponseComments.es6';
+import { prepareInstructorPages } from '../common/instructor.es6';
+import { toggleSingleCollapse } from '../common/ui.es6';
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();

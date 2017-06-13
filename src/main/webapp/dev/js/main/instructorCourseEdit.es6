@@ -1,5 +1,8 @@
-/* global scrollToElement:false BootboxWrapper:false StatusType:false prepareInstructorPages:false */
-/* global COURSE_NAME:false COURSE_TIME_ZONE:false TimeZone:false */
+import { showModalConfirmation } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { prepareInstructorPages } from '../common/instructor.es6';
+import { scrollToElement } from '../common/scrollTo.es6';
+import { TimeZone } from '../common/timezone.es6';
 
 // global parameter to remember settings for custom access level
 
@@ -355,8 +358,8 @@ function bindDeleteInstructorLink() {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm deleting instructor', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.DANGER);
+        showModalConfirmation('Confirm deleting instructor', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
     });
 }
 
@@ -372,8 +375,8 @@ function bindRemindInstructorLink() {
             window.location = $clickedLink.attr('href');
         };
 
-        BootboxWrapper.showModalConfirmation('Confirm re-sending invitation email', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
+        showModalConfirmation('Confirm re-sending invitation email', messageText, okCallback, null,
+                null, null, StatusType.INFO);
     });
 }
 
@@ -527,11 +530,3 @@ $(document).ready(() => {
         showInstructorRoleModal($(e.target).data('role'));
     });
 });
-
-/*
-export default {
-    enableEditInstructor,
-    showNewInstructorForm,
-    showInstructorRoleModal,
-};
-*/

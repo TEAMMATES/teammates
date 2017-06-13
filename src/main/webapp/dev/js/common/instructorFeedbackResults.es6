@@ -1,18 +1,6 @@
-/* global selectElementContents:false,
-          bindPublishButtons:false,
-          bindUnpublishButtons:false,
-          setStatusMessage:false,
-          showSingleCollapse:false,
-          hideSingleCollapse:false,
-          toggleSingleCollapse:false
-*/
-/* exported     submitFormAjax,
-                updateStatsCheckBox,
-                getNextId,
-                displayAjaxRetryMessageForPanelHeading,
-                isEmptySection,
-                removeSection
-*/
+import { bindPublishButtons, bindUnpublishButtons, selectElementContents } from './instructor.es6';
+import { setStatusMessage } from './statusMessage.es6';
+import { hideSingleCollapse, showSingleCollapse, toggleSingleCollapse } from './ui.es6';
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -356,3 +344,12 @@ function prepareInstructorFeedbackResultsPage() {
         submitFormAjax();
     });
 }
+
+export {
+    bindCollapseEvents,
+    displayAjaxRetryMessageForPanelHeading,
+    isEmptySection,
+    prepareInstructorFeedbackResultsPage,
+    removeSection,
+    showHideStats,
+};

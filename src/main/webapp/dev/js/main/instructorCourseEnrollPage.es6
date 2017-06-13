@@ -1,4 +1,6 @@
-/* global BootboxWrapper:false StatusType:false prepareInstructorPages:false */
+import { showModalAlert } from '../common/bootboxWrapper.es6';
+import { StatusType } from '../common/const.es6';
+import { prepareInstructorPages } from '../common/instructor.es6';
 
 const loadUpFunction = function () {
     const typingErrMsg = 'Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.';
@@ -18,8 +20,7 @@ const loadUpFunction = function () {
             if (keycode === ENTER_KEYCODE) {
                 if (isUserTyping(e.target.value) && !notified) {
                     notified = true;
-                    BootboxWrapper.showModalAlert('Invalid separator', typingErrMsg, BootboxWrapper.DEFAULT_OK_TEXT,
-                                                  StatusType.WARNING);
+                    showModalAlert('Invalid separator', typingErrMsg, null, StatusType.WARNING);
                 }
             }
         });
