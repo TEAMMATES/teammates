@@ -51,14 +51,16 @@ function disableAddInstructorForm() {
 /**
  * Enables the Add Instructor form.
  */
-function enableAddInstructorForm() {
+const enableAddInstructorFormImpl = () => {
     $('.addInstructorBtn').each(function () {
         $(this).html('Add Instructor');
     });
     $('.addInstructorFormControl').each(function () {
         $(this).prop('disabled', false);
     });
-}
+};
+
+let enableAddInstructorForm = enableAddInstructorFormImpl;
 
 function addInstructorAjax(isError, data) {
     let rowText;
@@ -95,7 +97,7 @@ function addInstructorAjax(isError, data) {
  * Sends Ajax request to add new instructor(s).
  * It only sends another Ajax request after it finishes.
  */
-function addInstructorByAjaxRecursively() {
+const addInstructorByAjaxRecursivelyImpl = () => {
     $.ajax({
         type: 'POST',
         url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${paramsList[paramsCounter]}`,
@@ -107,7 +109,9 @@ function addInstructorByAjaxRecursively() {
             addInstructorAjax(false, data);
         },
     });
-}
+};
+
+let addInstructorByAjaxRecursively = addInstructorByAjaxRecursivelyImpl;
 
 /**
  * Reads information of instructor(s) from the first panel and adds each instructor one by one.
@@ -168,3 +172,70 @@ $(document).ready(() => {
         addInstructorFromSecondFormByAjax();
     });
 });
+
+function stubEnableAddInstructorForm(fn) {
+    enableAddInstructorForm = fn;
+}
+
+function unstubEnableAddInstructorForm() {
+    enableAddInstructorForm = enableAddInstructorFormImpl;
+}
+
+function stubAddInstructorByAjaxRecursively(fn) {
+    addInstructorByAjaxRecursively = fn;
+}
+
+function unstubAddInstructorByAjaxRecursively() {
+    addInstructorByAjaxRecursively = addInstructorByAjaxRecursivelyImpl;
+}
+
+function getParamsList() {
+    return paramsList;
+}
+
+function getParamsCounter() {
+    return paramsCounter;
+}
+
+function getInstructorDetailsList() {
+    return instructorDetailsList;
+}
+
+function getIsInputFromFirstPanel() {
+    return isInputFromFirstPanel;
+}
+
+function setParamsList(list) {
+    paramsList = list;
+}
+
+function setParamsCounter(n) {
+    paramsCounter = n;
+}
+
+function setInstructorDetailsList(list) {
+    instructorDetailsList = list;
+}
+
+function setIsInputFromFirstPanel(bool) {
+    isInputFromFirstPanel = bool;
+}
+
+export {
+    addInstructorAjax,
+    addInstructorFromFirstFormByAjax,
+    addInstructorFromSecondFormByAjax,
+    createRowForResultTable,
+    getInstructorDetailsList,
+    getIsInputFromFirstPanel,
+    getParamsCounter,
+    getParamsList,
+    setInstructorDetailsList,
+    setIsInputFromFirstPanel,
+    setParamsCounter,
+    setParamsList,
+    stubAddInstructorByAjaxRecursively,
+    stubEnableAddInstructorForm,
+    unstubAddInstructorByAjaxRecursively,
+    unstubEnableAddInstructorForm,
+};

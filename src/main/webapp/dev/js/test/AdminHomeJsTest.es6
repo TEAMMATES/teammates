@@ -1,5 +1,8 @@
-import { addInstructorAjax, addInstructorByAjaxRecursively, addInstructorFromFirstFormByAjax,
-        addInstructorFromSecondFormByAjax, createRowForResultTable, enableAddInstructorForm }
+import { addInstructorAjax, addInstructorFromFirstFormByAjax, addInstructorFromSecondFormByAjax, createRowForResultTable,
+        getInstructorDetailsList, getIsInputFromFirstPanel, getParamsCounter, getParamsList,
+        setInstructorDetailsList, setIsInputFromFirstPanel, setParamsCounter, setParamsList,
+        stubAddInstructorByAjaxRecursively, stubEnableAddInstructorForm,
+        unstubAddInstructorByAjaxRecursively, unstubEnableAddInstructorForm }
         from '../main/adminHome.es6';
 
 QUnit.module('AdminHome.js');
@@ -32,41 +35,34 @@ QUnit.test('createRowForResultTable(shortName, name, email, institution, isSucce
 
 const addInstructorDetailsSingleLine = '<textarea id="addInstructorDetailsSingleLine"></textarea>';
 
-let paramsCounter;
-let paramsList;
-let isInputFromFirstPanel;
-let instructorDetailsList;
-
 QUnit.module('addInstructorAjax', {
     beforeEach() {
-        paramsCounter = 0;
-        paramsList = [];
-        isInputFromFirstPanel = false;
+        setParamsCounter(0);
+        setParamsList([]);
+        setIsInputFromFirstPanel(false);
     },
 });
 
 QUnit.test('test when paramsCounter >= paramsList.length', (assert) => {
     assert.expect(2);
 
-    const implementation = enableAddInstructorForm;
-    enableAddInstructorForm = function () {
+    stubEnableAddInstructorForm(() => {
         assert.ok(true, 'enableAddInstructorForm is called');
-    };
+    });
     addInstructorAjax(true, null);
-    enableAddInstructorForm = implementation;
-    assert.equal(paramsCounter, 1, 'counter is incremented');
+    unstubEnableAddInstructorForm();
+    assert.equal(getParamsCounter(), 1, 'counter is incremented');
 });
 QUnit.test('test when paramsCounter < paramsList.length', (assert) => {
     assert.expect(1);
 
-    paramsList = [0, 1];
+    setParamsList([0, 1]);
 
-    const implementation = addInstructorByAjaxRecursively;
-    addInstructorByAjaxRecursively = function () {
+    stubAddInstructorByAjaxRecursively(() => {
         assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    };
+    });
     addInstructorAjax(true, null);
-    addInstructorByAjaxRecursively = implementation;
+    unstubAddInstructorByAjaxRecursively();
 });
 QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
     const delimiter = '\n';
@@ -74,13 +70,12 @@ QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
     fixture.append(addInstructorDetailsSingleLine);
 
     const testString = 'testString';
-    paramsList = [0, 1];
-    instructorDetailsList = [testString, testString];
-    isInputFromFirstPanel = true;
-    const implementation = addInstructorByAjaxRecursively;
-    addInstructorByAjaxRecursively = function () {
+    setParamsList([0, 1]);
+    setInstructorDetailsList([testString, testString]);
+    setIsInputFromFirstPanel(true);
+    stubAddInstructorByAjaxRecursively(() => {
         assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    };
+    });
 
     addInstructorAjax(true, null);
 
@@ -97,22 +92,22 @@ QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
     };
 
     addInstructorAjax(false, data);
-    const expected = instructorDetailsList.join(delimiter) + delimiter;
+    const expected = getInstructorDetailsList().join(delimiter) + delimiter;
     assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is appended');
 
     data.instructorAddingResultForAjax = true;
     addInstructorAjax(false, data);
     assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is not appended');
 
-    addInstructorByAjaxRecursively = implementation;
+    unstubAddInstructorByAjaxRecursively();
 });
 
 QUnit.module('addInstructor', {
     afterEach() {
-        paramsCounter = 0;
-        paramsList = [];
-        instructorDetailsList = [];
-        isInputFromFirstPanel = false;
+        setParamsCounter(0);
+        setParamsList([]);
+        setInstructorDetailsList([]);
+        setIsInputFromFirstPanel(false);
     },
 });
 QUnit.test('addInstructorFromFirstFormByAjax', (assert) => {
@@ -126,19 +121,18 @@ QUnit.test('addInstructorFromFirstFormByAjax', (assert) => {
     fixture.append(`<textarea id="addInstructorDetailsSingleLine" type="text">${testData.join(delimiter)}</textarea>`);
 
     // test state changes and logic flow
-    isInputFromFirstPanel = false;
-    const implementation = addInstructorByAjaxRecursively;
-    addInstructorByAjaxRecursively = function () {
+    setIsInputFromFirstPanel(false);
+    stubAddInstructorByAjaxRecursively(() => {
         assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    };
+    });
     addInstructorFromFirstFormByAjax();
-    addInstructorByAjaxRecursively = implementation;
+    unstubAddInstructorByAjaxRecursively();
 
-    assert.ok(isInputFromFirstPanel, 'isInputFromFirstPanel is set to true');
+    assert.ok(getIsInputFromFirstPanel(), 'isInputFromFirstPanel is set to true');
 
     // test state data is correctly inserted
-    assert.equal(instructorDetailsList.length, testData.length, 'data appended to instructorDetailsList');
-    assert.equal(paramsList.length, testData.length, 'data appended to paramsList');
+    assert.equal(getInstructorDetailsList().length, testData.length, 'data appended to instructorDetailsList');
+    assert.equal(getParamsList().length, testData.length, 'data appended to paramsList');
 });
 QUnit.test('addInstructorFromSecondFormByAjax', (assert) => {
     assert.expect(8);
@@ -156,20 +150,19 @@ QUnit.test('addInstructorFromSecondFormByAjax', (assert) => {
     fixture.append(addInstructorFields.join());
 
     // test state changes and logic flow
-    isInputFromFirstPanel = true;
-    const implementation = addInstructorByAjaxRecursively;
-    addInstructorByAjaxRecursively = function () {
+    setIsInputFromFirstPanel(true);
+    stubAddInstructorByAjaxRecursively(() => {
         assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    };
+    });
     addInstructorFromSecondFormByAjax();
-    addInstructorByAjaxRecursively = implementation;
+    unstubAddInstructorByAjaxRecursively();
 
-    assert.notOk(isInputFromFirstPanel, 'isInputFromFirstPanel is set to false');
+    assert.notOk(getIsInputFromFirstPanel(), 'isInputFromFirstPanel is set to false');
 
     // test state data is correctly inserted
-    assert.equal(instructorDetailsList.length, 1, 'data appended to instructorDetailsList');
-    assert.equal(paramsList.length, 1, 'data appended to paramsList');
-    const firstParams = paramsList[0];
+    assert.equal(getInstructorDetailsList().length, 1, 'data appended to instructorDetailsList');
+    assert.equal(getParamsList().length, 1, 'data appended to paramsList');
+    const firstParams = getParamsList()[0];
     fields.forEach((field, i) => {
         const fieldValue = testValues[i];
         assert.contains(firstParams, fieldValue, `${fieldValue} is inserted into paramsList`);
