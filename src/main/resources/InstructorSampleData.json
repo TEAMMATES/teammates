@@ -2869,7 +2869,7 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30 9:26 PM UTC"
     },
-    "comment2FromT1C1ToR1Q2S1C1": {
+    "comment1FromT1C1ToR1Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
@@ -2899,7 +2899,7 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30 9:29 PM UTC"
     },
-    "comment2FromT1C1ToR2Q2S1C1": {
+    "comment1FromT1C1ToR2Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
@@ -2929,7 +2929,7 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30 9:33 PM UTC"
     },
-    "comment2FromT1C1ToR5Q2S1C1": {
+    "comment1FromT1C1ToR5Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
@@ -2959,7 +2959,7 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30 9:36 PM UTC"
     },
-    "comment2FromT1C1ToR6Q2S1C1": {
+    "comment1FromT1C1ToR6Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
