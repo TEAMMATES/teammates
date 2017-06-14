@@ -36,8 +36,15 @@
                                         </div>
                                         <c:if test="${not empty response.responseComments}">
                                             <ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
-                                                <c:forEach items="${response.responseComments}" var="responseComment">
-                                                    <shared:feedbackResponseCommentRow frc="${responseComment}" />
+                                                <c:forEach items="${response.responseComments}" var="responseComment" varStatus="status">
+                                                    <c:if test="${viewType == 'GRQ'}">
+                                                        <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${personIndex.index + 1}"
+                                                                secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
+                                                    </c:if>
+                                                    <c:if test="${viewType == 'RGQ'}">
+                                                        <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="1"
+                                                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
+                                                    </c:if>
                                                 </c:forEach>
                                             </ul>
                                         </c:if>
