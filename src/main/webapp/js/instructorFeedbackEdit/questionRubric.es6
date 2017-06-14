@@ -2,6 +2,91 @@
 disallowNonNumericEntries:false, BootboxWrapper:false, StatusType:false
 */
 
+function swapRubricCol(questionNum, colIndex, isSwapLeft) {
+    if ($(`#rubricEditTable-${questionNum}`).length === 0
+            || $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
+            || typeof isSwapLeft !== 'boolean') {
+        // question and column should exist, isSwapLeft must be boolean
+        return;
+    }
+
+    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
+    let swapColIndex;
+    const swapCellAccessorStr = `#rubric-options-row-${questionNum} .rubricCol-${questionNum}-${colIndex}`;
+    const rubricCellSelector = `td[class*='rubricCol-${questionNum}']`;
+
+    if (isSwapLeft) {
+        if ($(swapCellAccessorStr).prev(rubricCellSelector).length !== 0) {
+            swapColIndex = $(swapCellAccessorStr).prev(rubricCellSelector).attr('data-col');
+        } else {
+            // trying to swap left most column to left
+            return;
+        }
+    } else if ($(swapCellAccessorStr).next(rubricCellSelector).length !== 0) {
+        swapColIndex = $(swapCellAccessorStr).next(rubricCellSelector).attr('data-col');
+    } else {
+        // trying to swap right most column to right
+        return;
+    }
+
+    // swap rubric choices
+    let $currentCell = $(`#rubricChoice-${questionNum}-${colIndex}`);
+    let $swapCell = $(`#rubricChoice-${questionNum}-${swapColIndex}`);
+    let temp = $currentCell.val();
+
+    $currentCell.val($swapCell.val());
+    $swapCell.val(temp);
+
+    // swap rubric weights
+    $currentCell = $(`#rubricWeight-${questionNum}-${colIndex}`);
+    $swapCell = $(`#rubricWeight-${questionNum}-${swapColIndex}`);
+    temp = $currentCell.val();
+    $currentCell.val($swapCell.val());
+    $swapCell.val(temp);
+
+    // swap options filled
+    for (let row = 0; row < numberOfRows; row += 1) {
+        $currentCell = $(`#rubricDesc-${questionNum}-${row}-${colIndex}`);
+        $swapCell = $(`#rubricDesc-${questionNum}-${row}-${swapColIndex}`);
+        temp = $currentCell.val();
+        $currentCell.val($swapCell.val());
+        $swapCell.val(temp);
+    }
+}
+
+function disableMoveColumnButtons(questionNum) {
+    const $optionColumns = $(`#rubric-options-row-${questionNum} td[class*='rubricCol-']`);
+
+    // check left button of leftmost column, should be disabled
+    const $leftmostCol = $optionColumns.first();
+    const leftmostColIndex = $leftmostCol.attr('data-col');
+    const $leftmostColLeftBtn = $leftmostCol.find(`#rubric-move-col-left-${questionNum}-${leftmostColIndex}`);
+
+    if (!$leftmostColLeftBtn.prop('disabled')) {
+        $leftmostColLeftBtn.prop('disabled', true);
+    }
+
+    // check right button of rightmost column, should be disabled
+    const $rightmostCol = $optionColumns.last();
+    const rightmostColIndex = $rightmostCol.attr('data-col');
+    const $rightmostColRightBtn = $rightmostCol.find(`#rubric-move-col-right-${questionNum}-${rightmostColIndex}`);
+
+    if (!$rightmostColRightBtn.prop('disabled')) {
+        $rightmostColRightBtn.prop('disabled', true);
+    }
+
+    // check the second last column right button, should be enabled
+    if ($optionColumns.length > 2) {
+        const $secondlastCol = $rightmostCol.prev();
+        const secondlastColIndex = $secondlastCol.attr('data-col');
+        const $secondlastColRightBtn = $secondlastCol.find(`#rubric-move-col-right-${questionNum}-${secondlastColIndex}`);
+
+        if ($secondlastColRightBtn.prop('disabled')) {
+            $secondlastColRightBtn.prop('disabled', false);
+        }
+    }
+}
+
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -207,91 +292,6 @@ function removeRubricCol(index, questionNum) {
     BootboxWrapper.showModalConfirmation('Confirm Deletion', messageText, okCallback, null,
                                          BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT,
                                          StatusType.WARNING);
-}
-
-function swapRubricCol(questionNum, colIndex, isSwapLeft) {
-    if ($(`#rubricEditTable-${questionNum}`).length === 0
-            || $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
-            || typeof isSwapLeft !== 'boolean') {
-        // question and column should exist, isSwapLeft must be boolean
-        return;
-    }
-
-    const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
-    let swapColIndex;
-    const swapCellAccessorStr = `#rubric-options-row-${questionNum} .rubricCol-${questionNum}-${colIndex}`;
-    const rubricCellSelector = `td[class*='rubricCol-${questionNum}']`;
-
-    if (isSwapLeft) {
-        if ($(swapCellAccessorStr).prev(rubricCellSelector).length !== 0) {
-            swapColIndex = $(swapCellAccessorStr).prev(rubricCellSelector).attr('data-col');
-        } else {
-            // trying to swap left most column to left
-            return;
-        }
-    } else if ($(swapCellAccessorStr).next(rubricCellSelector).length !== 0) {
-        swapColIndex = $(swapCellAccessorStr).next(rubricCellSelector).attr('data-col');
-    } else {
-        // trying to swap right most column to right
-        return;
-    }
-
-    // swap rubric choices
-    let $currentCell = $(`#rubricChoice-${questionNum}-${colIndex}`);
-    let $swapCell = $(`#rubricChoice-${questionNum}-${swapColIndex}`);
-    let temp = $currentCell.val();
-
-    $currentCell.val($swapCell.val());
-    $swapCell.val(temp);
-
-    // swap rubric weights
-    $currentCell = $(`#rubricWeight-${questionNum}-${colIndex}`);
-    $swapCell = $(`#rubricWeight-${questionNum}-${swapColIndex}`);
-    temp = $currentCell.val();
-    $currentCell.val($swapCell.val());
-    $swapCell.val(temp);
-
-    // swap options filled
-    for (let row = 0; row < numberOfRows; row += 1) {
-        $currentCell = $(`#rubricDesc-${questionNum}-${row}-${colIndex}`);
-        $swapCell = $(`#rubricDesc-${questionNum}-${row}-${swapColIndex}`);
-        temp = $currentCell.val();
-        $currentCell.val($swapCell.val());
-        $swapCell.val(temp);
-    }
-}
-
-function disableMoveColumnButtons(questionNum) {
-    const $optionColumns = $(`#rubric-options-row-${questionNum} td[class*='rubricCol-']`);
-
-    // check left button of leftmost column, should be disabled
-    const $leftmostCol = $optionColumns.first();
-    const leftmostColIndex = $leftmostCol.attr('data-col');
-    const $leftmostColLeftBtn = $leftmostCol.find(`#rubric-move-col-left-${questionNum}-${leftmostColIndex}`);
-
-    if (!$leftmostColLeftBtn.prop('disabled')) {
-        $leftmostColLeftBtn.prop('disabled', true);
-    }
-
-    // check right button of rightmost column, should be disabled
-    const $rightmostCol = $optionColumns.last();
-    const rightmostColIndex = $rightmostCol.attr('data-col');
-    const $rightmostColRightBtn = $rightmostCol.find(`#rubric-move-col-right-${questionNum}-${rightmostColIndex}`);
-
-    if (!$rightmostColRightBtn.prop('disabled')) {
-        $rightmostColRightBtn.prop('disabled', true);
-    }
-
-    // check the second last column right button, should be enabled
-    if ($optionColumns.length > 2) {
-        const $secondlastCol = $rightmostCol.prev();
-        const secondlastColIndex = $secondlastCol.attr('data-col');
-        const $secondlastColRightBtn = $secondlastCol.find(`#rubric-move-col-right-${questionNum}-${secondlastColIndex}`);
-
-        if ($secondlastColRightBtn.prop('disabled')) {
-            $secondlastColRightBtn.prop('disabled', false);
-        }
-    }
 }
 
 function highlightRubricRow(index, questionNum, highlight) {

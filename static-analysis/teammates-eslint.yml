@@ -35,8 +35,5 @@ rules:
     # disallow reassigning function parameters
     no-param-reassign: ["error", { "props": false }]
 
-    # disallow the use of variables before they are defined
-    no-use-before-define: "off"
-
     # require or disallow strict mode directives
     strict: ["error", "never"]

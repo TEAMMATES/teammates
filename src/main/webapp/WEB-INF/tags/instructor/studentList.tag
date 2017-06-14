@@ -22,19 +22,19 @@
             <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
-                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
+                    <th id="button_sortsection-${courseIndex}" class="toggle-sort button-sort-none<c:if test="${not hasSection}"> hidden</c:if>">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button_sortteam-${courseIndex}" class="button-sort-none toggle-sort">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none toggle-sort">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button_sortstudentstatus" class="button-sort-none toggle-sort">
                         Status <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                    <th id="button_sortemail-${courseIndex}" class="button-sort-none toggle-sort">
                         Email <span class="icon-sort unsorted"></span>
                     </th>
                     <th>Action(s)</th>
