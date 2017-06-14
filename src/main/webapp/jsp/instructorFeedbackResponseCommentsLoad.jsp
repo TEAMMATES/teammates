@@ -40,9 +40,10 @@
                             <tr class="active table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                                 <td>Comment(s):
                                     <button type="button"
-                                            class="btn btn-default btn-xs icon-button pull-right"
+                                            class="btn btn-default btn-xs icon-button pull-right show-frc-add-form"
                                             id="button_add_comment-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
-                                            onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseStatus.count})"
+                                            data-recipientindex="${fsIndex}" data-giverindex="${responseEntriesStatus.count}"
+                                            data-qnindex="${responseStatus.count}"
                                             data-toggle="tooltip" data-placement="top"
                                             title="<%= Const.Tooltips.COMMENT_ADD %>"
                                             <c:if test="${not response.instructorAllowedToSubmit}">disabled</c:if>>

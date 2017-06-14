@@ -32,6 +32,6 @@
     <br>
 
     <div>
-        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructor" onclick="addInstructorFromSecondFormByAjax()">Add Instructor</button>
+        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructor">Add Instructor</button>
     </div>
 </div>
