@@ -25,6 +25,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
@@ -215,19 +216,27 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can view result of Second team feedback session of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
+        InstructorFeedbackResultsPage resultsPage =
+                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
+        //resultsPage.clickCollapseExpandButton();
+        //resultsPage.waitForPanelsToExpand();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
 
         ______TS("new instructor can view result of First team feedback session of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
+        resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
+        resultsPage.clickCollapseExpandButton();
+        resultsPage.waitForPanelsToExpand();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackFirstfeedbacksessionResultsPage.html");
 
         ______TS("new instructor can view result of Session with different question types of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Session with different question types");
+        resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(
+                demoCourseId, "Session with different question types");
+        resultsPage.clickCollapseExpandButton();
+        resultsPage.waitForPanelsToExpand();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorQuestiontypesFeedbackResultsPage.html");
 
         ______TS("new instructor can edit Second team feedback session of sample course");
@@ -244,7 +253,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                              new Text("updated instructions"),
                                              feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContentWithReloadRetry("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
+        feedbackSession =
+                getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
+        assertEquals("<p>updated instructions</p>", feedbackSession.getInstructionsString());
+        //instructorHomePage.verifyHtmlMainContentWithReloadRetry("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
 
         ______TS("new instructor can edit First team feedback session of sample course");
         instructorHomePage.loadInstructorHomeTab();
@@ -258,7 +270,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                              new Text("updated instructions"),
                                              feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContentWithReloadRetry("/newlyJoinedInstructorFirstSessionSuccessEdited.html");
+        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "First team feedback session");
+        assertEquals("<p>updated instructions</p>", feedbackSession.getInstructionsString());
 
         ______TS("new instructor can edit Session with different question types of sample course");
         instructorHomePage.loadInstructorHomeTab();
@@ -273,7 +286,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                              new Text("updated instructions"),
                                              feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContentWithReloadRetry("/newlyJoinedInstructorThirdSessionSuccessEdited.html");
+        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "Session with different question types");
+        assertEquals("<p>updated instructions</p>", feedbackSession.getInstructionsString());
 
         ______TS("new instructor can click submit button of Second team feedback session");
         instructorHomePage.loadInstructorHomeTab();
@@ -296,7 +310,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionRemindLink(demoCourseId,
                                                           "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionRemind.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        //instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionRemind.html");
 
         ______TS("new instructor cannot send reminder of First team feedback session");
         instructorHomePage.loadInstructorHomeTab();
@@ -315,32 +331,50 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can unpublish feedbackSession of First team feedback session");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionUnpublishLink(demoCourseId, "First team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionUnpublished.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        assertEquals("Publish Results",
+                instructorHomePage.getPublishLink(demoCourseId, "First team feedback session").getText());
 
         ______TS("new instructor can unpublish feedbackSession of Second team feedback session");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionUnpublishLink(demoCourseId, "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionUnpublished.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        assertEquals("Publish Results",
+                instructorHomePage.getPublishLink(demoCourseId, "Second team feedback session").getText());
 
         ______TS("new instructor can unpublish feedbackSession of Session with different question types");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionUnpublishLink(demoCourseId, "Session with different question types");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionUnpublished.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        assertEquals("Publish Results",
+                instructorHomePage.getPublishLink(demoCourseId, "Session with different question types").getText());
 
         ______TS("new instructor can publish Second team feedback session of sample course");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionPublished.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        assertEquals("Unpublish Results",
+                instructorHomePage.getUnpublishLink(demoCourseId, "Second team feedback session").getText());
 
         ______TS("new instructor can publish feedbackSession of First team feedback session");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "First team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionPublished.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        assertEquals("Unpublish Results",
+                instructorHomePage.getUnpublishLink(demoCourseId, "First team feedback session").getText());
 
         ______TS("new instructor can publish feedbackSession of Session with different question types");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "Session with different question types");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionPublished.html");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED + "\n" + Const.StatusMessages.FOR_NEW_INSTRUCTOR);
+        assertEquals("Unpublish Results",
+                instructorHomePage.getUnpublishLink(demoCourseId, "Session with different question types").getText());
 
         feedbacksPage.logout();
 
