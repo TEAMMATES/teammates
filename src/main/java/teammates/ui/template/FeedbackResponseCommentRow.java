@@ -88,7 +88,7 @@ public class FeedbackResponseCommentRow {
             String showCommentToString,
             String showGiverNameToString,
             Map<FeedbackParticipantType, Boolean> responseVisibilities) {
-         
+ 
         this(frc, giverDisplay);
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisibilities);
@@ -306,15 +306,15 @@ public class FeedbackResponseCommentRow {
         this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
-    
+
     public String getCommentGiverName() {
         return commentGiverName;
     }
-    
+
     public String getCommentLastEditorName() {
         return commentLastEditorName;
     }
-    
+
     public void setCommentGiverName(String giverEmail) {
         if ("Anonymous".equals(giverEmail)) {
             this.commentGiverName = "Anonymous";
@@ -322,7 +322,7 @@ public class FeedbackResponseCommentRow {
         }
         this.commentGiverName = instructorEmailNameTable.get(giverEmail);
     }
-    
+
     public void setCommentLastEditorName(String lastEditorEmail) {
         if ("Anonymous".equals(lastEditorEmail)) {
             this.commentLastEditorName = "Anonymous";
@@ -332,7 +332,7 @@ public class FeedbackResponseCommentRow {
         }
         this.commentLastEditorName = instructorEmailNameTable.get(lastEditorEmail);
     }
-    
+
     public String setEditedAtText(Date createdAt, Date lastEditedAt) {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
