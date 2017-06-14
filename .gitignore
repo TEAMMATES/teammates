@@ -63,3 +63,7 @@ gradle-app.setting
 
 ### Stylelint ###
 /.stylelintrc.yml
+
+### Gmail API Credentials ###
+/src/test/resources/client_secret.json
+StoredCredential
