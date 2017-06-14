@@ -1,4 +1,9 @@
-/* global toggleSingleCollapse:false prepareInstructorPages:false */
+/* global toggleSingleCollapse:false,
+          prepareInstructorPages:false,
+          registerResponseCommentsEvent:false
+          registerResponseCommentCheckboxEvent:false
+          enableHoverToDisplayEditOptions:false
+*/
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
@@ -17,6 +22,9 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
 
 $(document).ready(() => {
     prepareInstructorPages();
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
