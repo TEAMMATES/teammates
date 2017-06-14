@@ -469,6 +469,20 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
 
+    public boolean verifyPublishLinkDisabled(String courseId, String sessionName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        return !browser.driver.findElement(
+                By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
+                + (sessionRowId + 1) + "]//a[contains(@class,'session-publish-for-test')]")).isEnabled();
+    }
+
+    public boolean verifyUnpublishLinkDisabled(String courseId, String sessionName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        return !browser.driver.findElement(
+                By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
+                + (sessionRowId + 1) + "]//a[contains(@class,'session-unpublish-for-test')]")).isEnabled();
+    }
+
     public boolean verifyHidden(By locator) {
         return !browser.driver.findElement(locator).isDisplayed();
     }

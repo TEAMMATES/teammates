@@ -583,8 +583,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
         String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
 
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+        feedbackPage.verifyPublishLinkDisabled(courseId, sessionName);
+        feedbackPage.verifyUnpublishLinkDisabled(courseId, sessionName);
 
         ______TS("MANUAL: publish link clickable");
 
@@ -601,7 +601,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         ______TS("PUBLISHED: publish link hidden");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
+        feedbackPage.verifyPublishLinkDisabled(courseId, sessionName);
     }
 
     private void testUnpublishAction() throws Exception {
@@ -609,7 +609,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
         String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
+        feedbackPage.verifyPublishLinkDisabled(courseId, sessionName);
 
         ______TS("PRIVATE: unpublish link unclickable");
 
@@ -617,8 +617,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         courseId = testData.feedbackSessions.get("privateSession").getCourseId();
         sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+        feedbackPage.verifyPublishLinkDisabled(courseId, sessionName);
+        feedbackPage.verifyUnpublishLinkDisabled(courseId, sessionName);
 
         ______TS("MANUAL: unpublish link clickable");
 
@@ -637,7 +637,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         ______TS("PUBLISHED: unpublish link hidden");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+        feedbackPage.verifyUnpublishLinkDisabled(courseId, sessionName);
 
     }
 
