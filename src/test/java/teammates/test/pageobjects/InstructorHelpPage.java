@@ -8,7 +8,7 @@ public class InstructorHelpPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1 class=\"HelpHeading\">Help for Instructors</h1>");
+        return getPageSource().contains("<h1 class=\"helpHeading\">Help for Instructors</h1>");
     }
 
 }

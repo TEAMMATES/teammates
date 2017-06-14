@@ -1,6 +1,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:helpPage>
-    <h1 class="HelpHeading">Help for Instructors</h1>
+    <h1 class="helpHeading">Help for Instructors</h1>
     <a name="#top"></a>
     <div id="contentHolder" class="helpGuideMenu">
         <ul>
