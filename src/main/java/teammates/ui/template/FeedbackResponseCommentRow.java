@@ -46,6 +46,18 @@ public class FeedbackResponseCommentRow {
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.commentText = frc.commentText.getValue();
     }
+    //For student feedback Results page.
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
+            Map<String, String> instructorEmailNameTable) {
+        this.instructorEmailNameTable = instructorEmailNameTable;
+        this.commentId = frc.getId();
+        this.giverDisplay = giverDisplay;
+        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
+        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
+        this.commentText = frc.commentText.getValue();
+        setCommentGiverName(giverDisplay);
+        setCommentLastEditorName(frc.lastEditorEmail);
+    }
 
     // for editing / deleting comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
