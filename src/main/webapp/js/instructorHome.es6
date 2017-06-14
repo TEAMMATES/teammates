@@ -5,21 +5,6 @@
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 
-/**
- * This is the comparator that is used for sorting start and end times on the InstructorHome page
- * @param x
- * @param y
- * @returns 1 if Date x is after y, 0 if same and -1 if before
- */
-function instructorHomeDateComparator(x, y) {
-    const x0 = Date.parse(x);
-    const y0 = Date.parse(y);
-    if (x0 > y0) {
-        return 1;
-    }
-    return x0 < y0 ? -1 : 0;
-}
-
 function bindCoursePanels() {
     const $panels = $('div.panel');
     let numPanels = 0;
