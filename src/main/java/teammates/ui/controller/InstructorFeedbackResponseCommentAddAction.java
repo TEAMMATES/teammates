@@ -40,7 +40,6 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
 
@@ -121,7 +120,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
         data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
         data.instructorEmailNameTable = bundle.instructorEmailNameTable;
-        data.question = question;
+        data.question = logic.getFeedbackQuestion(feedbackQuestionId);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
