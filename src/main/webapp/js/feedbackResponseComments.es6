@@ -382,9 +382,16 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
 
-function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''
-            }-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
+    let id;
+
+    if (`${sectionIndex}` !== 'undefined') {
+        id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else if (`${viewType}` !== 'undefined') {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    }
 
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.hide();
@@ -420,9 +427,16 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionId
     }
 }
 
-function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIdx, sectionIdx) {
-    const id = `${sectionIdx !== undefined ? `-${sectionIdx}` : ''
-            }-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIdx, sectionIdx, viewType) {
+    let id;
+
+    if (`${sectionIdx}` !== 'undefined') {
+        id = `-${sectionIdx}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+    } else if (`${viewType}` !== 'undefined') {
+        id = `-${viewType}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+    } else {
+        id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+    }
 
     const visibilityEditForm = $(`#visibility-options${id}`);
     if (visibilityEditForm.is(':visible')) {
@@ -436,9 +450,16 @@ function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentI
     }
 }
 
-function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''
-            }-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
+    let id;
+
+    if (`${sectionIndex}` !== 'undefined') {
+        id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else if (`${viewType}` !== 'undefined') {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    }
 
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.show();
@@ -455,18 +476,24 @@ function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
 
     const clickHandlerMap = new Map();
-    clickHandlerMap.set('.show-frc-add-form',
-            [showResponseCommentAddForm, ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set('.show-frc-edit-form',
-            [showResponseCommentEditForm, ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex']]);
-    clickHandlerMap.set('.hide-frc-add-form',
-            [hideResponseCommentAddForm, ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set('.hide-frc-edit-form',
-            [hideResponseCommentEditForm, ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex']]);
-    clickHandlerMap.set('.toggle-visib-add-form',
-            [toggleVisibilityAddForm, ['sessionindex', 'qnindex', 'responseindex', 'sectionindex']]);
-    clickHandlerMap.set('.toggle-visib-edit-form',
-            [toggleVisibilityEditForm, ['sessionindex', 'qnindex', 'responseindex', 'frcindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.show-frc-add-form', [showResponseCommentAddForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.show-frc-edit-form', [showResponseCommentEditForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.hide-frc-add-form', [hideResponseCommentAddForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.hide-frc-edit-form', [hideResponseCommentEditForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.toggle-visib-add-form', [toggleVisibilityAddForm,
+                    ['sessionindex', 'qnindex', 'responseindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.toggle-visib-edit-form', [toggleVisibilityEditForm,
+                    ['sessionindex', 'qnindex', 'responseindex', 'frcindex', 'sectionindex', 'viewtype']]);
 
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandlerAndParams] of clickHandlerMap) {
@@ -474,7 +501,7 @@ function registerResponseCommentsEvent() {
             const ev = $(e.currentTarget);
             const clickHandler = clickHandlerAndParams[0];
             const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
-            clickHandler(params[0], params[1], params[2], params[3], params[4]);
+            clickHandler(params[0], params[1], params[2], params[3], params[4], params[5]);
         });
     }
     /* eslint-enable no-restricted-syntax */

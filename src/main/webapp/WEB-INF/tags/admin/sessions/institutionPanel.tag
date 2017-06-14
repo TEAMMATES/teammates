@@ -21,20 +21,18 @@
             <thead>
                 <tr>
                     <th>Status</th>
-                    <th onclick="toggleSort(this)"
-                        class="button-sort-non">[Course ID] Session Name &nbsp; <span
+                    <th class="button-sort-none toggle-sort">[Course ID] Session Name &nbsp; <span
                         class="icon-sort unsorted"></span>
                     </th>
                     <th>Response Rate</th>
-                    <th onclick="toggleSort(this,sortDate)"
-                        class="button-sort-non">Start Time&nbsp;
+                    <th class="button-sort-none toggle-sort"
+                        data-toggle-sort-comparator="sortDate">Start Time&nbsp;
                         <span class="icon-sort unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,sortDate)"
-                        class="button-sort-non">End Time&nbsp; <span
+                    <th class="button-sort-none toggle-sort"
+                        data-toggle-sort-comparator="sortDate">End Time&nbsp; <span
                         class="icon-sort unsorted"></span></th>
-                    <th onclick="toggleSort(this)"
-                        class="button-sort-non">Creator
+                    <th class="button-sort-none">Creator
                         <span class="icon-sort unsorted"></span></th>
                 </tr>
             </thead>

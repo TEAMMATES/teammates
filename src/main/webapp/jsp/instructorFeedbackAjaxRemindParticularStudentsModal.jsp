@@ -5,23 +5,23 @@
 <table class="table-responsive table table-bordered">
     <tr class="background-color-medium-gray">
         <th></th>
-        <th onclick="toggleSort(this);" class="button_sortsection button-sort-none">
+        <th class="button_sortsection button-sort-none toggle-sort">
             Section
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortteam button-sort-none">
+        <th class="button_sortteam button-sort-none toggle-sort">
             Team
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortname button-sort-none">
+        <th class="button_sortname button-sort-none toggle-sort">
             Student Name
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortemail button-sort-none">
+        <th class="button_sortemail button-sort-none toggle-sort">
             Email
             <span class="icon-sort unsorted"></span>
         </th>
-        <th onclick="toggleSort(this);" class="button_sortemail button-sort-none">
+        <th class="button_sortemail button-sort-none toggle-sort">
             Submitted?
             <span class="icon-sort unsorted"></span>
         </th>

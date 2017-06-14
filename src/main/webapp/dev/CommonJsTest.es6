@@ -2,7 +2,7 @@
 isWithinView:false, isNumber:false, isDate:false, setStatusMessage:false, clearStatusMessages:false
 roundToThreeDp:false, sanitizeForJs:false, isBlank:false, StatusType:false
 addLoadingIndicator:false, removeLoadingIndicator:false
-sortBase:false, sortNum:false, sortDate:false, getPointValue:false, sortByPoint:false
+Comparators:false, getPointValue:false
 sanitizeGoogleId:false, isValidGoogleId:false, isEmailValid:false, isNameValid:false
 generateRandomString:false, NAME_MAX_LENGTH:false
 */
@@ -83,31 +83,31 @@ QUnit.test('scrollToTop()', (assert) => {
     assert.expect(0);
 });
 
-QUnit.test('sortBase(x, y)', (assert) => {
-    assert.equal(sortBase('abc', 'abc'), 0, 'Same text');
-    assert.equal(sortBase('ABC', 'abc'), -1, 'Bigger text');
-    assert.equal(sortBase('abc', 'ABC'), 1, 'Smaller text');
-    assert.equal(sortBase('abc', 'efg'), -1, 'Different text');
-    assert.equal(sortBase('ABC', 'efg'), -1, 'Bigger text');
-    assert.equal(sortBase('abc', 'EFG'), 1, 'Smaller text');
+QUnit.test('Comparators.sortBase(x, y)', (assert) => {
+    assert.equal(Comparators.sortBase('abc', 'abc'), 0, 'Same text');
+    assert.equal(Comparators.sortBase('ABC', 'abc'), -1, 'Bigger text');
+    assert.equal(Comparators.sortBase('abc', 'ABC'), 1, 'Smaller text');
+    assert.equal(Comparators.sortBase('abc', 'efg'), -1, 'Different text');
+    assert.equal(Comparators.sortBase('ABC', 'efg'), -1, 'Bigger text');
+    assert.equal(Comparators.sortBase('abc', 'EFG'), 1, 'Smaller text');
 });
 
-QUnit.test('sortNum(x, y)', (assert) => {
-    assert.equal(sortNum('1', '2'), -1, 'x=1, y=2');
-    assert.equal(sortNum('-10', '2'), -12, 'x=-10, y=2');
-    assert.equal(sortNum('3', '-1'), 4, 'x=3, y=-1');
-    assert.equal(sortNum('0.1', '0.1'), 0, 'x=0.1, y=0.1');
-    assert.equal(sortNum('-0.1', '0.1'), -0.2, 'x=-0.1, y=0.1');
-    assert.equal(sortNum('0.1', '-0.1'), 0.2, 'x=-0.1, y=-0.1');
+QUnit.test('Comparators.sortNum(x, y)', (assert) => {
+    assert.equal(Comparators.sortNum('1', '2'), -1, 'x=1, y=2');
+    assert.equal(Comparators.sortNum('-10', '2'), -12, 'x=-10, y=2');
+    assert.equal(Comparators.sortNum('3', '-1'), 4, 'x=3, y=-1');
+    assert.equal(Comparators.sortNum('0.1', '0.1'), 0, 'x=0.1, y=0.1');
+    assert.equal(Comparators.sortNum('-0.1', '0.1'), -0.2, 'x=-0.1, y=0.1');
+    assert.equal(Comparators.sortNum('0.1', '-0.1'), 0.2, 'x=-0.1, y=-0.1');
 });
 
-QUnit.test('sortDate(x, y)', (assert) => {
-    assert.equal(sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
+QUnit.test('Comparators.sortDate(x, y)', (assert) => {
+    assert.equal(Comparators.sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
+    assert.equal(Comparators.sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
         '25 April 1999 2:00PM - 25 April 1999 1:59PM');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0,
+    assert.equal(Comparators.sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0,
         '25 April 1999 2:00PM - 25 April 1999 2:00PM');
-    assert.equal(sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
+    assert.equal(Comparators.sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
         '25 April 1999 2:00PM - 25 April 1999 2:01PM');
 });
 
@@ -148,31 +148,31 @@ QUnit.test('getPointValue(s, ditchZero)', (assert) => {
     assert.ok(isCloseEnough(getPointValue('-3.833333', false), 96.166667), 'Float -3.833333');
 });
 
-QUnit.test('sortByPoint(a, b)', (assert) => {
-    assert.ok(sortByPoint('N/S', 'N/A') < 0, 'Case N/S less than N/A');
-    assert.ok(sortByPoint('N/S', 'E') > 0, 'N/S more than E');
-    assert.ok(sortByPoint('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
-    assert.ok(sortByPoint('N/S', 'E -1%') > 0, 'N/S more than E +(-)X%');
+QUnit.test('Comparators.sortByPoints(a, b)', (assert) => {
+    assert.ok(Comparators.sortByPoints('N/S', 'N/A') < 0, 'Case N/S less than N/A');
+    assert.ok(Comparators.sortByPoints('N/S', 'E') > 0, 'N/S more than E');
+    assert.ok(Comparators.sortByPoints('N/A', 'E +1%') > 0, 'N/A more than E +(-)X%');
+    assert.ok(Comparators.sortByPoints('N/S', 'E -1%') > 0, 'N/S more than E +(-)X%');
 
-    assert.ok(sortByPoint('0%', '0%') === 0, 'Case 0% equal 0%');
-    assert.ok(sortByPoint('-1%', '0%') > 0, 'Case 0% less than every X%');
-    assert.ok(sortByPoint('1%', '0%') > 0, 'Case 0% less than every X%');
-    assert.ok(sortByPoint('3%', '-2%') > 0, 'Case 3% more than -2%');
+    assert.ok(Comparators.sortByPoints('0%', '0%') === 0, 'Case 0% equal 0%');
+    assert.ok(Comparators.sortByPoints('-1%', '0%') > 0, 'Case 0% less than every X%');
+    assert.ok(Comparators.sortByPoints('1%', '0%') > 0, 'Case 0% less than every X%');
+    assert.ok(Comparators.sortByPoints('3%', '-2%') > 0, 'Case 3% more than -2%');
 
-    assert.ok(sortByPoint('E +1%', 'E') > 0, 'Case E +1% more than E');
-    assert.ok(sortByPoint('E -1%', 'E') < 0, 'Case E -1% less than E');
-    assert.ok(sortByPoint('E +33%', 'E -23%') > 0, 'Case E +33% more than E -23%');
+    assert.ok(Comparators.sortByPoints('E +1%', 'E') > 0, 'Case E +1% more than E');
+    assert.ok(Comparators.sortByPoints('E -1%', 'E') < 0, 'Case E -1% less than E');
+    assert.ok(Comparators.sortByPoints('E +33%', 'E -23%') > 0, 'Case E +33% more than E -23%');
 
-    assert.ok(sortByPoint('0', '-1') > 0, 'Case Integer 0 more than -1');
-    assert.ok(sortByPoint('1', '0') > 0, 'Case Integer 1 more than 0');
-    assert.ok(sortByPoint('2', '-3') > 0, 'Case Integer 2 more than -3');
+    assert.ok(Comparators.sortByPoints('0', '-1') > 0, 'Case Integer 0 more than -1');
+    assert.ok(Comparators.sortByPoints('1', '0') > 0, 'Case Integer 1 more than 0');
+    assert.ok(Comparators.sortByPoints('2', '-3') > 0, 'Case Integer 2 more than -3');
 
-    assert.ok(sortByPoint('0.0', '1.0') < 0, 'Case Float 0.0 less than 1.0');
-    assert.ok(sortByPoint('0.3', '-1.1') > 0, 'Case Float 0.3 more than -1.1');
-    assert.ok(sortByPoint('0.3', '0.33338') < 0, 'Case Float 0.3 less than 0.33338');
-    assert.ok(sortByPoint('-4.33333', '-4.5') > 0, 'Case Float -4.33333 more than -4.5');
+    assert.ok(Comparators.sortByPoints('0.0', '1.0') < 0, 'Case Float 0.0 less than 1.0');
+    assert.ok(Comparators.sortByPoints('0.3', '-1.1') > 0, 'Case Float 0.3 more than -1.1');
+    assert.ok(Comparators.sortByPoints('0.3', '0.33338') < 0, 'Case Float 0.3 less than 0.33338');
+    assert.ok(Comparators.sortByPoints('-4.33333', '-4.5') > 0, 'Case Float -4.33333 more than -4.5');
 
-    assert.ok(sortByPoint('NotNumber', 'Random') === 0, 'Equality for NaN');
+    assert.ok(Comparators.sortByPoints('NotNumber', 'Random') === 0, 'Equality for NaN');
 });
 
 QUnit.test('setStatusMessage(message,status)', (assert) => {
