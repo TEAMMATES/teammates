@@ -30,7 +30,6 @@ public class AccountAttributes extends EntityAttributes {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
-
     public AccountAttributes() {
         // attributes to be set after construction
     }
@@ -57,7 +56,6 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile.googleId = this.googleId;
     }
 
-
     public static Builder builder(String googleId, String name, String email, String institute) {
         return new Builder(googleId, name, email, institute);
     }
@@ -80,7 +78,6 @@ public class AccountAttributes extends EntityAttributes {
         Assumption.assertNotNull(this.studentProfile);
         return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
-
 
     /**
      * Gets a deep copy of this object.

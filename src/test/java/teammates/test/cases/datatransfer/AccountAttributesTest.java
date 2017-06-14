@@ -181,7 +181,5 @@ public class AccountAttributesTest extends BaseTestCase {
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
 
         return account;
-
     }
-
 }
