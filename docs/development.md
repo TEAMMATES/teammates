@@ -265,9 +265,24 @@ This instruction set assumes that the app identifier is `teammates-john`.
      `https://{version}-dot-teammates-john.appspot.com`, e.g `https://4-18-dot-teammates-john.appspot.com`.
 
 1. (Optional) You can run the tests against the deployed app.
+   * You need to setup `Gmail API` for the project as follows:
+     * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
+       and click `API Manager`.\
+       Click `ENABLE API`.\
+       Click `Gmail API` under `G Suite APIs` and then click `ENABLE`.
+     * Alternatively, you can use [Gmail API Wizard](https://console.cloud.google.com/start/api?id=gmail) to enable
+       `Gmail API`.
+     * Click `Credentials` in the menu of the `API Manager`.
+     * Click `Create credentials` and then select `OAuth client ID`.
+     * Choose `Other`, give it a name, e.g. teammates and click `Create`. You will then get shown your client ID details,
+       click `OK`.
+     * Click the `Download JSON` icon.
+     * Copy the file to `src/test/resources` of your project and rename it to `client_secret.json`.
    * Edit `src/test/resources/test.properties` as instructed is in its comments.
-   * Run the full test suite or any subset of it as how you would have done it in dev server.
-     However, the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
+   * Run the full test suite or any subset of it as how you would have done it in dev server. You may want to run
+     `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
+     time. However, the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no
+     billing enabled.
 
 ## Running client scripts
 
