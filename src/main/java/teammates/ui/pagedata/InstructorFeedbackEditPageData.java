@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -15,9 +16,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.logic.api.Logic;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
@@ -34,6 +37,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackSessionPreviewForm previewForm;
     private String statusForAjax;
     private boolean hasError;
+    private CourseDetailsBundle courseDetails;
+    private int numOfInstructors;
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -54,6 +59,16 @@ public class InstructorFeedbackEditPageData extends PageData {
                                       questions.size(), questionHasResponses,
                                       instructor.courseId, question, i + 1);
         }
+
+        Logic logic = new Logic();
+
+        try {
+            courseDetails = logic.getCourseDetails(feedbackSession.getCourseId());
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Invalid course ID for feedback session.");
+        }
+
+        numOfInstructors = instructorList.size();
 
         buildNewQuestionForm(feedbackSession, questions.size() + 1);
 
@@ -320,6 +335,14 @@ public class InstructorFeedbackEditPageData extends PageData {
         }
 
         return results;
+    }
+
+    public CourseDetailsBundle getCourseDetails() {
+        return courseDetails;
+    }
+
+    public int getNumOfInstructors() {
+        return numOfInstructors;
     }
 
     public FeedbackSessionsForm getFsForm() {

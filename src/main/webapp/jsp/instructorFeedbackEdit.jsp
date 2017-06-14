@@ -54,6 +54,9 @@
     </c:if>
      <br>
     <input type="hidden" id="num-questions" value="${fn:length(data.qnForms)}">
+    <input type="hidden" id="num-students" value="${data.courseDetails.stats.studentsTotal}">
+    <input type="hidden" id="num-teams" value="${data.courseDetails.stats.teamsTotal}">
+    <input type="hidden" id="num-instructors" value="${data.numOfInstructors}">
     <c:forEach items="${data.qnForms}" var="question">
         <feedbackEdit:questionEditForm fqForm="${question}" />
     </c:forEach>

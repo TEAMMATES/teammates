@@ -5,16 +5,32 @@ getQuestionNum: false
 */
 
 function setMaxValForMaxSelectableChoicesInput(questionNum) {
-    // don't count last div as it is the "add option button"
-    const numberOfChoices = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
-    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+    const $maxSelectableChoicesCheckbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
+    const $generateOptionsCheckbox = $(`#generateOptionsCheckbox-${questionNum}`);
 
-    if ($checkbox.prop('checked') && numberOfChoices > 1) {
+    if ($maxSelectableChoicesCheckbox.prop('checked')) {
+        let maxValue = 2;
         const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
-        const val = $msqMaxSelectableChoices.val();
 
-        $msqMaxSelectableChoices.prop('max', numberOfChoices);
-        $msqMaxSelectableChoices.val(Math.min(numberOfChoices, val));
+        if ($generateOptionsCheckbox.prop('checked')) {
+            const selectedVal = $(`#msqGenerateForSelect-${questionNum}`).prop('value');
+
+            if (selectedVal === 'STUDENTS') {
+                maxValue = $('#num-students').val();
+            } else if (selectedVal === 'TEAMS') {
+                maxValue = $('#num-teams').val();
+            } else {
+                maxValue = $('#num-instructors').val();
+            }
+        } else {
+            // don't count last div as it is the "add option" button
+            maxValue = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
+        }
+
+        const currentVal = $msqMaxSelectableChoices.val();
+
+        $msqMaxSelectableChoices.prop('max', maxValue);
+        $msqMaxSelectableChoices.val(Math.min(maxValue, currentVal));
     }
 }
 
@@ -120,6 +136,7 @@ function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
 function changeMsqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
+    setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
 $(document).ready(() => {
