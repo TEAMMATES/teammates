@@ -20,18 +20,18 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th onclick="toggleSort(this);" id="button_sortid"
-                            class="button-sort-ascending">ID <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this);" id="button_sortname"
-                            class="button-sort-none">Name <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this);" id="button_sortdate"
-                            class="button-sort-none">Date <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,sortByPoint);" id="button_sortPoint"
-                            class="button-sort-none">Point <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,sortByPoint);" id="button_sortPointNumber"
-                            class="button-sort-none">Point (Number) <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,sortByDiff);" id="button_sortDiff"
-                            class="button-sort-none">Diff <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortid"
+                            class="button-sort-ascending toggle-sort">ID <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortname"
+                            class="button-sort-none toggle-sort">Name <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortdate"
+                            class="button-sort-none toggle-sort">Date <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortPoint" data-toggle-sort-comparator="sortByPoints"
+                            class="button-sort-none toggle-sort">Point <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortPointNumber" data-toggle-sort-comparator="sortByPoints"
+                            class="button-sort-none toggle-sort">Point (Number) <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortDiff" data-toggle-sort-comparator="sortByDiff"
+                            class="button-sort-none toggle-sort">Diff <span class="icon-sort unsorted"></span></th>
                     </tr>
                 </thead>
                 <tbody>
