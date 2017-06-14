@@ -6,6 +6,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
@@ -53,10 +54,10 @@ public class FeedbackResponseCommentRow {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
         this.commentText = frc.commentText.getValue();
         setCommentGiverName(giverDisplay);
         setCommentLastEditorName(frc.lastEditorEmail);
+        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
     }
 
     // for editing / deleting comments
@@ -316,6 +317,7 @@ public class FeedbackResponseCommentRow {
     public void setCommentGiverName(String giverEmail) {
         if(giverEmail.equals("Anonymous")) {
             this.commentGiverName = "Anonymous";
+            return;
         }
         this.commentGiverName = instructorEmailNameTable.get(giverEmail);
     }
@@ -323,6 +325,9 @@ public class FeedbackResponseCommentRow {
     public void setCommentLastEditorName(String lastEditorEmail) {
         if(lastEditorEmail.equals("Anonymous")) {
             this.commentLastEditorName = "Anonymous";
+            Logger log = Logger.getLogger();
+            log.info(commentLastEditorName);
+            return;
         }
         this.commentLastEditorName = instructorEmailNameTable.get(lastEditorEmail);
     }

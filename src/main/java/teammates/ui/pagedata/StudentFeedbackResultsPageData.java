@@ -14,6 +14,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackResultsQuestionDetails;
@@ -217,7 +218,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
                 String giverEmail = comment.giverEmail;
                 Map<String, String> instructorEmailNameTable = bundle.instructorEmailNameTable;
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, instructorEmailNameTable));
+                comments.add(new FeedbackResponseCommentRow(comment, giverEmail, instructorEmailNameTable));
             }
         }
         return comments;
