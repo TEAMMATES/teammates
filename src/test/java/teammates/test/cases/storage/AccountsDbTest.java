@@ -80,7 +80,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private List<AccountAttributes> createInstructorAccounts(
             int numOfInstructors) throws Exception {
         AccountAttributes a;
+
         List<AccountAttributes> result = new ArrayList<AccountAttributes>();
+
         for (int i = 0; i < numOfInstructors; i++) {
             a = getNewAccountAttributes();
             a.googleId = "id." + i;
@@ -88,6 +90,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
             accountsDb.createAccount(a);
             result.add(a);
         }
+
         return result;
     }
 
@@ -158,9 +161,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
-                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH),
+                            FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                            FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
 
@@ -283,7 +286,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
 
-        ______TS("failure null paramter");
+        ______TS("failure null parameter");
 
         try {
             accountsDb.deleteAccount(null);
@@ -313,3 +316,30 @@ public class AccountsDbTest extends BaseComponentTestCase {
         return a;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

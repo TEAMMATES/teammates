@@ -43,22 +43,22 @@ public class AccountAttributesTest extends BaseTestCase {
         account = createInvalidAccountAttributesObject();
         String expectedError =
                 getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
-                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
-                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                        FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                        + getPopulatedErrorMessage(
+                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                        + getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                        + getPopulatedErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
 
@@ -75,8 +75,9 @@ public class AccountAttributesTest extends BaseTestCase {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount =
                 new Account(account.googleId, account.name, account.isInstructor, account.email,
-                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
-        Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
+                        account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+
+        Account actualAccount = AccountAttributes.valueOf(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
@@ -124,7 +125,7 @@ public class AccountAttributesTest extends BaseTestCase {
         Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
         a.setStudentProfile(null);
 
-        AccountAttributes attr = new AccountAttributes(a);
+        AccountAttributes attr = AccountAttributes.valueOf(a);
 
         assertEquals(a.getGoogleId(), attr.googleId);
         assertEquals(a.getEmail(), attr.email);

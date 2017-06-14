@@ -98,7 +98,7 @@ public class AccountsDb extends EntitiesDb {
         }
         closePm();
 
-        return new AccountAttributes(a);
+        return AccountAttributes.valueOf(a);
     }
 
     public AccountAttributes getAccount(String googleId) {
@@ -117,13 +117,11 @@ public class AccountsDb extends EntitiesDb {
         List<Account> accountsList = (List<Account>) q.execute();
 
         List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
-
         for (Account a : accountsList) {
             if (!JDOHelper.isDeleted(a)) {
-                instructorsAccountData.add(new AccountAttributes(a));
+                instructorsAccountData.add(AccountAttributes.valueOf(a));
             }
         }
-
         return instructorsAccountData;
     }
 
