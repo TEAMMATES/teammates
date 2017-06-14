@@ -219,8 +219,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Please answer all the given questions.
@@ -735,7 +733,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -743,7 +741,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -778,12 +776,12 @@
     <table class="table-responsive table table-striped table-bordered" id="table-sessions">
       <thead>
         <tr class="fill-primary">
-          <th class="button-sort-ascending course-id-table-width" id="button_sortid" onclick="toggleSort(this);">
+          <th class="button-sort-ascending course-id-table-width toggle-sort" id="button_sortid">
             Course ID
             <span class="icon-sort unsorted">
             </span>
           </th>
-          <th class="button-sort-none session-name-table-width" id="button_sortname" onclick="toggleSort(this)">
+          <th class="button-sort-none session-name-table-width toggle-sort" id="button_sortname">
             Session Name
             <span class="icon-sort unsorted">
             </span>

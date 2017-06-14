@@ -68,7 +68,7 @@
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>"
                                     checked>
                             &nbsp;Co-owner: Can do everything
-                            <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
+                            <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>">
                                 View Details
                             </a>
                             <br>
@@ -77,7 +77,7 @@
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>" >
                             &nbsp;Manager: Can do everything except for deleting the course
-                            <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
+                            <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
                                 View Details
                             </a>
                             <br>
@@ -86,7 +86,7 @@
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
                             &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.
-                            <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
+                            <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER %>">
                                 View Details
                             </a>
                             <br>
@@ -95,7 +95,7 @@
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
                             &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                            <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
+                            <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR %>">
                                 View Details
                             </a>
                             <br>
@@ -163,7 +163,7 @@
                                                     </div>
 
                                                     <div class="col-sm-1">
-                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${addInstructorPanel.index}, ${i.index})" class="pull-right">
+                                                        <a href="javascript:;" data-instructorindex="${addInstructorPanel.index}" data-panelindex="${i.index}" class="pull-right hide-tune-section-permissions">
                                                             <span class="glyphicon glyphicon-trash"></span>
                                                         </a>
                                                     </div>
@@ -196,9 +196,24 @@
                                                     <br>
                                                 </div>
 
-                                                <a ${sectionRow.toggleSessionLevelInSectionButton.attributesToString}>
-                                                    ${sectionRow.toggleSessionLevelInSectionButton.content}
-                                                </a>
+                                                <c:choose>
+                                                    <c:when test="${sectionRow.sessionsInSectionSpecial}">
+                                                        <a class="small col-sm-5 hide-tune-session-permissions"
+                                                                id="toggleSessionLevelInSection${sectionRow.panelIndex}ForInstructor${sectionRow.instructorIndex}"
+                                                                data-instructorindex="${sectionRow.instructorIndex}" data-panelindex="${sectionRow.panelIndex}"
+                                                                href="javascript:;">
+                                                            Hide session-level permissions
+                                                        </a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a class="small col-sm-5 show-tune-session-permissions"
+                                                                id="toggleSessionLevelInSection${sectionRow.panelIndex}ForInstructor${sectionRow.instructorIndex}"
+                                                                data-instructorindex="${sectionRow.instructorIndex}" data-panelindex="${sectionRow.panelIndex}"
+                                                                href="javascript:;">
+                                                            Give different permissions for sessions in this section
+                                                        </a>
+                                                    </c:otherwise>
+                                                </c:choose>
 
                                                 <div id="tuneSessionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" class="row" style="display: none;">
                                                     <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}sessionsset" value="false"/>
@@ -243,7 +258,8 @@
                                     </div>
                                 </c:forEach>
                                 <c:if test="${not empty addInstructorPanel.sectionRows}">
-                                    <a href="javascript:;" onclick="showTuneSectionPermissionsDiv(${addInstructorPanel.index}, 0)" class="small"
+                                    <a href="javascript:;"
+                                            data-instructorindex="${addInstructorPanel.index}" data-panelindex="0" class="small show-tune-section-permissions"
                                             id="addSectionLevelForInstructor${addInstructorPanel.index}">
                                         Give different permissions for a specific section
                                     </a>

@@ -152,7 +152,7 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackResponseAttributes responseEntry : responseList) {
             String giverName = frcSearchResultBundle.responseGiverTable.get(responseEntry.getId());
             String recipientName = frcSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
-            String response = responseEntry.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
+            String response = responseEntry.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
 
             rows.add(new ResponseRow(giverName, recipientName, response,
                                        createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle)));

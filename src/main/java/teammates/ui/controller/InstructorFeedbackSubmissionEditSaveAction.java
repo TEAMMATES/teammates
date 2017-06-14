@@ -14,7 +14,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected void verifyAccesibleForSpecificUser() {
+    protected void verifyAccessibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
