@@ -148,6 +148,11 @@ $(document).ready(() => {
     bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
 });
 
+$(document).on('click', '.toggle-sort-and-relabel', (e) => {
+    toggleSort(e.currentTarget);
+    reLabelOrderedAccountEntries();
+});
+
 $(document).on('click', 'ul.pagination li.previous', () => {
     goToPreviousPage();
 });
