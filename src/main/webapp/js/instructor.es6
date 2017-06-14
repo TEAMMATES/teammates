@@ -369,23 +369,6 @@ function attachEventToDeleteStudentLink() {
     });
 }
 
-function bindRemindButtons() {
-    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', (event) => {
-        event.preventDefault();
-
-        const $button = $(event.target);
-        const messageText = `Send e-mails to remind students who have not submitted their feedback for ${
-                           $button.data('fsname')}?`;
-        const okCallback = function () {
-            const urlLink = $button.attr('href');
-            remindButtonAjax(urlLink);
-        };
-
-        BootboxWrapper.showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
-                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
-    });
-}
-
 function remindButtonAjax(urlLink) {
     const $statusMessage = $('#statusMessagesToUser');
     $.ajax({
@@ -402,6 +385,23 @@ function remindButtonAjax(urlLink) {
             const statusToUser = $(data).find('#statusMessagesToUser').html();
             $statusMessage.html(statusToUser);
         },
+    });
+}
+
+function bindRemindButtons() {
+    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', (event) => {
+        event.preventDefault();
+
+        const $button = $(event.target);
+        const messageText = `Send e-mails to remind students who have not submitted their feedback for ${
+                           $button.data('fsname')}?`;
+        const okCallback = function () {
+            const urlLink = $button.attr('href');
+            remindButtonAjax(urlLink);
+        };
+
+        BootboxWrapper.showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
+                BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.INFO);
     });
 }
 
