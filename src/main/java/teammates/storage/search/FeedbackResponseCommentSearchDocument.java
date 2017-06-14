@@ -235,6 +235,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         for (InstructorAttributes ins : instructors) {
             bundle.instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
+            bundle.instructorEmailNameTable.put(ins.email, ins.name);
         }
 
         Set<String> isAdded = new HashSet<String>();
