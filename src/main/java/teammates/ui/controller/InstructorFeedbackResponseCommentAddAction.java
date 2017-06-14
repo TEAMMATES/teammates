@@ -67,7 +67,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         String giverName = bundle.getGiverNameForResponse(response);
         String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
         data.giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
-        
+
         String recipientName = bundle.getRecipientNameForResponse(response);
         String recipientTeamName = bundle.getTeamNameForEmail(recipientEmail);
         data.recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);

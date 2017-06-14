@@ -43,7 +43,6 @@ public class FeedbackResponseCommentRow {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
     }
 
@@ -81,6 +80,7 @@ public class FeedbackResponseCommentRow {
         this.instructorEmailNameTable = instructorEmailNameTable;
         setCommentGiverName(giverDisplay);
         setCommentLastEditorName(frc.lastEditorEmail);
+        this.questionId = frc.feedbackQuestionId;
         this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
     }
 

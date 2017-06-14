@@ -40,10 +40,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         return frc;
     }
 
-    public String[] getCommentIds() {
-        return commentId.split("-");
-    }
-
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilities() {
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.RECEIVER,
@@ -58,6 +54,10 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         }
 
         return responseVisibilities;
+    }
+
+    public String[] getCommentIds() {
+        return commentId.split("-");
     }
 
 }

@@ -2093,7 +2093,7 @@ public class FeedbackSessionResultsBundle {
 
         return teamNameToEmails;
     }
-    
+
     private Map<String, String> getInstructorNameEmailTableFromRoster(CourseRoster roster) {
         Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
         List<InstructorAttributes> instructorList = roster.getInstructors();
