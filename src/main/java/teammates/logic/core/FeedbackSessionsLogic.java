@@ -844,7 +844,7 @@ public final class FeedbackSessionsLogic {
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
-                indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+                indicatedRange, Const.FeedbackSessionResults.GRQ_SORT_TYPE);
         } else if (section == null) {
             results = getFeedbackSessionResultsForInstructorFromQuestion(
                     feedbackSessionName, courseId, userEmail, questionId);
@@ -935,7 +935,7 @@ public final class FeedbackSessionsLogic {
 
         for (FeedbackResponseAttributes response : allResponses) {
 
-            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(fsrBundle, question, response));
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(fsrBundle, response));
             // do not show all possible givers and recipients if there are anonymous givers and recipients
             if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();

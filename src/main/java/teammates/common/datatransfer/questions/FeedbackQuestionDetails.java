@@ -1,6 +1,8 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -74,15 +76,16 @@ public abstract class FeedbackQuestionDetails {
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + this.getCsvHeader() + this.getFeedbackResponseCommentHeader() + Const.EOL;
+               + this.getCsvHeader() + Const.EOL;
     }
     
-    public String getCsvDetailedResponsesHeader(FeedbackSessionResultsBundle fsrBundle) {
+    public String getCsvDetailedResponsesHeader(FeedbackSessionResultsBundle fsrBundle,
+            FeedbackResponseAttributes response) {
         return "Team" + "," + "Giver's Full Name" + ","
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + this.getCsvHeader() + this.getFeedbackResponseCommentHeader(fsrBundle) + Const.EOL;
+               + this.getCsvHeader() + "," + this.getFeedbackResponseCommentHeader(fsrBundle, response) + Const.EOL;
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
@@ -109,6 +112,7 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
+                + "," + fsrBundle.getFeedbackResponseCommentsCsv(feedbackResponseAttributes, question)
                 + Const.EOL;
     }
 
@@ -247,8 +251,14 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
     
-    public String getFeedbackResponseCommentHeader(FeedbackSessionResultsBundle fsrBundle, FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
-        fsrBundle.responseComments.get(response.getId());
+    public String getFeedbackResponseCommentHeader(FeedbackSessionResultsBundle fsrBundle, FeedbackResponseAttributes response) {
+        String header = "";
+        HashSet<String> instructorNames = fsrBundle.getInstructorNamesForComments(response);
+        if(!instructorNames.isEmpty()) {
+            for(String instructorName : instructorNames) {
+                    header = header + "Comment from " + instructorName + ",";
+            }
+        }
+        return header;
     }
-
 }

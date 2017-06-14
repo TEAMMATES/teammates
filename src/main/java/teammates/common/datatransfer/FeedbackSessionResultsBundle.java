@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * Represents detailed results for an feedback session.
@@ -2216,4 +2217,35 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
+    public String getFeedbackResponseCommentsCsv(FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question) {
+        List<FeedbackResponseCommentAttributes> frcList = responseComments.get(response.getId());
+        HashSet<String> instructorNames = getInstructorNamesForComments(response);
+        String comment = "";
+        if(!instructorNames.isEmpty()) {
+            for(String instructorName : instructorNames) {
+                for(FeedbackResponseCommentAttributes frc : frcList) {
+                    if(instructorName.equals(frc.giverEmail)) {
+                        comment = comment + frc.commentText.getValue().substring(3, frc.commentText.getValue().length()-4) + ",";
+                    }
+                }
+            }
+        }
+        return comment;
+    }
+
+    public HashSet<String> getInstructorNamesForComments(FeedbackResponseAttributes response) {
+        HashSet<String> instructorNames = new HashSet<String>();
+        Logger log = Logger.getLogger();
+        log.info(responseComments.toString());
+        if(!this.responseComments.isEmpty()) {
+            List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
+            if(frcList != null) {
+                for(FeedbackResponseCommentAttributes frc : frcList) {
+                    instructorNames.add(frc.giverEmail);
+                }
+            }
+        }
+        return instructorNames;
+    }
 }
