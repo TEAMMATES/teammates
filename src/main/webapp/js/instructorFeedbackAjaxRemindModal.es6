@@ -1,4 +1,16 @@
 /* global remindButtonAjax:false */
+
+function bindRemindButton() {
+    $('#remindModal .remind-particular-button').on('click', (event) => {
+        const $remindButton = $(event.target);
+        const $form = $remindButton.parents('form:first');
+        const action = $form.attr('action');
+        const formData = $form.serialize();
+        const url = `${action}&${formData}`;
+        remindButtonAjax(url);
+    });
+}
+
 function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
@@ -24,14 +36,4 @@ function prepareRemindModal() {
         });
     });
     bindRemindButton();
-}
-
-function bindRemindButton() {
-    $('#remindModal .remind-particular-button').on('click', function () {
-        const $form = $(this).parents('form:first');
-        const action = $form.attr('action');
-        const formData = $form.serialize();
-        const url = `${action}&${formData}`;
-        remindButtonAjax(url);
-    });
 }
