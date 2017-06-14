@@ -88,7 +88,7 @@ public class FeedbackResponseCommentRow {
             String showCommentToString,
             String showGiverNameToString,
             Map<FeedbackParticipantType, Boolean> responseVisibilities) {
- 
+
         this(frc, giverDisplay);
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisibilities);
