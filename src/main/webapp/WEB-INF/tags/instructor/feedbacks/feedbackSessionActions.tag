@@ -65,7 +65,7 @@
             <li>
                 <a class="session-view-for-test" href="${actions.resultsLink}">View Results</a>
             </li>
-            <li<c:if test="${not actions.privateSession}"> class="disabled"</c:if>>
+            <li<c:if test="${actions.privateSession}"> class="disabled"</c:if>>
               <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
             </li>
         </ul>
