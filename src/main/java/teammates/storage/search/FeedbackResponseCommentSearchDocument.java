@@ -235,9 +235,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         for (InstructorAttributes ins : instructors) {
             bundle.instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
-            bundle.instructorEmailNameTable.put(ins.email, ins.name);
         }
-
         Set<String> isAdded = new HashSet<String>();
 
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
@@ -319,9 +317,12 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
             String commentGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
+
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
+            bundle.instructorEmailNameTable.put(comment.giverEmail, commentGiverName);
             bundle.numberOfResults++;
+
         }
 
         for (List<FeedbackQuestionAttributes> questions : bundle.questions.values()) {
