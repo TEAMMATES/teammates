@@ -47,7 +47,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
-                     InstructorAttributes instructor) {
+                     InstructorAttributes instructor, CourseDetailsBundle courseDetails) {
         Assumption.assertNotNull(feedbackSession);
 
         buildFsForm(feedbackSession);
@@ -60,14 +60,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                       instructor.courseId, question, i + 1);
         }
 
-        Logic logic = new Logic();
-
-        try {
-            courseDetails = logic.getCourseDetails(feedbackSession.getCourseId());
-        } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Invalid course ID for feedback session.");
-        }
-
+        this.courseDetails = courseDetails;
         numOfInstructors = instructorList.size();
 
         buildNewQuestionForm(feedbackSession, questions.size() + 1);

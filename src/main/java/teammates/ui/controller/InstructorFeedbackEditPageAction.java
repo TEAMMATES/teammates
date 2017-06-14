@@ -68,7 +68,8 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
-        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor,
+                logic.getCourseDetails(courseId));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
