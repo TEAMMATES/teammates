@@ -250,7 +250,6 @@ The syntax for the pre-configured settings found below are as follows:
 | IntelliJ Setting                   | Node                                | Value                                                 |
 |------------------------------------|-------------------------------------|-------------------------------------------------------|
 | `Google App Engine` Facet          | `/facet[@type='google-app-engine']` | SDK home path is set                                  |
-| `JPA` Facet                        | `/facet[@type='jpa']`               | persistence.xml path                                  |
 | `Web Gradle : teammates.war` Facet | `/facet[@type='web']`               | Web and source folders and deployment descriptor path |
 
 **Parent Node:** `/module/component[@name='NewModuleRootManager']`
