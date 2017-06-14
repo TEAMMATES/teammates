@@ -40,13 +40,12 @@
     <div class="row">
         <div class="col-sm-12">
             <span class="pull-right">
-                <a class="btn btn-primary btn-sm" id="fsEditLink"
+                <a class="btn btn-primary btn-sm enable-edit-fs" id="fsEditLink"
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
-                    data-toggle="tooltip" data-placement="top"
-                    ${fsForm.editButtonTags.attributesToString}>
+                    data-toggle="tooltip" data-placement="top">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
-                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
+                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm">
                     <span class="glyphicon glyphicon-ok"></span> Save
                 </button>
                 <a href="${fsForm.fsDeleteLink}"

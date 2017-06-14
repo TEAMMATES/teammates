@@ -53,8 +53,9 @@
         <br>
     </c:if>
      <br>
+    <input type="hidden" id="num-questions" value="${fn:length(data.qnForms)}">
     <c:forEach items="${data.qnForms}" var="question">
-        <feedbackEdit:questionEditForm fqForm="${question}" numQn="${fn:length(data.qnForms)}"/>
+        <feedbackEdit:questionEditForm fqForm="${question}" />
     </c:forEach>
 
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" nextQnNum="${fn:length(data.qnForms) + 1}"/>

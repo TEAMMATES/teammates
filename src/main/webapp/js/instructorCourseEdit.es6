@@ -38,8 +38,8 @@ function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
         .html('Give different permissions for sessions in this section');
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .attr('onclick', `showTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).removeClass('hide-tune-session-permissions');
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).addClass('show-tune-session-permissions');
     $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
          } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'false');
 }
@@ -52,9 +52,8 @@ function setAddSectionLevelLink(instrNum) {
     for (let idx = 0; idx < allSectionSelects.length; idx += 1) {
         const item = $(allSectionSelects[idx]);
         if (item.attr('value') === 'false') {
-            const sectionNumStr = item.attr('name').substring(14).slice(0, -3);
-            $(`#addSectionLevelForInstructor${instrNum}`)
-                .attr('onclick', `showTuneSectionPermissionsDiv(${instrNum}, ${sectionNumStr})`);
+            const sectionNum = item.attr('name').substring(14).slice(0, -3);
+            $(`#addSectionLevelForInstructor${instrNum}`).data('panelindex', sectionNum);
             foundNewLink = true;
             break;
         }
@@ -104,8 +103,8 @@ function showTunePermissionsDiv(instrNum) {
 function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).html('Hide session-level permissions');
-    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .attr('onclick', `hideTuneSessionnPermissionsDiv(${instrNum}, ${sectionNum})`);
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).removeClass('show-tune-session-permissions');
+    $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).addClass('hide-tune-session-permissions');
     $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
          } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'true');
 }
@@ -217,9 +216,6 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
        } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
 }
 
-// TODO: remove cyclic dependency
-/* eslint-disable no-use-before-define */
-
 function checkPrivilegesOfCustomForInstructor(instrNum) {
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     const originalRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum - 1];
@@ -236,7 +232,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
             }
         } else {
             // 'Not Custom' => 'Custom'
-            checkPrivilegesOfRoleForInstructor(instrNum, originalRole);
+            checkPrivilegesOfRoleForInstructor(instrNum, originalRole); // eslint-disable-line no-use-before-define
         }
     } else {
         // New Instructor?
@@ -264,8 +260,6 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 
     // do nothing if role not recognized
 }
-
-/* eslint-enable no-use-before-define */
 
 function checkTheRoleThatApplies(instrNum) {
     const instrRole = $(`#accessControlInfoForInstr${instrNum} div div p span`).html();
@@ -512,6 +506,26 @@ $(document).ready(() => {
     const editLinks = $('a[id^=instrEditLink]');
     instructorSize = editLinks.length;
     $(editLinks).click(editFormRequest);
+
+    const clickHandlerMap = new Map();
+    clickHandlerMap.set('.hide-tune-section-permissions', hideTuneSectionPermissionsDiv);
+    clickHandlerMap.set('.show-tune-section-permissions', showTuneSectionPermissionsDiv);
+    clickHandlerMap.set('.hide-tune-session-permissions', hideTuneSessionnPermissionsDiv);
+    clickHandlerMap.set('.show-tune-session-permissions', showTuneSessionnPermissionsDiv);
+
+    /* eslint-disable no-restricted-syntax */
+    for (const [className, clickHandler] of clickHandlerMap) {
+        $(document).on('click', className, (e) => {
+            const instructorIndex = $(e.currentTarget).data('instructorindex');
+            const panelIndex = $(e.currentTarget).data('panelindex');
+            clickHandler(instructorIndex, panelIndex);
+        });
+    }
+    /* eslint-enable no-restricted-syntax */
+
+    $(document).on('click', '.view-role-details', (e) => {
+        showInstructorRoleModal($(e.target).data('role'));
+    });
 });
 
 /*

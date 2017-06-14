@@ -9,7 +9,8 @@ setStatusMessage:false, clearStatusMessages:false, fixContribQnGiverRecipient:fa
 showVisibilityCheckboxesIfCustomOptionSelected:false, hasAssignedWeights:false, disallowNonNumericEntries:false
 getVisibilityMessage:false, hideConstSumOptionTable:false, setDefaultContribQnVisibilityIfNeeded:false
 hideRankOptionTable:false, matchVisibilityOptionToFeedbackPath:false prepareDatepickers:false prepareInstructorPages:false
-makeCsrfTokenParam:false
+makeCsrfTokenParam:false, checkEditFeedbackSession:false, tallyCheckboxes:false
+setStatusMessageToForm:false, updateNumScalePossibleValues:false
 
 FEEDBACK_SESSION_PUBLISHDATE:false, FEEDBACK_SESSION_PUBLISHTIME:false, FEEDBACK_SESSION_VISIBLEDATE:false
 FEEDBACK_SESSION_VISIBLETIME:false, FEEDBACK_QUESTION_DESCRIPTION:false, FEEDBACK_QUESTION_EDITTEXT:false
@@ -22,6 +23,11 @@ FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION:false, FEEDBACK_QUESTION_TYPENAME_CON
 FEEDBACK_QUESTION_TYPENAME_CONTRIB:false, FEEDBACK_QUESTION_TYPENAME_RUBRIC:false
 FEEDBACK_QUESTION_RANKTORECIPIENTS:false, FEEDBACK_QUESTION_TYPENAME_RANK_OPTION:false,
 FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT:false, FEEDBACK_QUESTION_COPY_INVALID:false
+FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE:false, FEEDBACK_QUESTION_TYPE:false, FEEDBACK_SESSION_STARTDATE:false
+DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID:false, DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID:false
+DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID:false, DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID:false
+DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID:false, DISPLAY_FEEDBACK_QUESTION_TEXTINVALID:false
+FEEDBACK_QUESTION_NUMSCALE_MIN:false, FEEDBACK_QUESTION_NUMSCALE_MAX:false, FEEDBACK_QUESTION_NUMSCALE_STEP:false
 */
 
 const NEW_QUESTION = -1;
@@ -44,6 +50,71 @@ function getCustomDateTimeFields() {
     return $(`#${FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${FEEDBACK_SESSION_PUBLISHTIME}`)
                                                 .add(`#${FEEDBACK_SESSION_VISIBLEDATE}`)
                                                 .add(`#${FEEDBACK_SESSION_VISIBLETIME}`);
+}
+
+function extractQuestionNumFromEditFormId(id) {
+    return parseInt(id.substring('form_editquestion-'.length, id.length), 10);
+}
+
+function getQuestionNumFromEditForm(form) {
+    if ($(form).attr('name') === 'form_addquestions') {
+        return -1;
+    }
+    return extractQuestionNumFromEditFormId($(form).attr('id'));
+}
+
+/**
+ * Check whether the feedback question input is valid
+ * @param form
+ * @returns {Boolean}
+ */
+function checkFeedbackQuestion(form) {
+    const recipientType = $(form).find(`select[name|=${FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
+                               .find(':selected')
+                               .val();
+    if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
+        if ($(form).find(`[name|=${FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
+                && !$(form).find('.numberOfEntitiesBox').val()) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
+            return false;
+        }
+    }
+    if (!$(form).find(`[name=${FEEDBACK_QUESTION_TEXT}]`).val()) {
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
+        return false;
+    }
+    if ($(form).find(`[name=${FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
+        if (!$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
+                || !$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
+                || !$(form).find(`[name=${FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
+            return false;
+        }
+        const qnNum = getQuestionNumFromEditForm(form);
+        if (updateNumScalePossibleValues(qnNum)) {
+            return true;
+        }
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
+        return false;
+    }
+    return true;
+}
+
+function checkEditFeedbackSession(form) {
+    if (form.visibledate.getAttribute('disabled')) {
+        if (!form.visibledate.value) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER, form);
+            return false;
+        }
+    }
+    if (form.publishdate.getAttribute('disabled')) {
+        if (!form.publishdate.value) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER, form);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -111,7 +182,6 @@ function disableQuestion(questionNum) {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
             readonly: true,
         });
         /* eslint-enable camelcase */
@@ -187,7 +257,6 @@ function enableEditFS() {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
     }
@@ -216,7 +285,6 @@ function enableQuestion(questionNum) {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`, {
             inline: true,
-            fixed_toolbar_container: `#rich-text-toolbar-q-descr-container-${questionNum}`,
         });
         /* eslint-enable camelcase */
     }
@@ -305,7 +373,6 @@ function enableNewQuestion() {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#${FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`, {
             inline: true,
-            fixed_toolbar_container: '#rich-text-toolbar-q-descr-container',
         });
         /* eslint-enable camelcase */
     }
@@ -387,28 +454,6 @@ function getQuestionNum($elementInQuestionForm) {
     }
     const splitCssId = cssId.split('-');
     return splitCssId[splitCssId.length - 1];
-}
-
-/**
- * Pushes the values of all checked check boxes for the specified question
- * into the appropriate feedback question parameters.
- * @returns questionNum
- */
-function tallyCheckboxes(questionNum) {
-    // update hidden parameters (the values in checkboxTypes)
-    const checkboxTypes = {
-        '.answerCheckbox': FEEDBACK_QUESTION_SHOWRESPONSESTO,
-        '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
-        '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO,
-    };
-
-    $.each(checkboxTypes, (classSelector, checkboxType) => {
-        const checked = [];
-        $(`#form_questionedit-${questionNum}`).find(`${classSelector}:checked`).each(function () {
-            checked.push($(this).val());
-        });
-        $(`[name=${checkboxType}]`).val(checked.toString());
-    });
 }
 
 /**
@@ -876,6 +921,8 @@ function prepareDescription(form) {
  * This function is called on edit page load.
  */
 function readyFeedbackEditPage() {
+    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
+
     // Disable all questions
     disableAllQuestions();
 
@@ -965,7 +1012,6 @@ $(document).ready(() => {
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
             readonly: true,
-            fixed_toolbar_container: '#richtext-toolbar-container',
         });
         /* eslint-enable camelcase */
     }
@@ -980,8 +1026,30 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
-});
 
-/* exported
-enableEditFS, enableEdit, deleteQuestion, discardChanges
-*/
+    $('#fsSaveLink').on('click', (e) => {
+        checkEditFeedbackSession(e.target.form);
+    });
+
+    $(document).on('change', '.participantSelect', (e) => {
+        matchVisibilityOptionToFeedbackPath(e.target);
+        getVisibilityMessage(e.target);
+    });
+
+    $(document).on('click', '.btn-discard-changes', (e) => {
+        discardChanges($(e.target).data('qnnumber'));
+    });
+
+    $(document).on('click', '.btn-edit-qn', (e) => {
+        const maxQuestions = parseInt($('#num-questions').val(), 10);
+        enableEdit($(e.target).data('qnnumber'), maxQuestions);
+    });
+
+    $(document).on('click', '.btn-delete-qn', (e) => {
+        deleteQuestion($(e.target).data('qnnumber'));
+    });
+
+    $(document).on('submit', '.tally-checkboxes', (e) => {
+        tallyCheckboxes($(e.target).data('qnnumber'));
+    });
+});

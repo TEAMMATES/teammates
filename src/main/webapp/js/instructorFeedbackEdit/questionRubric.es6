@@ -19,8 +19,7 @@ function addRubricRow(questionNum) {
         const rubricRowFragment =
             `<td class="align-center rubricCol-${questionNum}-${cols}">
                 <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}"
-                        name="rubricDesc-${newRowNumber - 1}-${cols}">
-                </textarea>
+                        name="rubricDesc-${newRowNumber - 1}-${cols}"></textarea>
             </td>`;
         rubricRowBodyFragments += rubricRowFragment;
     }
@@ -38,8 +37,7 @@ function addRubricRow(questionNum) {
                         <span class="glyphicon glyphicon-remove"></span>
                     </span>
                     <textarea class="form-control" rows="3" id="rubricSubQn-${questionNum}-${newRowNumber - 1}"
-                            name="rubricSubQn-${newRowNumber - 1}">
-                    </textarea>
+                            name="rubricSubQn-${newRowNumber - 1}"></textarea>
                 </div>
             </td>
             ${rubricRowBodyFragments}
@@ -109,8 +107,7 @@ function addRubricCol(questionNum) {
         const rubricRowFragment =
             `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">
                 <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}"
-                        name="rubricDesc-${rows}-${newColNumber - 1}">
-                </textarea>
+                        name="rubricDesc-${rows}-${newColNumber - 1}"></textarea>
             </td>`;
 
         // Insert after previous <td>

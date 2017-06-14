@@ -2,20 +2,6 @@
 setStatusMessage:false StatusType:false bindBackToTopButtons:false addLoadingIndicator:false removeLoadingIndicator:false
 */
 
-$(document).ready(() => {
-    $('#filterReference').toggle();
-    enableOnclicks();
-    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
-    highlightKeywordsInLogMessages();
-});
-
-function enableOnclicks() {
-    $(document).on('click', '#button_older', () => {
-        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
-        submitFormAjax(nextEndTimeToSearch);
-    });
-}
-
 function toggleReference() {
     $('#filterReference').toggle('slow');
 
@@ -63,34 +49,6 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     });
 }
 
-function submitFormAjax(searchTimeOffset) {
-    $('input[name=searchTimeOffset]').val(searchTimeOffset);
-
-    const formObject = $('#ajaxLoaderDataForm');
-    const formData = formObject.serialize();
-    const $button = $('#button_older');
-    const $logsTable = $('#activity-logs-table > tbody');
-
-    $.ajax({
-        type: 'POST',
-        url: `/admin/adminActivityLogPage?${formData}`,
-        beforeSend() {
-            addLoadingIndicator($button, '');
-        },
-        error() {
-            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
-            removeLoadingIndicator($button, 'Retry');
-        },
-        success(data) {
-            const $data = $(data);
-            $logsTable.append($data.find('#activity-logs-table > tbody').html());
-            updateInfoForRecentActionButton();
-            highlightKeywordsInLogMessages();
-            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
-        },
-    });
-}
-
 function setFormErrorMessage(button, msg) {
     button.after(`&nbsp;&nbsp;&nbsp;${msg}`);
 }
@@ -122,11 +80,53 @@ function highlightKeywordsInLogMessages() {
     });
 }
 
-/*
-export default {
-    toggleReference,
-    submitLocalTimeAjaxRequest,
-    submitFormAjax,
-};
-*/
-/* exported toggleReference, submitLocalTimeAjaxRequest, submitFormAjax */
+function submitFormAjax(searchTimeOffset) {
+    $('input[name=searchTimeOffset]').val(searchTimeOffset);
+
+    const formObject = $('#ajaxLoaderDataForm');
+    const formData = formObject.serialize();
+    const $button = $('#button_older');
+    const $logsTable = $('#activity-logs-table > tbody');
+
+    $.ajax({
+        type: 'POST',
+        url: `/admin/adminActivityLogPage?${formData}`,
+        beforeSend() {
+            addLoadingIndicator($button, '');
+        },
+        error() {
+            setFormErrorMessage($button, 'Failed to load older logs. Please try again.');
+            removeLoadingIndicator($button, 'Retry');
+        },
+        success(data) {
+            const $data = $(data);
+            $logsTable.append($data.find('#activity-logs-table > tbody').html());
+            updateInfoForRecentActionButton();
+            highlightKeywordsInLogMessages();
+            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
+        },
+    });
+}
+
+$(document).ready(() => {
+    $('#filterReference').toggle();
+    bindBackToTopButtons('.back-to-top-left, .back-to-top-right');
+    highlightKeywordsInLogMessages();
+
+    $(document).on('click', '#button_older', () => {
+        const nextEndTimeToSearch = $('#button_older').attr('data-next-end-time-to-search');
+        submitFormAjax(nextEndTimeToSearch);
+    });
+
+    $('#btn-toggle-reference').on('click', () => {
+        toggleReference();
+    });
+
+    $(document).on('click', '.log-entry', (e) => {
+        const entry = e.target;
+        const logTime = $(entry).data('logtime');
+        const googleId = $(entry).data('googleid');
+        const displayedRole = $(entry).data('displayedrole');
+        submitLocalTimeAjaxRequest(logTime, googleId, displayedRole, entry);
+    });
+});

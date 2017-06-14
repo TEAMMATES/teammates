@@ -483,12 +483,17 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
+            double total = computeTotal(points);
+
+            fragments.append(option)
+                    .append(',').append(df.format(average))
+                    .append(',').append(df.format(total))
+                    .append(Const.EOL);
 
         }
 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
-               + ", Average Points" + Const.EOL
+               + ", Average Points, Total Points" + Const.EOL
                + fragments + Const.EOL;
     }
 
