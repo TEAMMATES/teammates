@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "30 May 2017",
+  "lastUpdated": "31 May 2017",
   "institutes": {
      "Argentina": [
        "Southworks",
@@ -320,8 +320,7 @@
       "Sciences Po",
       "SKEMA Business School",
       "Telecom Paris Tech",
-      "University of Lyon",
-      "University of the Aegean"
+      "University of Lyon"
     ],
     "Germany": [
       "Bielefeld University",
@@ -349,7 +348,8 @@
       "Athens University of Economics and Business",
       "City College",
       "MIO-ECSDE",
-      "University of Sheffield"
+      "University of Sheffield",
+      "University of the Aegean"
     ],
     "Guatemala": [
       "Colegio Americano del Sur",
@@ -480,7 +480,7 @@
       "Lebanese American University"
     ],
     "Lithuania": [
-      "Šiauliu Dainu progymnasium"
+      "Šiaulių Dainų progymnasium"
     ],
     "Macau": [
       "Institute for Tourism Studies"
@@ -566,7 +566,7 @@
       "Maris College Belgisch Park",
       "Mhc Bommelerwaard",
       "Mikrocentrum",
-      "NHTV University of Applied Sciences",
+      "NHTV Breda University of Applied Sciences",
       "PBS Heemstede",
       "Regius College Schagen",
       "ROC van Amsterdam",
@@ -588,6 +588,7 @@
       "University of Inholland",
       "University of Twente",
       "Utrecht University",
+      "Utrecht University of Applied Sciences",
       "Vrije Universiteit Amsterdam",
       "Windesheim Honours College",
       "Zuyd Hogeschool",
