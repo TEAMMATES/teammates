@@ -47,6 +47,7 @@ public class FeedbackResponseCommentRow {
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.commentText = frc.commentText.getValue();
     }
+
     //For student feedback Results page.
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             Map<String, String> instructorEmailNameTable) {
@@ -315,7 +316,7 @@ public class FeedbackResponseCommentRow {
     }
     
     public void setCommentGiverName(String giverEmail) {
-        if(giverEmail.equals("Anonymous")) {
+        if ("Anonymous".equals(giverEmail)) {
             this.commentGiverName = "Anonymous";
             return;
         }
@@ -323,7 +324,7 @@ public class FeedbackResponseCommentRow {
     }
     
     public void setCommentLastEditorName(String lastEditorEmail) {
-        if(lastEditorEmail.equals("Anonymous")) {
+        if ("Anonymous".equals(lastEditorEmail)) {
             this.commentLastEditorName = "Anonymous";
             Logger log = Logger.getLogger();
             log.info(commentLastEditorName);
@@ -333,12 +334,12 @@ public class FeedbackResponseCommentRow {
     }
     
     public String setEditedAtText(Date createdAt, Date lastEditedAt) {
-        if(lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+        if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
-        boolean isGiverAnonymous = commentLastEditorName.equals("Anonymous");
+        boolean isGiverAnonymous = "Anonymous".equals(commentLastEditorName);
         return "(last edited "
-        + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
-        + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
+            + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
+            + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
     }
 }

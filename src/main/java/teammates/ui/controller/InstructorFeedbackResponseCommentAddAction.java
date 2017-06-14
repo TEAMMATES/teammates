@@ -2,10 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.mortbay.log.Log;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -20,11 +16,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
-import teammates.ui.template.FeedbackResponseCommentRow;
-import teammates.ui.template.QuestionTable;
 
 /**
  * Action: Create a new {@link FeedbackResponseCommentAttributes}.

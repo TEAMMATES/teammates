@@ -2097,7 +2097,7 @@ public class FeedbackSessionResultsBundle {
     private Map<String, String> getInstructorNameEmailTableFromRoster(CourseRoster roster) {
         Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
         List<InstructorAttributes> instructorList = roster.getInstructors();
-        for(InstructorAttributes instructor : instructorList) {
+        for (InstructorAttributes instructor : instructorList) {
             instructorEmailNameTable.put(instructor.email, instructor.name);
         }
         return instructorEmailNameTable;
@@ -2234,6 +2234,7 @@ public class FeedbackSessionResultsBundle {
     public boolean isComplete() {
         return isComplete;
     }
+
     public Map<String, String> getInstructorNameForEmailTable() {
         return instructorEmailNameTable;
     }

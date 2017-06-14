@@ -26,7 +26,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.InstructorsLogic;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -1436,10 +1435,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         log.info(bundle.getInstructorNameForEmailTable().toString());
         log.info("hello");
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                                           frcAttributes, bundle.instructorEmailNameTable, frcAttributes.giverEmail, giverName, recipientName,
-                                           getResponseCommentVisibilityString(frcAttributes, question),
-                                           getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap);
+                frcAttributes, bundle.instructorEmailNameTable, frcAttributes.giverEmail, giverName,
+                recipientName, getResponseCommentVisibilityString(frcAttributes, question),
+                getResponseCommentGiverNameVisibilityString(frcAttributes, question), responseVisibilityMap);
 
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
