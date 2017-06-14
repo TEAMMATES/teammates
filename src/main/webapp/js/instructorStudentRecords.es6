@@ -1,4 +1,9 @@
-/* global toggleSingleCollapse:false prepareInstructorPages:false */
+/* global toggleSingleCollapse:false,
+          prepareInstructorPages:false,
+          registerResponseCommentsEvent:false
+          registerResponseCommentCheckboxEvent:false
+          enableHoverToDisplayEditOptions:false
+*/
 
 function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
@@ -9,7 +14,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
     targetDiv.load(url, (response, status) => {
         if (status === 'success') {
-            $(sender).removeAttr('onclick');
+            $(sender).removeClass('load-feedback-session');
         }
         $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
@@ -17,9 +22,21 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
 
 $(document).ready(() => {
     prepareInstructorPages();
-
-    // Auto-loading for feedback responses
-    $('div[id^="studentFeedback-"]').click();
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
 
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
+
+    $('.load-feedback-session').on('click', (e) => {
+        const entry = e.target;
+        const courseId = $(entry).data('courseid');
+        const studentEmail = $(entry).data('studentemail');
+        const googleId = $(entry).data('googleid');
+        const fsName = $(entry).data('fsname');
+        loadFeedbackSession(courseId, studentEmail, googleId, fsName, entry);
+    });
+
+    // Auto-loading for feedback responses
+    $('.load-feedback-session').click();
 });

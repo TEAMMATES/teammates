@@ -6,8 +6,11 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetails" prefix="ticsd" %>
 <c:set var="jsIncludes">
+    <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
+    <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 </c:set>
 <c:set var="bodyTitle">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
@@ -21,9 +24,10 @@
             <div class="col-md-12">
                 <br>
                 <c:forEach items="${data.sessionNames}" var="fsName" varStatus="fbIndex">
-                    <div class="student_feedback panel panel-default"
-                         id="studentFeedback-${fbIndex.index}" 
-                         onclick="loadFeedbackSession('${data.courseId}', '${data.studentEmail}', '${data.googleId}','${fsName}', this)">
+                    <div class="student_feedback panel panel-default load-feedback-session"
+                         id="studentFeedback-${fbIndex.index}"
+                         data-courseid="${data.courseId}" data-studentemail="${data.studentEmail}"
+                         data-googleid="${data.googleId}" data-fsname="${fsName}">
                         <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-${fbIndex.index}" style="cursor: pointer;">
                             <div class="display-icon pull-right"><span class="glyphicon pull-right glyphicon-chevron-up"></span></div>
                             <span id="feedback_name-${fbIndex.index}">
@@ -35,7 +39,7 @@
                             <div class="panel-body" id="target-feedback-${fbIndex.index}"></div>
                         </div>
                     </div>
-                    <br>                    
+                    <br>
                 </c:forEach>
             </div>
         </div>

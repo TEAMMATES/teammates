@@ -14,7 +14,7 @@
         <exclude name="AvoidSynchronizedAtMethodLevel"/>
         <exclude name="NonThreadSafeSingleton"/>
 
-        <!-- Very difficult to enforce -->        
+        <!-- Very difficult to enforce -->
         <exclude name="GodClass"/>
         <exclude name="ImmutableField"/>
 
@@ -78,12 +78,12 @@
     <!--<rule ref="rulesets/java/controversial.xml"/>-->
     <!--<rule ref="rulesets/java/coupling.xml"/>-->
     <!--<rule ref="rulesets/java/sunsecure.xml"/>-->
-    
+
     <!-- Handled by Checkstyle -->
     <!--<rule ref="rulesets/java/braces.xml"/>-->
     <!--<rule ref="rulesets/java/imports.xml"/>-->
     <!--<rule ref="rulesets/java/naming.xml"/>-->
-    
+
     <!-- Irrelevant for our code -->
     <!--<rule ref="rulesets/java/clone.xml"/>-->
     <!--<rule ref="rulesets/java/finalizers.xml"/>-->

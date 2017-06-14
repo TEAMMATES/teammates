@@ -20,18 +20,18 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th onclick="toggleSort(this);" id="button_sortid"
-                            class="button-sort-ascending">ID <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this);" id="button_sortname"
-                            class="button-sort-none">Name <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this);" id="button_sortdate"
-                            class="button-sort-none">Date <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,sortByPoint);" id="button_sortPoint"
-                            class="button-sort-none">Point <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,sortByPoint);" id="button_sortPointNumber"
-                            class="button-sort-none">Point (Number) <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,sortByDiff);" id="button_sortDiff"
-                            class="button-sort-none">Diff <span class="icon-sort unsorted"></span></th>   
+                        <th id="button_sortid"
+                            class="button-sort-ascending toggle-sort">ID <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortname"
+                            class="button-sort-none toggle-sort">Name <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortdate"
+                            class="button-sort-none toggle-sort">Date <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortPoint" data-toggle-sort-comparator="sortByPoints"
+                            class="button-sort-none toggle-sort">Point <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortPointNumber" data-toggle-sort-comparator="sortByPoints"
+                            class="button-sort-none toggle-sort">Point (Number) <span class="icon-sort unsorted"></span></th>
+                        <th id="button_sortDiff" data-toggle-sort-comparator="sortByDiff"
+                            class="button-sort-none toggle-sort">Diff <span class="icon-sort unsorted"></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +52,7 @@
                         <td >0.2</td>
                         <td >+1%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >2</td>
                         <td >Hou GuoChen</td>
@@ -61,7 +61,7 @@
                         <td >0.333</td>
                         <td >+3%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >3</td>
                         <td ><div id="thiscomesfirst">Phan Thi Quynh Trang</div></td>
@@ -70,7 +70,7 @@
                         <td >0.45</td>
                         <td >0%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >15</td>
                         <td ><div id="thiscomessecond">Ang Ji Kai</div></td>
@@ -79,7 +79,7 @@
                         <td >0.9</td>
                         <td >+5%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >24</td>
                         <td >Le Minh Khue</td>
@@ -88,7 +88,7 @@
                         <td >1</td>
                         <td >-1%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >33</td>
                         <td >Shum Chee How</td>
@@ -97,7 +97,7 @@
                         <td >1.1</td>
                         <td >+25%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >-0.001</td>
                         <td >Teo Yock Swee Terence</td>
@@ -106,7 +106,7 @@
                         <td >1.333</td>
                         <td >-2%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >-1.3</td>
                         <td >Le Minh Khue</td>
@@ -115,7 +115,7 @@
                         <td >1.45</td>
                         <td >+30%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >10.7</td>
                         <td >Luk Ming Kit</td>
@@ -124,7 +124,7 @@
                         <td >-0.1</td>
                         <td >-10%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >10.3</td>
                         <td >Zhang HaoQiang</td>
@@ -133,7 +133,7 @@
                         <td >-0.4</td>
                         <td >+99%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >-2</td>
                         <td >Le Minh Khue</td>
@@ -142,7 +142,7 @@
                         <td >-0.5</td>
                         <td >-20%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >-13.5</td>
                         <td >Chong Kok Wei</td>
@@ -151,7 +151,7 @@
                         <td >-1</td>
                         <td >N/A</td>
                     </tr>
-                    
+
                     <tr>
                         <td >10.35</td>
                         <td >Tan Guo Wei</td>
@@ -160,7 +160,7 @@
                         <td >-1.51</td>
                         <td >-99%</td>
                     </tr>
-                    
+
                     <tr>
                         <td >10.01</td>
                         <td >Le Minh Khue</td>

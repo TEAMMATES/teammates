@@ -58,93 +58,6 @@ function showHideStats() {
     }
 }
 
-// Filter functionality
-// Filtering is done by searching the heading text in all panels (section, team name, student name)
-//
-// When the heading text of a panel is found to match the search text,
-// all nested panels in the panel will be shown and parent panels of the panel will be shown as well
-//
-// When at least one of the nested panels in a panel is found to contain the search text in its title,
-// the panel will be shown
-function filterResults(rawSearchText) {
-    // Reduce white spaces to only 1 white space
-    const searchText = rawSearchText.split('\\s+').join(' ').toLowerCase();
-
-    // all panel text will be sorted in post-order
-    const allPanelText = $('#mainContent').find('div.panel-heading-text');
-
-    // a stack that stores parent panels that are pending on
-    // the search result from the child panels to decide show/hide
-    const showStack = [];
-
-    // a stack that stores the parent panels that have been traversed so far
-    const parentStack = [];
-
-    for (let p = 0; p < allPanelText.length; p += 1) {
-        const panelText = allPanelText[p];
-        const panel = $(panelText).closest('div.panel');
-
-        // find the number of child panels in the current panel
-        const childrenSize = $(panel).find('div.panel-heading-text').not(panelText).length;
-        const hasChild = childrenSize > 0;
-
-        const panelParent = $(panel).parent().closest('div.panel');
-
-        // reset traversed parent panel stack & pending parent panel stack
-        // to the parent of current panel
-        while (parentStack.length > 0 && !parentStack[parentStack.length - 1].is(panelParent)) {
-            parentStack.pop();
-            if (showStack.length > 0) {
-                $(showStack.pop()).hide();
-            }
-        }
-
-        // current panel text matches with the search text
-        if ($(panelText).text().toLowerCase().indexOf(searchText) !== -1) {
-            // pop and show all parent panels from the showStack
-            while (showStack.length > 0) {
-                $(showStack.pop()).show();
-            }
-
-            // show current panel
-            $(panel).show();
-
-            // show all child panels of current panel
-            if (hasChild) {
-                for (let c = p + 1; c <= p + childrenSize; c += 1) {
-                    const childPanel = $(allPanelText[c]).closest('div.panel');
-                    $(childPanel).show();
-                }
-
-                // increment counter to skip child panels that have been shown
-                p += childrenSize;
-            }
-        } else if (hasChild) {
-            // current panel text does not match with search text & current panel has child panels
-            // add current panel to pending parent panel stack
-            showStack.push(panel);
-        } else {
-            // current panel text does not match with search text & current panel has no child panels
-            $(panel).hide();
-        }
-
-        if (hasChild) {
-            // push current panel when it has child panels
-            parentStack.push(panel);
-        }
-    }
-
-    // hide panels that are still remain on the showStack
-    while (showStack.length > 0) {
-        $(showStack.pop()).hide();
-    }
-}
-
-function updateResultsFilter() {
-    $('input[id=filterTextForDownload]').val($('#results-search-box').val());
-    filterResults($('#results-search-box').val());
-}
-
 function updateStatsCheckBox() {
     $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
 }
@@ -249,12 +162,6 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     }
 }
 
-function getNextId(e) {
-    const id = $(e).attr('id');
-    const nextId = `#panelBodyCollapse-${parseInt(id.split('-')[1], 10) + 1}`;
-    return nextId;
-}
-
 function bindCollapseEvents(panels, nPanels) {
     let numPanels = nPanels;
     for (let i = 0; i < panels.length; i += 1) {
@@ -354,15 +261,6 @@ function prepareInstructorFeedbackResultsPage() {
         expandOrCollapsePanels(e.currentTarget, panels);
     });
 
-    $('#results-search-box').keyup(updateResultsFilter);
-
-    // prevent submitting form when enter is pressed.
-    $('#results-search-box').keypress((e) => {
-        if (e.which === 13) {
-            e.preventDefault();
-        }
-    });
-
     if ($('.panel-success').length >= 1 || $('.panel-info').length >= 1 || $('.panel-default').length >= 1) {
         $('#collapse-panels-button').show();
     } else {
@@ -385,13 +283,6 @@ function prepareInstructorFeedbackResultsPage() {
     bindUnpublishButtons();
 
     $('#button-print').on('click', () => {
-        // Fix to hide the filter placeholder when it is empty.
-        if ($('#results-search-box').val()) {
-            $('#filter-box-parent-div').removeClass('hide-for-print');
-        } else {
-            $('#filter-box-parent-div').addClass('hide-for-print');
-        }
-
         $('#mainContent').printThis({
             importCSS: true,
             importStyle: true,
@@ -432,4 +323,36 @@ function prepareInstructorFeedbackResultsPage() {
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
+
+    $('#viewSelect').on('change', (e) => {
+        e.target.form.submit();
+    });
+
+    $('#sectionSelect').on('change', (e) => {
+        e.target.form.submit();
+    });
+
+    $('#indicate-missing-responses-checkbox').on('change', (e) => {
+        e.target.form.submit();
+    });
+
+    $('.checkbox-group-by-team').on('change', (e) => {
+        e.target.form.submit();
+    });
+
+    $('#show-stats-checkbox').on('change', () => {
+        updateStatsCheckBox();
+    });
+
+    $('#collapse-panels-button').on('click', (e) => {
+        expandOrCollapsePanels(e.target);
+    });
+
+    $('#btn-select-element-contents').on('click', () => {
+        selectElementContents(document.getElementById('fsModalTable'));
+    });
+
+    $('#btn-display-table').on('click', () => {
+        submitFormAjax();
+    });
 }

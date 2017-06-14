@@ -788,8 +788,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("view results clickable not creator, open session");
 
         fsa = testData.feedbackSessions.get("openSession");
-        assertNull(feedbackPage.getViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
-                               .getAttribute("onclick"));
 
         feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -798,8 +796,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("view results clickable creator, closed session");
 
         fsa = testData.feedbackSessions.get("manualSession");
-        assertNull(feedbackPage.getViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
-                               .getAttribute("onclick"));
 
         feedbackResultsPage = feedbackPage.loadViewResultsLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -813,8 +809,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("edit link clickable when creator");
 
         fsa = testData.feedbackSessions.get("privateSession");
-        assertNull(feedbackPage.getEditLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
-                               .getAttribute("onclick"));
 
         feedbackResultsPage = feedbackPage.loadEditLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -829,8 +823,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("submit link clickable when visible");
 
         fsa = testData.feedbackSessions.get("awaitingSession");
-        assertNull(feedbackPage.getSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
-                               .getAttribute("onclick"));
 
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -839,8 +831,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("submit link clickable when private (never visible)");
 
         fsa = testData.feedbackSessions.get("privateSession");
-        assertNull(feedbackPage.getSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName())
-                               .getAttribute("onclick"));
 
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));

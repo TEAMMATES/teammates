@@ -4,27 +4,27 @@ import teammates.common.util.SanitizationHelper;
 
 public class InstructorStudentListStudentsTableCourse {
 
-    private boolean courseArchived;
+    private boolean isCourseArchived;
     private String courseId;
     private String courseName;
     private String googleId;
     private String instructorCourseEnrollLink;
-    private boolean instructorAllowedToModify;
+    private boolean isInstructorAllowedToModify;
 
     public InstructorStudentListStudentsTableCourse(boolean isCourseArchived, String courseId, String courseName,
                                                     String googleId,
                                                     String instructorCourseEnrollLink,
                                                     boolean isInstructorAllowedToModify) {
-        this.courseArchived = isCourseArchived;
+        this.isCourseArchived = isCourseArchived;
         this.courseId = courseId;
         this.courseName = SanitizationHelper.sanitizeForHtml(courseName);
         this.googleId = googleId;
         this.instructorCourseEnrollLink = instructorCourseEnrollLink;
-        this.instructorAllowedToModify = isInstructorAllowedToModify;
+        this.isInstructorAllowedToModify = isInstructorAllowedToModify;
     }
 
     public boolean isCourseArchived() {
-        return courseArchived;
+        return isCourseArchived;
     }
 
     public String getCourseId() {
@@ -44,7 +44,7 @@ public class InstructorStudentListStudentsTableCourse {
     }
 
     public boolean isInstructorAllowedToModify() {
-        return instructorAllowedToModify;
+        return isInstructorAllowedToModify;
     }
 
 }
