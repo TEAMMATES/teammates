@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Closing time:</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">${feedbackSession.endTimeString}</p>
+                        <p class="form-control-static" id="endTime">${feedbackSession.endTimeString}</p>
                     </div>
                 </div>
 
