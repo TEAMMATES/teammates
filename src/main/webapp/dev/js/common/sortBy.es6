@@ -309,5 +309,7 @@ function toggleSort($button, comparatorStringOrNull, extractorStringOrNull) {
 }
 
 export {
+    Comparators, // for test
+    getPointValue, // for test
     toggleSort,
 };
