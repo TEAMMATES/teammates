@@ -472,15 +472,13 @@ public class InstructorFeedbacksPage extends AppPage {
     public boolean verifyPublishLinkDisabled(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return !browser.driver.findElement(
-                By.xpath("//*[contains(@id, 'session" + (sessionRowId - 1)
-                 + "')]/td[6]/div[3]/div/ul/li[2]/a[contains(@class,'session-publish-for-test')]")).isEnabled();
+                By.xpath("//tbody/tr[" + (sessionRowId + 1) + "]//a[contains(@class,'session-publish-for-test')]")).isEnabled();
     }
 
     public boolean verifyUnpublishLinkDisabled(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return !browser.driver.findElement(
-                By.xpath("//*[contains(@id, 'session" + (sessionRowId - 1)
-                 + "')]/td[6]/div[3]/div/ul/li[2]/a[contains(@class,'session-unpublish-for-test')]")).isEnabled();
+                By.xpath("//tbody/tr[" + (sessionRowId + 1) + "]//a[contains(@class,'session-unpublish-for-test')]")).isEnabled();
     }
 
     public boolean verifyHidden(By locator) {
