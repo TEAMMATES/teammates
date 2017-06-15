@@ -324,9 +324,6 @@ function formatVisibilityMessageDivHtml(visibilityMessage) {
     return htmlString;
 }
 
-// TODO: remove cyclic dependency
-/* eslint-disable no-use-before-define */
-
 /**
  * Updates visibility message div with error message and add onclick event for re-loading the visibility message
  */
@@ -341,7 +338,7 @@ function showAjaxErrorMessage($containingForm) {
     $visibilityMessageDiv.html(htmlString);
     $visibilityMessageDiv.find('ul').on('click', () => {
         $visibilityMessageDiv.html('');
-        updateVisibilityMessageDiv($containingForm);
+        updateVisibilityMessageDiv($containingForm); // eslint-disable-line no-use-before-define
     });
 }
 
@@ -387,8 +384,6 @@ function updateVisibilityMessageDiv($containingForm) {
     });
 }
 
-/* eslint-enable no-use-before-define */
-
 // ////////////// //
 // EVENT HANDLERS //
 // ////////////// //
@@ -396,38 +391,6 @@ function updateVisibilityMessageDiv($containingForm) {
 function matchVisibilityOptionToFeedbackPath(selectedFeedbackPathOption) {
     const $containingForm = $(selectedFeedbackPathOption).closest('form');
     updateVisibilityCheckboxesDiv($containingForm);
-}
-
-function toggleVisibilityEditTab(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    const $editTab = $containingForm.find('.visibilityOptions');
-    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
-
-    // enable edit
-    $containingForm.find('[id|="questionedittext"]').click();
-
-    if ($editTab.is(':hidden')) {
-        $editTab.show();
-        $visibilityMessageDiv.hide();
-        updateVisibilityCheckboxesDiv($containingForm);
-    } else {
-        $editTab.hide();
-        $visibilityMessageDiv.show();
-    }
-}
-
-function toggleVisibilityPreviewTab(clickedButton) {
-    const $containingForm = $(clickedButton).closest('form');
-    const $editTab = $containingForm.find('.visibilityOptions');
-
-    $editTab.hide();
-    const $disabledInputs = $containingForm.find('input:disabled, select:disabled');
-    $disabledInputs.prop('disabled', false);
-
-    updateVisibilityCheckboxesDiv($containingForm);
-
-    updateVisibilityMessageDiv($containingForm);
-    $disabledInputs.prop('disabled', true);
 }
 
 function getVisibilityMessage(clickedButton) {
