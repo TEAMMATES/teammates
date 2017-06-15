@@ -6,10 +6,10 @@
 <table class="table table-bordered table-striped" id="tableActiveCourses">
     <thead class="fill-primary">
         <tr>
-            <th onclick="toggleSort(this);" id="button_sortcourseid" class="button-sort-none">
+            <th id="button_sortcourseid" class="button-sort-none toggle-sort">
                 Course ID<span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortcoursename" class="button-sort-none">
+            <th id="button_sortcoursename" class="button-sort-none toggle-sort">
                 Course Name<span class="icon-sort unsorted"></span>
             </th>
             <th>
