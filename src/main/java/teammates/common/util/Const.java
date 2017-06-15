@@ -1147,10 +1147,10 @@ public final class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
 
-        public static final String JS_UNIT_TEST = "/dev/allJsUnitTests.jsp";
-        public static final String MASHUP = "/dev/mashup.jsp";
-        public static final String TABLE_SORT = "/dev/tableSort.jsp";
-        public static final String TIMEZONE = "/dev/timezone.jsp";
+        public static final String JS_UNIT_TEST = "/test/allJsUnitTests.jsp";
+        public static final String MASHUP = "/test/mashup.jsp";
+        public static final String TABLE_SORT = "/test/tableSort.jsp";
+        public static final String TIMEZONE = "/test/timezone.jsp";
     }
 
     /* These are status messages that may be shown to the user */
