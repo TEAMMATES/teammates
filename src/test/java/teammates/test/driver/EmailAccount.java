@@ -53,7 +53,7 @@ public final class EmailAccount {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException("Cannot initialize EmailAccount without an instance of HTTPTransport");
+            throw new RuntimeException(e);
         }
     }
 
@@ -80,7 +80,7 @@ public final class EmailAccount {
                 .setQ("is:unread").execute();
 
         final List<Message> messageStubs = listMessagesResponse.getMessages();
-        if (messageStubs.size() != 0) {
+        if (!messageStubs.isEmpty()) {
             for (Message messageStub : messageStubs) {
                 final Message message = service.users().messages().get(user, messageStub.getId()).setFormat("raw").execute();
 
