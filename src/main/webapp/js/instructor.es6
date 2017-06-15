@@ -375,7 +375,7 @@ function remindButtonAjax(urlLink) {
         type: 'POST',
         url: urlLink,
         beforeSend() {
-            $statusMessage.html("<img src='/images/ajax-loader.gif'/>");
+            $statusMessage.html('<img src="/images/ajax-loader.gif">');
             $statusMessage.css('display', 'block');
         },
         error() {
