@@ -221,6 +221,48 @@ function bindStudentPhotoLink(elements) {
 }
 
 /**
+ * completes the loading cycle for showing profile picture
+ * for a onhover event
+ * @param link
+ * @param resolvedLink
+ */
+function loadProfilePictureForHoverEvent(obj) {
+    obj.children('img')[0].src = obj.attr('data-link');
+
+    const $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
+
+    // load the pictures in all similar links
+    obj.children('img').load(function () {
+        const actualLink = $(this).parent().attr('data-link');
+        const resolvedLink = $(this).attr('src');
+
+        $loadingImage.remove();
+
+        updateHoverShowPictureEvents(actualLink, resolvedLink);
+
+        // this is to show the picture immediately for the one
+        // the user just clicked on
+        $(this).parent()
+            .popover('show')
+            // this is to handle the manual hide action of the popover
+            .siblings('.popover')
+            .on('mouseleave', function () {
+                $(this).siblings('.profile-pic-icon-hover').popover('hide');
+            });
+    });
+
+    obj.popover('destroy').popover({
+        html: true,
+        trigger: 'manual',
+        placement: 'top',
+        content() {
+            return $loadingImage.get(0).outerHTML;
+        },
+    });
+    obj.popover('show');
+}
+
+/**
  * @param elements:
  * identifier that points to elements with
  * class: profile-pic-icon-hover
@@ -380,48 +422,6 @@ function bindUnpublishButtons() {
         BootboxWrapper.showModalConfirmation('Confirm unpublishing responses', messageText, okCallback, null,
                 BootboxWrapper.DEFAULT_OK_TEXT, BootboxWrapper.DEFAULT_CANCEL_TEXT, StatusType.WARNING);
     });
-}
-
-/**
- * completes the loading cycle for showing profile picture
- * for a onhover event
- * @param link
- * @param resolvedLink
- */
-function loadProfilePictureForHoverEvent(obj) {
-    obj.children('img')[0].src = obj.attr('data-link');
-
-    const $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
-
-    // load the pictures in all similar links
-    obj.children('img').load(function () {
-        const actualLink = $(this).parent().attr('data-link');
-        const resolvedLink = $(this).attr('src');
-
-        $loadingImage.remove();
-
-        updateHoverShowPictureEvents(actualLink, resolvedLink);
-
-        // this is to show the picture immediately for the one
-        // the user just clicked on
-        $(this).parent()
-            .popover('show')
-            // this is to handle the manual hide action of the popover
-            .siblings('.popover')
-            .on('mouseleave', function () {
-                $(this).siblings('.profile-pic-icon-hover').popover('hide');
-            });
-    });
-
-    obj.popover('destroy').popover({
-        html: true,
-        trigger: 'manual',
-        placement: 'top',
-        content() {
-            return $loadingImage.get(0).outerHTML;
-        },
-    });
-    obj.popover('show');
 }
 
 // --------------------------------------------------------------------------

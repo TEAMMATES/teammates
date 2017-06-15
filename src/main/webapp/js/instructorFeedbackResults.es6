@@ -163,12 +163,6 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     }
 }
 
-function getNextId(e) {
-    const id = $(e).attr('id');
-    const nextId = `#panelBodyCollapse-${parseInt(id.split('-')[1], 10) + 1}`;
-    return nextId;
-}
-
 function bindCollapseEvents(panels, nPanels) {
     let numPanels = nPanels;
     for (let i = 0; i < panels.length; i += 1) {
