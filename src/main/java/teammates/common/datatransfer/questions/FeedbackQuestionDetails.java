@@ -1,8 +1,6 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.FeedbackSessionResults;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -78,15 +75,6 @@ public abstract class FeedbackQuestionDetails {
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                + this.getCsvHeader() + Const.EOL;
     }
-    
-    public String getCsvDetailedResponsesHeader(FeedbackSessionResultsBundle fsrBundle,
-            FeedbackResponseAttributes response) {
-        return "Team" + "," + "Giver's Full Name" + ","
-               + "Giver's Last Name" + "," + "Giver's Email" + ","
-               + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-               + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + this.getCsvHeader() + "," + this.getFeedbackResponseCommentHeader(fsrBundle, response) + Const.EOL;
-    }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
@@ -112,7 +100,6 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
-                + "," + fsrBundle.getFeedbackResponseCommentsCsv(feedbackResponseAttributes, question)
                 + Const.EOL;
     }
 
@@ -250,15 +237,20 @@ public abstract class FeedbackQuestionDetails {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
-    
-    public String getFeedbackResponseCommentHeader(FeedbackSessionResultsBundle fsrBundle, FeedbackResponseAttributes response) {
-        String header = "";
-        HashSet<String> instructorNames = fsrBundle.getInstructorNamesForComments(response);
-        if(!instructorNames.isEmpty()) {
-            for(String instructorName : instructorNames) {
-                    header = header + "Comment from " + instructorName + ",";
-            }
-        }
-        return header;
+
+    public String getCsvDetailedFeedbackResponsesCommentsHeader() {
+        return "Comment From" + "," + "Comment";
     }
+
+    public String getCsvDetailedFeedbackResponseCommentsRow(FeedbackSessionResultsBundle fsrBundle,
+            FeedbackResponseAttributes response) {
+        List<FeedbackResponseCommentAttributes> frcList = fsrBundle.responseComments.get(response.getId());
+        String commentRow = "";
+        for (FeedbackResponseCommentAttributes frc : frcList) {
+            commentRow = frc.giverEmail + "," + frc.commentText.getValue().substring(3,
+                    frc.commentText.getValue().length() - 4) + Const.EOL;
+        }
+        return commentRow;
+    }
+
 }
