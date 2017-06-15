@@ -7,10 +7,7 @@
     <link type="text/css" href="/stylesheets/datepicker.css" rel="stylesheet">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminSessions.js"></script>
-    <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-    <script type="text/javascript" src="/js/datepicker.js"></script>
 </c:set>
 <ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="TEAMMATES - Administrator Sessions" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <h1>
