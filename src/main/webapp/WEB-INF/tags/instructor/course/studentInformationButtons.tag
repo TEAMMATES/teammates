@@ -21,8 +21,8 @@
         <div>
             <span class="help-block">
                 Non-English characters not displayed properly in the downloaded file?
-                <span class="btn-link" data-toggle="modal" data-target="#studentTableWindow" onclick="submitFormAjax()">
-                    click here
+                <span class="btn-link" data-toggle="modal" data-target="#studentTableWindow" id="btn-display-table">
+                    Click here.
                 </span>
             </span>
         </div>

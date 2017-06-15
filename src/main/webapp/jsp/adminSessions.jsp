@@ -7,10 +7,7 @@
     <link type="text/css" href="/stylesheets/datepicker.css" rel="stylesheet">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminSessions.js"></script>
-    <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-    <script type="text/javascript" src="/js/datepicker.js"></script>
 </c:set>
 <ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="TEAMMATES - Administrator Sessions" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     <h1>
@@ -26,8 +23,8 @@
             &nbsp;${data.timeZoneAsString}
         </small>
         <br>
-        <a href="#" class="btn btn-info" onclick="openAllSections(${data.tableCount})">Open All</a>
-        <a href="#" class="btn btn-warning" onclick="closeAllSections(${data.tableCount})">Collapse All</a>
+        <a href="#" class="btn btn-info" id="btn-open-all-sections">Open All</a>
+        <a href="#" class="btn btn-warning" id="btn-close-all-sections">Collapse All</a>
     </h1>
     <br>
     <adminSessions:filter filter="${data.filter}"/>
