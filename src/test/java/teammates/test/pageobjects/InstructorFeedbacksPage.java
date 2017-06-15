@@ -472,14 +472,14 @@ public class InstructorFeedbacksPage extends AppPage {
     public boolean verifyPublishLinkDisabled(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return !browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (sessionRowId + 1) 
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                     + "]//a[contains(@class,'session-publish-for-test')]")).isEnabled();
     }
 
     public boolean verifyUnpublishLinkDisabled(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return !browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (sessionRowId + 1) 
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
                     + "]//a[contains(@class,'session-unpublish-for-test')]")).isEnabled();
     }
 
