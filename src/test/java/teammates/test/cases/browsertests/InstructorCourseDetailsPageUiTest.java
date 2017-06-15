@@ -167,11 +167,15 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
             assertFalse(didStudentReceiveReminder(courseName, courseId, student2.email));
+        } else {
+            // TODO: use GAE LocalMailService
         }
 
         detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
             assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email));
+        } else {
+            // TODO: use GAE LocalMailService
         }
         detailsPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student2.email);
 
@@ -241,7 +245,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
             throws Exception {
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
-        ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
+        ThreadHelper.waitFor(5000); //TODO: remove this and use RetryManager with a shorter wait interval
         String keyReceivedInEmail =
                 EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
         return keyToSend.equals(keyReceivedInEmail);
