@@ -334,7 +334,7 @@ function attachEventToDeleteStudentLink() {
     });
 }
 
-function remindButtonAjax(urlLink) {
+function sendRemindersToStudents(urlLink) {
     const $statusMessage = $('#statusMessagesToUser');
     $.ajax({
         type: 'POST',
@@ -362,7 +362,7 @@ function bindRemindButtons() {
                            $button.data('fsname')}?`;
         const okCallback = function () {
             const urlLink = $button.attr('href');
-            remindButtonAjax(urlLink);
+            sendRemindersToStudents(urlLink);
         };
 
         showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
@@ -470,4 +470,5 @@ export {
     prepareInstructorPages,
     selectElementContents,
     setupFsCopyModal,
+    sendRemindersToStudents,
 };

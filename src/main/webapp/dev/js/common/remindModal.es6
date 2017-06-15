@@ -1,4 +1,4 @@
-/* global remindButtonAjax:false */
+import { sendRemindersToStudents } from './instructor.es6';
 
 function bindRemindButton() {
     $('#remindModal .remind-particular-button').on('click', (event) => {
@@ -7,7 +7,7 @@ function bindRemindButton() {
         const action = $form.attr('action');
         const formData = $form.serialize();
         const url = `${action}&${formData}`;
-        remindButtonAjax(url);
+        sendRemindersToStudents(url);
     });
 }
 
