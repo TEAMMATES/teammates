@@ -86,9 +86,6 @@ public final class EmailAccount {
 
                 MimeMessage email = convertFromMessageToMimeMessage(message);
 
-                System.out.println(email.getSubject());
-                //System.out.println(getEmailMessageBodyAsText(email));
-
                 if (isRegistrationEmail(email, courseName, courseId)) {
                     String body = getEmailMessageBodyAsText(email);
 
