@@ -11,7 +11,6 @@
 </c:set>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorSearch.js"></script>
 </c:set>
 

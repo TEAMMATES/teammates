@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js"></script>
 </c:set>
 <c:set var="SESSION_TOKEN">
