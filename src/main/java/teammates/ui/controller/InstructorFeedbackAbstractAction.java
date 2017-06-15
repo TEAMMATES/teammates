@@ -19,7 +19,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
-    protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreating) {
+    /**
+     * extractFeedbackSessionData sets the attributes for specified session.
+     * @param isCreatingSession is a boolean, true for newly creating session and false for already created session.
+     * @return session attributes
+     */
+    protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreatingSession) {
         //TODO make this method stateless
 
         // null checks for parameters not done as null values do not affect data integrity
@@ -29,7 +34,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         //Default title.. If the class is InstructorFeedbackAddAction then sanitze the title
         String title = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        if (isCreating) {
+        if (isCreatingSession) {
             title = SanitizationHelper.sanitizeTitle(title);
         }
 
@@ -58,7 +63,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
         //Only run if its not editing
-        if (isCreating) {
+        if (isCreatingSession) {
             newSession.setCreatedTime(new Date());
             newSession.setSentOpenEmail(false);
             newSession.setSentPublishedEmail(false);
@@ -105,7 +110,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             // overwrite if private
             newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-            if (!isCreating) {
+            if (!isCreatingSession) {
                 newSession.setEndTime(null);
             }
             break;
