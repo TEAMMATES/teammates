@@ -80,7 +80,7 @@ public final class EmailAccount {
                 .setQ("is:unread").execute();
 
         final List<Message> messageStubs = listMessagesResponse.getMessages();
-        if (!messageStubs.isEmpty()) {
+        if (messageStubs != null) {
             for (Message messageStub : messageStubs) {
                 final Message message = service.users().messages().get(user, messageStub.getId()).setFormat("raw").execute();
 
