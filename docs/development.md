@@ -274,7 +274,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
        `Gmail API`.
      * Click `Credentials` in the menu of the `API Manager`.
      * Click `Create credentials` and then select `OAuth client ID`.
-     * Choose `Other`, give it a name, e.g. teammates and click `Create`. You will then get shown your client ID details,
+     * Choose `Other`, give it a name, e.g. `teammates` and click `Create`. You will then get shown your client ID details,
        click `OK`.
      * Click the `Download JSON` icon.
      * Copy the file to `src/test/resources` of your project and rename it to `client_secret.json`.
