@@ -62,6 +62,60 @@ public final class EmailAccount {
     }
 
     /**
+     * Retrieve registration key sent to Gmail inbox. After retrieving, marks the email as read.
+     *
+     * @return registration key (null if cannot be found).
+     */
+    public static String getRegistrationKeyFromGmail(String username, String courseName, String courseId)
+            throws IOException, MessagingException, GeneralSecurityException {
+
+        // Build a new authorized API client service.
+        Gmail service = getGmailService(username);
+
+        String user = "me";
+
+        // Get last 5 emails received by the user as there may be other emails received. However, this may fail unexpectedly
+        // there are 5 additional emails received on top of the email from TEAMMATES.
+        final ListMessagesResponse listMessagesResponse = service.users().messages().list(user).setMaxResults(5L)
+                .setQ("is:unread").execute();
+
+        final List<Message> messageStubs = listMessagesResponse.getMessages();
+        if (messageStubs.size() != 0) {
+            for (Message messageStub : messageStubs) {
+                final Message message = service.users().messages().get(user, messageStub.getId()).setFormat("raw").execute();
+
+                MimeMessage email = convertFromMessageToMimeMessage(message);
+
+                System.out.println(email.getSubject());
+                //System.out.println(getEmailMessageBodyAsText(email));
+
+                if (isRegistrationEmail(email, courseName, courseId)) {
+                    String body = getEmailMessageBodyAsText(email);
+
+                    ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
+                            .setRemoveLabelIds(Collections.singletonList("UNREAD"));
+                    service.users().messages().modify(user, messageStub.getId(), modifyMessageRequest).execute();
+
+                    return getKey(body);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Build and return an authorized Gmail client service.
+     * @return an authorized Gmail client service
+     */
+    private static Gmail getGmailService(String username) throws IOException {
+        Credential credential = authorize(username);
+        return new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+                .setApplicationName("teammates")
+                .build();
+    }
+
+    /**
      * Creates an authorized Credential object.
      * @return an authorized Credential object.
      */
@@ -79,15 +133,6 @@ public final class EmailAccount {
         return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     }
 
-    /**
-     * Gets the credential containing the access token from the flow if it exists. Otherwise a local server receiver is used
-     * to receive authorization code and then exchanges the code for an access token.
-     */
-    private static Credential getCredentialFromFlow(GoogleAuthorizationCodeFlow flow) throws IOException {
-        return new AuthorizationCodeInstalledApp(
-                flow, new LocalServerReceiver()).authorize("user");
-    }
-
     private static GoogleAuthorizationCodeFlow buildFlow(String username, GoogleClientSecrets clientSecrets)
             throws IOException {
         // if the scopes ever need to change, the user will need to delete the credentials of the username found in
@@ -102,14 +147,30 @@ public final class EmailAccount {
     }
 
     /**
-     * Build and return an authorized Gmail client service.
-     * @return an authorized Gmail client service
+     * Gets the credential containing the access token from the flow if it exists. Otherwise a local server receiver is used
+     * to receive authorization code and then exchanges the code for an access token.
      */
-    private static Gmail getGmailService(String username) throws IOException {
-        Credential credential = authorize(username);
-        return new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-                .setApplicationName("teammates")
-                .build();
+    private static Credential getCredentialFromFlow(GoogleAuthorizationCodeFlow flow) throws IOException {
+        return new AuthorizationCodeInstalledApp(
+                flow, new LocalServerReceiver()).authorize("user");
+    }
+
+    private static MimeMessage convertFromMessageToMimeMessage(Message message) throws MessagingException {
+        byte[] emailBytes = BaseEncoding.base64Url().decode(message.getRaw());
+
+        // While we are not actually sending or receiving an email, a session is required so there will be strict parsing
+        // of address headers when we create a MimeMessage. We are also passing in empty properties where we are expected to
+        // supply some values because we are not sending or receiving any email.
+        Session session = Session.getInstance(new Properties());
+
+        return new MimeMessage(session, new ByteArrayInputStream(emailBytes));
+    }
+
+    private static boolean isRegistrationEmail(MimeMessage message, String courseName, String courseId)
+            throws MessagingException {
+        String subject = message.getSubject();
+        return subject != null && subject.equals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
+                courseName, courseId));
     }
 
     /**
@@ -156,67 +217,6 @@ public final class EmailAccount {
         }
 
         return null;
-    }
-
-    /**
-     * Retrieve registration key sent to Gmail inbox. After retrieving, marks the email as read.
-     *
-     * @return registration key (null if cannot be found).
-     */
-    public static String getRegistrationKeyFromGmail(String username, String courseName, String courseId)
-            throws IOException, MessagingException, GeneralSecurityException {
-
-        // Build a new authorized API client service.
-        Gmail service = getGmailService(username);
-
-        String user = "me";
-
-        // Get last 5 emails received by the user as there may be other emails received. However, this may fail unexpectedly
-        // there are 5 additional emails received on top of the email from TEAMMATES.
-        final ListMessagesResponse listMessagesResponse = service.users().messages().list(user).setMaxResults(5L)
-                .setQ("is:unread").execute();
-
-        final List<Message> messageStubs = listMessagesResponse.getMessages();
-        if (messageStubs.size() != 0) {
-            for (Message messageStub : messageStubs) {
-                final Message message = service.users().messages().get(user, messageStub.getId()).setFormat("raw").execute();
-
-                MimeMessage email = convertFromMessageToMimeMessage(message);
-
-                System.out.println(email.getSubject());
-                //System.out.println(getEmailMessageBodyAsText(email));
-
-                if (isRegistrationEmail(email, courseName, courseId)) {
-                    String body = getEmailMessageBodyAsText(email);
-
-                    ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
-                            .setRemoveLabelIds(Collections.singletonList("UNREAD"));
-                    service.users().messages().modify(user, messageStub.getId(), modifyMessageRequest).execute();
-
-                    return getKey(body);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private static MimeMessage convertFromMessageToMimeMessage(Message message) throws MessagingException {
-        byte[] emailBytes = BaseEncoding.base64Url().decode(message.getRaw());
-
-        // While we are not actually sending or receiving an email, a session is required so there will be strict parsing
-        // of address headers when we create a MimeMessage. We are also passing in empty properties where we are expected to
-        // supply some values because we are not sending or receiving any email.
-        Session session = Session.getInstance(new Properties());
-
-        return new MimeMessage(session, new ByteArrayInputStream(emailBytes));
-    }
-
-    private static boolean isRegistrationEmail(MimeMessage message, String courseName, String courseId)
-            throws MessagingException {
-        String subject = message.getSubject();
-        return subject != null && subject.equals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
-                                                               courseName, courseId));
     }
 
     private static String getKey(String body) {
