@@ -11,6 +11,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.StudentProfile;
@@ -57,17 +58,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     public void testGetJsonString() throws Exception {
         StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
                      + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
-                     /*
-                      *  Be careful:
-                      *  This comparison will fail if the test is run without
-                      *  the VM argument -Duser.timezone=UTC.
-                      */
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
                      spa.getJsonString());
     }
