@@ -330,6 +330,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmail(email, student.email, subject, "/studentCourseWithCoOwnersRejoinAfterGoogleIdResetEmail.html");
 
+        assertTrue(verifyCoOwners(new EmailGenerator().generateCoOwnersList(course.getId())));
+
         ______TS("student course (without co-owners) join email");
 
         course = new CourseAttributes("course-id", "Course Name", "UTC");
@@ -407,6 +409,15 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         // check email body for no left placeholders
         assertFalse(emailContent.contains("${"));
+    }
+
+    private boolean verifyCoOwners(List<InstructorAttributes> coOwners) {
+        for (InstructorAttributes coOwner : coOwners) {
+            if (!coOwner.hasCoownerPrivileges()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
