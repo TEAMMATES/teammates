@@ -2215,4 +2215,14 @@ public class FeedbackSessionResultsBundle {
     public boolean isComplete() {
         return isComplete;
     }
+
+    public String getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
+        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
+        String commentRow = "";
+        for (FeedbackResponseCommentAttributes frc : frcList) {
+            commentRow += frc.giverEmail + "," + frc.commentText.getValue().substring(3,
+                    frc.commentText.getValue().length() - 4) + ",";
+        }
+        return commentRow;
+    }
 }

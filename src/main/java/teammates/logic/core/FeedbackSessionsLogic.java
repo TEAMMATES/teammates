@@ -927,7 +927,6 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(statistics).append(Const.EOL);
         }
 
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
         String prevGiver = "";
@@ -935,6 +934,11 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients
+            Boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
+            int noOfComments = hasCommentsForResponses
+                    ? fsrBundle.responseComments.get(response.getId()).size()
+                    : 0;
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(hasCommentsForResponses, noOfComments));
             if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();
                 possibleRecipientsForGiver.clear();
@@ -962,13 +966,9 @@ public final class FeedbackSessionsLogic {
             prevGiver = response.giver;
 
             // Append row(s)
-            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
-            if (fsrBundle.responseComments.containsKey(response.getId())) {
-                exportBuilder.append(questionDetails.getCsvDetailedFeedbackResponsesCommentsHeader());
-                exportBuilder.append(Const.EOL);
-                exportBuilder.append(questionDetails.getCsvDetailedFeedbackResponseCommentsRow(fsrBundle, response));
-                exportBuilder.append(Const.EOL);
-            }
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
+                    hasCommentsForResponses));
+
         }
 
         // add the rows for the possible givers and recipients who have missing responses
