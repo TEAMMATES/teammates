@@ -51,9 +51,6 @@ repositories {
 }
 
 dependencies {
-    // We should not include javax.mail in the dependencies as it is included with App Engine SDK and adding it will cause
-    // conflicts. However, in a very unlikely scenario that it is required, we should repackage it or use other workarounds.
-    // See https://github.com/TEAMMATES/teammates/pull/7525 for more info.
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
                     "com.google.code.findbugs:findbugs:${findbugsVersion}",
