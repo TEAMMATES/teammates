@@ -2,13 +2,19 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.Logger;
@@ -127,6 +133,37 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
 
         return newSession;
+    }
+
+    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
+            List<InstructorAttributes> instructorList) {
+        return logic.getFeedbackSessionsListForInstructor(instructorList);
+    }
+
+    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
+
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
+
+        Collections.sort(courses, new Comparator<CourseAttributes>() {
+            @Override
+            public int compare(CourseAttributes c1, CourseAttributes c2) {
+                return c1.getId().compareTo(c2.getId());
+            }
+        });
+
+        return courses;
+    }
+
+    /**
+     * Gets a Map with courseId as key, and InstructorAttributes as value.
+     */
+    protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
+        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
+        for (InstructorAttributes instructor : instructors) {
+            courseInstructorMap.put(instructor.courseId, instructor);
+        }
+        return courseInstructorMap;
     }
 
 }

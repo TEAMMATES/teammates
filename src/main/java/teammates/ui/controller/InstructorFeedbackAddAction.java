@@ -24,7 +24,7 @@ import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
 import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
-public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
+public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractAction {
 
     private static final Logger log = Logger.getLogger();
 
