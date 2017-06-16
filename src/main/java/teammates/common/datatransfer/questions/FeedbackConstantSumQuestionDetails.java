@@ -488,7 +488,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             fragments.append(option)
                     .append(',').append(df.format(average))
                     .append(',').append(df.format(total))
-                    .append(',').append(convertToCsv(points, ","))
+                    .append(',').append(StringHelper.join(",", toStringArray(points)))
                     .append(Const.EOL);
 
         }
@@ -498,16 +498,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                + fragments + Const.EOL;
     }
 
-    private String convertToCsv(List<Integer> values, String separator) {
-        StringBuilder sb = new StringBuilder();
-        String sep = "";
+    private String[] toStringArray(List<Integer> points) {
+        String[] pointsArr = new String[points.size()];
 
-        for (Integer value : values) {
-            sb.append(sep).append(String.valueOf(value));
-            sep = separator;
+        for (int i = 0; i < points.size(); i++) {
+            pointsArr[i] = String.valueOf(points.get(i));
         }
 
-        return sb.toString();
+        return pointsArr;
     }
 
     /**
