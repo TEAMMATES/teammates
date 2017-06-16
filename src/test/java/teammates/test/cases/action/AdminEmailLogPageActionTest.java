@@ -428,8 +428,12 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }
