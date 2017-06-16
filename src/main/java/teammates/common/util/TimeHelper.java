@@ -18,6 +18,8 @@ import teammates.common.util.Const.SystemParams;
  */
 public final class TimeHelper {
 
+    private static final Logger log = Logger.getLogger();
+
     private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
     private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
 
@@ -78,6 +80,19 @@ public final class TimeHelper {
     private static void map(String timeZone, String cities) {
         TIME_ZONE_CITIES_MAP.put(timeZone, cities);
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
+    }
+
+    /**
+     * Sets the system time zone if it differs from the standard one defined in {@link SystemParams#TIME_ZONE}.
+     */
+    public static void setSystemTimeZoneIfRequired() {
+        TimeZone originalTimeZone = TimeZone.getDefault();
+        if (SystemParams.TIME_ZONE.equals(originalTimeZone)) {
+            return;
+        }
+
+        TimeZone.setDefault(SystemParams.TIME_ZONE);
+        log.info("Time zone set to " + SystemParams.TIME_ZONE.getID() + " (was " + originalTimeZone.getID() + ")");
     }
 
     public static String getCitiesForTimeZone(String zone) {
