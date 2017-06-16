@@ -669,8 +669,8 @@ public class EmailGenerator {
     private List<InstructorAttributes> generateCoOwnersList(String courseId) {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<InstructorAttributes>();
-        for (InstructorAttributes instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
+        for(InstructorAttributes instructor: instructors) {
+            if(!instructor.hasCoownerPrivileges()) {
                 continue;
             }
             instructorsWithCoOwnerPrivileges.add(instructor);
