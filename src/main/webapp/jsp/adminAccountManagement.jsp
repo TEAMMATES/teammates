@@ -6,9 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/accounts" prefix="accounts" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminAccountManagement.js"></script>
-
 </c:set>
 
 <ta:adminPage bodyTitle="Instructor Account Management" pageTitle="TEAMMATES - Administrator Account Management" jsIncludes="${jsIncludes}">    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

@@ -5,10 +5,10 @@
 <%@ attribute name="institutionPanel" type="teammates.ui.template.InstitutionPanel" required="true"%>
 <%@ attribute name="tableIndex" required="true"%>
 <%@ attribute name="showAll" required="true"%>
-<div class="panel panel-primary">
+<div class="panel panel-primary institution-panel">
     <ul class="nav nav-pills nav-stacked">
         <li id="pill_${tableIndex}" class="active">
-            <a href="#" onclick="toggleContent(${tableIndex}); return false;">
+            <a href="javascript:;" class="toggle-content" data-index="${tableIndex}">
                 <span class="badge pull-right" id="badge_${tableIndex}" style="display: none">
                     ${fn:length(institutionPanel.feedbackSessionRows)}
                 </span>
@@ -21,20 +21,18 @@
             <thead>
                 <tr>
                     <th>Status</th>
-                    <th onclick="toggleSort(this)"
-                        class="button-sort-non">[Course ID] Session Name &nbsp; <span
+                    <th class="button-sort-none toggle-sort">[Course ID] Session Name &nbsp; <span
                         class="icon-sort unsorted"></span>
                     </th>
                     <th>Response Rate</th>
-                    <th onclick="toggleSort(this,sortDate)"
-                        class="button-sort-non">Start Time&nbsp;
+                    <th class="button-sort-none toggle-sort"
+                        data-toggle-sort-comparator="sortDate">Start Time&nbsp;
                         <span class="icon-sort unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,sortDate)"
-                        class="button-sort-non">End Time&nbsp; <span
+                    <th class="button-sort-none toggle-sort"
+                        data-toggle-sort-comparator="sortDate">End Time&nbsp; <span
                         class="icon-sort unsorted"></span></th>
-                    <th onclick="toggleSort(this)"
-                        class="button-sort-non">Creator
+                    <th class="button-sort-none">Creator
                         <span class="icon-sort unsorted"></span></th>
                 </tr>
             </thead>

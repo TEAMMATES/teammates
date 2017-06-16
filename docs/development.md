@@ -19,13 +19,15 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Building JavaScript files
 
-Our JavaScript code is written in ECMAScript 6 (ES6) syntax, however many of the existing Web browsers today still have limited support for ES6.<br>
-To resolve this, we need to *transpile* ("build" afterwards) these JavaScript files into ECMAScript 5 syntax which is supported by (almost) all browsers.
+Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
+To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
 
 Run the following command to build the JavaScript files for the application's use:
 ```sh
 npm run build
 ```
+
+In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
 
 ## Managing the dev server
 
@@ -212,11 +214,7 @@ Any individual test | `./gradlew test -Dtest.single=TestClassName` | `{project f
 `CI tests` will be run once and the failed tests will be re-run a few times.
 All other test suites will be run once and only once.
 
-To run any test suite or individual test with [GodMode turned on](godmode.md), append `-Pgodmode=true` to the command, e.g.:
-```sh
-./gradlew ciTests -Pgodmode=true
-./gradlew test -Dtest.single=InstructorFeedbackResultsPageUiTest -Pgodmode=true
-```
+To run any test suite or individual test with [GodMode turned on](godmode.md), set the value of `test.godmode.enabled` to `true` in `test.properties`.
 
 ### Running the test suite with an IDE
 

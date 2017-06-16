@@ -17,7 +17,7 @@
                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${instructorPanel.index}"
                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>">
                 &nbsp;Co-owner: Can do everything&nbsp;
-                <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
+                <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>">
                     View Details
                 </a>
                 <br>
@@ -26,7 +26,7 @@
                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${instructorPanel.index}"
                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
                 &nbsp;Manager: Can do everything except for deleting the course&nbsp;
-                <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
+                <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER %>">
                     View Details
                 </a>
                 <br>
@@ -35,7 +35,7 @@
                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${instructorPanel.index}"
                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
                 &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.&nbsp;
-                <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
+                <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER %>">
                     View Details
                 </a>
                 <br>
@@ -44,7 +44,7 @@
                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${instructorPanel.index}"
                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
                 &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions&nbsp;
-                <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
+                <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR %>">
                     View Details
                 </a>
                 <br>

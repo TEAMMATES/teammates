@@ -67,7 +67,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
 
             String responseAnswerHtml =
-                    response.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
+                    response.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
 
             boolean isInstructorAllowedToAddComment = isInstructorAllowedForSectionalPrivilege(
                     response.giverSection, response.recipientSection, response.feedbackSessionName,
