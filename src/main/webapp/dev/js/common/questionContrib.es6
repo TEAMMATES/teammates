@@ -1,3 +1,5 @@
+import { setVisibilityDropdownMenuText } from './visibilityOptions.es6';
+
 function setDefaultContribQnVisibilityIfNeeded(questionNum) {
     // If visibility options have already been copied from the previous contrib question, skip
     const hasPreviousQuestion = $('.questionTable').size() >= 2;
@@ -24,8 +26,8 @@ function setDefaultContribQnVisibilityIfNeeded(questionNum) {
                          .filter('.recipientCheckbox')
                          .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
     // Set dropdown button text
-    $currentQuestionTable.find('div.visibility-options-dropdown button.dropdown-toggle')
-                         .html('Please select a visibility option <span class="caret"></span>');
+    setVisibilityDropdownMenuText('Please select a visibility option <span class="caret"></span>',
+            $currentQuestionTable.closest('form'));
 }
 
 function setContribQnVisibilityFormat(questionNum) {
