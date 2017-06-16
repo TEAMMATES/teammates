@@ -60,7 +60,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                 createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
                                                 fs.getCreatorEmail(), feedbackSessionType);
             } catch (InvalidParametersException e) {
-                //Failed to create feedback questions for specified template/feedback session type.
+                // Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
                 log.severe(TeammatesException.toStringWithStackTrace(e));
             }
