@@ -673,7 +673,11 @@ public class EmailGenerator {
             if (!instructor.hasCoownerPrivileges()) {
                 continue;
             }
-            coOwnersEmailsList.append(instructor.getName()).append('(').append(instructor.getEmail()).append("), ");
+            coOwnersEmailsList
+                    .append(instructor.getName())
+                    .append('(')
+                    .append(instructor.getEmail())
+                    .append("), ");
         }
         return coOwnersEmailsList.length() == 0
                 ? "(No contactable instructors found)"
