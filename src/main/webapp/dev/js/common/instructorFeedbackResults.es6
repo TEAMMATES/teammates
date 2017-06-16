@@ -229,6 +229,24 @@ function getAppendedResponseRateData(data) {
     return appendedResponseStatus;
 }
 
+function toggleNoResponsePanel(e) {
+    const $targetElement = $(e.target);
+    if ($targetElement.is('a') || $targetElement.is('input')) {
+        return;
+    }
+    const $panel = $(this);
+    const $remindButton = $panel.find('.remind-no-response');
+    if ($panel.data('state') === 'up') {
+        $remindButton.show();
+        showSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'down');
+    } else {
+        $remindButton.hide();
+        hideSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'up');
+    }
+}
+
 function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
@@ -348,24 +366,6 @@ function prepareInstructorFeedbackResultsPage() {
     $('#btn-display-table').on('click', () => {
         submitFormAjax();
     });
-}
-
-function toggleNoResponsePanel(e) {
-    const $targetElement = $(e.target);
-    if ($targetElement.is('a') || $targetElement.is('input')) {
-        return;
-    }
-    const $panel = $(this);
-    const $remindButton = $panel.find('.remind-no-response');
-    if ($panel.data('state') === 'up') {
-        $remindButton.show();
-        showSingleCollapse($(e.currentTarget).data('target'));
-        $panel.data('state', 'down');
-    } else {
-        $remindButton.hide();
-        hideSingleCollapse($(e.currentTarget).data('target'));
-        $panel.data('state', 'up');
-    }
 }
 
 export {
