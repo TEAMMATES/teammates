@@ -26,11 +26,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
     private static final Logger log = Logger.getLogger();
 
     /**
-     * Sets the attributes for specified session.
-     * @param isCreatingSession true for newly creating session and false for already created session.
-     * @return session attributes
+     * Creates a feedback session attributes object from the request parameters.
+     * @param isCreatingNewSession rue if creating a new session; false if editing an existing session.
+     * @return feedback session attributes object.
      */
-    protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreatingSession) {
+    protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreatingNewSession) {
         // TODO make this method stateless
 
         // Null checks for parameters not done as null values do not affect data integrity
@@ -38,11 +38,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
 
-        // If the class is InstructorFeedbackAddAction then sanitize the newly given title
         String title = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        if (isCreatingSession) {
-            title = SanitizationHelper.sanitizeTitle(title);
-        }
+        title = SanitizationHelper.sanitizeTitle(title);
 
         newSession.setFeedbackSessionName(title);
         newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
@@ -68,8 +65,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
-        // Only run if it's not editing
-        if (isCreatingSession) {
+
+        if (isCreatingNewSession) {
             newSession.setCreatedTime(new Date());
             newSession.setSentOpenEmail(false);
             newSession.setSentPublishedEmail(false);
@@ -100,7 +97,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
 
         // Handle session visible after results visible to avoid having a
-        // Results visible date when session is private (session not visible)
+        // results visible date when session is private (session not visible)
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
@@ -116,7 +113,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             // Overwrite if private
             newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-            if (!isCreatingSession) {
+            if (!isCreatingNewSession) {
                 newSession.setEndTime(null);
             }
             break;
