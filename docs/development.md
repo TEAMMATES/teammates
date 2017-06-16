@@ -281,7 +281,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
    * Edit `src/test/resources/test.properties` as instructed is in its comments.
    * Run the full test suite or any subset of it as how you would have done it in dev server. You may want to run
      `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
-     time. However, the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no
+     time. Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no
      billing enabled.
 
 ## Running client scripts
