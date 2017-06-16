@@ -901,7 +901,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
-        assertTrue(verifyIfVisibilityOptionsDivHasAlertClassEnabled());
+        // Alert class should be enabled to warn instructors against changing visibility options after collecting responses.
+        // Passing 1 as question number as only one question is created.
+        assertTrue(feedbackEditPage.verifyAlertClassIsEnabledForVisibilityOptions(1));
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
@@ -1045,13 +1047,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
-    }
-
-    private boolean verifyIfVisibilityOptionsDivHasAlertClassEnabled() {
-        final String visibilityOptionsDivXPath = "//div[@id='questionTable-1']//div[@class='panel-body']"
-                                               + "//div[contains(@class, 'col-sm-12 margin-bottom-15px padding-15px')]";
-        return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
-                .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
     }
 
 }
