@@ -174,6 +174,7 @@ public class InstructorSearchPageData extends PageData {
             if (!"Anonymous".equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
+
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
                     frcSearchResultBundle.instructorEmailNameTable);
 

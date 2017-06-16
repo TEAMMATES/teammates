@@ -47,6 +47,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                 FeedbackParticipantType.STUDENTS,
                 FeedbackParticipantType.INSTRUCTORS
         };
+
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
         for (FeedbackParticipantType type : relevantTypes) {
             responseVisibilities.put(type, question.isResponseVisibleTo(type));
@@ -58,5 +59,4 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String[] getCommentIds() {
         return commentId.split("-");
     }
-
 }

@@ -1430,9 +1430,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
 
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-        Logger log = Logger.getLogger();
-        log.info(bundle.getInstructorNameForEmailTable().toString());
-        log.info("hello");
+
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                 frcAttributes, bundle.instructorEmailNameTable, frcAttributes.giverEmail, giverName,
                 recipientName, getResponseCommentVisibilityString(frcAttributes, question),

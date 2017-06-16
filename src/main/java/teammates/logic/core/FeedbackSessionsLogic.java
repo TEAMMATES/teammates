@@ -1760,6 +1760,7 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionResponseStatus responseStatus = section == null && isIncludeResponseStatus
                                                      ? getFeedbackSessionResponseStatus(session, roster, allQuestions)
                                                      : null;
+
         StudentAttributes student = getStudent(courseId, userEmail, role);
         Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
 
