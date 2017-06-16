@@ -12,7 +12,7 @@
                     Close
                 </button>
 
-                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );">
+                <button type="button" class="btn btn-primary" id="btn-select-element-contents">
                     Select Table
                 </button>
             </div>
