@@ -93,7 +93,7 @@ public final class TimeHelper {
      */
     public static Calendar now(double timeZone) {
         return TimeHelper.convertToUserTimeZone(
-                Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
+                Calendar.getInstance(SystemParams.TIME_ZONE), timeZone);
     }
 
     /**
@@ -122,7 +122,7 @@ public final class TimeHelper {
      * Returns the date object with specified offset in number of days from now.
      */
     public static Date getDateOffsetToCurrentTime(int offsetDays) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
         cal.setTime(cal.getTime());
         cal.add(Calendar.DATE, +offsetDays);
         return cal.getTime();
@@ -132,7 +132,7 @@ public final class TimeHelper {
      * Returns the date object with specified offset in number of ms from now.
      */
     public static Date getMsOffsetToCurrentTime(int offsetMilliseconds) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
         cal.setTime(cal.getTime());
         cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
         return cal.getTime();
@@ -140,7 +140,7 @@ public final class TimeHelper {
 
     public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset, double timeZone) {
         Date d = getMsOffsetToCurrentTime(offset);
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(d);
         return convertToUserTimeZone(c, timeZone).getTime();
     }
@@ -158,7 +158,7 @@ public final class TimeHelper {
      */
     public static int convertToOptionValueInTimeDropDown(Date date) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
@@ -175,7 +175,7 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
     }
 
@@ -204,11 +204,11 @@ public final class TimeHelper {
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            sdf.setTimeZone(SystemParams.TIME_ZONE);
             return sdf.format(date) + " NOON UTC";
         }
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
     }
 
@@ -224,11 +224,11 @@ public final class TimeHelper {
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("d MMM h:mm");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            sdf.setTimeZone(SystemParams.TIME_ZONE);
             return sdf.format(date) + " NOON";
         }
         sdf = new SimpleDateFormat("d MMM h:mm a");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
     }
 
@@ -255,7 +255,7 @@ public final class TimeHelper {
     }
 
     public static Calendar dateToCalendar(Date date) {
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         if (date == null) {
             return c;
         }
@@ -268,7 +268,7 @@ public final class TimeHelper {
      * Example: If now is 1055, this will return 1100
      */
     public static Date getNextHour() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
         cal.add(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -319,10 +319,10 @@ public final class TimeHelper {
      * Precision is at millisecond level.
      */
     public static boolean isWithinPastHour(Date time1, Date time2) {
-        Calendar calendarTime1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar calendarTime1 = Calendar.getInstance(SystemParams.TIME_ZONE);
         calendarTime1.setTime(time1);
 
-        Calendar calendarTime2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar calendarTime2 = Calendar.getInstance(SystemParams.TIME_ZONE);
         calendarTime2.setTime(time2);
 
         long time1Millis = calendarTime1.getTimeInMillis();
@@ -366,8 +366,8 @@ public final class TimeHelper {
 
     private static Date convertToDate(String date, int time) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        Calendar calendar = Calendar.getInstance(SystemParams.TIME_ZONE);
 
         // Perform date manipulation
         try {
