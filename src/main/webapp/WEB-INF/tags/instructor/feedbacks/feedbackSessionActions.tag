@@ -59,7 +59,7 @@
                 class="btn btn-default btn-xs btn-tm-actions dropdown-toggle"
                 data-toggle="dropdown"
                 aria-expanded="false"
-                <c:if test="${not publishButton.actionAllowed ||actions.privateSession}"> disabled</c:if>>
+                <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">

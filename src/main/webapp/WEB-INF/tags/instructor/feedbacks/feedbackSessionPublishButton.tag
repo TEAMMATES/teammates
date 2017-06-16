@@ -11,6 +11,7 @@
      data-placement="top"
    </c:if>
    data-sending-published-email="${publishButton.sendingPublishedEmail}"
-   data-fsname="${publishButton.feedbackSessionName}">
+   data-fsname="${publishButton.feedbackSessionName}"
+   <c:if test="${not publishButton.actionAllowed}"> disabled</c:if>>
     ${publishButton.actionName} Results
 </a>
