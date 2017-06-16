@@ -591,7 +591,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
 
     public void reloadSessionsList() {
-        executeScript("isSessionsAjaxSending = false;");
+        executeScript("setIsSessionsAjaxSendingFalse();");
         executeScript("$('#ajaxForSessions').submit();");
     }
 }
