@@ -202,12 +202,17 @@ public final class TimeHelper {
         if (date == null) {
             return "";
         }
-        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
+            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
+            sdf.setTimeZone(SystemParams.TIME_ZONE);
+            return sdf.format(date) + " NOON";
         }
-        return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(date);
     }
 
     public static String formatDateTimeForComments(Date date) {
@@ -215,7 +220,7 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
@@ -235,7 +240,7 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("d MMM h:mm");
