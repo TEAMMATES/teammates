@@ -199,7 +199,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <web-resource-collection>
             <web-resource-name>TestPages</web-resource-name>
             <description>Page for testing use only</description>
-            <url-pattern>/dev/*</url-pattern>
+            <url-pattern>/test/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
