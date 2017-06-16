@@ -46,16 +46,6 @@
         Submit
     </a>
 </div>
-
-
-
-
-
-
-
-
-
-
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
      data-toggle="tooltip"
      data-placement="top"
@@ -82,20 +72,6 @@
         </ul>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_REMIND %>"
      data-toggle="tooltip"
      data-placement="top"
