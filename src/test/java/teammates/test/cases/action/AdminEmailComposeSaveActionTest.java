@@ -21,6 +21,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/AdminEmailComposePageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -38,6 +39,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        prepareTestData();
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
@@ -300,7 +302,10 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        String[] submissionParams = new String[]{};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 }
