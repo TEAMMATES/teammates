@@ -156,7 +156,7 @@ public class EmailGenerator {
                 "${courseId}", course.getId(),
                 "${joinFragment}", joinFragmentValue,
                 "${linksFragment}", linksFragmentValue.toString(),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(courseId),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(courseId)),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -224,7 +224,7 @@ public class EmailGenerator {
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(time.getTime())),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
@@ -258,7 +258,7 @@ public class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -415,7 +415,7 @@ public class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -455,7 +455,7 @@ public class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -506,7 +506,7 @@ public class EmailGenerator {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
@@ -545,7 +545,7 @@ public class EmailGenerator {
                 fillUpStudentJoinFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -565,7 +565,7 @@ public class EmailGenerator {
                 fillUpStudentRejoinAfterGoogleIdResetFragment(student, EmailTemplates.USER_COURSE_JOIN),
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -666,17 +666,25 @@ public class EmailGenerator {
         return email;
     }
 
-    private String generateCoOwnersEmailsLine(String courseId) {
+    private List<InstructorAttributes> generateCoOwnersList(String courseId) {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
-        StringBuilder coOwnersEmailsList = new StringBuilder();
-        for (InstructorAttributes instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
+        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<InstructorAttributes>();
+        for(InstructorAttributes instructor: instructors) {
+            if(!instructor.hasCoownerPrivileges()) {
                 continue;
             }
+            instructorsWithCoOwnerPrivileges.add(instructor);
+        }
+        return instructorsWithCoOwnerPrivileges;
+    }
+
+    private String generateCoOwnersEmailsLine(List<InstructorAttributes> coOwners) {
+        StringBuilder coOwnersEmailsList = new StringBuilder();
+        for (InstructorAttributes coOwner : coOwners) {
             coOwnersEmailsList
-                    .append(instructor.getName())
+                    .append(coOwner.getName())
                     .append('(')
-                    .append(instructor.getEmail())
+                    .append(coOwner.getEmail())
                     .append("), ");
         }
         return coOwnersEmailsList.length() == 0
