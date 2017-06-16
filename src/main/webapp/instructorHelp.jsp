@@ -135,7 +135,7 @@
                 </div>
             </li>
             <li>
-                <a href="#profile">Profile</a>
+                <a href="#profiles">Profiles</a>
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>

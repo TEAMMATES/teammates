@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <h4>
-    <a name="profile">Profile</a>
+    <a name="profiles">Profiles</a>
 </h4>
 <div id="contentHolder">
     <br>
@@ -13,9 +13,9 @@
             </span>
             <div>
                 Go to the
-                <b>'Students'</b> page, click the panel heading for the relevant course. You will see a list of students for the course, then click
+                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click
                 <b>'View'</b> button in the last column of the row corresponding to the student whose details you want to see.
-                <br>A new page should open which displays the student's profile, similar to the sample profile below -
+                <br>A new page should open which displays the student's profile, similar to the sample profile below:
                 <br><br>
                 <div class="row">
                     <div class="col-md-2 col-xs-3 block-center">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <br>
-                Below that, is the student information table which displays course-related details of the student. It would appear something like this -
+                Below that is the student information table which displays course-related student details. It should look something like this:
                 <br><br>
                 <div class="well well-plain">
                     <button type="button" class="btn btn-default btn-xs icon-button pull-right"
@@ -93,11 +93,12 @@
                         </div>
                     </div>
                 </div>
-                The <b>Section Name</b> will appear only if the sections were created for the respective course.
-                <br><b>Team Name</b> is the name of the team to which the student belongs to, or displays <b>'NA'</b> if the student does not belong to a team.
+                <b>Section Name</b> will appear only if sections were created for the respective course.
+                <br><b>Team Name</b> is the name of the team to which the student belongs, or <b>'NA'</b> if the student does not belong to a team.
                 <br><b>Official Email Address</b> is the email address used to contact the student.
-                <br><b>Comments</b> is any information you mentioned about the student during enrollment.
-                <br>Below this is the <b>'Mode Info'</b> section where you can see the personal description given by the student. It will look something like this -
+                <br><b>Comments</b> contains student information entered during enrollment.
+
+                <br>Below this is the <b>'More Info'</b> section where you can see a personal description given by the student, if any. It will look something like this:
                 <br><br>
                 <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -132,7 +133,7 @@
                         </div>
                     </div>
                 </div>
-                <br>You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button on the top-right, which displays the information about the student in a modal for more readability.
+                <br>You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right, to display the information in a modal for better readability.
             </div>
         </li>
         <li>
@@ -143,8 +144,8 @@
             </span>
             <div>
                 Go to the
-                <b>'Students'</b> page, click the panel heading for the relevant course. You will see a list of students for the course, then click
-                <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to see.
+                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click
+                <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to edit.
                 <br>A new page will open which displays editable fields to edit the student's profile. It should look something like this -
                 <br><br>
                 <div class="panel panel-primary" id="studentEditProfile">
@@ -189,8 +190,8 @@
                     </div>
                 </div>
                 <br>After making the necessary changes, click on
-                <b>'Save Changes'</b> to save the modifications made. If the changes were saved successfully, you will be redirected to
-                <b>Students</b> page and you should see a box like this -
+                <b>'Save Changes'</b> .If successful, you will be redirected to
+                <b>'Students'</b> page and you should see a box like this -
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
