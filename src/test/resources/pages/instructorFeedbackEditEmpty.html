@@ -96,7 +96,7 @@
               </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
+            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
               <span class="glyphicon glyphicon-ok">
               </span>
               Save
@@ -874,7 +874,8 @@
   </div>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
+  <input id="num-questions" type="hidden" value="0">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-offset-3 col-sm-9">
@@ -970,7 +971,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
                 Cancel
               </a>
             </span>
@@ -1651,7 +1652,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1672,7 +1673,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -2034,41 +2035,9 @@
 </script>
 <script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
 </script>
-<script src="/js/richTextEditor.js" type="text/javascript">
-</script>
-<script src="/js/crypto.js" type="text/javascript">
-</script>
-<script src="/js/datepicker.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacks.js" type="text/javascript">
-</script>
 <script src="/js/instructorFeedbackEdit.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/feedbackPath.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/visibilityOptions.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionMcq.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionMsq.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionNumScale.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionConstSum.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionContrib.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionRubric.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionRank.js" type="text/javascript">
 </script>
 <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div">
 </div>
