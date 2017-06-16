@@ -46,6 +46,16 @@
         Submit
     </a>
 </div>
+
+
+
+
+
+
+
+
+
+
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
      data-toggle="tooltip"
      data-placement="top"
@@ -58,19 +68,34 @@
         <button type="button"
                 class="btn btn-default btn-xs btn-tm-actions dropdown-toggle"
                 data-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false"
+                <c:if test="${not publishButton.actionAllowed ||actions.privateSession}"> disabled</c:if>>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
             <li>
                 <a class="session-view-for-test" href="${actions.resultsLink}">View Results</a>
             </li>
-            <li<c:if test="${actions.privateSession}"> class="disabled"</c:if>>
+            <li>
               <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
             </li>
         </ul>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_REMIND %>"
      data-toggle="tooltip"
      data-placement="top"
@@ -93,8 +118,7 @@
             <li>
                 <a href="${actions.remindLink}"
                    class="session-remind-inner-for-test"
-                   data-fsname="${actions.fsName}"
-                   <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
+                   data-fsname="${actions.fsName}">
                     Remind all students
                 </a>
             </li>
@@ -105,8 +129,7 @@
                    data-courseid="${actions.courseId}"
                    data-fsname="${actions.fsName}"
                    data-toggle="modal"
-                   data-target="#remindModal"
-                   <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
+                   data-target="#remindModal">
                     Remind particular students
                 </a>
             </li>
