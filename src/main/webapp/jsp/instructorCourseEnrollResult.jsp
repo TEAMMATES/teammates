@@ -6,7 +6,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollResult.js"></script>
 </c:set>
 

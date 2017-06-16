@@ -10,9 +10,13 @@
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
+<%@ attribute name="viewType" %>
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
+    </c:when>
+    <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex && not empty viewType}">
+        <c:set var="divId" value="${viewType}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
     </c:when>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
@@ -63,6 +67,7 @@
                        data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
                        data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
                        <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+                       <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
                    </c:when>
                    <c:otherwise>
                        class="btn btn-default btn-xs icon-button pull-right"
@@ -88,6 +93,7 @@
                                             fourthIndex="${fourthIndex}"
                                             frcIndex="${frcIndex}"
                                             frc="${frc}"
+                                            viewType = "${viewType}"
                                             divId="${divId}"
                                             formType="Edit"
                                             textAreaId="${textAreaId}"

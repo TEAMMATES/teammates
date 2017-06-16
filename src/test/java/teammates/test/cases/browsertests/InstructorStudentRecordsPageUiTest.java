@@ -28,6 +28,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testFeedbackResponseCommentEditAndDeleteAction();
         testLinks();
         testPanelsCollapseExpand();
     }
@@ -115,6 +116,38 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
         // TODO add link to a feedback session
+    }
+
+    private void testFeedbackResponseCommentEditAndDeleteAction() {
+        InstructorAttributes instructor;
+        StudentAttributes student;
+
+        instructor = testData.instructors.get("teammates.test.CS2104");
+        student = testData.students.get("benny.c.tmms@ISR.CS2104");
+
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
+
+        viewPage = getStudentRecordsPage();
+
+        ______TS("Typical Case: Edit and add empty comment");
+
+        viewPage.editFeedbackResponseComment("-GRQ-1-1-1-1", "");
+        viewPage.verifyCommentFormErrorMessage(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        viewPage.closeEditFeedbackResponseCommentForm("-GRQ-1-1-1-1");
+
+        ______TS("Typical Case: Edit comment");
+
+        viewPage.editFeedbackResponseComment("-GRQ-1-1-1-1",
+                "Instructor first edited comment to Alice about feedback to Benny");
+        viewPage.verifyCommentRowContent("-GRQ-1-1-1-1", "Instructor first edited comment to Alice about feedback to Benny",
+                "teammates.test@gmail.tmt");
+
+        ______TS("Typical Case: Delete comment");
+
+        viewPage.deleteFeedbackResponseComment("-GRQ-1-1-1-2");
+        viewPage.verifyRowMissing("-GRQ-1-1-1-2");
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {

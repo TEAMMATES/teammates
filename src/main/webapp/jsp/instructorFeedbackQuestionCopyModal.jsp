@@ -5,16 +5,16 @@
     <thead class="fill-primary">
         <tr>
             <th style="width:30px;">&nbsp;</th>
-            <th onclick="toggleSort(this);" id="button_sortid" class="button-sort-ascending" style="width:100px">
+            <th id="button_sortid" class="button-sort-ascending toggle-sort" style="width:100px">
                 Course ID <span class="icon-sort sorted-ascending"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
+            <th id="button_sortfsname" class="button-sort-none toggle-sort" style="width:17%;">
                 Session Name <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortfqtype" class="button-sort-none">
+            <th id="button_sortfqtype" class="button-sort-none toggle-sort">
                 Question Type <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this);" id="button_sortfqtext" class="button-sort-none">
+            <th id="button_sortfqtext" class="button-sort-none toggle-sort">
                 Question Text <span class="icon-sort unsorted"></span>
             </th>
         </tr>
