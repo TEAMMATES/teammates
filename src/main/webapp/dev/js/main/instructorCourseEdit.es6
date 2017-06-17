@@ -529,4 +529,9 @@ $(document).ready(() => {
     $(document).on('click', '.view-role-details', (e) => {
         showInstructorRoleModal($(e.target).data('role'));
     });
+
+    $('#displayToStudent').change(function() {
+        $('#titleDisplayed').attr('disabled',!this.checked)
+    });
+
 });
