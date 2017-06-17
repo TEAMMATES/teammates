@@ -24,6 +24,7 @@ public final class TestProperties {
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
     /** The directory where credentials used in Gmail API are stored. */
+    @SuppressWarnings("WeakerAccess")
     public static final String TEST_GMAIL_API_FOLDER = "src/test/resources/gmail-api";
 
     /** The value of "test.app.url" in test.properties file. */
