@@ -2,6 +2,7 @@ package teammates.test.driver;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +24,8 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -67,31 +70,38 @@ public final class EmailAccount {
      * @return registration key (null if cannot be found).
      */
     public static String getRegistrationKeyFromGmail(String username, String courseName, String courseId)
-            throws IOException, MessagingException, GeneralSecurityException {
+            throws IOException, MessagingException {
 
         // Build a new authorized API client service.
         Gmail service = getGmailService(username);
 
-        String user = "me";
-
-        // Get last 5 emails received by the user as there may be other emails received. However, this may fail unexpectedly
-        // there are 5 additional emails received on top of the email from TEAMMATES.
-        final ListMessagesResponse listMessagesResponse = service.users().messages().list(user).setMaxResults(5L)
-                .setQ("is:unread").execute();
+        final ListMessagesResponse listMessagesResponse;
+        try {
+            // Get last 5 emails received by the user as there may be other emails received. However, this may fail
+            // unexpectedly if there are 5 additional emails received excluding the one from TEAMMATES.
+            listMessagesResponse = service.users().messages().list(username).setMaxResults(5L)
+                    .setQ("is:unread").execute();
+        } catch (GoogleJsonResponseException e) {
+            if (e.getDetails().getCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN) {
+                printForbiddenUserMessage(e.getDetails().getMessage(), username);
+            }
+            throw e;
+        }
 
         final List<Message> messageStubs = listMessagesResponse.getMessages();
         if (messageStubs != null) {
             for (Message messageStub : messageStubs) {
-                final Message message = service.users().messages().get(user, messageStub.getId()).setFormat("raw").execute();
+                final Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
+                        .execute();
 
-                MimeMessage email = convertFromMessageToMimeMessage(message);
+                final MimeMessage email = convertFromMessageToMimeMessage(message);
 
-                if (isRegistrationEmail(email, courseName, courseId)) {
-                    String body = getEmailMessageBodyAsText(email);
+                if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
+                    final String body = getEmailMessageBodyAsText(email);
 
-                    ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
+                    final ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
                             .setRemoveLabelIds(Collections.singletonList("UNREAD"));
-                    service.users().messages().modify(user, messageStub.getId(), modifyMessageRequest).execute();
+                    service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
 
                     return getKey(body);
                 }
@@ -126,16 +136,17 @@ public final class EmailAccount {
     }
 
     private static GoogleClientSecrets loadClientSecretFromJson() throws IOException {
-        InputStream in = EmailAccount.class.getResourceAsStream("/client_secret.json");
+        InputStream in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"));
         return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     }
 
     private static GoogleAuthorizationCodeFlow buildFlow(String username, GoogleClientSecrets clientSecrets)
             throws IOException {
         // if the scopes ever need to change, the user will need to delete the credentials of the username found in
-        // src/test/resources/<username>
+        // <TestProperties.TEST_GMAIL_API_FOLDER>/<username>
         final List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
-        FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(new File("src/test/resources", username));
+        FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(
+                new File(TestProperties.TEST_GMAIL_API_FOLDER, username));
         return new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)
                 .setDataStoreFactory(dataStoreFactory)
@@ -152,18 +163,30 @@ public final class EmailAccount {
                 flow, new LocalServerReceiver()).authorize("user");
     }
 
+    /**
+     * Prints the reason why the logged in user is forbidden to access the actual user's emails and what needs to be done.
+     * @param message the message explaining why the logged in user is forbidden to access the actual user
+     * @param username the actual user whose emails are to be accessed
+     */
+    private static void printForbiddenUserMessage(String message, String username) throws IOException {
+        System.err.println(message);
+        System.err.println("Please delete "
+                + new File(TestProperties.TEST_GMAIL_API_FOLDER, username).getCanonicalPath());
+        System.err.println("You have to login as the account specified, in this case it is: " + username);
+    }
+
     private static MimeMessage convertFromMessageToMimeMessage(Message message) throws MessagingException {
         byte[] emailBytes = BaseEncoding.base64Url().decode(message.getRaw());
 
         // While we are not actually sending or receiving an email, a session is required so there will be strict parsing
         // of address headers when we create a MimeMessage. We are also passing in empty properties where we are expected to
-        // supply some values because we are not sending or receiving any email.
+        // supply some values because we are not actually sending or receiving any email.
         Session session = Session.getInstance(new Properties());
 
         return new MimeMessage(session, new ByteArrayInputStream(emailBytes));
     }
 
-    private static boolean isRegistrationEmail(MimeMessage message, String courseName, String courseId)
+    private static boolean isStudentCourseJoinRegistrationEmail(MimeMessage message, String courseName, String courseId)
             throws MessagingException {
         String subject = message.getSubject();
         return subject != null && subject.equals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
@@ -173,8 +196,7 @@ public final class EmailAccount {
     /**
      * Gets the email message body as text.
      */
-    private static String getEmailMessageBodyAsText(Part p) throws
-            MessagingException, IOException {
+    private static String getEmailMessageBodyAsText(Part p) throws MessagingException, IOException {
         if (p.isMimeType("text/*")) {
             return (String) p.getContent();
         }

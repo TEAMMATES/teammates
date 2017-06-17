@@ -23,6 +23,9 @@ public final class TestProperties {
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
+    /** The directory where credentials used in Gmail API are stored. */
+    public static final String TEST_GMAIL_API_FOLDER = "src/test/resources/gmail-api";
+
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
 
