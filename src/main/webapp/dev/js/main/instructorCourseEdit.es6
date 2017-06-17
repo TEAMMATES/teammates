@@ -530,8 +530,7 @@ $(document).ready(() => {
         showInstructorRoleModal($(e.target).data('role'));
     });
 
-    $('#displayToStudent').change(function() {
-        $('#titleDisplayed').attr('disabled',!this.checked)
+    $('#displayToStudent').change(function () {
+        $('#titleDisplayed').attr('disabled', !this.checked);
     });
-
 });
