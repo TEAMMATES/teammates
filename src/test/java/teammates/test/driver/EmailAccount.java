@@ -73,19 +73,24 @@ public final class EmailAccount {
             throws IOException, MessagingException {
 
         // Build a new authorized API client service.
-        Gmail service = getGmailService(username);
+        Gmail service = getGmailService(username, false);
 
-        final ListMessagesResponse listMessagesResponse;
-        try {
-            // Get last 5 emails received by the user as there may be other emails received. However, this may fail
-            // unexpectedly if there are 5 additional emails received excluding the one from TEAMMATES.
-            listMessagesResponse = service.users().messages().list(username).setMaxResults(5L)
-                    .setQ("is:unread").execute();
-        } catch (GoogleJsonResponseException e) {
-            if (e.getDetails().getCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN) {
-                printForbiddenUserMessage(e.getDetails().getMessage(), username);
+        ListMessagesResponse listMessagesResponse;
+        while (true) {
+            try {
+                // Get last 5 emails received by the user as there may be other emails received. However, this may fail
+                // unexpectedly if there are 5 additional emails received excluding the one from TEAMMATES.
+                listMessagesResponse = service.users().messages().list(username).setMaxResults(5L)
+                        .setQ("is:unread").execute();
+                break;
+            } catch (GoogleJsonResponseException e) {
+                if (e.getDetails().getCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN) {
+                    System.out.println(e.getDetails().getMessage());
+                    service = getGmailService(username, true);
+                } else {
+                    throw e;
+                }
             }
-            throw e;
         }
 
         final List<Message> messageStubs = listMessagesResponse.getMessages();
@@ -115,8 +120,8 @@ public final class EmailAccount {
      * Build and return an authorized Gmail client service.
      * @return an authorized Gmail client service
      */
-    private static Gmail getGmailService(String username) throws IOException {
-        Credential credential = authorize(username);
+    private static Gmail getGmailService(String username, boolean useFreshCredentials) throws IOException {
+        Credential credential = authorize(username, useFreshCredentials);
         return new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName("teammates")
                 .build();
@@ -126,11 +131,18 @@ public final class EmailAccount {
      * Creates an authorized Credential object.
      * @return an authorized Credential object.
      */
-    private static Credential authorize(String username) throws IOException {
+    private static Credential authorize(String username, boolean useFreshCredentials) throws IOException {
         GoogleClientSecrets clientSecrets = loadClientSecretFromJson();
 
-        System.out.println("Logging in as " + username);
         GoogleAuthorizationCodeFlow flow = buildFlow(username, clientSecrets);
+
+        if (useFreshCredentials) {
+            flow.getCredentialDataStore().clear();
+        }
+
+        if (flow.getCredentialDataStore().isEmpty()) {
+            System.out.println("Please login as " + username);
+        }
 
         return getCredentialFromFlow(flow);
     }
