@@ -472,6 +472,19 @@ $(document).ready(() => {
     $(document).on('click', '#btnShowNewInstructorForm', () => {
         showNewInstructorForm();
     });
+    
+    $("[name='instructorisdisplayed']").change( (e) => {
+    	if ($(e.target).prop("checked")) {
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("readonly", false);
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("value", "instructor");
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("placeholder", "E.g.Co-lecturer, Teaching Assistant");
+    	}
+    	else {
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("readonly", true);
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("value", "");
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("placeholder", "(This instructor will NOT be displayed to students)");
+    	}
+    });
 
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     for (let i = 0; i < numOfInstr; i += 1) {
