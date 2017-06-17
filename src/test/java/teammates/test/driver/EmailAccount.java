@@ -1,13 +1,7 @@
 package teammates.test.driver;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -18,20 +12,9 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpStatusCodes;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.ModifyMessageRequest;
@@ -46,20 +29,6 @@ import teammates.common.util.EmailType;
  */
 public final class EmailAccount {
 
-    /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
-    /** Global instance of the HTTP transport. */
-    private static final HttpTransport HTTP_TRANSPORT;
-
-    static {
-        try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private EmailAccount() {
         // utility class
     }
@@ -72,8 +41,7 @@ public final class EmailAccount {
     public static String getRegistrationKeyFromGmail(String username, String courseName, String courseId)
             throws IOException, MessagingException {
 
-        // Build a new authorized API client service.
-        Gmail service = getGmailService(username, false);
+        Gmail service = new GmailServiceMaker(username).makeGmailService();
 
         ListMessagesResponse listMessagesResponse;
         while (true) {
@@ -81,12 +49,12 @@ public final class EmailAccount {
                 // Get last 5 emails received by the user as there may be other emails received. However, this may fail
                 // unexpectedly if there are 5 additional emails received excluding the one from TEAMMATES.
                 listMessagesResponse = service.users().messages().list(username).setMaxResults(5L)
-                        .setQ("is:unread").execute();
+                        .setQ("is:UNREAD").execute();
                 break;
             } catch (GoogleJsonResponseException e) {
                 if (e.getDetails().getCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN) {
                     System.out.println(e.getDetails().getMessage());
-                    service = getGmailService(username, true);
+                    service = new GmailServiceMaker(username, true).makeGmailService();
                 } else {
                     throw e;
                 }
@@ -114,77 +82,6 @@ public final class EmailAccount {
         }
 
         return null;
-    }
-
-    /**
-     * Build and return an authorized Gmail client service.
-     * @return an authorized Gmail client service
-     */
-    private static Gmail getGmailService(String username, boolean useFreshCredentials) throws IOException {
-        Credential credential = authorize(username, useFreshCredentials);
-        return new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-                .setApplicationName("teammates")
-                .build();
-    }
-
-    /**
-     * Creates an authorized Credential object.
-     * @return an authorized Credential object.
-     */
-    private static Credential authorize(String username, boolean useFreshCredentials) throws IOException {
-        GoogleClientSecrets clientSecrets = loadClientSecretFromJson();
-
-        GoogleAuthorizationCodeFlow flow = buildFlow(username, clientSecrets);
-
-        if (useFreshCredentials) {
-            flow.getCredentialDataStore().clear();
-        }
-
-        if (flow.getCredentialDataStore().isEmpty()) {
-            System.out.println("Please login as " + username);
-        }
-
-        return getCredentialFromFlow(flow);
-    }
-
-    private static GoogleClientSecrets loadClientSecretFromJson() throws IOException {
-        InputStream in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"));
-        return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-    }
-
-    private static GoogleAuthorizationCodeFlow buildFlow(String username, GoogleClientSecrets clientSecrets)
-            throws IOException {
-        // if the scopes ever need to change, the user will need to delete the credentials of the username found in
-        // <TestProperties.TEST_GMAIL_API_FOLDER>/<username>
-        final List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
-        FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(
-                new File(TestProperties.TEST_GMAIL_API_FOLDER, username));
-        return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)
-                .setDataStoreFactory(dataStoreFactory)
-                .setAccessType("offline")
-                .build();
-    }
-
-    /**
-     * Gets the credential containing the access token from the flow if it exists. Otherwise a local server receiver is used
-     * to receive authorization code and then exchanges the code for an access token.
-     */
-    private static Credential getCredentialFromFlow(GoogleAuthorizationCodeFlow flow) throws IOException {
-        return new AuthorizationCodeInstalledApp(
-                flow, new LocalServerReceiver()).authorize("user");
-    }
-
-    /**
-     * Prints the reason why the logged in user is forbidden to access the actual user's emails and what needs to be done.
-     * @param message the message explaining why the logged in user is forbidden to access the actual user
-     * @param username the actual user whose emails are to be accessed
-     */
-    private static void printForbiddenUserMessage(String message, String username) throws IOException {
-        System.err.println(message);
-        System.err.println("Please delete "
-                + new File(TestProperties.TEST_GMAIL_API_FOLDER, username).getCanonicalPath());
-        System.err.println("You have to login as the account specified, in this case it is: " + username);
     }
 
     private static MimeMessage convertFromMessageToMimeMessage(Message message) throws MessagingException {
