@@ -57,6 +57,8 @@ const ParamsNames = {
     FEEDBACK_QUESTION_DESCRIPTION: 'questiondescription',
     FEEDBACK_QUESTION_DISCARDCHANGES: 'questiondiscardchanges',
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
+    INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = 'instructorisdisplayed',
+    INSTRUCTOR_DEFAULT_DISPLAY_NAME = 'Instructor',
 };
 
 const Const = {

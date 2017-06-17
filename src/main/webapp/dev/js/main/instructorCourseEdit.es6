@@ -473,10 +473,10 @@ $(document).ready(() => {
         showNewInstructorForm();
     });
     
-    $("[name='instructorisdisplayed']").change( (e) => {
+    $("[name='$[{ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT}']").change( (e) => {
     	if ($(e.target).prop("checked")) {
     		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("readonly", false);
-    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("value", "instructor");
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("value", "${ParamsNames.INSTRUCTOR_DEFAULT_DISPLAY_NAME}");
     		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("placeholder", "E.g.Co-lecturer, Teaching Assistant");
     	}
     	else {
