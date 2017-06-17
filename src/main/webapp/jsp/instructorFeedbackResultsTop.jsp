@@ -10,12 +10,12 @@
 <r:sessionPanel sessionPanel="${data.sessionPanel}" />
 
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
-    <r:filterPanel filterPanel="${data.filterPanel}"
-                   showAll="${showAll}" />
+  <r:filterPanel filterPanel="${data.filterPanel}"
+           showAll="${showAll}" />
 </c:if>
 <br>
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 <br>
 <c:if test="${noResponses and showAll}">
-    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
+  <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
 </c:if>

@@ -3,13 +3,13 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetailsEdit" prefix="csde" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/instructorCourseStudentEdit.js"></script>
+  <script type="text/javascript" src="/js/instructorCourseStudentEdit.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Student Details" jsIncludes="${jsIncludes}">
-    <csde:studentInformationTable
-        studentInfoTable="${data.studentInfoTable}"
-        newEmail="${data.newEmail}"
-        openOrPublishedEmailSentForTheCourse="${data.openOrPublishedEmailSentForTheCourse}"
-        sessionToken="${data.sessionToken}" />
-    <br><br>
+  <csde:studentInformationTable
+    studentInfoTable="${data.studentInfoTable}"
+    newEmail="${data.newEmail}"
+    openOrPublishedEmailSentForTheCourse="${data.openOrPublishedEmailSentForTheCourse}"
+    sessionToken="${data.sessionToken}" />
+  <br><br>
 </ti:instructorPage>
