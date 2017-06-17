@@ -476,7 +476,7 @@ $(document).ready(() => {
     $("[name='instructorisdisplayed']").change( (e) => {
     	if ($(e.target).prop("checked")) {
     		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("readonly", false);
-    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("value", "instructor");
+    		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("value", "Instructor");
     		$(e.target).parents("div.form-group").find("div.col-sm-9 input").attr("placeholder", "E.g.Co-lecturer, Teaching Assistant");
     	}
     	else {
