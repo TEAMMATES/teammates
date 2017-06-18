@@ -310,7 +310,6 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
                 && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
 
-
     }
 
     private Date getInstructorCreatedDate(Instructor instructor) {
@@ -352,21 +351,18 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             if (studentCreatedDateRangeStartIsNull) {
                 //no range set
                 return true;
-            } else if (!studentCreatedDateRangeStartIsNull) {
-                //after a specific date
-                return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
             }
-        } else if (!studentCreatedDateRangeEndIsNull) {
-            if (studentCreatedDateRangeStartIsNull) {
-                //before a specific date
-                return studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
-            } else if (!studentCreatedDateRangeStartIsNull) {
-                //within a date interval
-                return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
-                        && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
-            }
+            //after a specific date
+            return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
+
         }
-        return false;
+        if (studentCreatedDateRangeStartIsNull) {
+            //before a specific date
+            return studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+        }
+        //within a date interval
+        return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
+                && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
 
     }
 
