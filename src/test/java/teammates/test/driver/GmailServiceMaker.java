@@ -23,6 +23,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 
+import teammates.common.util.Const;
+
 /**
  * Class that builds a Gmail service for use in Gmail API.
  */
@@ -90,8 +92,9 @@ final class GmailServiceMaker {
         try {
             in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("You need to setup your client_secret.json." + System.lineSeparator()
-            + "See https://github.com/TEAMMATES/teammates/tree/master/docs/development.md#deploying-to-a-staging-server", e);
+            throw new RuntimeException("You need to set up your client_secret.json." + Const.EOL
+                    + "See Gmail API section at https://github.com/TEAMMATES/teammates/tree/master/docs/"
+                    + "development.md#deploying-to-a-staging-server", e);
         }
         return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     }
