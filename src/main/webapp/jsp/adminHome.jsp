@@ -11,7 +11,7 @@
 <ta:adminPage bodyTitle="Add New Instructor" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
   <adminHome:adminCreateInstructorAccountWithOneBoxForm instructorDetailsSingleLine="${data.instructorDetailsSingleLine}"/>
   <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}"
-    instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
+      instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
 
   <div class="panel panel-primary" hidden id="addInstructorResultPanel">
     <div class="panel-heading">

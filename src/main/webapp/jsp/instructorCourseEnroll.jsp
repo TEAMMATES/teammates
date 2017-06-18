@@ -55,13 +55,13 @@
     <ul>
       <li><span class="moreInfoPointTitle">Sample spreadsheet</span>
         <div class="moreInfoPointDetails">
-          If you are not sure about the format of the spreadsheet,
+            If you are not sure about the format of the spreadsheet,
           <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing">here</a> is a sample file.
         </div>
       </li>
       <li><span class="moreInfoPointTitle">Column headings</span>
         <div class="moreInfoPointDetails">
-          The column order is not important.
+            The column order is not important.
             Column headings are <u>not</u> case sensitive. e.g. Team, TEAM, team are all acceptable.
         </div>
       </li>
@@ -94,15 +94,16 @@
       <li><span class="moreInfoPointTitle">Mass editing enrolled students</span>
         <div class="moreInfoPointDetails">
           <ul>
-            <li class="moreInfoMassEditInfo">The text box above can be used for mass-editing details (except email address) of students already enrolled.
-                                 To edit, simply enroll students using the updated data and existing data will be updated accordingly.</li>
+            <li class="moreInfoMassEditInfo">
+                The text box above can be used for mass-editing details (except email address) of students already enrolled.
+                To edit, simply enroll students using the updated data and existing data will be updated accordingly.</li>
             <li class="moreInfoMassEditInfo">To DELETE students or to UPDATE EMAIL address of a student, please go to the ‘courses’ page and click the 'view' link of the course.</li>
           </ul>
         </div>
       </li>
       <li><span class="moreInfoPointTitle">Enrolling without spreadsheets</span>
         <div class="moreInfoPointDetails">
-          The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar,
+            The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar,
             not to be confused with upper case i or lower case L) to separate values.
           <br> Here is an example.
           <br><br>

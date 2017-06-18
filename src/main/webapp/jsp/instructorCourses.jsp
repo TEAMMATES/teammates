@@ -13,9 +13,9 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
   <c:if test="${!data.usingAjax}">
     <course:addCoursePanel courseIdToShow="${data.courseIdToShow}"
-      courseNameToShow="${data.courseNameToShow}"
-      googleId="${data.account.googleId}"
-      sessionToken="${data.sessionToken}"/>
+        courseNameToShow="${data.courseNameToShow}"
+        googleId="${data.account.googleId}"
+        sessionToken="${data.sessionToken}"/>
     <course:loadCoursesTableByAjaxForm />
   </c:if>
 
@@ -37,7 +37,7 @@
 
       <c:if test="${not empty data.archivedCourses.rows}">
         <course:archivedCoursesTable archivedCourses="${data.archivedCourses}"
-          activeCourses="${data.activeCourses}"/>
+            activeCourses="${data.activeCourses}"/>
         <br>
         <br>
         <br>

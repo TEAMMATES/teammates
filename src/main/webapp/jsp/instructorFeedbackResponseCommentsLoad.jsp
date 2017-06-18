@@ -58,15 +58,15 @@
                     <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
                     <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
                       <shared:feedbackResponseCommentRow frc="${frc}"
-                                         firstIndex="${fsIndex}"
-                                         secondIndex="${responseEntriesStatus.count}"
-                                         thirdIndex="${responseStatus.count}"
-                                         frcIndex="${frcStatus.count}" />
+                          firstIndex="${fsIndex}"
+                          secondIndex="${responseEntriesStatus.count}"
+                          thirdIndex="${responseStatus.count}"
+                          frcIndex="${frcStatus.count}" />
                     </c:forEach>
                     <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"
-                                       firstIndex="${fsIndex}"
-                                       secondIndex="${responseEntriesStatus.count}"
-                                       thirdIndex="${responseStatus.count}" />
+                        firstIndex="${fsIndex}"
+                        secondIndex="${responseEntriesStatus.count}"
+                        thirdIndex="${responseStatus.count}" />
                   </ul>
                 </td>
               </tr>

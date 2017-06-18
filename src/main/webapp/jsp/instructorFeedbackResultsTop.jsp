@@ -11,7 +11,7 @@
 
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
   <r:filterPanel filterPanel="${data.filterPanel}"
-           showAll="${showAll}" />
+      showAll="${showAll}" />
 </c:if>
 <br>
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

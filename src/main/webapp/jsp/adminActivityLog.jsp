@@ -12,8 +12,8 @@
 
 <ta:adminPage bodyTitle="Admin Activity Log" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
   <activity:filterPanel excludedLogRequestURIs="${data.excludedLogRequestUris}" actionListAsHtml="${data.actionListAsHtml}"
-              shouldShowAllLogs="${data.shouldShowAllLogs}" shouldShowTestData="${data.shouldShowTestData}" filterQuery="${data.filterQuery}"
-              queryKeywordsForInfo="${data.queryKeywordsForInfo}"/>
+      shouldShowAllLogs="${data.shouldShowAllLogs}" shouldShowTestData="${data.shouldShowTestData}" filterQuery="${data.filterQuery}"
+      queryKeywordsForInfo="${data.queryKeywordsForInfo}"/>
 
   <c:if test="${not empty data.queryMessage}">
     <div class="alert alert-danger" id="queryMessage">
