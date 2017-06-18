@@ -47,10 +47,11 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             boolean needRepairRecipientSection)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
-        for (FeedbackResponseAttributes response : responses) {
+        responses.forEach((response) -> {
             boolean needUpdateResponse = false;
             String originalGiverSection = "";
             String originalRecipientSection = "";
+            
             if (needRepairGiverSection) {
                 StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giver);
                 if (!response.giverSection.equals(student.section)) {
@@ -59,7 +60,6 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                     needUpdateResponse = true;
                 }
             }
-
             if (needRepairRecipientSection) {
                 if (isTeamRecipient(question.recipientType)) {
                     String recipientSection
@@ -78,7 +78,6 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                     }
                 }
             }
-
             if (needUpdateResponse) {
                 System.out.println("Repairing giver section:"
                         + originalGiverSection + "-->" + response.giverSection
@@ -86,7 +85,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                         + originalRecipientSection + "-->" + response.recipientSection);
                 logic.updateFeedbackResponse(response);
             }
-        }
+        });
     }
 
     private boolean isGiverContainingSection(FeedbackParticipantType giverType) {
@@ -94,7 +93,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     }
 
     private boolean isRecipientContaningSection(FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
-                return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
+        return recipientType == FeedbackParticipantType.SELF && isGiverContainingSection(giverType)
                 || recipientType.isValidRecipient();
     }
 
