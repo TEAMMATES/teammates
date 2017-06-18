@@ -14,7 +14,7 @@
 
 <div class="col-sm-12 margin-bottom-15px padding-15px <%= fqForm.isQuestionHasResponses() ? "alert alert-danger" : "background-color-light-green" %>">
     <div class="margin-bottom-7px">
-        <%= fqForm.isQuestionHasResponses() ? "<h4>Changing the visibility after collecting responses is not recommended.</h4>" : "" %>
+        <c:if test="${fqForm.questionHasResponses}"><h4>Changing the visibility after collecting responses is not recommended.</h4></c:if>
         <b class=<%= fqForm.isQuestionHasResponses() ? "" : "visibility-title" %>>Visibility</b> (Who can see the responses?)
     </div>
     <div class="visibility-options-dropdown btn-group margin-bottom-10px">
