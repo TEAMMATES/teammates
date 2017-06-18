@@ -641,8 +641,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
 
-    // checks if alert class is enabled on the visibility options div for the specified question number.
-    // To be used only with questions with responses.
+    /* 
+     * checks if alert class is enabled on the visibility options div for the specified question number.
+     * To be used only with questions with responses.
+     */
     public boolean verifyAlertClassIsEnabledForVisibilityOptions(int questionNo) {
         final String visibilityOptionsDivXPath = "//div[@id='questionTable-" + questionNo + "']//div[@class='panel-body']"
                 + "//div[contains(@class, 'col-sm-12 margin-bottom-15px padding-15px')]";
