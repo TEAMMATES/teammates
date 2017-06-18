@@ -123,7 +123,7 @@ public final class EmailAccount {
             return getTextFromPart(email);
         }
     }
-    
+
     private static String getTextFromPart(Part p) throws MessagingException, IOException {
         if (p.isMimeType("multipart/alternative")) {
             return getTextFromMultiPartAlternative(p);
