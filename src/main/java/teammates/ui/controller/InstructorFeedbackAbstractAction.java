@@ -35,27 +35,26 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         // Null checks for parameters not done as null values do not affect data integrity
 
-        FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
-        newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
+        FeedbackSessionAttributes attributes = new FeedbackSessionAttributes();
+        attributes.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
 
-        // If the class is InstructorFeedbackAddAction then sanitize the newly given title
         String title = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         if (isCreatingNewSession) {
             title = SanitizationHelper.sanitizeTitle(title);
         }
-        newSession.setFeedbackSessionName(title);
-        newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
+        attributes.setFeedbackSessionName(title);
+        attributes.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
 
-        newSession.setStartTime(TimeHelper.combineDateTime(
+        attributes.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
-        newSession.setEndTime(TimeHelper.combineDateTime(
+        attributes.setEndTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
-                newSession.setTimeZone(Double.parseDouble(paramTimeZone));
+                attributes.setTimeZone(Double.parseDouble(paramTimeZone));
             } catch (NumberFormatException nfe) {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
@@ -63,38 +62,38 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
-            newSession.setGracePeriod(Integer.parseInt(paramGracePeriod));
+            attributes.setGracePeriod(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }
 
         if (isCreatingNewSession) {
-            newSession.setCreatedTime(new Date());
-            newSession.setSentOpenEmail(false);
-            newSession.setSentPublishedEmail(false);
+            attributes.setCreatedTime(new Date());
+            attributes.setSentOpenEmail(false);
+            attributes.setSentPublishedEmail(false);
         }
 
-        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        newSession.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        attributes.setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        attributes.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
 
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            newSession.setResultsVisibleFromTime(TimeHelper.combineDateTime(
+            attributes.setResultsVisibleFromTime(TimeHelper.combineDateTime(
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             break;
         default:
-            log.severe("Invalid sessionVisibleFrom setting " + newSession.getIdentificationString());
+            log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
             break;
         }
 
@@ -103,35 +102,35 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            newSession.setSessionVisibleFromTime(TimeHelper.combineDateTime(
+            attributes.setSessionVisibleFromTime(TimeHelper.combineDateTime(
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             // Overwrite if private
-            newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             if (!isCreatingNewSession) {
-                newSession.setEndTime(null);
+                attributes.setEndTime(null);
             }
             break;
         default:
-            log.severe("Invalid sessionVisibleFrom setting " + newSession.getIdentificationString());
+            log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
             break;
         }
 
         String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>()
                 : Arrays.asList(sendReminderEmailsArray);
-        newSession.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
-        newSession.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
-        newSession.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+        attributes.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
+        attributes.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
+        attributes.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
 
-        return newSession;
+        return attributes;
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
