@@ -218,16 +218,20 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         InstructorFeedbackResultsPage resultsPage =
                 instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
-        //resultsPage.clickCollapseExpandButton();
-        //resultsPage.waitForPanelsToExpand();
+        if (resultsPage.isElementPresent("collapse-panels-button")) {
+            resultsPage.clickCollapseExpandButton();
+            resultsPage.waitForPanelsToExpand();
+        }
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
 
         ______TS("new instructor can view result of First team feedback session of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToExpand();
+        if (resultsPage.isElementPresent("collapse-panels-button")) {
+            resultsPage.clickCollapseExpandButton();
+            resultsPage.waitForPanelsToExpand();
+        }
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackFirstfeedbacksessionResultsPage.html");
 
         ______TS("new instructor can view result of Session with different question types of sample course");
@@ -235,8 +239,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(
                 demoCourseId, "Session with different question types");
-        resultsPage.clickCollapseExpandButton();
-        resultsPage.waitForPanelsToExpand();
+        if (resultsPage.isElementPresent("collapse-panels-button")) {
+            resultsPage.clickCollapseExpandButton();
+            resultsPage.waitForPanelsToExpand();
+        }
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorQuestiontypesFeedbackResultsPage.html");
 
         ______TS("new instructor can edit Second team feedback session of sample course");
