@@ -166,14 +166,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseName, courseId, student2.email));
+            assertFalse(hasStudentReceivedReminder(courseName, courseId, student2.email));
         } else {
             // TODO: use GAE LocalMailService
         }
 
         detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
-            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email));
+            assertTrue(hasStudentReceivedReminder(courseName, courseId, student2.email));
         } else {
             // TODO: use GAE LocalMailService
         }
@@ -189,9 +189,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
-            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email));
+            assertTrue(hasStudentReceivedReminder(courseName, courseId, student2.email));
             // verify a registered student did not receive a reminder
-            assertFalse(didStudentReceiveReminder(courseName, courseId, student1.email));
+            assertFalse(hasStudentReceivedReminder(courseName, courseId, student1.email));
         }
 
         // verify if sort is preserved after sending invite
@@ -241,7 +241,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
     }
 
-    private boolean didStudentReceiveReminder(String courseName, String courseId, String studentEmail)
+    private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
