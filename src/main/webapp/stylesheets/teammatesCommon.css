@@ -1164,3 +1164,7 @@ Glyphicon for success status messages
     padding-right: 2px;
     content: '\e084';
 }
+
+.alert .visibility-title {
+    color: inherit;
+}
