@@ -2,6 +2,7 @@ package teammates.test.driver;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -85,7 +86,13 @@ final class GmailServiceMaker {
     }
 
     private GoogleClientSecrets loadClientSecretFromJson() throws IOException {
-        InputStream in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"));
+        InputStream in;
+        try {
+            in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("You need to setup your client_secret.json." + System.lineSeparator()
+            + "See https://github.com/TEAMMATES/teammates/tree/master/docs/development.md#deploying-to-a-staging-server", e);
+        }
         return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     }
 
