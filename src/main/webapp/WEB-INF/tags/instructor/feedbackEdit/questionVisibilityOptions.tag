@@ -154,7 +154,7 @@
     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
     <div class="visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
         This is the visibility hint as seen by the feedback giver:
-        <ul class="text-muted <%= fqForm.isQuestionHasResponses() ? "" : "background-color-warning" %>">
+        <ul class="text-muted background-color-warning">
         <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
             <li>${msg}</li>
         </c:forEach>
