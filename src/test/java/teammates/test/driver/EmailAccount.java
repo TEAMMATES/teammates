@@ -76,15 +76,19 @@ public final class EmailAccount {
             if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
                 final String body = getEmailMessageBodyAsText(email);
 
-                final ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
-                        .setRemoveLabelIds(Collections.singletonList("UNREAD"));
-                service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
+                markMessageAsRead(service, username, messageStub);
 
                 return getKey(body);
             }
         }
 
         return null;
+    }
+
+    private static void markMessageAsRead(Gmail service, String username, Message messageStub) throws IOException {
+        final ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
+                .setRemoveLabelIds(Collections.singletonList("UNREAD"));
+        service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
     }
 
     private static boolean isEmpty(List<Message> messageStubs) {
