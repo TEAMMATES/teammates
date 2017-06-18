@@ -194,13 +194,25 @@ public final class EmailAccount {
 
     private static String getTextFromMultiPartNotAlternative(Part p) throws IOException, MessagingException {
         Multipart mp = (Multipart) p.getContent();
+        StringBuilder textBuilder = new StringBuilder();
         for (int i = 0; i < mp.getCount(); i++) {
-            String s = getTextFromPart(mp.getBodyPart(i));
-            if (s != null) {
-                return s;
+            Part bp = mp.getBodyPart(i);
+            if (bp.isMimeType("text/*")) {
+                textBuilder.append((String) bp.getContent());
+            } else if (bp.isMimeType("multipart/*")) {
+                String text = getTextFromPart(bp);
+                if (text != null) {
+                    textBuilder.append(text);
+                }
             }
         }
-        return null;
+        String text = textBuilder.toString();
+
+        if (!text.isEmpty()) {
+            return text;
+        } else {
+            return null;
+        }
     }
 
     private static String getKey(String body) {
