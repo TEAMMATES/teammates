@@ -1,5 +1,7 @@
 package teammates.test.cases.datatransfer;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+import static teammates.common.datatransfer.attributes.AccountAttributes.valueOf;
 import static teammates.common.util.Const.EOL;
 
 import org.testng.annotations.Test;
@@ -77,7 +79,7 @@ public class AccountAttributesTest extends BaseTestCase {
                 new Account(account.googleId, account.name, account.isInstructor, account.email,
                         account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
 
-        Account actualAccount = AccountAttributes.valueOf(expectedAccount).toEntity();
+        Account actualAccount = valueOf(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
@@ -125,7 +127,7 @@ public class AccountAttributesTest extends BaseTestCase {
         Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
         a.setStudentProfile(null);
 
-        AccountAttributes attr = AccountAttributes.valueOf(a);
+        AccountAttributes attr = valueOf(a);
 
         assertEquals(a.getGoogleId(), attr.googleId);
         assertEquals(a.getEmail(), attr.email);
@@ -145,7 +147,10 @@ public class AccountAttributesTest extends BaseTestCase {
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = new StudentProfileAttributes();
 
-        return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
+        return new AccountAttributesBuilder(googleId, name, email, institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
@@ -156,7 +161,9 @@ public class AccountAttributesTest extends BaseTestCase {
         String email = "valid@email.com";
         String institute = "valid institute name";
 
-        return new AccountAttributes(googleId, name, isInstructor, email, institute);
+        return new AccountAttributesBuilder(googleId, name, email, institute)
+                .withIsInstructor(isInstructor)
+                .build();
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
@@ -181,5 +188,7 @@ public class AccountAttributesTest extends BaseTestCase {
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
 
         return account;
+
     }
+
 }

@@ -242,9 +242,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        AccountAttributes newStudentAccount = new AccountAttributes(
-                "idOfNewStudent", "nameOfNewStudent", false,
-                "newStudent@gmail.com", "TEAMMATES Test Institute 5");
+        AccountAttributes newStudentAccount = new AccountAttributes.AccountAttributesBuilder(
+                "idOfNewStudent", "nameOfNewStudent",
+                "newStudent@gmail.com", "TEAMMATES Test Institute 5").withIsInstructor(false).build();
         accountsDb.createAccount(newStudentAccount);
 
         StudentAttributes newStudentAttributes = new StudentAttributes(

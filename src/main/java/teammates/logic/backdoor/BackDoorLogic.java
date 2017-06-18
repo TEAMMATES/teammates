@@ -1,5 +1,7 @@
 package teammates.logic.backdoor;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,8 +92,9 @@ public class BackDoorLogic extends Logic {
             validateInstructorPrivileges(instructor);
 
             if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
-                                                                  instructor.email, "TEAMMATES Test Institute 1");
+                AccountAttributes account = new AccountAttributesBuilder(instructor.googleId, instructor.name,
+                                                                  instructor.email, "TEAMMATES Test Institute 1")
+                                                                    .withIsInstructor(true).build();
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
@@ -107,8 +110,9 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
-                                                                  student.email, "TEAMMATES Test Institute 1");
+                AccountAttributes account = new AccountAttributesBuilder(student.googleId, student.name,
+                                                                  student.email, "TEAMMATES Test Institute 1")
+                                                                    .withIsInstructor(false).build();
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;

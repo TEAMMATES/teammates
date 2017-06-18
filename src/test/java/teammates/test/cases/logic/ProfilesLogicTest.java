@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -34,8 +36,9 @@ public class ProfilesLogicTest extends BaseLogicTest {
         StudentProfileAttributes expectedSpa =
                 new StudentProfileAttributes("id", "shortName", "personal@email.com",
                                              "institute", "American", "female", "moreInfo", "");
-        AccountAttributes accountWithStudentProfile =
-                new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
+
+        AccountAttributes accountWithStudentProfile = new AccountAttributesBuilder("id", "name", "test@email.com", "dev")
+                        .withIsInstructor(true).withStudentProfileAttributes(expectedSpa).build();
 
         accountsLogic.createAccount(accountWithStudentProfile);
 

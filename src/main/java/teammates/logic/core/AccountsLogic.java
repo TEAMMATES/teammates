@@ -1,5 +1,7 @@
 package teammates.logic.core;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -164,11 +166,8 @@ public final class AccountsLogic {
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
 
         if (account == null) {
-            createAccount(new AccountAttributes(googleId,
-                                                instructor.name,
-                                                true,
-                                                instructor.email,
-                                                instituteToSave));
+            createAccount(new AccountAttributesBuilder(googleId, instructor.name, instructor.email, instituteToSave)
+                    .withIsInstructor(true).build());
         } else {
             makeAccountInstructor(googleId);
         }

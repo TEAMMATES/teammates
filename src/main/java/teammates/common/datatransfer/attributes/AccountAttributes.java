@@ -34,30 +34,18 @@ public class AccountAttributes extends EntityAttributes {
         // attributes to be set after construction
     }
 
-    public AccountAttributes(String googleId, String name, boolean isInstructor,
-                             String email, String institute, StudentProfileAttributes studentProfileAttributes) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = studentProfileAttributes;
-        this.studentProfile.sanitizeForSaving();
+    private AccountAttributes(AccountAttributesBuilder builder) {
+        this.googleId = SanitizationHelper.sanitizeGoogleId(builder.googleId);
+        this.name = SanitizationHelper.sanitizeName(builder.name);
+        this.email = SanitizationHelper.sanitizeEmail(builder.email);
+        this.institute = SanitizationHelper.sanitizeTitle(builder.institute);
+        this.isInstructor = builder.isInstructor;
+        this.createdAt = builder.createdAt;
+        this.studentProfile = builder.studentProfile;
     }
 
-    public AccountAttributes(String googleId, String name, boolean isInstructor,
-                             String email, String institute) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = new StudentProfileAttributes();
-        this.studentProfile.googleId = this.googleId;
-    }
-
-    public static Builder builder(String googleId, String name, String email, String institute) {
-        return new Builder(googleId, name, email, institute);
+    public static AccountAttributesBuilder builder(String googleId, String name, String email, String institute) {
+        return new AccountAttributesBuilder(googleId, name, email, institute);
     }
 
     public static AccountAttributes valueOf(Account account) {
@@ -89,7 +77,7 @@ public class AccountAttributes extends EntityAttributes {
             this.studentProfile = new StudentProfileAttributes();
         }
 
-        AccountAttributes copy = new AccountAttributes.Builder(googleId, name, email, institute)
+        AccountAttributes copy = new AccountAttributesBuilder(googleId, name, email, institute)
                 .withStudentProfileAttributes(studentProfile)
                 .withCreatedAt(createdAt)
                 .withIsInstructor(isInstructor)
@@ -191,41 +179,50 @@ public class AccountAttributes extends EntityAttributes {
     }
 
     /**
-     * A Builder class for {@link AccountAttributes}.
+     * A AccountAttributesBuilder class for {@link AccountAttributes}.
      */
-    public static class Builder {
-        private final AccountAttributes accountAttributes;
+    public static class AccountAttributesBuilder {
 
-        public Builder(String googleId, String name, String email, String institute) {
-            accountAttributes = new AccountAttributes();
+        // required fields
+        public final String googleId;
+        public final String name;
+        public final String email;
+        public String institute;
 
-            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            accountAttributes.name = SanitizationHelper.sanitizeName(name);
-            accountAttributes.email = SanitizationHelper.sanitizeEmail(email);
-            accountAttributes.institute = SanitizationHelper.sanitizeForHtml(institute);
+        // optional fields
+        public boolean isInstructor;
+        public Date createdAt;
+        public StudentProfileAttributes studentProfile;
 
-            accountAttributes.studentProfile = new StudentProfileAttributes();
-            accountAttributes.isInstructor = true;
-            accountAttributes.createdAt = new Date();
+        public AccountAttributesBuilder(String googleId, String name, String email, String institute) {
+            this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            this.name = SanitizationHelper.sanitizeName(name);
+            this.email = SanitizationHelper.sanitizeEmail(email);
+            this.institute = SanitizationHelper.sanitizeTitle(institute);
+
+            this.studentProfile = new StudentProfileAttributes();
+            this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            this.isInstructor = true;
+            this.createdAt = new Date();
         }
 
-        public Builder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {
-            accountAttributes.studentProfile = studentProfile;
+        public AccountAttributesBuilder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {
+            this.studentProfile = studentProfile;
             return this;
         }
 
-        public Builder withIsInstructor(boolean isInstructor) {
-            accountAttributes.isInstructor = isInstructor;
+        public AccountAttributesBuilder withIsInstructor(boolean isInstructor) {
+            this.isInstructor = isInstructor;
             return this;
         }
 
-        public Builder withCreatedAt(Date createdAt) {
-            accountAttributes.createdAt = createdAt;
+        public AccountAttributesBuilder withCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
             return this;
         }
 
         public AccountAttributes build() {
-            return accountAttributes;
+            return new AccountAttributes(this);
         }
     }
 

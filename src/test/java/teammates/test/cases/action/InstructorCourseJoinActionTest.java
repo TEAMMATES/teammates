@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -91,9 +93,10 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAT.instr";
 
-        AccountAttributes newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        AccountAttributes newInstructorAccount = new AccountAttributesBuilder(
+                instructor.googleId, instructor.name,
+                instructor.email, "TEAMMATES Test Institute 5").withIsInstructor(false).build();
+
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         InstructorAttributes newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
