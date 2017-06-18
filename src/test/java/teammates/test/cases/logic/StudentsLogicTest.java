@@ -709,7 +709,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountToAdd = new AccountAttributesBuilder("tes.instructor", "Instructor 1",
                 "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(studentProfileAttributes)
+                .withStudentProfileAttributes(student)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);

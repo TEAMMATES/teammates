@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -167,7 +169,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             throws Exception {
         String course = dataBundle.courses.get("unregisteredCourse").getId();
 
-        AccountsLogic.inst().createAccount(new AccountAttributes.AccountAttributesBuilder("unregInsId", "unregName",
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder("unregInsId", "unregName",
                 "unregIns@unregcourse.com", "unregInstitute").withIsInstructor(true).build());
 
         InstructorAttributes instructor = new InstructorAttributes("unregInsId", course, "unregName",

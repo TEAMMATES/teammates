@@ -229,7 +229,7 @@ public class Logic {
         Assumption.assertNotNull(institute);
 
         if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = new AccountAttributes.AccountAttributesBuilder(googleId, name, email, institute)
+            AccountAttributes account = new AccountAttributesBuilder(googleId, name, email, institute)
                     .withIsInstructor(true).build();
             accountsLogic.createAccount(account);
         }

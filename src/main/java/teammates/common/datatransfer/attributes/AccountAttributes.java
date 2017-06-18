@@ -34,7 +34,7 @@ public class AccountAttributes extends EntityAttributes {
         // attributes to be set after construction
     }
 
-    private AccountAttributes(AccountAttributesBuilder builder) {
+    public AccountAttributes(AccountAttributesBuilder builder) {
         this.googleId = SanitizationHelper.sanitizeGoogleId(builder.googleId);
         this.name = SanitizationHelper.sanitizeName(builder.name);
         this.email = SanitizationHelper.sanitizeEmail(builder.email);
