@@ -127,11 +127,35 @@ public final class EmailAccount {
     private static String getTextFromPart(Part p) throws MessagingException, IOException {
         if (p.isMimeType("multipart/alternative")) {
             return getTextFromMultiPartAlternative(p);
-        } else if (p.isMimeType("multipart/*")) {
+        } else if (p.isMimeType("multipart/digest")) {
+            return getTextFromMultiPartDigest(p);
+        } else if (p.isMimeType("multipart/mixed") || p.isMimeType("multipart/parallel")
+                || p.isMimeType("multipart/*") || p.isMimeType("message/rfc822")) {
             return getTextFromMultiPartNotAlternative(p);
         }
 
         return null;
+    }
+
+    private static String getTextFromMultiPartDigest(Part p) throws IOException, MessagingException {
+        Multipart mp = (Multipart) p.getContent();
+        StringBuilder textBuilder = new StringBuilder();
+        for (int i = 0; i < mp.getCount(); i++) {
+            Part bp = mp.getBodyPart(i);
+            if (bp.isMimeType("message/rfc822")) {
+                String text = getTextFromPart(bp);
+                if (text != null) {
+                    textBuilder.append(text);
+                }
+            }
+        }
+        String text = textBuilder.toString();
+
+        if (!text.isEmpty()) {
+            return text;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -157,7 +181,7 @@ public final class EmailAccount {
                 // means the agent sending the email did not set the html text as preferable or did not set their preferred
                 // order correctly, and in that case we do not handle that
                 return (String) bp.getContent();
-            } else if (bp.isMimeType("multipart/*")) {
+            } else if (bp.isMimeType("multipart/*") || bp.isMimeType("message/rfc822")) {
                 String text = getTextFromPart(bp);
                 if (text != null) {
                     return text;
