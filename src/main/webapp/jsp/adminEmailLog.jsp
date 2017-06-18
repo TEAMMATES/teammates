@@ -7,7 +7,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/email/log" prefix="adminEmailLog" %>
 
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
   <script type="text/javascript" src="/js/adminEmailLog.js"></script>
 </c:set>
 

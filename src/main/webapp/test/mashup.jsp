@@ -430,8 +430,7 @@
     </div>
   </body>
 
-  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
-  <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+  <script type="text/javascript" src="/js/libs-common.js"></script>
   <script>
     (function() {
       $(document).ready(function() {

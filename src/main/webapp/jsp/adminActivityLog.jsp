@@ -6,7 +6,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/activity" prefix="activity" %>
 
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
   <script type="text/javascript" src="/js/adminActivityLog.js"></script>
 </c:set>
 

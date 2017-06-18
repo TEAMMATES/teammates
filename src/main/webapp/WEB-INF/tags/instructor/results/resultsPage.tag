@@ -6,7 +6,6 @@
 <%@ attribute name="jsIncludes" %>
 <ti:instructorPage title="${title}">
   <jsp:attribute name="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_PRINTTHIS %>"></script>
     ${jsIncludes}
   </jsp:attribute>
   <jsp:body>
