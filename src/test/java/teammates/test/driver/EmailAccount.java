@@ -62,26 +62,33 @@ public final class EmailAccount {
         }
 
         final List<Message> messageStubs = listMessagesResponse.getMessages();
-        if (messageStubs != null) {
-            for (Message messageStub : messageStubs) {
-                final Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
-                        .execute();
 
-                final MimeMessage email = convertFromMessageToMimeMessage(message);
+        if (isEmpty(messageStubs)) {
+            return null;
+        }
 
-                if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
-                    final String body = getEmailMessageBodyAsText(email);
+        for (Message messageStub : messageStubs) {
+            final Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
+                    .execute();
 
-                    final ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
-                            .setRemoveLabelIds(Collections.singletonList("UNREAD"));
-                    service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
+            final MimeMessage email = convertFromMessageToMimeMessage(message);
 
-                    return getKey(body);
-                }
+            if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
+                final String body = getEmailMessageBodyAsText(email);
+
+                final ModifyMessageRequest modifyMessageRequest = new ModifyMessageRequest()
+                        .setRemoveLabelIds(Collections.singletonList("UNREAD"));
+                service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
+
+                return getKey(body);
             }
         }
 
         return null;
+    }
+
+    private static boolean isEmpty(List<Message> messageStubs) {
+        return messageStubs == null;
     }
 
     private static MimeMessage convertFromMessageToMimeMessage(Message message) throws MessagingException {
