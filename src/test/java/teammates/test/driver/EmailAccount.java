@@ -125,13 +125,7 @@ public final class EmailAccount {
             return getTextFromMultiPartAlternative(p);
 
         } else if (p.isMimeType("multipart/*")) {
-            Multipart mp = (Multipart) p.getContent();
-            for (int i = 0; i < mp.getCount(); i++) {
-                String s = getEmailMessageBodyAsText(mp.getBodyPart(i));
-                if (s != null) {
-                    return s;
-                }
-            }
+            return getTextFromMultiPartNotAlternative(p);
         }
 
         return null;
@@ -161,6 +155,17 @@ public final class EmailAccount {
         }
         // returns the plain text we cannot find html
         return text;
+    }
+
+    private static String getTextFromMultiPartNotAlternative(Part p) throws IOException, MessagingException {
+        Multipart mp = (Multipart) p.getContent();
+        for (int i = 0; i < mp.getCount(); i++) {
+            String s = getEmailMessageBodyAsText(mp.getBodyPart(i));
+            if (s != null) {
+                return s;
+            }
+        }
+        return null;
     }
 
     private static String getKey(String body) {
