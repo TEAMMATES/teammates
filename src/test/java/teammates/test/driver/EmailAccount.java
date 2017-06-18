@@ -160,11 +160,11 @@ public final class EmailAccount {
         }
         String text = textBuilder.toString();
 
-        if (!text.isEmpty()) {
-            return text;
-        } else {
+        if (text.isEmpty()) {
             return null;
         }
+
+        return text;
     }
 
     /**
@@ -221,11 +221,11 @@ public final class EmailAccount {
         }
         String text = textBuilder.toString();
 
-        if (!text.isEmpty()) {
-            return text;
-        } else {
+        if (text.isEmpty()) {
             return null;
         }
+
+        return text;
     }
 
     private static String getKey(String body) {
