@@ -27,7 +27,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
     /**
      * Creates a feedback session attributes object from the request parameters.
-     * @param isCreatingNewSession rue if creating a new session; false if editing an existing session.
+     * @param isCreatingNewSession true if creating a new session; false if editing an existing session.
      * @return feedback session attributes object.
      */
     protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreatingNewSession) {
@@ -38,9 +38,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         FeedbackSessionAttributes newSession = new FeedbackSessionAttributes();
         newSession.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
 
+        // If the class is InstructorFeedbackAddAction then sanitize the newly given title
         String title = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        title = SanitizationHelper.sanitizeTitle(title);
-
+        if (isCreatingNewSession) {
+            title = SanitizationHelper.sanitizeTitle(title);
+        }
         newSession.setFeedbackSessionName(title);
         newSession.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
 
