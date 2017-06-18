@@ -901,8 +901,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
-        // Alert class should be enabled to warn instructors against changing visibility options after collecting responses.
-        // Passing 1 as question number as only one question is created.
+
+        ______TS("check warning against changing visibility options for question with existing response");
+
         assertTrue(feedbackEditPage.verifyAlertClassIsEnabledForVisibilityOptions(1));
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
