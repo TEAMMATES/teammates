@@ -129,12 +129,21 @@ public final class EmailAccount {
             return getTextFromMultiPartAlternative(p);
         } else if (p.isMimeType("multipart/digest")) {
             return getTextFromMultiPartDigest(p);
-        } else if (p.isMimeType("multipart/mixed") || p.isMimeType("multipart/parallel")
-                || p.isMimeType("multipart/*") || p.isMimeType("message/rfc822")) {
-            return getTextFromMultiPartMixed(p);
+        } else if (mimeTypeCanBeHandledAsMultiPartMixed(p)) {
+            return getTextHandledAsMultiPartMixed(p);
         }
 
         return null;
+    }
+
+    /**
+     * Returns if the part can be handled as multipart/mixed.
+     */
+    private static boolean mimeTypeCanBeHandledAsMultiPartMixed(Part p) throws MessagingException {
+        return p.isMimeType("multipart/mixed") || p.isMimeType("multipart/parallel")
+                || p.isMimeType("message/rfc822")
+                // as per the RFC2046 specification, other multipart subtypes are recognized as multipart/mixed
+                || p.isMimeType("multipart/*");
     }
 
     private static String getTextFromMultiPartDigest(Part p) throws IOException, MessagingException {
@@ -190,6 +199,10 @@ public final class EmailAccount {
         }
         // we do not know how to handle the text in the multipart or there is no text
         return null;
+    }
+
+    private static String getTextHandledAsMultiPartMixed(Part p) throws IOException, MessagingException {
+        return getTextFromMultiPartMixed(p);
     }
 
     private static String getTextFromMultiPartMixed(Part p) throws IOException, MessagingException {
