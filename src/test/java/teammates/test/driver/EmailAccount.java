@@ -74,7 +74,7 @@ public final class EmailAccount {
             final MimeMessage email = convertFromMessageToMimeMessage(message);
 
             if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
-                final String body = getEmailMessageBodyAsText(email);
+                final String body = getTextFromEmail(email);
 
                 markMessageAsRead(service, username, messageStub);
 
@@ -116,14 +116,17 @@ public final class EmailAccount {
     /**
      * Gets the email message body as text.
      */
-    private static String getEmailMessageBodyAsText(Part p) throws MessagingException, IOException {
-        if (p.isMimeType("text/*")) {
-            return (String) p.getContent();
+    private static String getTextFromEmail(MimeMessage email) throws MessagingException, IOException {
+        if (email.isMimeType("text/*")) {
+            return (String) email.getContent();
+        } else {
+            return getTextFromPart(email);
         }
-
+    }
+    
+    private static String getTextFromPart(Part p) throws MessagingException, IOException {
         if (p.isMimeType("multipart/alternative")) {
             return getTextFromMultiPartAlternative(p);
-
         } else if (p.isMimeType("multipart/*")) {
             return getTextFromMultiPartNotAlternative(p);
         }
@@ -155,7 +158,7 @@ public final class EmailAccount {
                 // order correctly, and in that case we do not handle that
                 return (String) bp.getContent();
             } else if (bp.isMimeType("multipart/*")) {
-                String text = getEmailMessageBodyAsText(bp);
+                String text = getTextFromPart(bp);
                 if (text != null) {
                     return text;
                 }
@@ -168,7 +171,7 @@ public final class EmailAccount {
     private static String getTextFromMultiPartNotAlternative(Part p) throws IOException, MessagingException {
         Multipart mp = (Multipart) p.getContent();
         for (int i = 0; i < mp.getCount(); i++) {
-            String s = getEmailMessageBodyAsText(mp.getBodyPart(i));
+            String s = getTextFromPart(mp.getBodyPart(i));
             if (s != null) {
                 return s;
             }
