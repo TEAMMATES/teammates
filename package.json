@@ -1,4 +1,13 @@
 {
+  "dependencies": {
+    "bootbox": "4.4.0",
+    "bootstrap": "3.1.1",
+    "guillotine": "1.3.1",
+    "jquery": "1.12.4",
+    "jquery-highlight": "3.4.0",
+    "jquery-ui": "1.12.1",
+    "printthis": "0.1.5"
+  },
   "devDependencies": {
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
@@ -7,29 +16,17 @@
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-json": "1.2.0",
+    "imports-loader": "0.7.1",
     "lintspaces-cli": "0.6.0",
     "stylelint": "8.2.0",
     "stylelint-config-standard": "17.0.0",
     "webpack": "3.8.1"
   },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "browsers": [
-              "ie >= 9"
-            ]
-          }
-        }
-      ]
-    ]
-  },
   "scripts": {
+    "build:libs": "webpack --config webpack-libs.config.js",
     "build:src": "webpack --config webpack-main.config.js",
     "build:test": "webpack --config webpack-test.config.js",
-    "build": "npm run build:src && npm run build:test",
+    "build": "npm run build:libs && npm run build:src && npm run build:test",
     "lint:js": "eslint *.js src/main/webapp/dev -c static-analysis/teammates-eslint.yml",
     "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
