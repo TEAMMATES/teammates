@@ -25,10 +25,7 @@
     <input type="text" id="date-picker-div">
 
     <!-- Library scripts -->
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
+    <script type="text/javascript" src="/js/libs-common.js"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>

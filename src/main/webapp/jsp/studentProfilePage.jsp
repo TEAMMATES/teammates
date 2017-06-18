@@ -8,7 +8,6 @@
   <link type="text/css" rel="stylesheet" href="<%= FrontEndLibrary.JQUERY_GUILLOTINE_CSS %>">
 </c:set>
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_GUILLOTINE %>"></script>
   <script type="text/javascript" src="/js/studentProfile.js"></script>
 </c:set>
 <ts:studentPage title="Student Profile" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
