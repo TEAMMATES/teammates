@@ -131,30 +131,38 @@ public final class EmailAccount {
         return null;
     }
 
+    /**
+     * Returns the text from multipart/alternative, the type of text returned follows the preference of the sending agent.
+     */
     private static String getTextFromMultiPartAlternative(Part p) throws IOException, MessagingException {
-        // prefer html text over plain text
         Multipart mp = (Multipart) p.getContent();
-        String text = null;
-        for (int i = 0; i < mp.getCount(); i++) {
+
+        // if the multipart has no body parts, it is malformed
+        if (mp.getCount() == 0) {
+            return null;
+        }
+
+        // search in reverse order as a multipart/alternative should have their most preferred format last
+        for (int i = mp.getCount() - 1; i >= 0; i--) {
             Part bp = mp.getBodyPart(i);
-            if (bp.isMimeType("text/plain")) {
-                if (text == null) {
-                    text = getEmailMessageBodyAsText(bp);
+
+            if (bp.isMimeType("text/html")) {
+                return (String) bp.getContent();
+            } else if (bp.isMimeType("text/plain")) {
+                // since we are looking in reverse order, if we did not encounter a text/html first we can return the plain
+                // text because that is the best preferred format that we understand. If a text/html comes along later it
+                // means the agent sending the email did not set the html text as preferable or did not set their preferred
+                // order correctly, and in that case we do not handle that
+                return (String) bp.getContent();
+            } else if (bp.isMimeType("multipart/*")) {
+                String text = getEmailMessageBodyAsText(bp);
+                if (text != null) {
+                    return text;
                 }
-                // We are not returning the plain text here because some mailers send the main body as both plain
-                // text and html. In this case, we will continue searching for html and return the html if
-                // we find it otherwise we will return the plain text
-            } else if (bp.isMimeType("text/html")) {
-                String s = getEmailMessageBodyAsText(bp);
-                if (s != null) {
-                    return s;
-                }
-            } else {
-                return getEmailMessageBodyAsText(bp);
             }
         }
-        // returns the plain text we cannot find html
-        return text;
+        // we do not know how to handle the text in the multipart or there is no text
+        return null;
     }
 
     private static String getTextFromMultiPartNotAlternative(Part p) throws IOException, MessagingException {
