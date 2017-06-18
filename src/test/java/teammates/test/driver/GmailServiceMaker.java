@@ -42,15 +42,15 @@ final class GmailServiceMaker {
     }
 
     private final String username;
-    private final boolean useFreshCredentials;
+    private final boolean shouldUseFreshCredentials;
 
     GmailServiceMaker(String username) {
         this(username, false);
     }
 
-    GmailServiceMaker(String username, boolean useFreshCredentials) {
+    GmailServiceMaker(String username, boolean shouldUseFreshCredentials) {
         this.username = username;
-        this.useFreshCredentials = useFreshCredentials;
+        this.shouldUseFreshCredentials = shouldUseFreshCredentials;
     }
 
     /**
@@ -73,7 +73,7 @@ final class GmailServiceMaker {
 
         GoogleAuthorizationCodeFlow flow = buildFlow(clientSecrets);
 
-        if (useFreshCredentials) {
+        if (shouldUseFreshCredentials) {
             flow.getCredentialDataStore().delete(username);
         }
 
