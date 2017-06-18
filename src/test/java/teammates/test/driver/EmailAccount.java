@@ -122,29 +122,8 @@ public final class EmailAccount {
         }
 
         if (p.isMimeType("multipart/alternative")) {
-            // prefer html text over plain text
-            Multipart mp = (Multipart) p.getContent();
-            String text = null;
-            for (int i = 0; i < mp.getCount(); i++) {
-                Part bp = mp.getBodyPart(i);
-                if (bp.isMimeType("text/plain")) {
-                    if (text == null) {
-                        text = getEmailMessageBodyAsText(bp);
-                    }
-                    // We are not returning the plain text here because some mailers send the main body as both plain
-                    // text and html. In this case, we will continue searching for html and return the html if
-                    // we find it otherwise we will return the plain text
-                } else if (bp.isMimeType("text/html")) {
-                    String s = getEmailMessageBodyAsText(bp);
-                    if (s != null) {
-                        return s;
-                    }
-                } else {
-                    return getEmailMessageBodyAsText(bp);
-                }
-            }
-            // returns the plain text we cannot find html
-            return text;
+            return getTextFromMultiPartAlternative(p);
+
         } else if (p.isMimeType("multipart/*")) {
             Multipart mp = (Multipart) p.getContent();
             for (int i = 0; i < mp.getCount(); i++) {
@@ -156,6 +135,32 @@ public final class EmailAccount {
         }
 
         return null;
+    }
+
+    private static String getTextFromMultiPartAlternative(Part p) throws IOException, MessagingException {
+        // prefer html text over plain text
+        Multipart mp = (Multipart) p.getContent();
+        String text = null;
+        for (int i = 0; i < mp.getCount(); i++) {
+            Part bp = mp.getBodyPart(i);
+            if (bp.isMimeType("text/plain")) {
+                if (text == null) {
+                    text = getEmailMessageBodyAsText(bp);
+                }
+                // We are not returning the plain text here because some mailers send the main body as both plain
+                // text and html. In this case, we will continue searching for html and return the html if
+                // we find it otherwise we will return the plain text
+            } else if (bp.isMimeType("text/html")) {
+                String s = getEmailMessageBodyAsText(bp);
+                if (s != null) {
+                    return s;
+                }
+            } else {
+                return getEmailMessageBodyAsText(bp);
+            }
+        }
+        // returns the plain text we cannot find html
+        return text;
     }
 
     private static String getKey(String body) {
