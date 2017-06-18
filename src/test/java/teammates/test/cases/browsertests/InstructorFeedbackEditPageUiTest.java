@@ -899,11 +899,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
         feedbacksPage.verifyResponseValue("1 / 1", courseId, feedbackSessionName);
 
+        ______TS("check warning against changing visibility options while editing question with existing response");
+
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
-
-        ______TS("check warning against changing visibility options for question with existing response");
-
         assertTrue(feedbackEditPage.verifyAlertClassIsEnabledForVisibilityOptions(1));
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
