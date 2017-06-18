@@ -16,12 +16,15 @@ public abstract class RemoteApiClient {
 
     protected static final PersistenceManager PM = getPm();
 
-    private static PersistenceManager getPm() {
-        // use reflection to bypass the visibility level of the method
-        Method method = EntitiesDb.class.getDeclaredMethod("getPm");
-        method.setAccessible(true);
-        // the method is non-static and EntitiesDb is an abstract class; use any *Db to invoke it
-        return (PersistenceManager) method.invoke(new CoursesDb());
+    private static PersistenceManager getPm() throws ReflectiveOperationException{
+
+            // use reflection to bypass the visibility level of the method
+            Method method = EntitiesDb.class.getDeclaredMethod("getPm");
+            method.setAccessible(true);
+
+            // the method is non-static and EntitiesDb is an abstract class; use any *Db to invoke it
+            return (PersistenceManager) method.invoke(new CoursesDb());
+
     }
 
     protected void doOperationRemotely() throws IOException {
