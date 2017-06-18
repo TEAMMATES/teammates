@@ -74,10 +74,10 @@ final class GmailServiceMaker {
         GoogleAuthorizationCodeFlow flow = buildFlow(clientSecrets);
 
         if (useFreshCredentials) {
-            flow.getCredentialDataStore().clear();
+            flow.getCredentialDataStore().delete(username);
         }
 
-        if (flow.getCredentialDataStore().isEmpty()) {
+        if (flow.getCredentialDataStore().get(username) == null) {
             System.out.println("Please login as: " + username);
         }
 
@@ -90,11 +90,10 @@ final class GmailServiceMaker {
     }
 
     private GoogleAuthorizationCodeFlow buildFlow(GoogleClientSecrets clientSecrets) throws IOException {
-        // if the scopes ever need to change, the user will need to manually delete the credentials of the username found in
-        // <TestProperties.TEST_GMAIL_API_FOLDER>/<username>
+        // if the scopes need to change, the user will need to manually delete
+        // <TestProperties.TEST_GMAIL_API_FOLDER>/StoredCredential
         final List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
-        FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(
-                new File(TestProperties.TEST_GMAIL_API_FOLDER, username));
+        FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(new File(TestProperties.TEST_GMAIL_API_FOLDER));
         return new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)
                 .setDataStoreFactory(dataStoreFactory)
@@ -107,7 +106,6 @@ final class GmailServiceMaker {
      * to receive authorization code and then exchanges the code for an access token.
      */
     private Credential getCredentialFromFlow(GoogleAuthorizationCodeFlow flow) throws IOException {
-        return new AuthorizationCodeInstalledApp(
-                flow, new LocalServerReceiver()).authorize("user");
+        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize(username);
     }
 }
