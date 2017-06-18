@@ -131,7 +131,7 @@ public final class EmailAccount {
             return getTextFromMultiPartDigest(p);
         } else if (p.isMimeType("multipart/mixed") || p.isMimeType("multipart/parallel")
                 || p.isMimeType("multipart/*") || p.isMimeType("message/rfc822")) {
-            return getTextFromMultiPartNotAlternative(p);
+            return getTextFromMultiPartMixed(p);
         }
 
         return null;
@@ -192,7 +192,7 @@ public final class EmailAccount {
         return null;
     }
 
-    private static String getTextFromMultiPartNotAlternative(Part p) throws IOException, MessagingException {
+    private static String getTextFromMultiPartMixed(Part p) throws IOException, MessagingException {
         Multipart mp = (Multipart) p.getContent();
         StringBuilder textBuilder = new StringBuilder();
         for (int i = 0; i < mp.getCount(); i++) {
