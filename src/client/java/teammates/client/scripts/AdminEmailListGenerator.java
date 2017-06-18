@@ -295,23 +295,21 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             if (instructorCreatedDateRangeStartCheckIsNull) {
                 //no range set
                 return true;
-            } else if (!instructorCreatedDateRangeStartCheckIsNull) {
-                //after a specific date
-                return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
             }
-        } else if (!instructorCreatedDateRangeEndCheckIsNull) {
+            //after a specific date
+            return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
 
-            if (instructorCreatedDateRangeStartCheckIsNull) {
-                //before a specific date
-                return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
-
-            } else if (!instructorCreatedDateRangeStartCheckIsNull) {
-                //within a date interval
-                return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
-                        && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
-            }
         }
-        return false;
+
+        if (instructorCreatedDateRangeStartCheckIsNull) {
+            //before a specific date
+            return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+
+        }
+        //within a date interval
+        return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
+                && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+
 
     }
 
@@ -344,7 +342,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         Date studentCreatedAt = getStudentCreatedDate(student);
         boolean studentCreatedDateRangeEndIsNull = emailListConfig.studentCreatedDateRangeEnd == null;
         boolean studentCreatedDateRangeStartIsNull = emailListConfig.studentCreatedDateRangeStart == null;
-        
+
         if (studentCreatedAt == null) {
             return false;
         }
