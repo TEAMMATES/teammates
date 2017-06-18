@@ -16,6 +16,8 @@ import teammates.logic.api.Logic;
 public class DataRepairForCorruptedResponses extends RemoteApiClient {
 
     private Logic logic = new Logic();
+    String originalGiverSection = "";
+    String originalRecipientSection = "";
 
     public static void main(String[] args) throws IOException {
         DataRepairForCorruptedResponses dataRepair = new DataRepairForCorruptedResponses();
@@ -49,43 +51,65 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
         responses.forEach((response) -> {
             boolean needUpdateResponse = false;
-            String originalGiverSection = "";
-            String originalRecipientSection = "";
-            
+
             if (needRepairGiverSection) {
                 StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giver);
-                if (!response.giverSection.equals(student.section)) {
-                    originalGiverSection = response.giverSection;
-                    response.giverSection = student.section;
-                    needUpdateResponse = true;
-                }
+                needUpdateResponse = responseNotEqualToStudentSection(response, student, needUpdateResponse);
             }
             if (needRepairRecipientSection) {
-                if (isTeamRecipient(question.recipientType)) {
-                    String recipientSection
-                            = logic.getStudentsForTeam(response.recipient, question.courseId).get(0).section;
-                    if (!recipientSection.equals(response.recipientSection)) {
-                        originalRecipientSection = response.recipientSection;
-                        response.recipientSection = recipientSection;
-                        needUpdateResponse = true;
-                    }
-                } else {
-                    StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipient);
-                    if (!response.recipientSection.equals(student.section)) {
-                        originalRecipientSection = response.recipientSection;
-                        response.recipientSection = student.section;
-                        needUpdateResponse = true;
-                    }
-                }
+                needUpdateResponse = isTeamRecipient(question, response, needUpdateResponse);
             }
-            if (needUpdateResponse) {
-                System.out.println("Repairing giver section:"
-                        + originalGiverSection + "-->" + response.giverSection
-                        + " receiver section:"
-                        + originalRecipientSection + "-->" + response.recipientSection);
-                logic.updateFeedbackResponse(response);
-            }
+            needUpdateResponse(needUpdateResponse, response);
         });
+    }
+
+    private boolean isTeamRecipient(FeedbackQuestionAttributes question, FeedbackResponseAttributes response, boolean needUpdateResponse) {
+        if (isTeamRecipient(question.recipientType)) {
+            String recipientSection
+                    = logic.getStudentsForTeam(response.recipient, question.courseId).get(0).section;
+            return recipientSectionNotEqualToResponse(recipientSection, response, needUpdateResponse);
+
+        }
+        StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipient);
+        return recipientSectionNotEqualToStudentSection(response, student, needUpdateResponse);
+
+    }
+
+    private void needUpdateResponse(boolean needUpdateResponse, FeedbackResponseAttributes response) {
+        if (needUpdateResponse) {
+            System.out.println("Repairing giver section:"
+                    + originalGiverSection + "-->" + response.giverSection
+                    + " receiver section:"
+                    + originalRecipientSection + "-->" + response.recipientSection);
+            logic.updateFeedbackResponse(response);
+        }
+    }
+
+    private boolean recipientSectionNotEqualToStudentSection(FeedbackResponseAttributes response, StudentAttributes student, boolean needUpdateResponse) {
+        if (!response.recipientSection.equals(student.section)) {
+            originalRecipientSection = response.recipientSection;
+            response.recipientSection = student.section;
+            needUpdateResponse = true;
+        }
+        return needUpdateResponse;
+    }
+
+    private boolean recipientSectionNotEqualToResponse(String recipientSection, FeedbackResponseAttributes response, boolean needUpdateResponse) {
+        if (!recipientSection.equals(response.recipientSection)) {
+            originalRecipientSection = response.recipientSection;
+            response.recipientSection = recipientSection;
+            needUpdateResponse = true;
+        }
+        return needUpdateResponse;
+    }
+
+    private boolean responseNotEqualToStudentSection(FeedbackResponseAttributes response, StudentAttributes student, boolean needUpdateResponse) {
+        if (!response.giverSection.equals(student.section)) {
+            originalGiverSection = response.giverSection;
+            response.giverSection = student.section;
+            needUpdateResponse = true;
+        }
+        return needUpdateResponse;
     }
 
     private boolean isGiverContainingSection(FeedbackParticipantType giverType) {
