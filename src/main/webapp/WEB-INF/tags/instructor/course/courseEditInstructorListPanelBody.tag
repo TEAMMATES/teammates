@@ -88,7 +88,7 @@
                         <p class="form-control-static">
                             <span>${instructorPanel.instructor.role}</span>
                             <c:if test="${not instructorPanel.instructor.customRole}">
-                                <a href="javascript:;" onclick="showInstructorRoleModal('${instructorPanel.instructor.role}')">
+                                <a href="javascript:;" class="view-role-details" data-role="${instructorPanel.instructor.role}">
                                     &nbsp;View Details
                                 </a>
                             </c:if>

@@ -10,9 +10,9 @@
 
 <c:set var="NEW_QUESTION" value="-1" />
 
-<form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question" role="form" method="post"
+<form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question tally-checkboxes" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('${NEW_QUESTION}')" >
+    name="form_addquestions" data-qnnumber="${NEW_QUESTION}">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
 
         <div class="row">
@@ -68,8 +68,8 @@
                 </div>
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
-                        <a class="btn btn-primary btn-xs"
-                            onclick="discardChanges(${NEW_QUESTION})" data-toggle="tooltip" data-placement="top"
+                        <a class="btn btn-primary btn-xs btn-discard-changes"
+                            data-qnnumber="${NEW_QUESTION}" data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
                             Cancel
                         </a>
@@ -105,7 +105,6 @@
                         </label>
                     </h5>
                     <div class="col-sm-10">
-                        <div id="rich-text-toolbar-q-descr-container"></div>
                         <div class="panel panel-default panel-body question-description"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"

@@ -11,6 +11,7 @@ import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 
 public class ImageResult extends ActionResult {
@@ -28,7 +29,7 @@ public class ImageResult extends ActionResult {
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         if (blobKey.isEmpty()) {
-            resp.sendError(1, "No image found");
+            resp.sendRedirect(Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
         } else {
             resp.setContentType("image/png");
             BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();

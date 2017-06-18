@@ -8,8 +8,6 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
-    <script type="text/javascript" src="/js/timezone.js"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
 </c:set>
 

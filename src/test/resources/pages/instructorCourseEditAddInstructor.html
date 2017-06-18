@@ -256,7 +256,7 @@
                   <span>
                     Co-owner
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                  <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -379,25 +379,25 @@
               <div class="col-sm-9">
                 <input id="instructorroleforinstructor3" name="instructorrole" type="radio" value="Co-owner">
                  Co-owner: Can do everything 
-                <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor3" name="instructorrole" type="radio" value="Manager">
                  Manager: Can do everything except for deleting the course 
-                <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
+                <a class="view-role-details" data-role="Manager" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor3" name="instructorrole" type="radio" value="Observer">
                  Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
-                <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
+                <a class="view-role-details" data-role="Observer" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor3" name="instructorrole" type="radio" value="Tutor">
                  Tutor: Can view student details, give/view comments, submit/view responses for sessions 
-                <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
+                <a class="view-role-details" data-role="Tutor" href="javascript:;">
                   View Details
                 </a>
                 <br>
@@ -480,7 +480,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(3, 0)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="3" data-panelindex="0" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -518,7 +518,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 0)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="3" data-panelindex="0" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor3">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv0ForInstructor3" style="display: none;">
@@ -589,7 +589,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(3, 1)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="3" data-panelindex="1" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -627,7 +627,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 1)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="3" data-panelindex="1" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor3">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv1ForInstructor3" style="display: none;">
@@ -698,7 +698,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(3, 2)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="3" data-panelindex="2" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -736,7 +736,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 2)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="3" data-panelindex="2" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor3">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv2ForInstructor3" style="display: none;">
@@ -779,7 +779,7 @@
                       </div>
                     </div>
                   </div>
-                  <a class="small" href="javascript:;" id="addSectionLevelForInstructor3" onclick="showTuneSectionPermissionsDiv(3, 1)" style="display: inline;">
+                  <a class="small show-tune-section-permissions" data-instructorindex="3" data-panelindex="1" href="javascript:;" id="addSectionLevelForInstructor3" style="display: inline;">
                     Give different permissions for a specific section
                   </a>
                 </div>
@@ -878,7 +878,7 @@
                   <span>
                     Manager
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
+                  <a class="view-role-details" data-role="Manager" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -1085,7 +1085,7 @@
                   <span>
                     Observer
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
+                  <a class="view-role-details" data-role="Observer" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -1186,7 +1186,7 @@
                   <span>
                     Co-owner
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                  <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -1287,7 +1287,7 @@
                   <span>
                     Tutor
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
+                  <a class="view-role-details" data-role="Tutor" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -1358,25 +1358,25 @@
               <div class="col-sm-9">
                 <input checked="" id="instructorroleforinstructor9" name="instructorrole" type="radio" value="Co-owner">
                  Co-owner: Can do everything
-                <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor9" name="instructorrole" type="radio" value="Manager">
                  Manager: Can do everything except for deleting the course
-                <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
+                <a class="view-role-details" data-role="Manager" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor9" name="instructorrole" type="radio" value="Observer">
                  Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-                <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
+                <a class="view-role-details" data-role="Observer" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor9" name="instructorrole" type="radio" value="Tutor">
                  Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
+                <a class="view-role-details" data-role="Tutor" href="javascript:;">
                   View Details
                 </a>
                 <br>
@@ -1458,7 +1458,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(9, 0)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="9" data-panelindex="0" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -1496,7 +1496,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor9" onclick="showTuneSessionnPermissionsDiv(9, 0)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="9" data-panelindex="0" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor9">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" id="tuneSessionPermissionsDiv0ForInstructor9" style="display: none;">
@@ -1567,7 +1567,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(9, 1)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="9" data-panelindex="1" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -1605,7 +1605,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor9" onclick="showTuneSessionnPermissionsDiv(9, 1)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="9" data-panelindex="1" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor9">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" id="tuneSessionPermissionsDiv1ForInstructor9" style="display: none;">
@@ -1676,7 +1676,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(9, 2)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="9" data-panelindex="2" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -1714,7 +1714,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor9" onclick="showTuneSessionnPermissionsDiv(9, 2)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="9" data-panelindex="2" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor9">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" id="tuneSessionPermissionsDiv2ForInstructor9" style="display: none;">
@@ -1757,7 +1757,7 @@
                       </div>
                     </div>
                   </div>
-                  <a class="small" href="javascript:;" id="addSectionLevelForInstructor9" onclick="showTuneSectionPermissionsDiv(9, 0)">
+                  <a class="small show-tune-section-permissions" data-instructorindex="9" data-panelindex="0" href="javascript:;" id="addSectionLevelForInstructor9">
                     Give different permissions for a specific section
                   </a>
                 </div>

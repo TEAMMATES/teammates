@@ -1,7 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -135,20 +133,22 @@ public class InstructorStudentListPage extends AppPage {
         click(displayArchiveOptions);
     }
 
-    public void verifyProfilePhoto(String courseId, String studentName, String profilePhotoSrc) {
+    public void verifyProfilePhoto(String courseId, String studentName, String urlRegex) {
         String rowId = getStudentRowId(courseId, studentName);
-        assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
-                                                    .findElement(By.tagName("img"))
-                                                    .getAttribute("src"));
+        verifyImageUrl(urlRegex, browser.driver
+                .findElement(By.id("studentphoto-c" + rowId))
+                .findElement(By.tagName("img"))
+                .getAttribute("src"));
         WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
                                          .findElement(By.cssSelector(".profile-pic-icon-click > img"));
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -100);", photo);
         Actions action = new Actions(browser.driver);
         action.click(photo).build().perform();
-        assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
-                                                    .findElement(By.cssSelector(".popover-content > .profile-pic"))
-                                                    .getAttribute("src"));
+        verifyImageUrl(urlRegex, browser.driver
+                .findElement(By.id("studentphoto-c" + rowId))
+                .findElement(By.cssSelector(".popover-content > .profile-pic"))
+                .getAttribute("src"));
     }
 
     private int getCourseNumber(String courseId) {

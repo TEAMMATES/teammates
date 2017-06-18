@@ -56,7 +56,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 

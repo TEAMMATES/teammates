@@ -18,8 +18,9 @@
             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
             <div class="pull-left text-preserve-space">${responsePanel.displayableResponse}</div>
 
-            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment"
-                onclick="showResponseCommentAddForm(${responsePanel.recipientIndex},${responsePanel.giverIndex},${responsePanel.qnIndex}, { sectionIndex: ${responsePanel.sectionId} })"
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" id="button_add_comment"
+                data-recipientindex="${responsePanel.recipientIndex}" data-giverindex="${responsePanel.giverIndex}"
+                data-qnindex="${responsePanel.qnIndex}" data-sectionindex="${responsePanel.sectionId}"
                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
                 <c:if test="${!responsePanel.allowedToAddComment}">
                         disabled
