@@ -255,7 +255,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 ? ", Average Rank Excluding Self"
                 : "";
 
-        return "Team, Recipient" + ", Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
+        return "Team, Recipient, Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
     }
 
     /**
@@ -331,32 +331,34 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      * Displays a dash if the user has only self response.
      *
      * @param df decimal format
-     * @param recipientRanksExcludingSelf list of recipient ranks excluding self response
-     * @param recipientKey recipient for which average is to be calculated
+     * @param recipientRanksExcludingSelf map of recipient ranks excluding self response
+     * @param recipientName recipient for which average is to be calculated
      * @return average excluding self text
      */
     private String getAverageExcludingSelfText(DecimalFormat df,
-            Map<String, List<Integer>> recipientRanksExcludingSelf, String recipientKey) {
-        List<Integer> ranksExcludingSelf = recipientRanksExcludingSelf.get(recipientKey);
+            Map<String, List<Integer>> recipientRanksExcludingSelf, String recipientName) {
+        List<Integer> ranksExcludingSelf = recipientRanksExcludingSelf.get(recipientName);
         if (ranksExcludingSelf == null) {
             return "-";
-        } else {
-            Double averageExcludingSelf = computeAverage(ranksExcludingSelf);
-            return df.format(averageExcludingSelf);
         }
+        Double averageExcludingSelf = computeAverage(ranksExcludingSelf);
+        return df.format(averageExcludingSelf);
     }
 
     /**
-     * Returns map of recipient ranks excluding self if self ranks are to be excluded other wise return empty map.
+     * Returns map of recipient ranks excluding self if self ranks are to be excluded otherwise return an empty map.
+     *
+     * @param responses list of all the responses for a question
+     * @param question question related to responses
+     * @return map of recipient ranks excluding self responses
      */
     private Map<String, List<Integer>> getRecipientRanksExcludingSelf(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question) {
         if (shouldSelfBeExcludedFromRankings(question)) {
             List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
             return generateOptionRanksMapping(responsesExcludingSelf);
-        } else {
-            return new HashMap<>();
         }
+        return new HashMap<String, List<Integer>>();
     }
 
     private boolean shouldSelfBeExcludedFromRankings(FeedbackQuestionAttributes question) {
