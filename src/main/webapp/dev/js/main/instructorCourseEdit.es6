@@ -481,7 +481,7 @@ $(document).ready(() => {
             displayToStudentsAsTextField.prop('placeholder', 'E.g.Co-lecturer, Teaching Assistant');
         } else {
             displayToStudentsAsTextField.prop('readonly', true);
-            displayToStudentsAsTextField.prop('value', 'Instructor');
+            displayToStudentsAsTextField.prop('value', '');
             displayToStudentsAsTextField.prop('placeholder', '(This instructor will NOT be displayed to students)');
         }
     });
