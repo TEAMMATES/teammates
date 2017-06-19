@@ -775,6 +775,13 @@ input.inline {
     color: #2aabd2;
 }
 
+/*
+Default to alert color for visibility titles used within an alert context.
+*/
+.alert .visibility-title {
+    color: inherit;
+}
+
 .filename-preview {
     border: 0;
     background-color: white;
@@ -1163,11 +1170,4 @@ Glyphicon for success status messages
     display: inline-block;
     padding-right: 2px;
     content: '\e084';
-}
-
-/*
-Default to alert color for visibility titles used within an alert context.
-*/
-.alert .visibility-title {
-    color: inherit;
 }
