@@ -32,7 +32,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <span>[<a href="/index.jsp">TEAMMATES</a>]</span>
+                    <span>[<a href="/">TEAMMATES</a>]</span>
                 </div>
                 <div class="col-md-8">
                     [hosted on <a href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>]
