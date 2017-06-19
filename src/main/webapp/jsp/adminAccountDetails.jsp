@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminAccountDetails.js"></script>
 </c:set>
 
