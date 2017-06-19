@@ -37,11 +37,11 @@ public class InstructorAttributes extends EntityAttributes {
      * Return new builder instance with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
-     * {@code false} for {@code isArchived}
-     * {@code true} for {@code isDisplayedForStudents}
-     * {@code DEFAULT_DISPLAYED_NAME} for {@code displayedName}
-     * {@code INSTRUCTOR_PERMISSION_ROLE_COOWNER} for {@code role}
-     * {@code new InstructorPrivileges(role)} for {@code privileges}
+     * {@code isArchived = false} <br>
+     * {@code isDisplayedForStudents = true} <br>
+     * {@code displayedName = DEFAULT_DISPLAYED_NAME} <br>
+     * {@code role = INSTRUCTOR_PERMISSION_ROLE_COOWNER} <br>
+     * {@code privileges = new InstructorPrivileges(role)} <br>
      */
     public static Builder builder(String googleId, String courseId, String name, String email) {
         return new Builder(googleId, courseId, name, email);
