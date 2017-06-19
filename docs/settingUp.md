@@ -13,7 +13,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 ## Step 1: Install necessary tools and languages
 
 1. Install Source Tree or other similar Git Client, or at least Git.
-1. Install JDK 1.7.
+1. Install JDK 1.8.
 1. Install Node.js (minimum version 4.x).
 
 ## Step 2: Obtain your own repository copy
@@ -61,7 +61,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Modify the following config file:
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
-      This value must be a valid **JDK 1.7** directory.
+      This value must be a valid **JDK 1.8** directory.
       **Windows users** should use a **forward slash**(`/`) instead of the Windows default **backward slash**(`\`) while specifying the path.
 
 If you followed every step correctly, you should have successfully set up the development environment.

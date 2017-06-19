@@ -165,8 +165,9 @@ public abstract class AppPage {
      * Fails if the page content does not match the content of the expected login page.
      */
     public static LoginPage createCorrectLoginPageType(Browser browser) {
-        return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
-                                                                        : GoogleLoginPage.class);
+        Class<? extends LoginPage> cls =
+                TestProperties.isDevServer() ? DevServerLoginPage.class : GoogleLoginPage.class;
+        return getNewPageInstance(browser, cls);
     }
 
     /**

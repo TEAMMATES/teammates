@@ -21,7 +21,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
   Go to `Window → Preferences → Java → Installed JREs`. You will note that a JRE path is the one selected, not a JDK path.
 
-  **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.7/jre`. Now you should see all of the JARs added to the library section.
+  **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.8/jre`. Now you should see all of the JARs added to the library section.
 
 * **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
@@ -103,12 +103,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION 2**: Make sure that the path is set correctly following the example from `test.template.properties`.
 
-* **ERROR**: After deploying on the staging server, you get an error related to "Unsupported major.minor version ..." when trying to access pages of the staged app.
-
-  **REASON**: This can happen if you have Java 8 installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
-
-  **SOLUTION**: Refer to [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed) to learn how to modify `eclipse.ini` to use Java 7 by default.
-
 * **ERROR**: A handful of failed test cases (< 10).
 
   **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
@@ -126,10 +120,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
   **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link](http://www.sevenforums.com/tutorials/3530-time-format-change.html) may be useful.
 
   ![troubleshooting-test-5.png](images/troubleshooting-test-5.png)
-
-* **ERROR**: `java.lang.UnsupportedClassVersionError` when running on staging server.
-
-  **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. [Here is a useful reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
 
 * **ERROR**: `InstructorCourseDetailsPageUiTest` fails in production server due to Gmail's access restriction (e.g `javax.mail.AuthenticationFailedException`)
 
