@@ -910,6 +910,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
+        ______TS("check no warning displayed while editing visibility options of question without responses");
+
+        assertTrue(!feedbackEditPage.verifyAlertClassIsEnabledForVisibilityOptions(1));
+
         ______TS("check response rate after editing question");
 
         feedbacksPage = navigateToInstructorFeedbacksPage();
