@@ -330,7 +330,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      * Returns the average excluding self response text.
      * Displays a dash if the user has only self response.
      *
-     * @param isAvgExclSelfShown if average excluding self to be shown
      * @param df decimal format
      * @param recipientRanksExcludingSelf list of recipient ranks excluding self response
      * @param recipientKey recipient for which average is to be calculated
