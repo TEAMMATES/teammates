@@ -23,10 +23,6 @@ public final class TestProperties {
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
-    /** The directory where credentials used in Gmail API are stored. */
-    @SuppressWarnings("WeakerAccess")
-    public static final String TEST_GMAIL_API_FOLDER = "src/test/resources/gmail-api";
-
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
 
@@ -83,6 +79,9 @@ public final class TestProperties {
 
     /** Maximum period for verification retries due to persistence delays. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
+
+    /** The directory where credentials used in Gmail API are stored. */
+    static final String TEST_GMAIL_API_FOLDER = "src/test/resources/gmail-api";
 
     static {
         Properties prop = new Properties();
