@@ -32,7 +32,7 @@ public final class JsonUtils {
      * Json file and also reformat the Json string in pretty-print format.
      */
     private static Gson getTeammatesGson() {
-        return new GsonBuilder().registerTypeAdapter(Date.class, new StandardDateAdapter())
+        return new GsonBuilder().registerTypeAdapter(Date.class, new TeammatesDateAdapter())
                                 .setPrettyPrinting()
                                 .disableHtmlEscaping()
                                 .create();
@@ -85,11 +85,11 @@ public final class JsonUtils {
      * This workaround is necessary as the default GSON date serializer always uses the local time zone,
      * leading to unpredictable JSON output that depends on the system time zone.
      */
-    private static class StandardDateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
+    private static class TeammatesDateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
 
         private final DateFormat dateFormat;
 
-        StandardDateAdapter() {
+        TeammatesDateAdapter() {
             dateFormat = new SimpleDateFormat(Const.SystemParams.DEFAULT_DATE_TIME_FORMAT);
             dateFormat.setTimeZone(Const.SystemParams.TIME_ZONE);
         }
