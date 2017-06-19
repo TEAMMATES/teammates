@@ -81,10 +81,25 @@ public class GoogleLoginPage extends LoginPage {
 
     private void handleApprovalPageIfAny() {
         waitForPageToLoad();
+        waitForRedirectIfAny();
         boolean isPageRequestingAccessApproval = getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
         if (isPageRequestingAccessApproval) {
             click(By.id("persist_checkbox"));
             click(By.id("approve_button"));
+            waitForPageToLoad();
+        }
+    }
+
+    private void waitForRedirectIfAny() {
+        By metaRefreshBy = By.cssSelector("meta[http-equiv='refresh']");
+        if (isElementPresent(metaRefreshBy)) {
+            waitForElementToDisappear(metaRefreshBy);
+            waitForPageToLoad();
+        }
+
+        By noScriptBy = By.tagName("noscript");
+        if (isElementPresent(noScriptBy)) {
+            waitForTextContainedInElementAbsence(noScriptBy, "&lt;meta http-equiv=\"refresh\"");
             waitForPageToLoad();
         }
     }
