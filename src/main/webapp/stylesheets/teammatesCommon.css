@@ -1165,6 +1165,9 @@ Glyphicon for success status messages
     content: '\e084';
 }
 
+/*
+Default to alert color for visibility titles used within an alert context.
+*/
 .alert .visibility-title {
     color: inherit;
 }
