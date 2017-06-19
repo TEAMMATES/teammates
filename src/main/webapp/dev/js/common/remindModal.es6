@@ -1,16 +1,5 @@
 import { sendRemindersToStudents } from './instructor.es6';
 
-function bindRemindButton() {
-    $('#remindModal .remind-particular-button').on('click', (event) => {
-        const $remindButton = $(event.target);
-        const $form = $remindButton.parents('form:first');
-        const action = $form.attr('action');
-        const formData = $form.serialize();
-        const url = `${action}&${formData}`;
-        sendRemindersToStudents(url);
-    });
-}
-
 function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
@@ -35,7 +24,14 @@ function prepareRemindModal() {
             },
         });
     });
-    bindRemindButton();
+    $('#remindModal .remind-particular-button').on('click', (event) => {
+        const $remindButton = $(event.target);
+        const $form = $remindButton.parents('form:first');
+        const action = $form.attr('action');
+        const formData = $form.serialize();
+        const url = `${action}&${formData}`;
+        sendRemindersToStudents(url);
+    });
 }
 
 export {
