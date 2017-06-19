@@ -1,5 +1,3 @@
-import { setVisibilityDropdownMenuText } from './visibilityOptions.es6';
-
 function setDefaultContribQnVisibilityIfNeeded(questionNum) {
     // If visibility options have already been copied from the previous contrib question, skip
     const hasPreviousQuestion = $('.questionTable').size() >= 2;
@@ -12,22 +10,8 @@ function setDefaultContribQnVisibilityIfNeeded(questionNum) {
 
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
-    $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
-    // All except STUDENTS can see answer
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('.answerCheckbox')
-                         .not('[value="STUDENTS"]').prop('checked', true);
-    // Only instructor can see giver
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('.giverCheckbox')
-                         .filter('[value="INSTRUCTORS"]').prop('checked', true);
-    // Recipient and instructor can see recipient
-    $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('.recipientCheckbox')
-                         .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
-    // Set dropdown button text
-    setVisibilityDropdownMenuText('Please select a visibility option <span class="caret"></span>',
-            $currentQuestionTable.closest('form'));
+    $currentQuestionTable.find(
+            'a[data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"]').click();
 }
 
 function setContribQnVisibilityFormat(questionNum) {

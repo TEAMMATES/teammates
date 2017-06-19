@@ -452,7 +452,6 @@ function attachVisibilityCheckboxEvent() {
 }
 
 export {
-    setVisibilityDropdownMenuText,
     attachVisibilityCheckboxEvent,
     attachVisibilityDropdownEvent,
     formatCheckBoxes,
