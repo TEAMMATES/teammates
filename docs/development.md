@@ -150,17 +150,8 @@ You need a student account which can be created by instructors.
 TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
 It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
 
-Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
-* Stop the dev server if it is running.
-* Specify timezone as a VM argument:
-  * Eclipse
-    * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
-    * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-    * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
-  * IntelliJ
-    * Go to `Run → Edit Configurations...` and select `Dev Server`.
-    * Add `-Duser.timezone=UTC` to the `VM options` text box. Click `OK`.
-* Start the server again using the run configuration you created in the previous step.
+**NOTE**
+> The dev server sets its time zone to UTC at startup.
 
 ### Using Firefox
 
@@ -315,3 +306,4 @@ There are several files used to configure various aspects of the system.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
+* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
