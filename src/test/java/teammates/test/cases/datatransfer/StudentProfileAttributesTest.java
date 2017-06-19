@@ -1,6 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +10,9 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
@@ -57,9 +56,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testGetJsonString() throws Exception {
         StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
+        spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
                      + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
