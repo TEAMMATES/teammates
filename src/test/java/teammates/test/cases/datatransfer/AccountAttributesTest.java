@@ -4,6 +4,8 @@ import static teammates.common.datatransfer.attributes.AccountAttributes.Account
 import static teammates.common.datatransfer.attributes.AccountAttributes.valueOf;
 import static teammates.common.util.Const.EOL;
 
+import java.util.Date;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -22,6 +24,64 @@ import teammates.test.driver.StringHelperExtension;
 public class AccountAttributesTest extends BaseTestCase {
 
     //TODO: test toString() method
+
+    private static final Date DEFAULT_DATE = AccountAttributes.DEFAULT_DATE;
+    private static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
+            AccountAttributes.DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
+
+    @Test
+    public void testBuilderWithDefaultOptionalValues() {
+
+        AccountAttributes accountAttributes = new AccountAttributesBuilder(
+                "valid.google.id", "valid name", "valid@email.com", "valid institute")
+                .build();
+
+        assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributes.studentProfile);
+        assertTrue(accountAttributes.isInstructor);
+
+        assertEquals(String.valueOf(DEFAULT_DATE), "Thu Jan 01 01:00:00 GMT 1970");
+    }
+
+    @Test
+    public void testBuilderWithNullArguments() {
+        AccountAttributes accountAttributesWithNullValues = new AccountAttributesBuilder(
+                null, null, null, null)
+                .withIsInstructor(null)
+                .withCreatedAt(null)
+                .withStudentProfileAttributes(null)
+                .build();
+        // No default values for required params
+        assertNull(accountAttributesWithNullValues.googleId);
+        assertNull(accountAttributesWithNullValues.name);
+        assertNull(accountAttributesWithNullValues.email);
+        assertNull(accountAttributesWithNullValues.institute);
+
+        // Check default values for optional params
+        assertEquals(DEFAULT_DATE, accountAttributesWithNullValues.createdAt);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributesWithNullValues.studentProfile);
+        assertTrue(accountAttributesWithNullValues.isInstructor);
+    }
+
+    @Test
+    public void testBuilderCopy() {
+        AccountAttributes account = new AccountAttributesBuilder(
+                "valid.google.id", "valid name", "valid@email.com", "valid institute")
+                .build();
+
+        AccountAttributes accountCopy = new AccountAttributesBuilder(
+                account.googleId, account.name, account.email, account.institute)
+                .build();
+
+        assertEquals(account.googleId, accountCopy.googleId);
+        assertEquals(account.name, accountCopy.name);
+        assertEquals(account.email, accountCopy.email);
+        assertEquals(account.institute, accountCopy.institute);
+        assertEquals(account.createdAt, accountCopy.createdAt);
+        assertEquals(account.studentProfile, accountCopy.studentProfile);
+        assertEquals(account.isInstructor, accountCopy.isInstructor);
+        assertEquals(account.studentProfile.googleId, accountCopy.studentProfile.googleId);
+    }
 
     @Test
     public void testGetInvalidStateInfo() throws Exception {
@@ -134,7 +194,7 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(a.getInstitute(), attr.institute);
         assertEquals(a.getName(), attr.name);
         assertEquals(null, a.getStudentProfile());
-        assertEquals(null, attr.studentProfile);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, attr.studentProfile);
 
     }
 
