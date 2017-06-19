@@ -57,8 +57,7 @@ final class GmailServiceMaker {
     }
 
     /**
-     * Build and return an authorized Gmail client service.
-     * @return an authorized Gmail client service
+     * Builds and returns an authorized Gmail client service.
      */
     Gmail makeGmailService() throws IOException {
         Credential credential = authorizeAndCreateCredentials();

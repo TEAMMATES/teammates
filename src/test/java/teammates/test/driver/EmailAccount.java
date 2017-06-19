@@ -185,7 +185,7 @@ public final class EmailAccount {
             if (bp.isMimeType("text/html")) {
                 return (String) bp.getContent();
             } else if (bp.isMimeType("text/plain")) {
-                // since we are looking in reverse order, if we did not encounter a text/html first we can return the plain
+                // Since we are looking in reverse order, if we did not encounter a text/html first we can return the plain
                 // text because that is the best preferred format that we understand. If a text/html comes along later it
                 // means the agent sending the email did not set the html text as preferable or did not set their preferred
                 // order correctly, and in that case we do not handle that
