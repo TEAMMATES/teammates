@@ -1417,7 +1417,7 @@ public final class Const {
                 + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href=\"/index.jsp\" target=\"_blank\">home page</a>.";
 
-        public static final String FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
+        public static final String NEW_INSTRUCTOR_TEXT_MESSAGE = "New to TEAMMATES? You may wish to have a look at our "
                 + "Getting Started Guide.\n"
                 + "A video tour is also available in our home page.";
 
