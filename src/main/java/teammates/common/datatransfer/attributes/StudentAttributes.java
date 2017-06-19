@@ -21,17 +21,21 @@ import teammates.storage.entity.CourseStudent;
 public class StudentAttributes extends EntityAttributes {
 
     // Note: be careful when changing these variables as their names are used in *.json files.
-    public String googleId;
+
+    /* Required fields */
     public String email;
     public String course;
     public String name;
+
+    /* Optional values */
+    public String googleId;
     public String lastName;
     public String comments;
     public String team;
     public String section;
     public String key;
 
-    public transient StudentUpdateStatus updateStatus = StudentUpdateStatus.UNKNOWN;
+    public transient StudentUpdateStatus updateStatus;
 
     /*
      * Creation and update time stamps.
@@ -40,54 +44,53 @@ public class StudentAttributes extends EntityAttributes {
     protected transient Date createdAt;
     protected transient Date updatedAt;
 
-    public StudentAttributes(String id, String email, String name, String comments, String courseId,
-                             String team, String section) {
-        this(section, team, name, email, comments, courseId);
-        this.googleId = SanitizationHelper.sanitizeGoogleId(id);
-    }
 
     public StudentAttributes() {
         // attributes to be set after construction
     }
 
-    public StudentAttributes(String section, String team, String name, String email, String comment,
-                             String courseId) {
-        this();
-        this.section = section;
-        this.team = team;
-        this.lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1]);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = email;
-        this.comments = SanitizationHelper.sanitizeTextField(comment);
-        this.course = courseId;
+
+    public StudentAttributes valueOf(CourseStudent student) {
+        return builder(student.getCourseId(), student.getName(), student.getEmail())
+                .withLastName(student.getLastName())
+                .withComments(student.getComments())
+                .withTeam(student.getTeamName())
+                .withSection(student.getSectionName())
+                .withGoogleId(student.getGoogleId())
+                .withKey(student.getRegistrationKey())
+                .withCreatedAt(student.getCreatedAt())
+                .withUpdatedAt(student.getUpdatedAt())
+                .build();
     }
 
-    public StudentAttributes(CourseStudent student) {
-        this();
-        this.email = student.getEmail();
-        this.course = student.getCourseId();
-        this.name = student.getName();
-        this.lastName = student.getLastName();
-        this.comments = SanitizationHelper.sanitizeTextField(student.getComments());
-        this.team = student.getTeamName();
-        this.section = student.getSectionName() == null ? Const.DEFAULT_SECTION : student.getSectionName();
-        this.googleId = student.getGoogleId() == null ? "" : student.getGoogleId();
-        this.key = student.getRegistrationKey();
-
-        this.createdAt = student.getCreatedAt();
-        this.updatedAt = student.getUpdatedAt();
-
-    }
-
-    private StudentAttributes(StudentAttributes other) {
-        this(other.googleId, other.email, other.name, other.comments,
-             other.course, other.team, other.section);
-        this.key = other.key;
-        this.updateStatus = other.updateStatus;
+    /**
+     * Return new builder instance with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * {@code googleId = ""} <br>
+     * {@code section = Const.DEFAULT_SECTION} <br>
+     * {@code updateStatus = StudentUpdateStatus.UNKNOWN} <br>
+     * {@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} <br>
+     * {@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} <br>
+     * {@code lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1])} <br>
+     */
+    public static Builder builder(String courseId, String name, String email) {
+        return new Builder(courseId, name, email);
     }
 
     public StudentAttributes getCopy() {
-        return new StudentAttributes(this);
+        return builder(course, name, email)
+                .withComments(comments)
+                .withCreatedAt(createdAt)
+                .withUpdatedAt(updatedAt)
+                .withGoogleId(googleId)
+                .withKey(key)
+                .withComments(comments)
+                .withLastName(lastName)
+                .withSection(section)
+                .withTeam(team)
+                .withUpdateStatus(updateStatus)
+                .build();
     }
 
     public String toEnrollmentString() {
@@ -345,5 +348,86 @@ public class StudentAttributes extends EntityAttributes {
      */
     public boolean isEmailChanged(StudentAttributes originalStudentAttribute) {
         return this.email != null && !this.email.equals(originalStudentAttribute.email);
+    }
+
+    /**
+     * A Builder class for {@link StudentAttributes}.
+     */
+    public static class Builder {
+        private final StudentAttributes studentAttributes;
+
+        public Builder(String courseId, String name, String email) {
+            studentAttributes = new StudentAttributes();
+
+            studentAttributes.course = courseId;
+            studentAttributes.name = SanitizationHelper.sanitizeName(name);
+            studentAttributes.email = email;
+
+            studentAttributes.googleId = "";
+            studentAttributes.lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1]);
+            studentAttributes.section = Const.DEFAULT_SECTION;
+            studentAttributes.updateStatus = StudentUpdateStatus.UNKNOWN;
+            studentAttributes.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+            studentAttributes.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        }
+
+        public Builder withGoogleId(String googleId) {
+            studentAttributes.googleId = googleId == null
+                    ? ""
+                    : SanitizationHelper.sanitizeGoogleId(googleId);
+            return this;
+        }
+
+        public Builder withLastName(String lastName) {
+            studentAttributes.lastName = lastName == null
+                    ? ""
+                    : SanitizationHelper.sanitizeName(StringHelper.splitName(studentAttributes.name)[1]);
+            return this;
+        }
+
+        public Builder withComments(String comments) {
+            studentAttributes.comments = SanitizationHelper.sanitizeTextField(comments);
+            return this;
+        }
+
+        public Builder withTeam(String team) {
+            studentAttributes.team = team;
+            return this;
+        }
+
+        public Builder withSection(String section) {
+            studentAttributes.section = (section == null) ? Const.DEFAULT_SECTION : section;
+            return this;
+        }
+
+        public Builder withKey(String key) {
+            studentAttributes.key = key;
+            return this;
+        }
+
+        public Builder withUpdateStatus(StudentUpdateStatus updateStatus) {
+            studentAttributes.updateStatus = (updateStatus == null)
+                    ? StudentUpdateStatus.UNKNOWN
+                    : updateStatus;
+            return this;
+        }
+
+        public Builder withCreatedAt(Date createdAt) {
+            studentAttributes.createdAt = (createdAt == null)
+                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
+                    : createdAt;
+            return this;
+        }
+
+        public Builder withUpdatedAt(Date updatedAt) {
+            studentAttributes.updatedAt = (updatedAt == null)
+                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
+                    : updatedAt;
+            return this;
+        }
+
+        public StudentAttributes build() {
+            return studentAttributes;
+        }
     }
 }
