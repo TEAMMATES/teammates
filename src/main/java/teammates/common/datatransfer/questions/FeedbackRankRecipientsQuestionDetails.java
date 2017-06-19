@@ -211,8 +211,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         }
 
-        return Templates.populateTemplate(templateToUse, Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
-                                                         Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(templateToUse,
+                Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
+                Slots.FRAGMENTS, fragments.toString());
 
     }
 
@@ -250,10 +251,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             }
             fragments.append(Const.EOL);
         }
-        String rankQuestionHeaderSelf = "";
-        if (shouldSelfBeExcludedFromRankings(question)) {
-            rankQuestionHeaderSelf = ", Average Rank Excluding Self";
-        }
+        String rankQuestionHeaderSelf = shouldSelfBeExcludedFromRankings(question)
+                ? ", Average Rank Excluding Self"
+                : "";
 
         return "Team, Recipient" + ", Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
     }
