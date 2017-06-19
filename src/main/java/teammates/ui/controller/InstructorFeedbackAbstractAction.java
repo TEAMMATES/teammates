@@ -31,9 +31,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      * @return feedback session attributes object.
      */
     protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreatingNewSession) {
-        // TODO make this method stateless
-
-        // Null checks for parameters not done as null values do not affect data integrity
+        // TODO: When creating a new session, assert parameters are not null.
+        // Not necessary when editing an existing session as null values do not affect data integrity.
 
         FeedbackSessionAttributes attributes = new FeedbackSessionAttributes();
         attributes.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
