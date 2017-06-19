@@ -473,7 +473,7 @@ $(document).ready(() => {
         showNewInstructorForm();
     });
 
-    $("[name='instructorisdisplayed']").change((e) => {
+    $('[name="instructorisdisplayed"]').change((e) => {
         if ($(e.target).prop('checked')) {
             $(e.target).parents('div.form-group').find('div.col-sm-9 input').attr('readonly', false);
             $(e.target).parents('div.form-group').find('div.col-sm-9 input').attr('value', 'Instructor');
