@@ -26,8 +26,6 @@ public class AccountAttributesTest extends BaseTestCase {
     //TODO: test toString() method
 
     private static final Date DEFAULT_DATE = AccountAttributes.DEFAULT_DATE;
-    private static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
-            AccountAttributes.DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
 
     @Test
     public void testBuilderWithDefaultOptionalValues() {
@@ -37,7 +35,6 @@ public class AccountAttributesTest extends BaseTestCase {
                 .build();
 
         assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
-        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributes.studentProfile);
         assertTrue(accountAttributes.isInstructor);
     }
 
@@ -57,7 +54,6 @@ public class AccountAttributesTest extends BaseTestCase {
 
         // Check default values for optional params
         assertEquals(DEFAULT_DATE, accountAttributesWithNullValues.createdAt);
-        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributesWithNullValues.studentProfile);
         assertTrue(accountAttributesWithNullValues.isInstructor);
     }
 
@@ -192,7 +188,7 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(a.getInstitute(), attr.institute);
         assertEquals(a.getName(), attr.name);
         assertEquals(null, a.getStudentProfile());
-        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, attr.studentProfile);
+        assertEquals(null, attr.studentProfile);
 
     }
 

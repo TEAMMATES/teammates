@@ -57,8 +57,12 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile = builder.studentProfile;
     }
 
+    public static AccountAttributesBuilder builder(String googleId, String name, String email, String institute) {
+        return new AccountAttributesBuilder(googleId, name, email, institute);
+    }
+
     public static AccountAttributes valueOf(Account account) {
-        return new AccountAttributesBuilder(
+        return builder(
                 account.getGoogleId(),
                 account.getName(),
                 account.getEmail(),
@@ -216,10 +220,7 @@ public class AccountAttributes extends EntityAttributes {
         }
 
         public AccountAttributesBuilder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {
-            if (studentProfile != null) {
-                this.studentProfile = studentProfile;
-            }
-
+            this.studentProfile = studentProfile;
             return this;
         }
 
