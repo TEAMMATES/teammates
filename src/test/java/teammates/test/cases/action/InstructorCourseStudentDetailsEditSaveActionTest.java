@@ -307,8 +307,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
         String pageDestination = parentUri;
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
-        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }
 

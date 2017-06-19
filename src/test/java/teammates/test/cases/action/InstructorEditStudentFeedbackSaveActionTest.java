@@ -647,11 +647,11 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     protected String getPageResultDestination(
             String parentUri, boolean isError, String moderatedPerson, String userId, String courseId, String fsname) {
         String pageDestination = parentUri;
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(
                 pageDestination, Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         return pageDestination;
     }
