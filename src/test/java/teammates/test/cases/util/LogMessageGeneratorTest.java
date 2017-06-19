@@ -96,8 +96,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.STUDENT_COURSE_JOIN + "?user=test@email.com&course=1";
         logMessage = "TEAMMATESLOG|||studentCourseJoin|||studentCourseJoin|||true|||Unregistered:CS2103|||Joe"
                      + "|||Unknown|||student@email|||Join Course|||" + url;
-        StudentAttributes student = new StudentAttributes("unknownGoogleId", "student@email", "Joe",
-                "comments", "CS2103", "team1", "section1");
+        StudentAttributes student = StudentAttributes
+                .builder("CS2103", "Joe", "student@email")
+                .withSection("section1").withTeam("team1")
+                .withComments("comments").withGoogleId("unknownGoogleId")
+                .build();
 
         // auth success : unregistered student will be passed
         generatedMessage =

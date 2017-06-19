@@ -146,7 +146,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                                    + ". \"" + studentEntity.getTeamName() + "\" "
                                    + "courseId: " + studentEntity.getCourseId());
             } else {
-                StudentAttributes student = new StudentAttributes(studentEntity);
+                StudentAttributes student = StudentAttributes.valueOf(studentEntity);
                 updateStudent(student.email, student);
             }
         }

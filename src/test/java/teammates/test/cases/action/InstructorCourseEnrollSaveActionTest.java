@@ -86,13 +86,19 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
-        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
-                                                             "Exchange student", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudent = StudentAttributes
+                .builder(courseId, "Jean Wong", "jean@email.tmt")
+                .withSection("Section 3").withTeam("Team 1").withComments("Exchange student")
+                .withGoogleId("jean")
+                .build();
         newStudent.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student",
-                "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudentWithExtraSpaces = StudentAttributes
+                .builder(courseId, "student with extra spaces", "studentWithExtraSpaces@gmail.tmt")
+                .withSection("Section 3").withTeam("Team 1").withComments("")
+                .withGoogleId("student")
+                .build();
         newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
@@ -150,13 +156,19 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
-        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
-                                                           "Exchange student", courseId, "Team 1", "None");
+        StudentAttributes student1 = StudentAttributes
+                .builder(courseId, "Jean Wong", "jean@email.tmt")
+                .withSection("None").withTeam("Team 1").withComments("Exchange student")
+                .withGoogleId("jean")
+                .build();
         student1.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.getEnrollResultPanelList());
 
-        StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "",
-                                                           courseId, "Team 2", "None");
+        StudentAttributes student2 = StudentAttributes
+                .builder(courseId, "James Tan", "james@email.tmt")
+                .withSection("None").withTeam("Team 2").withComments("")
+                .withGoogleId("james")
+                .build();
         student2.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.getEnrollResultPanelList());
 

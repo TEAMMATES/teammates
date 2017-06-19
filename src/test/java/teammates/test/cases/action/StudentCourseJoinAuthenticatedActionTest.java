@@ -247,11 +247,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 "newStudent@gmail.com", "TEAMMATES Test Institute 5");
         accountsDb.createAccount(newStudentAccount);
 
-        StudentAttributes newStudentAttributes = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNewStudent", "newStudent@course1.com",
-                "This is a new student", student1InCourse1.course);
+        StudentAttributes newStudentAttributes = StudentAttributes
+                .builder(student1InCourse1.course, "nameOfNewStudent", "newStudent@course1.com")
+                .withSection(student1InCourse1.section).withTeam(student1InCourse1.team)
+                .withComments("This is a new student")
+                .build();
 
         studentsDb.createEntity(newStudentAttributes);
         newStudentAttributes = studentsDb.getStudentForEmail(

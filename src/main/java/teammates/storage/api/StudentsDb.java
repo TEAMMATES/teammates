@@ -136,7 +136,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = new StudentAttributes((CourseStudent) createEntity(student));
+        StudentAttributes createdStudent = StudentAttributes.valueOf((CourseStudent) createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
@@ -157,7 +157,7 @@ public class StudentsDb extends EntitiesDb {
         if (cs == null) {
             return null;
         }
-        return new StudentAttributes(cs);
+        return StudentAttributes.valueOf(cs);
     }
 
     /**
@@ -180,7 +180,7 @@ public class StudentsDb extends EntitiesDb {
             return null;
         }
 
-        return new StudentAttributes(courseStudentList.get(0));
+        return StudentAttributes.valueOf(courseStudentList.get(0));
     }
 
     /**
@@ -199,7 +199,7 @@ public class StudentsDb extends EntitiesDb {
             if (courseStudent == null) {
                 return null;
             }
-            return new StudentAttributes(courseStudent);
+            return StudentAttributes.valueOf(courseStudent);
         } catch (InvalidParametersException e) {
             return null; // invalid registration key cannot be decrypted
         } catch (Exception e) {
@@ -224,7 +224,7 @@ public class StudentsDb extends EntitiesDb {
         List<CourseStudent> courseStudents = getCourseStudentEntitiesForGoogleId(googleId);
         for (CourseStudent student : courseStudents) {
             if (!JDOHelper.isDeleted(student)) {
-                studentDataList.add(new StudentAttributes(student));
+                studentDataList.add(StudentAttributes.valueOf(student));
             }
         }
 
@@ -244,7 +244,7 @@ public class StudentsDb extends EntitiesDb {
         List<CourseStudent> courseStudentEntities = getCourseStudentEntitiesForCourse(courseId);
         for (CourseStudent student : courseStudentEntities) {
             if (!JDOHelper.isDeleted(student)) {
-                studentDataList.add(new StudentAttributes(student));
+                studentDataList.add(StudentAttributes.valueOf(student));
             }
         }
 
@@ -266,7 +266,7 @@ public class StudentsDb extends EntitiesDb {
         //  e.g., convertToAttributes(entityList, new ArrayList<StudentAttributes>())
         for (CourseStudent student : courseStudentList) {
             if (!JDOHelper.isDeleted(student)) {
-                studentDataList.add(new StudentAttributes(student));
+                studentDataList.add(StudentAttributes.valueOf(student));
             }
         }
 
@@ -288,7 +288,7 @@ public class StudentsDb extends EntitiesDb {
 
         for (CourseStudent student : courseStudentEntities) {
             if (!JDOHelper.isDeleted(student)) {
-                studentDataList.add(new StudentAttributes(student));
+                studentDataList.add(StudentAttributes.valueOf(student));
             }
         }
 
@@ -340,7 +340,7 @@ public class StudentsDb extends EntitiesDb {
 
         for (CourseStudent student : entities) {
             if (!JDOHelper.isDeleted(student)) {
-                list.add(new StudentAttributes(student));
+                list.add(StudentAttributes.valueOf(student));
             }
         }
         return list;
@@ -440,7 +440,7 @@ public class StudentsDb extends EntitiesDb {
             newCourseStudent.setLastUpdate(courseStudent.getUpdatedAt());
         }
 
-        StudentAttributes newCourseStudentAttributes = new StudentAttributes(newCourseStudent);
+        StudentAttributes newCourseStudentAttributes = StudentAttributes.valueOf(newCourseStudent);
         try {
             createStudent(newCourseStudentAttributes, hasDocument);
         } catch (EntityAlreadyExistsException e) {
@@ -463,7 +463,7 @@ public class StudentsDb extends EntitiesDb {
         courseStudent.setSectionName(newSectionName);
 
         if (hasDocument) {
-            putDocument(new StudentAttributes(courseStudent));
+            putDocument(StudentAttributes.valueOf(courseStudent));
         }
 
         // Set true to prevent changes to last update timestamp
@@ -494,7 +494,7 @@ public class StudentsDb extends EntitiesDb {
         if (hasDocument) {
             CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
             if (courseStudentToDelete != null) {
-                deleteDocument(new StudentAttributes(courseStudentToDelete));
+                deleteDocument(StudentAttributes.valueOf(courseStudentToDelete));
                 getPm().deletePersistent(courseStudentToDelete);
                 getPm().flush();
             }
@@ -543,7 +543,7 @@ public class StudentsDb extends EntitiesDb {
         if (hasDocument) {
             List<CourseStudent> courseStudents = getCourseStudentEntitiesForGoogleId(googleId);
             for (CourseStudent student : courseStudents) {
-                deleteDocument(new StudentAttributes(student));
+                deleteDocument(StudentAttributes.valueOf(student));
             }
             getPm().deletePersistentAll(courseStudents);
             getPm().flush();
@@ -574,7 +574,7 @@ public class StudentsDb extends EntitiesDb {
         if (hasDocument) {
             List<CourseStudent> courseStudentList = getCourseStudentEntitiesForCourse(courseId);
             for (CourseStudent student : courseStudentList) {
-                deleteDocument(new StudentAttributes(student));
+                deleteDocument(StudentAttributes.valueOf(student));
             }
             getPm().deletePersistentAll(courseStudentList);
             getPm().flush();

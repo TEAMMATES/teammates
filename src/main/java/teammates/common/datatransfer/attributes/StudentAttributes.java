@@ -44,11 +44,9 @@ public class StudentAttributes extends EntityAttributes {
     protected transient Date createdAt;
     protected transient Date updatedAt;
 
-
     public StudentAttributes() {
         // attributes to be set after construction
     }
-
 
     public static StudentAttributes valueOf(CourseStudent student) {
         return builder(student.getCourseId(), student.getName(), student.getEmail())
@@ -363,7 +361,7 @@ public class StudentAttributes extends EntityAttributes {
             studentAttributes.email = email;
 
             studentAttributes.googleId = "";
-            studentAttributes.lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1]);
+            studentAttributes.lastName = processLastName(null);
             studentAttributes.section = Const.DEFAULT_SECTION;
             studentAttributes.updateStatus = StudentUpdateStatus.UNKNOWN;
             studentAttributes.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
@@ -378,10 +376,21 @@ public class StudentAttributes extends EntityAttributes {
         }
 
         public Builder withLastName(String lastName) {
-            studentAttributes.lastName = (lastName == null && StringHelper.isEmpty(studentAttributes.name))
-                    ? ""
-                    : SanitizationHelper.sanitizeName(StringHelper.splitName(studentAttributes.name)[1]);
+            studentAttributes.lastName = processLastName(lastName);
             return this;
+        }
+
+        private String processLastName(String lastName) {
+            if (lastName != null) {
+                return lastName;
+            }
+
+            if (StringHelper.isEmpty(studentAttributes.name)) {
+                return "";
+            }
+
+            String[] nameParts = StringHelper.splitName(studentAttributes.name);
+            return nameParts.length < 2 ? "" : SanitizationHelper.sanitizeName(nameParts[1]);
         }
 
         public Builder withComments(String comments) {
@@ -395,7 +404,7 @@ public class StudentAttributes extends EntityAttributes {
         }
 
         public Builder withSection(String section) {
-            studentAttributes.section = (section == null) ? Const.DEFAULT_SECTION : section;
+            studentAttributes.section = section == null ? Const.DEFAULT_SECTION : section;
             return this;
         }
 
@@ -405,7 +414,7 @@ public class StudentAttributes extends EntityAttributes {
         }
 
         public Builder withUpdateStatus(StudentUpdateStatus updateStatus) {
-            studentAttributes.updateStatus = (updateStatus == null)
+            studentAttributes.updateStatus = updateStatus == null
                     ? StudentUpdateStatus.UNKNOWN
                     : updateStatus;
             return this;
@@ -419,7 +428,7 @@ public class StudentAttributes extends EntityAttributes {
         }
 
         public Builder withUpdatedAt(Date updatedAt) {
-            studentAttributes.updatedAt = (updatedAt == null)
+            studentAttributes.updatedAt = updatedAt == null
                     ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : updatedAt;
             return this;

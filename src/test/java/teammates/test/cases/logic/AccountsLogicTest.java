@@ -175,8 +175,10 @@ public class AccountsLogicTest extends BaseLogicTest {
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
-        StudentAttributes studentData = new StudentAttributes(null,
-                originalEmail, "name", "", courseId, "teamName", "sectionName");
+        StudentAttributes studentData = StudentAttributes
+                .builder(courseId, "name", originalEmail)
+                .withSection("sectionName").withTeam("teamName").withComments("")
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -207,8 +209,11 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: googleID belongs to an existing student in the course");
 
         String existingId = "AccLogicT.existing.studentId";
-        StudentAttributes existingStudent = new StudentAttributes(existingId,
-                "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
+        StudentAttributes existingStudent = StudentAttributes
+                .builder(courseId, "name", "differentEmail@email.com")
+                .withSection("sectionName").withTeam("teamName").withComments("")
+                .withGoogleId(existingId)
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
 
         try {
@@ -268,8 +273,10 @@ public class AccountsLogicTest extends BaseLogicTest {
         logic.deleteAccount(correctStudentId);
 
         originalEmail = "email2@gmail.com";
-        studentData = new StudentAttributes(null, originalEmail, "name", "",
-                courseId, "teamName", "sectionName");
+        studentData = StudentAttributes
+                .builder(courseId, "name", originalEmail)
+                .withSection("sectionName").withTeam("teamName").withComments("")
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -458,8 +465,11 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes account = dataBundle.accounts.get("instructor5");
 
         // Make instructor account id a student too.
-        StudentAttributes student = new StudentAttributes(instructor.googleId,
-                "email@com", instructor.name, "", instructor.courseId, "team", "section");
+        StudentAttributes student = StudentAttributes
+                .builder(instructor.courseId, instructor.name, "email@com")
+                .withSection("section").withTeam("team").withComments("")
+                .withGoogleId(instructor.googleId)
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(student);
         verifyPresentInDatastore(account);
         verifyPresentInDatastore(instructor);

@@ -48,8 +48,11 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        StudentAttributes unregStudent = new StudentAttributes("1", "Team0.1", "Unreg Student",
-                                                               "unreg@stud.ent", "asdf", "idOfTypicalCourse1");
+        StudentAttributes unregStudent = StudentAttributes
+                .builder("idOfTypicalCourse1", "Unreg Student", "unreg@stud.ent")
+                .withSection("1").withTeam("Team0.1").withComments("asdf")
+                .build();
+
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
         ______TS("not enough parameters");

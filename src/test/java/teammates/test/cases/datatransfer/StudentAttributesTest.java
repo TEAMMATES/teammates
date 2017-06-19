@@ -1,7 +1,6 @@
 package teammates.test.cases.datatransfer;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -105,7 +104,7 @@ public class StudentAttributesTest extends BaseTestCase {
 
         assertEquals(originalStudent.getCourseId(), copyStudent.course);
         assertEquals(originalStudent.getName(), copyStudent.name);
-        assertEquals(originalStudent.getLastName(), copyStudent.email);
+        assertEquals(originalStudent.getEmail(), copyStudent.email);
         assertEquals(originalStudent.getGoogleId(), copyStudent.googleId);
         assertEquals(originalStudent.getComments(), copyStudent.comments);
         assertEquals(originalStudent.getRegistrationKey(), copyStudent.key);
@@ -488,7 +487,8 @@ public class StudentAttributesTest extends BaseTestCase {
                 .build();
 
         assertEquals("{\n  \"email\": \"email@email.com\",\n  \"course\": \"course1\",\n  \"name\": \"name 1\","
-                     + "\n  \"lastName\": \"1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
+                     + "\n  \"googleId\": \"\",\n  \"lastName\": \"1\","
+                     + "\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
                      + "\n  \"section\": \"sect 1\"\n}", studentAttributes.getJsonString());
     }
 

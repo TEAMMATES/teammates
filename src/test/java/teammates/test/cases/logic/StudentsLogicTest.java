@@ -127,7 +127,10 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("add student into empty course");
 
-        StudentAttributes student1 = new StudentAttributes("sect 1", "t1", "n", "e@g", "c", instructorCourse);
+        StudentAttributes student1 = StudentAttributes
+                .builder(instructorCourse, "n", "e@g")
+                .withSection("sect 1").withTeam("t1").withComments("c")
+                .build();
 
         // check if the course is empty
         assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
@@ -148,15 +151,24 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
-        StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
+        StudentAttributes student2 = StudentAttributes
+                .builder(instructorCourse, "n2", "e2@g")
+                .withSection("sect 1").withTeam("t1").withComments("c")
+                .build();
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentUpdateStatus.NEW);
 
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
-        enrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
-        enrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
+        enrollStudent(StudentAttributes
+                .builder(instructorCourse, "n3", "e3@g")
+                .withSection("sect 2").withTeam("t2").withComments("c")
+                .build());
+        enrollStudent(StudentAttributes
+                .builder(instructorCourse, "n4", "e4@g")
+                .withSection("sect 2").withTeam("t2").withComments("")
+                .build());
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("modify info of existing student");
@@ -210,19 +222,25 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("Typical case");
 
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
-        studentList.add(
-                new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
-                                      "student2InCourse1@gmail.tmt", "", courseId));
+        studentList.add(StudentAttributes
+                .builder(courseId, "New Student", "emailNew@com")
+                .withSection("Section 3").withTeam("Team 1.3").withComments("")
+                .build());
+        studentList.add(StudentAttributes
+                        .builder(courseId, "student2 In Course1", "student2InCourse1@gmail.tmt")
+                        .withSection("Section 2").withTeam("Team 1.4").withComments("")
+                        .build());
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
         ______TS("Failure case: invalid section");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            StudentAttributes addedStudent =
-                    new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
+            StudentAttributes addedStudent = StudentAttributes
+                    .builder(courseId, "Name " + i, "email@com" + i)
+                    .withSection("Section 1").withTeam("Team " + i).withComments("cmt" + i)
+                    .build();
             studentList.add(addedStudent);
         }
         try {
@@ -233,8 +251,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid team");
 
-        studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
+        studentList = new ArrayList<>();
+        studentList.add(StudentAttributes
+                .builder(courseId, "New Student", "newemail@com")
+                .withSection("Section 2").withTeam("Team 1.1").withComments("")
+                .build());
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {

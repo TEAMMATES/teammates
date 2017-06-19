@@ -95,7 +95,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
 
         for (CourseStudent s : studentList) {
             if (!JDOHelper.isDeleted(s)) {
-                studentDataList.add(new StudentAttributes(s));
+                studentDataList.add(StudentAttributes.valueOf(s));
             }
         }
 
