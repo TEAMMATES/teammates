@@ -39,8 +39,6 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
         assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributes.studentProfile);
         assertTrue(accountAttributes.isInstructor);
-
-        assertEquals(String.valueOf(DEFAULT_DATE), "Thu Jan 01 01:00:00 GMT 1970");
     }
 
     @Test

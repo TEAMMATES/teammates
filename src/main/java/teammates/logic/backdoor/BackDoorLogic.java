@@ -75,10 +75,11 @@ public class BackDoorLogic extends Logic {
 
         Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
-            if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
-                account.studentProfile.googleId = account.googleId;
-            }
+
+            // In cases where studentProfile is null, default values are used
+            account.studentProfile = new StudentProfileAttributes();
+            account.studentProfile.googleId = account.googleId;
+
         }
         accountsDb.createAccounts(accounts.values(), true);
 
@@ -95,10 +96,11 @@ public class BackDoorLogic extends Logic {
                 AccountAttributes account = new AccountAttributesBuilder(instructor.googleId, instructor.name,
                                                                   instructor.email, "TEAMMATES Test Institute 1")
                                                                     .withIsInstructor(true).build();
-                if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
+
+                // In cases where studentProfile is null, default values are used
+                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile.googleId = account.googleId;
+
                 instructorAccounts.add(account);
             }
         }

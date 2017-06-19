@@ -216,9 +216,10 @@ public class AccountAttributes extends EntityAttributes {
         }
 
         public AccountAttributesBuilder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {
-            this.studentProfile = (studentProfile == null)
-                    ? DEFAULT_STUDENT_PROFILE_ATTRIBUTES
-                    : studentProfile;
+            if (studentProfile != null) {
+                this.studentProfile = studentProfile;
+            }
+
             return this;
         }
 

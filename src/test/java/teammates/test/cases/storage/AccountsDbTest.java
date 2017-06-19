@@ -36,7 +36,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("typical success case without");
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
-        assertNull(retrieved.studentProfile);
+
+        // In cases where studentProfile is null, default values are used
+        //assertNull(retrieved.studentProfile);
 
         ______TS("typical success with student profile");
         retrieved = accountsDb.getAccount(a.googleId, true);
