@@ -1,6 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,35 +21,99 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class StudentAttributesTest extends BaseTestCase {
 
-    private static class StudentAttributesWithModifiableTimestamp extends StudentAttributes {
+    @Test
+    public void testBuilderWithDefaultValues() {
+        StudentAttributes sd = StudentAttributes
+                .builder("courseId", "Joe White", "e@e.com")
+                .build();
 
-        void setCreatedAt(Date createdAt) {
-            this.createdAt = createdAt;
-        }
+        ______TS("success : defaultTimeStamp for createdAt date");
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getCreatedAt());
 
-        void setUpdatedAt(Date updatedAt) {
-            this.updatedAt = updatedAt;
-        }
+        ______TS("success : defaultTimeStamp for updatedAt date");
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getUpdatedAt());
 
+        ______TS("success : default value for googleId");
+        assertEquals("", sd.googleId);
+
+        ______TS("success : default value for section");
+        assertEquals(Const.DEFAULT_SECTION, sd.section);
+
+        ______TS("success : default value for updateStatus");
+        assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);
+
+        ______TS("success : default value for lastName");
+        assertEquals("White", sd.lastName);
     }
 
     @Test
-    public void testDefaultTimestamp() {
+    public void testBuilderWithNullValues() {
+        StudentAttributes sd = StudentAttributes
+                .builder(null, null, null)
+                .withGoogleId(null).withUpdatedAt(null).withCreatedAt(null)
+                .withKey(null).withSection(null).withTeam(null)
+                .withComments(null).withComments(null)
+                .withLastName(null).withUpdateStatus(null)
+                .build();
 
-        StudentAttributesWithModifiableTimestamp s = new StudentAttributesWithModifiableTimestamp();
+        /* Fields with default values*/
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getCreatedAt());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getUpdatedAt());
+        assertEquals("", sd.googleId);
+        assertEquals(Const.DEFAULT_SECTION, sd.section);
+        assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);
+        assertEquals("", sd.lastName);
 
-        s.setCreatedAt(null);
-        s.setUpdatedAt(null);
+        /* Nullable fields */
+        assertNull(sd.name);
+        assertNull(sd.course);
+        assertNull(sd.email);
+        assertNull(sd.key);
+        assertNull(sd.team);
+        assertNull(sd.comments);
+    }
 
-        Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+    @Test
+    public void testBuilderCopy() {
+        StudentAttributes originalStudent = StudentAttributes
+                .builder("courseId1", "name 1", "email@email.com")
+                .withGoogleId("googleId.1").withSection("section 1")
+                .withComments("comment 1").withTeam("team 1")
+                .build();
 
-        ______TS("success : defaultTimeStamp for createdAt date");
+        StudentAttributes copyStudent = originalStudent.getCopy();
 
-        assertEquals(defaultStudentCreationTimeStamp, s.getCreatedAt());
+        assertEquals(originalStudent.course, copyStudent.course);
+        assertEquals(originalStudent.name, copyStudent.name);
+        assertEquals(originalStudent.email, copyStudent.email);
+        assertEquals(originalStudent.googleId, copyStudent.googleId);
+        assertEquals(originalStudent.comments, copyStudent.comments);
+        assertEquals(originalStudent.key, copyStudent.key);
+        assertEquals(originalStudent.updateStatus, copyStudent.updateStatus);
+        assertEquals(originalStudent.lastName, copyStudent.lastName);
+        assertEquals(originalStudent.section, copyStudent.section);
+        assertEquals(originalStudent.team, copyStudent.team);
+        assertEquals(originalStudent.getCreatedAt(), copyStudent.getCreatedAt());
+        assertEquals(originalStudent.getUpdatedAt(), copyStudent.getUpdatedAt());
+    }
 
-        ______TS("success : defaultTimeStamp for updatedAt date");
+    @Test
+    public void testValueOf() {
+        CourseStudent originalStudent = new CourseStudent("email@email.com", "name 1", "googleId.1",
+                "comment 1", "courseId1", "team 1", "sect 1");
+        StudentAttributes copyStudent = StudentAttributes.valueOf(originalStudent);
 
-        assertEquals(defaultStudentCreationTimeStamp, s.getUpdatedAt());
+        assertEquals(originalStudent.getCourseId(), copyStudent.course);
+        assertEquals(originalStudent.getName(), copyStudent.name);
+        assertEquals(originalStudent.getLastName(), copyStudent.email);
+        assertEquals(originalStudent.getGoogleId(), copyStudent.googleId);
+        assertEquals(originalStudent.getComments(), copyStudent.comments);
+        assertEquals(originalStudent.getRegistrationKey(), copyStudent.key);
+        assertEquals(originalStudent.getLastName(), copyStudent.lastName);
+        assertEquals(originalStudent.getSectionName(), copyStudent.section);
+        assertEquals(originalStudent.getTeamName(), copyStudent.team);
+        assertEquals(originalStudent.getCreatedAt(), copyStudent.getCreatedAt());
+        assertEquals(originalStudent.getUpdatedAt(), copyStudent.getUpdatedAt());
     }
 
     @Test
@@ -64,8 +128,8 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testStudentConstructor() throws Exception {
-        String courseId = "anyCoursId";
+    public void testStudentBuilder() throws Exception {
+        String courseId = "anyCourseId";
         StudentAttributes invalidStudent;
 
         CourseStudent expected;
@@ -73,25 +137,33 @@ public class StudentAttributesTest extends BaseTestCase {
 
         ______TS("Typical case: contains white space");
         expected = generateTypicalStudentObject();
-        studentUnderTest = new StudentAttributes("  sect 1 ", "  team 1   ", "   name 1   ",
-                                                 "   email@email.com  ", "  comment 1  ", "courseId1");
+        studentUnderTest = StudentAttributes
+                .builder("courseId1", "   name 1   ", "   email@email.com  ")
+                .withSection("  sect 1 ").withComments("  comment 1  ").withTeam("  team 1   ")
+                .build();
         verifyStudentContent(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Typical case: contains google id");
         expected = generateTypicalStudentObject();
-        studentUnderTest = new StudentAttributes("googleId.1", "email@email.com", "name 1", "comment 1",
-                                                 "courseId1", "team 1", "section 1");
+        studentUnderTest = StudentAttributes
+                .builder("courseId1", "name 1", "email@email.com")
+                .withGoogleId("googleId.1").withSection("section 1")
+                .withComments("comment 1").withTeam("team 1")
+                .build();
 
         verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Typical case: initialize from entity");
         expected = generateTypicalStudentObject();
-        studentUnderTest = new StudentAttributes(expected);
+        studentUnderTest = StudentAttributes.valueOf(expected);
 
         verifyStudentContentIncludingId(expected, (CourseStudent) studentUnderTest.toEntity());
 
         ______TS("Failure case: empty course id");
-        invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
+        invalidStudent = StudentAttributes
+                .builder("", "name", "e@e.com")
+                .withSection("section").withComments("c").withTeam("team")
+                .build();
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidStudent.course,
@@ -100,7 +172,11 @@ public class StudentAttributesTest extends BaseTestCase {
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid course id");
-        invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "Course Id with space");
+        invalidStudent = StudentAttributes
+                .builder("Course Id with space", "name", "e@e.com")
+                .withSection("section").withComments("c").withTeam("team")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidStudent.course,
@@ -109,8 +185,11 @@ public class StudentAttributesTest extends BaseTestCase {
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: empty name");
-        invalidStudent = new StudentAttributes("sect", "t1", "", "e@e.com",
-                                               "c", courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, "", "e@e.com")
+                .withSection("sect").withComments("c").withTeam("t1")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(invalidStudent.getInvalidityInfo().get(0),
                      getPopulatedErrorMessage(
@@ -119,7 +198,11 @@ public class StudentAttributesTest extends BaseTestCase {
                          FieldValidator.PERSON_NAME_MAX_LENGTH));
 
         ______TS("Failure case: empty email");
-        invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c", courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, "n", "")
+                .withSection("sect").withComments("c").withTeam("t1")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.EMAIL_ERROR_MESSAGE, "",
@@ -130,7 +213,11 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: section name too long");
         String longSectionName = StringHelperExtension
                 .generateStringOfLength(FieldValidator.SECTION_NAME_MAX_LENGTH + 1);
-        invalidStudent = new StudentAttributes(longSectionName, "t1", "n", "e@e.com", "c", courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, "", "e@e.com")
+                .withSection(longSectionName).withComments("c").withTeam("t1")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, longSectionName,
@@ -140,7 +227,11 @@ public class StudentAttributesTest extends BaseTestCase {
 
         ______TS("Failure case: team name too long");
         String longTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
-        invalidStudent = new StudentAttributes("sect", longTeamName, "name", "e@e.com", "c", courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, "", "e@e.com")
+                .withSection("sect").withComments("c").withTeam(longTeamName)
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, longTeamName,
@@ -151,7 +242,11 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: student name too long");
         String longStudentName = StringHelperExtension
                 .generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
-        invalidStudent = new StudentAttributes("sect", "t1", longStudentName, "e@e.com", "c", courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, longStudentName, "e@e.com")
+                .withSection("sect").withComments("c").withTeam("t1")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, longStudentName,
@@ -160,7 +255,11 @@ public class StudentAttributesTest extends BaseTestCase {
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid email");
-        invalidStudent = new StudentAttributes("sect", "t1", "name", "ee.com", "c", courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, "name", "ee.com")
+                .withSection("sect").withComments("c").withTeam("t1")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.EMAIL_ERROR_MESSAGE, "ee.com",
@@ -171,7 +270,11 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: comment too long");
         String longComment = StringHelperExtension
                 .generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
-        invalidStudent = new StudentAttributes("sect", "t1", "name", "e@e.com", longComment, courseId);
+        invalidStudent = StudentAttributes
+                .builder(courseId, "name", "e@e.com")
+                .withSection("sect").withComments(longComment).withTeam("t1")
+                .build();
+
         assertFalse(invalidStudent.isValid());
         assertEquals(
                 getPopulatedErrorMessage(
@@ -229,8 +332,8 @@ public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testIsEnrollInfoSameAs() {
-        StudentAttributes student = new StudentAttributes(generateTypicalStudentObject());
-        StudentAttributes other = new StudentAttributes(generateTypicalStudentObject());
+        StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());
+        StudentAttributes other = StudentAttributes.valueOf(generateTypicalStudentObject());
 
         ______TS("Typical case: Same enroll info");
         assertTrue(student.isEnrollInfoSameAs(other));
@@ -243,27 +346,27 @@ public class StudentAttributesTest extends BaseTestCase {
         assertFalse(student.isEnrollInfoSameAs(other));
 
         ______TS("Typical case: Different in name");
-        other = new StudentAttributes(generateTypicalStudentObject());
+        other = StudentAttributes.valueOf(generateTypicalStudentObject());
         other.name = "otherName";
         assertFalse(student.isEnrollInfoSameAs(other));
 
         ______TS("Typical case: Different in course id");
-        other = new StudentAttributes(generateTypicalStudentObject());
+        other = StudentAttributes.valueOf(generateTypicalStudentObject());
         other.course = "otherCourse";
         assertFalse(student.isEnrollInfoSameAs(other));
 
         ______TS("Typical case: Different in comment");
-        other = new StudentAttributes(generateTypicalStudentObject());
+        other = StudentAttributes.valueOf(generateTypicalStudentObject());
         other.comments = "otherComments";
         assertFalse(student.isEnrollInfoSameAs(other));
 
         ______TS("Typical case: Different in team");
-        other = new StudentAttributes(generateTypicalStudentObject());
+        other = StudentAttributes.valueOf(generateTypicalStudentObject());
         other.team = "otherTeam";
         assertFalse(student.isEnrollInfoSameAs(other));
 
         ______TS("Typical case: Different in section");
-        other = new StudentAttributes(generateStudentWithoutSectionObject());
+        other = StudentAttributes.valueOf(generateStudentWithoutSectionObject());
         assertFalse(student.isEnrollInfoSameAs(other));
     }
 
@@ -310,8 +413,10 @@ public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testIsRegistered() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
-                                                     "comment 1", "course1");
+        StudentAttributes sd = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
 
         // Id is not given yet
         assertFalse(sd.isRegistered());
@@ -327,23 +432,32 @@ public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
-                                                     "comment 1", "course1");
+        StudentAttributes sd = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
+
         assertEquals("Student:name 1[email@email.com]" + Const.EOL, sd.toString());
         assertEquals("    Student:name 1[email@email.com]" + Const.EOL, sd.toString(4));
     }
 
     @Test
     public void testToEnrollmentString() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
-                                                     "comment 1", "course1");
+        StudentAttributes sd = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
+
         assertEquals("sect 1|team 1|name 1|email@email.com|comment 1", sd.toEnrollmentString());
     }
 
     @Test
     public void testGetRegistrationLink() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
-                                                     "comment 1", "course1");
+        StudentAttributes sd = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
+
         sd.key = "testkey";
         String regUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                 .withRegistrationKey(StringHelper.encrypt("testkey"))
@@ -355,23 +469,27 @@ public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testGetPublicProfilePictureUrl() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
-                                                     "comment 1", "course1");
+        StudentAttributes studentAttributes = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
         String profilePicUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                        .withStudentEmail(StringHelper.encrypt("email@email.com"))
                                        .withCourseId(StringHelper.encrypt("course1"))
                                        .toString();
-        assertEquals(profilePicUrl, sd.getPublicProfilePictureUrl());
+        assertEquals(profilePicUrl, studentAttributes.getPublicProfilePictureUrl());
     }
 
     @Test
     public void testGetJsonString() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
-                                        "comment 1", "course1");
+        StudentAttributes studentAttributes = StudentAttributes
+                .builder("course1", "name 1", "email@email.com")
+                .withSection("sect 1").withComments("comment 1").withTeam("team 1")
+                .build();
+
         assertEquals("{\n  \"email\": \"email@email.com\",\n  \"course\": \"course1\",\n  \"name\": \"name 1\","
                      + "\n  \"lastName\": \"1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
-                     + "\n  \"section\": \"sect 1\"\n}",
-                     sd.getJsonString());
+                     + "\n  \"section\": \"sect 1\"\n}", studentAttributes.getJsonString());
     }
 
     private CourseStudent generateTypicalStudentObject() {
@@ -383,12 +501,24 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     private List<StudentAttributes> generateTypicalStudentAttributesList() {
-        List<StudentAttributes> list = new ArrayList<>();
-        list.add(new StudentAttributes("sect 2", "team 2", "name 1", "email 1", "comment 1", "courseId"));
-        list.add(new StudentAttributes("sect 2", "team 2", "name 4", "email 4", "comment 4", "courseId"));
-        list.add(new StudentAttributes("sect 3", "team 1", "name 2", "email 3", "comment 3", "courseId"));
-        list.add(new StudentAttributes("sect 1", "team 3", "name 2", "email 2", "comment 2", "courseId"));
-        return list;
+        StudentAttributes studentAttributes1 = StudentAttributes
+                .builder("courseId", "name 1", "email 1")
+                .withSection("sect 2").withComments("comment 1").withTeam("team 2")
+                .build();
+        StudentAttributes studentAttributes2 = StudentAttributes
+                .builder("courseId", "name 2", "email 2")
+                .withSection("sect 1").withComments("comment 2").withTeam("team 3")
+                .build();
+        StudentAttributes studentAttributes3 = StudentAttributes
+                .builder("courseId", "name 2", "email 3")
+                .withSection("sect 3").withComments("comment 3").withTeam("team 1")
+                .build();
+        StudentAttributes studentAttributes4 = StudentAttributes
+                .builder("courseId", "name 4", "email 4")
+                .withSection("sect 2").withComments("comment 4").withTeam("team 2")
+                .build();
+
+        return Arrays.asList(studentAttributes1, studentAttributes4, studentAttributes3, studentAttributes2);
     }
 
     private void verifyStudentContent(CourseStudent expected, CourseStudent actual) {

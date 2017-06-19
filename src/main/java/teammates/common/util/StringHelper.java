@@ -590,4 +590,8 @@ public final class StringHelper {
         }
         return false;
     }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.equals("");
+    }
 }

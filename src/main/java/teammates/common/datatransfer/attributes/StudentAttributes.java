@@ -50,7 +50,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
 
-    public StudentAttributes valueOf(CourseStudent student) {
+    public static StudentAttributes valueOf(CourseStudent student) {
         return builder(student.getCourseId(), student.getName(), student.getEmail())
                 .withLastName(student.getLastName())
                 .withComments(student.getComments())
@@ -85,7 +85,6 @@ public class StudentAttributes extends EntityAttributes {
                 .withUpdatedAt(updatedAt)
                 .withGoogleId(googleId)
                 .withKey(key)
-                .withComments(comments)
                 .withLastName(lastName)
                 .withSection(section)
                 .withTeam(team)
@@ -322,11 +321,11 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public Date getCreatedAt() {
-        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+        return createdAt;
     }
 
     public Date getUpdatedAt() {
-        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+        return updatedAt;
     }
 
     /**
@@ -379,7 +378,7 @@ public class StudentAttributes extends EntityAttributes {
         }
 
         public Builder withLastName(String lastName) {
-            studentAttributes.lastName = lastName == null
+            studentAttributes.lastName = (lastName == null && StringHelper.isEmpty(studentAttributes.name))
                     ? ""
                     : SanitizationHelper.sanitizeName(StringHelper.splitName(studentAttributes.name)[1]);
             return this;
