@@ -78,7 +78,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
             List<FeedbackResponseCommentRow> frcList = buildFeedbackResponseComments(
                     feedbackResponseCommentsAttributes, question, response, giverName, recipientName,
-                    responseVisibilityMap, bundle.feedbackSession);
+                    responseVisibilityMap, bundle.feedbackSession, bundle);
 
             FeedbackResponseCommentRow feedbackResponseCommentAdd = buildFeedbackResponseCommentAdd(
                     question, response, responseVisibilityMap, giverName, recipientName);
@@ -95,8 +95,9 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             List<FeedbackResponseCommentAttributes> feedbackResponseCommentsAttributes,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             String giverName, String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilities,
-            FeedbackSessionAttributes feedbackSession) {
+            FeedbackSessionAttributes feedbackSession, FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseCommentRow> comments = new ArrayList<>();
+        Map<String, String> instructorEmailNameTable = bundle.instructorEmailNameTable;
 
         for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
             boolean isInstructorGiver = frca.giverEmail.equals(instructor.email);
@@ -121,7 +122,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
             FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                     frca, frca.giverEmail, giverName, recipientName, showCommentToString,
-                    showGiverNameToString, responseVisibilities);
+                    showGiverNameToString, responseVisibilities, instructorEmailNameTable);
 
             frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
 
