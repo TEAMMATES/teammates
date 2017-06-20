@@ -32,6 +32,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        prepareTestData();
         testModifyResponses();
         testIncorrectParameters();
         testDifferentPrivileges();
@@ -477,6 +478,21 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(dataBundle);
+        InstructorAttributes moderatedInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+        String courseId = moderatedInstructor.courseId;
+        String feedbackSessionName = "";
+        String moderatedInstructorEmail = "instructor1@course1.tmt";
+        String[] submissionParams;
+
+        feedbackSessionName = "First feedback session";
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
 }
