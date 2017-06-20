@@ -49,6 +49,19 @@ public class FeedbackResponseCommentRow {
     }
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
+                                     Map<String, String> instructorEmailNameTable) {
+        this.instructorEmailNameTable = instructorEmailNameTable;
+        this.commentId = frc.getId();
+        this.giverDisplay = giverDisplay;
+        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
+        this.commentText = frc.commentText.getValue();
+        setCommentGiverName(giverDisplay);
+        setCommentLastEditorName(frc.lastEditorEmail);
+        this.questionId = frc.feedbackQuestionId;
+        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
+    }
+
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
                                      String giverName, String recipientName, String showCommentToString,
                                      String showGiverNameToString,
                                      Map<FeedbackParticipantType, Boolean> responseVisibilities,
