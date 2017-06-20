@@ -346,8 +346,37 @@ task setupEclipse {
 
 // RUN SERVER TASKS
 
-compileJava.options.encoding = "UTF-8"
-compileTestJava.options.encoding = "UTF-8"
+def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    doFirst {
+        def jvmVersion = JavaVersion.current()
+        if (!jvmVersion.isJava8()) {
+            throw new GradleException("JDK ${jvmVersion.getMajorVersion()} detected.$System.lineSeparator" +
+                "JDK 8 is required as it is our standard development and test environment.$System.lineSeparator" +
+                "Please set the property org.gradle.java.home in gradle.properties.")
+        }
+        def jre7Lib
+        if (isTravis) {
+            jre7Lib = "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib"
+        } else if (isAppVeyor) {
+            jre7Lib = "C:/Program Files/Java/jdk1.7.0/jre/lib"
+        } else if (project.hasProperty("JRE7_HOME")) {
+            jre7Lib = "${JRE7_HOME}/lib"
+        } else {
+            throw new GradleException("No suitable JRE 7 installation found.$System.lineSeparator" +
+                "JRE 7 libraries are required for proper cross-compilation to Java 7-compatible bytecode.$System.lineSeparator" +
+                "Please set the property JRE7_HOME in gradle.properties.")
+        }
+        options.bootClasspath = "${jre7Lib}/rt.jar$File.pathSeparator${jre7Lib}/jce.jar"
+    }
+}
 
 appengine {
     httpPort = 8888
@@ -450,8 +479,6 @@ task lint {
 // TEST TASKS
 
 def numOfTestRetries = 3
-def isTravis = System.getenv("TRAVIS") != null
-def isAppVeyor = System.getenv("APPVEYOR") != null
 def failedXmlPath = "test-output/testng-failed.xml"
 def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
