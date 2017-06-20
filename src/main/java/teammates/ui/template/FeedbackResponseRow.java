@@ -52,8 +52,10 @@ public class FeedbackResponseRow {
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.giverEmail;
+                Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
-                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities);
+                        instructorEmailNameTable, giverEmail, giverName, recipientName, showCommentTo,
+                        showGiverNameToString, responseVisibilities);
                 responseRow.enableDelete();
                 responseRow.enableEdit();
                 this.responseComments.add(responseRow);
@@ -80,5 +82,4 @@ public class FeedbackResponseRow {
     public List<FeedbackResponseCommentRow> getResponseComments() {
         return responseComments;
     }
-
 }

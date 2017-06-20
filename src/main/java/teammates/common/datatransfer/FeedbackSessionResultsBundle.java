@@ -38,6 +38,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, String> emailNameTable;
     public Map<String, String> emailLastNameTable;
     public Map<String, String> emailTeamNameTable;
+    public Map<String, String> instructorEmailNameTable;
     public Map<String, Set<String>> rosterTeamNameMembersTable;
     public Map<String, Set<String>> rosterSectionTeamNameTable;
     public Map<String, boolean[]> visibilityTable;
@@ -772,6 +773,7 @@ public class FeedbackSessionResultsBundle {
         // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
+        this.instructorEmailNameTable = getInstructorNameEmailTableFromRoster(roster);
     }
 
     /**
@@ -2092,6 +2094,15 @@ public class FeedbackSessionResultsBundle {
         return teamNameToEmails;
     }
 
+    private Map<String, String> getInstructorNameEmailTableFromRoster(CourseRoster roster) {
+        Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
+        List<InstructorAttributes> instructorList = roster.getInstructors();
+        for (InstructorAttributes instructor : instructorList) {
+            instructorEmailNameTable.put(instructor.email, instructor.name);
+        }
+        return instructorEmailNameTable;
+    }
+
     private Map<String, Set<String>> getSectionToTeamNamesFromRoster(CourseRoster courseroster) {
         List<StudentAttributes> students = courseroster.getStudents();
         Map<String, Set<String>> sectionToTeam = new HashMap<String, Set<String>>();
@@ -2224,4 +2235,7 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
+    public Map<String, String> getInstructorNameForEmailTable() {
+        return instructorEmailNameTable;
+    }
 }

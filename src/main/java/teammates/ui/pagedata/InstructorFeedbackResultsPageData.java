@@ -1431,10 +1431,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
 
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                                           frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
-                                           getResponseCommentVisibilityString(frcAttributes, question),
-                                           getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap);
+                frcAttributes, bundle.instructorEmailNameTable, frcAttributes.giverEmail, giverName,
+                recipientName, getResponseCommentVisibilityString(frcAttributes, question),
+                getResponseCommentGiverNameVisibilityString(frcAttributes, question), responseVisibilityMap);
 
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();

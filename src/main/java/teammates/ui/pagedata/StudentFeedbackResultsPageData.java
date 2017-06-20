@@ -215,7 +215,9 @@ public class StudentFeedbackResultsPageData extends PageData {
 
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail));
+                String giverEmail = comment.giverEmail;
+                Map<String, String> instructorEmailNameTable = bundle.instructorEmailNameTable;
+                comments.add(new FeedbackResponseCommentRow(comment, giverEmail, instructorEmailNameTable));
             }
         }
         return comments;

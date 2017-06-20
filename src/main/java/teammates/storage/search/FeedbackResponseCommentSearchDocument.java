@@ -320,6 +320,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
+            bundle.instructorEmailNameTable.put(comment.giverEmail, commentGiverName);
+
             bundle.numberOfResults++;
         }
 
