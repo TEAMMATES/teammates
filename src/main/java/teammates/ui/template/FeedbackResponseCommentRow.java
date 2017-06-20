@@ -41,13 +41,6 @@ public class FeedbackResponseCommentRow {
     private boolean isInstructorAllowedToDelete;
     private boolean isInstructorAllowedToEdit;
 
-    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
-        this.commentId = frc.getId();
-        this.giverDisplay = giverDisplay;
-        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.commentText = frc.commentText.getValue();
-    }
-
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
                                      Map<String, String> instructorEmailNameTable) {
         this.instructorEmailNameTable = instructorEmailNameTable;
@@ -66,24 +59,13 @@ public class FeedbackResponseCommentRow {
                                      String showGiverNameToString,
                                      Map<FeedbackParticipantType, Boolean> responseVisibilities,
                                      Map<String, String> instructorEmailNameTable) {
-        this(frc, giverDisplay);
+        this(frc, giverDisplay, instructorEmailNameTable);
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisibilities);
-        this.instructorEmailNameTable = instructorEmailNameTable;
         setCommentGiverName(giverDisplay);
         setCommentLastEditorName(frc.lastEditorEmail);
         this.questionId = frc.feedbackQuestionId;
         this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
-    }
-
-    // for editing / deleting comments
-    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                      String giverName, String recipientName, String showCommentToString,
-                                      String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
-        this(frc, giverDisplay);
-        setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisibilities);
     }
 
     // for adding comments
