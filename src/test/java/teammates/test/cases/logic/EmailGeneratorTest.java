@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -330,8 +331,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmail(email, student.email, subject, "/studentCourseWithCoOwnersRejoinAfterGoogleIdResetEmail.html");
 
-        assertTrue(verifyCoOwners(new EmailGenerator().generateCoOwnersList(course.getId())));
-
         ______TS("student course (without co-owners) join email");
 
         course = new CourseAttributes("course-id", "Course Name", "UTC");
@@ -385,6 +384,29 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(content, email.getContent());
     }
 
+    @Test
+    public void testGenerateCoOwners() {
+        ______TS("Verify co-owner status of generated co-owners list");
+
+        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
+        List<InstructorAttributes> generatedCoOwners = new EmailGenerator().generateCoOwnersList(course.getId());
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            assertTrue(generatedCoOwner.hasCoownerPrivileges());
+        }
+
+        ______TS("Verify all co-owners present in generated co-owners list");
+
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(course.getId());
+        List<InstructorAttributes> coOwners = new ArrayList<InstructorAttributes>();
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            coOwners.add(instructor);
+        }
+        assertTrue(coOwners.toString().equals(generatedCoOwners.toString()));
+    }
+
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
             throws IOException {
         // check recipient
@@ -409,15 +431,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         // check email body for no left placeholders
         assertFalse(emailContent.contains("${"));
-    }
-
-    private boolean verifyCoOwners(List<InstructorAttributes> coOwners) {
-        for (InstructorAttributes coOwner : coOwners) {
-            if (!coOwner.hasCoownerPrivileges()) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }
