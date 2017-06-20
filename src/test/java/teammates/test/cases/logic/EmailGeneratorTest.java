@@ -284,20 +284,20 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
                 course.getName(), session.getFeedbackSessionName());
 
-        boolean hasStudent1ReceivedEmail = false;
-        boolean hasInstructor1ReceivedEmail = false;
+        boolean hasStudent1ReceivedEmailCorrectly = false;
+        boolean hasInstructor1ReceivedEmailCorrectly = false;
         for (EmailWrapper email : emails) {
             if (email.getRecipient().equals(student1.email)) {
                 verifyEmail(email, student1.email, subject,
                         "/sessionOpeningEmailTestingSanitzationForStudent.html");
-                hasStudent1ReceivedEmail = true;
+                hasStudent1ReceivedEmailCorrectly = true;
             } else if (email.getRecipient().equals(instructor1.email)) {
                 verifyEmail(email, instructor1.email, subject,
                         "/sessionOpeningEmailTestingSanitizationForInstructor.html");
-                hasInstructor1ReceivedEmail = true;
+                hasInstructor1ReceivedEmailCorrectly = true;
             }
         }
-        assertTrue(hasStudent1ReceivedEmail && hasInstructor1ReceivedEmail);
+        assertTrue(hasStudent1ReceivedEmailCorrectly && hasInstructor1ReceivedEmailCorrectly);
 
         ______TS("feedback session closed alerts: sanitization required");
 
@@ -307,35 +307,35 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                 course.getName(), session.getFeedbackSessionName());
 
-        hasStudent1ReceivedEmail = false;
-        hasInstructor1ReceivedEmail = false;
+        hasStudent1ReceivedEmailCorrectly = false;
+        hasInstructor1ReceivedEmailCorrectly = false;
         for (EmailWrapper email : emails) {
             if (email.getRecipient().equals(student1.email)) {
                 verifyEmail(email, student1.email, subject,
                         "/sessionClosedEmailTestingSanitizationForStudent.html");
-                hasStudent1ReceivedEmail = true;
+                hasStudent1ReceivedEmailCorrectly = true;
             } else if (email.getRecipient().equals(instructor1.email)) {
                 verifyEmail(email, instructor1.email, subject,
                         "/sessionClosedEmailTestingSanitizationForInstructor.html");
-                hasInstructor1ReceivedEmail = true;
+                hasInstructor1ReceivedEmailCorrectly = true;
             }
         }
-        assertTrue(hasStudent1ReceivedEmail);
-        assertTrue(hasInstructor1ReceivedEmail);
+        assertTrue(hasStudent1ReceivedEmailCorrectly);
+        assertTrue(hasInstructor1ReceivedEmailCorrectly);
 
         ______TS("feedback sessions summary of course email: sanitization required");
 
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
-        hasStudent1ReceivedEmail = false;
+        hasStudent1ReceivedEmailCorrectly = false;
 
         if (email.getRecipient().equals(student1.email)) {
             verifyEmail(email, student1.email, subject,
                     "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");
-            hasStudent1ReceivedEmail = true;
+            hasStudent1ReceivedEmailCorrectly = true;
         }
 
-        assertTrue(hasStudent1ReceivedEmail);
+        assertTrue(hasStudent1ReceivedEmailCorrectly);
 
         ______TS("feedback session submission email: sanitization required");
 
