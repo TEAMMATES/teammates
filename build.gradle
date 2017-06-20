@@ -529,7 +529,7 @@ compileTestJava.options.encoding = "UTF-8"
 appengine {
     httpPort = 8888
     downloadSdk = true
-    jvmFlags = ["-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8",
+    jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
                 // absolute paths are not supported, the following is relative to the exploded war directory
                 // this only specifies the datastore path, but the indexes are still generated in
                 // WEB-INF/appengine-generated.
@@ -721,7 +721,7 @@ test {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     testLogging {
         events "passed"
@@ -738,7 +738,7 @@ task localTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     testLogging {
         events "passed"
@@ -755,7 +755,7 @@ task failedTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     testLogging {
         events "passed"
@@ -781,9 +781,9 @@ task ciTests {
         reports.html.enabled = false
         reports.junitXml.enabled = false
         if (isTravis) {
-            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
         } else {
-            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
         }
         testLogging {
             events "passed"
