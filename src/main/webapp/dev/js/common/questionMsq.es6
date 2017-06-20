@@ -24,6 +24,7 @@ function setMaxValForMaxSelectableChoicesInput(questionNum) {
         }
 
         const currentVal = $msqMaxSelectableChoices.val();
+        console.log(`maxValue = ${maxValue}`);
 
         $msqMaxSelectableChoices.prop('max', maxValue);
         $msqMaxSelectableChoices.val(Math.min(maxValue, currentVal));
@@ -92,16 +93,6 @@ function toggleMsqMaxSelectableChoices(questionNum) {
     setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
-function removeMaxValForMaxSelectableChoicesInput(questionNum) {
-    const $checkbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
-
-    if ($checkbox.prop('checked')) {
-        const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
-
-        $msqMaxSelectableChoices.removeProp('max');
-    }
-}
-
 function toggleMsqGeneratedOptions(checkbox, questionNum) {
     if (checkbox.checked) {
         $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
@@ -110,15 +101,15 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#generatedOptions-${questionNum}`).attr('value',
                                                    $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
-        removeMaxValForMaxSelectableChoicesInput(questionNum);
     } else {
         $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#msqChoiceTable-${questionNum}`).show();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#generatedOptions-${questionNum}`).attr('value', 'NONE');
-        setMaxValForMaxSelectableChoicesInput(questionNum);
     }
+
+    setMaxValForMaxSelectableChoicesInput(questionNum);
 }
 
 function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
@@ -134,16 +125,6 @@ function changeMsqGenerateFor(questionNum) {
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
     setMaxValForMaxSelectableChoicesInput(questionNum);
 }
-
-<<<<<<< HEAD:src/main/webapp/js/instructorFeedbackEdit/questionMsq.es6
-$(document).ready(() => {
-    $(document).on('change', 'input[name*="msqEnableMaxSelectableChoices"]', (e) => {
-        const questionNumber = getQuestionNum($(e.target));
-
-        toggleMsqMaxSelectableChoices(questionNumber);
-    });
-});
-=========
 
 export {
     addMsqOption,
