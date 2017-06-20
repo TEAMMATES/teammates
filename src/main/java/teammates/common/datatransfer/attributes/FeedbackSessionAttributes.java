@@ -21,9 +21,12 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
+    /* Required fields */
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;
+
+    /* Optional fields */
     private Text instructions;
     private Date createdTime;
     private Date startTime;
@@ -47,96 +50,69 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isOpeningEmailEnabled = true;
         this.isClosingEmailEnabled = true;
         this.isPublishedEmailEnabled = true;
-        this.respondingInstructorList = new HashSet<String>();
-        this.respondingStudentList = new HashSet<String>();
+        this.respondingInstructorList = new HashSet<>();
+        this.respondingStudentList = new HashSet<>();
     }
 
-    public FeedbackSessionAttributes(FeedbackSession fs) {
-        this.feedbackSessionName = fs.getFeedbackSessionName();
-        this.courseId = fs.getCourseId();
-        this.creatorEmail = fs.getCreatorEmail();
-        this.instructions = fs.getInstructions();
-        this.createdTime = fs.getCreatedTime();
-        this.startTime = fs.getStartTime();
-        this.endTime = fs.getEndTime();
-        this.sessionVisibleFromTime = fs.getSessionVisibleFromTime();
-        this.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
-        this.timeZone = fs.getTimeZone();
-        this.gracePeriod = fs.getGracePeriod();
-        this.feedbackSessionType = fs.getFeedbackSessionType();
-        this.sentOpenEmail = fs.isSentOpenEmail();
-        this.sentClosingEmail = fs.isSentClosingEmail();
-        this.sentClosedEmail = fs.isSentClosedEmail();
-        this.sentPublishedEmail = fs.isSentPublishedEmail();
-        this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
-        this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
-        this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
-        this.respondingInstructorList = fs.getRespondingInstructorList() == null ? new HashSet<String>()
-                                                                                 : fs.getRespondingInstructorList();
-        this.respondingStudentList = fs.getRespondingStudentList() == null ? new HashSet<String>()
-                                                                           : fs.getRespondingStudentList();
+    public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
+        return builder(fs.getFeedbackSessionName(), fs.getCourseId(), fs.getCreatorEmail())
+                .withInstructions(fs.getInstructions())
+                .withCreatedTime(fs.getCreatedTime())
+                .withStartTime(fs.getStartTime())
+                .withEndTime(fs.getEndTime())
+                .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
+                .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
+                .withTimeZone(fs.getTimeZone())
+                .withGracePeriod(fs.getGracePeriod())
+                .withFeedbackSessionType(fs.getFeedbackSessionType())
+                .withSentOpenEmail(fs.isSentOpenEmail())
+                .withSentClosingEmail(fs.isSentClosingEmail())
+                .withSentClosedEmail(fs.isSentClosedEmail())
+                .withSentPublishedEmail(fs.isSentPublishedEmail())
+                .withOpeningEmailEnabled(fs.isOpeningEmailEnabled())
+                .withPublishedEmailEnabled(fs.isPublishedEmailEnabled())
+                .withRespondingInstructorList(fs.getRespondingInstructorList())
+                .withRespondingStudentList(fs.getRespondingStudentList())
+                .withClosingEmailEnabled(fs.isClosingEmailEnabled())
+                .build();
     }
-
-    public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
-                                     Text instructions, Date createdTime, Date startTime, Date endTime,
-                                     Date sessionVisibleFromTime, Date resultsVisibleFromTime,
-                                     double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-                                     boolean sentOpenEmail, boolean sentClosingEmail,
-                                     boolean sentClosedEmail, boolean sentPublishedEmail,
-                                     boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
-                                     boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorId, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
-             sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
-             isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+    
+    /**
+     * Return new builder instance with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * 
+     * {@code isOpeningEmailEnabled = true} <br>
+     * {@code isClosingEmailEnabled = true} <br>
+     * {@code isPublishedEmailEnabled = true} <br>
+     * {@code respondingInstructorList = new HashSet<>()} <br>
+     * {@code respondingStudentList = new HashSet<>()} <br>
+     */
+    public static Builder builder(String feedbackSessionName, String courseId, String creatorEmail) {
+        return new Builder(feedbackSessionName, courseId, creatorEmail);
     }
-
-    public FeedbackSessionAttributes(String feedbackSessionName, String courseId, String creatorId,
-                                     Text instructions, Date createdTime, Date startTime, Date endTime,
-                                     Date sessionVisibleFromTime, Date resultsVisibleFromTime,
-                                     double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
-                                     boolean sentOpenEmail, boolean sentClosingEmail,
-                                     boolean sentClosedEmail, boolean sentPublishedEmail,
-                                     boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
-                                     boolean isPublishedEmailEnabled, Set<String> instructorList,
-                                     Set<String> studentList) {
-
-        this.feedbackSessionName = feedbackSessionName;
-        this.courseId = courseId;
-        this.creatorEmail = creatorId;
-        this.instructions = SanitizationHelper.sanitizeForRichText(instructions);
-        this.createdTime = createdTime;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
-        this.timeZone = timeZone;
-        this.gracePeriod = gracePeriod;
-        this.feedbackSessionType = feedbackSessionType;
-        this.sentOpenEmail = sentOpenEmail;
-        this.sentClosingEmail = sentClosingEmail;
-        this.sentClosedEmail = sentClosedEmail;
-        this.sentPublishedEmail = sentPublishedEmail;
-        this.isOpeningEmailEnabled = isOpeningEmailEnabled;
-        this.isClosingEmailEnabled = isClosingEmailEnabled;
-        this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-        this.respondingInstructorList = instructorList;
-        this.respondingStudentList = studentList;
-    }
-
-    private FeedbackSessionAttributes(FeedbackSessionAttributes other) {
-        this(other.feedbackSessionName, other.courseId, other.creatorEmail,
-            other.instructions, other.createdTime, other.startTime, other.endTime,
-            other.sessionVisibleFromTime, other.resultsVisibleFromTime, other.timeZone,
-            other.gracePeriod, other.feedbackSessionType,
-            other.sentOpenEmail, other.sentClosingEmail, other.sentClosedEmail, other.sentPublishedEmail,
-            other.isOpeningEmailEnabled, other.isClosingEmailEnabled,
-            other.isPublishedEmailEnabled, other.respondingInstructorList,
-            other.respondingStudentList);
-    }
-
+    
     public FeedbackSessionAttributes getCopy() {
-        return new FeedbackSessionAttributes(this);
+        return builder(feedbackSessionName, courseId, creatorEmail)
+                .withInstructions(instructions)
+                .withCreatedTime(createdTime)
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withSessionVisibleFromTime(sessionVisibleFromTime)
+                .withResultsVisibleFromTime(resultsVisibleFromTime)
+                .withTimeZone(timeZone)
+                .withGracePeriod(gracePeriod)
+                .withFeedbackSessionType(feedbackSessionType)
+                .withSentOpenEmail(sentOpenEmail)
+                .withSentClosingEmail(sentClosingEmail)
+                .withSentClosedEmail(sentClosedEmail)
+                .withSentPublishedEmail(sentPublishedEmail)
+                .withOpeningEmailEnabled(isOpeningEmailEnabled)
+                .withPublishedEmailEnabled(isPublishedEmailEnabled)
+                .withRespondingInstructorList(respondingInstructorList)
+                .withRespondingStudentList(respondingStudentList)
+                .withClosingEmailEnabled(isClosingEmailEnabled)
+                .build();
     }
 
     public String getCourseId() {
@@ -683,5 +659,118 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
 
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
+    }
+
+    /**
+     * A Builder for {@link FeedbackSessionAttributes}.
+     */
+    public static class Builder {
+        private final FeedbackSessionAttributes feedbackSessionAttributes;
+
+        public Builder(String feedbackSessionName, String courseId, String creatorEmail) {
+            feedbackSessionAttributes = new FeedbackSessionAttributes();
+
+            feedbackSessionAttributes.feedbackSessionName = feedbackSessionName;
+            feedbackSessionAttributes.courseId = courseId;
+            feedbackSessionAttributes.creatorEmail = creatorEmail;
+        }
+
+        public Builder withInstructions(Text instructions) {
+            feedbackSessionAttributes.instructions = instructions;
+            return this;
+        }
+
+        public Builder withCreatedTime(Date createdTime) {
+            feedbackSessionAttributes.createdTime = createdTime;
+            return this;
+        }
+
+        public Builder withStartTime(Date startTime) {
+            feedbackSessionAttributes.startTime = startTime;
+            return this;
+        }
+
+        public Builder withEndTime(Date endTime) {
+            feedbackSessionAttributes.endTime = endTime;
+            return this;
+        }
+
+        public Builder withSessionVisibleFromTime(Date sessionVisibleFromTime) {
+            feedbackSessionAttributes.sessionVisibleFromTime = sessionVisibleFromTime;
+            return this;
+        }
+
+        public Builder withResultsVisibleFromTime(Date resultsVisibleFromTime) {
+            feedbackSessionAttributes.resultsVisibleFromTime = resultsVisibleFromTime;
+            return this;
+        }
+
+        public Builder withTimeZone(double timeZone) {
+            feedbackSessionAttributes.timeZone = timeZone;
+            return this;
+        }
+
+        public Builder withGracePeriod(int gracePeriod) {
+            feedbackSessionAttributes.gracePeriod = gracePeriod;
+            return this;
+        }
+
+        public Builder withFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
+            feedbackSessionAttributes.feedbackSessionType = feedbackSessionType;
+            return this;
+        }
+
+        public Builder withSentOpenEmail(boolean sentOpenEmail) {
+            feedbackSessionAttributes.sentOpenEmail = sentOpenEmail;
+            return this;
+        }
+
+        public Builder withSentClosingEmail(boolean sentClosingEmail) {
+            feedbackSessionAttributes.sentClosingEmail = sentClosingEmail;
+            return this;
+        }
+
+        public Builder withSentClosedEmail(boolean sentClosedEmail) {
+            feedbackSessionAttributes.sentClosedEmail = sentClosedEmail;
+            return this;
+        }
+
+        public Builder withSentPublishedEmail(boolean sentPublishedEmail) {
+            feedbackSessionAttributes.sentPublishedEmail = sentPublishedEmail;
+            return this;
+        }
+
+        public Builder withOpeningEmailEnabled(boolean openingEmailEnabled) {
+            feedbackSessionAttributes.isOpeningEmailEnabled = openingEmailEnabled;
+            return this;
+        }
+
+        public Builder withClosingEmailEnabled(boolean closingEmailEnabled) {
+            feedbackSessionAttributes.isClosingEmailEnabled = closingEmailEnabled;
+            return this;
+        }
+
+        public Builder withPublishedEmailEnabled(boolean publishedEmailEnabled) {
+            feedbackSessionAttributes.isPublishedEmailEnabled = publishedEmailEnabled;
+            return this;
+        }
+
+        public Builder withRespondingInstructorList(Set<String> respondingInstructorList) {
+            feedbackSessionAttributes.respondingInstructorList = respondingInstructorList == null
+                    ? new HashSet<String>()
+                    : respondingInstructorList;
+            return this;
+        }
+
+        public Builder withRespondingStudentList(Set<String> respondingStudentList) {
+            feedbackSessionAttributes.respondingStudentList = respondingStudentList == null
+                    ? new HashSet<String>()
+                    : respondingStudentList;
+            return this;
+        }
+
+        public FeedbackSessionAttributes build() {
+            return feedbackSessionAttributes;
+        }
     }
 }
