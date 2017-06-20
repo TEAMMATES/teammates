@@ -2227,12 +2227,12 @@ public class FeedbackSessionResultsBundle {
     }
 
     public Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
-     Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
-     List<InstructorAttributes> instructorList = roster.getInstructors();
-     for(InstructorAttributes instructor : instructorList) {
-         instructorEmailNameTable.put(instructor.email, instructor.name);
-     }
-     return instructorEmailNameTable;
+        Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
+        List<InstructorAttributes> instructorList = roster.getInstructors();
+        for (InstructorAttributes instructor : instructorList) {
+            instructorEmailNameTable.put(instructor.email, instructor.name);
+        }
+        return instructorEmailNameTable;
     }
 
     public Map<String, String> getInstructorEmailNameTable() {

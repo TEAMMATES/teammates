@@ -291,7 +291,7 @@ public class FeedbackResponseCommentRow {
     }
 
     public void setCommentGiverName(String giverEmail) {
-        if(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
+        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
             return;
         }
@@ -303,7 +303,7 @@ public class FeedbackResponseCommentRow {
     }
 
     public void setCommentLastEditorName(String giverEmail) {
-        if(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
+        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             this.commentLastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
             return;
         }
@@ -311,7 +311,7 @@ public class FeedbackResponseCommentRow {
     }
 
     public String setEditedAtText(Date createdAt, Date lastEditedAt) {
-        if(lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+        if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
         Boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentLastEditorName);
