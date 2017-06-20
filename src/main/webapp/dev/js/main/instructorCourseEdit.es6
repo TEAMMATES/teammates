@@ -474,15 +474,15 @@ $(document).ready(() => {
     });
 
     $('[name="instructorisdisplayed"]').change((e) => {
-        const displayToStudentsAsTextField = $(e.target).parents('div.form-group').find('div.col-sm-9 input');
+        const $displayToStudentsAsTextField = $(e.target).parents('div.form-group').find('div.col-sm-9 input');
         if ($(e.target).prop('checked')) {
-            displayToStudentsAsTextField.prop('readonly', false);
-            displayToStudentsAsTextField.prop('value', 'Instructor');
-            displayToStudentsAsTextField.prop('placeholder', 'E.g.Co-lecturer, Teaching Assistant');
+            $displayToStudentsAsTextField.prop('readonly', false);
+            $displayToStudentsAsTextField.prop('value', 'Instructor');
+            $displayToStudentsAsTextField.prop('placeholder', 'E.g.Co-lecturer, Teaching Assistant');
         } else {
-            displayToStudentsAsTextField.prop('readonly', true);
-            displayToStudentsAsTextField.prop('value', '');
-            displayToStudentsAsTextField.prop('placeholder', '(This instructor will NOT be displayed to students)');
+            $displayToStudentsAsTextField.prop('readonly', true);
+            $displayToStudentsAsTextField.prop('value', '');
+            $displayToStudentsAsTextField.prop('placeholder', '(This instructor will NOT be displayed to students)');
         }
     });
 
