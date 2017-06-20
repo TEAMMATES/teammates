@@ -64,7 +64,7 @@
 
             <div class="form-group">
                 <label class="col-sm-3 control-label">
-                    <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
+                    <input class="display-to-student" type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
                             <c:if test="${instructorPanel.instructor.displayedToStudents}">
                                 checked
                             </c:if>
@@ -74,7 +74,7 @@
                 </label>
 
                 <div class="col-sm-9">
-                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
+                    <input class="form-control title-displayed" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
                             placeholder="E.g.Co-lecturer, Teaching Assistant" value="${instructorPanel.instructor.displayedName}"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
                             disabled>

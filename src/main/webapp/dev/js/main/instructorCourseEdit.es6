@@ -136,6 +136,7 @@ function hideTunePermissionDiv(instrNum) {
  */
 function enableFormEditInstructor(number) {
     $(`#instructorTable${number}`).find(':input').not('.immutable').prop('disabled', false);
+    if(!$(`.display-to-student`).prop(`checked`)) $(`.title-displayed`).prop('disabled', true);
     $(`#instrEditLink${number}`).hide();
     $(`#instrCancelLink${number}`).show();
     $(`#accessControlInfoForInstr${number}`).hide();
@@ -530,7 +531,7 @@ $(document).ready(() => {
         showInstructorRoleModal($(e.target).data('role'));
     });
 
-    $('#display-to-student').change((e) => {
-        $('#title-displayed').prop('disabled', !e.target.checked);
+    $('.display-to-student').change((e) => {
+        $('.title-displayed').prop('disabled', !e.target.checked);
     });
 });
