@@ -268,8 +268,8 @@ This instruction set assumes that the app identifier is `teammates-john`.
    * You need to setup `Gmail API` for the project as follows:
    
      **NOTE**
-     > No actual emails are sent on the local development server so delivery of emails is not tested, hence the Gmail API is
-     only required for testing the delivery of emails when testing against the staging server.
+     > Setup of Gmail API is required when testing against the staging server.\
+     See [Notes on Gmail API](#notes-about-using-the-gmail-api) for more details.
      
      * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
        and click `API Manager`.\
@@ -289,6 +289,14 @@ This instruction set assumes that the app identifier is `teammates-john`.
      `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
      time. Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with
      no billing enabled.
+
+#### Notes on Gmail API
+1. We need to set up the Gmail API because our test suite uses the Gmail API to access Gmail accounts used for testing (these
+accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
+1. This setup is needed only when testing against the staging server because no actual emails are sent by the dev server and
+therefore delivery of emails is not tested when testing against the dev server.
+1. While we only show how to use the Gmail API with the TEAMMATES project in Google Cloud Console, it is also possible to use
+   the Gmail API with any other Google Cloud Platform project and use the credentials in our project.
 
 ## Running client scripts
 
