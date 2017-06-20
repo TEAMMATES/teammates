@@ -31,6 +31,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        prepareTestData();
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
 
@@ -413,6 +414,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(dataBundle);
+        String[] params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Session with valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, "idOfTypicalCourse2",
+                Const.ParamsNames.COPIED_COURSES_ID, "idOfSampleCourse-demo"
+        };
+
+        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
     }
 }
