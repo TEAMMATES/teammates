@@ -136,6 +136,9 @@ function hideTunePermissionDiv(instrNum) {
  */
 function enableFormEditInstructor(number) {
     $(`#instructorTable${number}`).find(':input').not('.immutable').prop('disabled', false);
+    if (!$(`#instructorTable${number}`).find(':input[type="checkbox"]').prop('checked')) {
+        $(`#instructorTable${number}`).find(':input[name="instructordisplayname"]').prop('readonly', true);
+    }
     $(`#instrEditLink${number}`).hide();
     $(`#instrCancelLink${number}`).show();
     $(`#accessControlInfoForInstr${number}`).hide();
