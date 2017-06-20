@@ -206,14 +206,4 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
             }
         });
     }
-
-    public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
-            return "";
-        }
-        return "(last edited "
-             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
-             + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
-    }
-
 }

@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,6 @@ public class FeedbackResponseCommentRow {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
     }
 
@@ -57,6 +57,10 @@ public class FeedbackResponseCommentRow {
         setDataForAddEditDelete(frc, giverName, recipientName,
                                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.instructorEmailNameTable = instructorEmailNameTable;
+        setCommentGiverName(giverDisplay);
+        setCommentLastEditorName(frc.lastEditorEmail);
+        this.questionId = frc.feedbackQuestionId;
+        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
     }
 
     // for editing / deleting comments
@@ -309,5 +313,15 @@ public class FeedbackResponseCommentRow {
             return;
         }
         this.commentLastEditorName = instructorEmailNameTable.get(giverEmail);
+    }
+
+    public String setEditedAtText(Date createdAt, Date lastEditedAt) {
+        if(lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+            return "";
+        }
+        Boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentLastEditorName);
+        return "(last edited "
+                + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
+                + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
     }
 }
