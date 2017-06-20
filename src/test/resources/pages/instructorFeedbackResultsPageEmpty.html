@@ -71,13 +71,12 @@
                   <input name="fsname" type="hidden" value="Third Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="Third Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=Third+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="Third Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=Third+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -94,8 +93,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -128,7 +127,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>

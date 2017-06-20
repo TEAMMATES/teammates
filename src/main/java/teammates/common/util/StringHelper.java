@@ -207,17 +207,17 @@ public final class StringHelper {
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
     public static int countWords(String s) {
         int wordCount = 0;
-        boolean word = false;
+        boolean isWord = false;
         int endOfLine = s.length() - 1;
         for (int i = 0; i < s.length(); i++) {
             // if the char is a letter, word = true.
             if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
-                word = true;
+                isWord = true;
                 // if char isn't a letter and there have been letters before,
                 // counter goes up.
-            } else if (!Character.isLetter(s.charAt(i)) && word) {
+            } else if (!Character.isLetter(s.charAt(i)) && isWord) {
                 wordCount++;
-                word = false;
+                isWord = false;
                 // last word of String; if it doesn't end with a non letter, it
                 // wouldn't count without this.
             } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
@@ -391,14 +391,14 @@ public final class StringHelper {
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        boolean inquote = false;
+        boolean isInQuote = false;
 
         for (char c : chars) {
             if (c == '"') {
-                inquote = !inquote;
+                isInQuote = !isInQuote;
             }
 
-            if (c == '\n' && inquote) {
+            if (c == '\n' && isInQuote) {
                 buffer.append("<br>");
             } else {
                 buffer.append(c);
@@ -554,7 +554,6 @@ public final class StringHelper {
     public static String removeNonAscii(String text) {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
-
 
     /**
      * Returns a new String composed of copies of the String elements joined together

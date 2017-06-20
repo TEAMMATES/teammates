@@ -56,7 +56,7 @@
                                 <th>Course ID</th>
                                 <th>Feedback Session Name</th>
                             </tr>
-                        </thead>                                
+                        </thead>
                             <c:forEach items="${copyFromModal.existingFeedbackSessions}" var="session" varStatus="i">
                                 <tr style="cursor:pointer;">
                                     <td><input type="radio"></td>
@@ -71,6 +71,8 @@
                         value="" id="modalCourseId">
                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>"
                         value="${data.account.googleId }">
+                    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>"
+                        value="${data.sessionToken}">
                 </form>
             </div>
             <div class="modal-footer margin-0">

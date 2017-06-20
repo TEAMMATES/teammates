@@ -168,7 +168,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("account").googleId;
 
         ______TS("link: course enroll");
-        InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
+        InstructorCourseEnrollPage enrollPage = homePage.clickCourseEnrollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
         String expectedEnrollLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                                         .withCourseId(courseId)
@@ -270,8 +270,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
-
-
 
         ______TS("remind action: CLOSED feedback session - inner button");
 

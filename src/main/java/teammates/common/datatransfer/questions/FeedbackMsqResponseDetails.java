@@ -64,7 +64,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
 
         if (isAnswerBlank()) {

@@ -10,11 +10,11 @@
         <b>Question ${questionTable.questionNumber}</b>: ${questionTable.questionText} ${questionTable.additionalInfo}
     </div>
     <table class="table">
-        <tbody>       
+        <tbody>
             <c:forEach items="${questionTable.responseRows}" var="responseRow" varStatus="i">
-                <search:feedbackResponse qnIndx="${qnIndx}" responseRow="${responseRow}" 
+                <search:feedbackResponse qnIndx="${qnIndx}" responseRow="${responseRow}"
                                          responseIndex="${i.count}" fsIndx="${fsIndx}" />
-            </c:forEach>    
+            </c:forEach>
         </tbody>
     </table>
 </div>

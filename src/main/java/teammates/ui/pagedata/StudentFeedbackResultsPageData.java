@@ -26,8 +26,8 @@ public class StudentFeedbackResultsPageData extends PageData {
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
 
-    public StudentFeedbackResultsPageData(AccountAttributes account, StudentAttributes student) {
-        super(account, student);
+    public StudentFeedbackResultsPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
+        super(account, student, sessionToken);
     }
 
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
@@ -193,7 +193,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                 recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
 
-            String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
+            String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
             List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
                                                                                           response.getId());
 

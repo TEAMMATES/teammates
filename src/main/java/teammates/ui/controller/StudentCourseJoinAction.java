@@ -54,7 +54,7 @@ public class StudentCourseJoinAction extends Action {
         String courseId = student.course;
         StudentCourseJoinConfirmationPageData data =
                 new StudentCourseJoinConfirmationPageData(
-                        account, student, confirmUrl,
+                        account, student, sessionToken, confirmUrl,
                         gateKeeper.getLogoutUrl(SanitizationHelper.sanitizeForNextUrl(confirmUrl)),
                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();

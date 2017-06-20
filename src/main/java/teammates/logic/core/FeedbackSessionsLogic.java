@@ -825,17 +825,17 @@ public final class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, userEmail, null, questionId,
-                filterText, isMissingResponsesShown, isStatsShown);
+                isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
@@ -879,30 +879,11 @@ public final class FeedbackSessionsLogic {
         Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
 
-        if (filterText != null && !filterText.isEmpty()) {
-            entrySet = filterQuestions(entrySet, filterText.toLowerCase());
-        }
-
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                     results, entry, isMissingResponsesShown, isStatsShown));
         }
         return exportBuilder.toString();
-    }
-
-    private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
-            Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet,
-            String filterText) {
-
-        for (Iterator<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> it =
-                entrySet.iterator(); it.hasNext(); ) {
-            Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry = it.next();
-            if (!entry.getKey().getQuestionMetaData().getValue().toLowerCase().contains(filterText)) {
-                it.remove();
-            }
-        }
-
-        return entrySet;
     }
 
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
@@ -1666,8 +1647,8 @@ public final class FeedbackSessionsLogic {
                                 question, userEmail, role, section);
             }
 
-            boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-            if (thisQuestionHasResponses) {
+            boolean hasResponses = !responsesForThisQn.isEmpty();
+            if (hasResponses) {
                 relevantQuestions.put(question.getId(), question);
                 responses.addAll(responsesForThisQn);
                 for (FeedbackResponseAttributes response : responsesForThisQn) {
@@ -1931,8 +1912,8 @@ public final class FeedbackSessionsLogic {
                                                     question, userEmail, UserRole.INSTRUCTOR, section);
                 }
 
-                boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-                if (thisQuestionHasResponses) {
+                boolean hasResponses = !responsesForThisQn.isEmpty();
+                if (hasResponses) {
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
                         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
                         boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
@@ -2223,6 +2204,7 @@ public final class FeedbackSessionsLogic {
                 .getFeedbackQuestionsForStudents(questions);
 
         List<String> studentNoResponses = new ArrayList<String>();
+        List<String> studentResponded = new ArrayList<String>();
         List<String> instructorNoResponses = new ArrayList<String>();
 
         if (!studentQns.isEmpty()) {
@@ -2234,6 +2216,7 @@ public final class FeedbackSessionsLogic {
             }
         }
         studentNoResponses.removeAll(fsa.getRespondingStudentList());
+        studentResponded.addAll(fsa.getRespondingStudentList());
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -2247,6 +2230,7 @@ public final class FeedbackSessionsLogic {
         instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
 
         responseStatus.noResponse.addAll(studentNoResponses);
+        responseStatus.studentsWhoResponded.addAll(studentResponded);
         responseStatus.noResponse.addAll(instructorNoResponses);
 
         return responseStatus;

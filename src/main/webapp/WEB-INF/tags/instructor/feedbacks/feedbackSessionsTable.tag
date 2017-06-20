@@ -9,12 +9,12 @@
 <table class="table-responsive table table-striped table-bordered" id="table-sessions">
     <thead>
         <tr class="fill-primary">
-            <th id="button_sortid" onclick="toggleSort(this);"
-                class="button-sort-ascending course-id-table-width">Course ID <span
+            <th id="button_sortid"
+                class="button-sort-ascending course-id-table-width toggle-sort">Course ID <span
                 class="icon-sort unsorted"></span>
             </th>
-            <th id="button_sortname" onclick="toggleSort(this)"
-                class="button-sort-none session-name-table-width">
+            <th id="button_sortname"
+                class="button-sort-none session-name-table-width toggle-sort">
                     Session Name <span class="icon-sort unsorted"></span>
             </th>
             <th>Status</th>
@@ -45,9 +45,9 @@
                             <tif:feedbackSessionActions actions="${sessionRow.actions}" />
                         </td>
                       </tr>
-                </c:forEach> 
+                </c:forEach>
             </c:when>
-            <c:otherwise>    
+            <c:otherwise>
                 <tr>
                     <td></td>
                     <td></td>

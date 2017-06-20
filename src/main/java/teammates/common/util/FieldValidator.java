@@ -516,8 +516,8 @@ public class FieldValidator {
                                             fieldName, REASON_TOO_LONG, maxLength);
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
-            boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
-            if (!startsWithBraces) {
+            boolean hasStartingBrace = value.charAt(0) == '{' && value.contains("}");
+            if (!hasStartingBrace) {
                 return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue,
                                                 fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
@@ -679,15 +679,7 @@ public class FieldValidator {
     }
 
     public String getValidityInfoForNonHtmlField(String fieldName, String value) {
-        String sanitizedValue = value;
-        sanitizedValue = sanitizedValue.replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("\"", "&quot;")
-            .replace("/", "&#x2f;")
-            .replace("'", "&#39;")
-            //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
-            //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
-            .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }

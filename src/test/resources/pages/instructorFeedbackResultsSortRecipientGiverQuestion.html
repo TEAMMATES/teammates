@@ -71,13 +71,12 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -94,8 +93,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -128,7 +127,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>
@@ -146,7 +145,7 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
@@ -156,7 +155,7 @@
                 View:
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
+                <select class="form-control" id="viewSelect" name="frsorttype">
                   <option value="question">
                     Group by - Question
                   </option>
@@ -176,27 +175,11 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 col-md-5">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
-                Filter:
-              </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
-                <div class="input-group">
-                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
-                  <a class="input-group-addon btn btn-default">
-                    <span class="glyphicon glyphicon-search">
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+          <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox">
+                  <input class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -204,14 +187,14 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
             </div>
             <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
-                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
                 Indicate Missing Responses
               </div>
             </div>
@@ -224,7 +207,7 @@
                 Section:
               </label>
               <div class="col-sm-10">
-                <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
+                <select class="form-control" id="sectionSelect" name="frgroupbysection">
                   <option selected="" value="All">
                     All
                   </option>
@@ -241,13 +224,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
-              Expand Sections
-            </a>
-          </div>
         </div>
       </div>
+    </div>
+    <div class="pull-right" style="margin-top:50px">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
+        Expand All Sections
+      </a>
     </div>
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -394,7 +377,7 @@
                         <div class="pull-left text-preserve-space">
                           Alice self feedback.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -411,7 +394,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-1-1" onclick="toggleVisibilityAddForm(0,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -490,8 +473,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -500,7 +481,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -510,6 +491,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -550,7 +532,7 @@
                         <div class="pull-left text-preserve-space">
                           PowerSearch
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,2, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="2" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -567,7 +549,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-1-2" onclick="toggleVisibilityAddForm(0,1,2, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="2" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-2">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -646,8 +628,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-1-2">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-1-2">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -656,7 +636,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1-2" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,2, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="2" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -666,6 +646,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -713,7 +694,7 @@
                             </li>
                           </ul>
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,3, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="3" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -730,7 +711,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-1-3" onclick="toggleVisibilityAddForm(0,1,3, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="3" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-3">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -809,8 +790,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-1-3">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-1-3">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -819,7 +798,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1-3" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,3, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="3" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -829,6 +808,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -857,7 +837,7 @@
                         <div class="pull-left text-preserve-space">
                           Danny
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,4, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="4" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -874,7 +854,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-1-4" onclick="toggleVisibilityAddForm(0,1,4, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="4" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-4">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -953,8 +933,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-1-4">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-1-4">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -963,7 +941,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1-4" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,4, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="4" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -973,6 +951,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1001,7 +980,7 @@
                         <div class="pull-left text-preserve-space">
                           Team 1
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,5, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="5" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -1018,7 +997,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-1-5" onclick="toggleVisibilityAddForm(0,1,5, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="5" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-5">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -1097,8 +1076,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-1-5">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-1-5">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -1107,7 +1084,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1-5" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,5, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="5" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -1117,6 +1094,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1165,7 +1143,7 @@
                         <div class="pull-left text-preserve-space">
                           Response to Alice from Dropout.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,2,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -1182,7 +1160,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-2-1" onclick="toggleVisibilityAddForm(0,2,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="1" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-2-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -1274,8 +1252,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-2-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-2-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -1284,7 +1260,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -1294,6 +1270,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1342,7 +1319,7 @@
                         <div class="pull-left text-preserve-space">
                           Danny to Alice.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,3,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="3" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -1359,7 +1336,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-3-1" onclick="toggleVisibilityAddForm(0,3,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="3" data-responseindex="1" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-3-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -1451,8 +1428,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-0-3-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-0-3-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -1461,7 +1436,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-3-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,3,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="3" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="0">
@@ -1471,6 +1446,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1544,7 +1520,7 @@
                         <div class="pull-left text-preserve-space">
                           2 Response to Benny.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -1561,7 +1537,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1-1" onclick="toggleVisibilityAddForm(1,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="1" id="frComment-visibility-options-trigger-1-1-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -1653,8 +1629,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -1663,7 +1637,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
@@ -1673,6 +1647,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1743,7 +1718,7 @@
                       <div style="clear:both; overflow: hidden">
                         <div class="pull-left text-preserve-space">
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -1760,7 +1735,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-2-1" onclick="toggleVisibilityAddForm(1,2,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="1" data-sectionindex="1" data-sessionindex="1" id="frComment-visibility-options-trigger-1-1-2-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -1839,8 +1814,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-2-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-2-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -1849,7 +1822,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
@@ -1859,6 +1832,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -1907,7 +1881,7 @@
                         <div class="pull-left text-preserve-space">
                           Response to Benny from Dropout.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,3,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="3" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -1924,7 +1898,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-3-1" onclick="toggleVisibilityAddForm(1,3,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="3" data-responseindex="1" data-sectionindex="1" data-sessionindex="1" id="frComment-visibility-options-trigger-1-1-3-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -2016,8 +1990,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-1-3-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-3-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -2026,7 +1998,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-3-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,3,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="3" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="1">
@@ -2036,6 +2008,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2109,7 +2082,7 @@
                         <div class="pull-left text-preserve-space">
                           Alice to Danny.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="2" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -2126,7 +2099,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-2-1-1" onclick="toggleVisibilityAddForm(2,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="2" id="frComment-visibility-options-trigger-1-2-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -2218,8 +2191,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-2-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-2-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -2228,7 +2199,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="2" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="2">
@@ -2238,6 +2209,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2286,7 +2258,7 @@
                         <div class="pull-left text-preserve-space">
                           Benny to Danny.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,2,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="2" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -2303,7 +2275,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-2-2-1" onclick="toggleVisibilityAddForm(2,2,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="1" data-sectionindex="1" data-sessionindex="2" id="frComment-visibility-options-trigger-1-2-2-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -2395,8 +2367,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-2-2-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-2-2-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -2405,7 +2375,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="1" data-recipientindex="2" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="2">
@@ -2415,6 +2385,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2488,7 +2459,7 @@
                         <div class="pull-left text-preserve-space">
                           4 Response to Charlie.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(3,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="3" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -2505,7 +2476,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-3-1-1" onclick="toggleVisibilityAddForm(3,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="3" id="frComment-visibility-options-trigger-1-3-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -2597,8 +2568,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-3-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-3-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -2607,7 +2576,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="3" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="3">
@@ -2617,6 +2586,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2665,7 +2635,7 @@
                         <div class="pull-left text-preserve-space">
                           Fred's Response to Charlie.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(3,2,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="3" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -2682,7 +2652,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-3-2-1" onclick="toggleVisibilityAddForm(3,2,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="1" data-sectionindex="1" data-sessionindex="3" id="frComment-visibility-options-trigger-1-3-2-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -2774,8 +2744,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-3-2-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-3-2-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -2784,7 +2752,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="1" data-recipientindex="3" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="3">
@@ -2794,6 +2762,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -2867,7 +2836,7 @@
                         <div class="pull-left text-preserve-space">
                           1 Response to Danny.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(4,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="4" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -2884,7 +2853,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-4-1-1" onclick="toggleVisibilityAddForm(4,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="4" id="frComment-visibility-options-trigger-1-4-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -2976,8 +2945,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-4-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-4-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -2986,7 +2953,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-4-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="4" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="4">
@@ -2996,6 +2963,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -3044,7 +3012,7 @@
                         <div class="pull-left text-preserve-space">
                           Response to Danny from Dropout.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(4,2,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="4" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -3061,7 +3029,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-4-2-1" onclick="toggleVisibilityAddForm(4,2,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="1" data-sectionindex="1" data-sessionindex="4" id="frComment-visibility-options-trigger-1-4-2-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -3153,8 +3121,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-4-2-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-4-2-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -3163,7 +3129,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-4-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="1" data-recipientindex="4" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="4">
@@ -3173,6 +3139,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -3246,7 +3213,7 @@
                         <div class="pull-left text-preserve-space">
                           Response to Dropout.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(5,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="5" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -3263,7 +3230,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-5-1-1" onclick="toggleVisibilityAddForm(5,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="5" id="frComment-visibility-options-trigger-1-5-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -3355,8 +3322,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-5-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-5-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -3365,7 +3330,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-5-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(5,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="5" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="5">
@@ -3375,6 +3340,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -3446,7 +3412,7 @@
                         <div class="pull-left text-preserve-space">
                           PowerSearch
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(5,2,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="5" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -3463,7 +3429,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-5-2-1" onclick="toggleVisibilityAddForm(5,2,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="1" data-sectionindex="1" data-sessionindex="5" id="frComment-visibility-options-trigger-1-5-2-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -3542,8 +3508,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-5-2-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-5-2-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -3552,7 +3516,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-5-2-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(5,2,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="1" data-recipientindex="5" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="5">
@@ -3562,6 +3526,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -3590,7 +3555,7 @@
                         <div class="pull-left text-preserve-space">
                           Team 2
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(5,2,2, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="2" data-original-title="Add comment" data-placement="top" data-qnindex="2" data-recipientindex="5" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -3607,7 +3572,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-5-2-2" onclick="toggleVisibilityAddForm(5,2,2, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="2" data-responseindex="2" data-sectionindex="1" data-sessionindex="5" id="frComment-visibility-options-trigger-1-5-2-2">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -3686,8 +3651,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-5-2-2">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-5-2-2">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -3696,7 +3659,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-5-2-2" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(5,2,2, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="2" data-qnindex="2" data-recipientindex="5" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="5">
@@ -3706,6 +3669,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>
@@ -3768,7 +3732,7 @@
                         <div class="pull-left text-preserve-space">
                           Response from team 1 (by alice) to team 2.
                         </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(6,1,1, { sectionIndex: 1 })" title="" type="button">
+                        <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="6" data-sectionindex="1" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                           </span>
                         </button>
@@ -3785,7 +3749,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-6-1-1" onclick="toggleVisibilityAddForm(6,1,1, { sectionIndex: 1 })">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="6" id="frComment-visibility-options-trigger-1-6-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -3851,8 +3815,6 @@
                               </table>
                             </div>
                             <div class="form-group">
-                              <div id="rich-text-toolbar-comment-container-1-6-1-1">
-                              </div>
                               <div class="panel panel-default panel-body" id="responseCommentAddForm-1-6-1-1">
                               </div>
                               <input name="responsecommenttext" type="hidden">
@@ -3861,7 +3823,7 @@
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-6-1-1" type="button">
                                 Add
                               </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(6,1,1, { sectionIndex: 1 });" type="button" value="Cancel">
+                              <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="6" data-sectionindex="1" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
                             <input name="fsindex" type="hidden" value="6">
@@ -3871,6 +3833,7 @@
                             <input name="user" type="hidden" value="CFResultsUiT.instr">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, INSTRUCTORS">
+                            <input name="token" type="hidden" value="${sessionToken}">
                           </form>
                         </li>
                       </ul>

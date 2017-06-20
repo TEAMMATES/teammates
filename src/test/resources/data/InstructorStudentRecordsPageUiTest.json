@@ -112,14 +112,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -138,14 +135,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -164,14 +158,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -190,14 +181,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -216,14 +204,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -243,14 +228,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -711,162 +693,6 @@
       "createdAt": "2026-03-02 11:59 PM UTC",
       "commentText": {
         "value": "Instructor second comment to Alice about feedback to Benny"
-      }
-    }
-  },
-  "comments": {
-    "comment1": {
-      "courseId": "ISR.CS2104",
-      "giverEmail": "teammates.test@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-01 8:51 AM UTC",
-      "commentText": {
-        "value": "Comment 1 from ISR.CS2104 teammates.test Instructor to Benny"
-      }
-    },
-    "comment2": {
-      "courseId": "ISR.CS2104",
-      "giverEmail": "teammates.test@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-06-01 7:20 PM UTC",
-      "commentText": {
-        "value": "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny"
-      }
-    },
-    "commentHelper1": {
-      "courseId": "ISR.CS2104",
-      "giverEmail": "teammates.test.Helper@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-01 8:54 AM UTC",
-      "commentText": {
-        "value": "Comment 1 from ISR.CS2104 teammates.test.Helper Instructor to Benny"
-      }
-    },
-    "commentHelper2": {
-      "courseId": "ISR.CS2104",
-      "giverEmail": "teammates.test.Helper@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTOR"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTOR"
-      ],
-      "createdAt": "2012-05-01 8:49 AM UTC",
-      "commentText": {
-        "value": "Comment 2 from ISR.CS2104 teammates.test.Helper Instructor to Benny, viewable by instructors"
-      }
-    },
-    "commentHelper3": {
-      "courseId": "ISR.CS2104",
-      "giverEmail": "teammates.test.Helper@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [
-        "INSTRUCTOR"
-      ],
-      "createdAt": "2012-05-01 8:35 AM UTC",
-      "commentText": {
-        "value": "Comment 3 from ISR.CS2104 teammates.test.Helper Instructor (anonymously) to Benny, viewable by instructors"
-      }
-    },
-    "commentHelper4": {
-      "courseId": "ISR.CS2104",
-      "giverEmail": "teammates.test.Helper@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTOR"
-      ],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-01 8:21 AM UTC",
-      "commentText": {
-        "value": "Comment 4 from ISR.CS2104 teammates.test.Helper Instructor to Benny (anonymously), viewable by instructors"
-      }
-    },
-    "commentCS1101": {
-      "courseId": "ISR.CS1101",
-      "giverEmail": "teammates.instr@gmail.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "teammates.test@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTOR"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTOR"
-      ],
-      "createdAt": "2012-05-01 9:10 AM UTC",
-      "commentText": {
-        "value": "Comment from ISR.CS1101 teammates.instr Instructor to Teammates Test, viewable by instructors"
-      }
-    },
-    "commentTestingSanitization": {
-      "courseId": "ISR.sanitizationCourse",
-      "giverEmail": "ISR.instruct@sanitization.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "ISR.stud@sanitization.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTOR"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTOR"
-      ],
-      "createdAt": "2012-05-01 9:10 AM UTC",
-      "commentText": {
-        "value": "I am just a comment :P <script> alert('hi!'); </script>"
       }
     }
   },

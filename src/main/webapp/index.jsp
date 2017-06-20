@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/checkBrowserVersion.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
 </c:set>
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="index">
@@ -44,7 +42,7 @@
             </p>
         </div>
     </div>
-        
+
     <div class="row">
         <div class="col-xs-12 col-sm-3">
             <img class="center-block img-responsive" alt="TEAMMATES - Award winning, mature, field-tested and improving all the time" src="images/award_winning.png">

@@ -19,13 +19,15 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Building JavaScript files
 
-Our JavaScript code is written in ECMAScript 6 (ES6) syntax, however many of the existing Web browsers today still have limited support for ES6.<br>
-To resolve this, we need to *transpile* ("build" afterwards) these JavaScript files into ECMAScript 5 syntax which is supported by (almost) all browsers.
+Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
+To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
 
 Run the following command to build the JavaScript files for the application's use:
 ```sh
 npm run build
 ```
+
+In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
 
 ## Managing the dev server
 
@@ -75,18 +77,24 @@ Click the "Terminate" icon on the Eclipse console.
 1. Go to `File → Project Structure...`.
 1. Under `Artifacts → Gradle : <your-project-name>.war (exploded)`, check `Include in project build`.
 1. Click `OK`.
-1. Got to `Run → Edit Configurations...`.
+1. Go to `Run → Edit Configurations...`.
 1. Click `+ → Google AppEngine Dev Server`.
-1. Name it `Dev Server`.
-1. Click `Configure` next to `Application server`.
-1. Click `+ → ...`. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder) you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
-1. Under `Open browser`, uncheck `After launch`.
-1. Set the `JRE` to `1.7`.
-1. Set the `Port` to `8888`.
-1. Under `Before launch`, click `+ → Run Gradle task`.
-1. Click the folder icon, select the local repository as the Gradle project and type "assemble" into the `Tasks` field.
-1. Click `OK`.
-1. Remove "Build" by selecting it and clicking `-`.
+1. Set the `Name:` to `Dev Server`.
+1. Ensure the `Application server:` selected is of the name `AppEngine Dev <version>`.\
+   If you do not have an application server named `AppEngine Dev <version>`, make sure you have
+   [setup IntelliJ IDEA](ide-usage.md#prerequisites) correctly.
+1. You can optionally choose to add `-Ddatastore.backing_store=../../../../local_db.bin` to `VM options:`.\
+   This will place your local datastore on your project root, and if you delete your `buildIdea` folder your local
+   datastore will still be preserved. Note that IntelliJ IDEA does not delete the whole `buildIdea` folder on rebuild so
+   your datastore will not be wiped on rebuild.
+1. If you have a previous datastore file `local_db.bin` that you would like to use, you can copy it to the project root 
+   if you have changed the datastore path in the previous step. Otherwise, you would need to check the `Output directory:`
+   of `Gradle : teammates.war (exploded)` from `File → Project Structure... → Artifacts`, copy `local_db.bin` into
+   `<OutputDirYouFound>/WEB-INF/appengine-generated` (create the folder if it does not exist).
+1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
+1. Check in `JRE:` that the SDK used is the default of `1.7`.\
+   Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).
+1. Set the `Port:` to `8888`.
 1. Click `OK`.
 
 #### Starting the dev server
@@ -95,7 +103,7 @@ Go to `Run → Run...` and select `Dev Server` in the pop-up box.
 
 #### Stopping the dev server
 
-Go to `Run → Stop` or hit `Ctrl + F2` (Windows).
+Go to `Run → Stop`.
 
 ## Logging in to a TEAMMATES instance
 
@@ -142,17 +150,8 @@ You need a student account which can be created by instructors.
 TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
 It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
 
-Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
-* Stop the dev server if it is running.
-* Specify timezone as a VM argument:
-  * Eclipse
-    * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
-    * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-    * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
-  * IntelliJ
-    * Go to `Run → Edit Configurations...` and select `Dev Server`.
-    * Add `-Duser.timezone=UTC` to the `VM options` text box. Click `OK`.
-* Start the server again using the run configuration you created in the previous step.
+**NOTE**
+> The dev server sets its time zone to UTC at startup.
 
 ### Using Firefox
 
@@ -206,11 +205,7 @@ Any individual test | `./gradlew test -Dtest.single=TestClassName` | `{project f
 `CI tests` will be run once and the failed tests will be re-run a few times.
 All other test suites will be run once and only once.
 
-To run any test suite or individual test with [GodMode turned on](godmode.md), append `-Pgodmode=true` to the command, e.g.:
-```sh
-./gradlew ciTests -Pgodmode=true
-./gradlew test -Dtest.single=InstructorFeedbackResultsPageUiTest -Pgodmode=true
-```
+To run any test suite or individual test with [GodMode turned on](godmode.md), set the value of `test.godmode.enabled` to `true` in `test.properties`.
 
 ### Running the test suite with an IDE
 
@@ -301,11 +296,16 @@ There are several files used to configure various aspects of the system.
 * `.travis.yml`: Contains the Travis CI job configuration.
 * `appveyor.yml`: Contains the AppVeyor CI job configuration.
 
+**Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](staticAnalysis.md).
+* `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
+* `.stylelintrc`: Equivalent to `static-analysis/teammates-stylelint.yml`, currently only used for Stylelint integration in IntelliJ.
+
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `log4j.properties`: Contains the log4j configuration. Not used by us.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
+* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
 * `jdoconfig.xml`: Contains the JDO configuration.
 * `persistence.xml`: Contains the JPA configuration.

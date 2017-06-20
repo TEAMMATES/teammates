@@ -487,7 +487,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
 
-
         ______TS("enrollLines with some empty fields");
 
         String lineWithTeamNameEmpty = " | StudentWithTeamFieldEmpty | student@email.tmt";
@@ -1066,9 +1065,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyPresentInDatastore(student1InCourse1);
-
-        // verify comments made to this student are gone
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 

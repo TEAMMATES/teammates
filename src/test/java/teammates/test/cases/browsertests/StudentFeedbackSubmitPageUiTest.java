@@ -51,14 +51,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.loadStudentHomeTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
         submitPage.loadProfileTab();
-        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.loadStudentCommentsTab();
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
         submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
         submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentCommentsNavLink")));
     }
 
     private void testContent() throws Exception {
@@ -86,6 +83,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageOpen.html");
+        submitPage.verifyVisibilityAndCloseMoreInfoAboutEqualShareModal();
 
         ______TS("Grace period session");
 

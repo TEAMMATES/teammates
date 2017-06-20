@@ -23,15 +23,14 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-default"
                     data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"
-                    onclick="selectElementContents(document.getElementById('fsModalTable'));">
+                <button type="button" class="btn btn-primary" id="btn-select-element-contents">
                     Select Table</button>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
                     <div id="fsModalTable"></div>
                     <br>
-                    <div id="ajaxStatus"></div>      
+                    <div id="ajaxStatus"></div>
                 </div>
             </div>
             <div class="modal-footer"></div>
