@@ -133,21 +133,21 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical Case: Edit and add empty comment");
 
-        viewPage.editFeedbackResponseComment("-GRQ-1-1-1-1", "");
+        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-1", "");
         viewPage.verifyCommentFormErrorMessage(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
-        viewPage.closeEditFeedbackResponseCommentForm("-GRQ-1-1-1-1");
+        viewPage.closeEditFeedbackResponseCommentForm("-RGQ-1-1-1-1");
 
         ______TS("Typical Case: Edit comment");
 
-        viewPage.editFeedbackResponseComment("-GRQ-1-1-1-1",
+        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-1",
                 "Instructor first edited comment to Alice about feedback to Benny");
-        viewPage.verifyCommentRowContent("-GRQ-1-1-1-1", "Instructor first edited comment to Alice about feedback to Benny",
+        viewPage.verifyCommentRowContent("-RGQ-1-1-1-1", "Instructor first edited comment to Alice about feedback to Benny",
                 "teammates.test@gmail.tmt");
 
         ______TS("Typical Case: Delete comment");
 
-        viewPage.deleteFeedbackResponseComment("-GRQ-1-1-1-2");
-        viewPage.verifyRowMissing("-GRQ-1-1-1-2");
+        viewPage.deleteFeedbackResponseComment("-RGQ-1-1-1-2");
+        viewPage.verifyRowMissing("-RGQ-1-1-1-2");
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {
