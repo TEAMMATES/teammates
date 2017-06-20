@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.joda.time.DateTimeZone;
 
@@ -140,6 +141,8 @@ public final class Const {
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
+
+        public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
@@ -1152,10 +1155,10 @@ public final class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
 
-        public static final String JS_UNIT_TEST = "/dev/allJsUnitTests.jsp";
-        public static final String MASHUP = "/dev/mashup.jsp";
-        public static final String TABLE_SORT = "/dev/tableSort.jsp";
-        public static final String TIMEZONE = "/dev/timezone.jsp";
+        public static final String JS_UNIT_TEST = "/test/allJsUnitTests.jsp";
+        public static final String MASHUP = "/test/mashup.jsp";
+        public static final String TABLE_SORT = "/test/tableSort.jsp";
+        public static final String TIMEZONE = "/test/timezone.jsp";
     }
 
     /* These are status messages that may be shown to the user */
@@ -1331,7 +1334,7 @@ public final class Const {
                 "You have not created any sessions yet. Use the form above to create a session.";
 
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
-        public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question has been updated.";
+        public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question have been updated.";
         public static final String FEEDBACK_QUESTION_DELETED = "The question has been deleted.";
         public static final String FEEDBACK_QUESTION_EMPTY =
                 "You have not created any questions for this feedback session yet. "
@@ -1420,7 +1423,7 @@ public final class Const {
 
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
                 + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
-                + " is also available in our <a href=\"/index.jsp\" target=\"_blank\">home page</a>.";
+                + " is also available in our <a href=\"/\" target=\"_blank\">home page</a>.";
 
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
