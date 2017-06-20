@@ -30,6 +30,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        prepareTestData();
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         String idOfInstructor = instructor.googleId;
@@ -195,6 +196,21 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(dataBundle);
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+
+        String feedbackSessionName = "First feedback session";
+        String courseId = student.course;
+        String moderatedStudentEmail = student.email;
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
 }
