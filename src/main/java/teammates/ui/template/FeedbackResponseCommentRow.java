@@ -5,6 +5,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
@@ -20,6 +21,8 @@ public class FeedbackResponseCommentRow {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+    private String commentGiverName;
+    private String commentLastEditorName;
 
     private String showCommentToString;
     private String showGiverNameToString;
@@ -282,5 +285,29 @@ public class FeedbackResponseCommentRow {
     public void enableVisibilityIcon(String whoCanSeeComment) {
         this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
+    }
+
+    public String getCommentGiverName() {
+        return commentGiverName;
+    }
+
+    public void setCommentGiverName(String giverEmail) {
+        if(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
+            this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
+            return;
+        }
+        this.commentGiverName = instructorEmailNameTable.get(giverEmail);
+    }
+
+    public String getCommentLastEditorName() {
+        return commentLastEditorName;
+    }
+
+    public void setCommentLastEditorName(String giverEmail) {
+        if(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
+            this.commentLastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
+            return;
+        }
+        this.commentLastEditorName = instructorEmailNameTable.get(giverEmail);
     }
 }
