@@ -113,6 +113,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
