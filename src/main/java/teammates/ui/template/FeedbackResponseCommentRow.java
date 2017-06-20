@@ -26,6 +26,7 @@ public class FeedbackResponseCommentRow {
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
+    private Map<String, String> instructorEmailNameTable;
 
     private String whoCanSeeComment;
 
@@ -42,6 +43,17 @@ public class FeedbackResponseCommentRow {
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
+    }
+
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
+                                     String giverName, String recipientName, String showCommentToString,
+                                     String showGiverNameToString,
+                                     Map<FeedbackParticipantType, Boolean> responseVisibilities,
+                                     Map<String, String> instructorEmailNameTable) {
+        this(frc, giverDisplay);
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisibilities);
+        this.instructorEmailNameTable = instructorEmailNameTable;
     }
 
     // for editing / deleting comments
