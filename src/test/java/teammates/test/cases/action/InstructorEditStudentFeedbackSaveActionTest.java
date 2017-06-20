@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -32,6 +33,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        prepareTestData();
+
         testModifyResponses();
 
         testIncorrectParameters();
@@ -659,6 +662,21 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(dataBundle);
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+
+        String feedbackSessionName = "First feedback session";
+        String courseId = student.course;
+        String moderatedStudentEmail = student.email;
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
 }
