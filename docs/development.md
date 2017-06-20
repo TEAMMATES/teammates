@@ -266,6 +266,11 @@ This instruction set assumes that the app identifier is `teammates-john`.
 
 1. (Optional) You can run the tests against the deployed app.
    * You need to setup `Gmail API` for the project as follows:
+   
+     **NOTE**
+     > No actual emails are sent on the local development server so delivery of emails is not tested, hence the Gmail API is
+     only required for testing the delivery of emails when testing against the staging server.
+     
      * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
        and click `API Manager`.\
        Click `ENABLE API`.\
