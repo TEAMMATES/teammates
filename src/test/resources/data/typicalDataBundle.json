@@ -1206,7 +1206,7 @@
       "courseId": "idOfTestingSanitizationCourse",
       "creatorEmail": "instructor1@sanitization.tmt",
       "questionMetaData": {
-        "value": "'\" unclosed tags </td></div> What is the best selling point of your product? <script> alert('hello'); </script>"
+        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
       },
       "questionNumber": 1,
       "questionType": "TEXT",
