@@ -46,12 +46,12 @@
                 <div id="accessControlEditDivForInstr${addInstructorPanel.index}">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">
-                            <input id="displayToStudent" type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>">
+                            <input id="display-to-student" type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>">
                             Display to students as:
                         </label>
                         <div class="col-sm-9">
-                            <input class="form-control" id="titleDisplayed" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
-                                placeholder="Instructor" disabled
+                            <input class="form-control" id="title-displayed" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
+                                value="Instructor" disabled=""
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
                         </div>
                     </div>
