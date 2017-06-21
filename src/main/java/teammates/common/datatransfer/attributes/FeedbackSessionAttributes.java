@@ -76,12 +76,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                 .withClosingEmailEnabled(fs.isClosingEmailEnabled())
                 .build();
     }
-    
+
     /**
      * Return new builder instance with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
-     * 
      * {@code isOpeningEmailEnabled = true} <br>
      * {@code isClosingEmailEnabled = true} <br>
      * {@code isPublishedEmailEnabled = true} <br>
@@ -91,7 +90,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public static Builder builder(String feedbackSessionName, String courseId, String creatorEmail) {
         return new Builder(feedbackSessionName, courseId, creatorEmail);
     }
-    
+
     public FeedbackSessionAttributes getCopy() {
         return builder(feedbackSessionName, courseId, creatorEmail)
                 .withInstructions(instructions)
@@ -670,102 +669,104 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         public Builder(String feedbackSessionName, String courseId, String creatorEmail) {
             feedbackSessionAttributes = new FeedbackSessionAttributes();
 
-            feedbackSessionAttributes.feedbackSessionName = feedbackSessionName;
-            feedbackSessionAttributes.courseId = courseId;
-            feedbackSessionAttributes.creatorEmail = creatorEmail;
+            feedbackSessionAttributes.setFeedbackSessionName(feedbackSessionName);
+            feedbackSessionAttributes.setCourseId(courseId);
+            feedbackSessionAttributes.setCreatorEmail(creatorEmail);
         }
 
         public Builder withInstructions(Text instructions) {
-            feedbackSessionAttributes.instructions = instructions;
+            feedbackSessionAttributes.setInstructions(instructions);
             return this;
         }
 
         public Builder withCreatedTime(Date createdTime) {
-            feedbackSessionAttributes.createdTime = createdTime;
+            feedbackSessionAttributes.setCreatedTime(createdTime);
             return this;
         }
 
         public Builder withStartTime(Date startTime) {
-            feedbackSessionAttributes.startTime = startTime;
+            feedbackSessionAttributes.setStartTime(startTime);
             return this;
         }
 
         public Builder withEndTime(Date endTime) {
-            feedbackSessionAttributes.endTime = endTime;
+            feedbackSessionAttributes.setEndTime(endTime);
             return this;
         }
 
         public Builder withSessionVisibleFromTime(Date sessionVisibleFromTime) {
-            feedbackSessionAttributes.sessionVisibleFromTime = sessionVisibleFromTime;
+            feedbackSessionAttributes.setSessionVisibleFromTime(sessionVisibleFromTime);
             return this;
         }
 
         public Builder withResultsVisibleFromTime(Date resultsVisibleFromTime) {
-            feedbackSessionAttributes.resultsVisibleFromTime = resultsVisibleFromTime;
+            feedbackSessionAttributes.setResultsVisibleFromTime(resultsVisibleFromTime);
             return this;
         }
 
         public Builder withTimeZone(double timeZone) {
-            feedbackSessionAttributes.timeZone = timeZone;
+            feedbackSessionAttributes.setTimeZone(timeZone);
             return this;
         }
 
         public Builder withGracePeriod(int gracePeriod) {
-            feedbackSessionAttributes.gracePeriod = gracePeriod;
+            feedbackSessionAttributes.setGracePeriod(gracePeriod);
             return this;
         }
 
         public Builder withFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
-            feedbackSessionAttributes.feedbackSessionType = feedbackSessionType;
+            feedbackSessionAttributes.setFeedbackSessionType(feedbackSessionType);
             return this;
         }
 
         public Builder withSentOpenEmail(boolean sentOpenEmail) {
-            feedbackSessionAttributes.sentOpenEmail = sentOpenEmail;
+            feedbackSessionAttributes.setSentOpenEmail(sentOpenEmail);
             return this;
         }
 
         public Builder withSentClosingEmail(boolean sentClosingEmail) {
-            feedbackSessionAttributes.sentClosingEmail = sentClosingEmail;
+            feedbackSessionAttributes.setSentClosingEmail(sentClosingEmail);
             return this;
         }
 
         public Builder withSentClosedEmail(boolean sentClosedEmail) {
-            feedbackSessionAttributes.sentClosedEmail = sentClosedEmail;
+            feedbackSessionAttributes.setSentClosedEmail(sentClosedEmail);
             return this;
         }
 
         public Builder withSentPublishedEmail(boolean sentPublishedEmail) {
-            feedbackSessionAttributes.sentPublishedEmail = sentPublishedEmail;
+            feedbackSessionAttributes.setSentPublishedEmail(sentPublishedEmail);
             return this;
         }
 
         public Builder withOpeningEmailEnabled(boolean openingEmailEnabled) {
-            feedbackSessionAttributes.isOpeningEmailEnabled = openingEmailEnabled;
+            feedbackSessionAttributes.setOpeningEmailEnabled(openingEmailEnabled);
             return this;
         }
 
         public Builder withClosingEmailEnabled(boolean closingEmailEnabled) {
-            feedbackSessionAttributes.isClosingEmailEnabled = closingEmailEnabled;
+            feedbackSessionAttributes.setClosingEmailEnabled(closingEmailEnabled);
             return this;
         }
 
         public Builder withPublishedEmailEnabled(boolean publishedEmailEnabled) {
-            feedbackSessionAttributes.isPublishedEmailEnabled = publishedEmailEnabled;
+            feedbackSessionAttributes.setPublishedEmailEnabled(publishedEmailEnabled);
             return this;
         }
 
         public Builder withRespondingInstructorList(Set<String> respondingInstructorList) {
-            feedbackSessionAttributes.respondingInstructorList = respondingInstructorList == null
+            Set<String> respondingList = respondingInstructorList == null
                     ? new HashSet<String>()
                     : respondingInstructorList;
+            feedbackSessionAttributes.setRespondingInstructorList(respondingList);
             return this;
         }
 
         public Builder withRespondingStudentList(Set<String> respondingStudentList) {
-            feedbackSessionAttributes.respondingStudentList = respondingStudentList == null
+            Set<String> respondingList = respondingStudentList == null
                     ? new HashSet<String>()
                     : respondingStudentList;
+            feedbackSessionAttributes.setRespondingStudentList(respondingList);
             return this;
         }
 

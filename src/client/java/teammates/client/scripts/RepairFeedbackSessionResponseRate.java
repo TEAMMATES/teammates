@@ -188,7 +188,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<FeedbackSession> feedbackSessions = (List<FeedbackSession>) query.execute(curStart, curEnd);
         for (FeedbackSession feedbackSession : feedbackSessions) {
-            FeedbackSessionAttributes feedbackSessionAttributes = new FeedbackSessionAttributes(feedbackSession);
+            FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
             result.add(feedbackSessionAttributes);
         }
 

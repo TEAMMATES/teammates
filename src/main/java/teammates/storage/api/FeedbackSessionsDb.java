@@ -96,7 +96,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
             startCal.setTime(start);
             endCal.setTime(end);
-            FeedbackSessionAttributes fs = new FeedbackSessionAttributes(feedbackSession);
+            FeedbackSessionAttributes fs = FeedbackSessionAttributes.valueOf(feedbackSession);
 
             Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.getTimeZone() - zone).getTime();
             Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
@@ -136,7 +136,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             log.info("Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
             return null;
         }
-        return new FeedbackSessionAttributes(fs);
+        return FeedbackSessionAttributes.valueOf(fs);
 
     }
 
@@ -151,7 +151,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         for (FeedbackSession fs : allFs) {
             if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
+                fsaList.add(FeedbackSessionAttributes.valueOf(fs));
             }
         }
         return fsaList;
@@ -171,7 +171,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
+                fsaList.add(FeedbackSessionAttributes.valueOf(fs));
             }
         }
         return fsaList;
@@ -187,7 +187,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
+                fsaList.add(FeedbackSessionAttributes.valueOf(fs));
             }
         }
         return fsaList;
@@ -203,7 +203,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
+                fsaList.add(FeedbackSessionAttributes.valueOf(fs));
             }
         }
         return fsaList;
@@ -219,7 +219,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
+                fsaList.add(FeedbackSessionAttributes.valueOf(fs));
             }
         }
         return fsaList;
@@ -235,7 +235,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
-                fsaList.add(new FeedbackSessionAttributes(fs));
+                fsaList.add(FeedbackSessionAttributes.valueOf(fs));
             }
         }
         return fsaList;

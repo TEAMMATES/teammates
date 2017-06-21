@@ -606,12 +606,18 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
-                courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TimeHelperExtension.getHoursOffsetToCurrentTime(0), TimeHelperExtension.getHoursOffsetToCurrentTime(2),
-                TimeHelperExtension.getHoursOffsetToCurrentTime(5), TimeHelperExtension.getHoursOffsetToCurrentTime(1),
-                TimeHelperExtension.getHoursOffsetToCurrentTime(6),
-                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
+
+        FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
+                .builder("newFeedbackSessionName", courseIdForEnrollTest, instructorEmail)
+                .withInstructions(new Text("default instructions"))
+                .withCreatedTime(TimeHelperExtension.getHoursOffsetToCurrentTime(0))
+                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(2))
+                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(6))
+                .withTimeZone(8).withGracePeriod(0).withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
+                .build();
         fsLogic.createFeedbackSession(fsAttr);
 
         ______TS("all valid students, but contains blank lines and trailing spaces");

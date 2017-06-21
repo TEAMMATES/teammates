@@ -121,7 +121,7 @@ public class RepairFeedbackSessionNameWithExtraWhiteSpace extends RemoteApiClien
         fixFeedbackResponsesOfFeedbackSession(session);
         fixFeedbackResponseCommentsOfFeedbackSession(session);
 
-        FeedbackSessionAttributes sessionAttribute = new FeedbackSessionAttributes(session);
+        FeedbackSessionAttributes sessionAttribute = FeedbackSessionAttributes.valueOf(session);
         feedbackSessionsDb.deleteEntity(sessionAttribute);
         sessionAttribute.setFeedbackSessionName(
                 StringHelper.removeExtraSpace(sessionAttribute.getFeedbackSessionName()));
