@@ -638,7 +638,7 @@ input.inline {
 
 @media (max-width: 991px) {
     .panel-body > .col-md-6 {
-       border-right: 0;
+        border-right: 0;
     }
 
     .margin-md-15px {
