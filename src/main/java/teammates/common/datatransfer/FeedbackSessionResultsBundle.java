@@ -2228,8 +2228,8 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            commentRow.append(frc.giverEmail + "," + frc.commentText.getValue().substring(3,
-                    frc.commentText.getValue().length() - 4) + ",");
+            commentRow.append("," + frc.giverEmail + "," + frc.commentText.getValue().substring(3,
+                    frc.commentText.getValue().length() - 4));
         }
         return commentRow;
     }

@@ -72,7 +72,7 @@ public abstract class FeedbackQuestionDetails {
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + this.getCsvHeader() + "," + (hasCommentsForResponses
+               + this.getCsvHeader() + (hasCommentsForResponses
                        ? getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments) : "")
                + Const.EOL;
     }
@@ -101,7 +101,7 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
-                + "," + (hasCommentsForResponses
+                + (hasCommentsForResponses
                         ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                 + Const.EOL;
     }
@@ -244,7 +244,7 @@ public abstract class FeedbackQuestionDetails {
     public StringBuilder getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
         StringBuilder commentsHeader = new StringBuilder(200);
         for (int i = noOfComments; i > 0; i--) {
-            commentsHeader.append("Comment From" + "," + "Comment" + ",");
+            commentsHeader.append("," + "Comment From" + "," + "Comment");
         }
         return commentsHeader;
     }

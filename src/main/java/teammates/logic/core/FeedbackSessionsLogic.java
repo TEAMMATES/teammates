@@ -883,6 +883,7 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                     results, entry, isMissingResponsesShown, isStatsShown));
         }
+
         return exportBuilder.toString();
     }
 
@@ -911,7 +912,9 @@ public final class FeedbackSessionsLogic {
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
         String prevGiver = "";
-
+        if (allResponses.isEmpty()) {
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(false, 0));
+        }
         for (FeedbackResponseAttributes response : allResponses) {
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients
@@ -949,7 +952,6 @@ public final class FeedbackSessionsLogic {
             // Append row(s)
             exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
                     hasCommentsForResponses));
-
         }
 
         // add the rows for the possible givers and recipients who have missing responses
