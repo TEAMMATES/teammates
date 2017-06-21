@@ -25,6 +25,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     private List<InstructorAttributes> instructors;
     private String studentListHtmlTableAsString;
     private ElementTag courseRemindButton;
+    private ElementTag courseDeleteAllButton;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
 
@@ -44,6 +45,10 @@ public class InstructorCourseDetailsPageData extends PageData {
         String href = sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId()));
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", href,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", courseId, isDisabled);
+
+        String hrefDeleteStudents = sanitizeForJs(getInstructorCourseStudentDeleteAllLink(courseId));
+        courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button_delete_all",
+            hrefDeleteStudents, null, null, courseId, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
         for (SectionDetailsBundle section : courseDetails.sections) {
@@ -86,6 +91,10 @@ public class InstructorCourseDetailsPageData extends PageData {
 
     public ElementTag getCourseRemindButton() {
         return courseRemindButton;
+    }
+
+    public ElementTag getCourseDeleteAllButton() {
+        return courseDeleteAllButton;
     }
 
     public void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {
