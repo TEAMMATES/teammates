@@ -41,3 +41,63 @@ $(document).ready(() => {
 export {
     isUserTyping,
 };
+
+/* Handsontable Implementation code starts here */
+
+$('#toggle-interface').click(() => {
+    $('.student-data-textarea, #student-data-spreadsheet').toggle();
+});
+
+var container = document.getElementById('spreadsheet'),
+    searchFiled = document.getElementById('search_field'),
+    data = [
+        ["", "", "", "", ""],
+    ];
+
+function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.style.fontWeight = 'bold';
+    td.style.color = 'green';
+    td.style.background = '#CEC';
+}
+
+var hot = new Handsontable(container, {
+    data: data,
+    rowHeaders: true,
+    colHeaders: ["Email", "Section", "Team", "Name", "Email", "Comments"],
+    contextMenu: true,
+    contextMenuCopyPaste: {
+        swfPath: '/js/ZeroClipboard.swf'
+    },
+    columnSorting: true,
+    manualColumnResize: true,
+    sortIndicator: true,
+    currentRowClassName: 'currentRow',
+    currentColClassName: 'currentCol',
+    search: {
+        searchResultClass: 'customClass'
+    },
+    className: "htCenter",
+    maxRows: 100,
+    maxCols: 100,
+    stretchH: 'all',
+});
+
+hot.updateSettings ({
+    cells: function (row, col, prop) {
+        var cellProperties = {};
+        if(hot.getSourceData()[0][0] === 'A12') {
+            cellProperties.renderer = firstRowRenderer;
+            cellProperties.readOnly = true;
+        }
+
+        return cellProperties;
+    }
+})
+
+Handsontable.dom.addEvent(searchFiled, 'keyup', function (event) {
+    var queryResult = hot.search.query(this.value);
+    hot.render();
+});
+
+/* Handsontable Implementation code ends here */

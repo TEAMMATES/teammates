@@ -1,14 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
 <c:set var="cssIncludes">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS %>" type="text/css">
     <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css">
 </c:set>
 <c:set var="jsIncludes">
+    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE %>"></script>
     <script type="text/javascript" src="/js/instructorCourseEnrollPage.js"></script>
 </c:set>
 <c:set var="SESSION_TOKEN">
@@ -16,36 +19,84 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
-    <div class="instructionImg">
-        <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" >
-    </div>
-    <br>
-    <div class="panel panel-primary">
-        <div class="panel-body fill-plain">
-            <div class="text-muted">
-                <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
+    
+
+        <button id="toggle-interface" class="btn btn-primary">Textarea Interface</button>
+        
+        <div style="height: 10px"></div>
+        
+
+        <!-- Code for adding student data via Textarea starts -->
+        <div class="student-data-textarea" style="display: none">
+            <div class="instructionImg">
+                <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" >
             </div>
-            <br>
-            <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
-                <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="instructions" class="col-sm-1 control-label">Student data:</label>
-                        <div class="col-sm-11">
-                            <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
-                            <br>
+        </div>
+        <br>
+        <div class="panel panel-primary">
+            <div class="panel-body fill-plain">
+                <div class="text-muted">
+                    <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
+                </div>
+                <br>
+                <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
+                    <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            
 
-                            <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+                            
 
-                            <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
-                                Enroll students
-                            </button>
+                            <!-- Code for adding student data via Textarea starts -->
+                            <div class="student-data-textarea" style="display: none">
+                                <label for="instructions" class="col-sm-2 control-label">Student data:</label>
+                                <div class="col-sm-10">
+                                    
+                                    <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+                                    <br>
+
+                                    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+
+                                    <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
+                                        Enroll students
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Code for adding student data via Textarea ends -->
+
+
+
+
+
+                            <!-- Code for adding student data via spreadsheet starts -->
+                            <div id="student-data-spreadsheet">
+                                <label for="instructions" class="col-sm-2 control-label">Student data:</label>
+                                <div class="col-sm-10">
+                                    
+                                    <div id="spreadsheet"></div>
+
+                                    <div style="height: 20px"></div>
+
+                                    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+
+                                    <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
+                                        Enroll students
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Code for adding student data via spreadsheet starts -->
+
+
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+    
+
+
+
 
     <br>
 
