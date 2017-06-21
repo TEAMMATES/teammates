@@ -205,7 +205,7 @@ public class EmailGenerator {
         String coOwnersLine = generateCoOwnersEmailsLine(generateCoOwnersList(course.getId()));
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
-                                                                              template, subject, coOwnersLine));
+                    template, subject, coOwnersLine));
         }
         return emails;
     }
