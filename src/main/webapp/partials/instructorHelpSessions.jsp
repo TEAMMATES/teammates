@@ -573,7 +573,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-5 col-md-3">
-                                    <button onclick="return false" class="btn btn-primary">Create Feedback Session</button>
+                                    <button class="btn btn-primary">Create Feedback Session</button>
                                 </div>
                             </div>
                         </form>
@@ -2380,7 +2380,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-1" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -2634,7 +2634,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -2660,7 +2660,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -2839,7 +2839,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-7" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-7" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -3055,7 +3055,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -3081,7 +3081,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -3260,7 +3260,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-4" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-4" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -3279,7 +3279,7 @@
                                 </div>
                                 <strong>Question 4: </strong>
                                 <span >Which team do you think has the best feature?&nbsp;
-                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
+                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-4-" style="display:none;">Multiple-choice (single answer) question options:
                                             <br>The options for this question is automatically generated from the list of all teams in this course.</span>
@@ -3359,7 +3359,7 @@
                                                         Team
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                    <th id="button_sortToName" class="button-sort-none" style="width: 15%;">
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -3613,7 +3613,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -3639,7 +3639,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -3824,7 +3824,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-3" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-3" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -3845,7 +3845,7 @@
                                 </div>
                                 <strong>Question 3: </strong>
                                 <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
-                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
+                                    <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-3-" style="display:none;">Numerical-scale question:
                                             <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
@@ -3908,7 +3908,7 @@
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -4229,7 +4229,7 @@
                                                   Who will give the feedback:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                       <option selected="" value="SELF">
                                                       Feedback session creator (i.e., me)
@@ -4255,7 +4255,7 @@
                                                   Who the feedback is about:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                       <option value="SELF">
                                                       Giver (Self feedback)
@@ -4434,7 +4434,7 @@
                                   </div>
                                   <div>
                                       <span class="pull-right">
-                                          <input id="button_question_submit-9" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                          <input id="button_question_submit-9" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                       </span>
                                   </div>
                                 </div>
@@ -4451,7 +4451,7 @@
                                 <strong>Question 9: </strong>
                                 <span >How important are the following factors to you? Give points accordingly.&nbsp;
                                     <span >
-                                        <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
                                             <ul style="list-style-type: disc;margin-left: 20px;">
@@ -4529,7 +4529,7 @@
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -4839,7 +4839,7 @@
                                                   Who will give the feedback:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                       <option selected="" value="SELF">
                                                       Feedback session creator (i.e., me)
@@ -4865,7 +4865,7 @@
                                                   Who the feedback is about:
                                               </label>
                                               <div class="col-sm-8 col-lg-7">
-                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                  <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                       <option value="SELF">
                                                       Giver (Self feedback)
@@ -5044,7 +5044,7 @@
                                   </div>
                                   <div>
                                       <span class="pull-right">
-                                          <input id="button_question_submit-10" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                          <input id="button_question_submit-10" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                       </span>
                                   </div>
                             </div>
@@ -5242,7 +5242,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype--1" name="givertype">
 
                                                         <option disabled="" style="display: none;" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -5268,7 +5268,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
 
                                                         <option disabled="" style="display: block;" value="SELF">
                                                         Giver (Self feedback)
@@ -5451,7 +5451,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-11" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-11" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -5470,7 +5470,7 @@
                                 <strong>Question 1: </strong>
                                 <span >Please rate the estimated contribution of your team members and yourself.&nbsp;
                                     <span >
-                                        <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                         <br>
                                         <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
                                     </span>
@@ -5497,21 +5497,21 @@
                                                     <table class="table table-bordered table-responsive margin-0">
                                                         <thead>
                                                             <tr>
-                                                                <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team
+                                                                <td class="button-sort-ascending" id="button_sortteamname">Team
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                                <td class="button-sort-none" id="button_sortname">Student
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
+                                                                <td class="button-sort-none" id="button_sortclaimed" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the student's own estimation of his/her contributions">
                                                                     <abbr title="Claimed Contribution">CC</abbr>
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
+                                                                <td class="button-sort-none" id="button_sortperceived" data-toggle="tooltip" data-placement="top" data-container="body" title="This is the average of what other team members think this student contributed">
                                                                     <abbr title="Percived Contribution">PC</abbr>
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
-                                                                <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
+                                                                <td class="button-sort-none" id="button_sortdiff" data-toggle="tooltip" data-placement="top" data-container="body" title="Perceived Contribution - Claimed Contribution">Diff
                                                                     <span class="icon-sort unsorted"></span>
                                                                 </td>
                                                                 <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="The list of points that this student received from others">Ratings Received</td>
@@ -5704,7 +5704,7 @@
                                                         Recipient
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
-                                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                    <th id="button_sortFeedback" class="button-sort-none">
                                                         Feedback
                                                         <span class="icon-sort unsorted"></span>
                                                     </th>
@@ -6576,7 +6576,7 @@
                                                     Who will give the feedback:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="givertype-2" name="givertype">
 
                                                         <option selected="" value="SELF">
                                                         Feedback session creator (i.e., me)
@@ -6602,7 +6602,7 @@
                                                     Who the feedback is about:
                                                 </label>
                                                 <div class="col-sm-8 col-lg-7">
-                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                                                    <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
 
                                                         <option value="SELF">
                                                         Giver (Self feedback)
@@ -6787,7 +6787,7 @@
                                     </div>
                                     <div>
                                         <span class="pull-right">
-                                            <input id="button_question_submit-12" type="submit" onclick="return false" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                                            <input id="button_question_submit-12" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                                         </span>
                                     </div>
                                 </div>
@@ -6898,7 +6898,7 @@
                     <br>
                     <br>
                     <div class="bs-example">
-                        <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)">
+                        <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
                             <div class="panel panel-primary questionTable" id="questionTable3">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -7685,9 +7685,9 @@
                                                 <span class="icon-sort unsorted"></span></td>
                                             <td class="button-sort-none" onclick="toggleSort(this,2);">Recipient
                                                 <span class="icon-sort unsorted"></span></td>
-                                            <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Ranks Received
+                                            <td class="button-sort-none" id="button_sortname" style="width:15%;">Ranks Received
                                                 <span class="icon-sort unsorted"></span></td>
-                                            <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Rank
+                                            <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Average Rank
                                                 <span class="icon-sort unsorted"></span></td>
                                         </tr>
                                         </thead>
