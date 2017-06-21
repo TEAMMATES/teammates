@@ -314,7 +314,7 @@ public class FeedbackResponseCommentRow {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
-        Boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentLastEditorName);
+        Boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
                 + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
