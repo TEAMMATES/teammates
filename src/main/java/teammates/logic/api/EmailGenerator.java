@@ -480,14 +480,15 @@ public class EmailGenerator {
 
         //The corresponding preamble for students is blank since these are the recipients of the initial email.
         String studentPreamble = "";
+        String coOwnersLine = generateCoOwnersEmailsLine(generateCoOwnersList(course.getId()));
 
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
-                    instructorPreamble));
+                    instructorPreamble, coOwnersLine));
         }
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
-                    studentPreamble));
+                    studentPreamble, coOwnersLine));
         }
 
         return emails;
@@ -499,7 +500,7 @@ public class EmailGenerator {
      */
     private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
             FeedbackSessionAttributes session, String userName, String userEmail,
-            String instructorFragment) {
+            String instructorFragment, String coOwnersLine) {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
         String subject = EmailType.FEEDBACK_CLOSED.getSubject();
 
@@ -510,7 +511,7 @@ public class EmailGenerator {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(generateCoOwnersList(course.getId())),
+                "${coOwnersEmails}", coOwnersLine,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
