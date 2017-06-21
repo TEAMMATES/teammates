@@ -213,26 +213,27 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can access sample course students page");
         coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
 
-        ______TS("new instructor can view result of Second team feedback session of sample course");
-        coursesPage.loadInstructorHomeTab();
-        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        InstructorFeedbackResultsPage resultsPage =
-                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
-        if (resultsPage.isElementPresent("collapse-panels-button")) {
-            resultsPage.clickCollapseExpandButton();
-            resultsPage.waitForPanelsToExpand();
-        }
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
-
         ______TS("new instructor can view result of First team feedback session of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
+        InstructorFeedbackResultsPage resultsPage =
+                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
         if (resultsPage.isElementPresent("collapse-panels-button")) {
             resultsPage.clickCollapseExpandButton();
             resultsPage.waitForPanelsToExpand();
         }
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
+
+        ______TS("new instructor can view result of Second team feedback session of sample course");
+        coursesPage.loadInstructorHomeTab();
+        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+        resultsPage =
+                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
+        if (resultsPage.isElementPresent("collapse-panels-button")) {
+            resultsPage.clickCollapseExpandButton();
+            resultsPage.waitForPanelsToExpand();
+        }
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Third team feedback session of sample course");
         coursesPage.loadInstructorHomeTab();
@@ -245,39 +246,36 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         }
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
-        ______TS("new instructor can edit Second team feedback session of sample course");
+        ______TS("new instructor can edit First team feedback session of sample course");
         instructorHomePage.loadInstructorHomeTab();
         InstructorFeedbackEditPage feedbackEditPage =
-                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "Second team feedback session");
+                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "First team feedback session");
 
         feedbackEditPage.clickEditSessionButton();
 
         FeedbackSessionAttributes feedbackSession =
-                getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
+                getFeedbackSessionWithRetry(demoCourseId, "First team feedback session");
         feedbackEditPage.editFeedbackSession(
-                feedbackSession.getStartTime(),
-                feedbackSession.getEndTime(),
-                new Text("updated instructions"),
-                feedbackSession.getGracePeriod());
+                feedbackSession.getStartTime(), feedbackSession.getEndTime(),
+                new Text("updated instructions"), feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        feedbackSession =
-                getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
+        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "First team feedback session");
         assertEquals("<p>updated instructions</p>", feedbackSession.getInstructionsString());
 
-        ______TS("new instructor can edit First team feedback session of sample course");
+        ______TS("new instructor can edit Second team feedback session of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        feedbackEditPage = instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "First team feedback session");
+        feedbackEditPage =
+                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "Second team feedback session");
 
         feedbackEditPage.clickEditSessionButton();
 
-        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "First team feedback session");
+        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
         feedbackEditPage.editFeedbackSession(
-                feedbackSession.getStartTime(),
-                feedbackSession.getEndTime(),
-                new Text("updated instructions"),
-                feedbackSession.getGracePeriod());
+                feedbackSession.getStartTime(), feedbackSession.getEndTime(),
+                new Text("updated instructions"), feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
-        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "First team feedback session");
+        feedbackSession =
+                getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
         assertEquals("<p>updated instructions</p>", feedbackSession.getInstructionsString());
 
         ______TS("new instructor can edit Third feedback session of sample course");
@@ -289,38 +287,36 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "Session with different question types");
         feedbackEditPage.editFeedbackSession(
-                feedbackSession.getStartTime(),
-                feedbackSession.getEndTime(),
-                new Text("updated instructions"),
-                feedbackSession.getGracePeriod());
+                feedbackSession.getStartTime(), feedbackSession.getEndTime(),
+                new Text("updated instructions"), feedbackSession.getGracePeriod());
         feedbackEditPage.reloadPage();
         feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "Session with different question types");
         assertEquals("<p>updated instructions</p>", feedbackSession.getInstructionsString());
 
-        ______TS("new instructor can click submit button of Second team feedback session");
-        instructorHomePage.loadInstructorHomeTab();
-        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(demoCourseId,
-                                                                                    "Second team feedback session");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSubmissionEditPage.html");
-
         ______TS("new instructor can click submit button of First team feedback session but cannot submit");
         instructorHomePage.loadInstructorHomeTab();
-        fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(demoCourseId, "First team feedback session");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionSubmissionEditPage.html");
+        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(
+                demoCourseId, "First team feedback session");
+        fbsp.verifyStatus(
+                "The feedback session is currently not open for submissions."
+                + " You can view the questions and any submitted responses for"
+                + " this feedback session but cannot submit new responses.");
+        //fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionSubmissionEditPage.html");
+
+        ______TS("new instructor can click submit button of Second team feedback session");
+        instructorHomePage.loadInstructorHomeTab();
+        fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(demoCourseId, "Second team feedback session");
+        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorSecondFeedbackSessionSubmissionEditPage.html");
 
         ______TS("new instructor can click submit button of Third feedback session but cannot submit");
         instructorHomePage.loadInstructorHomeTab();
         fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(
                 demoCourseId, "Session with different question types");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionSubmissionEditPage.html");
-
-        ______TS("new instructor can send reminder of Second team feedback session");
-        instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionRemindLink(demoCourseId,
-                                                          "Second team feedback session");
-        instructorHomePage.verifyStatus(
-                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT + "\n"
-                + Const.StatusMessages.NEW_INSTRUCTOR_TEXT_MESSAGE);
+        fbsp.verifyStatus(
+                "The feedback session is currently not open for submissions."
+                + " You can view the questions and any submitted responses for"
+                + " this feedback session but cannot submit new responses.");
+        //fbsp.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionSubmissionEditPage.html");
 
         ______TS("new instructor cannot send reminder of First team feedback session");
         instructorHomePage.loadInstructorHomeTab();
@@ -328,6 +324,14 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 instructorHomePage.getRemindLink(demoCourseId, "First team feedback session"));
         instructorHomePage.verifyUnclickable(
                 instructorHomePage.getRemindOptionsLink(demoCourseId, "First team feedback session"));
+
+        ______TS("new instructor can send reminder of Second team feedback session");
+        instructorHomePage.loadInstructorHomeTab();
+        instructorHomePage.clickFeedbackSessionRemindLink(
+                demoCourseId, "Second team feedback session");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT + "\n"
+                + Const.StatusMessages.NEW_INSTRUCTOR_TEXT_MESSAGE);
 
         ______TS("new instructor cannot send reminder of Third feedback session");
         instructorHomePage.loadInstructorHomeTab();
@@ -363,15 +367,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         assertEquals("Publish Results",
                 instructorHomePage.getPublishLink(demoCourseId, "Session with different question types").getText());
 
-        ______TS("new instructor can publish Second team feedback session of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "Second team feedback session");
-        instructorHomePage.verifyStatus(
-                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED + "\n"
-                + Const.StatusMessages.NEW_INSTRUCTOR_TEXT_MESSAGE);
-        assertEquals("Unpublish Results",
-                instructorHomePage.getUnpublishLink(demoCourseId, "Second team feedback session").getText());
-
         ______TS("new instructor can publish feedbackSession of First team feedback session");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "First team feedback session");
@@ -380,6 +375,15 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 + Const.StatusMessages.NEW_INSTRUCTOR_TEXT_MESSAGE);
         assertEquals("Unpublish Results",
                 instructorHomePage.getUnpublishLink(demoCourseId, "First team feedback session").getText());
+
+        ______TS("new instructor can publish Second team feedback session of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "Second team feedback session");
+        instructorHomePage.verifyStatus(
+                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED + "\n"
+                + Const.StatusMessages.NEW_INSTRUCTOR_TEXT_MESSAGE);
+        assertEquals("Unpublish Results",
+                instructorHomePage.getUnpublishLink(demoCourseId, "Second team feedback session").getText());
 
         ______TS("new instructor can publish feedbackSession of Third feedback session");
         instructorHomePage.loadInstructorHomeTab();
