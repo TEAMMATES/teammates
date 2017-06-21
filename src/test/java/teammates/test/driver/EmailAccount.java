@@ -176,12 +176,6 @@ public final class EmailAccount {
      */
     private static String getTextFromMultiPartAlternative(Part p) throws IOException, MessagingException {
         Multipart mp = (Multipart) p.getContent();
-
-        // if the multipart has no body parts, it is malformed
-        if (mp.getCount() == 0) {
-            return null;
-        }
-
         // search in reverse order as a multipart/alternative should have their most preferred format last
         for (int i = mp.getCount() - 1; i >= 0; i--) {
             Part bp = mp.getBodyPart(i);
