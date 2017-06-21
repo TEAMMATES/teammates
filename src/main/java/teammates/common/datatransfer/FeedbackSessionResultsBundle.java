@@ -2226,7 +2226,7 @@ public class FeedbackSessionResultsBundle {
 
     public StringBuilder getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
-        StringBuilder commentRow = new StringBuilder();
+        StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             commentRow.append(frc.giverEmail + "," + frc.commentText.getValue().substring(3,
                     frc.commentText.getValue().length() - 4) + ",");

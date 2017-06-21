@@ -242,7 +242,7 @@ public abstract class FeedbackQuestionDetails {
     }
 
     public StringBuilder getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
-        StringBuilder commentsHeader = new StringBuilder();
+        StringBuilder commentsHeader = new StringBuilder(200);
         for (int i = noOfComments; i > 0; i--) {
             commentsHeader.append("Comment From" + "," + "Comment" + ",");
         }
