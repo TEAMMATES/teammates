@@ -241,10 +241,10 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
-    public String getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
-        String commentsHeader = "";
+    public StringBuilder getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
+        StringBuilder commentsHeader = new StringBuilder();
         for (int i = noOfComments; i > 0; i--) {
-            commentsHeader += "Comment From" + "," + "Comment";
+            commentsHeader.append("Comment From" + "," + "Comment" + ",");
         }
         return commentsHeader;
     }

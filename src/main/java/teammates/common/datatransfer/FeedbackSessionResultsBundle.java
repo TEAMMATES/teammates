@@ -2224,12 +2224,12 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
-    public String getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
+    public StringBuilder getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
-        String commentRow = "";
+        StringBuilder commentRow = new StringBuilder();
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            commentRow += frc.giverEmail + "," + frc.commentText.getValue().substring(3,
-                    frc.commentText.getValue().length() - 4) + ",";
+            commentRow.append(frc.giverEmail + "," + frc.commentText.getValue().substring(3,
+                    frc.commentText.getValue().length() - 4) + ",");
         }
         return commentRow;
     }
