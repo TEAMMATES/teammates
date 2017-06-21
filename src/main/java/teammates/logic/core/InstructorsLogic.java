@@ -306,4 +306,16 @@ public final class InstructorsLogic {
         instructorsDb.deleteInstructorsForCourse(courseId);
     }
 
+    public List<InstructorAttributes> getCoOwnersList(String courseId) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<InstructorAttributes>();
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            instructorsWithCoOwnerPrivileges.add(instructor);
+        }
+        return instructorsWithCoOwnerPrivileges;
+    }
+
 }
