@@ -736,19 +736,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getCsvDetailedResponsesHeader() {
+    public String getCsvDetailedResponsesHeader(Boolean hasCommentsForResponses, int noOfComments) {
         return "Team" + "," + "Giver's Full Name" + ","
                 + "Giver's Last Name" + "," + "Giver's Email" + ","
                 + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                 + "Sub Question" + "," + getCsvHeader() + ","
-                + "Choice Number" + Const.EOL;
+                + "Choice Number" + (hasCommentsForResponses
+                        ? getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments) : "")
+                + Const.EOL;
     }
 
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question) {
+            FeedbackQuestionAttributes question, Boolean hasCommentsForResponses) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
@@ -788,7 +790,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenIndexString) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
-                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
+                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)+ ","
+                    + (hasCommentsForResponses
+                        ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                     + Const.EOL);
         }
 
