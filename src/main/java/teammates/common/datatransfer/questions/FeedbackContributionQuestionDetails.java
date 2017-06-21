@@ -941,7 +941,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private String getEqualShareHelpLinkIfNeeded(int responseIdx) {
         return responseIdx == 0
                 ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"
-                      + " More info about the equal share scale"
+                      + " More info about the 'Equal Share' scale"
                 : "";
     }
 
