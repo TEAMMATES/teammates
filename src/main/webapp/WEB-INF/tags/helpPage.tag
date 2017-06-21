@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="mainContent">
+    <div class="container help-page-container" id="mainContent">
         <jsp:doBody />
     </div>
     <div id="footerComponent" class="container-fluid">

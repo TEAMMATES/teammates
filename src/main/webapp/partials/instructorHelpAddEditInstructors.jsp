@@ -86,10 +86,10 @@
                         </div>
                     </div>
                     <br>
-                    <br>
                     <div class="align-center">
-                        <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" disabled="">
+                        <button id="btnShowNewInstructorForm" class="btn btn-primary" disabled="">Add New Instructor</button>
                     </div>
+                    <br>
                 </div>
                 <br>
                 <br> If the links are not disabled for you, you can press the 'Add New Instructor' link, a form will show up, containing all the necessary information that you need to provide.
@@ -128,9 +128,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-sm-3">
-                                                <label class="control-label pull-right">Access-level</label>
-                                            </div>
+                                            <label class="col-sm-3 control-label">Access-level:</label>
                                             <div class="col-sm-9">
                                                 <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Co-owner" checked="">&nbsp;Co-owner: Can do everything
                                                 <a href="javascript:;">
@@ -213,7 +211,6 @@
                         <div class="panel-heading">
                             <strong>Instructor 1:</strong>
                             <div class="pull-right">
-
                                 <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" style="display: none;">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                                 <a href="#" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
@@ -274,9 +271,7 @@
 
                                     <div id="accessControlEditDivForInstr1" style="">
                                         <div class="form-group">
-                                            <div class="col-sm-3">
-                                                <label class="control-label pull-right">Access-level</label>
-                                            </div>
+                                            <label class="col-sm-3 control-label">Access-level:</label>
                                             <div class="col-sm-9">
                                                 <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Co-owner"> &nbsp;Co-owner: Can do everything &nbsp;
                                                 <a href="javascript:;">
@@ -306,21 +301,20 @@
                                                             <strong>In general, this instructor can</strong>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <div class="col-sm-3">
+                                                            <div class="col-md-3">
                                                                 <input type="checkbox" name="canmodifycourse" value="true"> Edit/Delete Course
                                                             </div>
-                                                            <div class="col-sm-3">
+                                                            <div class="col-md-3">
                                                                 <input type="checkbox" name="canmodifyinstructor" value="true"> Add/Edit/Delete Instructors
                                                             </div>
-                                                            <div class="col-sm-3">
+                                                            <div class="col-md-3">
                                                                 <input type="checkbox" name="canmodifysession" value="true"> Create/Edit/Delete Sessions
                                                             </div>
-                                                            <div class="col-sm-3">
+                                                            <div class="col-md-3">
                                                                 <input type="checkbox" name="canmodifystudent" value="true"> Enroll/Edit/Delete Students
                                                             </div>
-                                                            <br>
-                                                            <br>
-                                                            <div class="col-sm-6 border-right-gray">
+                                                            <br><br>
+                                                            <div class="col-md-6 border-right-gray">
                                                                 <input type="checkbox" name="canviewstudentinsection" value="true"> View Students' Details
                                                                 <br>
                                                                 <input type="checkbox" name="cangivecommentinsection" value="true"> Give Comments for Students
@@ -330,7 +324,7 @@
                                                                 <input type="checkbox" name="canmodifycommentinsection" value="true"> Edit/Delete Others' Comments on Students
                                                                 <br>
                                                             </div>
-                                                            <div class="col-sm-5 col-sm-offset-1">
+                                                            <div class="col-md-5 col-md-offset-1">
                                                                 <input type="checkbox" name="cansubmitsessioninsection" value="true"> Sessions: Submit Responses and Add Comments
                                                                 <br>
                                                                 <input type="checkbox" name="canviewsessioninsection" value="true"> Sessions: View Responses and Comments
@@ -345,12 +339,12 @@
                                                         <div class="panel panel-info">
                                                             <div class="panel-heading">
                                                                 <div class="row">
-                                                                    <div class="col-sm-2">
+                                                                    <div class="col-md-2">
                                                                         <p>
                                                                             <strong>But in section(s)</strong>
                                                                         </p>
                                                                     </div>
-                                                                    <div class="col-sm-9">
+                                                                    <div class="col-md-9">
                                                                         <div class="col-sm-12">
 
                                                                             <div class="col-sm-4">
@@ -362,7 +356,7 @@
                                                                         </div>
 
                                                                     </div>
-                                                                    <div class="col-sm-1">
+                                                                    <div class="col-md-1">
                                                                         <a href="javascript:;" class="pull-right">
                                                                             <span class="glyphicon glyphicon-trash"></span>
                                                                         </a>
@@ -381,7 +375,7 @@
                                                             </div>
                                                             <div class="panel-body">
                                                                 <br>
-                                                                <div class="col-sm-6 border-right-gray">
+                                                                <div class="col-md-6 border-right-gray">
                                                                     <input type="checkbox" name="canviewstudentinsectionsectiongroup0" value="true"> View Students' Details
                                                                     <br>
                                                                     <input type="checkbox" name="cangivecommentinsectionsectiongroup0" value="true"> Give Comments for Students
@@ -392,7 +386,7 @@
                                                                     <br>
                                                                     <br>
                                                                 </div>
-                                                                <div class="col-sm-5 col-sm-offset-1">
+                                                                <div class="col-md-5 col-md-offset-1">
                                                                     <input type="checkbox" name="cansubmitsessioninsectionsectiongroup0" value="true"> Sessions: Submit Responses and Add Comments
                                                                     <br>
                                                                     <input type="checkbox" name="canviewsessioninsectionsectiongroup0" value="true"> Sessions: View Responses and Comments

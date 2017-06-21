@@ -1,7 +1,7 @@
 <h4>
     <a name="editComments">Comments</a>
 </h4>
-<div id="contentHolder">
+<div id="contentHolder" class="padding-right-25px">
     <br>
     <ol style="list-style-type:none;">
         <li>
@@ -22,7 +22,7 @@
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span> button at the right-hand side inside a response, then you can create a comment for response in the following form.
                 <br>
                 <br>
-                <div class="bs-example">
+                <div class="bs-example" style="padding-right: 30px;">
                     <div class="row">
                         <div class="col-md-2">
                             <div class="col-md-12">

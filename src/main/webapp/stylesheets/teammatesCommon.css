@@ -154,6 +154,10 @@ Apply to alert to override Bootstrap's default 3d alerts
     width: 100%;
 }
 
+.btn {
+    white-space: normal;
+}
+
 /*
 Allow only mouse hover events for the element.
 !important is required to override Bootstrap .disabled class matches
@@ -621,10 +625,38 @@ input.inline {
     box-shadow: none;
 }
 
+.help-page-container {
+    width: 90%;
+    padding-right: 30px;
+}
+
 .btn-login:focus,
 .btn-login:hover,
 .btn-login:active {
     color: #00FF00;
+}
+
+@media (max-width: 991px) {
+    .panel-body > .col-md-6 {
+       border-right: 0;
+    }
+
+    .margin-md-15px {
+        margin-top: 15px;
+        min-width: 150px;
+    }
+
+    .margin-md-15px > button {
+        min-width: 150px;
+    }
+
+    .margin-md-bottom-15px {
+        margin-bottom: 15px;
+    }
+
+    .margin-md-bottom-10px {
+        margin-bottom: 15px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -745,7 +777,7 @@ input.inline {
         -moz-box-shadow: none;
         box-shadow: none;
         margin-left: 0;
-        margin-right: 0;
+        margin-right: 35px;
     }
 
     .bs-example + .highlight {
