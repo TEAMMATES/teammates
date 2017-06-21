@@ -91,8 +91,12 @@ public final class EmailAccount {
         service.users().messages().modify(username, messageStub.getId(), modifyMessageRequest).execute();
     }
 
-    private static boolean isEmpty(List<Message> messageStubs) {
-        return messageStubs == null;
+    /**
+     * Returns if the list of messages is empty.
+     * @see ListMessagesResponse#getMessages()
+     */
+    private static boolean isEmpty(List<Message> messages) {
+        return messages == null;
     }
 
     private static MimeMessage convertFromMessageToMimeMessage(Message message) throws MessagingException {
