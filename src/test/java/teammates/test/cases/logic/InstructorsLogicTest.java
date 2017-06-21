@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testDeleteInstructor();
         testDeleteInstructorsForGoogleId();
         testDeleteInstructorsForCourse();
+        testGenerateCoOwners();
     }
 
     private void testAddInstructor() throws Exception {
@@ -726,6 +728,27 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertEquals(instructor1.courseId, instructor2.courseId);
         assertEquals(instructor1.name, instructor2.name);
         assertEquals(instructor1.email, instructor2.email);
+    }
+
+    private void testGenerateCoOwners() {
+        ______TS("Verify co-owner status of generated co-owners list");
+        String courseId = "idOfTypicalCourse1";
+        List<InstructorAttributes> generatedCoOwners = instructorsLogic.getCoOwnersList(courseId);
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            assertTrue(generatedCoOwner.hasCoownerPrivileges());
+        }
+
+        ______TS("Verify all co-owners present in generated co-owners list");
+
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
+        List<InstructorAttributes> coOwners = new ArrayList<InstructorAttributes>();
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            coOwners.add(instructor);
+        }
+        assertTrue(coOwners.toString().equals(generatedCoOwners.toString()));
     }
 
 }

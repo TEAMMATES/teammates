@@ -1,7 +1,6 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -382,29 +381,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         assertEquals(content, email.getContent());
-    }
-
-    @Test
-    public void testGenerateCoOwners() {
-        ______TS("Verify co-owner status of generated co-owners list");
-
-        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
-        List<InstructorAttributes> generatedCoOwners = new EmailGenerator().generateCoOwnersList(course.getId());
-        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
-            assertTrue(generatedCoOwner.hasCoownerPrivileges());
-        }
-
-        ______TS("Verify all co-owners present in generated co-owners list");
-
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(course.getId());
-        List<InstructorAttributes> coOwners = new ArrayList<InstructorAttributes>();
-        for (InstructorAttributes instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
-                continue;
-            }
-            coOwners.add(instructor);
-        }
-        assertTrue(coOwners.toString().equals(generatedCoOwners.toString()));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
