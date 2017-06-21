@@ -131,9 +131,9 @@ public final class EmailAccount {
 
     private static String getTextFromPart(Part part) throws MessagingException, IOException {
         if (part.isMimeType("multipart/alternative")) {
-            return getTextFromMultiPartAlternative(part);
+            return getTextFromMultiPartAlternative((Multipart) part);
         } else if (part.isMimeType("multipart/digest")) {
-            return getTextFromMultiPartDigest(part);
+            return getTextFromMultiPartDigest((Multipart) part);
         } else if (mimeTypeCanBeHandledAsMultiPartMixed(part)) {
             return getTextHandledAsMultiPartMixed(part);
         }
@@ -151,8 +151,7 @@ public final class EmailAccount {
                 || part.isMimeType("multipart/*");
     }
 
-    private static String getTextFromMultiPartDigest(Part part) throws IOException, MessagingException {
-        Multipart multipart = (Multipart) part.getContent();
+    private static String getTextFromMultiPartDigest(Multipart multipart) throws IOException, MessagingException {
         StringBuilder textBuilder = new StringBuilder();
         for (int i = 0; i < multipart.getCount(); i++) {
             BodyPart bodyPart = multipart.getBodyPart(i);
@@ -175,8 +174,7 @@ public final class EmailAccount {
     /**
      * Returns the text from multipart/alternative, the type of text returned follows the preference of the sending agent.
      */
-    private static String getTextFromMultiPartAlternative(Part part) throws IOException, MessagingException {
-        Multipart multipart = (Multipart) part.getContent();
+    private static String getTextFromMultiPartAlternative(Multipart multipart) throws IOException, MessagingException {
         // search in reverse order as a multipart/alternative should have their most preferred format last
         for (int i = multipart.getCount() - 1; i >= 0; i--) {
             BodyPart bodyPart = multipart.getBodyPart(i);
@@ -201,11 +199,10 @@ public final class EmailAccount {
     }
 
     private static String getTextHandledAsMultiPartMixed(Part part) throws IOException, MessagingException {
-        return getTextFromMultiPartMixed(part);
+        return getTextFromMultiPartMixed((Multipart) part);
     }
 
-    private static String getTextFromMultiPartMixed(Part part) throws IOException, MessagingException {
-        Multipart multipart = (Multipart) part.getContent();
+    private static String getTextFromMultiPartMixed(Multipart multipart) throws IOException, MessagingException {
         StringBuilder textBuilder = new StringBuilder();
         for (int i = 0; i < multipart.getCount(); i++) {
             BodyPart bodyPart = multipart.getBodyPart(i);
