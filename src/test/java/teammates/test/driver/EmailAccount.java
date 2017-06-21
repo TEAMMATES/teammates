@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
@@ -128,13 +129,13 @@ public final class EmailAccount {
         }
     }
 
-    private static String getTextFromPart(Part p) throws MessagingException, IOException {
-        if (p.isMimeType("multipart/alternative")) {
-            return getTextFromMultiPartAlternative(p);
-        } else if (p.isMimeType("multipart/digest")) {
-            return getTextFromMultiPartDigest(p);
-        } else if (mimeTypeCanBeHandledAsMultiPartMixed(p)) {
-            return getTextHandledAsMultiPartMixed(p);
+    private static String getTextFromPart(Part part) throws MessagingException, IOException {
+        if (part.isMimeType("multipart/alternative")) {
+            return getTextFromMultiPartAlternative(part);
+        } else if (part.isMimeType("multipart/digest")) {
+            return getTextFromMultiPartDigest(part);
+        } else if (mimeTypeCanBeHandledAsMultiPartMixed(part)) {
+            return getTextHandledAsMultiPartMixed(part);
         }
 
         return null;
@@ -143,20 +144,20 @@ public final class EmailAccount {
     /**
      * Returns if the part can be handled as multipart/mixed.
      */
-    private static boolean mimeTypeCanBeHandledAsMultiPartMixed(Part p) throws MessagingException {
-        return p.isMimeType("multipart/mixed") || p.isMimeType("multipart/parallel")
-                || p.isMimeType("message/rfc822")
+    private static boolean mimeTypeCanBeHandledAsMultiPartMixed(Part part) throws MessagingException {
+        return part.isMimeType("multipart/mixed") || part.isMimeType("multipart/parallel")
+                || part.isMimeType("message/rfc822")
                 // as per the RFC2046 specification, other multipart subtypes are recognized as multipart/mixed
-                || p.isMimeType("multipart/*");
+                || part.isMimeType("multipart/*");
     }
 
-    private static String getTextFromMultiPartDigest(Part p) throws IOException, MessagingException {
-        Multipart mp = (Multipart) p.getContent();
+    private static String getTextFromMultiPartDigest(Part part) throws IOException, MessagingException {
+        Multipart multipart = (Multipart) part.getContent();
         StringBuilder textBuilder = new StringBuilder();
-        for (int i = 0; i < mp.getCount(); i++) {
-            Part bp = mp.getBodyPart(i);
-            if (bp.isMimeType("message/rfc822")) {
-                String text = getTextFromPart(bp);
+        for (int i = 0; i < multipart.getCount(); i++) {
+            BodyPart bodyPart = multipart.getBodyPart(i);
+            if (bodyPart.isMimeType("message/rfc822")) {
+                String text = getTextFromPart(bodyPart);
                 if (text != null) {
                     textBuilder.append(text);
                 }
@@ -174,22 +175,22 @@ public final class EmailAccount {
     /**
      * Returns the text from multipart/alternative, the type of text returned follows the preference of the sending agent.
      */
-    private static String getTextFromMultiPartAlternative(Part p) throws IOException, MessagingException {
-        Multipart mp = (Multipart) p.getContent();
+    private static String getTextFromMultiPartAlternative(Part part) throws IOException, MessagingException {
+        Multipart multipart = (Multipart) part.getContent();
         // search in reverse order as a multipart/alternative should have their most preferred format last
-        for (int i = mp.getCount() - 1; i >= 0; i--) {
-            Part bp = mp.getBodyPart(i);
+        for (int i = multipart.getCount() - 1; i >= 0; i--) {
+            BodyPart bodyPart = multipart.getBodyPart(i);
 
-            if (bp.isMimeType("text/html")) {
-                return (String) bp.getContent();
-            } else if (bp.isMimeType("text/plain")) {
+            if (bodyPart.isMimeType("text/html")) {
+                return (String) bodyPart.getContent();
+            } else if (bodyPart.isMimeType("text/plain")) {
                 // Since we are looking in reverse order, if we did not encounter a text/html first we can return the plain
                 // text because that is the best preferred format that we understand. If a text/html comes along later it
                 // means the agent sending the email did not set the html text as preferable or did not set their preferred
                 // order correctly, and in that case we do not handle that.
-                return (String) bp.getContent();
-            } else if (bp.isMimeType("multipart/*") || bp.isMimeType("message/rfc822")) {
-                String text = getTextFromPart(bp);
+                return (String) bodyPart.getContent();
+            } else if (bodyPart.isMimeType("multipart/*") || bodyPart.isMimeType("message/rfc822")) {
+                String text = getTextFromPart(bodyPart);
                 if (text != null) {
                     return text;
                 }
@@ -199,19 +200,19 @@ public final class EmailAccount {
         return null;
     }
 
-    private static String getTextHandledAsMultiPartMixed(Part p) throws IOException, MessagingException {
-        return getTextFromMultiPartMixed(p);
+    private static String getTextHandledAsMultiPartMixed(Part part) throws IOException, MessagingException {
+        return getTextFromMultiPartMixed(part);
     }
 
-    private static String getTextFromMultiPartMixed(Part p) throws IOException, MessagingException {
-        Multipart mp = (Multipart) p.getContent();
+    private static String getTextFromMultiPartMixed(Part part) throws IOException, MessagingException {
+        Multipart multipart = (Multipart) part.getContent();
         StringBuilder textBuilder = new StringBuilder();
-        for (int i = 0; i < mp.getCount(); i++) {
-            Part bp = mp.getBodyPart(i);
-            if (bp.isMimeType("text/*")) {
-                textBuilder.append((String) bp.getContent());
-            } else if (bp.isMimeType("multipart/*")) {
-                String text = getTextFromPart(bp);
+        for (int i = 0; i < multipart.getCount(); i++) {
+            BodyPart bodyPart = multipart.getBodyPart(i);
+            if (bodyPart.isMimeType("text/*")) {
+                textBuilder.append((String) bodyPart.getContent());
+            } else if (bodyPart.isMimeType("multipart/*")) {
+                String text = getTextFromPart(bodyPart);
                 if (text != null) {
                     textBuilder.append(text);
                 }
