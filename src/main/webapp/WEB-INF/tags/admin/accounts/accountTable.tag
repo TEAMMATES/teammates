@@ -15,10 +15,10 @@
                 <tr>
                     <th width="10%">Account Info</th>
                     <th width="5%">Instructor for</th>
-                    <th width="20%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
+                    <th width="20%" class="button-sort-ascending toggle-sort-and-relabel">
                         Institute <span class="icon-sort unsorted" id="button_sort_institute"></span>
                     </th>
-                    <th width="30%" onclick="toggleSort(this); reLabelOrderedAccountEntries();" class="button-sort-ascending">
+                    <th width="30%" class="button-sort-ascending toggle-sort-and-relabel">
                         Create At <span class="icon-sort unsorted" id="button_sort_createat"></span>
                     </th>
                     <th width="5%">Options</th>
