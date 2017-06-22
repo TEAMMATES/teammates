@@ -44,15 +44,15 @@ export {
 
 /* Handsontable Implementation code starts here */
 
-$('#toggle-interface').click(() => {
+$('#toggle-interface').click((e) => {
+    $(e.target).text($(e.target).text() == 'Textarea Interface' 
+        ? 'Spreadsheet Interface' : 'Textarea Interface');
     $('.student-data-textarea, #student-data-spreadsheet').toggle();
 });
 
 var container = document.getElementById('spreadsheet'),
     searchFiled = document.getElementById('search_field'),
-    data = [
-        ["", "", "", "", ""],
-    ];
+    data;
 
 function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -64,7 +64,7 @@ function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
 var hot = new Handsontable(container, {
     data: data,
     rowHeaders: true,
-    colHeaders: ["Email", "Section", "Team", "Name", "Email", "Comments"],
+    colHeaders: true,
     contextMenu: true,
     contextMenuCopyPaste: {
         swfPath: '/js/ZeroClipboard.swf'
@@ -72,8 +72,6 @@ var hot = new Handsontable(container, {
     columnSorting: true,
     manualColumnResize: true,
     sortIndicator: true,
-    currentRowClassName: 'currentRow',
-    currentColClassName: 'currentCol',
     search: {
         searchResultClass: 'customClass'
     },
@@ -81,23 +79,49 @@ var hot = new Handsontable(container, {
     maxRows: 100,
     maxCols: 100,
     stretchH: 'all',
+    minSpareRows: 5,
 });
-
-hot.updateSettings ({
-    cells: function (row, col, prop) {
-        var cellProperties = {};
-        if(hot.getSourceData()[0][0] === 'A12') {
-            cellProperties.renderer = firstRowRenderer;
-            cellProperties.readOnly = true;
-        }
-
-        return cellProperties;
-    }
-})
 
 Handsontable.dom.addEvent(searchFiled, 'keyup', function (event) {
     var queryResult = hot.search.query(this.value);
     hot.render();
 });
 
-/* Handsontable Implementation code ends here */
+Handsontable.hooks.add('afterChange', function(changes, source) {
+    
+    var spreadsheetData = hot.getSourceData(),
+        dataPushToTextarea = "";
+    
+    for(var i=0; i < spreadsheetData.length; i++) {
+        
+        var countEmptyColumns = 0, rowData = "";
+
+        console.log(spreadsheetData[i].length);
+        
+        for(var j=0; j < spreadsheetData[i].length; j++) {
+            
+            rowData += spreadsheetData[i][j];
+            
+
+            if((spreadsheetData[i][j] === "" || spreadsheetData[i][j] === null) && j < 3) {
+                
+                countEmptyColumns++;
+            }
+
+            if(j < spreadsheetData[i].length - 1) {
+                rowData += " | ";
+            }
+        }
+
+        
+        if(countEmptyColumns < 3) {
+
+            dataPushToTextarea += (rowData + '\n');  
+        }
+
+        console.log(dataPushToTextarea);
+    }
+
+    $('#enrollstudents').text(dataPushToTextarea);
+
+});

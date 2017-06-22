@@ -28,3 +28,24 @@
     border: thin solid grey;
     padding: 20px 40px;
 }
+
+.customClass {
+    background-color: lightgreen !important;
+    font-weight: bold;
+    color: #000;
+}
+
+.panel-body {
+    padding: 0;
+    margin: 0;
+}
+
+#search_field {
+    width: 200px;
+    height: 30px;
+}
+
+.gap-10px {
+    width: 100%;
+    height: 10px;
+}
