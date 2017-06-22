@@ -24,7 +24,7 @@ public class InstructorCourseStudentDeleteAllActionTest extends BaseActionTest {
 
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
-        ______TS("success: delete all students ");
+        ______TS("success: delete all students");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
         String[] submissionParams = new String[]{
