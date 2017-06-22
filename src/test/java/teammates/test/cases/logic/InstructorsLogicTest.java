@@ -53,7 +53,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testDeleteInstructor();
         testDeleteInstructorsForGoogleId();
         testDeleteInstructorsForCourse();
-        testGenerateCoOwners();
+        testGetCoOwnersForCourse();
     }
 
     private void testAddInstructor() throws Exception {
@@ -730,7 +730,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertEquals(instructor1.email, instructor2.email);
     }
 
-    private void testGenerateCoOwners() {
+    private void testGetCoOwnersForCourse() {
         ______TS("Verify co-owner status of generated co-owners list");
         String courseId = "idOfTypicalCourse1";
         List<InstructorAttributes> generatedCoOwners = instructorsLogic.getCoOwnersForCourse(courseId);
