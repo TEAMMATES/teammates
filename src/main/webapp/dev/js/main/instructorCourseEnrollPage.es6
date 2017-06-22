@@ -43,16 +43,15 @@ export {
 };
 
 /* Handsontable Implementation code starts here */
+const container = document.getElementById('spreadsheet');
+const searchFiled = document.getElementById('search_field');
+let data;
 
 $('#toggle-interface').click((e) => {
-    $(e.target).text($(e.target).text() == 'Textarea Interface' 
+    $(e.target).text($(e.target).text() === 'Textarea Interface'
         ? 'Spreadsheet Interface' : 'Textarea Interface');
     $('.student-data-textarea, #student-data-spreadsheet').toggle();
 });
-
-var container = document.getElementById('spreadsheet'),
-    searchFiled = document.getElementById('search_field'),
-    data;
 
 function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -83,22 +82,21 @@ var hot = new Handsontable(container, {
 });
 
 Handsontable.dom.addEvent(searchFiled, 'keyup', function (event) {
-    var queryResult = hot.search.query(this.value);
+    let queryResult = hot.search.query(this.value);
     hot.render();
 });
 
 Handsontable.hooks.add('afterChange', function(changes, source) {
     
-    var spreadsheetData = hot.getSourceData(),
-        dataPushToTextarea = "";
+    let spreadsheetData = hot.getSourceData();
+    let dataPushToTextarea = "", i=0, j=0;
+    let countEmptyColumns = 0, rowData = "";
     
-    for(var i=0; i < spreadsheetData.length; i++) {
-        
-        var countEmptyColumns = 0, rowData = "";
-
-        console.log(spreadsheetData[i].length);
-        
-        for(var j=0; j < spreadsheetData[i].length; j++) {
+    for(i=0; i < spreadsheetData.length; i++) {
+    
+        countEmptyColumns = 0, rowData = "";
+            
+        for(j=0; j < spreadsheetData[i].length; j++) {
             
             rowData += spreadsheetData[i][j];
             
@@ -113,14 +111,13 @@ Handsontable.hooks.add('afterChange', function(changes, source) {
             }
         }
 
-        
         if(countEmptyColumns < 3) {
 
             dataPushToTextarea += (rowData + '\n');  
         }
-
-        console.log(dataPushToTextarea);
     }
+
+    console.log('fired\n');
 
     $('#enrollstudents').text(dataPushToTextarea);
 

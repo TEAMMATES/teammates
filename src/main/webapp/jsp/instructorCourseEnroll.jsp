@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="gap-10px"></div>
 
-                                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%; display: none" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+                                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
                                 <br>
 
                                 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
