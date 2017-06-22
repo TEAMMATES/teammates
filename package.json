@@ -38,9 +38,9 @@
     "build:test": "webpack --config webpack-test.config.js",
     "build": "npm run build:libs && npm run build:src && npm run build:test",
     "lint:js": "eslint *.js src/main/webapp/dev -c static-analysis/teammates-eslint.yml",
-    "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
-    "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
-    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/main/webapp/dev/**/*.js\" \"src/**/*.properties\" \"*.js\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
+    "lint:json": "eslint package.json src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
+    "lint:css": "stylelint src/main/webapp/dev/css/*.css --config static-analysis/teammates-stylelint.yml",
+    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/main/webapp/dev/**/*.js\" \"src/**/*.properties\" \"*.js\" \"*.json\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
     "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
   },
   "private": true
