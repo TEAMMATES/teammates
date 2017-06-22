@@ -934,6 +934,11 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
+                    <td>Aditya Hedge</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aadityavhegde"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
                     <td>Aditya Jain</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3A95adityajain"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
@@ -1458,6 +1463,11 @@
                 <tr>
                     <td>Stephan Weber</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asdweber422"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Steven Israel</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amalenchite"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
