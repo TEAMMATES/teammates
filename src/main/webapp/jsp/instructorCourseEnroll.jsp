@@ -53,58 +53,79 @@
     <h2> More info </h2>
     <hr style="width: 80%; margin-left: 0px;">
     <ul>
-      <li><span class="moreInfoPointTitle">Sample spreadsheet</span>
+      <li>
+        <span class="moreInfoPointTitle">Sample spreadsheet</span>
         <div class="moreInfoPointDetails">
-            If you are not sure about the format of the spreadsheet,
+          If you are not sure about the format of the spreadsheet,
           <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing">here</a> is a sample file.
         </div>
       </li>
-      <li><span class="moreInfoPointTitle">Column headings</span>
+      <li>
+        <span class="moreInfoPointTitle">Column headings</span>
         <div class="moreInfoPointDetails">
-            The column order is not important.
-            Column headings are <u>not</u> case sensitive. e.g. Team, TEAM, team are all acceptable.
+          The column order is not important.
+          Column headings are <u>not</u> case sensitive. e.g. Team, TEAM, team are all acceptable.
         </div>
       </li>
-      <li><span class="moreInfoPointTitle">Columns to include</span>
+      <li>
+        <span class="moreInfoPointTitle">Columns to include</span>
         <div class="moreInfoPointDetails">
           <ul>
-            <li class="moreInfoColumnInfo"><samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID</li>
-            <li class="moreInfoColumnInfo"><samp>Team</samp> [Compulsory]: Team name/ID
+            <li class="moreInfoColumnInfo">
+              <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
+            </li>
+            <li class="moreInfoColumnInfo">
+              <samp>Team</samp> [Compulsory]: Team name/ID
               <div class="moreInfoPointDetails">
                 <ul>
-                  <li class="moreInfoEmailDetails">Team must be unique within a course. A team cannot be in 2 different sections.</li>
-                  <li class="moreInfoEmailDetails">If you do not have teams in your course, use “N/A” as the team name for all students.</li>
+                  <li class="moreInfoEmailDetails">
+                    Team must be unique within a course. A team cannot be in 2 different sections.
+                  </li>
+                  <li class="moreInfoEmailDetails">
+                    If you do not have teams in your course, use “N/A” as the team name for all students.
+                  </li>
                 </ul>
               </div>
             </li>
-            <li class="moreInfoColumnInfo"><samp>Name</samp> [Compulsory]: Student name</li>
-            <li class="moreInfoColumnInfo"><samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
+            <li class="moreInfoColumnInfo">
+              <samp>Name</samp> [Compulsory]: Student name
+            </li>
+            <li class="moreInfoColumnInfo">
+              <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
               <div class="moreInfoPointDetails">
                 <ul>
-                  <li class="moreInfoEmailDetails">This need not be a Gmail address.</li>
-                  <li class="moreInfoEmailDetails">It should be unique for each student.
-                      If two students are given the same email, they will be considered the same student.</li>
+                  <li class="moreInfoEmailDetails">
+                    This need not be a Gmail address.
+                  </li>
+                  <li class="moreInfoEmailDetails">
+                    It should be unique for each student.
+                    If two students are given the same email, they will be considered the same student.
+                  </li>
                 </ul>
               </div>
             </li>
-            <li class="moreInfoColumnInfo"><samp>Comments</samp> [Optional]: Any other information you want to record about a student.</li>
+            <li class="moreInfoColumnInfo">
+              <samp>Comments</samp> [Optional]: Any other information you want to record about a student.
+            </li>
           </ul>
         </div>
       </li>
-      <li><span class="moreInfoPointTitle">Mass editing enrolled students</span>
+      <li>
+        <span class="moreInfoPointTitle">Mass editing enrolled students</span>
         <div class="moreInfoPointDetails">
           <ul>
             <li class="moreInfoMassEditInfo">
-                The text box above can be used for mass-editing details (except email address) of students already enrolled.
-                To edit, simply enroll students using the updated data and existing data will be updated accordingly.</li>
+              The text box above can be used for mass-editing details (except email address) of students already enrolled.
+              To edit, simply enroll students using the updated data and existing data will be updated accordingly.</li>
             <li class="moreInfoMassEditInfo">To DELETE students or to UPDATE EMAIL address of a student, please go to the ‘courses’ page and click the 'view' link of the course.</li>
           </ul>
         </div>
       </li>
-      <li><span class="moreInfoPointTitle">Enrolling without spreadsheets</span>
+      <li>
+        <span class="moreInfoPointTitle">Enrolling without spreadsheets</span>
         <div class="moreInfoPointDetails">
-            The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar,
-            not to be confused with upper case i or lower case L) to separate values.
+          The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar,
+          not to be confused with upper case i or lower case L) to separate values.
           <br> Here is an example.
           <br><br>
           <div id="moreInfoEnrollWOSpreadSheetEg">

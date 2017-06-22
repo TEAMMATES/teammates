@@ -69,7 +69,7 @@
     <courseDetails:displayDetails id="<%=Const.ParamsNames.TEAMMATES%>">
       <jsp:attribute name="heading">Your teammates:</jsp:attribute>
       <jsp:body>
-          <courseDetails:displayTeammates />
+        <courseDetails:displayTeammates />
       </jsp:body>
     </courseDetails:displayDetails>
   </div>

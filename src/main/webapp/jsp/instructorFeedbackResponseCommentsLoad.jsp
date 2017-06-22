@@ -54,8 +54,8 @@
               <tr class="table-row-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}">
                 <td>
                   <ul class="list-group comments"
-                    id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
-                    <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
+                      id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
+                      <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
                     <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
                       <shared:feedbackResponseCommentRow frc="${frc}"
                           firstIndex="${fsIndex}"
