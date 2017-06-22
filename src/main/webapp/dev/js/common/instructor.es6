@@ -354,13 +354,13 @@ function sendRemindersToStudents(urlLink) {
 }
 
 function attachEventToDeleteAllStudentLink() {
-    $(document).on('click', '.course-student-delete-all-link', (event) => {
+    $('body').on('click', '.course-student-delete-all-link', (event) => {
         event.preventDefault();
 
         const $clickedLink = $(event.target);
         const messageText = `Are you sure you want to remove all students
-                             from the course ${$clickedLink.data('courseId')}?`;
-        const okCallback = function () {
+                from the course ${$clickedLink.data('courseId')}?`;
+        const okCallback = () => {
             window.location = $clickedLink.attr('href');
         };
 
