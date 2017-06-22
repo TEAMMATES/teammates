@@ -72,9 +72,12 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             return createAjaxResult(data);
         }
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
-                feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, feedbackQuestionId, feedbackResponseId, instructor.email)
+                .withCreatedAt(new Date()).withCommentText(new Text(commentText))
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .build();
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);

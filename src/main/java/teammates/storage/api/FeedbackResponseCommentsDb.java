@@ -66,7 +66,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
         }
-        return new FeedbackResponseCommentAttributes(createdEntity);
+        return FeedbackResponseCommentAttributes.valueOf(createdEntity);
     }
 
     /*
@@ -75,7 +75,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         if (commentToDelete.getId() == null) {
             FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
-            FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
+            FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes.valueOf(commentEntity);
             deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
         } else {
             deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
@@ -97,7 +97,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
 
-        return new FeedbackResponseCommentAttributes(frc);
+        return FeedbackResponseCommentAttributes.valueOf(frc);
     }
 
     /**
@@ -120,7 +120,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
 
-        return new FeedbackResponseCommentAttributes(frc);
+        return FeedbackResponseCommentAttributes.valueOf(frc);
     }
 
     /**
@@ -143,7 +143,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             return null;
         }
 
-        return new FeedbackResponseCommentAttributes(frc);
+        return FeedbackResponseCommentAttributes.valueOf(frc);
     }
 
     /**
@@ -161,7 +161,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(new FeedbackResponseCommentAttributes(frc));
+                resultList.add(FeedbackResponseCommentAttributes.valueOf(frc));
             }
         }
 
@@ -179,7 +179,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(new FeedbackResponseCommentAttributes(frc));
+                resultList.add(FeedbackResponseCommentAttributes.valueOf(frc));
             }
         }
 
@@ -228,7 +228,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(new FeedbackResponseCommentAttributes(frc));
+                resultList.add(FeedbackResponseCommentAttributes.valueOf(frc));
             }
         }
 
@@ -250,7 +250,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(new FeedbackResponseCommentAttributes(frc));
+                resultList.add(FeedbackResponseCommentAttributes.valueOf(frc));
             }
         }
 
@@ -273,7 +273,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(new FeedbackResponseCommentAttributes(frc));
+                resultList.add(FeedbackResponseCommentAttributes.valueOf(frc));
             }
         }
 
@@ -316,7 +316,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         log.info(newAttributes.getBackupIdentifier());
         getPm().close();
 
-        return new FeedbackResponseCommentAttributes(frc);
+        return FeedbackResponseCommentAttributes.valueOf(frc);
     }
 
     /*
@@ -412,7 +412,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
         for (FeedbackResponseComment comment : entities) {
             if (!JDOHelper.isDeleted(comment)) {
-                list.add(new FeedbackResponseCommentAttributes(comment));
+                list.add(FeedbackResponseCommentAttributes.valueOf(comment));
             }
         }
         return list;

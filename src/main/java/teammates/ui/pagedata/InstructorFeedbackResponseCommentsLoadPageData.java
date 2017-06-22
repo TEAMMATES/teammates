@@ -152,8 +152,10 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     private FeedbackResponseCommentRow buildFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
             String giverName, String recipientName) {
-        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
-                question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
+        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
+                .builder(question.courseId, question.feedbackSessionName,
+                        question.getFeedbackQuestionId(), response.getId(), null)
+                .build();
 
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,
