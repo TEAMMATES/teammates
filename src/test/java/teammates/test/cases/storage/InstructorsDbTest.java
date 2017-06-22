@@ -310,12 +310,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.name = "New Name";
         instructorToEdit.email = "InstrDbT.new-email@email.tmt";
+        instructorToEdit.isDisplayedToStudents = false;
         instructorsDb.updateInstructorByGoogleId(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
                 instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
+        assertEquals(false, instructorUpdated.isDisplayedToStudents);
 
         ______TS("Failure: invalid parameters");
 
@@ -371,12 +373,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.googleId = "new-id";
         instructorToEdit.name = "New Name";
+        instructorToEdit.isDisplayedToStudents = false;
         instructorsDb.updateInstructorByEmail(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
                 instructorsDb.getInstructorForEmail(instructorToEdit.courseId, instructorToEdit.email);
         assertEquals("new-id", instructorUpdated.googleId);
         assertEquals("New Name", instructorUpdated.name);
+        assertEquals(false, instructorUpdated.isDisplayedToStudents);
 
         ______TS("Failure: invalid parameters");
 
