@@ -673,17 +673,17 @@ public class EmailGenerator {
 
     private String generateCoOwnersEmailsLine(String courseId) {
         List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(courseId);
-        StringBuilder coOwnersEmailsList = new StringBuilder();
+        StringBuilder coOwnersEmailsLine = new StringBuilder();
         for (InstructorAttributes coOwner : coOwners) {
-            coOwnersEmailsList
+            coOwnersEmailsLine
                     .append(coOwner.getName())
                     .append('(')
                     .append(coOwner.getEmail())
                     .append("), ");
         }
-        return coOwnersEmailsList.length() == 0
+        return coOwnersEmailsLine.length() == 0
                 ? "(No contactable instructors found)"
-                : coOwnersEmailsList.substring(0, coOwnersEmailsList.length() - 2);
+                : coOwnersEmailsLine.substring(0, coOwnersEmailsLine.length() - 2);
     }
 
 }
