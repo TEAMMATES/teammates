@@ -672,7 +672,7 @@ public class EmailGenerator {
     }
 
     private String generateCoOwnersEmailsLine(String courseId) {
-        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersList(courseId);
+        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(courseId);
         StringBuilder coOwnersEmailsList = new StringBuilder();
         for (InstructorAttributes coOwner : coOwners) {
             coOwnersEmailsList

@@ -733,7 +733,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
     private void testGenerateCoOwners() {
         ______TS("Verify co-owner status of generated co-owners list");
         String courseId = "idOfTypicalCourse1";
-        List<InstructorAttributes> generatedCoOwners = instructorsLogic.getCoOwnersList(courseId);
+        List<InstructorAttributes> generatedCoOwners = instructorsLogic.getCoOwnersForCourse(courseId);
         for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
             assertTrue(generatedCoOwner.hasCoownerPrivileges());
         }
