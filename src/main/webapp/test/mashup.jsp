@@ -14,8 +14,8 @@
     <title>Webpage Compilation - TEAMMATES</title>
 
     <link rel="shortcut icon" href="/favicon.png">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>">
+    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
+    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">
     <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
     <style>
       .full-width {
