@@ -8,7 +8,8 @@
     "jquery-ui": "1.12.1",
     "moment": "2.19.1",
     "moment-timezone": "0.5.13",
-    "printthis": "0.1.5"
+    "printthis": "0.1.5",
+    "tinymce": "4.7.1"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
