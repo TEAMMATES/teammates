@@ -8,8 +8,9 @@ const OUTPUT_JS_FOLDER = path.resolve(__dirname, 'src/main/webapp/test');
 const entry = {};
 entry.tableSort = [`${COMMON_JS_FOLDER}/onStart.js`];
 entry.jsUnitTests = fs.readdirSync(TEST_JS_FOLDER)
-        .filter(fileName => fileName.endsWith('.js'))
+        .filter(fileName => fileName.endsWith('.js') && !fileName.startsWith('libs'))
         .map(fileName => `${TEST_JS_FOLDER}/${fileName}`);
+entry['libs-qunit'] = [`${TEST_JS_FOLDER}/libs-qunit.js`];
 
 const babel = {
     test: /\.js$/,
@@ -23,6 +24,14 @@ const babel = {
     },
 };
 
+const css = {
+    test: /(qunitjs)(\/|\\).*\.css$/,
+    use: [
+        { loader: 'style-loader' },
+        { loader: 'css-loader' },
+    ],
+};
+
 module.exports = {
     entry,
     output: {
@@ -32,6 +41,7 @@ module.exports = {
     module: {
         rules: [
             babel,
+            css,
         ],
     },
     stats: 'errors-only',
