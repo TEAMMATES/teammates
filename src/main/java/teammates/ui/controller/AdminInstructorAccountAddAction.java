@@ -112,7 +112,7 @@ public class AdminInstructorAccountAddAction extends Action {
 
             errorMessage.append("<br>").append(message);
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
-            statusToAdmin = message;
+            statusToAdmin.add(message);
 
             data.isInstructorAddingResultForAjax = false;
             data.statusForAjax = errorMessage.toString();
@@ -134,14 +134,14 @@ public class AdminInstructorAccountAddAction extends Action {
         data.statusForAjax = "Instructor " + SanitizationHelper.sanitizeForHtml(data.instructorName)
                              + " has been successfully created with join link:<br>" + joinLink;
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
-        statusToAdmin = "A New Instructor <span class=\"bold\">"
+        statusToAdmin.add("A New Instructor <span class=\"bold\">"
                 + SanitizationHelper.sanitizeForHtmlTag(data.instructorName) + "</span> has been created.<br>"
                 + "<span class=\"bold\">Id: </span>"
                 + "ID will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
                 + "<span class=\"bold\">Email: </span>" + SanitizationHelper.sanitizeForHtmlTag(data.instructorEmail)
                 + "<span class=\"bold\">Institution: </span>"
-                + SanitizationHelper.sanitizeForHtmlTag(data.instructorInstitution);
+                + SanitizationHelper.sanitizeForHtmlTag(data.instructorInstitution));
 
         return createAjaxResult(data);
     }

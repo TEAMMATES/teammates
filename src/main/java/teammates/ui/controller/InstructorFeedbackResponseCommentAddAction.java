@@ -105,13 +105,13 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
 
         if (!data.isError) {
-            statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
+            appendToStatus("InstructorFeedbackResponseCommentAddAction:<br>"
                            + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.giverEmail + " at "
                            + feedbackResponseComment.createdAt + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "comment text: " + feedbackResponseComment.commentText.getValue());
         }
 
         data.comment = createdComment;

@@ -27,8 +27,8 @@ public class InstructorCourseEnrollPageAction extends Action {
         InstructorCourseEnrollPageData pageData =
                 new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
-        statusToAdmin = String.format(Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD,
-                                      courseId);
+        statusToAdmin.add(String.format(Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD,
+                courseId));
         addDataLossWarningToStatusToUser(courseId);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);

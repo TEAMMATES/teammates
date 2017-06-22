@@ -97,7 +97,7 @@ public class InstructorCourseRemindAction extends Action {
             redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         }
 
-        statusToAdmin = generateStatusToAdmin(emailDataMap, courseId);
+        statusToAdmin.add(generateStatusToAdmin(emailDataMap, courseId));
 
         /* Create redirection with URL based on type of sending email */
         RedirectResult response = createRedirectResult(redirectUrl);

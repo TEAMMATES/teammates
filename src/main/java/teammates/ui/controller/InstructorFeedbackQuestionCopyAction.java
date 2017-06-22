@@ -25,7 +25,6 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
         try {
             int index = 0;
             String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
-            statusToAdmin = "";
 
             while (feedbackQuestionId != null) {
                 FeedbackQuestionAttributes feedbackQuestion =
@@ -35,12 +34,12 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
                 feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
 
-                statusToAdmin += "Created Feedback Question for Feedback Session:<span class=\"bold\">("
+                appendToStatus("Created Feedback Question for Feedback Session:<span class=\"bold\">("
                                  + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                                  + feedbackQuestion.courseId + "]</span> created.<br>"
                                  + "<span class=\"bold\">"
                                  + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                                 + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
+                                 + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText());
             }
 
             if (index > 0) {
@@ -54,7 +53,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             // This part is not tested because GateKeeper handles if this happens, would be
             // extremely difficult to replicate a situation whereby it gets past GateKeeper
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin = e.getMessage();
+            statusToAdmin.add(e.getMessage());
             isError = true;
         }
 

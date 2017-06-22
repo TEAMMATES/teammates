@@ -23,12 +23,12 @@ public class StudentCourseJoinAction extends Action {
     public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
 
-        statusToAdmin = "Action Student Clicked Join Link"
+        statusToAdmin.add("Action Student Clicked Join Link"
                         + (account.googleId == null ? "<br>Email: " + account.email
-                                                    : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
+                                                    : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey));
 
         if (student == null) {
-            statusToAdmin += "<br>Student course join failed as student does not exist.";
+            appendToStatus("<br>Student course join failed as student does not exist.");
             String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
             Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
             isError = true;

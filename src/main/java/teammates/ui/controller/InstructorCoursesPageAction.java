@@ -74,7 +74,7 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: We must set this variable. It is the text that will
          * represent this particular execution of this action in the
          * 'admin activity log' page.*/
-        statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
+        statusToAdmin.add("instructorCourse Page Load<br>Total courses: " + allCourses.size());
 
         /* Explanation: Create the appropriate result object and return it.*/
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);

@@ -27,9 +27,9 @@ public class InstructorCourseJoinAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges();
 
         /* Process confirmation for instructor if needed and setup status to be shown to admin */
-        statusToAdmin = "Action Instructor Clicked Join Link"
-                        + "<br>Google ID: " + account.googleId
-                        + "<br>Key: " + regkey;
+        statusToAdmin.add("Action Instructor Clicked Join Link"
+                + "<br>Google ID: " + account.googleId
+                + "<br>Key: " + regkey);
 
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
 

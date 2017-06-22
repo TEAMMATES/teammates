@@ -51,15 +51,15 @@ public class InstructorCourseEnrollSaveAction extends Action {
             InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, sessionToken,
                                                                     courseId, students, hasSection, studentsInfo);
 
-            statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
-                            + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
+            statusToAdmin.add("Students Enrolled in Course <span class=\"bold\">["
+                    + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>"));
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
 
         } catch (EnrollException | InvalidParametersException e) {
             setStatusForException(e);
 
-            statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
+            appendToStatus("<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>"));
 
             InstructorCourseEnrollPageData pageData =
                     new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);

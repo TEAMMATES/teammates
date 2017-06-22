@@ -35,11 +35,11 @@ public class AdminStudentGoogleIdResetAction extends Action {
             } catch (InvalidParametersException e) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
                                                    StatusMessageColor.DANGER));
-                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
+                statusToAdmin.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
                               + "Email: " + studentEmail + "<br>"
                               + "CourseId: " + studentCourseId + "<br>"
                               + "Failed with error<br>"
-                              + e.getMessage();
+                              + e.getMessage());
                 isError = true;
             }
 
@@ -51,9 +51,9 @@ public class AdminStudentGoogleIdResetAction extends Action {
                 statusToUser.add(new StatusMessage("Email : " + studentEmail, StatusMessageColor.SUCCESS));
                 statusToUser.add(new StatusMessage("CourseId : " + studentCourseId, StatusMessageColor.SUCCESS));
 
-                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
+                statusToAdmin.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
                               + "Email: " + studentEmail + "<br>"
-                              + "CourseId: " + studentCourseId;
+                              + "CourseId: " + studentCourseId);
 
                 data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>"
                                    + "Email : " + studentEmail + "<br>"
@@ -65,9 +65,9 @@ public class AdminStudentGoogleIdResetAction extends Action {
                 data.isGoogleIdReset = false;
                 statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL,
                                                    StatusMessageColor.DANGER));
-                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
+                statusToAdmin.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
                               + "Email: " + studentEmail + "<br>"
-                              + "CourseId: " + studentCourseId + "<br>";
+                              + "CourseId: " + studentCourseId + "<br>");
                 data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>"
                                    + "Email : " + studentEmail + "<br>"
                                    + "CourseId : " + studentCourseId;

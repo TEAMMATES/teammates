@@ -77,7 +77,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             String commaSeparatedListOfCourses = StringHelper.toString(courses, ",");
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
-            statusToAdmin =
+            statusToAdmin.add(
                     "Copying to multiple feedback sessions.<br>"
                     + "New Feedback Session <span class=\"bold\">(" + fs.getFeedbackSessionName() + ")</span> "
                     + "for Courses: <br>" + commaSeparatedListOfCourses + "<br>"
@@ -87,7 +87,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     + "<span class=\"bold\">Results visible from:</span> " + fs.getResultsVisibleFromTime() + "<br><br>"
                     + "<span class=\"bold\">Instructions:</span> " + fs.getInstructions() + "<br>"
                     + "Copied from <span class=\"bold\">(" + originalFeedbackSessionName + ")</span> for Course "
-                    + "<span class=\"bold\">[" + originalCourseId + "]</span> created.<br>";
+                    + "<span class=\"bold\">[" + originalCourseId + "]</span> created.<br>");
 
             // Return with redirection url (handled in javascript) to the sessions page after copying,
             // so that the instructor can see the new feedback sessions

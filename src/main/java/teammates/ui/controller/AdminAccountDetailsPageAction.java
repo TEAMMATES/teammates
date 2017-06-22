@@ -39,8 +39,8 @@ public class AdminAccountDetailsPageAction extends Action {
 
         AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, sessionToken, accountInformation,
                                                                            instructorCourseList, studentCourseList);
-        statusToAdmin = "adminAccountDetails Page Load<br>"
-                + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";
+        statusToAdmin.add("adminAccountDetails Page Load<br>"
+                + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")");
 
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, data);
     }

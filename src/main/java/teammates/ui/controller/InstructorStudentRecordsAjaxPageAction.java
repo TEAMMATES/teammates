@@ -63,10 +63,10 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                 Assumption.fail("Unknown session type");
             }
         }
-        statusToAdmin = "instructorStudentRecords Ajax Page Load<br>"
+        statusToAdmin.add("instructorStudentRecords Ajax Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
-                      + "in course <span class=\"bold\">[" + courseId + "]</span>";
+                      + "in course <span class=\"bold\">[" + courseId + "]</span>");
 
         InstructorStudentRecordsAjaxPageData data =
                                         new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results);

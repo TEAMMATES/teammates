@@ -76,13 +76,13 @@ public class InstructorStudentRecordsPageAction extends Action {
         InstructorStudentRecordsPageData data =
                 new InstructorStudentRecordsPageData(account, student, sessionToken, courseId, studentProfile, sessionNames);
 
-        statusToAdmin = "instructorStudentRecords Page Load<br>"
+        statusToAdmin.add("instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
                       + "Number of sessions: " + sessions.size() + "<br>"
                       + "Student Profile: "
                       + (studentProfile == null ? "No Profile"
-                                                : SanitizationHelper.sanitizeForHtmlTag(studentProfile.toString()));
+                                                : SanitizationHelper.sanitizeForHtmlTag(studentProfile.toString())));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }

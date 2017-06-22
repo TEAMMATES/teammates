@@ -37,10 +37,10 @@ public class AdminSearchPageAction extends Action {
         if (searchKey == null || searchKey.trim().isEmpty()) {
 
             if (searchButtonHit == null) {
-                statusToAdmin = "AdminSearchPaga Page Load";
+                statusToAdmin.add("AdminSearchPaga Page Load");
             } else {
                 statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
-                statusToAdmin = "Invalid Search: Search key cannot be empty";
+                statusToAdmin.add("Invalid Search: Search key cannot be empty");
                 isError = true;
             }
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
@@ -69,11 +69,11 @@ public class AdminSearchPageAction extends Action {
 
         if (numOfResults > 0) {
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));
-            statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
+            statusToAdmin.add("Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults);
             isError = false;
         } else {
             statusToUser.add(new StatusMessage("No result found, please try again", StatusMessageColor.WARNING));
-            statusToAdmin = "Search Key: " + searchKey + "<br>" + "No result found";
+            statusToAdmin.add("Search Key: " + searchKey + "<br>" + "No result found");
             isError = true;
         }
 

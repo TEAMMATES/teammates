@@ -41,8 +41,8 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                                                              instructorName, instructorEmail),
                                                StatusMessageColor.SUCCESS));
-            statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
-                    + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
+            statusToAdmin.add("New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
+                    + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>");
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
         } catch (InvalidParametersException e) {

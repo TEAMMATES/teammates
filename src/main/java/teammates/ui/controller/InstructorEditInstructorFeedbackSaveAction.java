@@ -179,11 +179,11 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      */
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Instructor moderated instructor session<br>"
-                      + "Instructor: " + account.email + "<br>"
-                      + "Moderated Instructor: " + moderatedInstructor + "<br>"
-                      + "Session Name: " + feedbackSessionName + "<br>"
-                      + "Course ID: " + courseId;
+        statusToAdmin.add("Instructor moderated instructor session<br>"
+                + "Instructor: " + account.email + "<br>"
+                + "Moderated Instructor: " + moderatedInstructor + "<br>"
+                + "Session Name: " + feedbackSessionName + "<br>"
+                + "Course ID: " + courseId);
     }
 
     /**

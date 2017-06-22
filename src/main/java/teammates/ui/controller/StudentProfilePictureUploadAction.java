@@ -124,16 +124,16 @@ public class StudentProfilePictureUploadAction extends Action {
         try {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
+            statusToAdmin.add(Const.ACTION_RESULT_FAILURE
                           + " : Unable to delete profile picture (possible unused picture with key: "
                           + blobKey.getKeyString() + " || Error Message: "
-                          + bfe.getMessage() + Const.EOL;
+                          + bfe.getMessage() + Const.EOL);
         }
     }
 
     private void updateStatusesForBlobstoreFailure() {
-        statusToAdmin += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
-                       + account.googleId + ")" + Const.EOL;
+        appendToStatus(Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
+                       + account.googleId + ")" + Const.EOL);
         statusToUser.clear();
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN,
                                            StatusMessageColor.DANGER));

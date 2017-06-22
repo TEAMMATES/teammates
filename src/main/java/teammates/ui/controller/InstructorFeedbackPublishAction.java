@@ -33,8 +33,8 @@ public class InstructorFeedbackPublishAction extends Action {
             }
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
-                            + "for Course <span class=\"bold\">[" + courseId + "]</span> published.";
+            statusToAdmin.add("Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
+                            + "for Course <span class=\"bold\">[" + courseId + "]</span> published.");
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
