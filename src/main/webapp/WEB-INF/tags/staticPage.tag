@@ -1,5 +1,4 @@
 <%@ tag description="Generic TEAMMATES Static Page" pageEncoding="UTF-8" %>
-<%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="jsIncludes" %>

@@ -1,5 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <!DOCTYPE html>
 <html>
   <head>
