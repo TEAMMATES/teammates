@@ -210,7 +210,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         List<Instructor> instructorList = new ArrayList<>();
         for (Instructor instructor : allInstructors) {
-            if (instructor.getCourseId() == student.getCourseId()) {
+            if (instructor.getCourseId().equals(student.getCourseId())) {
                 instructorList.add(instructor);
             }
         }
@@ -246,7 +246,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         String googleId = instructor.getGoogleId();
         for (Account account : allAccounts) {
-            if (account.getGoogleId() == googleId && account.getInstitute() != null) {
+            if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
                 return account.getInstitute();
             }
         }
