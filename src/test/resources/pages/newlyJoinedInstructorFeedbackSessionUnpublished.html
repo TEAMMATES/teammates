@@ -26,6 +26,9 @@
   </div>
   <br>
   <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-success statusMessage">
+      The feedback session has been unpublished.
+    </div>
     <div class="overflow-auto alert alert-info statusMessage">
       New to TEAMMATES? You may wish to have a look at our
       <a href="/instructorHelp.jsp#gs" target="_blank">
@@ -239,7 +242,7 @@
                 </span>
               </td>
               <td>
-                <span class="tool-tip-decorate" data-original-title="The feedback session has been created, is visible, and is open for submissions.<br>The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
+                <span class="tool-tip-decorate" data-original-title="The feedback session has been created, is visible, and is open for submissions." data-placement="top" data-toggle="tooltip" title="">
                   Open
                 </span>
               </td>
@@ -291,8 +294,8 @@
                     </ul>
                   </div>
                 </div>
-                <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Second team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorHomePage&user=${test.instructor}&token=${sessionToken}" title="">
-                  Unpublish Results
+                <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Second team feedback session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorHomePage&user=${test.instructor}&token=${sessionToken}" title="">
+                  Publish Results
                 </a>
               </td>
             </tr>
