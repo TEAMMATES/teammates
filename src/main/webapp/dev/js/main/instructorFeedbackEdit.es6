@@ -1022,14 +1022,14 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
 
 $(document).ready(() => {
     prepareInstructorPages();
-	
-    $(document).on('click', '#fsDiscardChanges', (e) => {
-    const okCallback = function() {
-    	document.getElementById('form_feedbacksession').reset();
-        disableEditFS();
-    };
-    showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_CHANGES, okCallback, null, null, null,
-            StatusType.WARNING);
+
+    $(document).on('click', '#fsDiscardChanges', () => {
+        const okCallback = function () {
+            document.getElementById('form_feedbacksession').reset();
+            disableEditFS();
+        };
+        showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_CHANGES, okCallback, null, null, null,
+                StatusType.WARNING);
     });
 
     prepareDatepickers();
