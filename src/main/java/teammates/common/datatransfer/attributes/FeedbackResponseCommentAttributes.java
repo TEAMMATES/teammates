@@ -20,15 +20,14 @@ import teammates.storage.entity.FeedbackResponseComment;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
+    /* Required fields */
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
     public String giverEmail;
-    /* Response giver section */
-    public String giverSection;
-    /* Response receiver section */
-    public String receiverSection;
     public String feedbackResponseId;
+
+    /* Optional fields */
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
@@ -36,23 +35,18 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public Text commentText;
     public String lastEditorEmail;
     public Date lastEditedAt;
-    private Long feedbackResponseCommentId;
+    public Long feedbackResponseCommentId;
+    /* Response giver section */
+    public String giverSection;
+    /* Response receiver section */
+    public String receiverSection;
 
     public FeedbackResponseCommentAttributes() {
-        this.feedbackResponseCommentId = null;
-        this.courseId = null;
-        this.feedbackSessionName = null;
-        this.feedbackQuestionId = null;
-        this.giverEmail = null;
-        this.feedbackResponseId = null;
-        this.createdAt = null;
-        this.commentText = null;
-        this.giverSection = "None";
-        this.receiverSection = "None";
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        this.lastEditorEmail = null;
-        this.lastEditedAt = null;
+        giverSection = "None";
+        receiverSection = "None";
+        showCommentTo = new ArrayList<>();
+        showGiverNameTo = new ArrayList<>();
+        isVisibilityFollowingFeedbackQuestion = true;
     }
 
     public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName, String feedbackQuestionId,
@@ -88,30 +82,115 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackResponseId = feedbackResponseId;
     }
 
-    public FeedbackResponseCommentAttributes(FeedbackResponseComment comment) {
-        this.feedbackResponseCommentId = comment.getFeedbackResponseCommentId();
-        this.courseId = comment.getCourseId();
-        this.feedbackSessionName = comment.getFeedbackSessionName();
-        this.feedbackQuestionId = comment.getFeedbackQuestionId();
-        this.giverEmail = comment.getGiverEmail();
-        this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.createdAt = comment.getCreatedAt();
-        this.commentText = comment.getCommentText();
-        this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
-        this.receiverSection = comment.getReceiverSection() == null ? "None" : comment.getReceiverSection();
-        this.lastEditorEmail = comment.getLastEditorEmail() == null ? comment.getGiverEmail()
-                                                                    : comment.getLastEditorEmail();
-        this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
+    public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
+        return builder(comment.getCourseId(), comment.getFeedbackSessionName(),
+                comment.getFeedbackQuestionId(), comment.getFeedbackResponseId(), comment.getGiverEmail())
+                .withFeedbackResponseCommentId(comment.getFeedbackResponseCommentId())
+                .withCreatedAt(comment.getCreatedAt())
+                .withCommentText(comment.getCommentText())
+                .withGiverSection(comment.getGiverSection())
+                .withReceiverSection(comment.getReceiverSection())
+                .withLastEditorEmail(comment.getLastEditorEmail())
+                .withLastEditedAt(comment.getLastEditedAt())
+                .withShowCommentTo(comment.getShowCommentTo())
+                .withShowGiverNameTo(comment.getShowGiverNameTo())
+                .build();
+    }
 
-        if (comment.getIsVisibilityFollowingFeedbackQuestion() == null
-                                        || comment.getIsVisibilityFollowingFeedbackQuestion()) {
-            setDefaultVisibilityOptions();
-        } else {
-            this.showCommentTo = comment.getShowCommentTo();
-            this.showGiverNameTo = comment.getShowGiverNameTo();
+    /**
+     * Return new builder instance with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * {@code giverSection = "None"} <br>
+     * {@code receiverSection = "None"} <br>
+     * {@code showCommentTo = new ArrayList<>()} <br>
+     * {@code showGiverNameTo = new ArrayList<>()} <br>
+     * {@code isVisibilityFollowingFeedbackQuestion = true} <br>
+     */
+    public static Builder builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
+                                  String feedbackResponseId, String giverEmail) {
+        return new Builder(courseId, feedbackSessionName, feedbackQuestionId, feedbackResponseId, giverEmail);
+    }
+
+    /**
+     * A Builder for {@link FeedbackResponseCommentAttributes}.
+     */
+    public static class Builder {
+        private final FeedbackResponseCommentAttributes feedbackAttributes;
+
+        public Builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
+                       String feedbackResponseId, String giverEmail) {
+            feedbackAttributes = new FeedbackResponseCommentAttributes();
+
+            feedbackAttributes.courseId = courseId;
+            feedbackAttributes.feedbackSessionName = feedbackSessionName;
+            feedbackAttributes.feedbackQuestionId = feedbackQuestionId;
+            feedbackAttributes.feedbackResponseId = feedbackResponseId;
+            feedbackAttributes.giverEmail = giverEmail;
+        }
+
+        public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
+            feedbackAttributes.showCommentTo = showCommentTo;
+            return this;
+        }
+
+        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+            feedbackAttributes.showGiverNameTo = showGiverNameTo;
+            return this;
+        }
+
+        public Builder withVisibilityFollowingFeedbackQuestion(boolean visibilityFollowingFeedbackQuestion) {
+            feedbackAttributes.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion;
+            return this;
+        }
+
+        public Builder withCreatedAt(Date createdAt) {
+            feedbackAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withCommentText(Text commentText) {
+            feedbackAttributes.commentText = commentText;
+            return this;
+        }
+
+        public Builder withLastEditorEmail(String lastEditorEmail) {
+            feedbackAttributes.lastEditorEmail = lastEditorEmail == null
+                    ? feedbackAttributes.giverEmail
+                    : lastEditorEmail;
+            return this;
+        }
+
+        public Builder withLastEditedAt(Date lastEditedAt) {
+            feedbackAttributes.lastEditedAt = lastEditedAt == null
+                    ? feedbackAttributes.createdAt
+                    : lastEditedAt;
+            return this;
+        }
+
+        public Builder withFeedbackResponseCommentId(Long feedbackResponseCommentId) {
+            feedbackAttributes.feedbackResponseCommentId = feedbackResponseCommentId;
+            return this;
+        }
+
+        public Builder withGiverSection(String giverSection) {
+            feedbackAttributes.giverSection = giverSection  == null ? "None" : giverSection;
+            return this;
+        }
+
+        public Builder withReceiverSection(String receiverSection) {
+            feedbackAttributes.receiverSection = receiverSection  == null
+                    ? "None"
+                    : receiverSection;
+            return this;
+        }
+
+        public FeedbackResponseCommentAttributes build() {
+            return feedbackAttributes;
         }
     }
 
+    // TO REMOVE
     private void setDefaultVisibilityOptions() {
         isVisibilityFollowingFeedbackQuestion = true;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
