@@ -51,5 +51,6 @@ module.exports = {
     stats: 'errors-only',
     plugins: [
         new webpack.optimize.UglifyJsPlugin(),
+        new webpack.IgnorePlugin(/^\.(\/|\\)locale$/, /moment$/),
     ],
 };

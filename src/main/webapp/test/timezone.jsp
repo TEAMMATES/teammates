@@ -21,8 +21,7 @@
         <td id="momentjs"></td>
       </tr>
     </table>
-    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
+    <script type="text/javascript" src="/js/libs-moment.js"></script>
     <script>
       var d = new Date();
       var text = '';
