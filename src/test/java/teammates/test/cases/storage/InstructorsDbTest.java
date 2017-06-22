@@ -317,7 +317,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                 instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
-        assertEquals(false, instructorUpdated.isDisplayedToStudents);
+        assertFalse(instructorUpdated.isDisplayedToStudents);
 
         ______TS("Failure: invalid parameters");
 
@@ -380,7 +380,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                 instructorsDb.getInstructorForEmail(instructorToEdit.courseId, instructorToEdit.email);
         assertEquals("new-id", instructorUpdated.googleId);
         assertEquals("New Name", instructorUpdated.name);
-        assertEquals(false, instructorUpdated.isDisplayedToStudents);
+        assertFalse(instructorUpdated.isDisplayedToStudents);
 
         ______TS("Failure: invalid parameters");
 
