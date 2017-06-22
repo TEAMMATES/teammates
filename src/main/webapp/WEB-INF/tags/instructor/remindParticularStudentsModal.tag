@@ -22,7 +22,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">Cancel</button>
-                    <input type="submit" class="btn btn-primary" value="Remind">
+                    <input type="button" class="btn btn-primary remind-particular-button" data-dismiss="modal" value="Remind">
                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>"
                            value="${data.account.googleId}">
                 </div>
