@@ -6,6 +6,8 @@
     "jquery": "1.12.4",
     "jquery-highlight": "3.4.0",
     "jquery-ui": "1.12.1",
+    "moment": "2.19.1",
+    "moment-timezone": "0.5.13",
     "printthis": "0.1.5"
   },
   "devDependencies": {
