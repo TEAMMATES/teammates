@@ -16,7 +16,6 @@ import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AdminSearchPage;
-import teammates.ui.pagedata.AdminSearchPageData;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_SEARCH_PAGE}.
@@ -220,8 +219,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     private void assertStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs,
                                               CourseAttributes course) {
 
-        By by = By.xpath("//table[@id = 'search_table']/tbody/tr[@id='" + AdminSearchPageData.createId(student) + "']");
-        WebElement studentRow = browser.driver.findElement(by);
+        WebElement studentRow = searchPage.getStudentRow(student);
 
         assertStudentContentCorrect(studentRow, student, course);
         assertTrue(isStudentLinkCorrect(studentRow, student, instructorToMasquaradeAs));
@@ -305,9 +303,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      */
     private void assertInstructorRowDisplayed(InstructorAttributes instructor, CourseAttributes course) {
 
-        By by = By.xpath("//table[@id = 'search_table_instructor']/tbody/tr[@id='"
-                         + AdminSearchPageData.createId(instructor) + "']");
-        WebElement instructorRow = browser.driver.findElement(by);
+        WebElement instructorRow = searchPage.getInstructorRow(instructor);
 
         String actualCourseId = instructorRow.findElement(By.xpath("td[1]")).getText();
         String actualCourseName = instructorRow.findElement(By.xpath("td[1]")).getAttribute("data-original-title");
