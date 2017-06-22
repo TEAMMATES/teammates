@@ -35,6 +35,11 @@ const glyph = {
     loader: 'file-loader?publicPath=/js/',
 };
 
+const json = {
+    test: /datamaps(\/|\\).*\.json$/,
+    loader: 'file-loader?name=coordinates.json',
+};
+
 module.exports = {
     entry,
     output: {
@@ -46,6 +51,7 @@ module.exports = {
             jquery,
             css,
             glyph,
+            json,
         ],
     },
     stats: 'errors-only',
