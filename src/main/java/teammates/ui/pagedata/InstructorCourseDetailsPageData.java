@@ -47,8 +47,8 @@ public class InstructorCourseDetailsPageData extends PageData {
                                           Const.Tooltips.COURSE_REMIND, "tooltip", courseId, isDisabled);
 
         String hrefDeleteStudents = sanitizeForJs(getInstructorCourseStudentDeleteAllLink(courseId));
-        courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button_delete_all",
-            hrefDeleteStudents, null, null, courseId, isDisabled);
+        courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button-delete-all",
+                hrefDeleteStudents, null, null, courseId, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
         for (SectionDetailsBundle section : courseDetails.sections) {
