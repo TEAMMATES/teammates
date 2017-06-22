@@ -1,5 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
