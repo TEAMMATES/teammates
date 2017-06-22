@@ -5,7 +5,6 @@
   <head>
     <title>QUnit Testing Result</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="<%= FrontEndLibrary.QUNIT_CSS %>" type="text/css" media="screen">
   </head>
   <body>
     <div id="qunit"></div>
@@ -25,8 +24,8 @@
     <!-- Library scripts -->
     <script type="text/javascript" src="/js/libs-common.js"></script>
     <script type="text/javascript" src="/js/libs-tinymce.js"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
+    <script type="text/javascript" src="/test/libs-qunit.js"></script>
+    <script type="text/javascript" src="/test/libs-blanket.js"></script>
 
     <script type="text/javascript" src="/test/jsUnitTests.js" data-cover></script>
   </body>
