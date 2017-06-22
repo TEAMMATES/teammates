@@ -5,7 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+  <script type="text/javascript" src="/js/libs-tinymce.js"></script>
   <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
 </c:set>
 <ti:instructorPage title="Add New Feedback Session" jsIncludes="${jsIncludes}">

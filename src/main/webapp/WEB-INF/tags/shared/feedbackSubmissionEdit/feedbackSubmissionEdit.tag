@@ -9,7 +9,7 @@
 <%@ attribute name="moderatedPersonName" required="true" %>
 
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+  <script type="text/javascript" src="/js/libs-tinymce.js"></script>
   <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
 </c:set>
 
