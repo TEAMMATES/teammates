@@ -6,8 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-  <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
+  <script type="text/javascript" src="/js/libs-moment.js"></script>
   <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
 </c:set>
 
