@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+  <script type="text/javascript" src="/js/libs-tinymce.js"></script>
   <script type="text/javascript" src="/js/instructorFeedbackResultsRGQ.js"></script>
 </c:set>
 

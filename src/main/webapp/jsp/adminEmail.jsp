@@ -6,7 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/email" prefix="adminEmail" %>
 
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+  <script type="text/javascript" src="/js/libs-tinymce.js"></script>
   <script type="text/javascript" src="/js/adminEmail.js"></script>
 </c:set>
 
