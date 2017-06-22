@@ -301,7 +301,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 "The feedback session is currently not open for submissions."
                 + " You can view the questions and any submitted responses for"
                 + " this feedback session but cannot submit new responses.");
-        //fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionSubmissionEditPage.html");
 
         ______TS("new instructor can click submit button of Second team feedback session");
         instructorHomePage.loadInstructorHomeTab();
@@ -316,7 +315,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 "The feedback session is currently not open for submissions."
                 + " You can view the questions and any submitted responses for"
                 + " this feedback session but cannot submit new responses.");
-        //fbsp.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionSubmissionEditPage.html");
 
         ______TS("new instructor cannot send reminder of First team feedback session");
         instructorHomePage.loadInstructorHomeTab();
