@@ -1036,11 +1036,7 @@ public class Logic {
     public void deleteAllStudentsInCourse(String courseId) {
 
         Assumption.assertNotNull(courseId);
-
-        List<StudentAttributes> studentsInCourse = studentsLogic.getStudentsForCourse(courseId);
-        for (StudentAttributes student : studentsInCourse) {
-            studentsLogic.deleteStudentCascade(courseId, student.email);
-        }
+        studentsLogic.deleteAllStudentsInCourse(courseId);
     }
 
     public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
