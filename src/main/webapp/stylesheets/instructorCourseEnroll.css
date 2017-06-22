@@ -49,3 +49,8 @@
     width: 100%;
     height: 10px;
 }
+
+#enrollstudents {
+    max-width:100%;
+    display: none
+}

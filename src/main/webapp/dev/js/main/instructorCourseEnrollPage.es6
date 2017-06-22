@@ -44,8 +44,6 @@ export {
 
 /* Handsontable Implementation code starts here */
 const container = document.getElementById('spreadsheet');
-const searchFiled = document.getElementById('search_field');
-let data;
 
 $('#toggle-interface').click((e) => {
     $(e.target).text($(e.target).text() === 'Textarea Interface'
@@ -53,72 +51,48 @@ $('#toggle-interface').click((e) => {
     $('.student-data-textarea, #student-data-spreadsheet').toggle();
 });
 
-function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.style.fontWeight = 'bold';
-    td.style.color = 'green';
-    td.style.background = '#CEC';
-}
-
-var hot = new Handsontable(container, {
-    data: data,
+const hot = new Handsontable(container, {
     rowHeaders: true,
     colHeaders: true,
     contextMenu: true,
     contextMenuCopyPaste: {
-        swfPath: '/js/ZeroClipboard.swf'
+        swfPath: '/js/ZeroClipboard.swf',
     },
     columnSorting: true,
     manualColumnResize: true,
     sortIndicator: true,
     search: {
-        searchResultClass: 'customClass'
+        searchResultClass: 'customClass',
     },
-    className: "htCenter",
+    className: 'htCenter',
     maxRows: 100,
     maxCols: 100,
     stretchH: 'all',
     minSpareRows: 5,
 });
 
-Handsontable.dom.addEvent(searchFiled, 'keyup', function (event) {
-    let queryResult = hot.search.query(this.value);
-    hot.render();
-});
-
-Handsontable.hooks.add('afterChange', function(changes, source) {
-    
-    let spreadsheetData = hot.getSourceData();
-    let dataPushToTextarea = "", i=0, j=0;
-    let countEmptyColumns = 0, rowData = "";
-    
-    for(i=0; i < spreadsheetData.length; i++) {
-    
-        countEmptyColumns = 0, rowData = "";
-            
-        for(j=0; j < spreadsheetData[i].length; j++) {
-            
-            rowData += spreadsheetData[i][j];
-            
-
-            if((spreadsheetData[i][j] === "" || spreadsheetData[i][j] === null) && j < 3) {
-                
-                countEmptyColumns++;
+Handsontable.hooks.add('afterChange', () => {
+    const spreadsheetData = hot.getSourceData();
+    let dataPushToTextarea = '';
+    let i = 0;
+    let j = 0;
+    let countEmptyColumns = 0;
+    let rowData = '';
+    for (i = 0; i < spreadsheetData.length; i += 1) {
+        countEmptyColumns = 0; rowData = '';
+        for (j = 0; j < spreadsheetData[i].length; j += 1) {
+            rowData += spreadsheetData[i][j] !== null ? spreadsheetData[i][j] : '';
+            if ((spreadsheetData[i][j] === '' || spreadsheetData[i][j] === null)
+             && j < spreadsheetData[i].length - 1) {
+                countEmptyColumns += 1;
             }
-
-            if(j < spreadsheetData[i].length - 1) {
-                rowData += " | ";
+            if (j < spreadsheetData[i].length - 1) {
+                rowData += ' | ';
             }
         }
-
-        if(countEmptyColumns < 3) {
-
-            dataPushToTextarea += (rowData + '\n');  
+        if (countEmptyColumns < spreadsheetData[i].length - 1) {
+            dataPushToTextarea += (rowData + '\n');
         }
     }
-
-    console.log('fired\n');
-
     $('#enrollstudents').text(dataPushToTextarea);
-
 });

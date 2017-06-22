@@ -20,20 +20,6 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
     
-    <!-- <button id="toggle-interface" class="btn btn-primary">Textarea Interface</button> -->
-
-    <!-- Code for adding student data via Textarea starts
-
-    <div class="student-data-textarea" style="display: none">
-        <div class="instructionImg">
-            <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" >
-        </div>
-    </div>
-
-    Code for adding student data via Textarea ends -->
-    
-    <br>
-    
     <div class="panel panel-primary">
         <div class="panel-body fill-plain">
             <div class="text-muted">
@@ -44,27 +30,6 @@
                 <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
                 <div class="col-md-12">
                     <div class="form-group">
-                        
-                        <!-- Code for adding student data via Textarea starts
-
-                        <div class="student-data-textarea" style="display: none">
-                            <label for="instructions" class="col-sm-2 control-label">Student data:</label>
-                            <div class="col-sm-10">
-                                
-                                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
-                                <br>
-
-                                <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-
-                                <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
-                                    Enroll students
-                                </button>
-                            </div>
-                        </div>
-                        
-                        Code for adding student data via Textarea ends -->
-
-                        <!-- Code for adding student data via spreadsheet starts -->
                         <div id="student-data-spreadsheet">
                             <label for="instructions" class="col-md-10 col-md-offset-1">Student data:</label>
                             <div class="col-md-10 col-md-offset-1">
@@ -80,7 +45,7 @@
                                 </div>
                                 <div class="gap-10px"></div>
 
-                                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+                                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
                                 <br>
 
                                 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
@@ -90,8 +55,6 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- Code for adding student data via spreadsheet starts -->
-
                     </div>
                 </div>
             </form>
