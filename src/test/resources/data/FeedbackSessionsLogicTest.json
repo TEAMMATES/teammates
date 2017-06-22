@@ -1203,7 +1203,7 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
-      "giver": "Team 1.1",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "responseMetaData": {
         "value": "Response from team 1 by (student 4) to team 1.2."
@@ -1216,7 +1216,7 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "TEXT",
-      "giver": "Team 1.1",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "responseMetaData": {
         "value": "Response from team 1 by (student 4) to team 1.2."

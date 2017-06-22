@@ -1451,7 +1451,7 @@
       "courseId": "CFResultsUiT.CS2104",
       "feedbackQuestionId": "4",
       "feedbackQuestionType": "TEXT",
-      "giver": "Team 1",
+      "giver": "Team 1</td></div>'\"",
       "recipient": "Team 2",
       "responseMetaData": {
         "value": "Response from team 1 (by alice) to team 2."
