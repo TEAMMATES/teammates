@@ -5,8 +5,6 @@
   <head>
     <title>QUnit Testing Result</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" type="text/css" media="screen">
-    <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="<%= FrontEndLibrary.QUNIT_CSS %>" type="text/css" media="screen">
   </head>
   <body>

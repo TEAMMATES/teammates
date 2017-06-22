@@ -22,6 +22,19 @@ const jquery = {
     use: 'imports-loader?$=jquery,jQuery=jquery',
 };
 
+const css = {
+    test: /((bootstrap|guillotine)(\/|\\).*|teammatesCommon)\.css$/,
+    use: [
+        { loader: 'style-loader' },
+        { loader: 'css-loader' },
+    ],
+};
+
+const glyph = {
+    test: /(bootstrap(\/|\\).*\.(eot|svg|ttf|woff)|\.png)$/,
+    loader: 'file-loader?publicPath=/js/',
+};
+
 module.exports = {
     entry,
     output: {
@@ -31,6 +44,8 @@ module.exports = {
     module: {
         rules: [
             jquery,
+            css,
+            glyph,
         ],
     },
     stats: 'errors-only',
