@@ -1,5 +1,4 @@
 <%@ tag description="Student/Instructor feedback submission edit page" %>
-<%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>

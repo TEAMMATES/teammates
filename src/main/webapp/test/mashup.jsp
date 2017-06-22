@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ page import="teammates.common.util.StringHelper" %>
 <%@ page import="teammates.logic.core.FeedbackQuestionsLogic" %>
 <%@ page import="teammates.logic.api.Logic" %>

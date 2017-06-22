@@ -1,7 +1,6 @@
 <%@ tag description="Generic TEAMMATES Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="cssIncludes" fragment="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
