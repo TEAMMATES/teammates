@@ -673,6 +673,9 @@ public class EmailGenerator {
 
     private String generateCoOwnersEmailsLine(String courseId) {
         List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(courseId);
+        if (coOwners.isEmpty()) {
+            return "(No contactable instructors found)";
+        }
         StringBuilder coOwnersEmailsLine = new StringBuilder();
         for (InstructorAttributes coOwner : coOwners) {
             coOwnersEmailsLine
@@ -681,9 +684,7 @@ public class EmailGenerator {
                     .append(coOwner.getEmail())
                     .append("), ");
         }
-        return coOwnersEmailsLine.length() == 0
-                ? "(No contactable instructors found)"
-                : coOwnersEmailsLine.substring(0, coOwnersEmailsLine.length() - 2);
+        return coOwnersEmailsLine.substring(0, coOwnersEmailsLine.length() - 2);
     }
 
 }
