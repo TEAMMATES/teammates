@@ -29,8 +29,8 @@
         </div>
         <a id="frComment-visibility-options-trigger-${divId}"
            class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
-           data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
-           data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+           data-sessionindex="${fsIndex}" data-qnindex="${secondIndex}"
+           data-responseindex="${thirdIndex}" data-frcindex="${frcIndex}"
            <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
             <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
             <span class="glyphicon glyphicon-eye-close"></span>
