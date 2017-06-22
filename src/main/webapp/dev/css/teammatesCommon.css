@@ -689,7 +689,7 @@ Prevents content overflow in navbar. */
 }
 
 .ui-datepicker-header {
-    background: url(../images/dark_leather.png) repeat 0 0 #000;
+    background: url(images/dark_leather.png) repeat 0 0 #000;
     border-color: #111;
     border-style: solid;
     border-width: 1px 0 0;
@@ -709,7 +709,7 @@ Prevents content overflow in navbar. */
 
 .ui-datepicker-prev,
 .ui-datepicker-next {
-    background-image: url(../images/arrow.png);
+    background-image: url(images/arrow.png);
     background-repeat: no-repeat;
     cursor: pointer;
     display: inline-block;
@@ -1165,15 +1165,15 @@ Default to alert color for visibility titles used within an alert context.
 }
 
 .unsorted {
-    background: url(../images/sortSideButton.png);
+    background: url(images/sortSideButton.png);
 }
 
 .sorted-ascending {
-    background: url(../images/sortUpButton.png);
+    background: url(images/sortUpButton.png);
 }
 
 .sorted-descending {
-    background: url(../images/sortDownButton.png);
+    background: url(images/sortDownButton.png);
 }
 
 .button-sort-ascending:hover,

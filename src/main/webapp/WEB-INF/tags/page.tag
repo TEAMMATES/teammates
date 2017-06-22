@@ -15,9 +15,6 @@
     <link rel="shortcut icon" href="/favicon.png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
     <jsp:invoke fragment="cssIncludes" />
   </head>
   <body>
