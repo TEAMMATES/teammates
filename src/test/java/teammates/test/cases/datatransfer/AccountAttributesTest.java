@@ -44,7 +44,7 @@ public class AccountAttributesTest extends BaseTestCase {
                 null, null, null, null)
                 .withIsInstructor(null)
                 .withCreatedAt(null)
-                .withStudentProfileAttributes(null)
+                //.withStudentProfileAttributes(null)
                 .build();
         // No default values for required params
         assertNull(accountAttributesWithNullValues.googleId);

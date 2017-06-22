@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
-
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -66,10 +64,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
 
-        AccountAttributes accountToCreate;
-
-        accountToCreate = new AccountAttributesBuilder("id", "name",
-                "test@email", "dev").withIsInstructor(true).withStudentProfileAttributes(spa)
+        AccountAttributes accountToCreate = new AccountAttributes.AccountAttributesBuilder(
+                "id",
+                "name",
+                "test@email",
+                "dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
                 .build();
 
         accountsLogic.createAccount(accountToCreate);
@@ -79,10 +80,14 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = new AccountAttributesBuilder("", "name",
-                "test@email", "dev").withIsInstructor(true).withStudentProfileAttributes(spa)
+        accountToCreate = new AccountAttributes.AccountAttributesBuilder(
+                "",
+                "name",
+                "test@email",
+                "dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
                 .build();
-
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
@@ -125,9 +130,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.institute = "dev";
         spa.shortName = "nam";
 
-        AccountAttributes expectedAccount;
-        expectedAccount = new AccountAttributesBuilder("idOfInstructor1OfCourse1", "name",
-                "test2@email", "dev").withIsInstructor(true).withStudentProfileAttributes(spa).build();
+        AccountAttributes expectedAccount = new AccountAttributes.AccountAttributesBuilder(
+                "idOfInstructor1OfCourse1",
+                "name",
+                "test2@email",
+                "dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         // updates the profile
         accountsLogic.updateAccount(expectedAccount, true);
@@ -144,9 +154,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         // no change in the name
         assertEquals("nam", actualAccount.studentProfile.shortName);
 
-        expectedAccount = new AccountAttributesBuilder("id-does-not-exist", "name",
-                "test2@email", "dev").withIsInstructor(true).withStudentProfileAttributes(spa).build();
-
+        expectedAccount = new AccountAttributes.AccountAttributesBuilder(
+                "id-does-not-exist",
+                "name",
+                "test2@email",
+                "dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
         try {
             accountsLogic.updateAccount(expectedAccount);
             signalFailureToDetectException();
@@ -233,8 +248,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
                 "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
 
-        AccountAttributes accountData = new AccountAttributesBuilder(correctStudentId, "nameABC", "real@gmail.com",
-                "TEAMMATES Test Institute 1").withIsInstructor(true).withStudentProfileAttributes(spa).build();
+        AccountAttributes accountData = new AccountAttributes.AccountAttributesBuilder(
+                correctStudentId,
+                "nameABC",
+                "real@gmail.com",
+                "TEAMMATES Test Institute 1")
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         accountsLogic.createAccount(accountData);
         accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
@@ -262,14 +283,14 @@ public class AccountsLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
-                                 + "Google ID is corre..dentId (only part of the Google ID is "
-                                 + "shown to protect privacy). If that Google ID is owned by you, "
-                                 + "please logout and re-login using that Google account. "
-                                 + "If it doesn’t belong to you, please "
-                                 + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
-                                 + "body=Your name:%0AYour course:%0AYour university:\">"
-                                 + "contact us</a> so that we can investigate.",
-                         e.getMessage());
+                            + "Google ID is corre..dentId (only part of the Google ID is "
+                            + "shown to protect privacy). If that Google ID is owned by you, "
+                            + "please logout and re-login using that Google account. "
+                            + "If it doesn’t belong to you, please "
+                            + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                            + "body=Your name:%0AYour course:%0AYour university:\">"
+                            + "contact us</a> so that we can investigate.",
+                    e.getMessage());
         }
 
         ______TS("success: with encryption and new account to be created");
@@ -387,7 +408,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         instructor = dataBundle.instructors.get("instructor4");
         newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
-                                          "anInstructorWithoutGoogleId@gmail.com");
+                "anInstructorWithoutGoogleId@gmail.com");
 
         instructorsLogic.createInstructor(newIns);
 
@@ -434,14 +455,14 @@ public class AccountsLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals("The join link used belongs to a different user whose "
-                                 + "Google ID is stude..ourse1 (only part of the Google ID is "
-                                 + "shown to protect privacy). If that Google ID is owned by you, "
-                                 + "please logout and re-login using that Google account. "
-                                 + "If it doesn’t belong to you, please "
-                                 + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
-                                 + "body=Your name:%0AYour course:%0AYour university:\">"
-                                 + "contact us</a> so that we can investigate.",
-                         e.getMessage());
+                            + "Google ID is stude..ourse1 (only part of the Google ID is "
+                            + "shown to protect privacy). If that Google ID is owned by you, "
+                            + "please logout and re-login using that Google account. "
+                            + "If it doesn’t belong to you, please "
+                            + "<a href=\"mailto:" + Config.SUPPORT_EMAIL + "?"
+                            + "body=Your name:%0AYour course:%0AYour university:\">"
+                            + "contact us</a> so that we can investigate.",
+                    e.getMessage());
         }
 
         ______TS("failure: invalid key");
@@ -453,7 +474,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         } catch (JoinCourseException e) {
             assertEquals(
                     "You have used an invalid join link: "
-                    + "/page/instructorCourseJoin?key=" + invalidKey,
+                            + "/page/instructorCourseJoin?key=" + invalidKey,
                     e.getMessage());
         }
     }
