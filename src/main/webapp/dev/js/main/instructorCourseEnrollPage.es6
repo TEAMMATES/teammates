@@ -53,27 +53,35 @@ $('#toggle-interface').click((e) => {
 
 const hot = new Handsontable(container, {
     rowHeaders: true,
-    colHeaders: true,
+    colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comment'],
     contextMenu: true,
-    contextMenuCopyPaste: {
-        swfPath: '/js/ZeroClipboard.swf',
-    },
     columnSorting: true,
+    className: 'htCenter',
     manualColumnResize: true,
     sortIndicator: true,
-    search: {
-        searchResultClass: 'customClass',
-    },
-    className: 'htCenter',
     maxRows: 100,
     maxCols: 100,
     stretchH: 'all',
-    minSpareRows: 5,
+    minSpareRows: 2,
+    manualColumnMove: true,
 });
 
-Handsontable.hooks.add('afterChange', () => {
-    const spreadsheetData = hot.getSourceData();
-    let dataPushToTextarea = '';
+function updateHeaderOrder() {
+    const colHeader = hot.getColHeader();
+    let headerString = '';
+    for (let itr = 0; itr < colHeader.length; itr += 1) {
+        headerString += colHeader[itr];
+        if (itr < colHeader.length - 1) {
+            headerString += ' | ';
+        }
+    }
+    headerString += '\n';
+    return headerString;
+}
+
+function updateDataDump() {
+    const spreadsheetData = hot.getData();
+    let dataPushToTextarea = updateHeaderOrder();
     let i = 0;
     let j = 0;
     let countEmptyColumns = 0;
@@ -91,8 +99,17 @@ Handsontable.hooks.add('afterChange', () => {
             }
         }
         if (countEmptyColumns < spreadsheetData[i].length - 1) {
-            dataPushToTextarea += (rowData + '\n');
+            dataPushToTextarea += rowData;
+            dataPushToTextarea += '\n';
         }
     }
     $('#enrollstudents').text(dataPushToTextarea);
+}
+
+Handsontable.hooks.add('afterChange', () => {
+    updateDataDump();
+});
+
+Handsontable.hooks.add('afterColumnMove', () => {
+    updateDataDump();
 });

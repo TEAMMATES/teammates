@@ -31,16 +31,13 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <div id="student-data-spreadsheet">
-                            <label for="instructions" class="col-md-10 col-md-offset-1">Student data:</label>
-                            <div class="col-md-10 col-md-offset-1">
-                               
+                            <div class="col-md-10 col-md-offset-1">                               
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <input id="search_field" class="form-control" type="text" name="search-spreadsheet" placeholder="search"/>
+                                       <strong>Student data</strong> 
                                     </div>
                                     <div class="panel-body">
-                                        <div id="spreadsheet">
-                                        </div>
+                                        <div id="spreadsheet"></div>
                                     </div>
                                 </div>
                                 <div class="gap-10px"></div>
@@ -60,11 +57,6 @@
             </form>
         </div>
     </div>
-
-
-
-
-
     <br>
     <div class="moreInfo">
         <h2> More info </h2>
