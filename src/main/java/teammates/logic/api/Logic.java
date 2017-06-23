@@ -2178,8 +2178,7 @@ public class Logic {
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
 
-    public List<FeedbackResponseAttributes>
-        getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
