@@ -57,20 +57,18 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile = builder.studentProfile;
     }
 
-    public static AccountAttributesBuilder builder(String googleId, String name, String email, String institute) {
-        return new AccountAttributesBuilder(googleId, name, email, institute);
-    }
-
     public static AccountAttributes valueOf(Account account) {
-        return builder(
+        return new AccountAttributesBuilder(
                 account.getGoogleId(),
                 account.getName(),
                 account.getEmail(),
                 account.getInstitute())
                 .withCreatedAt(account.getCreatedAt())
                 .withIsInstructor(account.isInstructor())
-                .withStudentProfileAttributes(account.getStudentProfile()
-                        == null ? null : new StudentProfileAttributes(account.getStudentProfile()))
+                .withStudentProfileAttributes(
+                        (account.getStudentProfile() == null)
+                                ? null
+                                : new StudentProfileAttributes(account.getStudentProfile()))
                 .build();
     }
 

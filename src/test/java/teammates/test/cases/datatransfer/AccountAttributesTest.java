@@ -26,6 +26,28 @@ public class AccountAttributesTest extends BaseTestCase {
     //TODO: test toString() method
 
     private static final Date DEFAULT_DATE = AccountAttributes.DEFAULT_DATE;
+    private static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
+            AccountAttributes.DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
+
+
+    @Test
+    public void testBuilderWithRequiredValues() {
+        String validGoogleId = "valid.google.id";
+        String validName = "valid name";
+        String validEmail = "valid@email.com";
+        String validInstitute = "valid institute";
+        AccountAttributes accountAttributes = new AccountAttributesBuilder(
+                validGoogleId, validName, validEmail, validInstitute)
+                .build();
+
+        assertEquals(validGoogleId, accountAttributes.googleId);
+        assertEquals(validName, accountAttributes.name);
+        assertEquals(validEmail, accountAttributes.email);
+        assertEquals(validInstitute, accountAttributes.institute);
+
+        assertEquals(validGoogleId, accountAttributes.studentProfile.googleId);
+
+    }
 
     @Test
     public void testBuilderWithDefaultOptionalValues() {
@@ -35,7 +57,10 @@ public class AccountAttributesTest extends BaseTestCase {
                 .build();
 
         assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributes.studentProfile);
         assertTrue(accountAttributes.isInstructor);
+
+        assertEquals(accountAttributes.googleId, accountAttributes.studentProfile.googleId);
     }
 
     @Test
@@ -44,7 +69,6 @@ public class AccountAttributesTest extends BaseTestCase {
                 null, null, null, null)
                 .withIsInstructor(null)
                 .withCreatedAt(null)
-                //.withStudentProfileAttributes(null)
                 .build();
         // No default values for required params
         assertNull(accountAttributesWithNullValues.googleId);
