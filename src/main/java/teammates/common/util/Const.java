@@ -268,7 +268,8 @@ public final class Const {
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
 
         public static final String INSTRUCTOR_DISPLAYED_AS =
-                "Specify the role of this instructor in this course as shown to the students";
+                "Specify the role of this instructor in this course as shown to the students."
+                + " E.g.Co-lecturer, Teaching Assistant";
 
         public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
 
