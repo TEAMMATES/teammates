@@ -35,7 +35,7 @@
         <c:set var="secondIndex" value="${responsePanel.giverIndex}"/>
         <c:set var="thirdIndex"  value="${responsePanel.qnIndex}"/>
         <c:set var="fourthIndex" value="${responsePanel.sectionId}"/>
-
+       <c:if test="${responsePanel.commentsOnQuestionResponsesAllowed}">
         <ul class="list-group" id="responseCommentTable-${responsePanel.sectionId}-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
             style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
             <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
@@ -46,6 +46,7 @@
             <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}"
                                                secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" />
         </ul>
+        </c:if>
 
     </div>
 

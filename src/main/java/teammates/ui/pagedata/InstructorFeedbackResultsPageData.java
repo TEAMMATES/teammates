@@ -513,8 +513,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             question, response, questionText, sectionId, additionalInfoText, null,
                             displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
                             isCommentsOnQuestionsResponsesAllowed);
+            responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isCommentsOnQuestionsResponsesAllowed) {
-                responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
                                                             responseVisibilityMap, giverName, recipientName);
