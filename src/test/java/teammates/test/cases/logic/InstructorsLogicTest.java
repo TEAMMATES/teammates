@@ -48,11 +48,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testVerifyIsEmailOfInstructorOfCourse();
         testIsNewInstructor();
         testAddInstructor();
+        testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleId();
         testUpdateInstructorByEmail();
         testDeleteInstructor();
         testDeleteInstructorsForGoogleId();
-        testGetCoOwnersForCourse();
         testDeleteInstructorsForCourse();
     }
 
@@ -740,15 +740,23 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("Verify all co-owners present in generated co-owners list");
 
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
-        List<InstructorAttributes> coOwners = new ArrayList<InstructorAttributes>();
-        for (InstructorAttributes instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
+        // Generate ArrayList<String> of emails of all coOwners in course from data bundle
+        List<String> coOwnersEmailsFromDataBundle = new ArrayList<String>();
+        for (InstructorAttributes instructor : new ArrayList<InstructorAttributes>(dataBundle.instructors.values())) {
+            if (!(instructor.getCourseId().equals(courseId) && instructor.hasCoownerPrivileges())) {
                 continue;
             }
-            coOwners.add(instructor);
+            coOwnersEmailsFromDataBundle.add(instructor.email);
         }
-        assertTrue(coOwners.toString().equals(generatedCoOwners.toString()));
+
+        // Generate ArrayList<String> of emails of all coOwners from instructorsLogic.getCoOwnersForCourse
+        List<String> generatedCoOwnersEmails = new ArrayList<String>();
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            generatedCoOwnersEmails.add(generatedCoOwner.email);
+        }
+        
+        assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)
+                && generatedCoOwnersEmails.containsAll(coOwnersEmailsFromDataBundle));
     }
 
 }
