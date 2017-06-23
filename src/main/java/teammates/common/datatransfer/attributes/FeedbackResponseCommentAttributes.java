@@ -59,6 +59,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                 .withReceiverSection(comment.getReceiverSection())
                 .withLastEditorEmail(comment.getLastEditorEmail())
                 .withLastEditedAt(comment.getLastEditedAt())
+                .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
                 .withShowCommentTo(comment.getShowCommentTo())
                 .withShowGiverNameTo(comment.getShowGiverNameTo())
                 .build();
@@ -77,84 +78,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public static Builder builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
                                   String feedbackResponseId, String giverEmail) {
         return new Builder(courseId, feedbackSessionName, feedbackQuestionId, feedbackResponseId, giverEmail);
-    }
-
-    /**
-     * A Builder for {@link FeedbackResponseCommentAttributes}.
-     */
-    public static class Builder {
-        private final FeedbackResponseCommentAttributes feedbackAttributes;
-
-        public Builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
-                       String feedbackResponseId, String giverEmail) {
-            feedbackAttributes = new FeedbackResponseCommentAttributes();
-
-            feedbackAttributes.courseId = courseId;
-            feedbackAttributes.feedbackSessionName = feedbackSessionName;
-            feedbackAttributes.feedbackQuestionId = feedbackQuestionId;
-            feedbackAttributes.feedbackResponseId = feedbackResponseId;
-            feedbackAttributes.giverEmail = giverEmail;
-        }
-
-        public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            feedbackAttributes.showCommentTo = showCommentTo;
-            return this;
-        }
-
-        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            feedbackAttributes.showGiverNameTo = showGiverNameTo;
-            return this;
-        }
-
-        public Builder withVisibilityFollowingFeedbackQuestion(boolean visibilityFollowingFeedbackQuestion) {
-            feedbackAttributes.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion;
-            return this;
-        }
-
-        public Builder withCreatedAt(Date createdAt) {
-            feedbackAttributes.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder withCommentText(Text commentText) {
-            feedbackAttributes.commentText = commentText;
-            return this;
-        }
-
-        public Builder withLastEditorEmail(String lastEditorEmail) {
-            feedbackAttributes.lastEditorEmail = lastEditorEmail == null
-                    ? feedbackAttributes.giverEmail
-                    : lastEditorEmail;
-            return this;
-        }
-
-        public Builder withLastEditedAt(Date lastEditedAt) {
-            feedbackAttributes.lastEditedAt = lastEditedAt == null
-                    ? feedbackAttributes.createdAt
-                    : lastEditedAt;
-            return this;
-        }
-
-        public Builder withFeedbackResponseCommentId(Long feedbackResponseCommentId) {
-            feedbackAttributes.feedbackResponseCommentId = feedbackResponseCommentId;
-            return this;
-        }
-
-        public Builder withGiverSection(String giverSection) {
-            feedbackAttributes.giverSection = giverSection == null ? "None" : giverSection;
-            return this;
-        }
-
-        public Builder withReceiverSection(String receiverSection) {
-            feedbackAttributes.receiverSection = receiverSection == null
-                    ? "None"
-                    : receiverSection;
-            return this;
-        }
-
-        public FeedbackResponseCommentAttributes build() {
-            return feedbackAttributes;
-        }
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
@@ -244,4 +167,84 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
             }
         });
     }
+
+    /**
+     * A Builder for {@link FeedbackResponseCommentAttributes}.
+     */
+    public static class Builder {
+        private final FeedbackResponseCommentAttributes feedbackAttributes;
+
+        public Builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
+                       String feedbackResponseId, String giverEmail) {
+            feedbackAttributes = new FeedbackResponseCommentAttributes();
+
+            feedbackAttributes.courseId = courseId;
+            feedbackAttributes.feedbackSessionName = feedbackSessionName;
+            feedbackAttributes.feedbackQuestionId = feedbackQuestionId;
+            feedbackAttributes.feedbackResponseId = feedbackResponseId;
+            feedbackAttributes.giverEmail = giverEmail;
+        }
+
+        public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
+            feedbackAttributes.showCommentTo = showCommentTo;
+            return this;
+        }
+
+        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+            feedbackAttributes.showGiverNameTo = showGiverNameTo;
+            return this;
+        }
+
+        public Builder withVisibilityFollowingFeedbackQuestion(Boolean visibilityFollowingFeedbackQuestion) {
+            feedbackAttributes.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion == null
+                    || visibilityFollowingFeedbackQuestion; // true as default value if param is null
+            return this;
+        }
+
+        public Builder withCreatedAt(Date createdAt) {
+            feedbackAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withCommentText(Text commentText) {
+            feedbackAttributes.commentText = commentText;
+            return this;
+        }
+
+        public Builder withLastEditorEmail(String lastEditorEmail) {
+            feedbackAttributes.lastEditorEmail = lastEditorEmail == null
+                    ? feedbackAttributes.giverEmail
+                    : lastEditorEmail;
+            return this;
+        }
+
+        public Builder withLastEditedAt(Date lastEditedAt) {
+            feedbackAttributes.lastEditedAt = lastEditedAt == null
+                    ? feedbackAttributes.createdAt
+                    : lastEditedAt;
+            return this;
+        }
+
+        public Builder withFeedbackResponseCommentId(Long feedbackResponseCommentId) {
+            feedbackAttributes.feedbackResponseCommentId = feedbackResponseCommentId;
+            return this;
+        }
+
+        public Builder withGiverSection(String giverSection) {
+            feedbackAttributes.giverSection = giverSection == null ? "None" : giverSection;
+            return this;
+        }
+
+        public Builder withReceiverSection(String receiverSection) {
+            feedbackAttributes.receiverSection = receiverSection == null
+                    ? "None"
+                    : receiverSection;
+            return this;
+        }
+
+        public FeedbackResponseCommentAttributes build() {
+            return feedbackAttributes;
+        }
+    }
+
 }

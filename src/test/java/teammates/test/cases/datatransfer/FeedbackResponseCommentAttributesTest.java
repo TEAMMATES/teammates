@@ -45,6 +45,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withCreatedAt(new Date())
                 .withLastEditedAt(null)
                 .withFeedbackResponseCommentId(null)
+                .withVisibilityFollowingFeedbackQuestion(null)
                 .build();
 
         /* Default values for following fields */
@@ -52,6 +53,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.lastEditorEmail, feedbackAttributes.giverEmail);
         assertEquals(feedbackAttributes.lastEditedAt, feedbackAttributes.createdAt);
+        assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 
     @Test
@@ -83,5 +85,12 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(responseComment.getGiverSection(), feedbackAttributes.giverSection);
         assertEquals(responseComment.getReceiverSection(), feedbackAttributes.receiverSection);
         assertEquals(responseComment.getFeedbackResponseCommentId(), feedbackAttributes.feedbackResponseCommentId);
+
+        if (responseComment.getIsVisibilityFollowingFeedbackQuestion() == null) {
+            assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
+        } else {
+            assertEquals(responseComment.getIsVisibilityFollowingFeedbackQuestion().booleanValue(),
+                    feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
+        }
     }
 }
