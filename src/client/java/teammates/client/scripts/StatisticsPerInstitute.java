@@ -43,31 +43,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     protected void doOperation() {
 
         String queryString = "SELECT FROM " + CourseStudent.class.getName();
-        List<CourseStudent> allStudents = new ArrayList<CourseStudent>();
-        Query q = PM.newQuery(queryString);
-        Cursor cursor;
-
-        q.setRange(0, 500);
-        List<CourseStudent> allStudentsInitial = (List<CourseStudent>) q.execute();
-        allStudents.addAll(allStudentsInitial);
-        cursor = JDOCursorHelper.getCursor(allStudentsInitial);
-
-        String cursorString = cursor.toWebSafeString();
-        String prevCursorString = "";
-        Map<String, Object> extensionMap;
-
-        while (!cursorString.equals(prevCursorString)) {
-            cursor = Cursor.fromWebSafeString(cursorString);
-            extensionMap = new HashMap<String, Object>();
-            extensionMap.put(JDOCursorHelper.CURSOR_EXTENSION, cursor);
-            q.setExtensions(extensionMap);
-            q.setRange(0, 500);
-            List<CourseStudent> allStudentsTemp = (List<CourseStudent>) q.execute();
-            allStudents.addAll(allStudentsTemp);
-            cursor = JDOCursorHelper.getCursor(allStudentsTemp);
-            prevCursorString = cursorString;
-            cursorString = cursor.toWebSafeString();
-        }
+        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(queryString).execute();
 
         queryString = "SELECT FROM " + Instructor.class.getName();
         List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(queryString).execute();
