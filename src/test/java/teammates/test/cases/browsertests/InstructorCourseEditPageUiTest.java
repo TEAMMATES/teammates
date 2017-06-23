@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -52,6 +54,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testEditCourseAction();
         testDeleteCourseAction();
 
+        testSanitization();
     }
 
     private void testContent() throws Exception {
@@ -749,6 +752,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isInstructorEditable(unregInstrNum));
         assertEquals("true", courseEditPage.getEmailField(unregInstrNum).getAttribute("readonly"));
         assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
+    }
+
+    private void testSanitization() throws IOException {
+        ______TS("page load: data requires sanitization");
+
+        instructorId = testData.instructors.get("InsCrsEdit.instructor1OfTestingSanitizationCourse").googleId;
+        courseId = testData.courses.get("InsCrsEdit.testingSanitizationCourse").getId();
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTestingSanitization.html");
     }
 
     private InstructorCourseEditPage getCourseEditPage() {

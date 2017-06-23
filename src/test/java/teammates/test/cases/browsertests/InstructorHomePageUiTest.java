@@ -145,6 +145,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         updateInstructorToCoownerPrivileges();
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTML.html");
+
+        ______TS("content: require sanitization");
+
+        loginAsInstructor("CHomeUiT.idOfInstructor1OfTestingSanitizationCourse");
+        homePage.loadInstructorHomeTab();
+        homePage.verifyHtmlMainContent("/instructorHomeTestingSanitization.html");
+
     }
 
     private void updateInstructorToCoownerPrivileges() {
