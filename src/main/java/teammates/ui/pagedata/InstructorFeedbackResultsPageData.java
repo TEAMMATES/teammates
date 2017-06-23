@@ -501,7 +501,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-
+            boolean isCommentsOnQuestionsResponsesAllowed = question.getQuestionDetails()
+                    .isCommentsOnQuestionsResponsesAllowed();
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
@@ -510,15 +511,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
-                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection);
-
-            responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-            FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
+                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
+                            isCommentsOnQuestionsResponsesAllowed);
+            if (isCommentsOnQuestionsResponsesAllowed) {
+                responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
+                Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
                                                             responseVisibilityMap, giverName, recipientName);
 
-            responsePanel.setFrcForAdding(frcForAdding);
+                responsePanel.setFrcForAdding(frcForAdding);
 
+            }
             responsePanels.add(responsePanel);
         }
 

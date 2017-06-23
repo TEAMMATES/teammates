@@ -17,7 +17,7 @@
         <div style="clear:both; overflow: hidden">
             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
             <div class="pull-left text-preserve-space">${responsePanel.displayableResponse}</div>
-
+            <c:if test="${responsePanel.commentsOnQuestionResponsesAllowed}">
             <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" id="button_add_comment"
                 data-recipientindex="${responsePanel.recipientIndex}" data-giverindex="${responsePanel.giverIndex}"
                 data-qnindex="${responsePanel.qnIndex}" data-sectionindex="${responsePanel.sectionId}"
@@ -28,6 +28,7 @@
                 >
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
+            </c:if>
         </div>
 
         <c:set var="firstIndex"  value="${responsePanel.recipientIndex}"/>
