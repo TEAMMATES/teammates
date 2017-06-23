@@ -9,12 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import javax.jdo.Query;
-
-import org.datanucleus.store.appengine.query.JDOCursorHelper;
-
-import com.google.appengine.api.datastore.Cursor;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
