@@ -54,6 +54,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testLinks();
         testRemindAction();
         testDeleteAction();
+        testDeleteAllAction();
     }
 
     private void testContent() throws Exception {
@@ -229,6 +230,19 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage.clickDeleteAndCancel(danny.name);
         assertNotNull(BackDoor.getStudent(courseId, danny.email));
+    }
+
+    private void testDeleteAllAction() throws Exception {
+
+        assertNotNull(BackDoor.getStudents(courseId));
+        ______TS("action: delete all students in the course");
+
+        detailsPage.clickDeleteAllAndCancel();
+        assertNotNull(BackDoor.getStudents(courseId));
+
+        detailsPage.clickDeleteAllAndConfirm()
+                .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteAllSuccessful.html");
+        assertEquals("students should have been deleted", 0, BackDoor.getStudents(courseId).size());
     }
 
     private InstructorCourseDetailsPage getCourseDetailsPage() {
