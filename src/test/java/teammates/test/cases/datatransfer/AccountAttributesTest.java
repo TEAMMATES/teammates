@@ -29,7 +29,6 @@ public class AccountAttributesTest extends BaseTestCase {
     private static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
             AccountAttributes.DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
 
-
     @Test
     public void testBuilderWithRequiredValues() {
         String validGoogleId = "valid.google.id";
