@@ -42,44 +42,36 @@ public class FeedbackResponseCommentRow {
     private boolean isInstructorAllowedToEdit;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                     Map<String, String> instructorEmailNameTable) {
+            Map<String, String> instructorEmailNameTable) {
         this.instructorEmailNameTable = instructorEmailNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.commentText = frc.commentText.getValue();
-        setCommentGiverName(giverDisplay);
-        setCommentLastEditorName(frc.lastEditorEmail);
+        setCommentGiverNameFromEmail(giverDisplay);
+        setCommentLastEditorNameFromEmail(frc.lastEditorEmail);
         this.questionId = frc.feedbackQuestionId;
         this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
     }
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                     String giverName, String recipientName, String showCommentToString,
-                                     String showGiverNameToString,
-                                     Map<FeedbackParticipantType, Boolean> responseVisibilities,
-                                     Map<String, String> instructorEmailNameTable) {
+            String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable) {
         this(frc, giverDisplay, instructorEmailNameTable);
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisibilities);
-        setCommentGiverName(giverDisplay);
-        setCommentLastEditorName(frc.lastEditorEmail);
-        this.questionId = frc.feedbackQuestionId;
-        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
+                showCommentToString, showGiverNameToString, responseVisibilities);
     }
 
     // for adding comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
-                                      String giverName, String recipientName, String showCommentToString,
-                                      String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
+            String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisibilities);
+                showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
     }
 
-    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName,
+    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
             String showCommentToString, String showGiverNameToString,
             Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this.responseGiverName = giverName;
@@ -290,7 +282,7 @@ public class FeedbackResponseCommentRow {
         return commentGiverName;
     }
 
-    public void setCommentGiverName(String giverEmail) {
+    public void setCommentGiverNameFromEmail(String giverEmail) {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
             return;
@@ -302,7 +294,7 @@ public class FeedbackResponseCommentRow {
         return commentLastEditorName;
     }
 
-    public void setCommentLastEditorName(String giverEmail) {
+    public void setCommentLastEditorNameFromEmail(String giverEmail) {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             this.commentLastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
             return;
