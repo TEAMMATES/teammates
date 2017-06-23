@@ -23,12 +23,14 @@
     <!-- Enable session to maintain one-time status message -->
     <sessions-enabled>true</sessions-enabled>
 
-    <!-- Prevent the files from mockups/node_modules folder from being deployed/hosted -->
+    <!-- Prevent the files from dev/mockups/node_modules folder from being deployed/hosted -->
     <resource-files>
+        <exclude path="/dev/**" />
         <exclude path="/mockups/**" />
         <exclude path="/node_modules/**" />
     </resource-files>
     <static-files>
+        <exclude path="/dev/**" />
         <exclude path="/mockups/**" />
         <exclude path="/node_modules/**" />
     </static-files>

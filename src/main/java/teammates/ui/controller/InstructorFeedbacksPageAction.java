@@ -1,9 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +12,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorFeedbacksPageData;
 
-public class InstructorFeedbacksPageAction extends Action {
+public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAction {
 
     @Override
     protected ActionResult execute() {
@@ -67,36 +64,5 @@ public class InstructorFeedbacksPageAction extends Action {
                                         instructors, feedbackSessionToHighlight);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
-    }
-
-    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
-            List<InstructorAttributes> instructorList) {
-        return logic.getFeedbackSessionsListForInstructor(instructorList);
-    }
-
-    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList) {
-
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
-
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.getId().compareTo(c2.getId());
-            }
-        });
-
-        return courses;
-    }
-
-    /**
-     * Gets a Map with courseId as key, and InstructorAttributes as value.
-     */
-    protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
-        for (InstructorAttributes instructor : instructors) {
-            courseInstructorMap.put(instructor.courseId, instructor);
-        }
-        return courseInstructorMap;
     }
 }

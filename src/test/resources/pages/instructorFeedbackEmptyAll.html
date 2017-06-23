@@ -865,12 +865,12 @@
     <table class="table-responsive table table-striped table-bordered" id="table-sessions">
       <thead>
         <tr class="fill-primary">
-          <th class="button-sort-ascending course-id-table-width" id="button_sortid" onclick="toggleSort(this);">
+          <th class="button-sort-ascending course-id-table-width toggle-sort" id="button_sortid">
             Course ID
             <span class="icon-sort unsorted">
             </span>
           </th>
-          <th class="button-sort-none session-name-table-width" id="button_sortname" onclick="toggleSort(this)">
+          <th class="button-sort-none session-name-table-width toggle-sort" id="button_sortname">
             Session Name
             <span class="icon-sort unsorted">
             </span>
@@ -939,7 +939,7 @@
             <button class="btn btn-default" data-dismiss="modal" type="button">
               Cancel
             </button>
-            <input class="btn btn-primary" type="submit" value="Remind">
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
             <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
           </div>
         </form>
@@ -1053,7 +1053,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -1090,25 +1090,9 @@
 </script>
 <script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
 </script>
-<script src="/js/richTextEditor.js" type="text/javascript">
-</script>
-<script src="/js/datepicker.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
-</script>
-<script src="/js/ajaxResponseRate.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackAjaxRemindModal.js" type="text/javascript">
-</script>
 <script src="/js/instructorFeedbacks.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
 </script>
 <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div">
 </div>
