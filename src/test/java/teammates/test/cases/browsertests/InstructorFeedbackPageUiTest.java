@@ -250,9 +250,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickNeverVisibleTimeButton();
 
         //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
-        feedbackPage.verifyHidden(By.id("timeFramePanel"));
-        feedbackPage.verifyHidden(By.id("responsesVisibleFromColumn"));
-        feedbackPage.verifyHidden(By.id("instructionsRow"));
+        assertTrue(feedbackPage.verifyHidden(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.verifyHidden(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.verifyHidden(By.id("instructionsRow")));
 
         newSession.setFeedbackSessionName("private session of characters1234567 #");
         newSession.setCourseId("CFeedbackUiT.CS2104");
@@ -662,20 +662,20 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
         feedbackPage.clickCustomVisibleTimeButton();
 
-        feedbackPage.verifyEnabled(By.id("visibledate"));
-        feedbackPage.verifyEnabled(By.id("visibletime"));
-        feedbackPage.verifyEnabled(By.id("publishdate"));
-        feedbackPage.verifyEnabled(By.id("publishtime"));
+        assertTrue(feedbackPage.verifyEnabled(By.id("visibledate")));
+        assertTrue(feedbackPage.verifyEnabled(By.id("visibletime")));
+        assertTrue(feedbackPage.verifyEnabled(By.id("publishdate")));
+        assertTrue(feedbackPage.verifyEnabled(By.id("publishtime")));
 
         ______TS("all 4 datetime elements disabled when custom is deselected");
 
         feedbackPage.clickDefaultPublishTimeButton();
         feedbackPage.clickDefaultVisibleTimeButton();
 
-        feedbackPage.verifyDisabled(By.id("visibledate"));
-        feedbackPage.verifyDisabled(By.id("visibletime"));
-        feedbackPage.verifyDisabled(By.id("publishdate"));
-        feedbackPage.verifyDisabled(By.id("publishtime"));
+        assertTrue(feedbackPage.verifyDisabled(By.id("visibledate")));
+        assertTrue(feedbackPage.verifyDisabled(By.id("visibletime")));
+        assertTrue(feedbackPage.verifyDisabled(By.id("publishdate")));
+        assertTrue(feedbackPage.verifyDisabled(By.id("publishtime")));
     }
 
     private void testDatePickerScripts() {
