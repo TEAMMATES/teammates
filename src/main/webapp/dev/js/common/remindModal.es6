@@ -8,7 +8,7 @@ function populateCheckBoxes($button) {
         for (let i = 0; i < $studentsNotResponded.length; i += 1) {
             const $studentNotResponded = $($studentsNotResponded[i]);
             const $checkbox = $studentNotResponded.find('input[type="checkbox"]');
-            $checkbox.prop('checked', 'checked');
+            $checkbox.prop('checked', 'true');
         }
     }
 }
