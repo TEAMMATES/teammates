@@ -75,7 +75,14 @@
 
                 <div class="col-sm-9">
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
-                            placeholder="E.g.Co-lecturer, Teaching Assistant" value="${instructorPanel.instructor.displayedName}"
+                            <c:choose>
+                                <c:when test="${instructorPanel.instructor.displayedToStudents}">
+                                    placeholder="E.g.Co-lecturer, Teaching Assistant" value="${instructorPanel.instructor.displayedName}"
+                                </c:when>
+                                <c:otherwise>
+                                    placeholder="(This instructor will NOT be displayed to students)"
+                                </c:otherwise>
+                            </c:choose>
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
                             disabled>
                 </div>
@@ -88,7 +95,7 @@
                         <p class="form-control-static">
                             <span>${instructorPanel.instructor.role}</span>
                             <c:if test="${not instructorPanel.instructor.customRole}">
-                                <a href="javascript:;" onclick="showInstructorRoleModal('${instructorPanel.instructor.role}')">
+                                <a href="javascript:;" class="view-role-details" data-role="${instructorPanel.instructor.role}">
                                     &nbsp;View Details
                                 </a>
                             </c:if>

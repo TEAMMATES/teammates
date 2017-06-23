@@ -19,13 +19,15 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Building JavaScript files
 
-Our JavaScript code is written in ECMAScript 6 (ES6) syntax, however many of the existing Web browsers today still have limited support for ES6.<br>
-To resolve this, we need to *transpile* ("build" afterwards) these JavaScript files into ECMAScript 5 syntax which is supported by (almost) all browsers.
+Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
+To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
 
 Run the following command to build the JavaScript files for the application's use:
 ```sh
 npm run build
 ```
+
+In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
 
 ## Managing the dev server
 
@@ -148,17 +150,8 @@ You need a student account which can be created by instructors.
 TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
 It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
 
-Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
-* Stop the dev server if it is running.
-* Specify timezone as a VM argument:
-  * Eclipse
-    * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
-    * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-    * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
-  * IntelliJ
-    * Go to `Run → Edit Configurations...` and select `Dev Server`.
-    * Add `-Duser.timezone=UTC` to the `VM options` text box. Click `OK`.
-* Start the server again using the run configuration you created in the previous step.
+**NOTE**
+> The dev server sets its time zone to UTC at startup.
 
 ### Using Firefox
 
@@ -212,11 +205,7 @@ Any individual test | `./gradlew test -Dtest.single=TestClassName` | `{project f
 `CI tests` will be run once and the failed tests will be re-run a few times.
 All other test suites will be run once and only once.
 
-To run any test suite or individual test with [GodMode turned on](godmode.md), append `-Pgodmode=true` to the command, e.g.:
-```sh
-./gradlew ciTests -Pgodmode=true
-./gradlew test -Dtest.single=InstructorFeedbackResultsPageUiTest -Pgodmode=true
-```
+To run any test suite or individual test with [GodMode turned on](godmode.md), set the value of `test.godmode.enabled` to `true` in `test.properties`.
 
 ### Running the test suite with an IDE
 
@@ -317,5 +306,6 @@ There are several files used to configure various aspects of the system.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
+* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
 * `jdoconfig.xml`: Contains the JDO configuration.
 * `persistence.xml`: Contains the JPA configuration.

@@ -25,7 +25,7 @@
     </div>
   </div>
   <br>
-  <div id="statusMessagesToUser">
+  <div id="statusMessagesToUser" style="display: block;">
     <div class="overflow-auto alert alert-success statusMessage">
       Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.
     </div>
@@ -37,7 +37,7 @@
       .
       <br>
       A video tour is also available in our
-      <a href="/index.jsp" target="_blank">
+      <a href="/" target="_blank">
         home page
       </a>
       .
@@ -68,7 +68,7 @@
             <button class="btn btn-default" data-dismiss="modal" type="button">
               Cancel
             </button>
-            <input class="btn btn-primary" type="submit" value="Remind">
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
             <input name="user" type="hidden" value="${test.instructor}">
           </div>
         </form>
@@ -195,20 +195,20 @@
     </form>
     <div class="panel-collapse collapse in" id="panelBodyCollapse-0" style="height: auto;">
       <div class="panel-body padding-0">
-        <table class="table-responsive table table-striped table-bordered">
+        <table class="table-responsive table table-striped table-bordered margin-0">
           <thead>
             <tr>
-              <th class="button_sortname button-sort-none" onclick="toggleSort(this);">
+              <th class="button_sortname button-sort-none toggle-sort">
                 Session Name
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
                 Start Date
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
                 End Date
                 <span class="icon-sort unsorted">
                 </span>

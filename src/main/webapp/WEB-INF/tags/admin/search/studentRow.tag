@@ -11,7 +11,7 @@
     <%-- Course [Section] (Team) --%>
     <c:choose>
         <c:when test="${not empty student.courseName}">
-            <td data-toggle="tooltip" data-placement="top" title="${student.courseName}">
+            <td data-toggle="tooltip" data-placement="top" title="${fn:escapeXml(fn:escapeXml(student.courseName))}">
                 ${student.courseId}<br><c:out value="${student.section}"/><br><c:out value="${student.team}"/>
             </td>
         </c:when>
@@ -61,7 +61,7 @@
         <%-- Reset Google ID --%>
         <c:if test="${not empty student.googleId}">
             <button type="button" id="${student.googleId}_resetGoogleId"
-                    onclick="submitResetGoogleIdAjaxRequest('${student.courseId}' , '${student.email}', '${student.googleId}', this);"
+                    data-courseid="${student.courseId}" data-studentemail="${student.email}" data-googleid="${student.googleId}"
                     class="btn btn-link btn-xs resetGoogleIdButton">
 
                 <span class="glyphicon glyphicon-refresh"></span>Reset Google Id

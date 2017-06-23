@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseEdit - Course Info Panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ attribute name="editCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
@@ -43,7 +44,7 @@
                 <div class="col-sm-9">
                     <input type="text" class="form-control"
                             name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
-                            value="${course.name}"
+                            value="${fn:escapeXml(course.name)}"
                             data-toggle="tooltip" data-placement="top" title="The name of the course, e.g. Software Engineering."
                             maxlength="<%=FieldValidator.COURSE_NAME_MAX_LENGTH%>" tabindex="2" disabled>
                 </div>

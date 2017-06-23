@@ -480,12 +480,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickDeleteQuestionLink(int qnIndex) {
-        WebElement link = browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
+        WebElement link = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-delete-qn')][@data-qnnumber='" + qnIndex + "']"));
         click(link);
     }
 
     public void clickDiscardChangesLink(int qnIndex) {
-        WebElement link = browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
+        WebElement link = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-discard-changes')][@data-qnnumber='" + qnIndex + "']"));
         click(link);
     }
 
@@ -495,7 +497,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isDiscardChangesButtonVisible(int qnIndex) {
         WebElement discardChangesButton =
-                browser.driver.findElement(By.xpath("//a[@onclick='discardChanges(" + qnIndex + ")']"));
+                browser.driver.findElement(
+                        By.xpath("//a[contains(@class, 'btn-discard-changes')][@data-qnnumber='" + qnIndex + "']"));
 
         return discardChangesButton.isDisplayed();
     }
