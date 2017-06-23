@@ -52,8 +52,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testUpdateInstructorByEmail();
         testDeleteInstructor();
         testDeleteInstructorsForGoogleId();
-        testDeleteInstructorsForCourse();
         testGetCoOwnersForCourse();
+        testDeleteInstructorsForCourse();
     }
 
     private void testAddInstructor() throws Exception {
