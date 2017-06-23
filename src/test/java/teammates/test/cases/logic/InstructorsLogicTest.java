@@ -754,7 +754,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
             generatedCoOwnersEmails.add(generatedCoOwner.email);
         }
-        
+
         assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)
                 && generatedCoOwnersEmails.containsAll(coOwnersEmailsFromDataBundle));
     }
