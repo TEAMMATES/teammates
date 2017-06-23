@@ -323,11 +323,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
 
     private void testPublishUnpublishActions() {
-        ______TS("publish action: AWAITING feedback session");
-
-        homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.getCourseId(),
-                                                           feedbackSessionAwaiting.getFeedbackSessionName()));
-
         ______TS("publish action: OPEN feedback session");
 
         homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.getCourseId(),

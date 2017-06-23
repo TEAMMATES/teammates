@@ -56,7 +56,7 @@
             Results
         </a>
         <button type="button"
-                class="btn btn-default btn-xs btn-tm-actions dropdown-toggle"
+                class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-caret"
                 data-toggle="dropdown"
                 aria-expanded="false"
                 <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>>
@@ -67,7 +67,7 @@
                 <a class="session-view-for-test" href="${actions.resultsLink}">View Results</a>
             </li>
             <li>
-              <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
+                <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
             </li>
         </ul>
     </div>
