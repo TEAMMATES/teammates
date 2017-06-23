@@ -410,8 +410,8 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     }
 }
 
-function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionIdx) {
-    const id = `${sectionIdx !== undefined ? `-${sectionIdx}` : ''}-${sessionIdx}-${questionIdx}-${responseIdx}`;
+function toggleVisibilityAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
+    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     const visibilityEditForm = $(`#visibility-options${id}`);
     if (visibilityEditForm.is(':visible')) {
@@ -425,15 +425,15 @@ function toggleVisibilityAddForm(sessionIdx, questionIdx, responseIdx, sectionId
     }
 }
 
-function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIdx, sectionIdx, viewType) {
+function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIdx}` !== 'undefined') {
-        id = `-${sectionIdx}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+    if (`${sectionIndex}` !== 'undefined') {
+        id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else {
-        id = `-${sessionIdx}-${questionIdx}-${responseIdx}-${commentIdx}`;
+        id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const visibilityEditForm = $(`#visibility-options${id}`);
@@ -488,10 +488,10 @@ function registerResponseCommentsEvent() {
                     ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(
             '.toggle-visib-add-form', [toggleVisibilityAddForm,
-                    ['sessionindex', 'qnindex', 'responseindex', 'sectionindex']]);
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.toggle-visib-edit-form', [toggleVisibilityEditForm,
-                    ['sessionindex', 'qnindex', 'responseindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
 
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandlerAndParams] of clickHandlerMap) {
