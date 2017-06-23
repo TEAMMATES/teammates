@@ -1,5 +1,6 @@
 import { showModalConfirmation } from './bootboxWrapper.es6';
 import { StatusType } from './const.es6';
+import { scrollToElement } from './scrollTo.es6';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -349,6 +350,8 @@ function sendRemindersToStudents(urlLink) {
         success(data) {
             const statusToUser = $(data).find('#statusMessagesToUser').html();
             $statusMessage.html(statusToUser);
+
+            scrollToElement($statusMessage[0], { duration: 1000 });
         },
     });
 }
