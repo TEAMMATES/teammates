@@ -198,7 +198,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 + "|||instructor1@sanitization.tmt|||instructorStudentRecords Page Load<br>"
                 + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
-                + "Number of sessions: 0<br>"
+                + "Number of sessions: 1<br>"
                 + "Student Profile: " + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
                 + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
