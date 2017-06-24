@@ -3,9 +3,6 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,9 +21,7 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
-import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -178,11 +173,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
 
-        ______TS("new instructor can access sample coure enroll page");
-        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseEnrollLink(demoCourseId);
-        enrollPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEnrollPage.html");
-
         ______TS("new instructor can access sample coure details page");
+        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseEnrollLink(demoCourseId);
         instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
         detailsPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseDetailsPage.html");
@@ -191,11 +183,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
-
-        ______TS("new instructor can access sample coure feedback session adding page");
-        instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
-        InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
-        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
 
         ______TS("new instructor can view result of First team feedback session of sample course");
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
@@ -233,71 +220,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
             resultsPage.waitForPanelsToExpand();
         }
         resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
-
-        ______TS("new instructor can edit First team feedback session of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        InstructorFeedbackEditPage feedbackEditPage =
-                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "First team feedback session");
-
-        feedbackEditPage.clickEditSessionButton();
-
-        FeedbackSessionAttributes feedbackSession =
-                getFeedbackSessionWithRetry(demoCourseId, "First team feedback session");
-        feedbackEditPage.editFeedbackSession(
-                feedbackSession.getStartTime(), feedbackSession.getEndTime(),
-                new Text("updated instructions"), feedbackSession.getGracePeriod());
-        feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContentWithReloadRetry(
-                "/newlyJoinedInstructorFirstFeedbackSessionSuccessEdited.html");
-
-        ______TS("new instructor can edit Second team feedback session of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        feedbackEditPage =
-                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "Second team feedback session");
-
-        feedbackEditPage.clickEditSessionButton();
-
-        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "Second team feedback session");
-        feedbackEditPage.editFeedbackSession(
-                feedbackSession.getStartTime(), feedbackSession.getEndTime(),
-                new Text("updated instructions"), feedbackSession.getGracePeriod());
-        feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContentWithReloadRetry(
-                "/newlyJoinedInstructorSecondFeedbackSessionSuccessEdited.html");
-
-        ______TS("new instructor can edit Third feedback session of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        feedbackEditPage =
-                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "Session with different question types");
-
-        feedbackEditPage.clickEditSessionButton();
-
-        feedbackSession = getFeedbackSessionWithRetry(demoCourseId, "Session with different question types");
-        feedbackEditPage.editFeedbackSession(
-                feedbackSession.getStartTime(), feedbackSession.getEndTime(),
-                new Text("updated instructions"), feedbackSession.getGracePeriod());
-        feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContentWithReloadRetry(
-                "/newlyJoinedInstructorThirdFeedbackSessionSuccessEdited.html");
-
-        ______TS("new instructor can click submit button of First team feedback session but cannot submit");
-        instructorHomePage.loadInstructorHomeTab();
-        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(
-                demoCourseId, "First team feedback session");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionSubmissionEditPage.html");
-
-        ______TS("new instructor can click submit button of Second team feedback session");
-        instructorHomePage.loadInstructorHomeTab();
-        fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(demoCourseId, "Second team feedback session");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorSecondFeedbackSessionSubmissionEditPage.html");
-
-        ______TS("new instructor can click submit button of Third feedback session but cannot submit");
-        instructorHomePage.loadInstructorHomeTab();
-        fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(
-                demoCourseId, "Session with different question types");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionSubmissionEditPage.html");
-
-        feedbacksPage.logout();
 
         ______TS("action failure : invalid parameter");
 
