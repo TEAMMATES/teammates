@@ -226,9 +226,18 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("success: edit an instructor");
 
-        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt",
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+
+        ______TS("Cross check instructor edited succesfully");
+
+        assertEquals("New name", courseEditPage.getInstructorName(editInstructorIndex));
+        assertEquals("new_email@email.tmt", courseEditPage.getInstructorEmail(editInstructorIndex));
+        assertTrue(courseEditPage.getInstructorDisplayedToStudents(editInstructorIndex));
+        assertEquals("New display name", courseEditPage.getInstructorDisplayName(editInstructorIndex));
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                courseEditPage.getInstructorAccessLevel(editInstructorIndex));
 
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
 
@@ -369,13 +378,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
 
-        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail,
+        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail, true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
-        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt",
+        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
 

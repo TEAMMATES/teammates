@@ -90,11 +90,14 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void editInstructor(int instrNum, String name, String email, String role) {
+    public void editInstructor(int instrNum, String name, String email,
+            Boolean isDisplayedToStudents, String displayName, String role) {
         clickEditInstructorLink(instrNum);
 
         editInstructorName(instrNum, name);
         editInstructorEmail(instrNum, email);
+        editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents);
+        editInstructorDisplayName(instrNum, displayName);
         selectRoleForInstructor(instrNum, role);
 
         saveEditInstructor(instrNum);
@@ -117,6 +120,22 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement editPanelEmailTextBox = getEmailField(instrNum);
         fillTextBox(editPanelEmailTextBox, value);
         return getTextBoxValue(editPanelEmailTextBox);
+    }
+
+    public boolean editInstructorDisplayedToStudents(int instrNum, Boolean isDisplayedToStudents) {
+        WebElement editPanelDisplayedToStudentsCheckbox = getDisplayedToStudentCheckBox(instrNum);
+        if (isDisplayedToStudents) {
+            markCheckBoxAsChecked(editPanelDisplayedToStudentsCheckbox);
+        } else {
+            markCheckBoxAsUnchecked(editPanelDisplayedToStudentsCheckbox);
+        }
+        return editPanelDisplayedToStudentsCheckbox.isSelected();
+    }
+
+    public String editInstructorDisplayName(int instrNum, String value) {
+        WebElement editPanelDisplayNameTextBox = getDisplayNameField(instrNum);
+        fillTextBox(editPanelDisplayNameTextBox, value);
+        return getTextBoxValue(editPanelDisplayNameTextBox);
     }
 
     public String fillNewInstructorName(String value) {
@@ -411,12 +430,34 @@ public class InstructorCourseEditPage extends AppPage {
                                                          + "']"));
     }
 
+    public WebElement getDisplayNameField(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+                + Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME
+                + "']"));
+    }
+
     public String getInstructorName(int instrNum) {
         return browser.driver.findElement(By.id("instructorname" + instrNum)).getAttribute("value");
     }
 
     public String getInstructorEmail(int instrNum) {
         return browser.driver.findElement(By.id("instructoremail" + instrNum)).getAttribute("value");
+    }
+
+    public boolean getInstructorDisplayedToStudents(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+                + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
+                + "']")).isSelected();
+    }
+
+    public String getInstructorDisplayName(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+                + Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME
+                + "']")).getAttribute("value");
+    }
+
+    public String getInstructorAccessLevel(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#accessControlInfoForInstr" + instrNum + " span")).getText();
     }
 
     public WebElement getCourseLevelPanel(int instrNum) {
