@@ -96,8 +96,9 @@ public class InstructorCourseEditPage extends AppPage {
 
         editInstructorName(instrNum, name);
         editInstructorEmail(instrNum, email);
-        editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents);
-        editInstructorDisplayName(instrNum, displayName);
+        if (editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents)) {
+            editInstructorDisplayName(instrNum, displayName);
+        }
         selectRoleForInstructor(instrNum, role);
 
         saveEditInstructor(instrNum);
