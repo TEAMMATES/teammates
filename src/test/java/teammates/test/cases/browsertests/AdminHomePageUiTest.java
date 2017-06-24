@@ -221,6 +221,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         }
         resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
+        //verify the given email is valid or not
         ______TS("action failure : invalid parameter");
 
         AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
