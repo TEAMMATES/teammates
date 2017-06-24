@@ -1,3 +1,5 @@
+/* global Handsontable:false */
+
 import { showModalAlert } from '../common/bootboxWrapper.es6';
 import { StatusType } from '../common/const.es6';
 import { prepareInstructorPages } from '../common/instructor.es6';

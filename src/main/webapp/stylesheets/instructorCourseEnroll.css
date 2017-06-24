@@ -51,6 +51,6 @@
 }
 
 #enrollstudents {
-    max-width:100%;
-    display: none;
+    max-width: 100%;
+    /*display: none;*/
 }

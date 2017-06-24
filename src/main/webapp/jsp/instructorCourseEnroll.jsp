@@ -19,7 +19,7 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
-    
+
     <div class="panel panel-primary">
         <div class="panel-body fill-plain">
             <div class="text-muted">
@@ -31,10 +31,10 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <div id="student-data-spreadsheet">
-                            <div class="col-md-10 col-md-offset-1">                               
+                            <div class="col-md-10 col-md-offset-1">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                       <strong>Student data</strong> 
+                                       <strong>Student data</strong>
                                     </div>
                                     <div class="panel-body">
                                         <div id="spreadsheet"></div>
