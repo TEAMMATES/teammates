@@ -127,9 +127,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         CourseAttributes newCourse = new CourseAttributes("newIns.wit-demo", "Sample Course 101", "UTC");
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
-        InstructorAttributes instr =
-                new InstructorAttributes("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
-                                         "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt");
+        InstructorAttributes instr = InstructorAttributes
+                .builder("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
+                        "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .build();
         BackDoor.createInstructor(instr);
 
         homePage.loadInstructorHomeTab();
@@ -144,6 +145,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         updateInstructorToCoownerPrivileges();
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTML.html");
+
+        ______TS("content: require sanitization");
+
+        loginAsInstructor("CHomeUiT.idOfInstructor1OfTestingSanitizationCourse");
+        homePage.loadInstructorHomeTab();
+        homePage.verifyHtmlMainContent("/instructorHomeTestingSanitization.html");
+
     }
 
     private void updateInstructorToCoownerPrivileges() {
