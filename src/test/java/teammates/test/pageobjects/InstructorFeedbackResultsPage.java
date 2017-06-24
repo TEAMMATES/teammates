@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -69,46 +70,90 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
 
+    public void displayEditSettingsWindow() {
+        WebElement editBtn = browser.driver.findElement(By.id("editBtn"));
+        editBtn.click();
+        WebDriverWait wait = new WebDriverWait(browser.driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("editModal")));
+    }
+
+    public void submitEditForm() {
+        WebElement submitBtn = browser.driver.findElement(By.id("submitBtn"));
+        submitBtn.submit();
+    }
+
     public void displayByGiverRecipientQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Recipient > Question");
+
+        submitEditForm();
     }
 
     public void displayByRecipientGiverQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Giver > Question");
+
+        submitEditForm();
     }
 
     public void displayByGiverQuestionRecipient() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Question > Recipient");
+
+        submitEditForm();
     }
 
     public void displayByRecipientQuestionGiver() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Question > Giver");
+
+        submitEditForm();
     }
 
     public void filterResponsesForSection(String section) {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText(section);
+
+        submitEditForm();
     }
 
     public void filterResponsesForAllSections() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText("All");
+
+        submitEditForm();
     }
 
     public void displayByQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Question");
+
+        submitEditForm();
     }
 
     public void clickGroupByTeam() {
+        displayEditSettingsWindow();
+
         WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
         click(button);
+
+        submitEditForm();
     }
 
     public void clickCollapseExpandButton() {
@@ -116,11 +161,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickShowStats() {
-        click(showStatsCheckbox);
+        displayEditSettingsWindow();
+        showStatsCheckbox.click();
+        submitEditForm();
     }
 
     public void clickIndicateMissingResponses() {
-        click(indicateMissingResponsesCheckbox);
+        displayEditSettingsWindow();
+        indicateMissingResponsesCheckbox.click();
+        submitEditForm();
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
