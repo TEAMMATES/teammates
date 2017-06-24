@@ -39,7 +39,6 @@ import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
@@ -235,19 +234,14 @@ public class Logic {
             accountsLogic.createAccount(account);
         }
 
-        String role = roleParam == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : roleParam;
-        String displayedName = displayedNameParam == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedNameParam;
-        InstructorAttributes instructor = null;
+        // In case when roleParam is null, default values used both for role and for privileges.
+        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
+        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
+                .withRole(roleParam).withDisplayedName(displayedNameParam)
+                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
+                .withIsArchived(isArchived)
+                .build();
 
-        if (privileges == null) {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, isDisplayedToStudents,
-                    displayedName, new InstructorPrivileges(role));
-        } else {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
-        }
-
-        instructor.isArchived = isArchived;
-        instructor.isDisplayedToStudents = isDisplayedToStudents;
         instructorsLogic.createInstructor(instructor);
     }
 
@@ -264,9 +258,9 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor =
-                new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
-
+        InstructorAttributes instructor = InstructorAttributes.builder(null, courseId, name, email)
+                .withRole(role).withPrivileges(new InstructorPrivileges(role))
+                .build();
         instructorsLogic.createInstructor(instructor);
     }
 

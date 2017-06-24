@@ -377,8 +377,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but account already exists");
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns =
-                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns = InstructorAttributes
+                .builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -394,8 +395,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
-                "anInstructorWithoutGoogleId@gmail.com");
+        newIns = InstructorAttributes
+                .builder(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
+                .build();
 
         instructorsLogic.createInstructor(newIns);
 
@@ -403,7 +405,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = InstructorAttributes.builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
