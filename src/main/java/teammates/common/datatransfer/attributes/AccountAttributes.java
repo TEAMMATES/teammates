@@ -56,7 +56,6 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile = builder.studentProfile;
     }
 
-
     /**
      * valueOf(Account account) usages.
      * @see teammates.storage.api.AccountsDb#getAccount(String, boolean)

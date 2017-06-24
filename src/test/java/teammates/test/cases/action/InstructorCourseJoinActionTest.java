@@ -161,4 +161,3 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 }
-
