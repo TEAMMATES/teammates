@@ -37,8 +37,7 @@
                   <div data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
-                                      disabled="disabled"
+                              <input type="checkbox" disabled="disabled"
                                       <c:if test="${filterPanel.groupedByTeam}">checked</c:if>
                                       <c:if test="${filterPanel.sortType != 'question'}">class="checkbox-group-by-team"</c:if>> Group by Teams
                           </label>
@@ -91,7 +90,8 @@
             </div>
             <div class="row">
                 <div class="col-md-offset-10 col-md-2">
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#editModal">
+                    <button id="editBtn" type="button" class="btn btn-primary btn-block"
+                            data-toggle="modal" data-target="#editModal">
                         Edit settings
                     </button>
                 </div>
@@ -221,7 +221,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         <div class="col-md-offset-8 col-md-2">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

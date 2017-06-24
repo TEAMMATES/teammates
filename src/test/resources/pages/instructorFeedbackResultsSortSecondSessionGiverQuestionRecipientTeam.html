@@ -145,17 +145,17 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
+  <form class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
+              <label class="col-sm-2 control-label" for="viewSelectReadonly">
                 View:
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                <select class="form-control" id="viewSelect" name="frsorttype">
+                <select class="form-control" disabled="disabled" id="viewSelectReadonly">
                   <option value="question">
                     Group by - Question
                   </option>
@@ -179,7 +179,7 @@
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                  <input checked="" class="checkbox-group-by-team" disabled="disabled" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -187,14 +187,14 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" disabled="disabled" type="checkbox">
                   Show Statistics
                 </label>
               </div>
             </div>
             <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
-                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
+                <input checked="" disabled="disabled" type="checkbox" value="true">
                 Indicate Missing Responses
               </div>
             </div>
@@ -203,11 +203,11 @@
         <div class="row">
           <div class="col-sm-12 col-md-5" data-original-title="View results by sections" data-toggle="tooltip" title="">
             <div class="form-group">
-              <label class="col-sm-2 control-label" for="sectionSelect">
+              <label class="col-sm-2 control-label" for="sectionSelectReadonly">
                 Section:
               </label>
               <div class="col-sm-10">
-                <select class="form-control" id="sectionSelect" name="frgroupbysection">
+                <select class="form-control" disabled="disabled" id="sectionSelectReadonly">
                   <option selected="" value="All">
                     All
                   </option>
@@ -225,6 +225,13 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-offset-10 col-md-2">
+            <button class="btn btn-primary btn-block" data-target="#editModal" data-toggle="modal" id="editBtn" type="button">
+              Edit settings
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="pull-right" style="margin-top:50px">
@@ -232,10 +239,117 @@
         Expand All Sections
       </a>
     </div>
-    <input name="fsname" type="hidden" value="Second Session">
-    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-    <input name="user" type="hidden" value="CFResultsUiT.instr">
   </form>
+  <div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal" type="button">
+            ×
+          </button>
+          <h4 class="modal-title">
+            Edit settings
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" method="post" role="form">
+            <div class="row">
+              <div class="col-md-7">
+                <div class="form-group">
+                  <label class="control-label" for="viewSelect">
+                    View:
+                  </label>
+                  <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+                    <select class="form-control" id="viewSelect" name="frsorttype">
+                      <option value="question">
+                        Group by - Question
+                      </option>
+                      <option value="giver-recipient-question">
+                        Group by - Giver &gt; Recipient &gt; Question
+                      </option>
+                      <option value="recipient-giver-question">
+                        Group by - Recipient &gt; Giver &gt; Question
+                      </option>
+                      <option selected="" value="giver-question-recipient">
+                        Group by - Giver &gt; Question &gt; Recipient
+                      </option>
+                      <option value="recipient-question-giver">
+                        Group by - Recipient &gt; Question &gt; Giver
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+                  <div class="form-group">
+                    <label class="control-label" for="sectionSelect">
+                      Section:
+                    </label>
+                    <select class="form-control" id="sectionSelect" name="frgroupbysection">
+                      <option selected="" value="All">
+                        All
+                      </option>
+                      <option value="Section A">
+                        Section A
+                      </option>
+                      <option value="Section B">
+                        Section B
+                      </option>
+                      <option value="None">
+                        No specific recipient
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label class="control-label">
+                  Additional settings:
+                </label>
+                <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                  <div class="checkbox">
+                    <label>
+                      <input checked="" class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                      Group by Teams
+                    </label>
+                  </div>
+                </div>
+                <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                  <div class="checkbox">
+                    <label>
+                      <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                      Show Statistics
+                    </label>
+                  </div>
+                </div>
+                <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                  <div class="checkbox">
+                    <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
+                    Indicate Missing Responses
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input name="fsname" type="hidden" value="Second Session">
+            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+            <hr>
+            <div class="row">
+              <div class="col-md-2">
+                <button class="btn btn-primary" id="submitBtn" type="submit">
+                  Submit
+                </button>
+              </div>
+              <div class="col-md-offset-8 col-md-2">
+                <button class="btn btn-danger" data-dismiss="modal" type="button">
+                  Close
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <br>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
