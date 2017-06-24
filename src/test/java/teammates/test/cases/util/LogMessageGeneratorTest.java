@@ -130,8 +130,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.STUDENT_HOME_PAGE;
         logMessage = String.format(logTemplate, "studentHomePage", "Student");
         userType.isStudent = true;
-        AccountAttributes acc = new AccountAttributesBuilder("googleId", "david", "david@email.com", "NUS")
-                .withIsInstructor(false).build();
+        AccountAttributes acc = new AccountAttributesBuilder(
+                "googleId", "david", "david@email.com", "NUS")
+                .withIsInstructor(false)
+                .build();
 
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
@@ -183,8 +185,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         userType.isAdmin = true;
-        acc = new AccountAttributesBuilder("anotherGoogleId", "david", "david@email.com", "NUS")
-        .withIsInstructor(false).build();
+        acc = new AccountAttributesBuilder(
+                "anotherGoogleId", "david", "david@email.com", "NUS")
+                .withIsInstructor(false)
+                .build();
         logMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCoursesPage";
 

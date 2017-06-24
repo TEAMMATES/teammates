@@ -94,10 +94,7 @@ public class BackDoorLogic extends Logic {
 
             if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributesBuilder(
-                        instructor.googleId,
-                        instructor.name,
-                        instructor.email,
-                        "TEAMMATES Test Institute 1")
+                        instructor.googleId, instructor.name, instructor.email, "TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
                         .build();
 
@@ -117,10 +114,7 @@ public class BackDoorLogic extends Logic {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributesBuilder(
-                        student.googleId,
-                        student.name,
-                        student.email,
-                        "TEAMMATES Test Institute 1")
+                        student.googleId, student.name, student.email, "TEAMMATES Test Institute 1")
                         .withIsInstructor(false)
                         .build();
                 if (account.studentProfile == null) {

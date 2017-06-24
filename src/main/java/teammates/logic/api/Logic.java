@@ -93,10 +93,7 @@ public class Logic {
             studentProfile.googleId = googleId;
         }
         AccountAttributes accountToAdd = new AccountAttributesBuilder(
-                googleId,
-                name,
-                email,
-                institute)
+                googleId, name, email, institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
@@ -232,10 +229,7 @@ public class Logic {
 
         if (accountsLogic.getAccount(googleId) == null) {
             AccountAttributes account = new AccountAttributesBuilder(
-                    googleId,
-                    name,
-                    email,
-                    institute)
+                    googleId, name, email, institute)
                     .withIsInstructor(true)
                     .build();
             accountsLogic.createAccount(account);

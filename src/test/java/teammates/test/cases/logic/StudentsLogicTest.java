@@ -123,8 +123,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(
                 instructorId, "ICET", "", "", "", "other", "", "");
 
-        AccountAttributes accountToAdd = new AccountAttributesBuilder(instructorId, "ICET Instr Name",
-                "instructor@icet.tmt", "TEAMMATES Test Institute 1")
+        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+                instructorId, "ICET Instr Name", "instructor@icet.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(studentProfileAttributes)
                 .build();
@@ -612,8 +612,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(
                 instructorId, "Ins1", "", "", "", "male", "", "");
 
-        AccountAttributes accountToAdd = new AccountAttributesBuilder(instructorId, "Instructor 1",
-                instructorEmail, "TEAMMATES Test Institute 1")
+        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+                instructorId, "Instructor 1", instructorEmail, "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(studentProfileAttributes)
                 .build();
@@ -706,8 +706,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes student = new StudentProfileAttributes(
                 "tes.instructor", "Ins 1", "", "", "", "male", "", "");
 
-        accountToAdd = new AccountAttributesBuilder("tes.instructor", "Instructor 1",
-                "instructor@email.tmt", "TEAMMATES Test Institute 1")
+        accountToAdd = new AccountAttributesBuilder(
+                "tes.instructor", "Instructor 1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(student)
                 .build();

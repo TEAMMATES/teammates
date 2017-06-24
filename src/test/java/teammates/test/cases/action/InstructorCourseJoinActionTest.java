@@ -94,8 +94,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         instructor.googleId = "ICJAT.instr";
 
         AccountAttributes newInstructorAccount = new AccountAttributesBuilder(
-                instructor.googleId, instructor.name,
-                instructor.email, "TEAMMATES Test Institute 5").withIsInstructor(false).build();
+                instructor.googleId, instructor.name, instructor.email, "TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .build();
 
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
@@ -158,3 +159,4 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 }
+

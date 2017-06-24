@@ -38,12 +38,11 @@ public class AccountAttributes extends EntityAttributes {
     }
 
     /**
-     * AccountAttributes constructor with AccountAttributesBuilder as a parameter.
-     * Default values set for optional fields.
+     * Creates a new AccountAttributes with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
      * {@code true} for {@code isInstructor} <br>
-     * {@code new Date(0)} for {@code createdAt}
+     * {@code new Date(0)} for {@code createdAt} <br>
      * {@code new StudentProfileAttributes()} for {@code studentProfile}
      */
     public AccountAttributes(AccountAttributesBuilder builder) {
@@ -57,6 +56,12 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile = builder.studentProfile;
     }
 
+
+    /**
+     * valueOf(Account account) usages.
+     * @see teammates.storage.api.AccountsDb#getAccount(String, boolean)
+     * @see teammates.storage.api.AccountsDb#getInstructorAccounts()
+     */
     public static AccountAttributes valueOf(Account account) {
         return new AccountAttributesBuilder(
                 account.getGoogleId(),
@@ -88,7 +93,8 @@ public class AccountAttributes extends EntityAttributes {
             this.studentProfile = new StudentProfileAttributes();
         }
 
-        AccountAttributes copy = new AccountAttributesBuilder(googleId, name, email, institute)
+        AccountAttributes copy = new AccountAttributesBuilder(
+                googleId, name, email, institute)
                 .withStudentProfileAttributes(studentProfile)
                 .withCreatedAt(createdAt)
                 .withIsInstructor(isInstructor)
@@ -190,7 +196,13 @@ public class AccountAttributes extends EntityAttributes {
     }
 
     /**
-     * AccountAttributesBuilder class for {@link AccountAttributes}.
+     * AccountAttributesBuilder class for {@link AccountAttributes}.<br>
+     * Usages:
+     * @see teammates.logic.core.AccountsLogic#joinCourseForInstructorWithInstitute(String, String, String)
+     * @see teammates.logic.backdoor.BackDoorLogic #persistDataBundle(DataBundle)
+     * @see AccountAttributes#AccountAttributes(AccountAttributesBuilder)
+     * @see AccountAttributes#valueOf(Account)
+     * @see AccountAttributes#getCopy()
      */
     public static class AccountAttributesBuilder {
 

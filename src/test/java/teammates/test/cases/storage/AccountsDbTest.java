@@ -37,9 +37,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
 
-        // In cases where studentProfile is null, default values are used
-        //assertNull(retrieved.studentProfile);
-
         ______TS("typical success with student profile");
         retrieved = accountsDb.getAccount(a.googleId, true);
         assertNotNull(retrieved);
@@ -82,9 +79,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private List<AccountAttributes> createInstructorAccounts(
             int numOfInstructors) throws Exception {
         AccountAttributes a;
-
         List<AccountAttributes> result = new ArrayList<AccountAttributes>();
-
         for (int i = 0; i < numOfInstructors; i++) {
             a = getNewAccountAttributes();
             a.googleId = "id." + i;
@@ -92,7 +87,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
             accountsDb.createAccount(a);
             result.add(a);
         }
-
         return result;
     }
 

@@ -230,8 +230,13 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder("instructor1", "instructor1", "instructor@email.tmt",
-                "TEAMMATES Test Institute 1").withIsInstructor(true).withStudentProfileAttributes(spa).build());
+
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
+
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.getId());
@@ -287,8 +292,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder("instructor1", "instructor1", "instructor@email.tmt",
-                "TEAMMATES Test Institute 1").withIsInstructor(true).withStudentProfileAttributes(spa).build());
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
+
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "America/Los_Angeles");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.getId());
@@ -347,8 +356,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder("instructor1", "instructor1", "instructor@email.tmt",
-                "TEAMMATES Test Institute 1").withIsInstructor(true).withStudentProfileAttributes(spa).build());
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
+
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Australia/Adelaide");
         courseDetails = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseDetails.course.getId());
@@ -399,8 +412,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder("instructor1", "instructor1", "instructor@email.tmt",
-                "TEAMMATES Test Institute 1").withIsInstructor(true).withStudentProfileAttributes(spa).build());
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
+
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         teams = coursesLogic.getTeamsForCourse("course1");
 
