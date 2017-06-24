@@ -80,6 +80,7 @@ public class InstructorCourseAddAction extends Action {
                 statusMessageTexts.add(msg.getText());
             }
 
+            statusToAdmin.clear();
             statusToAdmin.add(StringHelper.toString(statusMessageTexts, "<br>"));
         } else {
             statusToAdmin.add("Course added : " + newCourse.getId() + "<br>Total courses: " + allCourses.size());

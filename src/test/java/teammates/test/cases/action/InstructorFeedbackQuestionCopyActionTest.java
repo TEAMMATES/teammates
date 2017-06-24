@@ -33,6 +33,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testAccessControl() {
         String[] params = new String[]{
@@ -132,7 +133,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                              + "instructorFeedbackQuestionCopy|||true|||"
                              + "Instructor|||Instructor 1 of Course 1|||"
                              + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + "|||/page/instructorFeedbackQuestionCopy";
+                             + "Unknown|||/page/instructorFeedbackQuestionCopy";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Masquerade mode");

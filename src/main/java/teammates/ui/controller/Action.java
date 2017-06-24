@@ -706,8 +706,9 @@ public abstract class Action {
         if (statusToAdmin.isEmpty()) {
             statusToAdmin.add(message);
         } else {
-            statusToAdmin.add(statusToAdmin.get(statusToAdmin.size() - 1) + message);
-            statusToAdmin.remove(statusToAdmin.size() - 2);
+            String toAdd = statusToAdmin.get(statusToAdmin.size() - 1) + message;
+            statusToAdmin.remove(statusToAdmin.size() - 1);
+            statusToAdmin.add(toAdd);
         }
     }
 }
