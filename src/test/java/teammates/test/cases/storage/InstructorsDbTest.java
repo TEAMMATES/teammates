@@ -310,14 +310,20 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.name = "New Name";
         instructorToEdit.email = "InstrDbT.new-email@email.tmt";
+        instructorToEdit.isArchived = true;
+        instructorToEdit.role = "new role";
         instructorToEdit.isDisplayedToStudents = false;
+        instructorToEdit.displayedName = "New Displayed Name";
         instructorsDb.updateInstructorByGoogleId(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
                 instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
+        assertTrue(instructorUpdated.isArchived);
+        assertEquals("new role", instructorUpdated.role);
         assertFalse(instructorUpdated.isDisplayedToStudents);
+        assertEquals("New Displayed Name", instructorUpdated.displayedName);
 
         ______TS("Failure: invalid parameters");
 
@@ -373,14 +379,20 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.googleId = "new-id";
         instructorToEdit.name = "New Name";
+        instructorToEdit.isArchived = true;
+        instructorToEdit.role = "new role";
         instructorToEdit.isDisplayedToStudents = false;
+        instructorToEdit.displayedName = "New Displayed Name";
         instructorsDb.updateInstructorByEmail(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
                 instructorsDb.getInstructorForEmail(instructorToEdit.courseId, instructorToEdit.email);
         assertEquals("new-id", instructorUpdated.googleId);
         assertEquals("New Name", instructorUpdated.name);
+        assertTrue(instructorUpdated.isArchived);
+        assertEquals("new role", instructorUpdated.role);
         assertFalse(instructorUpdated.isDisplayedToStudents);
+        assertEquals("New Displayed Name", instructorUpdated.displayedName);
 
         ______TS("Failure: invalid parameters");
 
