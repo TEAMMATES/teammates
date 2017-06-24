@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <strong>
-                    [${courseTable.courseId}] : ${courseTable.courseName}
+                    [${courseTable.courseId}] : ${fn:escapeXml(courseTable.courseName)}
                 </strong>
             </div>
             <div class="mobile-margin-top-10px col-sm-6">

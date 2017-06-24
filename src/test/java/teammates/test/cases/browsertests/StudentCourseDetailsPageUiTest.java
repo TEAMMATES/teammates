@@ -30,6 +30,13 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie",
                       "/studentCourseDetailsWithoutTeammatesHTML.html", false);
 
+        ______TS("content: data requiring sanitization");
+
+        verifyContent("SCDetailsUiT.TSCourse",
+                "SCDetailsUiT.student1InTSCourse",
+                "/studentCourseDetailsTestingSanitization.html",
+                false);
+
         ______TS("links, inputValidation, actions");
 
         //nothing to test here.
