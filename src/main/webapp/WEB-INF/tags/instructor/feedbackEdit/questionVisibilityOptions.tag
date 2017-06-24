@@ -14,7 +14,11 @@
 
 <div class="col-sm-12 margin-bottom-15px padding-15px <%= fqForm.isQuestionHasResponses() ? "alert alert-danger" : "background-color-light-green" %>">
     <div class="margin-bottom-7px">
-        <c:if test="${fqForm.questionHasResponses}"><h4>Changing the visibility after collecting responses is not recommended.</h4></c:if>
+        <c:if test="${fqForm.questionHasResponses}">
+            <h4>Changing the visibility after collecting responses is not recommended.</h4>
+            <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
+            <br/>
+        </c:if>
         <b class="visibility-title">Visibility</b> (Who can see the responses?)
     </div>
     <div class="visibility-options-dropdown btn-group margin-bottom-10px">
