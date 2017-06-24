@@ -84,7 +84,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
 
         ElementTag add = createButton("Add",
                                       className + "add-eval-for-test",
-                                      getInstructorFeedbacksLink(courseId),
+                                      getInstructorFeedbackSessionsLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
                        add, disabled, null);
