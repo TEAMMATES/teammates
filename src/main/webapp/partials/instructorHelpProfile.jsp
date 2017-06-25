@@ -13,7 +13,7 @@
             </span>
             <div>
                 Go to the
-                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click
+                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
                 <b>'View'</b> button in the last column of the row corresponding to the student whose details you want to see.
                 <br>A new page should open which displays the student's profile, similar to the sample profile below:
                 <br><br>
@@ -97,8 +97,7 @@
                 <br><b>Team Name</b> is the name of the team to which the student belongs, or <b>'NA'</b> if the student does not belong to a team.
                 <br><b>Official Email Address</b> is the email address used to contact the student.
                 <br><b>Comments</b> contains student information entered during enrollment.
-
-                <br>Below this is the <b>'More Info'</b> section where you can see a personal description given by the student, if any. It will look something like this:
+                <br><br>Below this is the <b>'More Info'</b> section where you can see a personal description given by the student, if any. It will look something like this:
                 <br><br>
                 <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -133,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <br>You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right, to display the information in a modal for better readability.
+                <br>You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a modal for better readability.
             </div>
         </li>
         <li>
@@ -144,9 +143,9 @@
             </span>
             <div>
                 Go to the
-                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click
+                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
                 <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to edit.
-                <br>A new page will open which displays editable fields to edit the student's profile. It should look something like this -
+                <br>A new page will open which displays editable fields to edit the student's profile. It should look something like this:
                 <br><br>
                 <div class="panel panel-primary" id="studentEditProfile">
                     <div class="panel-body fill-plain">
@@ -190,8 +189,8 @@
                     </div>
                 </div>
                 <br>After making the necessary changes, click on
-                <b>'Save Changes'</b> .If successful, you will be redirected to
-                <b>'Students'</b> page and you should see a box like this -
+                <b>'Save Changes'</b>. If successful, you will be redirected to the
+                <b>'Students'</b> page and you should see a box like this:
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
