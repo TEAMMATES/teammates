@@ -23,7 +23,6 @@ public class FeedbackResponseCommentRow {
     private String responseGiverName;
     private String responseRecipientName;
     private String commentGiverName;
-    private String commentLastEditorName;
 
     private String showCommentToString;
     private String showGiverNameToString;
@@ -48,10 +47,9 @@ public class FeedbackResponseCommentRow {
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.commentText = frc.commentText.getValue();
-        setCommentGiverNameFromEmail(giverDisplay);
-        setCommentLastEditorNameFromEmail(frc.lastEditorEmail);
+        this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
         this.questionId = frc.feedbackQuestionId;
-        this.editedAt = setEditedAtText(frc.createdAt, frc.lastEditedAt);
+        this.editedAt = getEditedAtText(frc.giverEmail, frc.createdAt, frc.lastEditedAt);
     }
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
@@ -282,31 +280,21 @@ public class FeedbackResponseCommentRow {
         return commentGiverName;
     }
 
-    public void setCommentGiverNameFromEmail(String giverEmail) {
+    public String getCommentGiverNameFromEmail(String giverEmail) {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
-            this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
-            return;
+            return Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
         }
-        this.commentGiverName = instructorEmailNameTable.get(giverEmail);
+        return instructorEmailNameTable.get(giverEmail);
     }
 
-    public String getCommentLastEditorName() {
-        return commentLastEditorName;
-    }
+    public String getEditedAtText(String giverEmail, Date createdAt, Date lastEditedAt) {
+        String commentLastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)
+                ? Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT : instructorEmailNameTable.get(giverEmail);
 
-    public void setCommentLastEditorNameFromEmail(String giverEmail) {
-        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
-            this.commentLastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
-            return;
-        }
-        this.commentLastEditorName = instructorEmailNameTable.get(giverEmail);
-    }
-
-    public String setEditedAtText(Date createdAt, Date lastEditedAt) {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
-        Boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
+        boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
                 + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";

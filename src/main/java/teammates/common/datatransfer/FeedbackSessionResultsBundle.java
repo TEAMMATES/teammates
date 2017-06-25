@@ -2234,8 +2234,4 @@ public class FeedbackSessionResultsBundle {
         }
         return instructorEmailNameTable;
     }
-
-    public Map<String, String> getInstructorEmailNameTable() {
-        return instructorEmailNameTable;
-    }
 }

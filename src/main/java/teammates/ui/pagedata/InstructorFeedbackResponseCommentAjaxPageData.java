@@ -19,7 +19,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showCommentToString;
     public String showGiverNameToString;
     public String errorMessage;
-    public String commentGiverName;
     public Map<String, String> instructorEmailNameTable;
     public boolean isError;
 
