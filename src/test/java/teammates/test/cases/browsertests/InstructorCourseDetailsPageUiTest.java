@@ -163,20 +163,22 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
         // student2 is yet to register, student1 is already registered
-        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
-        String student2Password = TestProperties.TEST_STUDENT2_PASSWORD;
         boolean isEmailEnabled = !TestProperties.isDevServer();
 
         ______TS("action: remind single student");
 
         detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
+            assertFalse(hasStudentReceivedReminder(courseName, courseId, student2.email));
+        } else {
+            // TODO: use GAE LocalMailService
         }
 
         detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
-            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
+            assertTrue(hasStudentReceivedReminder(courseName, courseId, student2.email));
+        } else {
+            // TODO: use GAE LocalMailService
         }
         detailsPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student2.email);
 
@@ -190,9 +192,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
-            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
+            assertTrue(hasStudentReceivedReminder(courseName, courseId, student2.email));
             // verify a registered student did not receive a reminder
-            assertFalse(didStudentReceiveReminder(courseName, courseId, student1.email, student1Password));
+            assertFalse(hasStudentReceivedReminder(courseName, courseId, student1.email));
         }
 
         // verify if sort is preserved after sending invite
@@ -250,14 +252,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
     }
 
-    private boolean didStudentReceiveReminder(String courseName, String courseId, String studentEmail,
-                                              String studentPassword)
+    private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
-        ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
+        ThreadHelper.waitFor(5000); //TODO: remove this and use RetryManager with a shorter wait interval
         String keyReceivedInEmail =
-                EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseName, courseId);
+                EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
         return keyToSend.equals(keyReceivedInEmail);
     }
 
