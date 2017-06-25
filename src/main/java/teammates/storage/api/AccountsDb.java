@@ -153,7 +153,7 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setInstitute(a.institute);
 
         if (updateStudentProfile) {
-            StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
+            StudentProfileAttributes existingProfile = StudentProfileAttributes.valueOf(accountToUpdate.getStudentProfile());
             a.studentProfile.modifiedDate = existingProfile.modifiedDate;
 
             // if the student profile has changed then update the store

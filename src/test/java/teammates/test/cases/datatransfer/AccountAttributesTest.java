@@ -83,8 +83,8 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-        String expectedProfile = new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString();
-        String actualProfile = new StudentProfileAttributes(actualAccount.getStudentProfile()).toString();
+        String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
+        String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
     }
 
@@ -176,8 +176,16 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
-                profileInstitute, nationality, gender, moreInfo, pictureKey);
+        account.studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(account.googleId)
+                .withShortName(shortName)
+                .withEmail(personalEmail)
+                .withInstitute(profileInstitute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
 
         return account;
 

@@ -221,8 +221,9 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
+        StudentProfileAttributes spa = StudentProfileAttributes.builder()
+                .withGoogleId(correctStudentId).withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);

@@ -42,7 +42,7 @@ public class ProfilesDb extends EntitiesDb {
             return null;
         }
 
-        return new StudentProfileAttributes(sp);
+        return StudentProfileAttributes.valueOf(sp);
     }
 
     /**
@@ -75,7 +75,7 @@ public class ProfilesDb extends EntitiesDb {
 
     private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa,
             StudentProfile profileToUpdate) {
-        StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
+        StudentProfileAttributes existingProfile = StudentProfileAttributes.valueOf(profileToUpdate);
 
         newSpa.modifiedDate = existingProfile.modifiedDate;
         return existingProfile.toString().equals(newSpa.toString());
@@ -160,7 +160,7 @@ public class ProfilesDb extends EntitiesDb {
 
         for (StudentProfile student : entities) {
             if (!JDOHelper.isDeleted(student)) {
-                list.add(new StudentProfileAttributes(student));
+                list.add(StudentProfileAttributes.valueOf(student));
             }
         }
         return list;
