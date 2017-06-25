@@ -56,8 +56,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testLinks();
         testRemindAction();
         testDeleteAction();
-        testSanitization();
         testDeleteAllAction();
+        testSanitization();
     }
 
     private void testContent() throws Exception {
