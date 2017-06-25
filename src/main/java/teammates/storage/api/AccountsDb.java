@@ -115,7 +115,8 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
      *         Returns an empty list if no such accounts are found.
      */
     public List<AccountAttributes> getInstructorAccounts() {
-        return makeAttributes(load().filter("isInstructor =", true).list());
+        return makeAttributes(
+                load().filter("isInstructor =", true).list());
     }
 
     /**

@@ -161,7 +161,8 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
-        return makeAttributes(load()
+        return makeAttributes(
+                load()
                 .filter("isInTrashBin =", false)
                 .filter("sendDate =", null)
                 .list());
@@ -172,7 +173,8 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
-        return makeAttributes(load()
+        return makeAttributes(
+                load()
                 .filter("isInTrashBin =", false)
                 .filter("sendDate !=", null)
                 .list());
@@ -183,7 +185,8 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
-        return makeAttributes(load().filter("isInTrashBin =", true).list());
+        return makeAttributes(
+                load().filter("isInTrashBin =", true).list());
     }
 
     private List<AdminEmail> getAdminEmailEntities() {

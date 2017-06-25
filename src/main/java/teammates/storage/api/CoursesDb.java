@@ -139,7 +139,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
             return new ArrayList<Course>();
         }
 
-        return new ArrayList<Course>(load().ids(courseIds).values());
+        return new ArrayList<Course>(
+                load().ids(courseIds).values());
     }
 
     @Override
