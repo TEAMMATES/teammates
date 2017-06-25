@@ -1,6 +1,7 @@
 package teammates.test.cases.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
@@ -82,11 +83,13 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 FeedbackResponseCommentAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.comments.size());
-        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(expected);
+        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
+        FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
+                .toArray(new FeedbackResponseCommentAttributes[2]);
         int i = 0;
         for (String key : actual.comments.keySet()) {
             for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
-                assertEquals(expected[i].commentText, comment.commentText);
+                assertEquals(sortedComments[i].commentText, comment.commentText);
                 i++;
             }
         }
