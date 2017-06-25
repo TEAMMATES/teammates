@@ -1,4 +1,6 @@
-import { isUserTyping } from '../main/instructorCourseEnrollPage.es6';
+import {
+    isUserTyping,
+} from '../main/instructorCourseEnrollPage.es6';
 
 QUnit.module('instructorCourseEnrollPage.js');
 
