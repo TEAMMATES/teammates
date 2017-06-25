@@ -28,13 +28,13 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private FeedbackSubmissionEditPageData pageData;
 
     private FeedbackQuestionAttributes question;
-    private List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+    private List<FeedbackResponseAttributes> responses = new ArrayList<>();
 
     private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle =
-                                    new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+            new HashMap<>();
 
-    private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-    private Map<String, String> recipients = new HashMap<String, String>();
+    private Map<String, Map<String, String>> recipientList = new HashMap<>();
+    private Map<String, String> recipients = new HashMap<>();
 
     private void createData(StudentAttributes student) {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");

@@ -27,7 +27,7 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsStudentCourseListTableRow> createStudentCourseListTable(
                                     List<CourseAttributes> studentCourseList) {
         List<AdminAccountDetailsStudentCourseListTableRow> courseListTable =
-                        new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
+                new ArrayList<>();
 
         if (studentCourseList != null) {
             for (CourseAttributes courseDetails : studentCourseList) {
@@ -44,7 +44,7 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsInstructorCourseListTableRow> createInstructorCourseListTable(
                                                             List<CourseDetailsBundle> instructorCourseList) {
         List<AdminAccountDetailsInstructorCourseListTableRow> courseListTable =
-                new ArrayList<AdminAccountDetailsInstructorCourseListTableRow>();
+                new ArrayList<>();
         if (instructorCourseList != null) {
             for (CourseDetailsBundle courseDetails : instructorCourseList) {
                 AdminAccountDetailsInstructorCourseListTableRow row = new AdminAccountDetailsInstructorCourseListTableRow(

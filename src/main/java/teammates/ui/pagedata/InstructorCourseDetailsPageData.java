@@ -50,9 +50,10 @@ public class InstructorCourseDetailsPageData extends PageData {
         courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button-delete-all",
                 hrefDeleteStudents, null, null, courseId, isDisabled);
 
-        this.sections = new ArrayList<StudentListSectionData>();
+        this.sections = new ArrayList<>();
+
         for (SectionDetailsBundle section : courseDetails.sections) {
-            Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+            Map<String, String> emailPhotoUrlMapping = new HashMap<>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();

@@ -224,7 +224,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(5, instructors.size());
 
-        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> idMap = new HashMap<>();
         idMap.put("idOfInstructor1OfCourse1", false);
         idMap.put("idOfInstructor2OfCourse1", false);
         idMap.put("idOfInstructor3", false);

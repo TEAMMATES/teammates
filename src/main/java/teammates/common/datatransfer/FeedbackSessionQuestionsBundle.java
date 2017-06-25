@@ -41,7 +41,7 @@ public class FeedbackSessionQuestionsBundle {
      */
     public List<FeedbackQuestionAttributes> getSortedQuestions() {
         List<FeedbackQuestionAttributes> sortedQuestions =
-                new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
+                new ArrayList<>(this.questionResponseBundle.keySet());
 
         Collections.sort(sortedQuestions);
 
@@ -54,7 +54,7 @@ public class FeedbackSessionQuestionsBundle {
      */
     public FeedbackQuestionAttributes getQuestionAttributes(String questionId) {
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
+                new ArrayList<>(this.questionResponseBundle.keySet());
 
         for (FeedbackQuestionAttributes question : questions) {
             if (question.getId().equals(questionId)) {
@@ -74,8 +74,8 @@ public class FeedbackSessionQuestionsBundle {
     public Map<String, String> getSortedRecipientList(String feedbackQuestionId) {
 
         List<Map.Entry<String, String>> sortedList =
-                new ArrayList<Map.Entry<String, String>>(this.recipientList
-                                                             .get(feedbackQuestionId).entrySet());
+                new ArrayList<>(this.recipientList
+                        .get(feedbackQuestionId).entrySet());
 
         Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
             @Override
@@ -87,7 +87,7 @@ public class FeedbackSessionQuestionsBundle {
             }
         });
 
-        Map<String, String> result = new LinkedHashMap<String, String>();
+        Map<String, String> result = new LinkedHashMap<>();
 
         for (Map.Entry<String, String> entry : sortedList) {
             result.put(entry.getKey(), entry.getValue());
@@ -98,10 +98,10 @@ public class FeedbackSessionQuestionsBundle {
 
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
         List<Map.Entry<String, String>> emailList =
-                new ArrayList<Map.Entry<String, String>>(this.recipientList
-                                                             .get(feedbackQuestionId).entrySet());
+                new ArrayList<>(this.recipientList
+                        .get(feedbackQuestionId).entrySet());
 
-        HashSet<String> result = new HashSet<String>();
+        HashSet<String> result = new HashSet<>();
 
         for (Map.Entry<String, String> entry : emailList) {
             result.add(entry.getKey());
@@ -115,7 +115,7 @@ public class FeedbackSessionQuestionsBundle {
      * or responses that are hidden from the instructor.
      */
     public void hideUnmoderatableQuestions() {
-        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);

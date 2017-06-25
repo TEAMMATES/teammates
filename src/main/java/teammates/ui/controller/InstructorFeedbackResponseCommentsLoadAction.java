@@ -84,7 +84,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment =
-                new ArrayList<FeedbackResponseAttributes>();
+                new ArrayList<>();
         for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
             if (frComment != null && !frComment.isEmpty()) {
@@ -92,7 +92,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
             }
         }
         Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment =
-                new HashMap<String, FeedbackQuestionAttributes>();
+                new HashMap<>();
         for (FeedbackResponseAttributes fr : responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
             if (!questionsWithFeedbackResponseComment.containsKey(qn.getId())) {

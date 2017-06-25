@@ -60,7 +60,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public List<String> getExcludedLogRequestUris() {
-        List<String> excludedList = new ArrayList<String>();
+        List<String> excludedList = new ArrayList<>();
         for (String excludedLogRequestUri : excludedLogRequestURIs) {
             excludedList.add(excludedLogRequestUri.substring(excludedLogRequestUri.lastIndexOf('/') + 1));
         }
@@ -80,7 +80,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     private void initLogsAsTemplateRows(List<ActivityLogEntry> entries) {
-        logs = new ArrayList<AdminActivityLogTableRow>();
+        logs = new ArrayList<>();
         for (ActivityLogEntry entry : entries) {
             AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
             logs.add(row);
@@ -233,7 +233,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
-        versions = new ArrayList<String>();
+        versions = new ArrayList<>();
 
         if (query == null || query.isEmpty()) {
             return q;
@@ -354,7 +354,7 @@ public class AdminActivityLogPageData extends PageData {
 
     private List<String> getAllActionNames() {
 
-        List<String> actionNameList = new ArrayList<String>();
+        List<String> actionNameList = new ArrayList<>();
 
         for (Field field : Const.ActionURIs.class.getFields()) {
 

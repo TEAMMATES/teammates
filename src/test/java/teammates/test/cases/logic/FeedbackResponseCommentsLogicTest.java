@@ -109,7 +109,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testGetFeedbackResponseComments() {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
         List<FeedbackResponseCommentAttributes> expectedFrComments =
-                new ArrayList<FeedbackResponseCommentAttributes>();
+                new ArrayList<>();
         this.restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
 
         ______TS("fail: invalid parameters");

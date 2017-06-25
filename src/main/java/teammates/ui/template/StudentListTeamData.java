@@ -16,7 +16,7 @@ public class StudentListTeamData {
                                String sessionToken) {
         this.teamName = team.name;
         List<StudentListStudentData> studentsDetails =
-                                        new ArrayList<StudentListStudentData>();
+                new ArrayList<>();
         for (StudentAttributes student : team.students) {
             studentsDetails.add(new StudentListStudentData(googleId, student.name, student.email, student.course,
                                                            student.getStudentStatus(),

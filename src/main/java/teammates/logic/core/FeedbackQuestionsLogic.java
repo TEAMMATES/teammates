@@ -166,7 +166,7 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
             throws EntityDoesNotExistException {
 
-        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
         for (CourseAttributes course : courses) {
             List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
@@ -225,7 +225,7 @@ public final class FeedbackQuestionsLogic {
         }
 
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>();
+                new ArrayList<>();
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         boolean isInstructor = instructor != null;
@@ -259,7 +259,7 @@ public final class FeedbackQuestionsLogic {
                                     FeedbackSessionAttributes fsa) {
 
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>();
+                new ArrayList<>();
 
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
@@ -283,7 +283,7 @@ public final class FeedbackQuestionsLogic {
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
 
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>();
+                new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.INSTRUCTORS
@@ -303,7 +303,7 @@ public final class FeedbackQuestionsLogic {
             String feedbackSessionName, String courseId) {
 
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>();
+                new ArrayList<>();
 
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
@@ -324,7 +324,7 @@ public final class FeedbackQuestionsLogic {
             List<FeedbackQuestionAttributes> allQuestions) {
 
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>();
+                new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.STUDENTS
@@ -350,7 +350,7 @@ public final class FeedbackQuestionsLogic {
             InstructorAttributes instructorGiver, StudentAttributes studentGiver)
                     throws EntityDoesNotExistException {
 
-        Map<String, String> recipients = new HashMap<String, String>();
+        Map<String, String> recipients = new HashMap<>();
 
         FeedbackParticipantType recipientType = question.recipientType;
 
@@ -707,7 +707,7 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
             List<FeedbackQuestionAttributes> questions, String giver)
             throws EntityDoesNotExistException {
-        List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<>();
         for (FeedbackQuestionAttributes question : questions) {
             int numRecipients = question.numberOfEntitiesToGiveFeedbackTo;
             if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS) {

@@ -98,7 +98,7 @@ public class EmailGenerator {
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
 
-        List<FeedbackSessionAttributes> sessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> sessions = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
@@ -201,8 +201,9 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
             String template, String subject) {
 
-        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
+        List<EmailWrapper> emails = new ArrayList<>();
         String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
+
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
                     template, subject, coOwnersLine));
@@ -273,7 +274,7 @@ public class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
 
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> students = new ArrayList<>();
         boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
 
         if (isEmailNeeded) {
@@ -315,7 +316,7 @@ public class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
 
         if (session.isPrivateSession()) {
-            return new ArrayList<EmailWrapper>();
+            return new ArrayList<>();
         }
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
@@ -378,8 +379,9 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject) {
 
-        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
+        List<EmailWrapper> emails = new ArrayList<>();
         String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
+
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
                     template, subject, coOwnersLine));
@@ -472,7 +474,7 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session,
             List<InstructorAttributes> instructors, List<StudentAttributes> students) {
 
-        List<EmailWrapper> emails = new ArrayList<EmailWrapper>();
+        List<EmailWrapper> emails = new ArrayList<>();
 
         // The instructor preamble aims at informing the instructor about an email that has been sent to the students
         // of his course

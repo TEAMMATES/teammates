@@ -52,7 +52,7 @@ public class InstructorCourseEditPageData extends PageData {
     private List<CourseEditInstructorPanel> createInstructorPanelList(InstructorAttributes currentInstructor,
                                            List<InstructorAttributes> instructorList,
                                            List<String> sectionNames, List<String> feedbackNames) {
-        List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
+        List<CourseEditInstructorPanel> panelList = new ArrayList<>();
         int instructorIndex = 0;
         for (InstructorAttributes instructor : instructorList) {
             instructorIndex++;
@@ -67,7 +67,7 @@ public class InstructorCourseEditPageData extends PageData {
     private List<CourseEditInstructorPanel> createInstructorPanelForSingleInstructor(InstructorAttributes currentInstructor,
                                     InstructorAttributes instructorForPanel, int instructorIndex,
                                     List<String> sectionNames, List<String> feedbackNames) {
-        List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
+        List<CourseEditInstructorPanel> panelList = new ArrayList<>();
         CourseEditInstructorPanel instructorPanel = createInstructorPanel(
                                                             currentInstructor,
                                                             instructorIndex, instructorForPanel,

@@ -42,13 +42,13 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(instructorAccount,
                                                                                          dummySessionToken);
 
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
 
-        List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
+        List<InstructorAttributes> instructorsForUser = new ArrayList<>(courseInstructorMap.values());
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
@@ -124,7 +124,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
         InstructorFeedbackSessionsPageData instructorArchivedCourseData =
                 new InstructorFeedbackSessionsPageData(instructorOfArchivedCourseAccount, dummySessionToken);
-        Map<String, InstructorAttributes> archivedCourseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> archivedCourseInstructorMap = new HashMap<>();
 
         instructors = getInstructorsForGoogleId(instructorOfArchivedCourseAccount.googleId, true);
 
@@ -133,7 +133,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         }
 
         List<InstructorAttributes> instructorsForArchivedCourse =
-                new ArrayList<InstructorAttributes>(archivedCourseInstructorMap.values());
+                new ArrayList<>(archivedCourseInstructorMap.values());
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
         instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
@@ -156,14 +156,14 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         InstructorFeedbackSessionsPageData helperData = new InstructorFeedbackSessionsPageData(helperAccount,
                                                                                                dummySessionToken);
 
-        Map<String, InstructorAttributes> helperCourseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> helperCourseInstructorMap = new HashMap<>();
         instructors = getInstructorsForGoogleId(helperAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             helperCourseInstructorMap.put(instructor.courseId, instructor);
         }
 
         List<InstructorAttributes> instructorsForHelper =
-                new ArrayList<InstructorAttributes>(helperCourseInstructorMap.values());
+                new ArrayList<>(helperCourseInstructorMap.values());
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
 
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
@@ -200,13 +200,13 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         data = new InstructorFeedbackSessionsPageData(instructorAccount, dummySessionToken);
 
-        courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        courseInstructorMap = new HashMap<>();
         instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
 
-        instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
+        instructorsForUser = new ArrayList<>(courseInstructorMap.values());
         courses = getCoursesForInstructor(instructorsForUser);
 
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
@@ -242,13 +242,13 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(instructorAccount,
                                                                                          dummySessionToken);
 
-        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
 
-        List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
+        List<InstructorAttributes> instructorsForUser = new ArrayList<>(courseInstructorMap.values());
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
@@ -331,13 +331,13 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(instructorAccount,
                                                                                          dummySessionToken);
 
-        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
 
-        List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
+        List<InstructorAttributes> instructorsForUser = new ArrayList<>(courseInstructorMap.values());
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
@@ -361,7 +361,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
     }
 
     private List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
-        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>(dataBundle.instructors.values());
+        List<InstructorAttributes> instructors = new ArrayList<>(dataBundle.instructors.values());
 
         Iterator<InstructorAttributes> iter = instructors.iterator();
         while (iter.hasNext()) {
@@ -383,7 +383,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
     private List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
 
-        List<CourseAttributes> courses = new ArrayList<CourseAttributes>(dataBundle.courses.values());
+        List<CourseAttributes> courses = new ArrayList<>(dataBundle.courses.values());
 
         Iterator<CourseAttributes> iter = courses.iterator();
         while (iter.hasNext()) {
@@ -401,7 +401,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
 
         List<FeedbackSessionAttributes> feedbackSessions =
-                new ArrayList<FeedbackSessionAttributes>(dataBundle.feedbackSessions.values());
+                new ArrayList<>(dataBundle.feedbackSessions.values());
 
         Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
         while (iter.hasNext()) {
@@ -416,7 +416,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
     private Set<String> getSetOfCourseIdsFromInstructorAttributes(
                                     List<InstructorAttributes> instructorsForUser) {
-        Set<String> courseIdsOfUser = new HashSet<String>();
+        Set<String> courseIdsOfUser = new HashSet<>();
         for (InstructorAttributes instructor : instructorsForUser) {
             courseIdsOfUser.add(instructor.courseId);
         }

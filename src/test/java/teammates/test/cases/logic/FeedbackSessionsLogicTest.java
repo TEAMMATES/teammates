@@ -84,7 +84,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private void testGetFeedbackSessionsListForInstructor() {
-        List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> finalFsa = new ArrayList<>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
 
         String courseId = dataBundle.courses.get("typicalCourse1").getId();
@@ -292,9 +292,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fq.recipientType = FeedbackParticipantType.TEAMS;
         fq.questionMetaData = new Text("question to be deleted through cascade");
         fq.questionType = FeedbackQuestionType.TEXT;
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showResponsesTo = new ArrayList<>();
+        fq.showRecipientNameTo = new ArrayList<>();
+        fq.showGiverNameTo = new ArrayList<>();
 
         fqLogic.createFeedbackQuestion(fq);
 
@@ -363,12 +363,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         removeAndRestoreDataBundle(newDataBundle);
 
         Map<String, FeedbackSessionDetailsBundle> detailsMap =
-                new HashMap<String, FeedbackSessionDetailsBundle>();
+                new HashMap<>();
 
         String instrGoogleId = newDataBundle.instructors.get("instructor1OfCourse1").googleId;
         List<FeedbackSessionDetailsBundle> detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(instrGoogleId);
 
-        List<String> expectedSessions = new ArrayList<String>();
+        List<String> expectedSessions = new ArrayList<>();
         expectedSessions.add(newDataBundle.feedbackSessions.get("standard.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.responses.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
@@ -614,7 +614,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S1C1", dataBundle).toString();
-        List<String> actualResponses = new ArrayList<String>();
+        List<String> actualResponses = new ArrayList<>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -717,7 +717,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
-        List<String> actualResponses = new ArrayList<String>();
+        List<String> actualResponses = new ArrayList<>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -785,7 +785,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Test the user email-name maps used for display purposes
         String mapString = results.emailNameTable.toString();
-        List<String> expectedStrings = new ArrayList<String>();
+        List<String> expectedStrings = new ArrayList<>();
 
         String student2AnonEmail = getStudentAnonEmail(responseBundle, "student2InCourse1");
         String student2AnonName = getStudentAnonName(responseBundle, "student2InCourse1");
@@ -830,7 +830,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
-        List<String> actualStrings = new ArrayList<String>();
+        List<String> actualStrings = new ArrayList<>();
         for (FeedbackResponseAttributes response : results.responses) {
             String giverName = results.getNameForEmail(response.giver);
             String giverTeamName = results.getTeamNameForEmail(response.giver);

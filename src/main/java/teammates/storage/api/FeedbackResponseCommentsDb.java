@@ -158,7 +158,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
 
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
                 resultList.add(new FeedbackResponseCommentAttributes(frc));
@@ -176,7 +176,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntitiesForResponse(feedbackResponseId);
 
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
                 resultList.add(new FeedbackResponseCommentAttributes(frc));
@@ -225,7 +225,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForCourse(String courseId) {
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntitiesForCourse(courseId);
 
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
                 resultList.add(new FeedbackResponseCommentAttributes(frc));
@@ -247,7 +247,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntitiesForSession(courseId, feedbackSessionName);
 
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
                 resultList.add(new FeedbackResponseCommentAttributes(frc));
@@ -270,7 +270,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Collection<FeedbackResponseComment> frcList =
                 getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section);
 
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<>();
         for (FeedbackResponseComment frc : frcList) {
             if (!JDOHelper.isDeleted(frc)) {
                 resultList.add(new FeedbackResponseCommentAttributes(frc));
@@ -377,7 +377,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
      * Batch creates or updates search documents for the given comments
      */
     public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
-        List<SearchDocument> frcSearchDocuments = new ArrayList<SearchDocument>();
+        List<SearchDocument> frcSearchDocuments = new ArrayList<>();
         for (FeedbackResponseCommentAttributes comment : comments) {
             frcSearchDocuments.add(new FeedbackResponseCommentSearchDocument(comment));
         }
@@ -408,7 +408,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     @Deprecated
     public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
 
-        List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> list = new ArrayList<>();
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
         for (FeedbackResponseComment comment : entities) {
             if (!JDOHelper.isDeleted(comment)) {
@@ -431,7 +431,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     private List<FeedbackResponseComment> getCommentsWithoutDeletedEntity(
                                                   List<FeedbackResponseComment> feedbackResponseCommentList) {
-        List<FeedbackResponseComment> resultList = new ArrayList<FeedbackResponseComment>();
+        List<FeedbackResponseComment> resultList = new ArrayList<>();
         for (FeedbackResponseComment frc : feedbackResponseCommentList) {
             if (!JDOHelper.isDeleted(frc)) {
                 resultList.add(frc);
@@ -616,7 +616,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                                                         String courseId, String feedbackSessionName, String section) {
 
         Map<String, FeedbackResponseComment> feedbackResponseCommentList =
-                new HashMap<String, FeedbackResponseComment>();
+                new HashMap<>();
 
         Query q = getPm().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");

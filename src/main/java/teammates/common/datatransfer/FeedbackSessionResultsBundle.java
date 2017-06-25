@@ -56,10 +56,10 @@ public class FeedbackSessionResultsBundle {
     // For contribution questions.
     // Key is questionId, value is a map of student email to StudentResultSumary
     public Map<String, Map<String, StudentResultSummary>> contributionQuestionStudentResultSummary =
-            new HashMap<String, Map<String, StudentResultSummary>>();
+            new HashMap<>();
     // Key is questionId, value is a map of team name to TeamEvalResult
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
-            new HashMap<String, Map<String, TeamEvalResult>>();
+            new HashMap<>();
 
     /*
      * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor
@@ -752,7 +752,7 @@ public class FeedbackSessionResultsBundle {
         this.responseStatus = responseStatus;
         this.roster = roster;
         this.responseComments = responseComments;
-        this.actualResponses = new ArrayList<FeedbackResponseAttributes>();
+        this.actualResponses = new ArrayList<>();
 
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {
@@ -1022,10 +1022,10 @@ public class FeedbackSessionResultsBundle {
      */
     public Set<String> getTeamMembersFromRoster(String teamName) {
         if (!rosterTeamNameMembersTable.containsKey(teamName)) {
-            return new HashSet<String>();
+            return new HashSet<>();
         }
 
-        return new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
+        return new HashSet<>(rosterTeamNameMembersTable.get(teamName));
     }
 
     /**
@@ -1036,9 +1036,9 @@ public class FeedbackSessionResultsBundle {
      */
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
         if (rosterSectionTeamNameTable.containsKey(sectionName)) {
-            return new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
+            return new HashSet<>(rosterSectionTeamNameTable.get(sectionName));
         }
-        return new HashSet<String>();
+        return new HashSet<>();
     }
 
     public boolean isParticipantIdentifierStudent(String participantIdentifier) {
@@ -1060,7 +1060,7 @@ public class FeedbackSessionResultsBundle {
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa,
                                           String recipientParticipantIdentifier) {
         if (recipientParticipantIdentifier.contains("@@")) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         if (isParticipantIdentifierStudent(recipientParticipantIdentifier)) {
@@ -1077,12 +1077,12 @@ public class FeedbackSessionResultsBundle {
             case INSTRUCTORS:
                 return getSortedListOfInstructorEmails();
             case SELF:
-                List<String> creatorEmail = new ArrayList<String>();
+                List<String> creatorEmail = new ArrayList<>();
                 creatorEmail.add(fqa.creatorEmail);
                 return creatorEmail;
             default:
                 log.severe("Invalid giver type specified");
-                return new ArrayList<String>();
+                return new ArrayList<>();
             }
         } else {
             return getPossibleGiversForTeam(fqa, recipientParticipantIdentifier);
@@ -1098,7 +1098,7 @@ public class FeedbackSessionResultsBundle {
                                                   String recipientTeam) {
         FeedbackParticipantType giverType = fqa.giverType;
         FeedbackParticipantType recipientType = fqa.recipientType;
-        List<String> possibleGivers = new ArrayList<String>();
+        List<String> possibleGivers = new ArrayList<>();
 
         if (recipientType == FeedbackParticipantType.TEAMS) {
             switch (giverType) {
@@ -1122,7 +1122,7 @@ public class FeedbackSessionResultsBundle {
             if (giverType == FeedbackParticipantType.TEAMS) {
                 possibleGivers.add(recipientTeam);
             } else {
-                possibleGivers = new ArrayList<String>(getTeamMembersFromRoster(recipientTeam));
+                possibleGivers = new ArrayList<>(getTeamMembersFromRoster(recipientTeam));
             }
         }
 
@@ -1138,7 +1138,7 @@ public class FeedbackSessionResultsBundle {
                                            StudentAttributes studentRecipient) {
         FeedbackParticipantType giverType = fqa.giverType;
         FeedbackParticipantType recipientType = fqa.recipientType;
-        List<String> possibleGivers = new ArrayList<String>();
+        List<String> possibleGivers = new ArrayList<>();
 
         switch (giverType) {
         case STUDENTS:
@@ -1163,7 +1163,7 @@ public class FeedbackSessionResultsBundle {
         case TEAMS:
             break;
         case SELF:
-            possibleGivers = new ArrayList<String>();
+            possibleGivers = new ArrayList<>();
             possibleGivers.add(studentRecipient.email);
             break;
         case OWN_TEAM_MEMBERS:
@@ -1186,7 +1186,7 @@ public class FeedbackSessionResultsBundle {
      */
     private List<String> getPossibleGiversForInstructor(FeedbackQuestionAttributes fqa) {
         FeedbackParticipantType giverType = fqa.giverType;
-        List<String> possibleGivers = new ArrayList<String>();
+        List<String> possibleGivers = new ArrayList<>();
 
         switch (giverType) {
         case STUDENTS:
@@ -1211,7 +1211,7 @@ public class FeedbackSessionResultsBundle {
 
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
         FeedbackParticipantType giverType = fqa.giverType;
-        List<String> possibleGivers = new ArrayList<String>();
+        List<String> possibleGivers = new ArrayList<>();
 
         switch (giverType) {
         case STUDENTS:
@@ -1224,7 +1224,7 @@ public class FeedbackSessionResultsBundle {
             possibleGivers = getSortedListOfTeams();
             break;
         case SELF:
-            possibleGivers = new ArrayList<String>();
+            possibleGivers = new ArrayList<>();
             possibleGivers.add(fqa.creatorEmail);
             break;
         default:
@@ -1258,7 +1258,7 @@ public class FeedbackSessionResultsBundle {
             possibleRecipients = getSortedListOfTeams();
             break;
         case NONE:
-            possibleRecipients = new ArrayList<String>();
+            possibleRecipients = new ArrayList<>();
             possibleRecipients.add(Const.USER_NOBODY_TEXT);
             break;
         default:
@@ -1278,7 +1278,7 @@ public class FeedbackSessionResultsBundle {
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa,
                                               String giverParticipantIdentifier) {
         if (giverParticipantIdentifier.contains("@@")) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         if (isParticipantIdentifierStudent(giverParticipantIdentifier)) {
@@ -1300,7 +1300,7 @@ public class FeedbackSessionResultsBundle {
     private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa,
                                                InstructorAttributes instructorGiver) {
         FeedbackParticipantType recipientType = fqa.recipientType;
-        List<String> possibleRecipients = new ArrayList<String>();
+        List<String> possibleRecipients = new ArrayList<>();
 
         switch (recipientType) {
         case STUDENTS:
@@ -1338,7 +1338,7 @@ public class FeedbackSessionResultsBundle {
     private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa,
                                                StudentAttributes studentGiver) {
         FeedbackParticipantType recipientType = fqa.recipientType;
-        List<String> possibleRecipients = new ArrayList<String>();
+        List<String> possibleRecipients = new ArrayList<>();
 
         switch (recipientType) {
         case STUDENTS:
@@ -1382,7 +1382,7 @@ public class FeedbackSessionResultsBundle {
     private List<String> getPossibleRecipientsForTeam(FeedbackQuestionAttributes fqa,
                                                       String givingTeam) {
         FeedbackParticipantType recipientType = fqa.recipientType;
-        List<String> possibleRecipients = new ArrayList<String>();
+        List<String> possibleRecipients = new ArrayList<>();
 
         switch (recipientType) {
         case TEAMS:
@@ -1402,7 +1402,7 @@ public class FeedbackSessionResultsBundle {
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                 Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
-                possibleRecipients = new ArrayList<String>(studentEmailsToNames);
+                possibleRecipients = new ArrayList<>(studentEmailsToNames);
                 Collections.sort(possibleRecipients);
             }
             break;
@@ -1429,7 +1429,7 @@ public class FeedbackSessionResultsBundle {
      * Instructors are not present as a team.
      */
     private List<String> getSortedListOfTeams() {
-        List<String> teams = new ArrayList<String>(rosterTeamNameMembersTable.keySet());
+        List<String> teams = new ArrayList<>(rosterTeamNameMembersTable.keySet());
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
         Collections.sort(teams);
         return teams;
@@ -1445,7 +1445,7 @@ public class FeedbackSessionResultsBundle {
     public List<String> getSortedListOfTeamMembersEmails(StudentAttributes student) {
         String teamName = student.team;
         Set<String> teamMembersEmailsToNames = rosterTeamNameMembersTable.get(teamName);
-        List<String> teamMembers = new ArrayList<String>(teamMembersEmailsToNames);
+        List<String> teamMembers = new ArrayList<>(teamMembersEmailsToNames);
         Collections.sort(teamMembers);
         return teamMembers;
     }
@@ -1468,7 +1468,7 @@ public class FeedbackSessionResultsBundle {
      * Returns a list of student emails, sorted by section name.
      */
     private List<String> getSortedListOfStudentEmails() {
-        List<String> emailList = new ArrayList<String>();
+        List<String> emailList = new ArrayList<>();
         List<StudentAttributes> students = roster.getStudents();
         StudentAttributes.sortBySectionName(students);
         for (StudentAttributes student : students) {
@@ -1481,7 +1481,7 @@ public class FeedbackSessionResultsBundle {
      * Returns a list of instructor emails, sorted alphabetically.
      */
     private List<String> getSortedListOfInstructorEmails() {
-        List<String> emailList = new ArrayList<String>();
+        List<String> emailList = new ArrayList<>();
         List<InstructorAttributes> instructors = roster.getInstructors();
         for (InstructorAttributes instructor : instructors) {
             emailList.add(instructor.email);
@@ -1662,7 +1662,7 @@ public class FeedbackSessionResultsBundle {
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
-                new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                new LinkedHashMap<>();
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
         Collections.sort(sortedQuestions);
@@ -1689,7 +1689,7 @@ public class FeedbackSessionResultsBundle {
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
-                new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                new LinkedHashMap<>();
 
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
@@ -1718,7 +1718,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         Collections.sort(responses, compareByTeamQuestionRecipientTeamGiver);
 
@@ -1755,7 +1755,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         Collections.sort(responses, compareByTeamQuestionGiverTeamRecipient);
 
@@ -1792,7 +1792,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientQuestionGiver(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientQuestionTeamGiver);
@@ -1839,7 +1839,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipient(boolean sortByTeam) {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientGiverQuestion);
@@ -1888,7 +1888,7 @@ public class FeedbackSessionResultsBundle {
             getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
 
         LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientGiverQuestion);
@@ -1925,7 +1925,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
                 getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamGiverQuestionTeamRecipient);
@@ -1972,7 +1972,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByGiver(boolean sortByTeam) {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamGiverRecipientQuestion);
@@ -2026,7 +2026,7 @@ public class FeedbackSessionResultsBundle {
         }
 
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                                        new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
+                new LinkedHashMap<>();
 
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giver;
@@ -2066,7 +2066,7 @@ public class FeedbackSessionResultsBundle {
 
     private Map<String, Set<String>> getTeamNameToEmailsTableFromRoster(CourseRoster courseroster) {
         List<StudentAttributes> students = courseroster.getStudents();
-        Map<String, Set<String>> teamNameToEmails = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> teamNameToEmails = new HashMap<>();
 
         for (StudentAttributes student : students) {
             String studentTeam = student.team;
@@ -2075,7 +2075,7 @@ public class FeedbackSessionResultsBundle {
             if (teamNameToEmails.containsKey(studentTeam)) {
                 studentEmails = teamNameToEmails.get(studentTeam);
             } else {
-                studentEmails = new TreeSet<String>();
+                studentEmails = new TreeSet<>();
             }
 
             studentEmails.add(student.email);
@@ -2084,7 +2084,7 @@ public class FeedbackSessionResultsBundle {
 
         List<InstructorAttributes> instructors = courseroster.getInstructors();
         String instructorsTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-        Set<String> instructorEmails = new HashSet<String>();
+        Set<String> instructorEmails = new HashSet<>();
 
         for (InstructorAttributes instructor : instructors) {
             instructorEmails.add(instructor.email);
@@ -2096,7 +2096,7 @@ public class FeedbackSessionResultsBundle {
 
     private Map<String, Set<String>> getSectionToTeamNamesFromRoster(CourseRoster courseroster) {
         List<StudentAttributes> students = courseroster.getStudents();
-        Map<String, Set<String>> sectionToTeam = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> sectionToTeam = new HashMap<>();
 
         for (StudentAttributes student : students) {
             String studentSection = student.section;
@@ -2106,7 +2106,7 @@ public class FeedbackSessionResultsBundle {
             if (sectionToTeam.containsKey(studentSection)) {
                 teamNames = sectionToTeam.get(studentSection);
             } else {
-                teamNames = new HashSet<String>();
+                teamNames = new HashSet<>();
             }
 
             teamNames.add(studentTeam);

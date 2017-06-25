@@ -258,7 +258,7 @@ public final class InstructorsLogic {
                                                               String institute, String email) {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         String error;
 
         error = validator.getInvalidityInfoForPersonName(shortName);

@@ -181,7 +181,7 @@ public final class FeedbackSessionsLogic {
             String courseId, String userEmail) {
         List<FeedbackSessionAttributes> sessions =
                 getFeedbackSessionsForCourse(courseId);
-        List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> viewableSessions = new ArrayList<>();
         if (!sessions.isEmpty()) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
             boolean isInstructorOfCourse = instructor != null;
@@ -234,7 +234,7 @@ public final class FeedbackSessionsLogic {
             String googleId, boolean omitArchived)
             throws EntityDoesNotExistException {
 
-        List<FeedbackSessionDetailsBundle> fsDetails = new ArrayList<FeedbackSessionDetailsBundle>();
+        List<FeedbackSessionDetailsBundle> fsDetails = new ArrayList<>();
         List<InstructorAttributes> instructors =
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
@@ -264,7 +264,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
             List<InstructorAttributes> instructorList) {
 
-        List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId, instructor.email));
@@ -296,8 +296,8 @@ public final class FeedbackSessionsLogic {
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+                new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
@@ -328,8 +328,8 @@ public final class FeedbackSessionsLogic {
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+                new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -408,8 +408,8 @@ public final class FeedbackSessionsLogic {
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+                new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                 courseId);
@@ -449,8 +449,8 @@ public final class FeedbackSessionsLogic {
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+                new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -592,7 +592,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "false");
@@ -616,7 +616,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -649,7 +649,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -674,7 +674,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "true");
@@ -697,7 +697,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "false");
@@ -731,7 +731,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -752,7 +752,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "false");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "true");
@@ -773,7 +773,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "false");
@@ -791,7 +791,7 @@ public final class FeedbackSessionsLogic {
             CourseRoster roster, Boolean isIncludeResponseStatus)
             throws EntityDoesNotExistException {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, String.valueOf(isIncludeResponseStatus));
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -911,7 +911,7 @@ public final class FeedbackSessionsLogic {
         exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
 
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
-        List<String> possibleRecipientsForGiver = new ArrayList<String>();
+        List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
 
         for (FeedbackResponseAttributes response : allResponses) {
@@ -1058,7 +1058,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-                new ArrayList<FeedbackSessionAttributes>();
+                new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
@@ -1073,7 +1073,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-                new ArrayList<FeedbackSessionAttributes>();
+                new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
@@ -1204,7 +1204,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
 
-        Map<String, List<String>> instructorQuestionsMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> instructorQuestionsMap = new HashMap<>();
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -1212,7 +1212,7 @@ public final class FeedbackSessionsLogic {
                             fsa.isCreator(instructor.email));
 
             if (!instructorQns.isEmpty()) {
-                List<String> questionIds = new ArrayList<String>();
+                List<String> questionIds = new ArrayList<>();
                 for (FeedbackQuestionAttributes question : instructorQns) {
                     questionIds.add(question.getId());
                 }
@@ -1220,8 +1220,8 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        Set<String> respondingStudentList = new HashSet<String>();
-        Set<String> respondingInstructorList = new HashSet<String>();
+        Set<String> respondingStudentList = new HashSet<>();
+        Set<String> respondingInstructorList = new HashSet<>();
         List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
         for (FeedbackResponseAttributes response : responses) {
             List<String> instructorQuestions = instructorQuestionsMap.get(response.giver);
@@ -1232,8 +1232,8 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        addInstructorRespondents(new ArrayList<String>(respondingInstructorList), feedbackSessionName, courseId);
-        addStudentRespondents(new ArrayList<String>(respondingStudentList), feedbackSessionName, courseId);
+        addInstructorRespondents(new ArrayList<>(respondingInstructorList), feedbackSessionName, courseId);
+        addStudentRespondents(new ArrayList<>(respondingStudentList), feedbackSessionName, courseId);
     }
 
     public void deleteInstructorFromRespondentsList(InstructorAttributes instructor) {
@@ -1431,7 +1431,7 @@ public final class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new
-                ArrayList<FeedbackSessionAttributes>();
+                ArrayList<>();
 
         List<FeedbackSessionAttributes> nonPrivateSessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
@@ -1450,7 +1450,7 @@ public final class FeedbackSessionsLogic {
      * Returns returns a list of sessions that were closed within past hour.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
-        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
         List<FeedbackSessionAttributes> nonPrivateSessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
@@ -1596,21 +1596,21 @@ public final class FeedbackSessionsLogic {
 
         // create empty data containers to store results
         List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
+                new ArrayList<>();
         Map<String, FeedbackQuestionAttributes> relevantQuestions =
-                new HashMap<String, FeedbackQuestionAttributes>();
+                new HashMap<>();
         Map<String, String> emailNameTable =
-                new HashMap<String, String>();
+                new HashMap<>();
         Map<String, String> emailLastNameTable =
-                new HashMap<String, String>();
+                new HashMap<>();
         Map<String, String> emailTeamNameTable =
-                new HashMap<String, String>();
+                new HashMap<>();
         Map<String, Set<String>> sectionTeamNameTable =
-                new HashMap<String, Set<String>>();
+                new HashMap<>();
         Map<String, boolean[]> visibilityTable =
-                new HashMap<String, boolean[]>();
+                new HashMap<>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+                new HashMap<>();
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
@@ -1626,7 +1626,7 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(
                                                                     feedbackSessionName, courseId);
-        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
+        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<>();
         for (FeedbackQuestionAttributes question : allQuestions) {
 
             List<FeedbackResponseAttributes> responsesForThisQn;
@@ -1661,7 +1661,7 @@ public final class FeedbackSessionsLogic {
         }
 
         StudentAttributes student = null;
-        Set<String> studentsEmailInTeam = new HashSet<String>();
+        Set<String> studentsEmailInTeam = new HashSet<>();
         if (isStudent(role)) {
             student = studentsLogic.getStudentForEmail(courseId, userEmail);
             List<StudentAttributes> studentsInTeam = studentsLogic
@@ -1738,7 +1738,7 @@ public final class FeedbackSessionsLogic {
                     allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId);
         }
 
-        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
+        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
         putQuestionsIntoMap(allQuestions, allQuestionsMap);
 
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
@@ -1766,7 +1766,7 @@ public final class FeedbackSessionsLogic {
 
         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
 
-        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
+        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<>();
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
@@ -1822,7 +1822,7 @@ public final class FeedbackSessionsLogic {
 
                     List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
                     if (frcList == null) {
-                        frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+                        frcList = new ArrayList<>();
                         frcList.add(frc);
                         responseComments.put(frc.feedbackResponseId, frcList);
                     } else {
@@ -1983,7 +1983,7 @@ public final class FeedbackSessionsLogic {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         }
-        return new ArrayList<FeedbackResponseAttributes>();
+        return new ArrayList<>();
     }
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
@@ -2004,7 +2004,7 @@ public final class FeedbackSessionsLogic {
                                           || isStudentInSelectedSection)) {
                     String section = student.section;
                     if (!sectionTeamNameTable.containsKey(section)) {
-                        Set<String> teamNames = new HashSet<String>();
+                        Set<String> teamNames = new HashSet<>();
                         sectionTeamNameTable.put(section, teamNames);
                     }
 
@@ -2160,7 +2160,7 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         List<FeedbackSessionDetailsBundle> fsDetailsWithoutPrivate =
-                new ArrayList<FeedbackSessionDetailsBundle>();
+                new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
@@ -2176,7 +2176,7 @@ public final class FeedbackSessionsLogic {
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
             String courseId, String instructorEmail) {
 
-        List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
@@ -2198,9 +2198,9 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> studentQns = fqLogic
                 .getFeedbackQuestionsForStudents(questions);
 
-        List<String> studentNoResponses = new ArrayList<String>();
-        List<String> studentResponded = new ArrayList<String>();
-        List<String> instructorNoResponses = new ArrayList<String>();
+        List<String> studentNoResponses = new ArrayList<>();
+        List<String> studentResponded = new ArrayList<>();
+        List<String> instructorNoResponses = new ArrayList<>();
 
         if (!studentQns.isEmpty()) {
             for (StudentAttributes student : students) {
@@ -2371,7 +2371,7 @@ public final class FeedbackSessionsLogic {
         // Allow students to view the feedback session
         // if there are any questions for instructors to answer
         // where the responses of the questions are visible to the students
-        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<>();
         List<FeedbackQuestionAttributes> questionsForInstructors =
                                         fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
         for (FeedbackQuestionAttributes question : questionsForInstructors) {
