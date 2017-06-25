@@ -637,19 +637,23 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String feedbackQuestionId, String giverEmail, String section) {
         Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
 
-        for (FeedbackResponse response : load()
+        List<FeedbackResponse> firstQueryResponses = load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
                 .filter("giverSection =", section)
-                .list()) {
+                .list();
+
+        for (FeedbackResponse response : firstQueryResponses) {
             feedbackResponses.put(response.getId(), response);
         }
 
-        for (FeedbackResponse response : load()
+        List<FeedbackResponse> secondQueryResponses = load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
                 .filter("receiverSection =", section)
-                .list()) {
+                .list();
+
+        for (FeedbackResponse response : secondQueryResponses) {
             feedbackResponses.put(response.getId(), response);
         }
 
