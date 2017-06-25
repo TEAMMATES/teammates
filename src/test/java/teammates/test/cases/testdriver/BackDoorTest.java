@@ -133,7 +133,8 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
         @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
+        InstructorAttributes instructor = InstructorAttributes.builder(instructorId, courseId, name, email)
+                .build();
 
         // Make sure not already inside
         BackDoor.deleteInstructor(courseId, email);
