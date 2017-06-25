@@ -67,7 +67,7 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getCsvHeader();
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader(Boolean hasCommentsForResponses, int noOfComments) {
+    public String getCsvDetailedResponsesHeader(boolean hasCommentsForResponses, int noOfComments) {
         return "Team" + "," + "Giver's Full Name" + ","
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
@@ -79,7 +79,7 @@ public abstract class FeedbackQuestionDetails {
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question, Boolean hasCommentsForResponses) {
+                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);

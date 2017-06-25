@@ -2229,9 +2229,12 @@ public class FeedbackSessionResultsBundle {
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             commentRow.append("," + frc.giverEmail + ","
-                    + SanitizationHelper.desanitizeFromHtml(
-                            frc.commentText.getValue().substring(3, frc.commentText.getValue().length() - 4)));
+                    + SanitizationHelper.desanitizeFromHtml(getTextBetweenParagraphTag(frc.commentText.getValue())));
         }
         return commentRow;
+    }
+
+    public String getTextBetweenParagraphTag(String commentText) {
+        return commentText.substring(3, commentText.length() - 4);
     }
 }

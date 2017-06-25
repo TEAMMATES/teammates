@@ -912,13 +912,14 @@ public final class FeedbackSessionsLogic {
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
         String prevGiver = "";
+        //Sets header if there are no responses for a question
         if (allResponses.isEmpty()) {
             exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(false, 0));
         }
         for (FeedbackResponseAttributes response : allResponses) {
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients
-            Boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
+            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
             int noOfComments = hasCommentsForResponses
                     ? fsrBundle.responseComments.get(response.getId()).size()
                     : 0;
