@@ -262,7 +262,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         //TODO: make courseId+email the non-modifiable values
 
-        putDocument(new InstructorAttributes(instructorToUpdate));
+        putDocument(makeAttributes(instructorToUpdate));
         saveEntity(instructorToUpdate, instructorAttributesToUpdate);
     }
 
@@ -295,7 +295,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
 
         //TODO: make courseId+email the non-modifiable values
-        putDocument(new InstructorAttributes(instructorToUpdate));
+        putDocument(makeAttributes(instructorToUpdate));
         saveEntity(instructorToUpdate, instructorAttributesToUpdate);
     }
 
@@ -312,14 +312,14 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return;
         }
 
-        InstructorAttributes instructorToDeleteAttributes = new InstructorAttributes(instructorToDelete);
+        InstructorAttributes instructorToDeleteAttributes = makeAttributes(instructorToDelete);
 
         deleteDocument(instructorToDeleteAttributes);
         deleteEntityDirect(instructorToDelete, instructorToDeleteAttributes);
 
         Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
         if (instructorCheck != null) {
-            putDocument(new InstructorAttributes(instructorCheck));
+            putDocument(makeAttributes(instructorCheck));
         }
 
         //TODO: reuse the method in the parent class instead
@@ -351,7 +351,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private void deleteInstructors(List<Instructor> instructors) {
         for (Instructor instructor : instructors) {
-            deleteDocument(new InstructorAttributes(instructor));
+            deleteDocument(makeAttributes(instructor));
         }
         ofy().delete().entities(instructors).now();
     }
@@ -430,7 +430,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     protected InstructorAttributes makeAttributes(Instructor entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new InstructorAttributes(entity);
+        return InstructorAttributes.valueOf(entity);
     }
 
 }
