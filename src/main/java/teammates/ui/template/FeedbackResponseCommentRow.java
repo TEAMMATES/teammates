@@ -49,7 +49,7 @@ public class FeedbackResponseCommentRow {
         this.commentText = frc.commentText.getValue();
         this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
         this.questionId = frc.feedbackQuestionId;
-        this.editedAt = getEditedAtText(frc.giverEmail, frc.createdAt, frc.lastEditedAt);
+        this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
@@ -287,16 +287,13 @@ public class FeedbackResponseCommentRow {
         return instructorEmailNameTable.get(giverEmail);
     }
 
-    public String getEditedAtText(String giverEmail, Date createdAt, Date lastEditedAt) {
-        String commentLastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)
-                ? Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT : instructorEmailNameTable.get(giverEmail);
-
+    public String getEditedAtText(String lastEditorEmail, Date createdAt, Date lastEditedAt) {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
-                + (isGiverAnonymous ? "" : "by " + commentLastEditorName + " ")
+                + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
                 + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
     }
 }
