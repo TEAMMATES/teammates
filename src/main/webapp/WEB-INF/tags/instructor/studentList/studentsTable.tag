@@ -1,5 +1,6 @@
 <%@ tag description="instructorStudentList - Students table per course" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="course" type="teammates.ui.template.InstructorStudentListStudentsTableCourse" required="true" %>
 <%@ attribute name="index" required="true" %>
@@ -28,7 +29,7 @@
         </a>
         <div class='display-icon pull-right'>
         </div>
-        <strong>[${course.courseId}] : </strong>${course.courseName}
+        <strong>[${course.courseId}] : </strong>${fn:escapeXml(course.courseName)}
     </div>
     <div class="panel-collapse collapse">
         <div class="panel-body padding-0">

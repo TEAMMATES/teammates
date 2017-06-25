@@ -91,6 +91,14 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
 
+        ______TS("content: requires sanitization");
+
+        detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                            .withUserId(testData.students.get("SHomeUiT.student1InTestingSanitizationCourse").googleId);
+
+        studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
+
+        studentHomePage.verifyHtmlMainContent("/studentHomeTypicalTestingSanitization.html");
     }
 
     private void testLinks() {
