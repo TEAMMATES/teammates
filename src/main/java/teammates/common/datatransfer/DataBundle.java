@@ -14,6 +14,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.storage.entity.BaseEntity;
 
 /**
  * Holds a bundle of *Attributes data transfer objects.
@@ -54,7 +55,7 @@ public class DataBundle {
     /**
      * Sanitize each attribute in the {@code map} for saving.
      */
-    private <T extends EntityAttributes<?>> void sanitizeMapForSaving(Map<String, T> map) {
+    private <T extends EntityAttributes<? extends BaseEntity>> void sanitizeMapForSaving(Map<String, T> map) {
         for (T attribute : map.values()) {
             attribute.sanitizeForSaving();
         }
