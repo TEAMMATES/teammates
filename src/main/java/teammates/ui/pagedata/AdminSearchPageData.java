@@ -115,7 +115,11 @@ public class AdminSearchPageData extends PageData {
                                             institute, viewRecentActionsId, email, courseJoinLink);
     }
 
-    private String createId(InstructorAttributes instructor) {
+    /**
+     * Generates the id of the row for the {@code instructor}.
+     * Made public for testing purposes.
+     */
+    public static String createId(InstructorAttributes instructor) {
         String id = SanitizationHelper.sanitizeForSearch(instructor.getIdentificationString());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
@@ -178,7 +182,11 @@ public class AdminSearchPageData extends PageData {
                                          publishedFeedbackSessions);
     }
 
-    private String createId(StudentAttributes student) {
+    /**
+     * Generates the id of the row for the {@code student}.
+     * Made public for testing purposes.
+     */
+    public static String createId(StudentAttributes student) {
         String id = SanitizationHelper.sanitizeForSearch(student.getIdentificationString());
         id = id.replace(" ", "").replace("@", "");
         return "student_" + id;
