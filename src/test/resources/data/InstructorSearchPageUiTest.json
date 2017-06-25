@@ -14,6 +14,13 @@
       "email": "searchUI.instr2@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "searchUI.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "searchUI.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
     "helperOfCourse1": {
       "googleId": "searchUI.idOfHelperOfCourse1",
       "name": "Instructor 2 of Course 1",
@@ -58,12 +65,35 @@
       "isInstructor": false,
       "email": "searchUI.student3InCourse1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "searchUI.student1InTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "searchUI.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
     "typicalCourse1": {
       "id": "searchUI.idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -136,6 +166,33 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "searchUI.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "searchUI.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -174,6 +231,15 @@
       "comments": "",
       "team": "Team 1.2",
       "section": "Section 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "searchUI.student1InTestingSanitizationCourse",
+      "email": "searchUI.normal@sanitization.tmt",
+      "course": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Stud1<script> alert(\"hi!\"); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {

@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -52,6 +54,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testEditCourseAction();
         testDeleteCourseAction();
 
+        testSanitization();
     }
 
     private void testContent() throws Exception {
@@ -652,10 +655,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorPrivileges privilege =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
-        InstructorAttributes instructor =
-                new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt",
-                                         Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
-                                         "Teammates Reg", privilege);
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt")
+                .withDisplayedName("Teammates Reg")
+                .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
+                .withPrivileges(privilege)
+                .build();
         BackDoor.createInstructor(instructor);
 
         // Create an unregistered instructor with co-owner privilege
@@ -747,6 +752,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isInstructorEditable(unregInstrNum));
         assertEquals("true", courseEditPage.getEmailField(unregInstrNum).getAttribute("readonly"));
         assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
+    }
+
+    private void testSanitization() throws IOException {
+        ______TS("page load: data requires sanitization");
+
+        instructorId = testData.instructors.get("InsCrsEdit.instructor1OfTestingSanitizationCourse").googleId;
+        courseId = testData.courses.get("InsCrsEdit.testingSanitizationCourse").getId();
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTestingSanitization.html");
     }
 
     private InstructorCourseEditPage getCourseEditPage() {
