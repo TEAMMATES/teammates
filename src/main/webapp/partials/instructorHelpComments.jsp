@@ -64,6 +64,11 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: Alice (Team 1)
+                                                                <br>
+                                                                Recipient: Rose (Team 2)
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-8-0-1" class="btn btn-sm btn-info pull-right">
