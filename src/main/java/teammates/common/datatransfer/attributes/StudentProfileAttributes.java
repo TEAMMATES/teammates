@@ -71,7 +71,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      * Gets a deep copy of this object.
      */
     public StudentProfileAttributes getCopy() {
-        return new StudentProfileAttributes(this.toEntity());
+        StudentProfileAttributes newSpa = new StudentProfileAttributes(this.toEntity());
+        newSpa.modifiedDate = this.modifiedDate;
+        return newSpa;
     }
 
     // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
