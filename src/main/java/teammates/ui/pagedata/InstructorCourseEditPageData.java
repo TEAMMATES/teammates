@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CourseEditInstructorPanel;
 import teammates.ui.template.ElementTag;
 
@@ -25,6 +26,13 @@ public class InstructorCourseEditPageData extends PageData {
                                         List<String> sectionNames, List<String> feedbackNames) {
         super(account, sessionToken);
         this.course = course;
+        //TODO: [CourseAttribute] remove desanitization after data migration
+        //creating a new course with possibly desanitized name as course name cannot be accessed directly
+        this.course = new CourseAttributes(course.getId(),
+                SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()),
+                course.getTimeZone());
+        this.course.createdAt = course.createdAt;
+
         this.instructorToShowIndex = instructorToShowIndex;
 
         createCourseRelatedButtons(currentInstructor);

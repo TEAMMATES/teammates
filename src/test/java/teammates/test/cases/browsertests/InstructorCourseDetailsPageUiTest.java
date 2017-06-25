@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
@@ -54,6 +56,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testLinks();
         testRemindAction();
         testDeleteAction();
+        testSanitization();
     }
 
     private void testContent() throws Exception {
@@ -229,6 +232,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         detailsPage.clickDeleteAndCancel(danny.name);
         assertNotNull(BackDoor.getStudent(courseId, danny.email));
+    }
+
+    private void testSanitization() throws IOException {
+        instructorId = testData.instructors.get("CCDetailsUiT.instructor1OfTSCourse").googleId;
+        courseId = testData.courses.get("CCDetailsUiT.TSCourse").getId();
+
+        detailsPage = getCourseDetailsPage();
+        detailsPage.verifyHtmlMainContent("/instructorCourseDetailsTestingSanitization.html");
     }
 
     private InstructorCourseDetailsPage getCourseDetailsPage() {
