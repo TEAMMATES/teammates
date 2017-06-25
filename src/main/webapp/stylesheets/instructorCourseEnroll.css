@@ -52,5 +52,9 @@
 
 #enrollstudents {
     max-width: 100%;
-    display: none;
+    opacity: 0;
+    height: 0;
+    margin:0;
+    padding:0;
+    outline:0;
 }
