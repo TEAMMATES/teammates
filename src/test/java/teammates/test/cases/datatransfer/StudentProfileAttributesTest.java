@@ -39,6 +39,46 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testBuilderWithDefaultOptionalValues() {
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder().build();
+
+        assertEquals("", profileAttributes.googleId);
+        assertEquals("", profileAttributes.shortName);
+        assertEquals("", profileAttributes.email);
+        assertEquals("", profileAttributes.institute);
+        assertEquals("", profileAttributes.nationality);
+        assertEquals("", profileAttributes.moreInfo);
+        assertEquals("", profileAttributes.pictureKey);
+        assertEquals("other", profileAttributes.gender);
+    }
+
+    @Test
+    public void testDefaultValueForGenderIfNullPassed() {
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+                .withGender(null)
+                .build();
+        assertEquals("other", profileAttributes.gender);
+    }
+
+    @Test
+    public void testValueOf() {
+        StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
+                "Teammates Institute", "American", "male",
+                new Text("hello"), new BlobKey("key"));
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
+
+        assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
+        assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
+        assertEquals(studentProfile.getEmail(), profileAttributes.email);
+        assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
+        assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
+        assertEquals(studentProfile.getGender(), profileAttributes.gender);
+        assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
+        assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
+
+    }
+
+    @Test
     public void testGetEntityTypeAsString() {
         assertEquals("StudentProfile", profile.getEntityTypeAsString());
     }
@@ -194,7 +234,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                     FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                     FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.nationality));
-        expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
+
         return expectedErrorMessages;
     }
 

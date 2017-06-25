@@ -30,6 +30,19 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String pictureKey;
     public Date modifiedDate;
 
+    public StudentProfileAttributes() {
+        // just a container so all can be null
+        this.googleId = "";
+        this.shortName = "";
+        this.email = "";
+        this.institute = "";
+        this.nationality = "";
+        this.gender = "other";
+        this.moreInfo = "";
+        this.pictureKey = "";
+        this.modifiedDate = null;
+    }
+
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
         return builder()
                 .withGoogleId(sp.getGoogleId())
@@ -42,19 +55,6 @@ public class StudentProfileAttributes extends EntityAttributes {
                 .withPictureKey(sp.getPictureKey().getKeyString())
                 .withModifiedDate(sp.getModifiedDate())
                 .build();
-    }
-
-    public StudentProfileAttributes() {
-        // just a container so all can be null
-        this.googleId = "";
-        this.shortName = "";
-        this.email = "";
-        this.institute = "";
-        this.nationality = "";
-        this.gender = "other";
-        this.moreInfo = "";
-        this.pictureKey = "";
-        this.modifiedDate = null;
     }
 
     /**
@@ -215,15 +215,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         private boolean isGenderValid(String gender) {
-            if (gender == null) {
-                return false;
-            }
-
-            if(gender.equals("male") || gender.equals("female") || gender.equals("other")) {
-                return true;
-            }
-
-            return false;
+            return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
         }
     }
 }
