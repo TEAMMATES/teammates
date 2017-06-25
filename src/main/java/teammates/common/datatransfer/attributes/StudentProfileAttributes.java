@@ -30,28 +30,18 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String pictureKey;
     public Date modifiedDate;
 
-    public StudentProfileAttributes(String googleId, String shortName, String email, String institute,
-                                    String nationality, String gender, String moreInfo, String pictureKey) {
-        this.googleId = googleId;
-        this.shortName = SanitizationHelper.sanitizeName(shortName);
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.nationality = SanitizationHelper.sanitizeName(nationality);
-        this.gender = gender;
-        this.moreInfo = moreInfo;
-        this.pictureKey = pictureKey;
-    }
-
-    public StudentProfileAttributes(StudentProfile sp) {
-        this.googleId = sp.getGoogleId();
-        this.shortName = sp.getShortName();
-        this.email = sp.getEmail();
-        this.institute = sp.getInstitute();
-        this.nationality = sp.getNationality();
-        this.gender = sp.getGender();
-        this.moreInfo = sp.getMoreInfo().getValue();
-        this.pictureKey = sp.getPictureKey().getKeyString();
-        this.modifiedDate = sp.getModifiedDate();
+    public static StudentProfileAttributes valueOf(StudentProfile sp) {
+        return builder()
+                .withGoogleId(sp.getGoogleId())
+                .withShortName(sp.getShortName())
+                .withEmail(sp.getEmail())
+                .withInstitute(sp.getInstitute())
+                .withGender(sp.getGender())
+                .withNationality(sp.getNationality())
+                .withMoreInfo(sp.getMoreInfo().getValue())
+                .withPictureKey(sp.getPictureKey().getKeyString())
+                .withModifiedDate(sp.getModifiedDate())
+                .build();
     }
 
     public StudentProfileAttributes() {
@@ -67,19 +57,27 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.modifiedDate = null;
     }
 
+    /**
+     * Return new builder instance all string fields setted to {@code ""}
+     * and with {@code gender = "other"}.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
     // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE;
-        } else if (this.shortName.isEmpty()) {
+        } else if (StringHelper.isEmpty(shortName)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
-        } else if (this.email.isEmpty()) {
+        } else if (StringHelper.isEmpty(email)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
-        } else if (this.pictureKey.isEmpty()) {
+        } else if (StringHelper.isEmpty(pictureKey)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
-        } else if (this.moreInfo.isEmpty()) {
+        } else if (StringHelper.isEmpty(moreInfo)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
-        } else if (this.nationality.isEmpty()) {
+        } else if (StringHelper.isEmpty(nationality)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
         }
         return "";
@@ -99,19 +97,19 @@ public class StudentProfileAttributes extends EntityAttributes {
 
         // accept empty string values as it means the user has not specified anything yet.
 
-        if (!shortName.isEmpty()) {
+        if (!StringHelper.isEmpty(shortName)) {
             addNonEmptyError(validator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
-        if (!email.isEmpty()) {
+        if (!StringHelper.isEmpty(email)) {
             addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
         }
 
-        if (!institute.isEmpty()) {
+        if (!StringHelper.isEmpty(institute)) {
             addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
-        if (!nationality.isEmpty()) {
+        if (!StringHelper.isEmpty(nationality)) {
             addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
@@ -161,4 +159,71 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.googleId = SanitizationHelper.sanitizeGoogleId(this.googleId);
     }
 
+    /**
+     * A Builder class for {@link StudentProfileAttributes}.
+     */
+    public static class Builder {
+        private final StudentProfileAttributes profileAttributes = new StudentProfileAttributes();
+
+        public Builder withGoogleId(String googleId) {
+            profileAttributes.googleId = googleId;
+            return this;
+        }
+
+        public Builder withShortName(String shortName) {
+            profileAttributes.shortName = SanitizationHelper.sanitizeName(shortName);
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            profileAttributes.email = SanitizationHelper.sanitizeEmail(email);
+            return this;
+        }
+
+        public Builder withInstitute(String institute) {
+            profileAttributes.institute = SanitizationHelper.sanitizeTitle(institute);
+            return this;
+        }
+
+        public Builder withNationality(String nationality) {
+            profileAttributes.nationality = SanitizationHelper.sanitizeName(nationality);
+            return this;
+        }
+
+        public Builder withGender(String gender) {
+            profileAttributes.gender = isGenderValid(gender) ? gender : "other";
+            return this;
+        }
+
+        public Builder withMoreInfo(String moreInfo) {
+            profileAttributes.moreInfo = moreInfo;
+            return this;
+        }
+
+        public Builder withPictureKey(String pictureKey) {
+            profileAttributes.pictureKey = pictureKey;
+            return this;
+        }
+
+        public Builder withModifiedDate(Date modifiedDate) {
+            profileAttributes.modifiedDate = modifiedDate;
+            return this;
+        }
+
+        public StudentProfileAttributes build() {
+            return profileAttributes;
+        }
+
+        private boolean isGenderValid(String gender) {
+            if (gender == null) {
+                return false;
+            }
+
+            if(gender.equals("male") || gender.equals("female") || gender.equals("other")) {
+                return true;
+            }
+
+            return false;
+        }
+    }
 }

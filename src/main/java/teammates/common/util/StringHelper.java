@@ -25,6 +25,10 @@ public final class StringHelper {
         // utility class
     }
 
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
+
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
@@ -498,7 +502,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (s == null || s.isEmpty()) {
+            if (isEmpty(s)) {
                 numOfEmptyStrings += 1;
             }
         }
