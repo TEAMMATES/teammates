@@ -61,7 +61,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
+        InstructorAttributes i = InstructorAttributes.builder(googleId, courseId, name, email)
+                .withRole(role)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
 
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
