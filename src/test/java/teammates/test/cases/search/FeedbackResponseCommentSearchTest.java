@@ -1,6 +1,8 @@
 package teammates.test.cases.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.testng.annotations.Test;
 
@@ -41,7 +43,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ______TS("success: search for comments in instructor's course; query string matches some comments");
 
         bundle = commentsDb.search("\"self feedback\"", instructors);
-        verifySearchResults(bundle, frc1I1Q2S1, frc1I1Q1S1);
+        verifySearchResults(bundle, frc1I1Q1S1, frc1I1Q2S1);
 
         ______TS("success: search for comments in instructor's course; query string is case in-sensitive");
 
@@ -78,11 +80,21 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.comments.size());
         int i = 0;
+        sortFeedbackResponseCommentsByCreationTime(expected);
         for (String key : actual.comments.keySet()) {
             for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
                 assertEquals(expected[i].commentText, comment.commentText);
                 i++;
             }
         }
+    }
+
+    private static void sortFeedbackResponseCommentsByCreationTime(FeedbackResponseCommentAttributes...expected) {
+        Arrays.sort(expected, new Comparator<FeedbackResponseCommentAttributes>() {
+            @Override
+            public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
+                return frc1.createdAt.compareTo(frc2.createdAt);
+            }
+        });
     }
 }
