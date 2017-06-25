@@ -84,8 +84,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 FeedbackResponseCommentAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.comments.size());
-        int i = 0;
         sortFeedbackResponseCommentsByCreationTime(expected);
+        int i = 0;
         for (String key : actual.comments.keySet()) {
             for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
                 assertEquals(expected[i].commentText, comment.commentText);
@@ -94,8 +94,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         }
     }
 
-    private static void sortFeedbackResponseCommentsByCreationTime(FeedbackResponseCommentAttributes...expected) {
-        Arrays.sort(expected, new Comparator<FeedbackResponseCommentAttributes>() {
+    private static void sortFeedbackResponseCommentsByCreationTime(FeedbackResponseCommentAttributes...frcsToSort) {
+        Arrays.sort(frcsToSort, new Comparator<FeedbackResponseCommentAttributes>() {
             @Override
             public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
                 return frc1.createdAt.compareTo(frc2.createdAt);
