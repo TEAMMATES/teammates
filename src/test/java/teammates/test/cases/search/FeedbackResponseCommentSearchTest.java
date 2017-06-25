@@ -1,8 +1,6 @@
 package teammates.test.cases.search;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import org.testng.annotations.Test;
 
@@ -84,7 +82,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 FeedbackResponseCommentAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.comments.size());
-        sortFeedbackResponseCommentsByCreationTime(expected);
+        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(expected);
         int i = 0;
         for (String key : actual.comments.keySet()) {
             for (FeedbackResponseCommentAttributes comment : actual.comments.get(key)) {
@@ -92,14 +90,5 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 i++;
             }
         }
-    }
-
-    private static void sortFeedbackResponseCommentsByCreationTime(FeedbackResponseCommentAttributes...frcsToSort) {
-        Arrays.sort(frcsToSort, new Comparator<FeedbackResponseCommentAttributes>() {
-            @Override
-            public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
-                return frc1.createdAt.compareTo(frc2.createdAt);
-            }
-        });
     }
 }
