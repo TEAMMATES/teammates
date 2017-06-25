@@ -736,7 +736,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getCsvDetailedResponsesHeader(Boolean hasCommentsForResponses, int noOfComments) {
+    public String getCsvDetailedResponsesHeader(boolean hasCommentsForResponses, int noOfComments) {
         return "Team" + "," + "Giver's Full Name" + ","
                 + "Giver's Last Name" + "," + "Giver's Email" + ","
                 + "Recipient's Team" + "," + "Recipient's Full Name" + ","
@@ -750,7 +750,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question, Boolean hasCommentsForResponses) {
+            FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
