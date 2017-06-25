@@ -29,7 +29,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         instructors.add(dataBundle.instructors.get("instructor1OfCourse1"));
 
-        ______TS("success: search for comments in whole system; query string does not match any student");
+        ______TS("success: search for comments in whole system; query string does not match any comment");
 
         FeedbackResponseCommentSearchResultBundle bundle = commentsDb.search("non-existent", instructors);
         assertEquals(0, bundle.numberOfResults);
@@ -59,6 +59,11 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         bundle = commentsDb.search("instructor1@course1.tmt", instructors);
         verifySearchResults(bundle, frc1I1Q2S1, frc1I1Q1S1);
+
+        ______TS("success: search for comments using Student name");
+
+        bundle = commentsDb.search("Student in two courses", instructors);
+        verifySearchResults(bundle, frc1I1Q1S1, frc1I1Q2S1);
 
         ______TS("success: search for comments; no results for deleted comment");
 
