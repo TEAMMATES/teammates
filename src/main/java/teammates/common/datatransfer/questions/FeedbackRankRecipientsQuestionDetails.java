@@ -201,11 +201,14 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
+            FeedbackResponseAttributes selfResponse = getSelfResponse(responses);
+            String selfRank = selfResponse == null ? "-" : selfResponse.getResponseDetails().getAnswerString();
 
             fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                     Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                     Slots.RANK_RECIEVED, ranksReceived,
+                    Slots.RANK_SELF, selfRank,
                     Slots.RANK_AVERAGE, df.format(average),
                     Slots.RANK_EXCLUDING_SELF_AVERAGE, userAverageExcludingSelfText));
 
@@ -324,6 +327,17 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             }
         }
         return responsesExcludingSelf;
+    }
+
+    private FeedbackResponseAttributes getSelfResponse(List<FeedbackResponseAttributes> responses) {
+        FeedbackResponseAttributes selfResponse = null;
+
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.giver.equalsIgnoreCase(response.recipient)) {
+                selfResponse = response;
+            }
+        }
+        return selfResponse;
     }
 
     /**
