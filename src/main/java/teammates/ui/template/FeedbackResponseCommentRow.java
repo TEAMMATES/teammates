@@ -280,14 +280,14 @@ public class FeedbackResponseCommentRow {
         return commentGiverName;
     }
 
-    public String getCommentGiverNameFromEmail(String giverEmail) {
+    private String getCommentGiverNameFromEmail(String giverEmail) {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
         }
         return instructorEmailNameTable.get(giverEmail);
     }
 
-    public String getEditedAtText(String lastEditorEmail, Date createdAt, Date lastEditedAt) {
+    private String getEditedAtText(String lastEditorEmail, Date createdAt, Date lastEditedAt) {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
