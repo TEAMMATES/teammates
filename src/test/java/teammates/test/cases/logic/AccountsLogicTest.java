@@ -222,8 +222,8 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                                                                    "", "", "TEAMMATES Test Institute 1", "", UserGender.other, "", "");
+        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId, "", "", "TEAMMATES Test Institute 1",
+                                                                    "", UserGender.other, "", "");
 
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);
