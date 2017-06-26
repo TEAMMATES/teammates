@@ -194,7 +194,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can access sample coure feedback session adding page");
         instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
         InstructorFeedbackSessionsPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
-        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionsPage.html");
 
         ______TS("new instructor can archive sample course");
         instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
