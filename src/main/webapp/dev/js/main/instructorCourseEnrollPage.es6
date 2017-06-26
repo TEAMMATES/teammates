@@ -44,7 +44,7 @@ export {
     isUserTyping,
 };
 
-/* Handsontable Implementation code starts here */
+
 const container = document.getElementById('spreadsheet');
 
 $('#toggle-interface').click((e) => {
