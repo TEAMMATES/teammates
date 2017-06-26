@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 import teammates.ui.template.InstructorStudentListFilterBox;
 import teammates.ui.template.InstructorStudentListFilterCourse;
@@ -29,11 +30,14 @@ public class InstructorStudentListPageData extends PageData {
                                         new ArrayList<InstructorStudentListStudentsTableCourse>();
         for (InstructorStudentListPageCourseData islpcData : coursesToDisplay) {
             CourseAttributes course = islpcData.course;
-            coursesForFilter.add(new InstructorStudentListFilterCourse(course.getId(), course.getName()));
+            //TODO: [CourseAttribute] remove desanitization after data migration
+            String courseName = SanitizationHelper.desanitizeIfHtmlSanitized(course.getName());
+            coursesForFilter.add(new InstructorStudentListFilterCourse(course.getId(), courseName));
 
             InstructorStudentListStudentsTableCourse courseForStudentsTable =
                     new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived, course.getId(),
-                                                                 course.getName(), account.googleId,
+                                                                 courseName,
+                                                                 account.googleId,
                                                                  getInstructorCourseEnrollLink(course.getId()),
                                                                  islpcData.isInstructorAllowedToModify);
             coursesForStudentsTable.add(courseForStudentsTable);
