@@ -9,14 +9,7 @@
 </c:set>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
-    <script type="text/javascript" src="/js/richTextEditor.js"></script>
-
-    <script type="text/javascript" src="/js/datepicker.js"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbacksSpecific.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
