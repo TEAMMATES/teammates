@@ -28,13 +28,13 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         instructors.add(dataBundle.instructors.get("instructor1OfCourse1"));
 
-        ______TS("success: search for comments in whole system; query string does not match any comment");
+        ______TS("success: search for comments in data bundle; query string does not match any comment");
 
         FeedbackResponseCommentSearchResultBundle bundle = commentsDb.search("non-existent", instructors);
         assertEquals(0, bundle.numberOfResults);
         assertTrue(bundle.comments.isEmpty());
 
-        ______TS("success: search for comments in whole system; query string matches single comment");
+        ______TS("success: search for comments in data bundle; query string matches single comment");
 
         bundle = commentsDb.search("\"Instructor 1 comment to student 1 self feedback Question 2\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1);
@@ -44,27 +44,27 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         bundle = commentsDb.search("\"self feedback\"", instructors);
         verifySearchResults(bundle, frc1I1Q1S1, frc1I1Q2S1);
 
-        ______TS("success: search for comments in instructor's course; query string is case in-sensitive");
+        ______TS("success: search for comments in instructor's course; confirms query string is case insensitive");
 
         bundle = commentsDb.search("\"Instructor 1 COMMENT to student 1 self feedback Question 2\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1);
 
-        ______TS("success: search for comments searchable by feedbackSessionName");
+        ______TS("success: search for comments in data bundle using feedbackSessionName");
 
         bundle = commentsDb.search("\"First feedback session\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1, frc1I1Q1S1);
 
-        ______TS("success: search for comments using Instructor's email");
+        ______TS("success: search for comments in data bundle using Instructor's email");
 
         bundle = commentsDb.search("instructor1@course1.tmt", instructors);
         verifySearchResults(bundle, frc1I1Q2S1, frc1I1Q1S1);
 
-        ______TS("success: search for comments using Student name");
+        ______TS("success: search for comments in data bunndle using Student name");
 
         bundle = commentsDb.search("Student in two courses", instructors);
         verifySearchResults(bundle, frc1I1Q1S1, frc1I1Q2S1);
 
-        ______TS("success: search for comments; no results for deleted comment");
+        ______TS("success: search for comments in data bundle; confirms deleted comments are not included in results");
 
         commentsDb.deleteDocument(frc1I1Q2S1);
         bundle = commentsDb.search("\"Instructor 1 comment to student 1 self feedback Question 2\"", instructors);
