@@ -1,3 +1,7 @@
+import {
+    sendRemindersToStudents,
+} from './instructor.es6';
+
 function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal

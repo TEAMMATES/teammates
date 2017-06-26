@@ -1,6 +1,15 @@
-import { StatusType } from '../common/const.es6';
-import { setStatusMessage } from '../common/statusMessage.es6';
-import { addLoadingIndicator, removeLoadingIndicator } from '../common/ui.es6';
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    addLoadingIndicator,
+    removeLoadingIndicator,
+} from '../common/ui.es6';
 
 /**
  * Contains functions to be used to display email logs in `/adminEmailLog`
