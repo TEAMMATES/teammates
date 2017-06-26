@@ -1,4 +1,6 @@
-import { isWithinView } from './helper.es6';
+import {
+    isWithinView,
+} from './helper.es6';
 
 /**
  * Scrolls the screen to a certain position.
