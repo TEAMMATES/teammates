@@ -110,7 +110,7 @@ public class StudentProfile extends Entity {
         this.setEmail("");
         this.setInstitute("");
         this.setNationality("");
-        this.setGender(UserGender.OTHER);
+        this.setGender(UserGender.other);
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());

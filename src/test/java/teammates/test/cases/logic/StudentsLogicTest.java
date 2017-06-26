@@ -123,7 +123,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
                         "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", UserGender.OTHER, "", "")));
+                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", UserGender.other, "", "")));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
@@ -192,7 +192,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
         expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = UserGender.FEMALE;
+        expectedStudentProfile.gender = UserGender.female;
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
 
         student1.studentProfile = expectedStudentProfile;
@@ -601,7 +601,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorEmail = "instructor@email.tmt";
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", UserGender.MALE, "", ""));
+                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", UserGender.male, "", ""));
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
@@ -690,7 +690,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", UserGender.MALE, "", ""));
+                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", UserGender.male, "", ""));
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 

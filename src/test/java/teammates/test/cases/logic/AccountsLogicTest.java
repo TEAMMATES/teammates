@@ -60,7 +60,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = UserGender.MALE;
+        spa.gender = UserGender.male;
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
@@ -223,7 +223,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: without encryption and account already exists");
 
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", UserGender.OTHER, "", "");
+                                                                    "", "", "TEAMMATES Test Institute 1", "", UserGender.other, "", "");
 
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);

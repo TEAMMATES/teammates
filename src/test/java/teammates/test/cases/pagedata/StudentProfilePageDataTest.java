@@ -44,7 +44,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
 
     private StudentProfilePageData initializeDataWithPictureKeyAndNoNullFields() {
         spa = new StudentProfileAttributes("valid.id.2", "short name", "e@mail2.com", "inst", "American",
-                                           UserGender.MALE, "more info", "pictureKey");
+                                           UserGender.male, "more info", "pictureKey");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         isEditingPhoto = "false";
         pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
@@ -54,7 +54,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
-        spa = new StudentProfileAttributes("valid.id.2", null, null, null, null, UserGender.MALE, null, "");
+        spa = new StudentProfileAttributes("valid.id.2", null, null, null, null, UserGender.male, null, "");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         return new StudentProfilePageData(acct, dummySessionToken, isEditingPhoto);

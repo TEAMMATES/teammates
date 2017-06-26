@@ -34,7 +34,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         profile.institute = "institute";
         profile.email = "valid@email.com";
         profile.nationality = "Lebanese";
-        profile.gender = UserGender.FEMALE;
+        profile.gender = UserGender.female;
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
     }
@@ -198,7 +198,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
-        UserGender gender = UserGender.OTHER;
+        UserGender gender = UserGender.other;
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
@@ -212,7 +212,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
         String nationality = "&\"invalid nationality &";
-        UserGender gender = UserGender.OTHER;
+        UserGender gender = UserGender.other;
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 

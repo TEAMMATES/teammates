@@ -63,7 +63,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = UserGender.OTHER;
+        this.gender = UserGender.other;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = null;

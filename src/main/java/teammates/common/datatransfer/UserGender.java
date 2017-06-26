@@ -5,5 +5,5 @@ package teammates.common.datatransfer;
  */
 
 public enum UserGender {
-  MALE, FEMALE, OTHER
+  male, female, other
 }

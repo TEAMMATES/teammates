@@ -173,7 +173,7 @@ public class AccountAttributesTest extends BaseTestCase {
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
         String nationality = "&\"invalid nationality &";
-        UserGender gender = UserGender.OTHER;
+        UserGender gender = UserGender.other;
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 

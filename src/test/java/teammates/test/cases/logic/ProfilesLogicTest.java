@@ -34,7 +34,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
         ______TS("get SP");
         StudentProfileAttributes expectedSpa =
                 new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                                             "institute", "American", UserGender.FEMALE, "moreInfo", "");
+                                             "institute", "American", UserGender.female, "moreInfo", "");
         AccountAttributes accountWithStudentProfile =
                 new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
 
