@@ -45,6 +45,7 @@ public class FeedbackSessionResultsBundle {
     public CourseRoster roster;
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments;
     public boolean isComplete;
+    public double sessionTimeZone;
 
     /**
      * Responses with identities of giver/recipients NOT hidden.
@@ -751,6 +752,7 @@ public class FeedbackSessionResultsBundle {
         this.roster = roster;
         this.responseComments = responseComments;
         this.actualResponses = new ArrayList<FeedbackResponseAttributes>();
+        this.sessionTimeZone = feedbackSession.getTimeZone();
 
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {

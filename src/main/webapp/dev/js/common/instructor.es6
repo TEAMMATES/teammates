@@ -457,7 +457,6 @@ function prepareInstructorPages() {
     bindCourseDeleteLinks();
     bindSessionDeleteLinks();
 }
-
 export {
     attachEventToDeleteStudentLink,
     bindDeleteButtons,

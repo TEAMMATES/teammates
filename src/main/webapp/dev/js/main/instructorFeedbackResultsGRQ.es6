@@ -82,6 +82,8 @@ $(document).ready(() => {
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
                 showHideStats();
+                setCommentsCreatedTime();
+                setCommentsEditedTime();
             },
         });
     };

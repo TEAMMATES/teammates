@@ -225,7 +225,9 @@ const addCommentHandler = (e) => {
             } else {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
-                addFormRow.before(data);
+                const $data = $(data);
+                setTimeForNewComment($data.find('.createdAt'));
+                addFormRow.before($data);
                 removeUnwantedVisibilityOptions(commentId);
 
                 // Reset add comment form
