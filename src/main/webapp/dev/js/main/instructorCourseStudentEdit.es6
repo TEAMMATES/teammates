@@ -1,6 +1,15 @@
-import { showModalConfirmation, showModalConfirmationWithCancel } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
-import { prepareInstructorPages } from '../common/instructor.es6';
+import {
+    showModalConfirmation,
+    showModalConfirmationWithCancel,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    prepareInstructorPages,
+} from '../common/instructor.es6';
 
 const INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 

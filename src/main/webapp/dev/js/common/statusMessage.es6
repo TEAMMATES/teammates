@@ -1,5 +1,10 @@
-import { StatusType } from './const.es6';
-import { scrollToElement } from './scrollTo.es6';
+import {
+    StatusType,
+} from './const.es6';
+
+import {
+    scrollToElement,
+} from './scrollTo.es6';
 
 const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
