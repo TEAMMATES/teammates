@@ -430,7 +430,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableOptionsTemplate = FormTemplates.RUBRIC_EDIT_FORM_TABLE_OPTIONS;
         String tableOptionsFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_TABLE_OPTIONS_FRAGMENT;
 
-        for (int i = 0; i < numOfRubricChoices; ++i) {
+        for (int i = 0; i < numOfRubricChoices; i++) {
             String tableBodyCell = Templates.populateTemplate(tableOptionsFragmentTemplate,
                     Slots.QUESTION_INDEX, questionNumberString,
                     Slots.COL, Integer.toString(i));
