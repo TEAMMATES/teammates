@@ -201,7 +201,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
-            FeedbackResponseAttributes selfResponse = getSelfResponse(responses);
+            FeedbackResponseAttributes selfResponse = getSelfResponse(responses, participantIdentifier);
             String selfRank = selfResponse == null ? "-" : selfResponse.getResponseDetails().getAnswerString();
 
             fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
@@ -329,12 +329,15 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         return responsesExcludingSelf;
     }
 
-    private FeedbackResponseAttributes getSelfResponse(List<FeedbackResponseAttributes> responses) {
+    private FeedbackResponseAttributes getSelfResponse(List<FeedbackResponseAttributes> responses,
+            String participantIdentifier) {
         FeedbackResponseAttributes selfResponse = null;
 
         for (FeedbackResponseAttributes response : responses) {
-            if (response.giver.equalsIgnoreCase(response.recipient)) {
+            if (response.giver.equalsIgnoreCase(response.recipient)
+                    && response.giver.equalsIgnoreCase(participantIdentifier)) {
                 selfResponse = response;
+                break;
             }
         }
         return selfResponse;
