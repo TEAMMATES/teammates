@@ -38,7 +38,10 @@
                 <p>You seem to have encountered an error! If you think you were incorrectly shown this error page then we request you to take a moment and fill in the email below detailing your steps before you encountered it.</p>
             </div>
         </div>
+        <t:errorPageEmailCompose />
     </div>
     <t:bodyFooter />
 </body>
+<script type="text/javascript" src="/js/richTextEditor.js"></script>
+<script type="text/javascript" src="/js/errorPageEmailComposer.js"></script>
 </html>
