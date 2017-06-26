@@ -48,7 +48,6 @@ public class FeedbackResponseCommentRow {
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.commentText = frc.commentText.getValue();
         this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
-        this.questionId = frc.feedbackQuestionId;
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
