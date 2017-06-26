@@ -645,7 +645,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * checks if alert class is enabled on the visibility options div for the specified question number.
      * To be used only with questions with responses.
      */
-    public boolean verifyAlertClassIsEnabledForVisibilityOptions(int questionNo) {
+    public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
         final String visibilityOptionsDivXPath = "//div[@id='questionTable-" + questionNo + "']//div[@class='panel-body']"
                 + "//b[@class='visibility-title']/../..";
         return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))

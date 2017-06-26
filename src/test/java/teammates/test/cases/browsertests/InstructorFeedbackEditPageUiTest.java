@@ -903,7 +903,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
-        assertTrue(feedbackEditPage.verifyAlertClassIsEnabledForVisibilityOptions(1));
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
@@ -912,7 +912,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("check no warning displayed while editing visibility options of question without responses");
 
-        assertTrue(!feedbackEditPage.verifyAlertClassIsEnabledForVisibilityOptions(1));
+        assertTrue(!feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("check response rate after editing question");
 
