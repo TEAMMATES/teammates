@@ -95,7 +95,9 @@ public class InstructorCourseEditPage extends AppPage {
         clickEditInstructorLink(instrNum);
 
         editInstructorName(instrNum, name);
-        editInstructorEmail(instrNum, email);
+        if (getEmailField(instrNum).getAttribute("readonly") == null) {
+            editInstructorEmail(instrNum, email);
+        }
         if (editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents)) {
             editInstructorDisplayName(instrNum, displayName);
         }
@@ -180,6 +182,23 @@ public class InstructorCourseEditPage extends AppPage {
                                 && !editInstructorEmailTextBox.isEnabled();
 
         assertTrue(isNotEditable);
+    }
+
+    public void verifyInstructorChangesAfterEdit(int instrNum, String newName, String newEmail,
+            Boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
+        assertEquals(newName, getInstructorName(instrNum));
+        if (!newEmail.isEmpty()) {
+            assertEquals(newEmail, getInstructorEmail(instrNum));
+        }
+        if (newIsDisplayedToStudents) {
+            assertTrue(getInstructorDisplayedToStudents(instrNum));
+            assertEquals(newDisplayName, getInstructorDisplayName(instrNum));
+        } else {
+            assertTrue(!getInstructorDisplayedToStudents(instrNum));
+            assertEquals("(This instructor will NOT be displayed to students)",
+                    getDisplayNameField(instrNum).getAttribute("placeholder"));
+        }
+        assertEquals(newRole, getInstructorAccessLevel(instrNum));
     }
 
     public void saveEditInstructor(int instrNum) {
