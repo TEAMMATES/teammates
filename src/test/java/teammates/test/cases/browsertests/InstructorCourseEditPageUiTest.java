@@ -224,23 +224,42 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.getEditInstructorLink(editInstructorIndex).getText().contains("Edit failed."));
         courseEditPage.reloadPage();
 
-        ______TS("success: edit an instructor");
+        ______TS("success: edit instructor, make hidden and verify changes");
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", false, "",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorChangesAfterEdit(editInstructorIndex, "New name", "new_email@email.tmt",
+                false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        ______TS("success: unhide instructor and verify changes");
 
         courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorChangesAfterEdit(editInstructorIndex, "New name", "new_email@email.tmt",
+                true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        ______TS("Cross check instructor edited succesfully");
+        ______TS("success: edit yet-to-join instructor, make hidden and verify changes");
 
-        assertEquals("New name", courseEditPage.getInstructorName(editInstructorIndex));
-        assertEquals("new_email@email.tmt", courseEditPage.getInstructorEmail(editInstructorIndex));
-        assertTrue(courseEditPage.getInstructorDisplayedToStudents(editInstructorIndex));
-        assertEquals("New display name", courseEditPage.getInstructorDisplayName(editInstructorIndex));
-        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                courseEditPage.getInstructorAccessLevel(editInstructorIndex));
+        editInstructorIndex = 3;
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "", false, "",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorChangesAfterEdit(editInstructorIndex, "New name", "",
+                false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        ______TS("success: unhide yet-to-join instructor and verify changes");
+
+        editInstructorIndex = 3;
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "", true, "New display name",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorChangesAfterEdit(editInstructorIndex, "New name", "",
+                true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
 
+        editInstructorIndex = 1;
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
         assertTrue(courseEditPage.isInstructorEditable(editInstructorIndex));
 
