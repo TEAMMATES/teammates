@@ -115,6 +115,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(collapseExpandButton);
     }
 
+    public void expandPanels() {
+        if (isElementPresent("collapse-panels-button")) {
+            clickCollapseExpandButton();
+            waitForPanelsToExpand();
+        }
+    }
+
     public void clickShowStats() {
         click(showStatsCheckbox);
     }

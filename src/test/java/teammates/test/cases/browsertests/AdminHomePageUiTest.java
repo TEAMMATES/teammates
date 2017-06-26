@@ -193,10 +193,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         InstructorFeedbackResultsPage resultsPage =
                 instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
-        if (resultsPage.isElementPresent("collapse-panels-button")) {
-            resultsPage.clickCollapseExpandButton();
-            resultsPage.waitForPanelsToExpand();
-        }
+        resultsPage.expandPanels();
         resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Second team feedback session of sample course");
@@ -204,10 +201,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         resultsPage =
                 instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
-        if (resultsPage.isElementPresent("collapse-panels-button")) {
-            resultsPage.clickCollapseExpandButton();
-            resultsPage.waitForPanelsToExpand();
-        }
+        resultsPage.expandPanels();
         resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Third team feedback session of sample course");
@@ -215,10 +209,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(
                 demoCourseId, "Session with different question types");
-        if (resultsPage.isElementPresent("collapse-panels-button")) {
-            resultsPage.clickCollapseExpandButton();
-            resultsPage.waitForPanelsToExpand();
-        }
+        resultsPage.expandPanels();
         resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
         //verify the given email is valid or not
