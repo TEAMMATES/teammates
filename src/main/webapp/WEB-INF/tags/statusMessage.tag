@@ -8,7 +8,7 @@
 
 <c:choose>
     <c:when test="${fn:length(statusMessagesToUser) gt 0}">
-        <div id="statusMessagesToUser">
+        <div id="statusMessagesToUser" style="margin-top: 30px;">
             <c:forEach items="${statusMessagesToUser}" var="statusMessage">
                 <div class="overflow-auto alert alert-${statusMessage.color} statusMessage">
                     ${statusMessage.text}
