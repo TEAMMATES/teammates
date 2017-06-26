@@ -91,12 +91,12 @@
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
-            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" title="">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" style="display: none;" title="">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
+            <button class="btn btn-primary btn-sm" id="fsSaveLink" style="" type="submit">
               <span class="glyphicon glyphicon-ok">
               </span>
               Save
@@ -142,7 +142,7 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <select class="form-control" disabled="" id="timezone" name="timezone">
+                  <select class="form-control" id="timezone" name="timezone">
                     <option value="-12">
                       (UTC -12:00) Baker Island, Howland Island
                     </option>
@@ -292,7 +292,7 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
+                  <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Instructions for first session
                     </p>
@@ -317,10 +317,10 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="startdate" name="startdate" placeholder="Date" type="text" value="01/04/2012">
+                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="01/04/2012">
                 </div>
                 <div class="col-xs-6">
-                  <select class="form-control" disabled="" id="starttime" name="starttime">
+                  <select class="form-control" id="starttime" name="starttime">
                     <option value="1">
                       0100H
                     </option>
@@ -407,10 +407,10 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="30/04/2026">
+                  <input class="form-control col-sm-2 hasDatepicker" id="enddate" name="enddate" placeholder="Date" type="text" value="30/04/2026">
                 </div>
                 <div class="col-xs-6">
-                  <select class="form-control" disabled="" id="endtime" name="endtime">
+                  <select class="form-control" id="endtime" name="endtime">
                     <option value="1">
                       0100H
                     </option>
@@ -497,7 +497,7 @@
               </div>
               <div class="row">
                 <div class="col-xs-12">
-                  <select class="form-control" disabled="" id="graceperiod" name="graceperiod">
+                  <select class="form-control" id="graceperiod" name="graceperiod">
                     <option value="0">
                       0 mins
                     </option>
@@ -550,7 +550,7 @@
                   <label for="sendreminderemail_closing">
                     Session closing reminder
                   </label>
-                  <input checked="" disabled="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
+                  <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
                 </div>
               </div>
               <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
@@ -558,7 +558,7 @@
                   <label for="sendreminderemail_published">
                     Results published announcement
                   </label>
-                  <input checked="" disabled="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
+                  <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
                 </div>
               </div>
             </div>
@@ -588,13 +588,13 @@
                     <label for="sessionVisibleFromButton_custom">
                       At
                     </label>
-                    <input checked="" disabled="" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
+                    <input checked="" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
                   </h5>
                   <div class="col-xs-5">
-                    <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="01/04/2012">
+                    <input class="form-control col-sm-2 hasDatepicker" id="visibledate" name="visibledate" type="text" value="01/04/2012">
                   </div>
                   <div class="col-xs-5">
-                    <select class="form-control" disabled="" id="visibletime" name="visibletime">
+                    <select class="form-control" id="visibletime" name="visibletime">
                       <option value="1">
                         0100H
                       </option>
@@ -675,7 +675,7 @@
                     <label for="sessionVisibleFromButton_atopen">
                       Submission opening time
                     </label>
-                    <input disabled="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
+                    <input id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
                   </div>
                 </div>
                 <div class="row radio">
@@ -683,7 +683,7 @@
                     <label for="sessionVisibleFromButton_never">
                       Never
                     </label>
-                    <input disabled="" id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
+                    <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -700,13 +700,13 @@
                     <label for="resultsVisibleFromButton_custom">
                       At
                     </label>
-                    <input checked="" disabled="" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
+                    <input checked="" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
                   </h5>
                   <div class="col-xs-5">
-                    <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="01/05/2026">
+                    <input class="form-control hasDatepicker" id="publishdate" name="publishdate" type="text" value="01/05/2026">
                   </div>
                   <div class="col-xs-5">
-                    <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
+                    <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" id="publishtime" name="publishtime" title="">
                       <option value="1">
                         0100H
                       </option>
@@ -787,7 +787,7 @@
                     <label for="resultsVisibleFromButton_atvisible">
                       Immediately
                     </label>
-                    <input disabled="" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
+                    <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
                   </div>
                 </div>
                 <div class="row radio">
@@ -795,7 +795,7 @@
                     <label for="resultsVisibleFromButton_later">
                       Publish manually
                     </label>
-                    <input disabled="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
+                    <input id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
                   </div>
                 </div>
                 <div class="row radio">
@@ -803,7 +803,7 @@
                     <label for="resultsVisibleFromButton_never">
                       Never
                     </label>
-                    <input disabled="" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
+                    <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -822,16 +822,16 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-offset-5 col-md-3">
-            <button class="btn btn-primary" disabled="" id="button_submit" style="display:none;" type="submit">
+            <button class="btn btn-primary" id="button_submit" style="" type="submit">
               Save Changes
             </button>
           </div>
         </div>
       </div>
-      <input disabled="" name="fsname" type="hidden" value="First Session">
-      <input disabled="" name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
-      <input disabled="" name="user" type="hidden" value="CFeedbackEditUiT.instructor">
-      <input disabled="" name="token" type="hidden" value="${sessionToken}">
+      <input name="fsname" type="hidden" value="First Session">
+      <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+      <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
+      <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <br>
