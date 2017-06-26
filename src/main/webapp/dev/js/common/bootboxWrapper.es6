@@ -1,6 +1,8 @@
 /* global bootbox:false */
 
-import { StatusType } from './const.es6';
+import {
+    StatusType,
+} from './const.es6';
 
 /**
  * Wrapper for Bootbox.js (available at http://bootboxjs.com/)

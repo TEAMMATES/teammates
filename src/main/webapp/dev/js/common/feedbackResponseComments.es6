@@ -1,9 +1,21 @@
 /* global tinymce:false */
 
-import { showModalConfirmation } from './bootboxWrapper.es6';
-import { StatusType } from './const.es6';
-import { destroyEditor, richTextEditorBuilder } from './richTextEditor.es6';
-import { toggleChevron } from './ui.es6';
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from './const.es6';
+
+import {
+    destroyEditor,
+    richTextEditorBuilder,
+} from './richTextEditor.es6';
+
+import {
+    toggleChevron,
+} from './ui.es6';
 
 function isInCommentsPage() {
     return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
