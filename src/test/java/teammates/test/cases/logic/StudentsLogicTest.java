@@ -10,7 +10,14 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.*;
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -130,7 +137,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentEnrollDetails enrollmentResult = enrollStudent(student1);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
-                StudentUpdateStatus.NEW);
+                                          StudentUpdateStatus.NEW);
         verifyPresentInDatastore(student1);
 
         ______TS("add existing student");
@@ -572,8 +579,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     /**
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
-     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     * {@link #signalFailureToDetectException()}.
+     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with.
      *
      * @param invalidEnrollLines is assumed to be invalid
      */

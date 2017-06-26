@@ -375,8 +375,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
     }
-    //Removing this test since gender could only be male/female/other
-   /* @Test
+   //Removing this test since gender could only be male/female/other
+    /* @Test
     public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);

@@ -11,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.UserGender;
 
 /**
