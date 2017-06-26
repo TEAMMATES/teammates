@@ -132,9 +132,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         StudentProfileAttributes spa =
                 new StudentProfileAttributes("valid.id", "name<script>alert(\"Hello world!\");</script>",
-                                             "e@email.tmt", " inst<script>alert(\"Hello world!\");</script>", "American",
-                                             UserGender.male, "this is enough!$%&*</><script>alert(\"Hello world!\");</script>",
-                                             "");
+                                             "e@email.tmt", " inst<script>alert(\"Hello world!\");</script>",
+                                             "American", UserGender.male,
+                                             "this is enough!$%&*</><script>alert(\"Hello world!\");</script>", "");
         profilePage.editProfileThroughUi(
                 spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
