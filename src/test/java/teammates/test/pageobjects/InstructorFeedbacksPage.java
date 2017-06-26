@@ -469,19 +469,19 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
 
-    public boolean verifyHidden(By locator) {
+    public boolean isHidden(By locator) {
         return !browser.driver.findElement(locator).isDisplayed();
     }
 
-    public boolean verifyEnabled(By locator) {
+    public boolean isEnabled(By locator) {
         return browser.driver.findElement(locator).isEnabled();
     }
 
-    public boolean verifyDisabled(By locator) {
+    public boolean isDisabled(By locator) {
         return !browser.driver.findElement(locator).isEnabled();
     }
 
-    public boolean verifyVisible(By locator) {
+    public boolean isVisible(By locator) {
         return browser.driver.findElement(locator).isDisplayed();
     }
 
