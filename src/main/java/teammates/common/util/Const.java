@@ -841,6 +841,9 @@ public final class Const {
 
         public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
+        public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
+        public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
+        public static final String ERROR_FEEDBACK_EMAIL_CONTENT = "errorfeedbackemailcontent";
     }
 
     public static class SearchIndex {
@@ -1005,6 +1008,7 @@ public final class Const {
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/auto/feedbackSessionPublishedReminders";
+        public static final String ERROR_FEEDBACK_SUBMIT = "/page/errorFeedbackSubmit";
 
         public static final String BACKDOOR = "/backdoor";
 
