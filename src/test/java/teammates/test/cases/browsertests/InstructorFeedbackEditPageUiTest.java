@@ -114,7 +114,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // This is the full HTML verification for Instructor Feedback Edit Page, the rest can all be verifyMainHtml
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
-        
 
     }
 
