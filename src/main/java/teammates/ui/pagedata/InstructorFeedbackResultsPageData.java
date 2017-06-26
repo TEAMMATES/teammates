@@ -501,8 +501,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-            boolean isCommentsOnQuestionsResponsesAllowed = question.getQuestionDetails()
-                    .isCommentsOnQuestionsResponsesAllowed();
+            boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
+                    .isCommentsOnResponsesAllowed();
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
@@ -512,9 +512,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
                             displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
-                            isCommentsOnQuestionsResponsesAllowed);
+                            isCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
-            if (isCommentsOnQuestionsResponsesAllowed) {
+            if (isCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
                                                             responseVisibilityMap, giverName, recipientName);

@@ -19,7 +19,7 @@ public class InstructorFeedbackResultsResponsePanel {
     private List<FeedbackResponseCommentRow> comments;
     private FeedbackResponseCommentRow frcForAdding;
     private boolean isAllowedToAddComment;
-    private boolean isCommentsOnQuestionResponsesAllowed;
+    private boolean isCommentsOnResponsesAllowed;
 
     // The indexes are used for the parameters of js functions for handling response comments
     private int sectionId;
@@ -33,7 +33,7 @@ public class InstructorFeedbackResultsResponsePanel {
                                                   String displayableResponse,
                                                   List<FeedbackResponseCommentRow> comments,
                                                   boolean isAllowedToAddComment,
-                                                  boolean isCommentsOnQuestionResponsesAllowed) {
+                                                  boolean isCommentsOnResponsesAllowed) {
         this.question = question;
         this.response = response;
         this.questionText = questionText;
@@ -43,7 +43,7 @@ public class InstructorFeedbackResultsResponsePanel {
         this.displayableResponse = displayableResponse;
         this.comments = comments;
         this.isAllowedToAddComment = isAllowedToAddComment;
-        this.isCommentsOnQuestionResponsesAllowed = isCommentsOnQuestionResponsesAllowed;
+        this.isCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
     }
 
     public void setCommentsIndexes(int recipientIndex, int giverIndex, int qnIndex) {
@@ -112,7 +112,7 @@ public class InstructorFeedbackResultsResponsePanel {
         this.sectionId = sectionId;
     }
 
-    public boolean isCommentsOnQuestionResponsesAllowed() {
-        return isCommentsOnQuestionResponsesAllowed;
+    public boolean isCommentsOnResponsesAllowed() {
+        return isCommentsOnResponsesAllowed;
     }
 }
