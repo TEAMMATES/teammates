@@ -475,7 +475,7 @@ public class InstructorFeedbacksPage extends AppPage {
                 By.xpath("//tbody/tr[" + (sessionRowId + 1)
                     + "]//button[contains(@class,'session-caret')]")).isEnabled();
     }
-  
+
     public boolean isHidden(By locator) {
         return !browser.driver.findElement(locator).isDisplayed();
     }
