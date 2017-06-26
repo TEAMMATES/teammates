@@ -3,6 +3,7 @@ package teammates.test.cases.browsertests;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -121,7 +122,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: no picture");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean", "male",
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean", UserGender.MALE,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Singaporean",
                                           "male", "this is enough!$%&*</>");
@@ -132,7 +133,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         StudentProfileAttributes spa =
                 new StudentProfileAttributes("valid.id", "name<script>alert(\"Hello world!\");</script>",
                         "e@email.tmt", " inst<script>alert(\"Hello world!\");</script>", "American",
-                        "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>", "");
+                        UserGender.MALE, "this is enough!$%&*</><script>alert(\"Hello world!\");</script>", "");
         profilePage.editProfileThroughUi(
                 spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
@@ -142,11 +143,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: changing genders for complete coverage");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "other",
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", UserGender.OTHER,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "other", "this is enough!$%&*</>");
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "female",
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", UserGender.FEMALE,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                          "female", "this is enough!$%&*</>");
@@ -155,7 +156,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         spa = new StudentProfileAttributes("valid.id", "short.name", "e@email.tmt",
                                             "<script>alert(\"Hello world!\");</script>",
-                                            "American", "male", "this is enough!$%&*</>", "");
+                                            "American", UserGender.MALE, "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
@@ -168,7 +169,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("Failure case: invalid data");
 
         spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ", "American",
-                                           "male", "this is enough!$%&*</>", "");
+                                           UserGender.MALE, "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",

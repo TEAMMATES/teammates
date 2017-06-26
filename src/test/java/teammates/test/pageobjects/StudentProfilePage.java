@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 
@@ -133,8 +134,8 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(String gender) {
-        switch (gender) {
+    public void selectGender(UserGender gender) {
+        switch (gender.toString()) {
         case Const.GenderTypes.MALE:
             click(genderMaleRadio);
             break;
@@ -151,7 +152,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfileThroughUi(String shortName, String email, String institute,
-                                     String nationality, String gender, String moreInfo) {
+                                     String nationality, UserGender gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);

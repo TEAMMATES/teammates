@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.core.AccountsLogic;
@@ -33,7 +34,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
         ______TS("get SP");
         StudentProfileAttributes expectedSpa =
                 new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                                             "institute", "American", "female", "moreInfo", "");
+                                             "institute", "American", UserGender.FEMALE, "moreInfo", "");
         AccountAttributes accountWithStudentProfile =
                 new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
 

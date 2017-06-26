@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -59,7 +60,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = Const.GenderTypes.MALE;
+        spa.gender = UserGender.MALE;
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
@@ -222,7 +223,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: without encryption and account already exists");
 
         StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
+                "", "", "TEAMMATES Test Institute 1", "", UserGender.OTHER, "", "");
 
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);

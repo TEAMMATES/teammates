@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -370,12 +371,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void invalidityInfoFor_validGender_returnEmptyString() {
-        String validGender = "other";
+        UserGender validGender = UserGender.OTHER;
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
     }
-
-    @Test
+    //Removing this test since gender could only be male/female/other
+   /* @Test
     public void invalidityInfoFor_invalidGender_returnErrorString() {
         String invalidGender = "alpha male";
         String actual = validator.getInvalidityInfoForGender(invalidGender);
@@ -388,7 +389,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Unsanitized, invalid gender should return appropriate error string",
                 String.format(GENDER_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidGender)),
                 actual);
-    }
+    }*/
 
     @Test
     public void testGetInvalidityInfoForGoogleId_null_throwException() {

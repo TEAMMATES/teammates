@@ -18,7 +18,7 @@ import teammates.logic.core.ProfilesLogic;
  *
  * <p>Fields {@link StudentProfileAttributes#shortName}, {@link StudentProfileAttributes#email},
  * {@link StudentProfileAttributes#institute}, {@link StudentProfileAttributes#nationality},
- * {@link StudentProfileAttributes#gender}, {@link StudentProfileAttributes#moreInfo}
+ * {@link StudentProfileAttributes#moreInfo}
  * are no longer sanitized before saving and these fields are expected to be in their unsanitized form.</p>
  *
  * <p>This script desanitizes these fields of exisiting StudentProfileAttributes if they are sanitized so that
@@ -76,7 +76,7 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
-        profile.gender = desanitizeIfHtmlSanitized(profile.gender);
+        //profile.gender = desanitizeIfHtmlSanitized(profile.gender);
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {
@@ -96,7 +96,7 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
     private boolean hasAnySanitizedField(StudentProfileAttributes profile) {
         return isSanitizedHtml(profile.shortName) || isSanitizedHtml(profile.email)
                 || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
-                || isSanitizedHtml(profile.gender) || isSanitizedHtml(profile.moreInfo);
+                || isSanitizedHtml(profile.moreInfo);
     }
 
     /**
