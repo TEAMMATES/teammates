@@ -153,9 +153,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     private void testInviteInstructorAction() {
         ______TS("success: invite an uregistered instructor");
-        int unregisteredInsturctorIndex = 4;
+        int unregisteredInstructorIndex = 4;
 
-        courseEditPage.clickInviteInstructorLink(unregisteredInsturctorIndex);
+        courseEditPage.clickInviteInstructorLink(unregisteredInstructorIndex);
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
