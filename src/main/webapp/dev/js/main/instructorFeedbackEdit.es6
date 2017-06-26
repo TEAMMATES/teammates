@@ -1082,7 +1082,7 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.
-    disableEditFS();
+    enableEditFS();
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
@@ -1117,7 +1117,6 @@ $(document).ready(() => {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
-            readonly: true,
         });
         /* eslint-enable camelcase */
     }
