@@ -50,8 +50,9 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, false, "idOfInstructor4"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -77,8 +78,9 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor1OfCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, false, "idOfInstructor1OfCourse1"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_ENROLL_POSSIBLE_DATA_LOSS, pageResult.getStatusMessage());
 
@@ -107,8 +109,9 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         InstructorCourseEnrollPageAction enrollPageAction = getAction(submissionParams);
 
         ShowPageResult pageResult = getShowPageResult(enrollPageAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL + "?error=false&user=idOfInstructor4",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, false, "idOfInstructor4"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -124,5 +127,16 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseEnrollPageAction getAction(String... params) {
         return (InstructorCourseEnrollPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
 }

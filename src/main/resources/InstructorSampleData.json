@@ -125,14 +125,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -2766,88 +2763,231 @@
     }
   },
   "feedbackResponseComments": {
-    "comment1FromT1C1ToR1Q1S1C1": {
+    "comment1FromT1C1ToR1Q2S1C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "Session with different question types",
       "feedbackQuestionId": "2",
       "giverEmail": "teammates.demo.instructor@demo.course",
-      "giverSection": "None",
-      "receiverSection": "None",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 1",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
       "showCommentTo": [
-        "GIVER"
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
       ],
-      "showGiverNameTo": [],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2016-03-01 11:59 PM UTC",
+      "createdAt": "2012-04-30 9:17 PM UTC",
       "commentText": {
-        "value": "Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too."
-      }
-    }
-  },
-  "comments": {
-    "comment1FromI1C1toS1C1": {
-      "courseId": "demo.course",
-      "giverEmail": "teammates.demo.instructor@demo.course",
-      "recipientType": "PERSON",
-      "recipients": [
-        "alice.b.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2016-03-30 11:59 PM UTC",
-      "commentText": {
-        "value": "Alice wanted me to help her catch up with project work"
-      }
+        "value": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:17 PM UTC"
     },
-    "comment1FromI1C1toS2C1": {
+    "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
+      "feedbackSessionName": "Session with different question types",
+      "feedbackQuestionId": "5",
       "giverEmail": "teammates.demo.instructor@demo.course",
-      "recipientType": "PERSON",
-      "recipients": [
-        "benny.c.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 1",
+      "feedbackResponseId": "5%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
       "showCommentTo": [
-        "TEAM"
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "TEAM"
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
       ],
-      "showRecipientNameTo": [
-        "TEAM"
-      ],
-      "createdAt": "2016-03-31 11:59 PM UTC",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:20 PM UTC",
       "commentText": {
-        "value": "Benny, Thanks for helping Alice in her project work. Keep up the good work!"
-      }
+        "value": "<p>Completely agree, the application does look pretty.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:20 PM UTC"
     },
-    "comment1FromI1C1toS3C1": {
+    "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
+      "feedbackSessionName": "Session with different question types",
+      "feedbackQuestionId": "5",
       "giverEmail": "teammates.demo.instructor@demo.course",
-      "recipientType": "PERSON",
-      "recipients": [
-        "danny.e.tmms@gmail.tmt"
-      ],
-      "status": "FINAL",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 2",
+      "feedbackResponseId": "5%alice.b.tmms@gmail.tmt%francis.g.tmms@gmail.tmt",
       "showCommentTo": [
-        "TEAM",
-        "COURSE"
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "TEAM",
-        "COURSE"
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
       ],
-      "showRecipientNameTo": [
-        "TEAM",
-        "COURSE"
-      ],
-      "createdAt": "2016-04-01 11:59 PM UTC",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:23 PM UTC",
       "commentText": {
-        "value": "Danny great job, you've topped the course this month!"
-      }
+        "value": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:23 PM UTC"
+    },
+    "comment1FromT1C1ToR2Q2S1C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "Session with different question types",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "receiverSection": "Tutorial Group 2",
+      "feedbackResponseId": "2%charlie.d.tmms@gmail.tmt%charlie.d.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:26 PM UTC",
+      "commentText": {
+        "value": "<p>Hoping you keep using them on future projects.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:26 PM UTC"
+    },
+    "comment1FromT1C1ToR1Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 1",
+      "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:29 PM UTC",
+      "commentText": {
+        "value": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:29 PM UTC"
+    },
+    "comment1FromT1C1ToR2Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 1",
+      "feedbackResponseId": "2%benny.c.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:33 PM UTC",
+      "commentText": {
+        "value": "<p>Although there are some loopholes in UI, But overall looks good.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:33 PM UTC"
+    },
+    "comment1FromT1C1ToR5Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "receiverSection": "Tutorial Group 2",
+      "feedbackResponseId": "2%charlie.d.tmms@gmail.tmt%charlie.d.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:36 PM UTC",
+      "commentText": {
+        "value": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:36 PM UTC"
+    },
+    "comment1FromT1C1ToR6Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "receiverSection": "Tutorial Group 2",
+      "feedbackResponseId": "2%francis.g.tmms@gmail.tmt%francis.g.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30 9:39 PM UTC",
+      "commentText": {
+        "value": "<p>Design could have been more interactive.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30 9:39 PM UTC"
     }
   },
   "profiles": {}

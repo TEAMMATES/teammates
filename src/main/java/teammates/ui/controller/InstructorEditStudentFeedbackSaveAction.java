@@ -23,7 +23,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     private StudentAttributes moderatedStudent;
 
     @Override
-    protected void verifyAccesibleForSpecificUser() {
+    protected void verifyAccessibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 

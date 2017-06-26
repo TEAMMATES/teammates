@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -37,6 +39,11 @@ import teammates.logic.api.GateKeeper;
 public class ControllerServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
+
+    @Override
+    public void init() throws ServletException {
+        TimeHelper.setSystemTimeZoneIfRequired();
+    }
 
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -66,6 +73,7 @@ public class ControllerServlet extends HttpServlet {
             Action c = new ActionFactory().getAction(req);
             if (c.isValidUser()) {
                 ActionResult actionResult = c.executeAndPostProcess();
+                actionResult.writeSessionTokenToCookieIfRequired(req, resp);
                 actionResult.send(req, resp);
             } else {
                 resp.sendRedirect(c.getAuthenticationRedirectUrl());

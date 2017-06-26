@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="features">
     <div class="container">
@@ -130,7 +129,7 @@
                 <h2 class="color_orange col-xs-12">Shareable comments</h2>
                 <img class="img-responsive col-xs-12" src="images/feature-sharablecomments.png" alt="Sharable">
                 <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    You can add comments about students, teams, or responses collected. You can even share these comments with students/instructors.
+                    You can add comments about responses collected. You can even share these comments with students/instructors.
                     <br><br>
                     Fine-grained visibility control is available for comments too.
                     For example, you can give a comment to a student that the receiving student can see while other students in the course can only see the comment text but cannot see the recipient name.
@@ -181,7 +180,7 @@
                 <img class="row img-responsive" src="images/raised-edge.png">
             </div>
         </section>
-        
+
         <div class="row">
             <p class="col-xs-12 col-sm-8 col-sm-offset-2">
             For more details about these features, visit the <a href="instructorHelp.jsp" target="_blank" rel="noopener noreferrer">Instructor Help</a> page or <a href="contact.jsp">email us</a>.

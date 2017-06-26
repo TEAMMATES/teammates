@@ -8,10 +8,10 @@
 <c:set var="isNewQuestion" value="${fqForm.questionIndex eq -1}" />
 
 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-    <div class="col-sm-12 padding-0 margin-bottom-7px">
+    <div class="margin-bottom-7px">
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
     </div>
-    <div class="feedback-path-dropdown col-sm-12 btn-group">
+    <div class="feedback-path-dropdown btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <c:choose>
                 <c:when test="${isNewQuestion}">
@@ -51,7 +51,7 @@
     <div class="feedback-path-others margin-top-7px"<c:if test="${fqForm.feedbackPathSettings.commonPathSelected || isNewQuestion}"> style="display:none;"</c:if>>
         <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px"
             data-toggle="tooltip" data-placement="top"
-            title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">  
+            title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">
             <label class="col-sm-4 col-lg-5 control-label">
                 Who will give the feedback:
             </label>
@@ -59,8 +59,7 @@
                 <select class="form-control participantSelect"
                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>-${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
-                    <c:if test="${!fqForm.editable}">disabled</c:if>
-                    onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                    <c:if test="${!fqForm.editable}">disabled</c:if>>
                     <c:forEach items="<%= FeedbackParticipantType.GIVERS %>" var="giverType">
                         <option <c:if test="${fqForm.feedbackPathSettings.selectedGiver eq giverType}">selected </c:if>value="${giverType}">
                             ${giverType.displayNameGiver}
@@ -78,7 +77,7 @@
                 <select class="form-control participantSelect"
                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>-${fqForm.questionIndex}"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
-                    <c:if test="${!fqForm.editable}">disabled</c:if> onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                    <c:if test="${!fqForm.editable}">disabled</c:if>>
                     <c:forEach items="<%= FeedbackParticipantType.RECIPIENTS %>" var="recipientType">
                         <option <c:if test="${fqForm.feedbackPathSettings.selectedRecipient eq recipientType}">selected </c:if>value="${recipientType}">
                             ${recipientType.displayNameRecipient}
@@ -99,7 +98,7 @@
                     value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
                 <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
-                    value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}" 
+                    value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}"
                     min="1" max="250" <c:if test="${!fqForm.editable}">disabled</c:if>>
                 </div>
                 <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">

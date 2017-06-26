@@ -44,7 +44,7 @@ public class AdminActivityLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminActivityLogPageData data = new AdminActivityLogPageData(account);
+        AdminActivityLogPageData data = new AdminActivityLogPageData(account, sessionToken);
 
         String searchTimeOffset = getRequestParamValue("searchTimeOffset");
         if (searchTimeOffset == null) {
@@ -70,15 +70,15 @@ public class AdminActivityLogPageAction extends Action {
         // in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs.
         // This will keep showing all logs despite any action or change in the page unless
         // the page is reloaded with "?all=false" or simply reloaded with this parameter omitted.
-        boolean ifShowAll = getRequestParamAsBoolean("all");
-        data.setIfShowAll(ifShowAll);
+        boolean shouldShowAllLogs = getRequestParamAsBoolean("all");
+        data.setShowAllLogs(shouldShowAllLogs);
 
         // This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         // to show all testing logs. This will keep showing all logs from testing data despite any action
         // or change in the page unless the page is reloaded with "?testdata=false"
         // or simply reloaded with this parameter omitted.
-        boolean ifShowTestData = getRequestParamAsBoolean("testdata");
-        data.setIfShowTestData(ifShowTestData);
+        boolean shouldShowTestData = getRequestParamAsBoolean("testdata");
+        data.setShowTestData(shouldShowTestData);
 
         String filterQuery = getRequestParamValue("filterQuery");
         if (filterQuery == null) {
@@ -192,12 +192,12 @@ public class AdminActivityLogPageAction extends Action {
         }
 
         // the "Search More" button to continue searching from the previous fromDate
-        status.append("<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax("
+        status.append("<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
                       + nextEndTimeToSearch
-                      + ");\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
-                      + data.getIfShowAll()
+                      + "\">Search More</button><input id=\"ifShowAll\" type=\"hidden\" value=\""
+                      + data.getShouldShowAllLogs()
                       + "\"/><input id=\"ifShowTestData\" type=\"hidden\" value=\""
-                      + data.getIfShowTestData() + "\"/>");
+                      + data.getShouldShowTestData() + "\"/>");
 
         String statusString = status.toString();
         data.setStatusForAjax(statusString);
@@ -259,7 +259,7 @@ public class AdminActivityLogPageAction extends Action {
 
             ActivityLogEntry activityLogEntry = ActivityLogEntry.buildFromAppLog(appLog);
             boolean isToShow = data.filterLog(activityLogEntry)
-                    && (!activityLogEntry.isTestingData() || data.getIfShowTestData());
+                    && (!activityLogEntry.isTestingData() || data.getShouldShowTestData());
 
             if (!isToShow) {
                 continue;

@@ -10,18 +10,19 @@
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
+<%@ attribute name="viewType" %>
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
-        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}, { sectionIndex: ${fourthIndex} }" />
+    </c:when>
+    <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex && not empty viewType}">
+        <c:set var="divId" value="${viewType}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
     </c:when>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
-        <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}" />
     </c:when>
     <c:otherwise>
         <c:set var="divId" value="${frc.commentId}" />
-        <c:set var="divIdAsJsParams" value="" />
     </c:otherwise>
 </c:choose>
 
@@ -36,24 +37,6 @@
                   data-placement="top"
                   style="margin-left: 5px;"
                   title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
-        </c:if>
-        <c:if test="${frc.withNotificationIcon}">
-            <span class="glyphicon glyphicon-bell"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="This comment is pending to notify recipients"></span>
-        </c:if>
-        <c:if test="${frc.withLinkToCommentsPage}">
-            <a type="button"
-               href="${frc.linkToCommentsPage}"
-               target="_blank" rel="noopener noreferrer"
-               class="btn btn-default btn-xs icon-button pull-right"
-               data-toggle="tooltip"
-               data-placement="top"
-               title="Edit comment in the Comments page"
-               style="display:none;">
-                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-            </a>
         </c:if>
         <c:if test="${frc.editDeleteEnabled}">
             <form class="responseCommentDeleteForm pull-right">
@@ -74,11 +57,22 @@
                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+                <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
             </form>
             <a type="button"
                id="commentedit-${divId}"
-               class="btn btn-default btn-xs icon-button pull-right"
-               onclick="showResponseCommentEditForm(${divIdAsJsParams})"
+               <c:choose>
+                   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
+                       class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
+                       data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
+                       data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+                       <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+                       <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
+                   </c:when>
+                   <c:otherwise>
+                       class="btn btn-default btn-xs icon-button pull-right"
+                   </c:otherwise>
+               </c:choose>
                data-toggle="tooltip"
                data-placement="top"
                title="<%= Const.Tooltips.COMMENT_EDIT %>"
@@ -94,9 +88,13 @@
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
         <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
+                                            secondIndex="${secondIndex}"
+                                            thirdIndex="${thirdIndex}"
+                                            fourthIndex="${fourthIndex}"
+                                            frcIndex="${frcIndex}"
                                             frc="${frc}"
+                                            viewType = "${viewType}"
                                             divId="${divId}"
-                                            divIdAsJsParams="${divIdAsJsParams}"
                                             formType="Edit"
                                             textAreaId="${textAreaId}"
                                             submitLink="${submitLink}"

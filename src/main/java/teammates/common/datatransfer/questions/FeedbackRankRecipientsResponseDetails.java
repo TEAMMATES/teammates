@@ -20,7 +20,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }
 

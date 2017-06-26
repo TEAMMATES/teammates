@@ -71,13 +71,12 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -94,8 +93,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -128,7 +127,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>
@@ -146,7 +145,7 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+  <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
@@ -156,7 +155,7 @@
                 View:
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
+                <select class="form-control" id="viewSelect" name="frsorttype">
                   <option value="question">
                     Group by - Question
                   </option>
@@ -176,27 +175,11 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-12 col-md-5">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
-                Filter:
-              </label>
-              <div class="col-sm-10" data-original-title="Filter the results in the current view" data-toggle="tooltip" id="filter-box-parent-div" title="">
-                <div class="input-group">
-                  <input class="form-control" id="results-search-box" name="filtertext" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text">
-                  <a class="input-group-addon btn btn-default">
-                    <span class="glyphicon glyphicon-search">
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+          <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox">
+                  <input checked="" class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -204,14 +187,14 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
             </div>
             <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
-                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
                 Indicate Missing Responses
               </div>
             </div>
@@ -224,7 +207,7 @@
                 Section:
               </label>
               <div class="col-sm-10">
-                <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
+                <select class="form-control" id="sectionSelect" name="frgroupbysection">
                   <option selected="" value="All">
                     All
                   </option>
@@ -241,13 +224,13 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-7 pull-right" style="padding-top:8px;">
-            <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
-              Expand Sections
-            </a>
-          </div>
         </div>
       </div>
+    </div>
+    <div class="pull-right" style="margin-top:50px">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
+        Expand All Sections
+      </a>
     </div>
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
@@ -366,7 +349,7 @@
                               <div class="pull-left text-preserve-space">
                                 This is for nobody specific.
                               </div>
-                              <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1, { sectionIndex: 0 })" title="" type="button">
+                              <button class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" data-giverindex="1" data-original-title="Add comment" data-placement="top" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" data-toggle="tooltip" id="button_add_comment" title="" type="button">
                                 <span class="glyphicon glyphicon-comment glyphicon-primary">
                                 </span>
                               </button>
@@ -388,8 +371,9 @@
                                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                     <input name="fsname" type="hidden" value="First Session">
                                     <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                    <input name="token" type="hidden" value="${sessionToken}">
                                   </form>
-                                  <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-0-1-0-1-1" onclick="showResponseCommentEditForm(1,0,1,1, { sectionIndex: 0 })" title="" type="button">
+                                  <a class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form" data-frcindex="1" data-giverindex="0" data-original-title="Edit this comment" data-placement="top" data-qnindex="1" data-recipientindex="1" data-sectionindex="0" data-toggle="tooltip" id="commentedit-0-1-0-1-1" title="" type="button">
                                     <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                     </span>
                                   </a>
@@ -409,7 +393,7 @@
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
-                                    <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-0-1-1" onclick="toggleVisibilityEditForm(1,0,1,1, { sectionIndex: 0 })">
+                                    <a class="btn btn-sm btn-info pull-right toggle-visib-edit-form" data-frcindex="1" data-giverindex="0" data-qnindex="1" data-recipientindex="1" data-sectionindex="0" id="frComment-visibility-options-trigger-0-1-0-1-1">
                                       <span class="glyphicon glyphicon-eye-close">
                                       </span>
                                       Show Visibility Options
@@ -445,77 +429,10 @@
                                             <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
-                                        <tr id="response-recipient-0-1-0-1-1">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Response Recipient(s)
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-giver-team-0-1-0-1-1">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Response Giver's Team Members
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-recipient-team-0-1-0-1-1">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what team members of response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Response Recipient's Team Members
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-students-0-1-0-1-1">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Other students in this course
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-instructors-0-1-0-1-1">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Instructors
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                          </td>
-                                        </tr>
                                       </tbody>
                                     </table>
                                   </div>
                                   <div class="form-group">
-                                    <div id="rich-text-toolbar-comment-container-0-1-0-1-1">
-                                    </div>
                                     <div class="panel panel-default panel-body" id="responsecommenttext-0-1-0-1-1">
                                       <p>
                                         test comment 1
@@ -527,7 +444,7 @@
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-0-1-0-1-1" type="button">
                                       Save
                                     </a>
-                                    <input class="btn btn-default" onclick="return hideResponseCommentEditForm(1,0,1,1, { sectionIndex: 0 });" type="button" value="Cancel">
+                                    <input class="btn btn-default hide-frc-edit-form" data-frcindex="1" data-giverindex="0" data-qnindex="1" data-recipientindex="1" data-sectionindex="0" type="button" value="Cancel">
                                   </div>
                                   <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="1">
@@ -537,6 +454,7 @@
                                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
+                                  <input name="token" type="hidden" value="${sessionToken}">
                                 </form>
                               </li>
                               <li class="list-group-item list-group-item-warning" id="responseCommentRow-0-1-0-1-2">
@@ -555,8 +473,9 @@
                                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                     <input name="fsname" type="hidden" value="First Session">
                                     <input name="user" type="hidden" value="CFResultsUiT.instr">
+                                    <input name="token" type="hidden" value="${sessionToken}">
                                   </form>
-                                  <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-0-1-0-1-2" onclick="showResponseCommentEditForm(1,0,1,2, { sectionIndex: 0 })" title="" type="button">
+                                  <a class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form" data-frcindex="2" data-giverindex="0" data-original-title="Edit this comment" data-placement="top" data-qnindex="1" data-recipientindex="1" data-sectionindex="0" data-toggle="tooltip" id="commentedit-0-1-0-1-2" title="" type="button">
                                     <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                     </span>
                                   </a>
@@ -576,7 +495,7 @@
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
-                                    <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-1-0-1-2" onclick="toggleVisibilityEditForm(1,0,1,2, { sectionIndex: 0 })">
+                                    <a class="btn btn-sm btn-info pull-right toggle-visib-edit-form" data-frcindex="2" data-giverindex="0" data-qnindex="1" data-recipientindex="1" data-sectionindex="0" id="frComment-visibility-options-trigger-0-1-0-1-2">
                                       <span class="glyphicon glyphicon-eye-close">
                                       </span>
                                       Show Visibility Options
@@ -612,77 +531,10 @@
                                             <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
-                                        <tr id="response-recipient-0-1-0-1-2">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Response Recipient(s)
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-giver-team-0-1-0-1-2">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Response Giver's Team Members
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-recipient-team-0-1-0-1-2">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what team members of response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Response Recipient's Team Members
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-students-0-1-0-1-2">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Other students in this course
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
-                                          </td>
-                                        </tr>
-                                        <tr id="response-instructors-0-1-0-1-2">
-                                          <td class="text-left">
-                                            <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                              Instructors
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                          </td>
-                                          <td>
-                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                          </td>
-                                        </tr>
                                       </tbody>
                                     </table>
                                   </div>
                                   <div class="form-group">
-                                    <div id="rich-text-toolbar-comment-container-0-1-0-1-2">
-                                    </div>
                                     <div class="panel panel-default panel-body" id="responsecommenttext-0-1-0-1-2">
                                       <p>
                                         test comment 2
@@ -694,7 +546,7 @@
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-0-1-0-1-2" type="button">
                                       Save
                                     </a>
-                                    <input class="btn btn-default" onclick="return hideResponseCommentEditForm(1,0,1,2, { sectionIndex: 0 });" type="button" value="Cancel">
+                                    <input class="btn btn-default hide-frc-edit-form" data-frcindex="2" data-giverindex="0" data-qnindex="1" data-recipientindex="1" data-sectionindex="0" type="button" value="Cancel">
                                   </div>
                                   <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="1">
@@ -704,6 +556,7 @@
                                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
+                                  <input name="token" type="hidden" value="${sessionToken}">
                                 </form>
                               </li>
                               <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-0-0-1-1" style="display: none;">
@@ -717,7 +570,7 @@
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
-                                    <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-0-0-1-1" onclick="toggleVisibilityAddForm(0,1,1, { sectionIndex: 0 })">
+                                    <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" id="frComment-visibility-options-trigger-0-0-1-1">
                                       <span class="glyphicon glyphicon-eye-close">
                                       </span>
                                       Show Visibility Options
@@ -757,8 +610,6 @@
                                     </table>
                                   </div>
                                   <div class="form-group">
-                                    <div id="rich-text-toolbar-comment-container-0-0-1-1">
-                                    </div>
                                     <div class="panel panel-default panel-body content-editor" id="responseCommentAddForm-0-0-1-1" spellcheck="false" style="position: relative;">
                                       <p>
                                         test comment 2
@@ -770,7 +621,7 @@
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-0-1-1" type="button">
                                       Add
                                     </a>
-                                    <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1, { sectionIndex: 0 });" type="button" value="Cancel">
+                                    <input class="btn btn-default hide-frc-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
@@ -780,6 +631,7 @@
                                   <input name="user" type="hidden" value="CFResultsUiT.instr">
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
+                                  <input name="token" type="hidden" value="${sessionToken}">
                                 </form>
                               </li>
                             </ul>

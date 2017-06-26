@@ -4,7 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/email" prefix="adminEmail" %>
 <%@ attribute name="sentEmailTable" required="true" type="teammates.ui.template.AdminSentEmailTable" %>
 
-<div id="adminEmailSent">     
+<div id="adminEmailSent">
     <div class="panel panel-success">
         <div class="panel-heading">
             <strong>
@@ -23,13 +23,12 @@
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
-                    <tr>      
-                        <th>Action</th>          
+                    <tr>
+                        <th>Action</th>
                         <th>Address Receiver</th>
                         <th>Group Receiver</th>
                         <th>Subject</th>
-                        <th onclick="toggleSort(this);"
-                            class="button-sort-ascending">Date <span
+                        <th class="button-sort-ascending toggle-sort">Date <span
                             class="icon-sort unsorted"
                             id="button_sort_date"></span></th>
                     </tr>
@@ -37,7 +36,7 @@
                 <tbody>
                     <c:forEach items="${sentEmailTable.rows}" var="email">
                         <adminEmail:sentEmail sentEmail="${email}"/>
-                    </c:forEach>              
+                    </c:forEach>
                 </tbody>
             </table>
         </div>

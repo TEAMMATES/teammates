@@ -28,7 +28,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      * Verifies if the user is allowed to carry out the action.
      */
     @Override
-    protected void verifyAccesibleForSpecificUser() {
+    protected void verifyAccessibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 

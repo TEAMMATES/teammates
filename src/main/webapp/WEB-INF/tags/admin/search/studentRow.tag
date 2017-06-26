@@ -11,7 +11,7 @@
     <%-- Course [Section] (Team) --%>
     <c:choose>
         <c:when test="${not empty student.courseName}">
-            <td data-toggle="tooltip" data-placement="top" title="${student.courseName}">
+            <td data-toggle="tooltip" data-placement="top" title="${fn:escapeXml(fn:escapeXml(student.courseName))}">
                 ${student.courseId}<br><c:out value="${student.section}"/><br><c:out value="${student.team}"/>
             </td>
         </c:when>
@@ -19,7 +19,7 @@
             <td>${student.courseId}<br><c:out value="${student.section}"/><br><c:out value="${student.team}"/></td>
         </c:otherwise>
     </c:choose>
-    
+
     <%-- Name --%>
     <c:choose>
         <c:when test="${not empty student.links.detailsPageLink}">
@@ -31,17 +31,17 @@
             <td><c:out value="${student.name}"/></td>
         </c:otherwise>
     </c:choose>
-    
-    <%-- Google ID [Details] --%>                     
+
+    <%-- Google ID [Details] --%>
     <td>
         <a href="${student.links.homePageLink}" target="_blank" rel="noopener noreferrer" class="homePageLink">
             ${empty student.links.homePageLink ? "" : student.googleId} <%-- also checks if it is null --%>
         </a>
     </td>
-    
+
     <%-- Comments --%>
     <td><c:out value="${student.comments}"/></td>
-    
+
     <%-- Options --%>
     <td>
         <%-- View recent actions --%>
@@ -49,30 +49,30 @@
             <form method="post" target="_blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
                 <button type="submit" id="${student.viewRecentActionsId}_recentActions"
                         class="btn btn-link btn-xs recentActionButton">
-                        
+
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
-                </button>                                 
-                                                
+                </button>
+
                 <input type="hidden" name="filterQuery" value="${student.viewRecentActionsId}">
                 <input type="hidden" name="courseId" value="${student.courseId}">
             </form>
         </c:if>
-        
+
         <%-- Reset Google ID --%>
         <c:if test="${not empty student.googleId}">
             <button type="button" id="${student.googleId}_resetGoogleId"
-                    onclick="submitResetGoogleIdAjaxRequest('${student.courseId}' , '${student.email}', '${student.googleId}', this);"
+                    data-courseid="${student.courseId}" data-studentemail="${student.email}" data-googleid="${student.googleId}"
                     class="btn btn-link btn-xs resetGoogleIdButton">
-                    
+
                 <span class="glyphicon glyphicon-refresh"></span>Reset Google Id
             </button>
         </c:if>
-    </td>                              
+    </td>
 </tr>
 
 <tr class="has-danger list-group fslink fslink_student fslink${student.id}" style="display: none;">
     <td colspan="5">
-        <ul class="list-group">     
+        <ul class="list-group">
             <%-- Email --%>
             <c:if test="${not empty student.email}">
                 <li class="list-group-item list-group-item-success has-success">
@@ -80,13 +80,13 @@
                     <input value="${student.email}" readonly class="form-control">
                 </li>
             </c:if>
-                                            
+
             <%-- Course join link --%>
             <li class="list-group-item list-group-item-info">
                 <strong>Course Join Link</strong>
                 <input value="${student.links.courseJoinLink}" readonly class="form-control">
             </li>
-            
+
             <%-- Open feedback sessions --%>
             <c:if test="${not empty student.openFeedbackSessions}">
                 <c:forEach items="${student.openFeedbackSessions}" var="session">
@@ -96,7 +96,7 @@
                     </li>
                 </c:forEach>
             </c:if>
-            
+
             <%-- Closed feedback sessions --%>
             <c:if test="${not empty student.closedFeedbackSessions}">
                 <c:forEach items="${student.closedFeedbackSessions}" var="session">
@@ -106,7 +106,7 @@
                     </li>
                 </c:forEach>
             </c:if>
-            
+
             <%-- Published feedback sessions --%>
             <c:if test="${not empty student.publishedFeedbackSessions}">
                 <c:forEach items="${student.publishedFeedbackSessions}" var="session">

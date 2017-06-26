@@ -37,7 +37,7 @@
                         <tr>
                             <td class="text-bold">Nationality</td>
                             <td>${empty student.nationality ? none : fn:escapeXml(student.nationality)}</td>
-                        </tr>                                
+                        </tr>
                     </tbody>
                 </table>
             </div>

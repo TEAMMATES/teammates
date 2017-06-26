@@ -125,7 +125,7 @@ Represented by these classes:
 
 ### Policies
 
-General: 
+General:
 + Null values should **not** be used as parameters to this API, except when following the KeepExisting policy (explained later).
 
 Access control:
@@ -139,7 +139,7 @@ API for creating entities:
 
 API for retrieving entities:
 + Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
-+ Entity not found: 
++ Entity not found:
   - Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
   - Throws `EntityDoesNotExistsExeption` if a parent entity of a target entity is not found e.g., trying to list students of a non-existent course.
 
@@ -153,7 +153,7 @@ API for updating entities:
 API for deleting entities:
 + `Null` parameters: Not expected. Results in assertion failure.
 + FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. Instead, it logs a warning. This is because if it does not exist, it is as good as deleted.
-+ Cascade policy:   When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted.  
++ Cascade policy:   When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted.
   Refer to the API for the cascade logic.
 
 ## Storage Component
@@ -187,12 +187,12 @@ Represented by the `*Db` classes. These classes act as the bridge to the GAE Dat
 
 ### Policies
 
-Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server. 
-Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while. 
+Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
+Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
 
-Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Please see [TEAMMATES Decision Analysis](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true) document for more information. 
+Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Please see [TEAMMATES Decision Analysis](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true) document for more information.
 
-General: 
+General:
 + If `Null` is passed as a parameter, the corresponding value is **NOT** modified, as per the KeepExistingPolicy that was previously mentioned.
 
 API for creating:

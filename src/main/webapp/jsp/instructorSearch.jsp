@@ -11,7 +11,6 @@
 </c:set>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorSearch.js"></script>
 </c:set>
 
@@ -20,21 +19,17 @@
     <search:searchPageInput />
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    
-    <c:if test="${not data.commentsForStudentsEmpty}">
-        <shared:commentsPanel commentsForStudentsTables="${data.searchCommentsForStudentsTables}" />
-    </c:if>
-    
+
     <c:if test="${not data.commentsForResponsesEmpty}">
         <search:commentsForResponsesSearchResults commentsForResponsesTables="${data.searchCommentsForResponsesTables}">
             Comments for responses
         </search:commentsForResponsesSearchResults>
     </c:if>
-    
+
     <c:if test="${not data.studentsEmpty}">
         <search:studentsSearchResults searchStudentsTables="${data.searchStudentsTables}">
             Students
         </search:studentsSearchResults>
     </c:if>
-    
+
 </ti:instructorPage>

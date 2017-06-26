@@ -18,7 +18,6 @@
             </span>
           </div>
           <input name="searchstudents" type="hidden" value="true">
-          <input name="searchcommentforstudents" type="hidden" value="false">
           <input name="searchcommentforresponses" type="hidden" value="false">
           <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
         </form>
@@ -29,9 +28,9 @@
   <div id="statusMessagesToUser" style="display: none;">
   </div>
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorHomePage" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -51,7 +50,7 @@
             <button class="btn btn-default" data-dismiss="modal" type="button">
               Cancel
             </button>
-            <input class="btn btn-primary" type="submit" value="Remind">
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
             <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
           </div>
         </form>
@@ -90,7 +89,7 @@
   </div>
   <br>
   <div class="panel panel-primary" id="course-0">
-    <div class="panel-heading">
+    <div class="panel-heading" id="panelHeading-0" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-6">
           <strong>
@@ -154,75 +153,86 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-archive-for-test" data-course-id="ins.wit-demo1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=ins.wit-demo1&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                  <a class="btn-tm-actions course-archive-for-test" data-course-id="ins.wit-demo1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=ins.wit-demo1&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Archive
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo1" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo1&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo1" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo1&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
               </ul>
             </div>
+            <span class="glyphicon glyphicon-chevron-up">
+            </span>
           </span>
         </div>
       </div>
     </div>
-    <table class="table-responsive table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th class="button_sortname button-sort-none" onclick="toggleSort(this);">
-            Session Name
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            Start Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            End Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th>
-            Status
-          </th>
-          <th>
-            <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
-              Response Rate
-            </span>
-          </th>
-          <th class="no-print">
-            Action(s)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <span class="text-muted">
-              This course does not have any sessions yet.
-            </span>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <form>
+      <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
+      <input name="coursetoload" type="hidden" value="ins.wit-demo1">
+      <input name="index" type="hidden" value="0">
+    </form>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-0" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table-responsive table table-striped table-bordered margin-0">
+          <thead>
+            <tr>
+              <th class="button_sortname button-sort-none toggle-sort">
+                Session Name
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+                Start Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+                End Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
+                  Response Rate
+                </span>
+              </th>
+              <th class="no-print">
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="text-muted">
+                  This course does not have any sessions yet.
+                </span>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="panel panel-primary" id="course-1">
-    <div class="panel-heading">
+    <div class="panel-heading" id="panelHeading-1" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-6">
           <strong>
@@ -286,75 +296,86 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-archive-for-test" data-course-id="ins.wit-demo2" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=ins.wit-demo2&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                  <a class="btn-tm-actions course-archive-for-test" data-course-id="ins.wit-demo2" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=ins.wit-demo2&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Archive
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo2" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo2&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo2" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo2&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
               </ul>
             </div>
+            <span class="glyphicon glyphicon-chevron-up">
+            </span>
           </span>
         </div>
       </div>
     </div>
-    <table class="table-responsive table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th class="button_sortname button-sort-none" onclick="toggleSort(this);">
-            Session Name
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            Start Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            End Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th>
-            Status
-          </th>
-          <th>
-            <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
-              Response Rate
-            </span>
-          </th>
-          <th class="no-print">
-            Action(s)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <span class="text-muted">
-              This course does not have any sessions yet.
-            </span>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <form>
+      <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
+      <input name="coursetoload" type="hidden" value="ins.wit-demo2">
+      <input name="index" type="hidden" value="1">
+    </form>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table-responsive table table-striped table-bordered margin-0">
+          <thead>
+            <tr>
+              <th class="button_sortname button-sort-none toggle-sort">
+                Session Name
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+                Start Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+                End Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
+                  Response Rate
+                </span>
+              </th>
+              <th class="no-print">
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="text-muted">
+                  This course does not have any sessions yet.
+                </span>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="panel panel-primary" id="course-2">
-    <div class="panel-heading">
+    <div class="panel-heading" id="panelHeading-2" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-6">
           <strong>
@@ -418,75 +439,86 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="btn-tm-actions course-archive-for-test" data-course-id="ins.wit-demo3" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=ins.wit-demo3&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                  <a class="btn-tm-actions course-archive-for-test" data-course-id="ins.wit-demo3" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=ins.wit-demo3&archive=true&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Archive
                   </a>
                 </li>
                 <li>
-                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo3" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo3&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                  <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo3" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo3&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Delete
                   </a>
                 </li>
               </ul>
             </div>
+            <span class="glyphicon glyphicon-chevron-up">
+            </span>
           </span>
         </div>
       </div>
     </div>
-    <table class="table-responsive table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th class="button_sortname button-sort-none" onclick="toggleSort(this);">
-            Session Name
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            Start Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,instructorHomeDateComparator);">
-            End Date
-            <span class="icon-sort unsorted">
-            </span>
-          </th>
-          <th>
-            Status
-          </th>
-          <th>
-            <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
-              Response Rate
-            </span>
-          </th>
-          <th class="no-print">
-            Action(s)
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <span class="text-muted">
-              This course does not have any sessions yet.
-            </span>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <form>
+      <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
+      <input name="coursetoload" type="hidden" value="ins.wit-demo3">
+      <input name="index" type="hidden" value="2">
+    </form>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+      <div class="panel-body padding-0">
+        <table class="table-responsive table table-striped table-bordered margin-0">
+          <thead>
+            <tr>
+              <th class="button_sortname button-sort-none toggle-sort">
+                Session Name
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+                Start Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+                End Date
+                <span class="icon-sort unsorted">
+                </span>
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                <span class="text-nowrap tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
+                  Response Rate
+                </span>
+              </th>
+              <th class="no-print">
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="text-muted">
+                  This course does not have any sessions yet.
+                </span>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="panel panel-primary" id="course-3" style="cursor: pointer;">
-    <div class="panel-heading">
+  <div class="panel panel-primary" id="course-3">
+    <div class="panel-heading ajax_auto" id="panelHeading-3" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-6">
           <strong>
@@ -506,11 +538,15 @@
       <input name="coursetoload" type="hidden" value="ins.wit-Unloaded">
       <input name="index" type="hidden" value="3">
     </form>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-3">
+      <div class="panel-body padding-0">
+      </div>
+    </div>
   </div>
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorHomePage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×

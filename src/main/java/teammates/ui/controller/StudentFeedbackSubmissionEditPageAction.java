@@ -16,14 +16,14 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes fsa) {
+    protected void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa) {
         gateKeeper.verifyAccessible(getStudent(), fsa);
     }
 
     @Override
     protected String getUserEmailForCourse() {
         if (student == null) {
-            // Not covered as this shouldn't happen since verifyAccesibleForSpecific user is always
+            // Not covered as this shouldn't happen since verifyAccessibleForSpecific user is always
             // called before this, calling getStudent() and making student not null in any case
             // This still acts as a safety net, however, and should stay
             return getStudent().email;

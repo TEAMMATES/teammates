@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
@@ -49,12 +51,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     @Test
     public void allTests() throws Exception {
         testContent();
-        testCommentToWholeCourse();
         testTableSort();
         //No input validation required
         testLinks();
         testRemindAction();
         testDeleteAction();
+        testSanitization();
     }
 
     private void testContent() throws Exception {
@@ -93,42 +95,30 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyHtmlMainContent("/instructorCourseDetailsWithoutSections.html");
     }
 
-    private void testCommentToWholeCourse() {
-        ______TS("comment to whole course: submit empty comment");
-        detailsPage.submitCommentToCourse("");
-        detailsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
-        detailsPage.clickAddCommentToCourseButton();
-
-        ______TS("comment to whole course: any comment");
-        String commentText = "this is a comment";
-        detailsPage.submitCommentToCourse(commentText);
-        detailsPage.verifyStatus(String.format(Const.StatusMessages.COMMENT_ADDED, commentText));
-    }
-
     private void testTableSort() {
         ______TS("content: sorting");
 
         //the first table is the hidden table used for comments' visibility options
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
-        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(0, 4, patternString);
         patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
-        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(0, 4, patternString);
 
         patternString = "Alice Betsy</option></td></div>'\"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByName().verifyTablePattern(0, 3, patternString);
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
-        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByName().verifyTablePattern(0, 3, patternString);
 
         patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                         + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                         + "Team 2{*}"
                         + "Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(0, 2, patternString);
         patternString = "Team 2{*}"
                         + "Team 2{*}"
                         + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                         + "Team 1</option><option value=\"dump\"></td><td>'\"";
-        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(0, 2, patternString);
     }
 
     private void testLinks() {
@@ -150,21 +140,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("link: all records");
 
         InstructorStudentRecordsPage studentAllRecordsPage = detailsPage.clickAllRecordsLink(student2.name);
-        studentAllRecordsPage.verifyIsCorrectPage(student2.email);
+        studentAllRecordsPage.verifyIsCorrectPage(student2.name);
         studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         studentAllRecordsPage = detailsPage.clickAllRecordsLink(student1.name);
-        studentAllRecordsPage.verifyIsCorrectPage(student1.email);
+        studentAllRecordsPage.verifyIsCorrectPage(student1.name.replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
         studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
-
-        ______TS("link: add comment");
-
-        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(student1.name);
-        studentCommentsPage.verifyIsCorrectPage(student1.email);
-        studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
-        studentCommentsPage = detailsPage.clickAddCommentStudentViaAddCommentButton(student1.name);
-        studentCommentsPage.verifyIsCorrectPage(student1.email);
-        studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: download student list");
 
@@ -182,20 +163,22 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
         // student2 is yet to register, student1 is already registered
-        String student1Password = TestProperties.TEST_STUDENT1_PASSWORD;
-        String student2Password = TestProperties.TEST_STUDENT2_PASSWORD;
         boolean isEmailEnabled = !TestProperties.isDevServer();
 
         ______TS("action: remind single student");
 
         detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
+            assertFalse(hasStudentReceivedReminder(courseName, courseId, student2.email));
+        } else {
+            // TODO: use GAE LocalMailService
         }
 
         detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
-            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
+            assertTrue(hasStudentReceivedReminder(courseName, courseId, student2.email));
+        } else {
+            // TODO: use GAE LocalMailService
         }
         detailsPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student2.email);
 
@@ -209,30 +192,30 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
-            assertTrue(didStudentReceiveReminder(courseName, courseId, student2.email, student2Password));
+            assertTrue(hasStudentReceivedReminder(courseName, courseId, student2.email));
             // verify a registered student did not receive a reminder
-            assertFalse(didStudentReceiveReminder(courseName, courseId, student1.email, student1Password));
+            assertFalse(hasStudentReceivedReminder(courseName, courseId, student1.email));
         }
 
         // verify if sort is preserved after sending invite
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
 
-        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(0, 4, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1, 4, patternString);
+        detailsPage.verifyTablePattern(0, 4, patternString);
 
         patternString = "Alice Betsy</option></td></div>'\"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByName().verifyTablePattern(0, 3, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1, 3, patternString);
+        detailsPage.verifyTablePattern(0, 3, patternString);
 
         patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                 + "Team 1</option><option value=\"dump\"></td><td>'\"{*}"
                 + "Team 2{*}"
                 + "Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(0, 2, patternString);
         detailsPage.clickRemindStudentAndConfirm(student2.name);
-        detailsPage.verifyTablePattern(1, 2, patternString);
+        detailsPage.verifyTablePattern(0, 2, patternString);
     }
 
     private void testDeleteAction() throws Exception {
@@ -253,6 +236,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getStudent(courseId, danny.email));
     }
 
+    private void testSanitization() throws IOException {
+        instructorId = testData.instructors.get("CCDetailsUiT.instructor1OfTSCourse").googleId;
+        courseId = testData.courses.get("CCDetailsUiT.TSCourse").getId();
+
+        detailsPage = getCourseDetailsPage();
+        detailsPage.verifyHtmlMainContent("/instructorCourseDetailsTestingSanitization.html");
+    }
+
     private InstructorCourseDetailsPage getCourseDetailsPage() {
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                 .withUserId(instructorId)
@@ -261,14 +252,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
     }
 
-    private boolean didStudentReceiveReminder(String courseName, String courseId, String studentEmail,
-                                              String studentPassword)
+    private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
-        ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
+        ThreadHelper.waitFor(5000); //TODO: remove this and use RetryManager with a shorter wait interval
         String keyReceivedInEmail =
-                EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseName, courseId);
+                EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
         return keyToSend.equals(keyReceivedInEmail);
     }
 

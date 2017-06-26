@@ -8,6 +8,7 @@
   <form action="/page/instructorFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="Grace Period Session">
     <input name="courseid" type="hidden" value="IFSubmitUiT.CS2104">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IFSubmitUiT.instr">
     <div id="statusMessagesToUser">
       <div class="overflow-auto alert alert-warning statusMessage">
@@ -117,8 +118,6 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <div id="rich-text-toolbar-response-text-container-1-0">
-              </div>
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" disabled="" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">

@@ -17,6 +17,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.CryptoHelper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.SanitizationHelper;
@@ -38,6 +39,9 @@ public abstract class Action {
 
     /** This is used to ensure unregistered users don't access certain pages in the system. */
     public String regkey;
+
+    /** The regkey may also contain a next url parameter as well. */
+    public String nextUrlFromRegkey;
 
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
@@ -74,6 +78,9 @@ public abstract class Action {
     /** Session that contains status message information. */
     protected HttpSession session;
 
+    /** Session token used in forms/links to actions requiring origin validation. */
+    protected String sessionToken;
+
     /** This is to get the blobInfo for any file upload from prev pages. */
     protected HttpServletRequest request;
 
@@ -101,9 +108,32 @@ public abstract class Action {
         setEmailSender(new EmailSender());
         requestParameters = request.getParameterMap();
         session = request.getSession();
-
+        sessionToken = CryptoHelper.computeSessionToken(session.getId());
+        parseAndInitializeRegkeyFromRequest();
         // Set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
+    }
+
+    /**
+     * Parses and initializes the regkey from the http request.
+     */
+    private void parseAndInitializeRegkeyFromRequest() {
+        String regkeyFromRequest = getRegkeyFromRequest();
+        boolean isNextParamInRegkey = regkeyFromRequest != null
+                                      && regkeyFromRequest.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=");
+        if (isNextParamInRegkey) {
+            /*
+             * Here regkey may contain the nextUrl as well. This is due to
+             * a workaround which replaces "&" with a placeholder "${amp}", thus the
+             * next parameter, nextUrl, is treated as part of the "regkey".
+             */
+            String[] split = regkeyFromRequest.split("\\$\\{amp\\}" + Const.ParamsNames.NEXT_URL + "=");
+            regkey = split[0];
+            nextUrlFromRegkey = SanitizationHelper.desanitizeFromNextUrl(split[1]);
+        } else {
+            regkey = regkeyFromRequest;
+            nextUrlFromRegkey = null;
+        }
     }
 
     public TaskQueuer getTaskQueuer() {
@@ -136,6 +166,15 @@ public abstract class Action {
 
         if (!isHttpReferrerValid(referrer)) {
             throw new InvalidOriginException("Invalid HTTP referrer");
+        }
+
+        String sessionToken = getRequestParamValue(Const.ParamsNames.SESSION_TOKEN);
+        if (sessionToken == null) {
+            throw new InvalidOriginException("Missing session token");
+        }
+
+        if (!isSessionTokenValid(sessionToken)) {
+            throw new InvalidOriginException("Invalid session token");
         }
     }
 
@@ -181,6 +220,18 @@ public abstract class Action {
         return origin.equals(target);
     }
 
+    private boolean isSessionTokenValid(String actualToken) {
+        String sessionId = request.getRequestedSessionId();
+        if (sessionId == null) {
+            // Newly-created session
+            sessionId = session.getId();
+        }
+
+        String expectedToken = CryptoHelper.computeSessionToken(sessionId);
+
+        return actualToken.equals(expectedToken);
+    }
+
     // These methods are used for user authentication
 
     protected void authenticateUser() {
@@ -198,7 +249,6 @@ public abstract class Action {
 
         AccountAttributes loggedInUser = null;
 
-        regkey = getRegkeyFromRequest();
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
@@ -288,12 +338,12 @@ public abstract class Action {
     }
 
     private boolean doesUserNeedToLogin(UserType currentUser) {
-        boolean userNeedsGoogleAccountForPage =
+        boolean isGoogleLoginRequired =
                 !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
-        boolean userIsNotLoggedIn = currentUser == null;
-        boolean noRegkeyGiven = getRegkeyFromRequest() == null;
+        boolean isUserLoggedIn = currentUser != null;
+        boolean hasRegkey = getRegkeyFromRequest() != null;
 
-        if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
+        if (!isUserLoggedIn && (isGoogleLoginRequired || !hasRegkey)) {
             setRedirectPage(gateKeeper.getLoginUrl(requestUrl));
             return true;
         }
@@ -311,7 +361,6 @@ public abstract class Action {
                 // Allowing admin to masquerade as another user
                 account = logic.getAccount(paramRequestedUserId);
                 if (account == null) { // Unregistered user
-                    regkey = getRegkeyFromRequest();
                     if (regkey == null) {
                         // since admin is masquerading, fabricate a regkey
                         regkey = "any-non-null-value";
@@ -436,7 +485,7 @@ public abstract class Action {
         }
 
         if (regkey != null) {
-            response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
+            response.responseParams.put(Const.ParamsNames.REGKEY, getRegkeyFromRequest());
 
             if (student != null) {
                 response.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);

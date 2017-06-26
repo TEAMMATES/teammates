@@ -34,13 +34,13 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
             return createSpecificRedirectResult();
         }
 
-        verifyAccesibleForSpecificUser(feedbackSession);
+        verifyAccessibleForSpecificUser(feedbackSession);
 
         String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         String userEmailForCourse = getUserEmailForCourse();
-        data = new FeedbackSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
@@ -59,7 +59,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
     protected abstract boolean isSpecificUserJoinedCourse();
 
-    protected abstract void verifyAccesibleForSpecificUser(FeedbackSessionAttributes fsa);
+    protected abstract void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa);
 
     protected abstract String getUserEmailForCourse();
 
