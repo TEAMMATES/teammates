@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -18,7 +19,7 @@ public class StudentProfileEditBox {
     /** option to select the nationality. */
     private List<ElementTag> nationalitySelectField;
     private String legacyNationalityInstructions;
-    private String gender;
+    private UserGender gender;
     private String moreInfo;
     private String googleId;
     private String pictureUrl;
@@ -40,7 +41,6 @@ public class StudentProfileEditBox {
 
         // TODO: remove after StudentProfileAttributes are desanitized
         this.shortName = SanitizationHelper.desanitizeIfHtmlSanitized(this.shortName);
-        this.gender = SanitizationHelper.desanitizeIfHtmlSanitized(this.gender);
         this.email = SanitizationHelper.desanitizeIfHtmlSanitized(this.email);
         this.institute = SanitizationHelper.desanitizeIfHtmlSanitized(this.institute);
         this.nationality = SanitizationHelper.desanitizeIfHtmlSanitized(this.nationality);
@@ -75,7 +75,7 @@ public class StudentProfileEditBox {
         return nationalitySelectField;
     }
 
-    public String getGender() {
+    public UserGender getGender() {
         return gender;
     }
 
