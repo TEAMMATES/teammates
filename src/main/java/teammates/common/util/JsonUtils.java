@@ -11,7 +11,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
@@ -104,7 +103,7 @@ public final class JsonUtils {
             try {
                 return dateFormat.parse(element.getAsString());
             } catch (ParseException e) {
-                throw new JsonParseException(e);
+                throw new JsonSyntaxException(element.getAsString(), e);
             }
         }
     }
