@@ -263,20 +263,21 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateTimeForComments(Date date) {
+    public static String formatDateTimeForComments(Date date, Double sessionTimeZone) {
         if (date == null) {
             return "";
         }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
+        String timeZone = timeZoneDoubleToIdMapping.get(Double.toString(sessionTimeZone));
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
-            sdf.setTimeZone(SystemParams.TIME_ZONE);
+            sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
             return sdf.format(date) + " NOON UTC";
         }
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
         return sdf.format(date);
     }
 
