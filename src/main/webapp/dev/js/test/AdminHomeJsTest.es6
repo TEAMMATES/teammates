@@ -1,9 +1,21 @@
-import { addInstructorAjax, addInstructorFromFirstFormByAjax, addInstructorFromSecondFormByAjax, createRowForResultTable,
-        getInstructorDetailsList, getIsInputFromFirstPanel, getParamsCounter, getParamsList,
-        setInstructorDetailsList, setIsInputFromFirstPanel, setParamsCounter, setParamsList,
-        stubAddInstructorByAjaxRecursively, stubEnableAddInstructorForm,
-        unstubAddInstructorByAjaxRecursively, unstubEnableAddInstructorForm }
-        from '../main/adminHome.es6';
+import {
+    addInstructorAjax,
+    addInstructorFromFirstFormByAjax,
+    addInstructorFromSecondFormByAjax,
+    createRowForResultTable,
+    getInstructorDetailsList,
+    getIsInputFromFirstPanel,
+    getParamsCounter,
+    getParamsList,
+    setInstructorDetailsList,
+    setIsInputFromFirstPanel,
+    setParamsCounter,
+    setParamsList,
+    stubAddInstructorByAjaxRecursively,
+    stubEnableAddInstructorForm,
+    unstubAddInstructorByAjaxRecursively,
+    unstubEnableAddInstructorForm,
+} from '../main/adminHome.es6';
 
 QUnit.module('AdminHome.js');
 
