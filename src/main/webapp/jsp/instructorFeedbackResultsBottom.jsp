@@ -22,7 +22,7 @@
       </form>
       <div class="display-icon pull-right">
         <c:if test="${!isLoadingStructure}">
-            <r:remindButton remindButton="${data.noResponsePanel.remindButton}" />
+          <r:remindButton remindButton="${data.noResponsePanel.remindButton}" />
         </c:if>
         <span class="glyphicon ${!isLoadingStructure ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
       </div>

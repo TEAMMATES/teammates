@@ -928,6 +928,11 @@ input.inline {
     content: attr(data-placeholder);
 }
 
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
+}
+
 /*////////////////////////////////////////////////////////////
 /////////////////////// Modal Dialogs ///////////////////////
 //////////////////////////////////////////////////////////*/
@@ -1163,9 +1168,4 @@ Glyphicon for success status messages
     display: inline-block;
     padding-right: 2px;
     content: '\e084';
-}
-
-.remind-no-response {
-    display: inline-block;
-    padding-right: 5px;
 }

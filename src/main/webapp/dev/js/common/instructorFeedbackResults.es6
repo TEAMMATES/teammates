@@ -332,14 +332,15 @@ function prepareInstructorFeedbackResultsPage() {
             success(data) {
                 const remindButtonContent = $(data).find('.remind-no-response')[0];
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
-                $(panelHeading).removeClass('ajax-response-submit');
-                $(panelHeading).removeClass('ajax-response-auto');
-                $(panelHeading).off('click');
+                const $panelHeading = $(panelHeading);
+                $panelHeading.removeClass('ajax-response-submit');
+                $panelHeading.removeClass('ajax-response-auto');
+                $panelHeading.off('click');
                 displayIcon.html(remindButtonContent);
                 displayIcon.append('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
-                $(panelHeading).data('state', 'up');
-                $(panelHeading).click(toggleNoResponsePanel);
-                $(panelHeading).trigger('click');
+                $panelHeading.data('state', 'up');
+                $panelHeading.click(toggleNoResponsePanel);
+                $panelHeading.trigger('click');
                 prepareRemindModal();
             },
         });
