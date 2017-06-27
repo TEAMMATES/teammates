@@ -1,7 +1,14 @@
-import { showModalConfirmation } from './bootboxWrapper.es6';
-import { StatusType } from './const.es6';
-import { disallowNonNumericEntries } from './ui.es6';
-import { extractQuestionNumFromEditFormId } from '../main/instructorFeedbackEdit.es6';
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from './const.es6';
+
+import {
+    disallowNonNumericEntries,
+} from './ui.es6';
 
 function swapRubricCol(questionNum, colIndex, isSwapLeft) {
     if ($(`#rubricEditTable-${questionNum}`).length === 0
@@ -385,11 +392,11 @@ function hasAssignedWeights(questionNum) {
 }
 
 export {
-    disableCornerMoveRubricColumnButtons,
     addRubricCol,
     addRubricRow,
     bindAssignWeightsCheckboxes,
     bindMoveRubricColButtons,
+    disableCornerMoveRubricColumnButtons,
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,

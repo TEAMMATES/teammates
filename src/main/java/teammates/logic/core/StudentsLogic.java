@@ -456,6 +456,13 @@ public final class StudentsLogic {
         return errorMessage.toString();
     }
 
+    public void deleteAllStudentsInCourse(String courseId) {
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        for (StudentAttributes student : studentsInCourse) {
+            deleteStudentCascade(courseId, student.email);
+        }
+    }
+
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }

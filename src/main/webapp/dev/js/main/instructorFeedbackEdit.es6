@@ -1,35 +1,126 @@
 /* global tinymce:false */
 
-import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { ParamsNames, StatusType } from '../common/const.es6';
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { prepareDatepickers } from '../common/datepicker.es6';
-import { FeedbackPath } from '../common/feedbackPath.es6';
-import { isWithinView } from '../common/helper.es6';
-import { prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
-import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
-        formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
-        from '../common/instructorFeedbacks.es6';
-import { addConstSumOption, hideConstSumOptionTable, removeConstSumOption,
-        updateConstSumPointsValue } from '../common/questionConstSum.es6';
-import { fixContribQnGiverRecipient, setContribQnVisibilityFormat, setDefaultContribQnVisibilityIfNeeded }
-        from '../common/questionContrib.es6';
-import { addMcqOption, removeMcqOption, toggleMcqGeneratedOptions,
-        toggleMcqOtherOptionEnabled, changeMcqGenerateFor } from '../common/questionMcq.es6';
-import { addMsqOption, removeMsqOption, toggleMsqGeneratedOptions,
-        toggleMsqOtherOptionEnabled, changeMsqGenerateFor } from '../common/questionMsq.es6';
-import { updateNumScalePossibleValues } from '../common/questionNumScale.es6';
-import { addRankOption, hideRankOptionTable, removeRankOption } from '../common/questionRank.es6';
-import { disableCornerMoveRubricColumnButtons, addRubricCol, addRubricRow, bindAssignWeightsCheckboxes,
-        bindMoveRubricColButtons, hasAssignedWeights, highlightRubricCol, highlightRubricRow, moveAssignWeightsCheckbox,
-        removeRubricCol, removeRubricRow } from '../common/questionRubric.es6';
-import { destroyEditor, richTextEditorBuilder } from '../common/richTextEditor.es6';
-import { scrollToElement } from '../common/scrollTo.es6';
-import { clearStatusMessages, setStatusMessage, setStatusMessageToForm } from '../common/statusMessage.es6';
-import { addLoadingIndicator, disallowNonNumericEntries, removeLoadingIndicator } from '../common/ui.es6';
-import { attachVisibilityCheckboxEvent, attachVisibilityDropdownEvent, formatCheckBoxes, getVisibilityMessage,
-        matchVisibilityOptionToFeedbackPath, showVisibilityCheckboxesIfCustomOptionSelected, tallyCheckboxes }
-        from '../common/visibilityOptions.es6';
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    ParamsNames,
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    prepareDatepickers,
+} from '../common/datepicker.es6';
+
+import {
+    FeedbackPath,
+} from '../common/feedbackPath.es6';
+
+import {
+    isWithinView,
+} from '../common/helper.es6';
+
+import {
+    prepareInstructorPages,
+    setupFsCopyModal,
+} from '../common/instructor.es6';
+
+import {
+    bindUncommonSettingsEvents,
+    collapseIfPrivateSession,
+    formatResponsesVisibilityGroup,
+    formatSessionVisibilityGroup,
+    showUncommonPanelsIfNotInDefaultValues,
+    updateUncommonSettingsInfo,
+} from '../common/instructorFeedbacks.es6';
+
+import {
+    addConstSumOption,
+    hideConstSumOptionTable,
+    removeConstSumOption,
+    updateConstSumPointsValue,
+} from '../common/questionConstSum.es6';
+
+import {
+    fixContribQnGiverRecipient,
+    setContribQnVisibilityFormat,
+    setDefaultContribQnVisibilityIfNeeded,
+} from '../common/questionContrib.es6';
+
+import {
+    addMcqOption,
+    removeMcqOption,
+    toggleMcqGeneratedOptions,
+    toggleMcqOtherOptionEnabled,
+    changeMcqGenerateFor,
+} from '../common/questionMcq.es6';
+
+import {
+    addMsqOption,
+    removeMsqOption,
+    toggleMsqGeneratedOptions,
+    toggleMsqOtherOptionEnabled,
+    changeMsqGenerateFor,
+} from '../common/questionMsq.es6';
+
+import {
+    updateNumScalePossibleValues,
+} from '../common/questionNumScale.es6';
+
+import {
+    addRankOption,
+    hideRankOptionTable,
+    removeRankOption,
+} from '../common/questionRank.es6';
+
+import {
+    addRubricCol,
+    addRubricRow,
+    bindAssignWeightsCheckboxes,
+    disableCornerMoveRubricColumnButtons,
+    hasAssignedWeights,
+    highlightRubricCol,
+    highlightRubricRow,
+    moveAssignWeightsCheckbox,
+    removeRubricCol,
+    removeRubricRow,
+} from '../common/questionRubric.es6';
+
+import {
+    destroyEditor,
+    richTextEditorBuilder,
+} from '../common/richTextEditor.es6';
+
+import {
+    scrollToElement,
+} from '../common/scrollTo.es6';
+
+import {
+    clearStatusMessages,
+    setStatusMessage,
+    setStatusMessageToForm,
+} from '../common/statusMessage.es6';
+
+import {
+    addLoadingIndicator,
+    disallowNonNumericEntries,
+    removeLoadingIndicator,
+} from '../common/ui.es6';
+
+import {
+    attachVisibilityCheckboxEvent,
+    attachVisibilityDropdownEvent,
+    formatCheckBoxes,
+    getVisibilityMessage,
+    matchVisibilityOptionToFeedbackPath,
+    showVisibilityCheckboxesIfCustomOptionSelected,
+    tallyCheckboxes,
+ } from '../common/visibilityOptions.es6';
 
 const NEW_QUESTION = -1;
 

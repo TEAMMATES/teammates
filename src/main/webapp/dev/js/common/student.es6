@@ -1,5 +1,11 @@
-import { Const, StatusType } from './const.es6';
-import { showModalConfirmation } from './bootboxWrapper.es6';
+import {
+    Const,
+    StatusType,
+} from './const.es6';
+
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
 
 /**
  * Contains functions common to the student pages.
