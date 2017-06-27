@@ -241,6 +241,10 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
+    public boolean isCommentsOnResponsesAllowed() {
+        return true;
+    }
+
     public StringBuilder getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
         StringBuilder commentsHeader = new StringBuilder(200);
         for (int i = noOfComments; i > 0; i--) {
@@ -248,5 +252,4 @@ public abstract class FeedbackQuestionDetails {
         }
         return commentsHeader;
     }
-
 }

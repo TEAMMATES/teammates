@@ -1,4 +1,6 @@
-import { checkBrowserVersion } from '../common/checkBrowserVersion.es6';
+import {
+    checkBrowserVersion,
+} from '../common/checkBrowserVersion.es6';
 
 // TESTIMONIALS
 /* eslint-disable max-len */ // testimonials are better left off as is

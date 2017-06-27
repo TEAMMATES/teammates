@@ -1,8 +1,22 @@
-import { bindStudentPhotoHoverLink, bindStudentPhotoLink, prepareInstructorPages } from '../common/instructor.es6';
-import { bindCollapseEvents, displayAjaxRetryMessageForPanelHeading, isEmptySection,
-        prepareInstructorFeedbackResultsPage, removeSection, showHideStats }
-        from '../common/instructorFeedbackResults.es6';
-import { toggleAdditionalQuestionInfo, toggleSingleCollapse } from '../common/ui.es6';
+import {
+    bindStudentPhotoHoverLink,
+    bindStudentPhotoLink,
+    prepareInstructorPages,
+} from '../common/instructor.es6';
+
+import {
+    bindCollapseEvents,
+    displayAjaxRetryMessageForPanelHeading,
+    isEmptySection,
+    prepareInstructorFeedbackResultsPage,
+    removeSection,
+    showHideStats,
+} from '../common/instructorFeedbackResults.es6';
+
+import {
+    toggleAdditionalQuestionInfo,
+    toggleSingleCollapse,
+} from '../common/ui.es6';
 
 window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
 

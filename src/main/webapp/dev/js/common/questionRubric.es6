@@ -1,6 +1,14 @@
-import { showModalConfirmation } from './bootboxWrapper.es6';
-import { StatusType } from './const.es6';
-import { disallowNonNumericEntries } from './ui.es6';
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from './const.es6';
+
+import {
+    disallowNonNumericEntries,
+} from './ui.es6';
 
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
