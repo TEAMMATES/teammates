@@ -21,6 +21,9 @@
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="-1">
       </form>
       <div class="display-icon pull-right">
+      	<c:if test="${!isLoadingStructure}">
+            <r:remindButton remindButton="${data.noResponsePanel.remindButton}" />
+        </c:if>
         <span class="glyphicon ${!isLoadingStructure ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
       </div>
       Participants who have not responded to any question
