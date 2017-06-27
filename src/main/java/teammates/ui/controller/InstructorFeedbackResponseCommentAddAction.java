@@ -118,6 +118,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
         data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
