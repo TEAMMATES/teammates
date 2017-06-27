@@ -15,20 +15,19 @@ apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.27"
-
-def jsoupVersion = "1.10.2"
-
-def checkstyleVersion = "6.19"
-def pmdVersion = "5.5.4"
-def findbugsVersion = "3.0.1"
-
 buildscript {
+    ext {
+        appengineVersion = "1.9.54"
+        jsoupVersion = "1.10.2"
+        checkstyleVersion = "6.19"
+        pmdVersion = "5.5.4"
+        findbugsVersion = "3.0.1"
+    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
+        classpath "com.google.appengine:gradle-appengine-plugin:${appengineVersion}"
     }
 }
 
@@ -58,7 +57,7 @@ dependencies {
 
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    compile         "com.google.appengine.tools:appengine-gcs-client:0.4.4",
+    compile         "com.google.appengine.tools:appengine-gcs-client:0.6",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.8.0",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
@@ -151,7 +150,7 @@ eclipse {
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
     classpath {
-        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.27"
+        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-${appengineVersion}"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
         minusConfigurations = [configurations.exclude, configurations.testExclude]
@@ -491,9 +490,9 @@ task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
     rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
-    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
-    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
-    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
+    rename("appengine-endpoints-deps-${appengineVersion}.jar", "appengine-endpoints-deps.jar")
+    rename("appengine-endpoints-${appengineVersion}.jar", "appengine-endpoints.jar")
+    rename("appengine-api-labs-${appengineVersion}.jar", "appengine-api-labs.jar")
 }
 
 task resetEclipseDeps {
