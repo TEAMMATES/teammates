@@ -189,7 +189,7 @@ public class InstructorCourseEditPage extends AppPage {
         assertTrue(isNotEditable);
     }
 
-    public void verifyInstructorChangesAfterEdit(int instrNum, String newName, String newEmail,
+    public void verifyInstructorDetails(int instrNum, String newName, String newEmail,
             Boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
         assertEquals(newName, getInstructorName(instrNum));
         if (!newEmail.isEmpty()) {
