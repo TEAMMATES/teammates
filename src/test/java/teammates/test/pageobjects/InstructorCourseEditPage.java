@@ -102,7 +102,8 @@ public class InstructorCourseEditPage extends AppPage {
         if (getEmailField(instrNum).getAttribute("readonly") == null) {
             editInstructorEmail(instrNum, email);
         }
-        if (editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents)) {
+        editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents);
+        if (isDisplayedToStudents) {
             editInstructorDisplayName(instrNum, displayName);
         }
         selectRoleForInstructor(instrNum, role);
