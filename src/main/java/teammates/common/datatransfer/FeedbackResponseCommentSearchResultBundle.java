@@ -25,5 +25,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     public Map<String, String> responseGiverTable = new HashMap<String, String>();
     public Map<String, String> responseRecipientTable = new HashMap<String, String>();
     public Set<String> instructorEmails = new HashSet<String>();
+    public Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
 
 }

@@ -243,6 +243,16 @@ public final class BackDoor {
     }
 
     /**
+     * Gets list of students data from the datastore.
+     */
+    public static List<StudentAttributes> getStudents(String courseId) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTS_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        String studentsJson = makePostRequest(params);
+        return JsonUtils.fromJson(studentsJson, new TypeToken<List<StudentAttributes>>(){}.getType());
+    }
+
+    /**
      * Gets the encrypted registration key for a student in the datastore.
      */
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
