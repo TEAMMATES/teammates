@@ -778,8 +778,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles");
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(),
-                                                          "Instructor for tccai", "ins.for.iccai@gmail.tmt");
+        InstructorAttributes i = InstructorAttributes
+                .builder("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
+                .build();
 
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());
