@@ -178,12 +178,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             return courseIdToInstituteMap.get(student.getCourseId());
         }
 
-        List<Instructor> instructorList = new ArrayList<>();
-        for (Instructor instructor : allInstructors) {
-            if (instructor.getCourseId().equals(student.getCourseId())) {
-                instructorList.add(instructor);
-            }
-        }
+        List<Instructor> instructorList = getInstructorsOfCourse(allInstructors, student.getCourseId());
 
         String institute = getInstituteForInstructors(instructorList, allAccounts);
 
@@ -214,13 +209,27 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             return null;
         }
 
-        String googleId = instructor.getGoogleId();
+        return getInstituteFromGoogleId(instructor.getGoogleId(), allAccounts);
+    }
+
+    private List<Instructor> getInstructorsOfCourse(List<Instructor> allInstructors, String courseId) {
+        List<Instructor> instructorsOfCourse = new ArrayList<>();
+        for (Instructor instructor : allInstructors) {
+            if (instructor.getCourseId().equals(courseId)) {
+                instructorsOfCourse.add(instructor);
+            }
+        }
+        
+        return instructorsOfCourse;
+    }
+    
+    private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {
         for (Account account : allAccounts) {
             if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
                 return account.getInstitute();
             }
         }
-
+        
         return null;
     }
 
