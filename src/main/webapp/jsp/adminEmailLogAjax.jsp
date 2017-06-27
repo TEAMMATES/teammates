@@ -6,11 +6,11 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/email/log" prefix="adminEmailLog" %>
 
 <div>
-    <table id="email-logs-table">
-        <c:forEach items="${data.logs}" var="log">
-            <adminEmailLog:emailLogTableRow log="${log}" />
-        </c:forEach>
-    </table>
+  <table id="email-logs-table">
+    <c:forEach items="${data.logs}" var="log">
+      <adminEmailLog:emailLogTableRow log="${log}" />
+    </c:forEach>
+  </table>
 
-    <div id="status-message">${data.statusForAjax}</div>
+  <div id="status-message">${data.statusForAjax}</div>
 </div>
