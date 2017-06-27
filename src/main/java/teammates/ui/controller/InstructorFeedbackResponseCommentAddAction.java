@@ -120,6 +120,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
         data.instructorEmailNameTable = bundle.instructorEmailNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
+        data.sessionTimeZone = session.getTimeZone();
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }

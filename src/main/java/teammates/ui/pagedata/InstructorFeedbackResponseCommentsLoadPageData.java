@@ -81,7 +81,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                     responseVisibilityMap, bundle.feedbackSession, bundle.instructorEmailNameTable);
 
             FeedbackResponseCommentRow feedbackResponseCommentAdd = buildFeedbackResponseCommentAdd(
-                    question, response, responseVisibilityMap, giverName, recipientName);
+                    question, response, responseVisibilityMap, giverName, recipientName,
+                    bundle.feedbackSession.getTimeZone());
 
             responseCommentList.add(new InstructorFeedbackResponseComment(
                     giverName, recipientName, frcList, responseAnswerHtml,
@@ -121,7 +122,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
             FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                     frca, frca.giverEmail, giverName, recipientName, showCommentToString,
-                    showGiverNameToString, responseVisibilities, instructorEmailNameTable);
+                    showGiverNameToString, responseVisibilities, instructorEmailNameTable, feedbackSession.getTimeZone());
 
             frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
 
@@ -151,7 +152,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
     private FeedbackResponseCommentRow buildFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
-            String giverName, String recipientName) {
+            String giverName, String recipientName, double sessionTimeZone) {
         FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
                 question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
 
@@ -177,7 +178,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
         return new FeedbackResponseCommentRow(
                 frca, giverName, recipientName, getResponseCommentVisibilityString(question),
-                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
+                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap, sessionTimeZone);
     }
 
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {

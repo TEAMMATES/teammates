@@ -55,7 +55,7 @@ public class FeedbackResponseRow {
                 Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        instructorEmailNameTable);
+                        instructorEmailNameTable, results.feedbackSession.getTimeZone());
                 responseRow.enableDelete();
                 responseRow.enableEdit();
                 this.responseComments.add(responseRow);

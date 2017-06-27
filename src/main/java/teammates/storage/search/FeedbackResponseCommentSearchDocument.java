@@ -300,6 +300,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocument(comment);
                 continue;
             }
+            bundle.sessionTimeZone = session.getTimeZone();
             if (!isAdded.contains(session.getFeedbackSessionName())) {
                 isAdded.add(session.getFeedbackSessionName());
                 bundle.sessions.put(session.getSessionName(), session);

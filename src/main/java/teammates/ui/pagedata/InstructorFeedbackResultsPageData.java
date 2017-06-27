@@ -1437,7 +1437,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap, bundle.instructorEmailNameTable);
+                                           responseVisibilityMap, bundle.instructorEmailNameTable,
+                                           bundle.feedbackSession.getTimeZone());
 
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
@@ -1476,7 +1477,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                                               getResponseCommentVisibilityString(question),
-                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
+                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
+                                              bundle.feedbackSession.getTimeZone());
     }
 
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
