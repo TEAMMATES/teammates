@@ -1,4 +1,6 @@
-import { ParamsNames } from './const.es6';
+import {
+    ParamsNames,
+} from './const.es6';
 
 function addMsqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
@@ -7,7 +9,7 @@ function addMsqOption(questionNum) {
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
     $(`
-    <div id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+    <div class="margin-bottom-7px" id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
             <span class="input-group-addon">
                 <input type="checkbox" disabled>

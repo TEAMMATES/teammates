@@ -150,17 +150,8 @@ You need a student account which can be created by instructors.
 TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
 It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
 
-Before running the test suite, both the server and the test environment should be using the UTC time zone. If this has not been done yet, here is the procedure:
-* Stop the dev server if it is running.
-* Specify timezone as a VM argument:
-  * Eclipse
-    * Go to the run configuration Eclipse created when you started the dev server (`Run → Run configurations ...` and select the appropriate one).
-    * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
-    * Save the configuration for future use: Go to the `Common` tab (the last one) and make sure you have selected `Save as → Local file` and `Display in favorites menu → Run, Debug`.
-  * IntelliJ
-    * Go to `Run → Edit Configurations...` and select `Dev Server`.
-    * Add `-Duser.timezone=UTC` to the `VM options` text box. Click `OK`.
-* Start the server again using the run configuration you created in the previous step.
+**NOTE**
+> The dev server sets its time zone to UTC at startup.
 
 ### Using Firefox
 
@@ -274,9 +265,38 @@ This instruction set assumes that the app identifier is `teammates-john`.
      `https://{version}-dot-teammates-john.appspot.com`, e.g `https://4-18-dot-teammates-john.appspot.com`.
 
 1. (Optional) You can run the tests against the deployed app.
+   * You need to setup `Gmail API` for the project as follows:
+   
+     **NOTE**
+     > Setup of Gmail API is required when testing against the staging server.\
+     See [Notes on Gmail API](#notes-about-using-the-gmail-api) for more details.
+     
+     * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
+       and click `API Manager`.\
+       Click `ENABLE API`.\
+       Click `Gmail API` under `G Suite APIs` and then click `ENABLE`.
+     * Alternatively, you can use [Gmail API Wizard](https://console.cloud.google.com/start/api?id=gmail) to enable
+       `Gmail API`.
+     * Click `Credentials` in the menu of the `API Manager`.
+     * Click `Create credentials` and then select `OAuth client ID`.
+     * Choose `Other`, give it a name, e.g. `teammates` and click `Create`. You will then get shown your client ID details,
+       click `OK`.
+     * Click the `Download JSON` icon.
+     * Copy the file to `src/test/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to
+       `client_secret.json`.
    * Edit `src/test/resources/test.properties` as instructed is in its comments.
-   * Run the full test suite or any subset of it as how you would have done it in dev server.
-     However, the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
+   * Run the full test suite or any subset of it as how you would have done it in dev server. You may want to run
+     `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
+     time. Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with
+     no billing enabled.
+
+#### Notes on Gmail API
+1. We need to set up the Gmail API because our test suite uses the Gmail API to access Gmail accounts used for testing (these
+accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
+1. This setup is needed only when testing against the staging server because no actual emails are sent by the dev server and
+therefore delivery of emails is not tested when testing against the dev server.
+1. While we only show how to use the Gmail API with the TEAMMATES project in Google Cloud Console, it is also possible to use
+   the Gmail API with any other Google Cloud Platform project and use the credentials in our project.
 
 ## Running client scripts
 
@@ -315,5 +335,6 @@ There are several files used to configure various aspects of the system.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets/JSPs, security constraints, etc.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
+* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
 * `jdoconfig.xml`: Contains the JDO configuration.
 * `persistence.xml`: Contains the JPA configuration.
