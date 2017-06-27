@@ -92,7 +92,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     /*
      * Instructor email will not be edited when editing a yet-to-join instructor.
-     * Instructor display name will not be edited if instructor is not displayed to other students
+     * Instructor display name will not be edited if instructor is not displayed to other students.
      */
     public void editInstructor(int instrNum, String name, String email,
             Boolean isDisplayedToStudents, String displayName, String role) {
