@@ -197,9 +197,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void verifyInstructorDetails(int instrNum, String newName, String newEmail,
             Boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
         assertEquals(newName, getInstructorName(instrNum));
-        if (!newEmail.isEmpty()) {
-            assertEquals(newEmail, getInstructorEmail(instrNum));
-        }
+        assertEquals(newEmail, getInstructorEmail(instrNum));
         if (newIsDisplayedToStudents) {
             assertTrue(getInstructorDisplayedToStudents(instrNum));
             assertEquals(newDisplayName, getInstructorDisplayName(instrNum));

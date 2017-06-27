@@ -245,10 +245,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: edit yet-to-join instructor, make hidden and verify changes");
 
         editInstructorIndex = 3;
-        courseEditPage.editInstructor(editInstructorIndex, "New name", "", false, "",
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", false, "",
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
-        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "",
+        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt",
                 false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
         ______TS("success: unhide yet-to-join instructor and verify changes");
