@@ -168,8 +168,7 @@ public class InstructorFeedbackResultsSectionPanel {
     }
 
     public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
-        List<InstructorFeedbackResultsParticipantPanel> sortedPanels =
-                new ArrayList<>();
+        List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<>();
         for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }

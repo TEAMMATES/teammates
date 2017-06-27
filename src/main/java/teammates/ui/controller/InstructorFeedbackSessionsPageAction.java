@@ -38,8 +38,7 @@ public class InstructorFeedbackSessionsPageAction extends InstructorFeedbackAbst
         // HashMap with courseId as key and InstructorAttributes as value
         Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
 
-        List<InstructorAttributes> instructorList =
-                new ArrayList<>(instructors.values());
+        List<InstructorAttributes> instructorList = new ArrayList<>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
 
         List<FeedbackSessionAttributes> existingFeedbackSessions;

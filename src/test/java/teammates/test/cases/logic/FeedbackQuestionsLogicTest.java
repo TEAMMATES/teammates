@@ -318,8 +318,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
         questionToUpdate.questionNumber = 3;
-        List<FeedbackParticipantType> newVisibility =
-                new LinkedList<>();
+        List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
         questionToUpdate.showResponsesTo = newVisibility;
         // Check keep existing policy.

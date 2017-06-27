@@ -58,8 +58,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static String jsonString;
 
     private static Set<String> coursesPersisted = new HashSet<>();
-    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted =
-            new HashMap<>();
+    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted = new HashMap<>();
     private static HashMap<String, String> feedbackQuestionIds = new HashMap<>();
 
     private static Logic logic = new Logic();

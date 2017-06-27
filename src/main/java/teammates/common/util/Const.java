@@ -470,8 +470,7 @@ public final class Const {
                 COMMON_FEEDBACK_PATHS;
 
         static {
-            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
-                    new LinkedHashMap<>();
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer = new LinkedHashMap<>();
 
             initializer.put(FeedbackParticipantType.SELF,
                     new ArrayList<>(

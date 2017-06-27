@@ -224,8 +224,7 @@ public final class FeedbackQuestionsLogic {
             return getFeedbackQuestionsForCreatorInstructor(feedbackSessionName, courseId);
         }
 
-        List<FeedbackQuestionAttributes> questions =
-                new ArrayList<>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         boolean isInstructor = instructor != null;
@@ -258,8 +257,7 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
                                     FeedbackSessionAttributes fsa) {
 
-        List<FeedbackQuestionAttributes> questions =
-                new ArrayList<>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
@@ -282,8 +280,7 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
 
-        List<FeedbackQuestionAttributes> questions =
-                new ArrayList<>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.INSTRUCTORS
@@ -302,8 +299,7 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             String feedbackSessionName, String courseId) {
 
-        List<FeedbackQuestionAttributes> questions =
-                new ArrayList<>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
@@ -323,8 +319,7 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {
 
-        List<FeedbackQuestionAttributes> questions =
-                new ArrayList<>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.giverType == FeedbackParticipantType.STUDENTS

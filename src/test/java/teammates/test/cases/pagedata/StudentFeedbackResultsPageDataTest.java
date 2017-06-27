@@ -44,8 +44,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
 
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student, dummySessionToken);
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                new LinkedHashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = new LinkedHashMap<>();
 
         FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         assertNotNull(question1);

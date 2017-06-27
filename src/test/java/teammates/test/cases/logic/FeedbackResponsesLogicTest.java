@@ -379,8 +379,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         List<FeedbackResponseAttributes> responsesFromGiver =
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         studentToUpdate.course, studentToUpdate.email);
-        List<FeedbackResponseAttributes> responsesToAndFromStudent =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
@@ -693,8 +692,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatastore(
             List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseCommentAttributes> responseComments =
-                new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> responseComments = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             List<FeedbackResponseCommentAttributes> responseCommentsForResponse =
                     frcLogic.getFeedbackResponseCommentForResponse(response.getId());

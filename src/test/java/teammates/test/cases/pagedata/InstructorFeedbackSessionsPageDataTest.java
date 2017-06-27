@@ -132,8 +132,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
             archivedCourseInstructorMap.put(instructor.courseId, instructor);
         }
 
-        List<InstructorAttributes> instructorsForArchivedCourse =
-                new ArrayList<>(archivedCourseInstructorMap.values());
+        List<InstructorAttributes> instructorsForArchivedCourse = new ArrayList<>(archivedCourseInstructorMap.values());
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
         instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
@@ -162,8 +161,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
             helperCourseInstructorMap.put(instructor.courseId, instructor);
         }
 
-        List<InstructorAttributes> instructorsForHelper =
-                new ArrayList<>(helperCourseInstructorMap.values());
+        List<InstructorAttributes> instructorsForHelper = new ArrayList<>(helperCourseInstructorMap.values());
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
 
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
@@ -400,8 +398,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
             getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
 
-        List<FeedbackSessionAttributes> feedbackSessions =
-                new ArrayList<>(dataBundle.feedbackSessions.values());
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
 
         Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
         while (iter.hasNext()) {

@@ -108,11 +108,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return isTestingData;
     }
 
-    private StatsBundle generateStatsPerInstitute(
-            List<CourseStudent> allStudents, List<Instructor> allInstructors, List<Account> allAccounts) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
-                new HashMap<>();
-
+    private StatsBundle generateStatsPerInstitute(List<CourseStudent> allStudents, List<Instructor> allInstructors,
+                                                  List<Account> allAccounts) {
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<>();
         HashSet<String> allInstructorEmailSet = new HashSet<>();
         HashSet<String> allStudentEmailSet = new HashSet<>();
         int studentEmailCounter = 0;

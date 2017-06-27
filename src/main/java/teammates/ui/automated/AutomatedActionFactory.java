@@ -16,8 +16,7 @@ import teammates.common.util.Const.TaskQueue;
  */
 public class AutomatedActionFactory {
 
-    private static Map<String, Class<? extends AutomatedAction>> actionMappings =
-            new HashMap<>();
+    private static Map<String, Class<? extends AutomatedAction>> actionMappings = new HashMap<>();
 
     static {
         // Cron jobs

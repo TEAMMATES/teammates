@@ -362,8 +362,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
         removeAndRestoreDataBundle(newDataBundle);
 
-        Map<String, FeedbackSessionDetailsBundle> detailsMap =
-                new HashMap<>();
+        Map<String, FeedbackSessionDetailsBundle> detailsMap = new HashMap<>();
 
         String instrGoogleId = newDataBundle.instructors.get("instructor1OfCourse1").googleId;
         List<FeedbackSessionDetailsBundle> detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(instrGoogleId);

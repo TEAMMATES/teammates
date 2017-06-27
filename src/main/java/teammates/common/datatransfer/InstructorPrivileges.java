@@ -497,14 +497,12 @@ public final class InstructorPrivileges {
     }
 
     public Map<String, Map<String, Map<String, Boolean>>> getSessionLevelPrivileges() {
-        Map<String, Map<String, Map<String, Boolean>>> copy =
-                new LinkedHashMap<>();
+        Map<String, Map<String, Map<String, Boolean>>> copy = new LinkedHashMap<>();
         for (Map.Entry<String, Map<String, Map<String, Boolean>>> sectionPrivileges : sessionLevel.entrySet()) {
 
             Map<String, Map<String, Boolean>> sectionCopy = new LinkedHashMap<>();
             for (Map.Entry<String, Map<String, Boolean>> sessionPrivileges : sectionPrivileges.getValue().entrySet()) {
-                sectionCopy.put(sessionPrivileges.getKey(),
-                        new LinkedHashMap<>(sessionPrivileges.getValue()));
+                sectionCopy.put(sessionPrivileges.getKey(), new LinkedHashMap<>(sessionPrivileges.getValue()));
             }
 
             copy.put(sectionPrivileges.getKey(), sectionCopy);

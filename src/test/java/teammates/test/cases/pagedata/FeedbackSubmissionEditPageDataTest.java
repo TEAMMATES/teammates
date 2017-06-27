@@ -30,8 +30,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private FeedbackQuestionAttributes question;
     private List<FeedbackResponseAttributes> responses = new ArrayList<>();
 
-    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle =
-            new HashMap<>();
+    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle = new HashMap<>();
 
     private Map<String, Map<String, String>> recipientList = new HashMap<>();
     private Map<String, String> recipients = new HashMap<>();

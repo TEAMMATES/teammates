@@ -295,8 +295,7 @@ public final class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
         Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         List<FeedbackQuestionAttributes> questions =
@@ -327,8 +326,7 @@ public final class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
         Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
@@ -407,8 +405,7 @@ public final class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
         }
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
         Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
@@ -448,8 +445,7 @@ public final class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
         }
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
         Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
@@ -1057,8 +1053,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-                new ArrayList<>();
+        List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
@@ -1072,8 +1067,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
-        List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-                new ArrayList<>();
+        List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
@@ -1430,8 +1424,7 @@ public final class FeedbackSessionsLogic {
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
-        ArrayList<FeedbackSessionAttributes> requiredSessions = new
-                ArrayList<>();
+        ArrayList<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
         List<FeedbackSessionAttributes> nonPrivateSessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
@@ -1595,22 +1588,14 @@ public final class FeedbackSessionsLogic {
         }
 
         // create empty data containers to store results
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<>();
-        Map<String, FeedbackQuestionAttributes> relevantQuestions =
-                new HashMap<>();
-        Map<String, String> emailNameTable =
-                new HashMap<>();
-        Map<String, String> emailLastNameTable =
-                new HashMap<>();
-        Map<String, String> emailTeamNameTable =
-                new HashMap<>();
-        Map<String, Set<String>> sectionTeamNameTable =
-                new HashMap<>();
-        Map<String, boolean[]> visibilityTable =
-                new HashMap<>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                new HashMap<>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+        Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
+        Map<String, boolean[]> visibilityTable = new HashMap<>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
@@ -2159,8 +2144,7 @@ public final class FeedbackSessionsLogic {
             String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
 
-        List<FeedbackSessionDetailsBundle> fsDetailsWithoutPrivate =
-                new ArrayList<>();
+        List<FeedbackSessionDetailsBundle> fsDetailsWithoutPrivate = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
 

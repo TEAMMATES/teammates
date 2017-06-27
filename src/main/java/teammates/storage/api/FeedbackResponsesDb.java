@@ -138,8 +138,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -162,8 +161,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForQuestion(feedbackQuestionId);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -408,8 +406,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForQuestion(feedbackQuestionId, receiver);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -434,8 +431,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         Collection<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForQuestionInSection(feedbackQuestionId, receiver, section);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -459,8 +455,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForQuestion(feedbackQuestionId, giverEmail);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -485,8 +480,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         Collection<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForQuestionInSection(feedbackQuestionId, giverEmail, section);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -511,8 +505,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         Collection<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -536,8 +529,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {
@@ -561,8 +553,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<>();
 
         for (FeedbackResponse fr : frList) {
             if (!JDOHelper.isDeleted(fr)) {

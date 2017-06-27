@@ -55,11 +55,9 @@ public class FeedbackSessionResultsBundle {
 
     // For contribution questions.
     // Key is questionId, value is a map of student email to StudentResultSumary
-    public Map<String, Map<String, StudentResultSummary>> contributionQuestionStudentResultSummary =
-            new HashMap<>();
+    public Map<String, Map<String, StudentResultSummary>> contributionQuestionStudentResultSummary = new HashMap<>();
     // Key is questionId, value is a map of team name to TeamEvalResult
-    public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
-            new HashMap<>();
+    public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults = new HashMap<>();
 
     /*
      * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor
@@ -1661,8 +1659,7 @@ public class FeedbackSessionResultsBundle {
             return null;
         }
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
-                new LinkedHashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap = new LinkedHashMap<>();
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
         Collections.sort(sortedQuestions);
@@ -1688,8 +1685,7 @@ public class FeedbackSessionResultsBundle {
             return null;
         }
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
-                new LinkedHashMap<>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap = new LinkedHashMap<>();
 
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
@@ -1791,8 +1787,7 @@ public class FeedbackSessionResultsBundle {
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientQuestionGiver(boolean sortByTeam) {
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientQuestionTeamGiver);
@@ -1838,8 +1833,7 @@ public class FeedbackSessionResultsBundle {
 
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipient(boolean sortByTeam) {
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientGiverQuestion);
@@ -1887,8 +1881,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
 
-        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientGiverQuestion);
@@ -1924,8 +1917,7 @@ public class FeedbackSessionResultsBundle {
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
                 getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamGiverQuestionTeamRecipient);
@@ -1971,8 +1963,7 @@ public class FeedbackSessionResultsBundle {
 
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByGiver(boolean sortByTeam) {
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamGiverRecipientQuestion);
@@ -2025,8 +2016,7 @@ public class FeedbackSessionResultsBundle {
             Collections.sort(responses, compareByGiverRecipientQuestion);
         }
 
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giver;
@@ -2227,7 +2217,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
-        Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
+        Map<String, String> instructorEmailNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = roster.getInstructors();
         for (InstructorAttributes instructor : instructorList) {
             instructorEmailNameTable.put(instructor.email, instructor.name);

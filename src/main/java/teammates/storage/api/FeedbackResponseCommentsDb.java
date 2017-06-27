@@ -615,8 +615,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
                                                         String courseId, String feedbackSessionName, String section) {
 
-        Map<String, FeedbackResponseComment> feedbackResponseCommentList =
-                new HashMap<>();
+        Map<String, FeedbackResponseComment> feedbackResponseCommentList = new HashMap<>();
 
         Query q = getPm().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");

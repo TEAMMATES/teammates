@@ -73,9 +73,7 @@ public class FeedbackSessionQuestionsBundle {
      */
     public Map<String, String> getSortedRecipientList(String feedbackQuestionId) {
 
-        List<Map.Entry<String, String>> sortedList =
-                new ArrayList<>(this.recipientList
-                        .get(feedbackQuestionId).entrySet());
+        List<Map.Entry<String, String>> sortedList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
         Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
             @Override
@@ -97,9 +95,7 @@ public class FeedbackSessionQuestionsBundle {
     }
 
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
-        List<Map.Entry<String, String>> emailList =
-                new ArrayList<>(this.recipientList
-                        .get(feedbackQuestionId).entrySet());
+        List<Map.Entry<String, String>> emailList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
         HashSet<String> result = new HashSet<>();
 

@@ -532,8 +532,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String participantIdentifier,
             Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap,
             String additionalInfoId, int participantIndex) {
-        List<InstructorFeedbackResultsQuestionTable> questionTables =
-                new ArrayList<>();
+        List<InstructorFeedbackResultsQuestionTable> questionTables = new ArrayList<>();
 
         int questionIndex = 0;
         for (Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForParticipantForQuestion
@@ -645,8 +644,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         // create for every remaining team in the section, participantResultsPanels for every team member
         for (String teamWithoutResponses : teamsWithoutResponses) {
-            List<String> teamMembers = new ArrayList<>(
-                    bundle.getTeamMembersFromRoster(teamWithoutResponses));
+            List<String> teamMembers = new ArrayList<>(bundle.getTeamMembersFromRoster(teamWithoutResponses));
             Collections.sort(teamMembers);
             if (viewType.isPrimaryGroupingOfGiverType()) {
                 addMissingParticipantsPanelsWithModerationButtonForTeam(
@@ -798,8 +796,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                      InstructorFeedbackResultsSectionPanel sectionPanel,
                      Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
                      Set<String> teamsInSection) {
-        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables =
-                new HashMap<>();
+        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables = new HashMap<>();
         for (String team : teamsInSection) {
             // skip team if no responses,
             // or if the team is an anonymous student's team or an anonymous team, or is "-"
@@ -807,8 +804,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 continue;
             }
 
-            List<InstructorFeedbackResultsQuestionTable> statisticsTablesForTeam =
-                    new ArrayList<>();
+            List<InstructorFeedbackResultsQuestionTable> statisticsTablesForTeam = new ArrayList<>();
 
             for (FeedbackQuestionAttributes question : bundle.questions.values()) {
                 if (!responsesGroupedByTeam.get(team).containsKey(question)) {

@@ -34,8 +34,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private String frId = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").feedbackResponseId;
     private FeedbackResponseCommentAttributes anotherFrcaData =
             dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-    private ArrayList<FeedbackResponseCommentAttributes> frcasData =
-            new ArrayList<>();
+    private ArrayList<FeedbackResponseCommentAttributes> frcasData = new ArrayList<>();
 
     @BeforeClass
     public void classSetup() throws Exception {
@@ -190,8 +189,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseCommentAttributes> frcas =
                 frcDb.getFeedbackResponseCommentForGiver(frcaData.courseId, frcaData.giverEmail);
-        verifyListsContainSameResponseCommentAttributes(
-                new ArrayList<>(frcasExpected), frcas);
+        verifyListsContainSameResponseCommentAttributes(new ArrayList<>(frcasExpected), frcas);
 
         ______TS("non-existent course id");
 
@@ -206,16 +204,13 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private void testGetFeedbackResponseCommentForResponse() {
         String responseId = "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt";
-        ArrayList<FeedbackResponseCommentAttributes> frcasExpected =
-                new ArrayList<>();
+        ArrayList<FeedbackResponseCommentAttributes> frcasExpected = new ArrayList<>();
         frcasExpected.add(frcaData);
 
         ______TS("typical success case");
 
-        List<FeedbackResponseCommentAttributes> frcas =
-                frcDb.getFeedbackResponseCommentsForResponse(responseId);
-        verifyListsContainSameResponseCommentAttributes(
-                new ArrayList<>(frcasExpected), frcas);
+        List<FeedbackResponseCommentAttributes> frcas = frcDb.getFeedbackResponseCommentsForResponse(responseId);
+        verifyListsContainSameResponseCommentAttributes(new ArrayList<>(frcasExpected), frcas);
     }
 
     private void testUpdateFeedbackResponseComment() throws Exception {
@@ -305,8 +300,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         List<FeedbackResponseCommentAttributes> actualFrcas =
                 frcDb.getFeedbackResponseCommentsForSession(frcaData.courseId, frcaData.feedbackSessionName);
-        List<FeedbackResponseCommentAttributes> expectedFrcas =
-                new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> expectedFrcas = new ArrayList<>();
         expectedFrcas.add(frcaData);
         expectedFrcas.add(anotherFrcaData);
         verifyListsContainSameResponseCommentAttributes(expectedFrcas, actualFrcas);
@@ -401,8 +395,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private void testGetFeedbackResponseCommentsForCourse() {
         String courseId = "idOfTypicalCourse1";
-        List<FeedbackResponseCommentAttributes> expectedFrcs =
-                new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> expectedFrcs = new ArrayList<>();
         expectedFrcs.add(frcaData);
         expectedFrcs.add(anotherFrcaData);
 
@@ -416,15 +409,13 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private void testGetAndDeleteFeedbackResponseCommentsForCourses() {
         List<String> courseIds = new ArrayList<>();
         courseIds.add("idOfTypicalCourse1");
-        List<FeedbackResponseCommentAttributes> expectedFrcas =
-                new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> expectedFrcas = new ArrayList<>();
         expectedFrcas.add(frcaData);
         expectedFrcas.add(anotherFrcaData);
 
         ______TS("successful get feedback response comment for courses");
 
-        List<FeedbackResponseCommentAttributes> actualFrcas =
-                new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> actualFrcas = new ArrayList<>();
         for (String courseId : courseIds) {
             actualFrcas.addAll(frcDb.getFeedbackResponseCommentsForCourse(courseId));
         }

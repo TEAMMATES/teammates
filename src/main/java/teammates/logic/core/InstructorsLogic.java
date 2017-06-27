@@ -308,7 +308,7 @@ public final class InstructorsLogic {
 
     public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
         List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
-        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             if (!instructor.hasCoownerPrivileges()) {
                 continue;

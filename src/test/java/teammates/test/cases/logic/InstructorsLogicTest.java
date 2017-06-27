@@ -744,8 +744,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("Verify all co-owners present in generated co-owners list");
 
         // Generate ArrayList<String> of emails of all coOwners in course from data bundle
-        List<String> coOwnersEmailsFromDataBundle = new ArrayList<String>();
-        for (InstructorAttributes instructor : new ArrayList<InstructorAttributes>(dataBundle.instructors.values())) {
+        List<String> coOwnersEmailsFromDataBundle = new ArrayList<>();
+        for (InstructorAttributes instructor : new ArrayList<>(dataBundle.instructors.values())) {
             if (!(instructor.getCourseId().equals(courseId) && instructor.hasCoownerPrivileges())) {
                 continue;
             }
@@ -753,7 +753,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
 
         // Generate ArrayList<String> of emails of all coOwners from instructorsLogic.getCoOwnersForCourse
-        List<String> generatedCoOwnersEmails = new ArrayList<String>();
+        List<String> generatedCoOwnersEmails = new ArrayList<>();
         for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
             generatedCoOwnersEmails.add(generatedCoOwner.email);
         }
