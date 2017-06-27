@@ -1,6 +1,18 @@
-import { bindPublishButtons, bindUnpublishButtons, selectElementContents } from './instructor.es6';
-import { setStatusMessage } from './statusMessage.es6';
-import { hideSingleCollapse, showSingleCollapse, toggleSingleCollapse } from './ui.es6';
+import {
+    bindPublishButtons,
+    bindUnpublishButtons,
+    selectElementContents,
+} from './instructor.es6';
+
+import {
+    setStatusMessage,
+} from './statusMessage.es6';
+
+import {
+    hideSingleCollapse,
+    showSingleCollapse,
+    toggleSingleCollapse,
+} from './ui.es6';
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
