@@ -11,6 +11,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -2240,12 +2246,23 @@ public class FeedbackSessionResultsBundle {
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             commentRow.append("," + instructorEmailNameTable.get(frc.giverEmail) + ","
-                    + SanitizationHelper.desanitizeFromHtml(getTextBetweenParagraphTag(frc.commentText.getValue())));
+                    + getTextFromComment(frc.commentText));
         }
         return commentRow;
     }
 
-    public String getTextBetweenParagraphTag(String commentText) {
-        return commentText.substring(3, commentText.length() - 4);
+    public String getTextFromComment(Text commentText) {
+        String htmlText = commentText.getValue();
+        StringBuilder comment = new StringBuilder(200);
+        comment.append(Jsoup.parse(htmlText).text());
+        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
+            comment.append("Images Link: ");
+            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
+            for (Element element : ele) {
+                comment.append(element.absUrl("src"));
+                comment.append(" ");
+            }
+        }
+        return SanitizationHelper.desanitizeFromHtml(comment.toString());
     }
 }
