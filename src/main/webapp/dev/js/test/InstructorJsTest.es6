@@ -1,4 +1,7 @@
-import { executeCopyCommand, selectElementContents } from '../common/instructor.es6';
+import {
+    executeCopyCommand,
+    selectElementContents,
+} from '../common/instructor.es6';
 
 QUnit.module('instructor.js');
 

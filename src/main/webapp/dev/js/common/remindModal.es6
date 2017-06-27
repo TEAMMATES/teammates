@@ -1,4 +1,6 @@
-import { sendRemindersToStudents } from './instructor.es6';
+import {
+    sendRemindersToStudents,
+} from './instructor.es6';
 
 function populateCheckBoxes($button) {
     // if clicked button is on no-response panel, then populate check boxes otherwise not

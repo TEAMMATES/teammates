@@ -1,6 +1,14 @@
-import { showModalConfirmation } from './bootboxWrapper.es6';
-import { StatusType } from './const.es6';
-import { scrollToElement } from './scrollTo.es6';
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
+
+import { 
+	scrollToElement
+} from './scrollTo.es6';
+
+import {
+    StatusType,
+} from './const.es6';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here

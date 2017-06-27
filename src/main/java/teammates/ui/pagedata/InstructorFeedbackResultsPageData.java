@@ -503,7 +503,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-
+            boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
+                    .isCommentsOnResponsesAllowed();
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
@@ -512,15 +513,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
-                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection);
-
+                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
+                            isCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-            FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
+            if (isCommentsOnResponsesAllowed) {
+                Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
                                                             responseVisibilityMap, giverName, recipientName);
 
-            responsePanel.setFrcForAdding(frcForAdding);
+                responsePanel.setFrcForAdding(frcForAdding);
 
+            }
             responsePanels.add(responsePanel);
         }
 
@@ -1436,7 +1439,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap);
+                                           responseVisibilityMap, bundle.instructorEmailNameTable);
 
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
