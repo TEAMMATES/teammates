@@ -82,6 +82,7 @@ import {
     addRubricCol,
     addRubricRow,
     bindAssignWeightsCheckboxes,
+    bindMoveRubricColButtons,
     disableCornerMoveRubricColumnButtons,
     hasAssignedWeights,
     highlightRubricCol,

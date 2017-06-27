@@ -10,6 +10,10 @@ import {
     disallowNonNumericEntries,
 } from './ui.es6';
 
+import {
+    extractQuestionNumFromEditFormId,
+} from '../main/instructorFeedbackEdit.es6';
+
 function swapRubricCol(questionNum, colIndex, isSwapLeft) {
     if ($(`#rubricEditTable-${questionNum}`).length === 0
             || $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
