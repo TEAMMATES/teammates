@@ -219,17 +219,17 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 instructorsOfCourse.add(instructor);
             }
         }
-        
+
         return instructorsOfCourse;
     }
-    
+
     private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {
         for (Account account : allAccounts) {
             if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
                 return account.getInstitute();
             }
         }
-        
+
         return null;
     }
 
