@@ -250,9 +250,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickNeverVisibleTimeButton();
 
         //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
-        feedbackPage.verifyHidden(By.id("timeFramePanel"));
-        feedbackPage.verifyHidden(By.id("responsesVisibleFromColumn"));
-        feedbackPage.verifyHidden(By.id("instructionsRow"));
+        assertTrue(feedbackPage.isHidden(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.isHidden(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.isHidden(By.id("instructionsRow")));
 
         newSession.setFeedbackSessionName("private session of characters1234567 #");
         newSession.setCourseId("CFeedbackUiT.CS2104");
@@ -662,20 +662,20 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
         feedbackPage.clickCustomVisibleTimeButton();
 
-        feedbackPage.verifyEnabled(By.id("visibledate"));
-        feedbackPage.verifyEnabled(By.id("visibletime"));
-        feedbackPage.verifyEnabled(By.id("publishdate"));
-        feedbackPage.verifyEnabled(By.id("publishtime"));
+        assertTrue(feedbackPage.isEnabled(By.id("visibledate")));
+        assertTrue(feedbackPage.isEnabled(By.id("visibletime")));
+        assertTrue(feedbackPage.isEnabled(By.id("publishdate")));
+        assertTrue(feedbackPage.isEnabled(By.id("publishtime")));
 
         ______TS("all 4 datetime elements disabled when custom is deselected");
 
         feedbackPage.clickDefaultPublishTimeButton();
         feedbackPage.clickDefaultVisibleTimeButton();
 
-        feedbackPage.verifyDisabled(By.id("visibledate"));
-        feedbackPage.verifyDisabled(By.id("visibletime"));
-        feedbackPage.verifyDisabled(By.id("publishdate"));
-        feedbackPage.verifyDisabled(By.id("publishtime"));
+        assertTrue(feedbackPage.isDisabled(By.id("visibledate")));
+        assertTrue(feedbackPage.isDisabled(By.id("visibletime")));
+        assertTrue(feedbackPage.isDisabled(By.id("publishdate")));
+        assertTrue(feedbackPage.isDisabled(By.id("publishtime")));
     }
 
     private void testDatePickerScripts() {
@@ -968,9 +968,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                                                            "", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                                            FieldValidator.REASON_EMPTY,
                                                            FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
-        assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
-        assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));
+        assertTrue(feedbackPage.isVisible(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.isVisible(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.isVisible(By.id("instructionsRow")));
     }
 
     private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {

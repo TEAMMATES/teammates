@@ -1,4 +1,6 @@
-import { scrollToElement } from '../common/scrollTo.es6';
+import {
+    scrollToElement,
+} from '../common/scrollTo.es6';
 
 $(document).ready(() => {
     const statusMessage = document.getElementById('statusMessagesToUser');

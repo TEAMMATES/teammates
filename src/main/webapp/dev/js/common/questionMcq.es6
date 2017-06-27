@@ -1,4 +1,6 @@
-import { ParamsNames } from './const.es6';
+import {
+    ParamsNames,
+} from './const.es6';
 
 function addMcqOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
