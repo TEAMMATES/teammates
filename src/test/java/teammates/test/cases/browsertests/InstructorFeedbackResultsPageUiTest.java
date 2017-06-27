@@ -580,9 +580,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "Teammates Test");
         resultsPage.verifyContainsElement(By.id("frComment-visibility-options-trigger-0-1-0-1-1"));
-        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyContainsElement(By.id("visibility-options-0-1-0-1-2"));
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
@@ -590,17 +590,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "Teammates Test");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "Teammates Test");
 
         ______TS("Typical case: edit existing feedback response comment");
 
         resultsPage.editFeedbackResponseComment("-1-1-1-1-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
 
         ______TS("Typical case: delete existing feedback response comment");
 
@@ -610,17 +610,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "Teammates Test");
 
         resultsPage.editFeedbackResponseComment("-0-1-0-1-3", "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-0-1-3", "edited successive action comment",
-                "CFResultsUiT.instr@gmail.tmt");
+                "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
         resultsPage.deleteFeedbackResponseComment("-0-1-0-1-3");
@@ -629,7 +629,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }

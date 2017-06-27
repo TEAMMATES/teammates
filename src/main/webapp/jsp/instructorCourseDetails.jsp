@@ -5,20 +5,20 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
+  <script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Course Details" jsIncludes="${jsIncludes}">
-    <course:courseInformationContainer courseDetails="${data.courseDetails}"
-                                       instructors="${data.instructors}"
-                                       courseRemindButton="${data.courseRemindButton}"/>
-    <br>
-    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
-    <input type="hidden" id="show-comment-box" value="false">
-    <br>
-    <ti:studentList courseId="${data.courseDetails.course.id}" courseIndex="${0}" hasSection="${data.hasSection}" sections="${data.sections}"
-                    fromCourseDetailsPage="${true}"/>
-    <br>
-    <br>
-    <br>
+  <course:courseInformationContainer courseDetails="${data.courseDetails}"
+      instructors="${data.instructors}"
+      courseRemindButton="${data.courseRemindButton}"/>
+  <br>
+  <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
+  <input type="hidden" id="show-comment-box" value="false">
+  <br>
+  <ti:studentList courseId="${data.courseDetails.course.id}" courseIndex="${0}" hasSection="${data.hasSection}" sections="${data.sections}"
+      fromCourseDetailsPage="${true}"/>
+  <br>
+  <br>
+  <br>
 </ti:instructorPage>
