@@ -91,9 +91,9 @@ public class FieldValidator {
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
 
     public static final String GENDER_FIELD_NAME = "gender";
-    public static final List<String> GENDER_ACCEPTED_VALUES =
+    public static final List<UserGender> GENDER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
+                    Arrays.asList(UserGender.male, UserGender.female, UserGender.other));
 
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
