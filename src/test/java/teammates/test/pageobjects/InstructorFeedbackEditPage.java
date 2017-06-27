@@ -641,6 +641,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
 
+    /*
+     * Checks if alert class is enabled on the visibility options div for the specified question number.
+     */
+    public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
+        final String visibilityOptionsDivXPath = "//div[@id='questionTable-" + questionNo + "']//div[@class='panel-body']"
+                + "//b[@class='visibility-title']/../..";
+        return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
+                .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
+    }
+
     public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
         return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox)
                && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);

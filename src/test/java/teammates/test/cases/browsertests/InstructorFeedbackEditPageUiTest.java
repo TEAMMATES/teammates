@@ -899,13 +899,20 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
         feedbacksPage.verifyResponseValue("1 / 1", courseId, feedbackSessionName);
 
+        ______TS("check warning is displayed while editing visibility options of question with existing response");
+
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        ______TS("check no warning displayed while editing visibility options of question without responses");
+
+        assertFalse(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("check response rate after editing question");
 
