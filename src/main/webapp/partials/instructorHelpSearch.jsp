@@ -13,7 +13,7 @@
             </span>
             <div>
                 You can search for students by clicking on
-                <b>'Search'</b> on the top nav bar. You should see a search bar similar to the one below -
+                <b>'Search'</b> on the top nav bar. You should see a search bar similar to the one below:
                 <br><br>
                 <div class="well well-plain">
                     <div class="form-group">
@@ -58,8 +58,8 @@
                         </ul>
                     </div>
                 </div>
-                <br>Check the option <b>'Students'</b> below the search box. Now type the student's name in the search box and click on <b>'Search'</b> button.
-                <br>If you searched <b>'alice'</b>, and let's assume such student exists, then the search results would show something like this -
+                <br>Check the option <b>'Students'</b> below the search box. Now type the student's name into the search box and click on the <b>'Search'</b> button.
+                <br>If you searched for 'alice', the search results would show something like this (assuming such a student exists):
                 <br><br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -123,15 +123,15 @@
                         </div>
                     </div>
                 </div>
-                <br>You can search for a student record based on -
+                <br>You can search for a student record based on:
                 <ul>
                     <li>Section name</li>
                     <li>Team name</li>
                     <li>Student name</li>
                     <li>Email</li>
                 </ul>
-                <br>You can search for multiple students based on the attributes mentioned above. For doing that, mention the attribute names in the search box by separating them with spaces.
-                <br>If you entered <b>'alice Section A Team B jack@email.com'</b> in the search box, and let's assume corresponding data exists, then the search would result in something similar to this -
+                <br>You can search for multiple students based on the attributes mentioned above. To do so, include the values you wish to search for in the search box, separated by spaces.
+                <br>For example, if you searched for 'alice Section A Team B jack@email.com', the search would result in something similar to this (assuming the corresponding data exists):
                 <br><br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -296,9 +296,9 @@
                 </a>
             </span>
             <div>
-                You can search for your comments on responses given by students. To do this check
-                <b>'Comments for responses'</b> below the search box and type your keywords. When done hit <b>'Search'</b>.
-                <br>Suppose you entered <b>'good'</b> in the search box and let's assume relevant data exists, then the search results would look something similar to this -
+                You can search for comments on responses given by students. To do this check
+                <b>'Comments for responses'</b> below the search box, type your keywords, then hit <b>'Search'</b>.
+                <br>Suppose you searched for 'good'. Assuming the relevant data exists, the search results would look something similar to this:
                 <br><br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">

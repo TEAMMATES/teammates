@@ -14,7 +14,7 @@
             <div>
                 You can archive a course so that it doesn't appear in your home page anymore. You cannot create feedback sessions, or enroll students, or edit an archived course.
                 <br>Go to your
-                <b>'Home'</b> page. You will see a separate panel for each course and a table of feedback sessions inside it. It looks something similar to this -
+                <b>'Home'</b> page. You will see a separate panel for each course and a table of feedback sessions inside it. It looks something similar to this:
                 <br><br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -57,7 +57,7 @@
                 </div>
                 Click on <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the panel heading of the course you want to archive.
                 <br>Then select <b>'Archive'</b> in the drop-down menu which opens up. This will prompt a confirmation dialog to archive the course. Click on <b>'OK'</b>.
-                <br>If your course was successfully archived, you should see a message in the home page which looks similar to this -
+                <br>If your course was successfully archived, you should see a message in the home page which looks similar to this:
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
@@ -67,7 +67,7 @@
                 </div>
                 <br>You can also archive a course in the courses page. Go to the <b>'Courses'</b> page.
                 <br>Under 'Active Courses', click on <b>'Archive'</b> button in the row corresponding to the course you want to archive.
-                <br>If your course was successfully archived, you should see a message in the home page which looks similar to this -
+                <br>If your course was successfully archived, you should see a message in the home page which looks similar to this:
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
@@ -83,7 +83,7 @@
                 </a>
             </span>
             <div>
-                You can view all your archived courses in the <b>'Courses'</b> page, under the <b>Archived Courses</b> heading. It will look similar to this -
+                You can view all your archived courses in the <b>'Courses'</b> page, under the <b>Archived Courses</b> heading. It will look similar to this:
                 <h2 class="text-muted">Archived courses</h2>
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -117,7 +117,7 @@
             <div>
                 You can unarchive a course by clicking on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button in the list of archived courses, in the
                 <b>'Courses'</b> page.
-                <br>If your course was successfully unarchived, you should see a message in the home page which looks similar to this -
+                <br>If your course was successfully unarchived, you should see a message in the home page which looks similar to this:
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
