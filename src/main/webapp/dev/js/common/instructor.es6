@@ -2,8 +2,8 @@ import {
     showModalConfirmation,
 } from './bootboxWrapper.es6';
 
-import { 
-	scrollToElement
+import {
+    scrollToElement,
 } from './scrollTo.es6';
 
 import {

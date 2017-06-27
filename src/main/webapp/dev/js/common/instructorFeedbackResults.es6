@@ -5,7 +5,7 @@ import {
 } from './instructor.es6';
 
 import {
-	prepareRemindModal
+    prepareRemindModal,
 } from './remindModal.es6';
 
 import {
