@@ -80,6 +80,9 @@ public enum BackDoorOperation {
     /** Operation type: getting a student data from the datastore as JSON. */
     OPERATION_GET_STUDENT_AS_JSON,
 
+    /** Operation type: getting list of student data from the datastore as JSON. */
+    OPERATION_GET_STUDENTS_AS_JSON,
+
     /** Operation type: getting a student profile data from the datastore as JSON. */
     OPERATION_GET_STUDENTPROFILE_AS_JSON,
 
