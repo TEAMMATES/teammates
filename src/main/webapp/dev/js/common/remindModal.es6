@@ -1,4 +1,6 @@
-import { sendRemindersToStudents } from './instructor.es6';
+import {
+    sendRemindersToStudents,
+} from './instructor.es6';
 
 function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
