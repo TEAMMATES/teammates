@@ -2239,7 +2239,7 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            commentRow.append("," + frc.giverEmail + ","
+            commentRow.append("," + instructorEmailNameTable.get(frc.giverEmail) + ","
                     + SanitizationHelper.desanitizeFromHtml(getTextBetweenParagraphTag(frc.commentText.getValue())));
         }
         return commentRow;
