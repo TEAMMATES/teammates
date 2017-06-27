@@ -39,8 +39,6 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
-    <script type="text/javascript" src="/js/const.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
     <jsp:invoke fragment="jsIncludes" />
 </body>
 </html>

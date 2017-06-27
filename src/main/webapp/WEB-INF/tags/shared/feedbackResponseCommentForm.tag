@@ -14,6 +14,7 @@
 <%@ attribute name="textAreaId" required="true" %>
 <%@ attribute name="submitLink" required="true" %>
 <%@ attribute name="buttonText" required="true" %>
+<%@ attribute name="viewType" %>
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
 <form class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
@@ -28,9 +29,10 @@
         </div>
         <a id="frComment-visibility-options-trigger-${divId}"
            class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
-           data-sessionindex="${fsIndex}" data-qnindex="${secondIndex}"
-           data-responseindex="${thirdIndex}" data-frcindex="${frcIndex}"
-           <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>>
+           data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
+           data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+           <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+            <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
             <span class="glyphicon glyphicon-eye-close"></span>
             Show Visibility Options
         </a>
@@ -205,7 +207,8 @@
                value="Cancel"
                data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
                data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
-               <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>>
+               <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+               <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
     </div>
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
     <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
