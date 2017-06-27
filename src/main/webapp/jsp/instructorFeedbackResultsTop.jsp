@@ -13,11 +13,9 @@
     <r:filterPanel filterPanel="${data.filterPanel}"
                    showAll="${showAll}" />
 </c:if>
-<br>
-<div style="position:relative;top:20px">
+<div style="margin-top:100px">
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </div>
-<br>
 <c:if test="${noResponses and showAll}">
     <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
 </c:if>

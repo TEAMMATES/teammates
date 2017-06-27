@@ -3,7 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 <%@ attribute name="showAll" required="true" %>
-<form class="form-horizontal" style="margin-bottom: 35px" role="form" method="post" action="${filterPanel.resultsLink}">
+<form class="form-horizontal" role="form" method="post" action="${filterPanel.resultsLink}">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <div class="pull-right" style="position:relative;top:70px">
+    <div class="pull-right" style="margin-top:70px">
         <c:choose>
             <c:when test="${not showAll}">
                 <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
