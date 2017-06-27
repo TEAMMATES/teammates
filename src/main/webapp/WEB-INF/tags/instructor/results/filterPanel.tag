@@ -95,6 +95,7 @@
     </div>
 
     <div class="pull-right" style="margin-top:50px">
+        <p>
         <c:choose>
             <c:when test="${not showAll}">
                 <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
@@ -109,6 +110,7 @@
                 </a>
             </c:otherwise>
         </c:choose>
+        </p>
     </div>
 
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
