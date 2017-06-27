@@ -1,8 +1,22 @@
-import { StatusType } from '../common/const.es6';
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { richTextEditorBuilder } from '../common/richTextEditor.es6';
-import { toggleSort } from '../common/sortBy.es6';
-import { setStatusMessage } from '../common/statusMessage.es6';
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    richTextEditorBuilder,
+} from '../common/richTextEditor.es6';
+
+import {
+    toggleSort,
+} from '../common/sortBy.es6';
+
+import {
+    setStatusMessage,
+} from '../common/statusMessage.es6';
 
 // Form input placeholders
 const PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the image';

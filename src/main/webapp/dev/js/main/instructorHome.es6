@@ -1,10 +1,32 @@
-import { linkAjaxForResponseRate } from '../common/ajaxResponseRate.es6';
-import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
-import { bindDeleteButtons, bindPublishButtons, bindRemindButtons, bindUnpublishButtons,
-        prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
-import { prepareRemindModal } from '../common/remindModal.es6';
-import { showSingleCollapse, hideSingleCollapse } from '../common/ui.es6';
+import {
+    linkAjaxForResponseRate,
+} from '../common/ajaxResponseRate.es6';
+
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    bindDeleteButtons,
+    bindPublishButtons,
+    bindRemindButtons,
+    bindUnpublishButtons,
+    prepareInstructorPages,
+    setupFsCopyModal,
+} from '../common/instructor.es6';
+
+import {
+    prepareRemindModal,
+} from '../common/remindModal.es6';
+
+import {
+    showSingleCollapse,
+    hideSingleCollapse,
+} from '../common/ui.es6';
 
 const COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 

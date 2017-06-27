@@ -1,5 +1,6 @@
 <%@ tag description="instructorResultsTable.tag - instructor results row" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="instructor" type="teammates.ui.template.AdminSearchInstructorRow" required="true" %>
 
@@ -8,7 +9,7 @@
     <%-- Course --%>
     <c:choose>
         <c:when test="${not empty instructor.courseName}">
-            <td data-toggle="tooltip" data-placement="top" title="${instructor.courseName}">
+            <td data-toggle="tooltip" data-placement="top" title="${fn:escapeXml(fn:escapeXml(instructor.courseName))}">
                 ${instructor.courseId}
             </td>
         </c:when>
