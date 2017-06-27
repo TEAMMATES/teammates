@@ -6,7 +6,6 @@
 
 <%@ attribute name="questionPanels" type="java.util.List" required="true" %>
 
-<br>
 
 <c:forEach items="${questionPanels}" var="questionPanel" varStatus="i">
     <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}"

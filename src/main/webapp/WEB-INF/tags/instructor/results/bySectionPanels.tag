@@ -9,7 +9,7 @@
 <%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByTeam" type="java.lang.Boolean" required="true" %>
 
-<br>
+
 <c:set var="teamIndex" value="${0}"/>
 <c:forEach items="${data.sectionPanels}" var="sectionPanel" varStatus="i">
     <results:sectionPanel isShowingAll="${isShowingAll}" sectionPanel="${sectionPanel.value}"
