@@ -249,6 +249,7 @@ function disableEditFS() {
     }
 
     $('#fsEditLink').show();
+    $('#fsDiscardChanges').hide();
     $('#fsSaveLink').hide();
     $('#button_submit').hide();
 }
@@ -373,6 +374,7 @@ function enableEditFS() {
         /* eslint-enable camelcase */
     }
     $('#fsEditLink').hide();
+    $('#fsDiscardChanges').show();
     $('#fsSaveLink').show();
     $('#button_submit').show();
 }
@@ -1110,6 +1112,15 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
 
 $(document).ready(() => {
     prepareInstructorPages();
+
+    $(document).on('click', '#fsDiscardChanges', () => {
+        const okCallback = function () {
+            document.getElementById('form_feedbacksession').reset();
+            disableEditFS();
+        };
+        showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_CHANGES, okCallback, null, null, null,
+                StatusType.WARNING);
+    });
 
     prepareDatepickers();
 

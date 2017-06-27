@@ -339,25 +339,6 @@ function attachEventToDeleteStudentLink() {
     });
 }
 
-function sendRemindersToStudents(urlLink) {
-    const $statusMessage = $('#statusMessagesToUser');
-    $.ajax({
-        type: 'POST',
-        url: urlLink,
-        beforeSend() {
-            $statusMessage.html('<img src="/images/ajax-loader.gif">');
-            $statusMessage.css('display', 'block');
-        },
-        error() {
-            $statusMessage.html('An error has occurred while sending reminder. Please try again.');
-        },
-        success(data) {
-            const statusToUser = $(data).find('#statusMessagesToUser').html();
-            $statusMessage.html(statusToUser);
-        },
-    });
-}
-
 function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', (event) => {
         event.preventDefault();
@@ -366,8 +347,7 @@ function bindRemindButtons() {
         const messageText = `Send e-mails to remind students who have not submitted their feedback for ${
                            $button.data('fsname')}?`;
         const okCallback = function () {
-            const urlLink = $button.attr('href');
-            sendRemindersToStudents(urlLink);
+            window.location = $button.attr('href');
         };
 
         showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
@@ -475,5 +455,4 @@ export {
     prepareInstructorPages,
     selectElementContents,
     setupFsCopyModal,
-    sendRemindersToStudents,
 };
