@@ -9,9 +9,10 @@
 </head>
 <body>
   <p>
-    <a href='http://www.gotsitemonitor.com' target='_blank'><img
-      src="https://cdn.gotsitemonitor.com/image/website_checked_blue.png"
-      alt="Website Monitoring" border="0" width="80" height="15" /></a>
+    <a href='http://www.gotsitemonitor.com' target='_blank'>
+      <img src="https://cdn.gotsitemonitor.com/image/website_checked_blue.png"
+          alt="Website Monitoring" border="0" width="80" height="15" />
+    </a>
   </p>
 </body>
 </html>

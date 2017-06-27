@@ -138,7 +138,7 @@
   </li>
   <li>
     <a href="https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages" target="_blank" rel="noopener noreferrer">
-    https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page
+      https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page
     </a>
   </li>
   </ol>
