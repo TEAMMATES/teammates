@@ -1,14 +1,41 @@
 /* global tinymce:false */
 
-import { showModalAlert } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
-import { isNumber } from '../common/helper.es6';
-import { richTextEditorBuilder } from '../common/richTextEditor.es6';
-import { sanitizeForJs } from '../common/sanitizer.es6';
-import { scrollToElement } from '../common/scrollTo.es6';
-import { setStatusMessage } from '../common/statusMessage.es6';
-import { bindLinksInUnregisteredPage } from '../common/student.es6';
-import { addLoadingIndicator, disallowNonNumericEntries } from '../common/ui.es6';
+import {
+    showModalAlert,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    isNumber,
+} from '../common/helper.es6';
+
+import {
+    richTextEditorBuilder,
+} from '../common/richTextEditor.es6';
+
+import {
+    sanitizeForJs,
+} from '../common/sanitizer.es6';
+
+import {
+    scrollToElement,
+} from '../common/scrollTo.es6';
+
+import {
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    bindLinksInUnregisteredPage,
+} from '../common/student.es6';
+
+import {
+    addLoadingIndicator,
+    disallowNonNumericEntries,
+} from '../common/ui.es6';
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';

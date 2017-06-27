@@ -1,4 +1,6 @@
-import { ParamsNames } from './const.es6';
+import {
+    ParamsNames,
+} from './const.es6';
 
 function updateUncommonSettingsSessionVisibilityInfo() {
     const info = 'Session is visible at submission opening time, '
