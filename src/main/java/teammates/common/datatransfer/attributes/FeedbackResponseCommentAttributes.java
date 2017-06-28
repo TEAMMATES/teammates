@@ -20,14 +20,14 @@ import teammates.storage.entity.FeedbackResponseComment;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
-    /* Required fields */
+    // Required fields
     public String courseId;
     public String feedbackSessionName;
     public String feedbackQuestionId;
     public String giverEmail;
     public String feedbackResponseId;
 
-    /* Optional fields */
+    // Optional fields
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
@@ -36,9 +36,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String lastEditorEmail;
     public Date lastEditedAt;
     public Long feedbackResponseCommentId;
-    /* Response giver section */
     public String giverSection;
-    /* Response receiver section */
     public String receiverSection;
 
     public FeedbackResponseCommentAttributes() {
@@ -47,6 +45,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         showCommentTo = new ArrayList<>();
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
+        commentText = new Text("");
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
@@ -69,11 +68,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
      * Return new builder instance with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
-     * {@code giverSection = "None"} <br>
-     * {@code receiverSection = "None"} <br>
-     * {@code showCommentTo = new ArrayList<>()} <br>
-     * {@code showGiverNameTo = new ArrayList<>()} <br>
-     * {@code isVisibilityFollowingFeedbackQuestion = true} <br>
+     * <ul>
+     * <li>{@code giverSection = "None"}</li>
+     * <li>{@code receiverSection = "None"}</li>
+     * <li>{@code showCommentTo = new ArrayList<>()}</li>
+     * <li>{@code showGiverNameTo = new ArrayList<>()}</li>
+     * <li>{@code isVisibilityFollowingFeedbackQuestion = true}</li>
+     * <li>{@code commentText = new Text("")}</li>
+     * </ul>
      */
     public static Builder builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
                                   String feedbackResponseId, String giverEmail) {
@@ -207,7 +209,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         }
 
         public Builder withCommentText(Text commentText) {
-            feedbackAttributes.commentText = commentText;
+            feedbackAttributes.commentText = commentText == null ? new Text("") : commentText;
             return this;
         }
 

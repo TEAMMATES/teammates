@@ -23,11 +23,12 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                         "responseId", "email")
                 .build();
 
-        /* Default values for following fields */
+        // Default values for following fields
         assertEquals(feedbackAttributes.giverSection, "None");
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.showCommentTo, new ArrayList<>());
         assertEquals(feedbackAttributes.showGiverNameTo, new ArrayList<>());
+        assertEquals(feedbackAttributes.commentText, new Text(""));
         assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 
@@ -48,11 +49,12 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withVisibilityFollowingFeedbackQuestion(null)
                 .build();
 
-        /* Default values for following fields */
+        // Default values for following fields
         assertEquals(feedbackAttributes.giverSection, "None");
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.lastEditorEmail, feedbackAttributes.giverEmail);
         assertEquals(feedbackAttributes.lastEditedAt, feedbackAttributes.createdAt);
+        assertEquals(feedbackAttributes.commentText, new Text(""));
         assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 
