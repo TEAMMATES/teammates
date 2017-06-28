@@ -2259,8 +2259,7 @@ public class FeedbackSessionResultsBundle {
             comment.append("Images Link: ");
             Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
             for (Element element : ele) {
-                comment.append(element.absUrl("src"));
-                comment.append(" ");
+                comment.append(element.absUrl("src") + " ");
             }
         }
         return SanitizationHelper.desanitizeFromHtml(comment.toString());
