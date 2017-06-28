@@ -65,6 +65,20 @@ public class StudentProfileAttributes extends EntityAttributes {
         return new Builder();
     }
 
+    public StudentProfileAttributes getCopy() {
+        return builder()
+                .withGoogleId(googleId)
+                .withShortName(shortName)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withGender(gender)
+                .withNationality(nationality)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .withModifiedDate(modifiedDate)
+                .build();
+    }
+
     // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
@@ -166,27 +180,27 @@ public class StudentProfileAttributes extends EntityAttributes {
         private final StudentProfileAttributes profileAttributes = new StudentProfileAttributes();
 
         public Builder withGoogleId(String googleId) {
-            profileAttributes.googleId = googleId;
+            profileAttributes.googleId = getOriginalOrDefaultIfNull(googleId);
             return this;
         }
 
         public Builder withShortName(String shortName) {
-            profileAttributes.shortName = SanitizationHelper.sanitizeName(shortName);
+            profileAttributes.shortName = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeName(shortName));
             return this;
         }
 
         public Builder withEmail(String email) {
-            profileAttributes.email = SanitizationHelper.sanitizeEmail(email);
+            profileAttributes.email = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeEmail(email));
             return this;
         }
 
         public Builder withInstitute(String institute) {
-            profileAttributes.institute = SanitizationHelper.sanitizeTitle(institute);
+            profileAttributes.institute = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeTitle(institute));
             return this;
         }
 
         public Builder withNationality(String nationality) {
-            profileAttributes.nationality = SanitizationHelper.sanitizeName(nationality);
+            profileAttributes.nationality = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeName(nationality));
             return this;
         }
 
@@ -196,18 +210,22 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         public Builder withMoreInfo(String moreInfo) {
-            profileAttributes.moreInfo = moreInfo;
+            profileAttributes.moreInfo = getOriginalOrDefaultIfNull(moreInfo);
             return this;
         }
 
         public Builder withPictureKey(String pictureKey) {
-            profileAttributes.pictureKey = pictureKey;
+            profileAttributes.pictureKey = getOriginalOrDefaultIfNull(pictureKey);
             return this;
         }
 
         public Builder withModifiedDate(Date modifiedDate) {
             profileAttributes.modifiedDate = modifiedDate;
             return this;
+        }
+
+        private String getOriginalOrDefaultIfNull(String value) {
+            return value == null ? StringHelper.EMPTY : value;
         }
 
         public StudentProfileAttributes build() {

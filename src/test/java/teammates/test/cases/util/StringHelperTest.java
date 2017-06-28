@@ -22,6 +22,13 @@ import teammates.test.driver.StringHelperExtension;
 public class StringHelperTest extends BaseTestCase {
 
     @Test
+    public void testIsEmpty() {
+        assertTrue(StringHelper.isEmpty(null));
+        assertTrue(StringHelper.isEmpty(StringHelper.EMPTY));
+        assertFalse(StringHelper.isEmpty("test"));
+    }
+
+    @Test
     public void testGenerateStringOfLength() {
 
         assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());

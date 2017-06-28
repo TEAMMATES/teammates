@@ -19,12 +19,17 @@ import teammates.common.exception.InvalidParametersException;
  */
 
 public final class StringHelper {
+    public static final String EMPTY = "";
     private static final Logger log = Logger.getLogger();
 
     private StringHelper() {
         // utility class
     }
 
+    /**
+     * Checks whether the input string is empty or equals {@code null}.
+     * @param s The string to be checked
+     */
     public static boolean isEmpty(String s) {
         return s == null || s.isEmpty();
     }

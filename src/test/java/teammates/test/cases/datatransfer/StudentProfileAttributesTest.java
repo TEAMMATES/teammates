@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
@@ -41,15 +42,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithDefaultOptionalValues() {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder().build();
-
-        assertEquals("", profileAttributes.googleId);
-        assertEquals("", profileAttributes.shortName);
-        assertEquals("", profileAttributes.email);
-        assertEquals("", profileAttributes.institute);
-        assertEquals("", profileAttributes.nationality);
-        assertEquals("", profileAttributes.moreInfo);
-        assertEquals("", profileAttributes.pictureKey);
-        assertEquals("other", profileAttributes.gender);
+        assertIsDefaultValues(profileAttributes);
     }
 
     @Test
@@ -57,7 +50,19 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
                 .withGender(null)
                 .build();
+
+        assertIsDefaultValues(profileAttributes);
+    }
+
+    private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
         assertEquals("other", profileAttributes.gender);
+        assertEquals(StringHelper.EMPTY, profileAttributes.googleId);
+        assertEquals(StringHelper.EMPTY, profileAttributes.shortName);
+        assertEquals(StringHelper.EMPTY, profileAttributes.email);
+        assertEquals(StringHelper.EMPTY, profileAttributes.institute);
+        assertEquals(StringHelper.EMPTY, profileAttributes.nationality);
+        assertEquals(StringHelper.EMPTY, profileAttributes.moreInfo);
+        assertEquals(StringHelper.EMPTY, profileAttributes.pictureKey);
     }
 
     @Test
@@ -114,7 +119,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
-        StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
+        StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile attributes");
         assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
@@ -122,7 +127,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private void testGetInvalidityInfoForValidProfileWithEmptyValues() {
-        StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
+        StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile with empty attributes");
         validProfile.shortName = "";
@@ -197,20 +202,6 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
                                   profile.institute, profile.nationality, profile.gender,
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
-    }
-
-    private StudentProfileAttributes createNewProfileAttributesFrom(
-            StudentProfileAttributes profile) {
-        return StudentProfileAttributes.builder()
-                .withGoogleId(profile.googleId)
-                .withShortName(profile.shortName)
-                .withEmail(profile.email)
-                .withInstitute(profile.institute)
-                .withNationality(profile.nationality)
-                .withGender(profile.gender)
-                .withMoreInfo(profile.moreInfo)
-                .withPictureKey(profile.pictureKey)
-                .build();
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
