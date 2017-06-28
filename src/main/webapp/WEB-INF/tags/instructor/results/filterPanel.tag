@@ -110,7 +110,7 @@
             </c:otherwise>
         </c:choose>
     </div>
-	
+
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
         value="${filterPanel.feedbackSessionName}">
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
