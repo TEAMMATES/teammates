@@ -34,6 +34,7 @@ import teammates.test.pageobjects.StudentProfilePage;
 @Priority(6)
 public class AdminHomePageUiTest extends BaseUiTestCase {
     private AdminHomePage homePage;
+    private InstructorCoursesPage coursesPage;
 
     @Override
     protected void prepareTestData() {
@@ -173,13 +174,13 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
 
-        ______TS("new instructor can access sample coure details page");
+        ______TS("new instructor can access sample course details page");
         InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseEnrollLink(demoCourseId);
         instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
         detailsPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseDetailsPage.html");
 
-        ______TS("new instructor can access sample coure edit page");
+        ______TS("new instructor can access sample course edit page");
         instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
@@ -187,33 +188,20 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         ______TS("new instructor can view result of First team feedback session of sample course");
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
-        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
-        coursesPage.loadInstructorHomeTab();
-        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        InstructorFeedbackResultsPage resultsPage =
-                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "First team feedback session");
-        resultsPage.expandPanels();
-        resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
+        verifyResultHtml("First team feedback session",
+                "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Second team feedback session of sample course");
-        coursesPage.loadInstructorHomeTab();
-        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        resultsPage =
-                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
-        resultsPage.expandPanels();
-        resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
+        verifyResultHtml("Second team feedback session",
+                "/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Third team feedback session of sample course");
-        coursesPage.loadInstructorHomeTab();
-        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        resultsPage = instructorHomePage.clickFeedbackSessionViewResultsLink(
-                demoCourseId, "Session with different question types");
-        resultsPage.expandPanels();
-        resultsPage.verifyHtmlMainContent("/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
+        verifyResultHtml("Session with different question types",
+                "/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
-        //verify the given email is valid or not
-        ______TS("action failure : invalid parameter");
+        ______TS("action failure : verify the given email is valid or not");
 
         AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
@@ -282,6 +270,18 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(dangerousDemoCourseId);
         BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
+
+    }
+
+    void verifyResultHtml(String fsname, String resultHtml) throws Exception {
+        String demoCourseId = "AHPUiT____.instr1_.gma-demo";
+        coursesPage.waitForAjaxLoadCoursesSuccess();
+        coursesPage.loadInstructorHomeTab();
+        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+        InstructorFeedbackResultsPage resultsPage =
+                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, fsname);
+        resultsPage.expandPanels();
+        resultsPage.verifyHtmlMainContent(resultHtml);
 
     }
 
