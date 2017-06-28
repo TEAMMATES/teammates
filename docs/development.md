@@ -1,4 +1,4 @@
-# Development Guidelines
+﻿# Development Guidelines
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
@@ -170,7 +170,7 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 * You need to use chromedriver for testing with Chrome.
   * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
     The site will also inform the versions of Chrome that can be used with the driver.
-  * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.template.properties`.
+  * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
 
 * If you are planning to test changes to JavaScript code, disable JavaScript caching for Chrome:
   * Press Ctrl+Shift+J to bring up the Web Console.
