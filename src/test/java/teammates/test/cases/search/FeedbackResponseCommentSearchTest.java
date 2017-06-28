@@ -25,8 +25,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes frc1I1Q2S1C1 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
-        FeedbackResponseCommentAttributes frc1I3Q2S2C2 = dataBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q2S2C2");
+        FeedbackResponseCommentAttributes frc1I3Q1S1C2 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S1C2");
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
@@ -41,13 +41,13 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; query string matches single comment");
 
-        bundle = commentsDb.search("\"Instructor 3 comment to student 1 self feedback Question 3\"", instructors);
-        verifySearchResults(bundle, frc1I3Q2S2C2);
+        bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
+        verifySearchResults(bundle, frc1I3Q1S1C2);
 
         ______TS("success: search for comments in instructor's course; query string matches some comments");
 
         bundle = commentsDb.search("\"self feedback\"", instructors);
-        verifySearchResults(bundle, frc1I1Q1S1C1, frc1I1Q2S1C1, frc1I3Q2S2C2);
+        verifySearchResults(bundle, frc1I1Q1S1C1, frc1I1Q2S1C1);
 
         ______TS("success: search for comments in instructor's course; confirms query string is case insensitive");
 
@@ -71,8 +71,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; confirms deleted comments are not included in results");
 
-        commentsDb.deleteDocument(frc1I1Q2S1C1);
-        bundle = commentsDb.search("\"Instructor 1 comment to student 1 self feedback Question 2\"", instructors);
+        commentsDb.deleteDocument(frc1I3Q1S1C2);
+        bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         verifySearchResults(bundle);
     }
 

@@ -1400,19 +1400,6 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
-    "response1ForQ2S2C2": {
-      "feedbackSessionName": "Instructor feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
-      "giver": "instructor1@course2.tmt",
-      "recipient": "instructor2@course2.tmt",
-      "responseMetaData": {
-        "value": "Response from instr1 to instr2"
-      },
-      "giverSection": "None",
-      "recipientSection": "None"
-    },
     "response1ForQ1S1C2": {
       "feedbackSessionName": "Private feedback session",
       "courseId": "idOfTypicalCourse2",
@@ -1491,20 +1478,20 @@
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
       }
     },
-    "comment1FromT1C1ToR1Q2S2C2": {
+    "comment1FromT1C1ToR1Q1S1C2": {
       "courseId": "idOfTypicalCourse2",
-      "feedbackSessionName": "Instructor feedback session",
-      "feedbackQuestionId": "2",
+      "feedbackSessionName": "Private feedback session",
+      "feedbackQuestionId": "1",
       "giverEmail": "instructor3@course.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "2%instructor1@course2.tmt%instructor2@course2.tmt",
+      "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
       "createdAt": "2027-01-01 11:59 PM UTC",
       "commentText": {
-        "value": "Instructor 3 comment to student 1 self feedback Question 3"
+        "value": "Instructor 3 comment to instr1C2 response to student1C2"
       }
     }
   },
