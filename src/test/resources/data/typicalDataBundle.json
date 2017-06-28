@@ -1197,9 +1197,15 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
+      "showResponsesTo": [
+      	"INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+      	"INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+      	"INSTRUCTORS"
+      ]
     },
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
@@ -1394,6 +1400,19 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
+    "response1ForQ2S2C2": {
+      "feedbackSessionName": "Instructor feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "TEXT",
+      "giver": "instructor1@course2.tmt",
+      "recipient": "instructor2@course2.tmt",
+      "responseMetaData": {
+        "value": "Response from instr1 to instr2"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
     "response1ForQ1S1C2": {
       "feedbackSessionName": "Private feedback session",
       "courseId": "idOfTypicalCourse2",
@@ -1470,6 +1489,22 @@
       "createdAt": "2026-01-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
+      }
+    },
+    "comment1FromT1C1ToR1Q2S2C2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Instructor's feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "instructor3@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "2%instructor1@course2.tmt%instructor1@course2.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2026-01-01 11:59 PM UTC",
+      "commentText": {
+        "value": "Instructor 3 comment to instructor 1 feedback to instructor 2"
       }
     }
   },
