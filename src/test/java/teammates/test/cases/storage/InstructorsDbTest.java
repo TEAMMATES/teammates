@@ -318,6 +318,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.role = "new role";
         instructorToEdit.isDisplayedToStudents = false;
         instructorToEdit.displayedName = "New Displayed Name";
+        instructorToEdit.privileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructorsDb.updateInstructorByGoogleId(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
@@ -328,6 +330,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals("new role", instructorUpdated.role);
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
+        assertTrue(instructorUpdated.hasObserverPrivileges());
 
         ______TS("Failure: invalid parameters");
 
@@ -387,6 +390,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.role = "new role";
         instructorToEdit.isDisplayedToStudents = false;
         instructorToEdit.displayedName = "New Displayed Name";
+        instructorToEdit.privileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructorsDb.updateInstructorByEmail(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
@@ -397,6 +402,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals("new role", instructorUpdated.role);
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
+        assertTrue(instructorUpdated.hasObserverPrivileges());
 
         ______TS("Failure: invalid parameters");
 
