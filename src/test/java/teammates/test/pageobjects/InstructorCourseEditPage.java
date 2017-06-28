@@ -190,7 +190,7 @@ public class InstructorCourseEditPage extends AppPage {
         assertTrue(isNotEditable);
     }
 
-    /*
+    /**
      * newDisplayName is verified depending on newIsDisplayedToStudents.
      * If true, the field's value is checked against newDisplayName.
      * Otherwise, it is verified that the field's placeholder is shown as expected.
