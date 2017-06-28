@@ -17,7 +17,7 @@ import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
-public class InstructorFeedbacksPageData extends PageData {
+public class InstructorFeedbackSessionsPageData extends PageData {
 
     // Flag for deciding if loading the sessions table, or the new sessions form.
     // if true -> loads the sessions table, else load the form
@@ -27,7 +27,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
 
-    public InstructorFeedbacksPageData(AccountAttributes account, String sessionToken) {
+    public InstructorFeedbackSessionsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
     }
 
@@ -182,7 +182,7 @@ public class InstructorFeedbacksPageData extends PageData {
             String href = getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName());
 
             InstructorFeedbackSessionActions actions =
-                    getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                    getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                                                         instructors.get(courseId));
 
             ElementTag elementAttributes;
@@ -290,7 +290,7 @@ public class InstructorFeedbacksPageData extends PageData {
      * @return form submit action link
      */
     public String getRemindParticularStudentsLink() {
-        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     /**
@@ -299,7 +299,7 @@ public class InstructorFeedbacksPageData extends PageData {
      * @return form submit action link
      */
     public String getEditCopyActionLink() {
-        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     public void setUsingAjax(boolean isUsingAjax) {

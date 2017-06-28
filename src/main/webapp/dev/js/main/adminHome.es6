@@ -1,5 +1,10 @@
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { encodeHtmlString } from '../common/sanitizer.es6';
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    encodeHtmlString,
+} from '../common/sanitizer.es6';
 
 /**
  * Functions defined and used in `/adminHome`
