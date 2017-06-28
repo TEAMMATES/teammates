@@ -322,7 +322,7 @@
       "googleId": "idOfInstructor3",
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor3 Course1",
-      "email": "instructor3@course1.tmt",
+      "email": "instructor3@course.tmt",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -346,7 +346,7 @@
       "googleId": "idOfInstructor3",
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor3 Course2",
-      "email": "instructor3@course2.tmt",
+      "email": "instructor3@course.tmt",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -1198,13 +1198,13 @@
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
-      	"INSTRUCTORS"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-      	"INSTRUCTORS"
+        "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-      	"INSTRUCTORS"
+        "INSTRUCTORS"
       ]
     },
     "qn1InSession1InTestingSanitizationCourse": {
@@ -1492,19 +1492,19 @@
       }
     },
     "comment1FromT1C1ToR1Q2S2C2": {
-      "courseId": "idOfTypicalCourse1",
-      "feedbackSessionName": "Instructor's feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "feedbackSessionName": "Instructor feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "instructor3@course1.tmt",
+      "giverEmail": "instructor3@course.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "2%instructor1@course2.tmt%instructor1@course2.tmt",
+      "feedbackResponseId": "2%instructor1@course2.tmt%instructor2@course2.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-01-01 11:59 PM UTC",
+      "createdAt": "2027-01-01 11:59 PM UTC",
       "commentText": {
-        "value": "Instructor 3 comment to instructor 1 feedback to instructor 2"
+        "value": "Instructor 3 comment to student 1 self feedback Question 3"
       }
     }
   },
