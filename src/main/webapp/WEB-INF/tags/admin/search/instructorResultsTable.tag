@@ -8,11 +8,8 @@
     <div class="panel-heading">
         <strong>Instructors Found </strong>
         <span class="pull-right">
-            <button class="btn btn-primary btn-xs" type="button"
-                    onclick="adminSearchDiscloseAllInstructors()">Disclose All</button>
-                    
-            <button class="btn btn-primary btn-xs" type="button"
-                    onclick="adminSearchCollapseAllInstructors()">Collapse All</button>
+            <button class="btn btn-primary btn-xs" type="button" id="btn-disclose-all-instructors">Disclose All</button>
+            <button class="btn btn-primary btn-xs" type="button" id="btn-collapse-all-instructors">Collapse All</button>
         </span>
     </div>
 
@@ -27,7 +24,7 @@
                     <th>Options</th>
                 </tr>
             </thead>
-                            
+
             <tbody>
                 <c:forEach items="${instructorResultsTable.instructorRows}" var="instructor">
                     <adminSearch:instructorRow instructor="${instructor}"/>

@@ -42,8 +42,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(unregUserId);
         StudentHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user",
-                                        r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(
+                getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, "unreg.user"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(
                 "Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",
@@ -80,9 +81,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentWithoutCourses.googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="
-                                          + studentWithoutCourses.googleId,
-                                          r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex(
+                getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, studentWithoutCourses.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         AssertHelper.assertContainsRegex(
                 "Ooops! Your Google account is not known to TEAMMATES{*}use the new Gmail address.",
@@ -107,8 +108,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(studentId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals("/jsp/studentHome.jsp?error=false&user=" + studentId,
-                                        r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_HOME, false, studentId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -163,6 +165,20 @@ public class StudentHomePageActionTest extends BaseActionTest {
     @Override
     protected StudentHomePageAction getAction(String... params) {
         return (StudentHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+
+        // check for persistence issue
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+        };
+
+        verifyAccessibleForUnregisteredUsers(submissionParams);
     }
 
 }

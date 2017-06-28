@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.CryptoHelper;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -83,6 +87,22 @@ public abstract class ActionResult {
      */
     public String getDestinationWithParams() {
         return appendParameters(destination, responseParams);
+    }
+
+    /**
+     * Compute session token a.k.a CSRF token from request session ID and write to cookie in response.
+     * Don't set if a valid token already exists.
+     * This cookie is used to add CSRF tokens to dynamically-generated links from JS code on the front-end.
+     */
+    public void writeSessionTokenToCookieIfRequired(HttpServletRequest req, HttpServletResponse resp) {
+        String sessionToken = CryptoHelper.computeSessionToken(req.getSession().getId());
+        String existingSessionToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.ParamsNames.SESSION_TOKEN);
+
+        if (sessionToken.equals(existingSessionToken)) {
+            return;
+        }
+
+        resp.addCookie(new Cookie(Const.ParamsNames.SESSION_TOKEN, sessionToken));
     }
 
     /**

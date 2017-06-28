@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -20,8 +21,8 @@ import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
 
-    private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
-    private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
 
     @Override
     protected ActionResult execute() {
@@ -31,7 +32,7 @@ public class AdminSearchPageAction extends Action {
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);
 
-        AdminSearchPageData data = new AdminSearchPageData(account);
+        AdminSearchPageData data = new AdminSearchPageData(account, sessionToken);
 
         if (searchKey == null || searchKey.trim().isEmpty()) {
 
@@ -87,7 +88,9 @@ public class AdminSearchPageAction extends Action {
             if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
                 CourseAttributes course = logic.getCourse(student.course);
                 if (course != null) {
-                    data.courseIdToCourseNameMap.put(student.course, course.getName());
+                    //TODO: [CourseAttribute] remove desanitization after data migration
+                    data.courseIdToCourseNameMap.put(
+                            student.course, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
                 }
             }
         }
@@ -96,7 +99,9 @@ public class AdminSearchPageAction extends Action {
             if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)) {
                 CourseAttributes course = logic.getCourse(instructor.courseId);
                 if (course != null) {
-                    data.courseIdToCourseNameMap.put(instructor.courseId, course.getName());
+                    //TODO: [CourseAttribute] remove desanitization after data migration
+                    data.courseIdToCourseNameMap.put(
+                            instructor.courseId, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
                 }
             }
         }
@@ -163,7 +168,7 @@ public class AdminSearchPageAction extends Action {
                                                         Const.ParamsNames.USER_ID,
                                                         instructor.googleId);
 
-            data.instructorHomaPageLinkMap.put(instructor.googleId, curLink);
+            data.instructorHomePageLinkMap.put(instructor.googleId, curLink);
         }
 
         return data;
@@ -317,7 +322,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -328,7 +333,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
         }
 
         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
@@ -347,7 +352,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
             }
 
-            data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
+            data.feedbackSessionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
         }
         return data;
     }

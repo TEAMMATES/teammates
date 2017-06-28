@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url> 
-    <loc>http://teammatesv4.appspot.com/index.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com</loc>
     <changefreq>yearly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -16,8 +16,8 @@
        <image:caption>Manage team projects, Provide anonymous peer feedback and confidential peer evaluations </image:caption>
     </image:image>
   </url>
-  <url> 
-    <loc>http://teammatesv4.appspot.com/features.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com/features.jsp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -61,8 +61,8 @@
        <image:caption>Allow students to view their peer evaluations and feedback in Teammates</image:caption>
     </image:image>
   </url>
-  <url> 
-    <loc>http://teammatesv4.appspot.com/about.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com/about.jsp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -71,8 +71,8 @@
        <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
     </image:image>
   </url>
-  <url> 
-    <loc>http://teammatesv4.appspot.com/contact.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com/contact.jsp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>
@@ -81,8 +81,8 @@
        <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
     </image:image>
   </url>
-  <url> 
-    <loc>http://teammatesv4.appspot.com/terms.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com/terms.jsp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <image:image>
@@ -91,8 +91,8 @@
        <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
     </image:image>
   </url>
-  <url> 
-    <loc>http://teammatesv4.appspot.com/request.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com/request.jsp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>
@@ -101,8 +101,8 @@
        <image:caption>Teammates is an online peer feedback and peer evaluation tool for student projects</image:caption>
     </image:image>
   </url>
-  <url> 
-    <loc>http://teammatesv4.appspot.com/usermap.jsp</loc> 
+  <url>
+    <loc>http://teammatesv4.appspot.com/usermap.jsp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
     <image:image>

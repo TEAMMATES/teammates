@@ -35,10 +35,10 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(sessionName, courseId);
         for (FeedbackQuestionAttributes question : questions) {
-            boolean needRepairGiverSection = isGiverContainingSection(question.giverType);
-            boolean needRepairRecipientSection = isRecipientContaningSection(question.giverType, question.recipientType);
-            if (needRepairGiverSection || needRepairRecipientSection) {
-                repairResponsesForQuestion(question, needRepairGiverSection, needRepairRecipientSection);
+            boolean shouldRepairGiverSection = isGiverContainingSection(question.giverType);
+            boolean shouldRepairRecipientSection = isRecipientContaningSection(question.giverType, question.recipientType);
+            if (shouldRepairGiverSection || shouldRepairRecipientSection) {
+                repairResponsesForQuestion(question, shouldRepairGiverSection, shouldRepairRecipientSection);
             }
         }
     }
@@ -48,7 +48,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
         for (FeedbackResponseAttributes response : responses) {
-            boolean needUpdateResponse = false;
+            boolean shouldUpdateResponse = false;
             String originalGiverSection = "";
             String originalRecipientSection = "";
             if (needRepairGiverSection) {
@@ -56,7 +56,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                 if (!response.giverSection.equals(student.section)) {
                     originalGiverSection = response.giverSection;
                     response.giverSection = student.section;
-                    needUpdateResponse = true;
+                    shouldUpdateResponse = true;
                 }
             }
 
@@ -67,19 +67,19 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                     if (!recipientSection.equals(response.recipientSection)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = recipientSection;
-                        needUpdateResponse = true;
+                        shouldUpdateResponse = true;
                     }
                 } else {
                     StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipient);
                     if (!response.recipientSection.equals(student.section)) {
                         originalRecipientSection = response.recipientSection;
                         response.recipientSection = student.section;
-                        needUpdateResponse = true;
+                        shouldUpdateResponse = true;
                     }
                 }
             }
 
-            if (needUpdateResponse) {
+            if (shouldUpdateResponse) {
                 System.out.println("Repairing giver section:"
                         + originalGiverSection + "-->" + response.giverSection
                         + " receiver section:"

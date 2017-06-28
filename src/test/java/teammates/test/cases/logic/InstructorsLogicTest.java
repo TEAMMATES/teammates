@@ -65,8 +65,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instr =
-                new InstructorAttributes(null, courseId, name, email, role, displayedName, privileges);
+        InstructorAttributes instr = InstructorAttributes.builder(null, courseId, name, email)
+                .withRole(role)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
 
         instructorsLogic.createInstructor(instr);
 
@@ -638,7 +641,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
         verifyAbsentInDatastore(instructorDeleted);
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("typical case: delete a non-existent instructor");
 
@@ -675,8 +677,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertTrue(instructorList.isEmpty());
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
 
         ______TS("typical case: delete an non-existent googleId");
 

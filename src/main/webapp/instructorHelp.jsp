@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:helpPage>
     <h1>Help for Instructors</h1>
@@ -47,13 +46,13 @@
                         <li>
                             <a href="#faq11">How are the contribution numbers calculated?</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#faq12">Is it compulsory for students to use Google accounts?</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#faq13">What if my course doesn’t have teams?</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#faq14">Is there a size limit for a course?</a>
                         </li>
                     </ul>
@@ -140,22 +139,13 @@
                 <div style="margin: 0 auto; padding: 0 50px;">
                     <ul>
                         <li>
-                            <a href="#addStudentComments">Create comments for student</a>
-                        </li>
-                        <li>
                             <a href="#addResponseComments">Create comments for response</a>
-                        </li>
-                        <li>
-                            <a href="#viewComments">View comments</a>
                         </li>
                         <li>
                             <a href="#editDeleteComments">Edit and delete comments</a>
                         </li>
                         <li>
                             <a href="#searchComments">Search for comments</a>
-                        </li>
-                        <li>
-                            <a href="#notifyComments">Notify students of comments</a>
                         </li>
                     </ul>
                 </div>

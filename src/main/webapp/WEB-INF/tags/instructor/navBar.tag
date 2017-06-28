@@ -28,9 +28,6 @@
                 <li<c:if test="${fn:contains(data.class,'Student')}"> class="active"</c:if>>
                     <a class='nav students' data-link="instructorStudent" href="${data.instructorStudentListLink}">Students</a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'Comment')}"> class="active"</c:if>>
-                    <a class='nav comments' data-link="instructorComments" href="${data.instructorCommentsLink}">Comments</a>
-                </li>
                 <li<c:if test="${fn:contains(data.class,'Search')}"> class="active"</c:if>>
                     <a class='nav search' data-link="instructorSearch" href="${data.instructorSearchLink}">
                         Search
@@ -42,13 +39,13 @@
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li><a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">Logout
-                        
+
                         (<span class="text-info" data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom">
                             ${data.account.truncatedGoogleId}
                         </span>)
                     </a>
                 </li>
-            </ul>            
+            </ul>
         </div>
     </div>
 </div>

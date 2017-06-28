@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="align-center">
-                                            <input id="btnSaveInstructor3" type="button" onclick="return false" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
+                                            <input id="btnSaveInstructor3" type="button" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="align-center">
-                                            <input id="btnAddInstructor" type="button" onclick="return false" class="btn btn-primary" value="Add Instructor" tabindex="10">
+                                            <input id="btnAddInstructor" type="button" class="btn btn-primary" value="Add Instructor" tabindex="10">
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +341,6 @@
                                                         </div>
                                                     </div>
 
-
                                                     <div id="tuneSectionPermissionsDiv0ForInstructor1" style="">
                                                         <div class="panel panel-info">
                                                             <div class="panel-heading">
@@ -436,7 +435,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="align-center">
-                                            <input id="btnSaveInstructor1" type="button" onclick="return false" class="btn btn-primary" style="" value="Save changes" tabindex="6">
+                                            <input id="btnSaveInstructor1" type="button" class="btn btn-primary" style="" value="Save changes" tabindex="6">
                                         </div>
                                     </div>
                                 </div>

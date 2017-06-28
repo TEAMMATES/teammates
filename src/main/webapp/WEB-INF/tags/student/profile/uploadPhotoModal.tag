@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="modal" type="teammates.ui.template.StudentProfileUploadPhotoModal" required="true" %>
+<%@ attribute name="sessionToken" required="true" %>
 <c:set var="DEFAULT_PROFILE_PICTURE_PATH" value="<%= Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH %>" />
 <div class="modal fade"
      id="studentPhotoUploader"
@@ -26,7 +27,7 @@
                 <div class="row">
                     <div class="col-xs-4 profile-pic-edit-col">
                         <div class="center-block align-center">
-                            <form id="profilePictureUploadForm" method="post"> 
+                            <form id="profilePictureUploadForm" method="post">
                                 <span class="btn btn-primary profile-pic-file-selector">
                                     Browse...
                                     <input id="studentPhoto"
@@ -109,6 +110,7 @@
                                     <input id="rotate" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_ROTATE %>" value="">
                                     <input id="blobKey" type="hidden" name="<%= Const.ParamsNames.BLOB_KEY %>" value="${modal.pictureKey}">
                                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
+                                    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${sessionToken}">
                                     <button type="button"
                                             id="profileEditPictureSubmit"
                                             class="btn btn-primary">

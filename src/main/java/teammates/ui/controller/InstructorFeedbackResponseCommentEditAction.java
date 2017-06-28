@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -20,7 +19,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
-public class InstructorFeedbackResponseCommentEditAction extends Action {
+public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -37,11 +36,14 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackResponseCommentId,
-                                                               instructor, session, response);
+        FeedbackResponseCommentAttributes frc =
+                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+        Assumption.assertNotNull("FeedbackResponseComment should not be null", frc);
+        verifyAccessibleForInstructorToFeedbackResponseComment(
+                feedbackResponseCommentId, instructor, session, response);
 
         InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account);
+                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         //Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
@@ -74,10 +76,6 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        //Edit sending state
-        if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
-            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
-        }
 
         try {
             FeedbackResponseCommentAttributes updatedComment =
@@ -102,30 +100,5 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         data.comment = feedbackResponseComment;
 
         return createAjaxResult(data);
-    }
-
-    private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
-                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
-                    || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
-    }
-
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(
-            String feedbackResponseCommentId, InstructorAttributes instructor,
-            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
-        FeedbackResponseCommentAttributes frc =
-                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
-        if (frc == null) {
-            Assumption.fail("FeedbackResponseComment should not be null");
-        }
-        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
-            return;
-        }
-        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

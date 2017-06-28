@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
+<%@ attribute name="sessionToken" required="true" %>
 <c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
 <c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
 <c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
@@ -159,5 +160,6 @@
             <i>* This profile will be visible to all your Instructors and Coursemates</i>
         </p>
         <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${profile.googleId}">
+        <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${sessionToken}">
     </form>
 </div>

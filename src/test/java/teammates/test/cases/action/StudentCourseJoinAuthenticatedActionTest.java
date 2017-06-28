@@ -5,10 +5,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
@@ -34,6 +37,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
 
@@ -74,8 +78,8 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         StudentCourseJoinAuthenticatedAction authenticatedAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?error=true&user=" + student1InCourse1.googleId,
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, student1InCourse1.googleId),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You (student1InCourse1) have already joined this course",
@@ -140,9 +144,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?persistencecourse=idOfCourseNoEvals"
-                + "&error=false&user=idOfNoFSStudent",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE, "idOfCourseNoEvals", false, "idOfNoFSStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -181,9 +185,12 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?persistencecourse=idOfCourseNoEvals"
-                + "&error=false&user=idOfNoFSStudent2",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE,
+                        "idOfCourseNoEvals",
+                        false,
+                        "idOfNoFSStudent2"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -222,9 +229,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?persistencecourse=idOfCourseNoEvals"
-                + "&error=false&user=idOfNoFSStudent3",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_HOME_PAGE, "idOfCourseNoEvals", false, "idOfNoFSStudent3"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -263,9 +270,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         authenticatedAction = getAction(submissionParams);
         redirectResult = getRedirectResult(authenticatedAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_PROFILE_PAGE
-                + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=false&user=idOfNewStudent",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE, "idOfTypicalCourse1", false, "idOfNewStudent"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
@@ -273,10 +280,83 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                               "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"),
                 redirectResult.getStatusMessage());
 
+        ______TS("typical case: data requires sanitization");
+
+        AccountAttributes accountTestSanitization = dataBundle.accounts.get("student1InTestingSanitizationCourse");
+        StudentAttributes studentTestSanitization = dataBundle.students.get("student1InTestingSanitizationCourse");
+        CourseAttributes courseTestSanitization = dataBundle.courses.get("testingSanitizationCourse");
+
+        gaeSimulation.loginUser(accountTestSanitization.googleId);
+
+        // retrieve student from datastore to get regkey
+        studentTestSanitization =
+                studentsDb.getStudentForEmail(studentTestSanitization.course, studentTestSanitization.email);
+
+        submissionParams = new String[]{
+                Const.ParamsNames.REGKEY,
+                StringHelper.encrypt(studentTestSanitization.key),
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE
+        };
+
+        authenticatedAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(authenticatedAction);
+
+        assertEquals(
+                Const.ActionURIs.STUDENT_PROFILE_PAGE
+                        + "?persistencecourse=" + courseTestSanitization.getId()
+                        + "&error=false&user=" + accountTestSanitization.googleId,
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        String courseIdentifier = "[" + courseTestSanitization.getId() + "] "
+                + SanitizationHelper.sanitizeForHtml(courseTestSanitization.getName());
+        String expectedStatusMessage =
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseIdentifier) + "<br>"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, courseIdentifier) + "<br>"
+                + accountTestSanitization.studentProfile.generateUpdateMessageForStudent();
+        assertEquals(expectedStatusMessage, redirectResult.getStatusMessage());
     }
 
     @Override
     protected StudentCourseJoinAuthenticatedAction getAction(String... params) {
         return (StudentCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, String persistenceCourse, boolean isError, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, persistenceCourse);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+
+        dataBundle = getTypicalDataBundle();
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.NEXT_URL, "randomUrl"
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForStudents(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

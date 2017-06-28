@@ -8,16 +8,14 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
-    <script type="text/javascript" src="/js/timezone.js"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
     <input type="hidden" id="course-time-zone" value="${data.course.timeZone}">
-    <course:courseEditCourseInfo 
+    <course:courseEditCourseInfo
             editCourseButton="${data.editCourseButton}"
-            deleteCourseButton="${data.deleteCourseButton}" 
+            deleteCourseButton="${data.deleteCourseButton}"
             course="${data.course}" />
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
@@ -30,7 +28,7 @@
     <br>
     <br>
     <course:courseEditInstructorList instructorPanelList="${data.instructorPanelList}" />
-    <course:courseEditAddInstructorPanel 
+    <course:courseEditAddInstructorPanel
             addInstructorButton="${data.addInstructorButton}"
             courseId="${data.course.id}"
             addInstructorPanel="${data.addInstructorPanel}"

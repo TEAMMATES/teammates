@@ -5,13 +5,12 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/home" prefix="adminHome" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminHome.js"></script>
 </c:set>
 
 <ta:adminPage bodyTitle="Add New Instructor" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
     <adminHome:adminCreateInstructorAccountWithOneBoxForm instructorDetailsSingleLine="${data.instructorDetailsSingleLine}"/>
-    <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}" 
+    <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}"
         instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
 
     <div class="panel panel-primary" hidden id="addInstructorResultPanel">

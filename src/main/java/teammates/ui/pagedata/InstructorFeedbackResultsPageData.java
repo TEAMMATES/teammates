@@ -78,7 +78,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorFeedbackResultsQuestionTable> questionPanels;
     // for giver > question > recipient, recipient > question > giver,
     // giver > recipient > question, recipient > giver > question
-    private LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
+    private Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
 
     private Map<FeedbackQuestionAttributes, FeedbackQuestionDetails> questionToDetailsMap = new HashMap<>();
     private Map<String, String> profilePictureLinks = new HashMap<>();
@@ -87,8 +87,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
 
-    public InstructorFeedbackResultsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     /**
@@ -313,7 +313,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                 List<FeedbackResponseAttributes>>> sortedResponses, String additionalInfoId) {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
 
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
                 viewType.isPrimaryGroupingOfGiverType() ? bundle.getQuestionResponseMapByGiverTeam()
                                                         : bundle.getQuestionResponseMapByRecipientTeam();
 
@@ -948,20 +948,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags,
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none toggle-sort",
+                        "style", "width: 10%; min-width: 67px;");
         ElementTag giverElement =
-                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 65px;");
+                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none toggle-sort",
+                        "style", "width: 10%; min-width: 65px;");
         ElementTag recipientTeamElement =
-                new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending toggle-sort",
+                        "style", "width: 10%; min-width: 67px;");
         ElementTag recipientElement =
-                new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 90px;");
+                new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none toggle-sort",
+                        "style", "width: 10%; min-width: 90px;");
         ElementTag responseElement =
-                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 45%; min-width: 95px;");
+                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
+                        "style", "width: 45%; min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
                                                   "style", "width: 15%; min-width: 75px;");
 
@@ -983,14 +983,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
+                        "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement =
-                new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
+                new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none toggle-sort",
+                        "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement =
-                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "min-width: 95px;");
+                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
+                        "style", "min-width: 95px;");
 
         columnTags.add(photoElement);
         columnTags.add(recipientTeamElement);
@@ -1007,14 +1007,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
+                        "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement =
-                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
+                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none toggle-sort",
+                        "style", "width: 15%; min-width: 65px;");
         ElementTag responseElement =
-                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "min-width: 95px;");
+                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
+                        "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
 
         columnTags.add(photoElement);

@@ -7,13 +7,14 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.StudentCourseDetailsPanel;
 
 public class StudentCourseDetailsPageData extends PageData {
     private StudentCourseDetailsPanel studentCourseDetailsPanel;
 
-    public StudentCourseDetailsPageData(AccountAttributes account) {
-        super(account);
+    public StudentCourseDetailsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,
@@ -31,7 +32,8 @@ public class StudentCourseDetailsPageData extends PageData {
             CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors,
             StudentAttributes student, TeamDetailsBundle team) {
         String courseId = courseDetails.course.getId();
-        String courseName = courseDetails.course.getName();
+        //TODO: [CourseAttribute] remove desanitization after data migration
+        String courseName = SanitizationHelper.desanitizeIfHtmlSanitized(courseDetails.course.getName());
         String studentTeam = student.team;
         String studentName = student.name;
         String studentEmail = student.email;

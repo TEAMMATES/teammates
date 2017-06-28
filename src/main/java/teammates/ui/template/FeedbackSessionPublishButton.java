@@ -14,7 +14,7 @@ public class FeedbackSessionPublishButton {
 
     private String actionName;
     private String actionLink;
-    private boolean actionAllowed;
+    private boolean isActionAllowed;
 
     private String buttonType;
 
@@ -25,7 +25,7 @@ public class FeedbackSessionPublishButton {
         this.isSendingPublishedEmail = session.isPublishedEmailEnabled();
 
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
-        this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        this.isActionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         if (isUnpublishing) {
 
@@ -40,7 +40,7 @@ public class FeedbackSessionPublishButton {
                                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING;
             this.actionName = "Publish";
             this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, returnUrl);
-            this.actionAllowed &= isReadyToPublish;
+            this.isActionAllowed &= isReadyToPublish;
         }
 
         this.buttonType = buttonType;
@@ -71,7 +71,7 @@ public class FeedbackSessionPublishButton {
     }
 
     public boolean isActionAllowed() {
-        return actionAllowed;
+        return isActionAllowed;
     }
 
     public String getButtonType() {

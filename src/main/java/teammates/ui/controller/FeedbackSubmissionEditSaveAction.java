@@ -55,11 +55,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         setAdditionalParameters();
-        verifyAccesibleForSpecificUser();
+        verifyAccessibleForSpecificUser();
 
         String userEmailForCourse = getUserEmailForCourse();
 
-        data = new FeedbackSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
         Assumption.assertNotNull("Feedback session " + feedbackSessionName
                                  + " does not exist in " + courseId + ".", data.bundle);
@@ -392,7 +392,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     protected abstract void removeRespondent();
 
-    protected abstract void verifyAccesibleForSpecificUser();
+    protected abstract void verifyAccessibleForSpecificUser();
 
     protected abstract String getUserEmailForCourse();
 

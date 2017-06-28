@@ -63,7 +63,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             setStatusForException(e);
         }
 
-        return createRedirectResult(new PageData(account)
+        return createRedirectResult(new PageData(account, sessionToken)
                                             .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 

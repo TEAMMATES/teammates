@@ -32,17 +32,13 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
 
-        String commentRecipient = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
-
-        boolean isAbleToAddComment = instructor.isAllowedForPrivilege(
-                student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         boolean hasSection = logic.hasIndicatedSections(courseId);
 
         StudentProfileAttributes studentProfile = loadStudentProfile(student, instructor);
 
         InstructorCourseStudentDetailsPageData data =
-                new InstructorCourseStudentDetailsPageData(account, student, studentProfile,
-                                                           isAbleToAddComment, hasSection, commentRecipient);
+                new InstructorCourseStudentDetailsPageData(account, sessionToken, student, studentProfile,
+                                                           hasSection);
 
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"
                         + "Viewing details for Student <span class=\"bold\">" + studentEmail

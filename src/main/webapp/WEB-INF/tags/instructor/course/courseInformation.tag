@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseDetails - Course Information" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
 <%@ attribute name="instructors" type="java.util.Collection" required="true" %>
@@ -14,7 +15,7 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">Course name:</label>
     <div class="col-sm-6" id="coursename">
-        <p class="form-control-static">${courseDetails.course.name}</p>
+        <p class="form-control-static">${fn:escapeXml(courseDetails.course.name)}</p>
     </div>
 </div>
 

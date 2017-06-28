@@ -15,7 +15,7 @@
     <!--[if lt IE 9]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
-    <![endif]--> 
+    <![endif]-->
 </head>
 <body style="padding-top: 0;">
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -32,7 +32,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <span>[<a href="/index.jsp">TEAMMATES</a>]</span>
+                    <span>[<a href="/">TEAMMATES</a>]</span>
                 </div>
                 <div class="col-md-8">
                     [hosted on <a href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>]

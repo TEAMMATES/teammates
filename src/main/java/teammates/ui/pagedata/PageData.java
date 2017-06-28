@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
-import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -39,18 +37,24 @@ public class PageData {
 
     private List<StatusMessage> statusMessagesToUser;
 
-    public PageData(AccountAttributes account) {
-        this.account = account;
-        this.student = null;
+    private String sessionToken;
+
+    public PageData(AccountAttributes account, String sessionToken) {
+        this(account, null, sessionToken);
     }
 
-    public PageData(AccountAttributes account, StudentAttributes student) {
+    public PageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         this.account = account;
         this.student = student;
+        this.sessionToken = sessionToken;
     }
 
     public AccountAttributes getAccount() {
         return account;
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
     }
 
     public boolean isUnregisteredStudent() {
@@ -81,11 +85,15 @@ public class PageData {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
 
+    public String addSessionTokenToUrl(String link) {
+        return Url.addParamToUrl(link, Const.ParamsNames.SESSION_TOKEN, sessionToken);
+    }
+
     /**
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
+    protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<String>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
@@ -186,8 +194,8 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+        List<ElementTag> result = new ArrayList<ElementTag>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
                                              String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
@@ -241,25 +249,6 @@ public class PageData {
      */
     public String getStudentProfileLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
-        link = addUserIdToUrl(link);
-        if (isUnregistered) {
-            link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
-        }
-        return link;
-    }
-
-    /**
-     * Returns The relative path to the student comments page. Defaults to whether the student is unregistered.
-     */
-    public String getStudentCommentsLink() {
-        return getStudentCommentsLink(isUnregisteredStudent());
-    }
-
-    /**
-     * Returns The relative path to the student comments page. The user Id is encoded in the url as a parameter.
-     */
-    public String getStudentCommentsLink(boolean isUnregistered) {
-        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
         if (isUnregistered) {
             link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
@@ -377,6 +366,7 @@ public class PageData {
     public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -389,6 +379,7 @@ public class PageData {
                                  isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -401,6 +392,7 @@ public class PageData {
                                  isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                                         : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -421,6 +413,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -437,6 +430,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -479,6 +473,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -505,6 +500,7 @@ public class PageData {
     public String getInstructorFeedbackRemindParticularStudentsLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -515,6 +511,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -525,6 +522,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
 
         return link;
     }
@@ -549,16 +547,11 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCommentsLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
     public String getInstructorCourseRemindLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -570,20 +563,12 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseStudentDetailsLink(String courseId, String studentEmail, String showCommentBox) {
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
-        link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link, Const.ParamsNames.SHOW_COMMENT_BOX, showCommentBox);
-        return link;
-    }
-
     public String getInstructorCourseStudentDetailsEditLink(String courseId, String studentEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -592,6 +577,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -601,6 +587,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -609,6 +596,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -617,6 +605,7 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -678,56 +667,6 @@ public class PageData {
                                                                                 String returnUrl,
                                                                                 InstructorAttributes instructor) {
         return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
-    }
-
-    /**
-     * Returns the type of people that can view the comment.
-     */
-    public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
-        StringBuilder peopleCanView = new StringBuilder(100);
-        for (int i = 0; i < comment.showCommentTo.size(); i++) {
-            CommentParticipantType commentViewer = comment.showCommentTo.get(i);
-            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
-                peopleCanView.append("and ");
-            }
-
-            switch (commentViewer) {
-            case PERSON:
-                peopleCanView.append("recipient, ");
-                break;
-            case TEAM:
-                if (comment.recipientType == CommentParticipantType.TEAM) {
-                    peopleCanView.append("recipient team, ");
-                } else {
-                    peopleCanView.append("recipient's team, ");
-                }
-                break;
-            case SECTION:
-                if (comment.recipientType == CommentParticipantType.SECTION) {
-                    peopleCanView.append("recipient section, ");
-                } else {
-                    peopleCanView.append("recipient's section, ");
-                }
-                break;
-            case COURSE:
-                if (comment.recipientType == CommentParticipantType.COURSE) {
-                    peopleCanView.append("the whole class, ");
-                } else {
-                    peopleCanView.append("other students in this course, ");
-                }
-                break;
-            case INSTRUCTOR:
-                peopleCanView.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        String peopleCanViewString = peopleCanView.toString();
-        if (peopleCanViewString.isEmpty()) {
-            return peopleCanViewString;
-        }
-        return removeEndComma(peopleCanViewString);
     }
 
     /**

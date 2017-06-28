@@ -14,6 +14,13 @@
       "email": "searchUI.instr2@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "searchUI.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "searchUI.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
     "helperOfCourse1": {
       "googleId": "searchUI.idOfHelperOfCourse1",
       "name": "Instructor 2 of Course 1",
@@ -58,12 +65,35 @@
       "isInstructor": false,
       "email": "searchUI.student3InCourse1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "searchUI.student1InTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "searchUI.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
     "typicalCourse1": {
       "id": "searchUI.idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -79,14 +109,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -105,14 +132,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -131,16 +155,40 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": false,
-          "canviewcommentinsection": true,
           "canmodifystudent": false,
           "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "searchUI.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "searchUI.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -183,6 +231,15 @@
       "comments": "",
       "team": "Team 1.2",
       "section": "Section 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "searchUI.student1InTestingSanitizationCourse",
+      "email": "searchUI.normal@sanitization.tmt",
+      "course": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Stud1<script> alert(\"hi!\"); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {
@@ -476,240 +533,6 @@
       "createdAt": "2015-02-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor 1 comment to feedback Question 2"
-      }
-    }
-  },
-  "comments": {
-    "privateComments": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "searchUI.student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-04-01 11:59 PM UTC",
-      "commentText": {
-        "value": "private comment"
-      }
-    },
-    "recipientCanViewThisComment": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "searchUI.student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "PERSON"
-      ],
-      "showGiverNameTo": [
-        "PERSON"
-      ],
-      "showRecipientNameTo": [
-        "PERSON"
-      ],
-      "createdAt": "2012-05-01 8:49 AM UTC",
-      "commentText": {
-        "value": "recipient can see this comment with giver and recipient's name"
-      }
-    },
-    "recipientCanViewThisCommentWithoutName": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "searchUI.student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "PERSON"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-02 8:50 AM UTC",
-      "commentText": {
-        "value": "recipient can see this comment without giver's name"
-      }
-    },
-    "teammatesCanViewThisComment": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "searchUI.student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "TEAM"
-      ],
-      "showGiverNameTo": [
-        "TEAM"
-      ],
-      "showRecipientNameTo": [
-        "TEAM"
-      ],
-      "createdAt": "2012-05-03 8:51 AM UTC",
-      "commentText": {
-        "value": "teammates can see this comment with giver and recipient's name"
-      }
-    },
-    "teammatesCanViewThisCommentWithoutName": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "searchUI.student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "TEAM"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-04 8:52 AM UTC",
-      "commentText": {
-        "value": "teammates can see this comment without giver and recipient's name"
-      }
-    },
-    "teamCanViewThisComment": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "TEAM",
-      "recipients": [
-        "Team 1.1</td></div>'\""
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "TEAM"
-      ],
-      "showGiverNameTo": [
-        "TEAM"
-      ],
-      "showRecipientNameTo": [
-        "TEAM"
-      ],
-      "createdAt": "2012-05-05 8:53 AM UTC",
-      "commentText": {
-        "value": "team can see this comment with giver and recipient's name"
-      }
-    },
-    "teamCanViewThisCommentWithoutName": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "TEAM",
-      "recipients": [
-        "Team 1.1</td></div>'\""
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "TEAM"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-07 8:54 AM UTC",
-      "commentText": {
-        "value": "team can see this comment without giver's name"
-      }
-    },
-    "otherStudentsInThisCourseCanViewThisCommentWithoutName": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "searchUI.student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "COURSE"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-06 8:55 AM UTC",
-      "commentText": {
-        "value": "Other students in this course can see this comment without giver and recipient's name"
-      }
-    },
-    "studentsInThisCourseCanViewThisComment": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor1@course1.tmt",
-      "recipientType": "COURSE",
-      "recipients": [
-        "searchUI.idOfTypicalCourse1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "COURSE"
-      ],
-      "showGiverNameTo": [
-        "COURSE"
-      ],
-      "showRecipientNameTo": [
-        "COURSE"
-      ],
-      "createdAt": "2012-06-01 7:20 PM UTC",
-      "commentText": {
-        "value": "Students in this course can see this comment"
-      }
-    },
-    "otherInstructorCanViewThisComment": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor2@course1.tmt",
-      "recipientType": "COURSE",
-      "recipients": [
-        "searchUI.idOfTypicalCourse1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTOR"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTOR"
-      ],
-      "createdAt": "2012-06-02 7:20 PM UTC",
-      "commentText": {
-        "value": "Other instructors in this course can see this comment"
-      }
-    },
-    "otherInstructorCanViewThisCommentWithoutName": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.instructor2@course1.tmt",
-      "recipientType": "COURSE",
-      "recipients": [
-        "searchUI.idOfTypicalCourse1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "INSTRUCTOR"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-06-02 7:21 PM UTC",
-      "commentText": {
-        "value": "Other instructors in this course can see this comment without names"
-      }
-    },
-    "privateCommentFromHelper": {
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "giverEmail": "searchUI.Helper@course1.tmt",
-      "recipientType": "COURSE",
-      "recipients": [
-        "searchUI.idOfTypicalCourse1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-06-02 7:22 PM UTC",
-      "commentText": {
-        "value": "This is a private comment which will not seen by other instructors"
       }
     }
   },

@@ -52,11 +52,6 @@
           </a>
         </li>
         <li>
-          <a class="nav comments" data-link="instructorComments" href="/page/instructorCommentsPage?user=InsCrsEdit.Helper">
-            Comments
-          </a>
-        </li>
-        <li>
           <a class="nav search" data-link="instructorSearch" href="/page/instructorSearchPage?user=InsCrsEdit.Helper">
             Search
           </a>
@@ -100,7 +95,7 @@
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="InsCrsEdit.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.Helper" id="courseDeleteLink" title="" type="button">
+        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="InsCrsEdit.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.Helper&token=${sessionToken}" id="courseDeleteLink" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -110,6 +105,7 @@
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseEditSave" class="form form-horizontal" id="formEditcourse" method="post">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+        <input name="token" type="hidden" value="${sessionToken}">
         <input name="instructorid" type="hidden" value="InsCrsEdit.Helper">
         <div class="form-group">
           <label class="col-sm-3 control-label">
@@ -183,7 +179,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="true" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink1" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="true" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink1" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -195,6 +191,7 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.Helper">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable1">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -280,7 +277,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Coord" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink2" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Coord" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink2" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -292,6 +289,7 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.coord">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable2">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -336,7 +334,7 @@
                   <span>
                     Co-owner
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                  <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -380,7 +378,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Manager" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink3" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Manager" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink3" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -392,6 +390,7 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.manager">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable3">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -436,7 +435,7 @@
                   <span>
                     Manager
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
+                  <a class="view-role-details" data-role="Manager" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -464,7 +463,7 @@
       <div class="pull-right">
         <div class="display-icon" style="display:inline;">
         </div>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.Helper" id="instrRemindLink4" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrRemindLink4" title="" type="button">
           <span class="glyphicon glyphicon-envelope">
           </span>
           Resend Invite
@@ -485,7 +484,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink4" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink4" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -496,6 +495,7 @@
       <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor4" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable4">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -585,7 +585,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Observer" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink5" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Observer" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink5" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -597,6 +597,7 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.observer">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable5">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -641,7 +642,7 @@
                   <span>
                     Observer
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
+                  <a class="view-role-details" data-role="Observer" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -685,7 +686,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Test" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink6" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Test" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink6" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -697,6 +698,7 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.test">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable6">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -741,7 +743,7 @@
                   <span>
                     Co-owner
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                  <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -785,7 +787,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Tutor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.Helper" id="instrDeleteLink7" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Tutor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.Helper&token=${sessionToken}" id="instrDeleteLink7" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -797,6 +799,7 @@
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="instructorid" type="hidden" value="InsCrsEdit.tutor">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable7">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -841,7 +844,7 @@
                   <span>
                     Tutor
                   </span>
-                  <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
+                  <a class="view-role-details" data-role="Tutor" href="javascript:;">
                      View Details
                   </a>
                 </p>
@@ -862,7 +865,7 @@
   <br>
   <br>
   <div class="align-center">
-    <input class="btn btn-primary" disabled="" id="btnShowNewInstructorForm" onclick="showNewInstructorForm()" type="button" value="Add New Instructor">
+    <input class="btn btn-primary" disabled="" id="btnShowNewInstructorForm" type="button" value="Add New Instructor">
     <input id="new-instructor-index" type="hidden" value="8">
   </div>
   <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
@@ -875,6 +878,7 @@
       <form action="/page/instructorCourseInstructorAdd" class="form form-horizontal" id="formAddInstructor" method="post" name="formAddInstructor">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorAddTable">
           <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -899,7 +903,7 @@
                 Display to students as:
               </label>
               <div class="col-sm-9">
-                <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text">
+                <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
               </div>
             </div>
             <div class="form-group">
@@ -911,25 +915,25 @@
               <div class="col-sm-9">
                 <input checked="" id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Co-owner">
                  Co-owner: Can do everything
-                <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
+                <a class="view-role-details" data-role="Co-owner" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Manager">
                  Manager: Can do everything except for deleting the course
-                <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
+                <a class="view-role-details" data-role="Manager" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Observer">
                  Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-                <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
+                <a class="view-role-details" data-role="Observer" href="javascript:;">
                   View Details
                 </a>
                 <br>
                 <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Tutor">
                  Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
+                <a class="view-role-details" data-role="Tutor" href="javascript:;">
                   View Details
                 </a>
                 <br>
@@ -968,15 +972,6 @@
                       <div class="col-sm-6 border-right-gray">
                         <input name="canviewstudentinsection" type="checkbox" value="true">
                         View Students' Details
-                        <br>
-                        <input name="cangivecommentinsection" type="checkbox" value="true">
-                        Give Comments for Students
-                        <br>
-                        <input name="canviewcommentinsection" type="checkbox" value="true">
-                        View Others' Comments on Students
-                        <br>
-                        <input name="canmodifycommentinsection" type="checkbox" value="true">
-                        Edit/Delete Others' Comments on Students
                         <br>
                       </div>
                       <div class="col-sm-5 col-sm-offset-1">
@@ -1020,7 +1015,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(8, 0)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="8" data-panelindex="0" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -1044,15 +1039,6 @@
                           <input name="canviewstudentinsectionsectiongroup0" type="checkbox" value="true">
                           View Students' Details
                           <br>
-                          <input name="cangivecommentinsectionsectiongroup0" type="checkbox" value="true">
-                          Give Comments for Students
-                          <br>
-                          <input name="canviewcommentinsectionsectiongroup0" type="checkbox" value="true">
-                          View Others' Comments on Students
-                          <br>
-                          <input name="canmodifycommentinsectionsectiongroup0" type="checkbox" value="true">
-                          Edit/Delete Others' Comments on Students
-                          <br>
                           <br>
                         </div>
                         <div class="col-sm-5 col-sm-offset-1">
@@ -1067,7 +1053,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor8" onclick="showTuneSessionnPermissionsDiv(8, 0)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="8" data-panelindex="0" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor8">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" id="tuneSessionPermissionsDiv0ForInstructor8" style="display: none;">
@@ -1138,7 +1124,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(8, 1)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="8" data-panelindex="1" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -1162,15 +1148,6 @@
                           <input name="canviewstudentinsectionsectiongroup1" type="checkbox" value="true">
                           View Students' Details
                           <br>
-                          <input name="cangivecommentinsectionsectiongroup1" type="checkbox" value="true">
-                          Give Comments for Students
-                          <br>
-                          <input name="canviewcommentinsectionsectiongroup1" type="checkbox" value="true">
-                          View Others' Comments on Students
-                          <br>
-                          <input name="canmodifycommentinsectionsectiongroup1" type="checkbox" value="true">
-                          Edit/Delete Others' Comments on Students
-                          <br>
                           <br>
                         </div>
                         <div class="col-sm-5 col-sm-offset-1">
@@ -1185,7 +1162,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor8" onclick="showTuneSessionnPermissionsDiv(8, 1)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="8" data-panelindex="1" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor8">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" id="tuneSessionPermissionsDiv1ForInstructor8" style="display: none;">
@@ -1256,7 +1233,7 @@
                             </div>
                           </div>
                           <div class="col-sm-1">
-                            <a class="pull-right" href="javascript:;" onclick="hideTuneSectionPermissionsDiv(8, 2)">
+                            <a class="pull-right hide-tune-section-permissions" data-instructorindex="8" data-panelindex="2" href="javascript:;">
                               <span class="glyphicon glyphicon-trash">
                               </span>
                             </a>
@@ -1280,15 +1257,6 @@
                           <input name="canviewstudentinsectionsectiongroup2" type="checkbox" value="true">
                           View Students' Details
                           <br>
-                          <input name="cangivecommentinsectionsectiongroup2" type="checkbox" value="true">
-                          Give Comments for Students
-                          <br>
-                          <input name="canviewcommentinsectionsectiongroup2" type="checkbox" value="true">
-                          View Others' Comments on Students
-                          <br>
-                          <input name="canmodifycommentinsectionsectiongroup2" type="checkbox" value="true">
-                          Edit/Delete Others' Comments on Students
-                          <br>
                           <br>
                         </div>
                         <div class="col-sm-5 col-sm-offset-1">
@@ -1303,7 +1271,7 @@
                           <br>
                           <br>
                         </div>
-                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor8" onclick="showTuneSessionnPermissionsDiv(8, 2)">
+                        <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="8" data-panelindex="2" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor8">
                           Give different permissions for sessions in this section
                         </a>
                         <div class="row" id="tuneSessionPermissionsDiv2ForInstructor8" style="display: none;">
@@ -1346,7 +1314,7 @@
                       </div>
                     </div>
                   </div>
-                  <a class="small" href="javascript:;" id="addSectionLevelForInstructor8" onclick="showTuneSectionPermissionsDiv(8, 0)">
+                  <a class="small show-tune-section-permissions" data-instructorindex="8" data-panelindex="0" href="javascript:;" id="addSectionLevelForInstructor8">
                     Give different permissions for a specific section
                   </a>
                 </div>
@@ -1400,15 +1368,6 @@
               <input checked="" disabled="" name="canviewstudentinsection" type="checkbox" value="true">
               View Students' Details
               <br>
-              <input checked="" disabled="" name="cangivecommentinsection" type="checkbox" value="true">
-              Give Comments for Students
-              <br>
-              <input checked="" disabled="" name="canviewcommentinsection" type="checkbox" value="true">
-              View Others' Comments on Students
-              <br>
-              <input checked="" disabled="" name="canmodifycommentinsection" type="checkbox" value="true">
-              Edit/Delete Others' Comments on Students
-              <br>
             </div>
             <div class="col-sm-6">
               <input checked="" disabled="" name="cansubmitsessioninsection" type="checkbox" value="true">
@@ -1435,7 +1394,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -1472,17 +1431,9 @@
 </script>
 <script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <script src="https://unpkg.com/moment@2.17.1/min/moment.min.js" type="text/javascript">
 </script>
 <script src="https://unpkg.com/moment-timezone@0.5.11/builds/moment-timezone-with-data-2010-2020.min.js" type="text/javascript">
-</script>
-<script src="/js/timezone.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
 </script>
 <script src="/js/instructorCourseEdit.js" type="text/javascript">
 </script>

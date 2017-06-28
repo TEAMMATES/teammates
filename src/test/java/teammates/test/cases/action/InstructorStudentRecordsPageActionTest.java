@@ -85,8 +85,9 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorStudentRecordsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfInstructor3",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfInstructor3"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -98,7 +99,6 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(instructorId, actualData.account.googleId);
         assertEquals(instructor.courseId, actualData.getCourseId());
-        assertEquals(1, actualData.getCommentsForStudentTable().get(0).getRows().size());
         assertEquals(6, actualData.getSessionNames().size());
         assertEquals(student.googleId, actualData.spa.googleId);
 
@@ -125,8 +125,9 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfHelperOfCourse1",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, "idOfHelperOfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("Normally, we would show the student’s profile here. "
                          + "However, you do not have access to view this student's profile<br>"
@@ -186,10 +187,10 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         actualData = (InstructorStudentRecordsPageData) r.data;
         expectedProfile.modifiedDate = actualData.spa.modifiedDate;
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=" + instructorId,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, instructorId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals(1, actualData.getCommentsForStudentTable().get(0).getRows().size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
                 + "|||true|||Instructor|||Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;"
@@ -197,7 +198,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 + "|||instructor1@sanitization.tmt|||instructorStudentRecords Page Load<br>"
                 + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
-                + "Number of sessions: 0<br>"
+                + "Number of sessions: 1<br>"
                 + "Student Profile: " + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
                 + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -214,6 +215,20 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     @Override
     protected InstructorStudentRecordsPageAction getAction(String... params) {
         return (InstructorStudentRecordsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }
