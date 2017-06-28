@@ -90,7 +90,8 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    /*
+    /**
+     * Clicks edit button, changes and saves instructor details for given instructor index
      * Instructor email will not be edited when editing a yet-to-join instructor.
      * Instructor display name will not be edited if instructor is not displayed to other students.
      */
