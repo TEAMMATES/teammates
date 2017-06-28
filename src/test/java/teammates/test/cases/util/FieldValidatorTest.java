@@ -103,7 +103,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid unsanitized input should return error string",
                      "The provided Inconsequential test field name is not acceptable to TEAMMATES as it"
                          + "cannot contain the following special html characters in brackets: (&lt; &gt; &quot;"
-                         +"&#x2f; &#39; &amp;)",
+                         + "&#x2f; &#39; &amp;)",
                      actual);
     }
 
