@@ -364,6 +364,22 @@ function sendRemindersToStudents(urlLink) {
     });
 }
 
+function attachEventToDeleteAllStudentLink() {
+    $('body').on('click', '.course-student-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.target);
+        const messageText = `Are you sure you want to remove all students
+                from the course ${$clickedLink.data('courseId')}?`;
+        const okCallback = () => {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
+    });
+}
+
 function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', (event) => {
         event.preventDefault();
@@ -471,6 +487,7 @@ function prepareInstructorPages() {
 
 export {
     attachEventToDeleteStudentLink,
+    attachEventToDeleteAllStudentLink,
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
