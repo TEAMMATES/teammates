@@ -44,7 +44,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .builder("name", "course", "email")
                 .build();
 
-        /* Default values for next fields */
+        // Default values for next fields
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
@@ -66,11 +66,11 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withRespondingInstructorList(null)
                 .build();
 
-        /* Not null fields */
+        // Not null fields
         assertNotNull(fsa.getRespondingInstructorList());
         assertNotNull(fsa.getRespondingStudentList());
 
-        /* Nullable fields*/
+        // Nullable fields
         assertNull(fsa.getFeedbackSessionName());
         assertNull(fsa.getCourseId());
         assertNull(fsa.getCreatorEmail());

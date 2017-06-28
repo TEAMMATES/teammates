@@ -21,12 +21,12 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
-    /* Required fields */
+    // Required fields
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;
 
-    /* Optional fields */
+    // Optional fields
     private Text instructions;
     private Date createdTime;
     private Date startTime;
@@ -47,11 +47,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     private transient Set<String> respondingStudentList;
 
     public FeedbackSessionAttributes() {
-        this.isOpeningEmailEnabled = true;
-        this.isClosingEmailEnabled = true;
-        this.isPublishedEmailEnabled = true;
-        this.respondingInstructorList = new HashSet<>();
-        this.respondingStudentList = new HashSet<>();
+        isOpeningEmailEnabled = true;
+        isClosingEmailEnabled = true;
+        isPublishedEmailEnabled = true;
+        respondingInstructorList = new HashSet<>();
+        respondingStudentList = new HashSet<>();
     }
 
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
@@ -81,11 +81,13 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * Return new builder instance with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
-     * {@code isOpeningEmailEnabled = true} <br>
-     * {@code isClosingEmailEnabled = true} <br>
-     * {@code isPublishedEmailEnabled = true} <br>
-     * {@code respondingInstructorList = new HashSet<>()} <br>
-     * {@code respondingStudentList = new HashSet<>()} <br>
+     * <ul>
+     * <li>{@code isOpeningEmailEnabled = true}</li>
+     * <li>{@code isClosingEmailEnabled = true}</li>
+     * <li>{@code isPublishedEmailEnabled = true}</li>
+     * <li>{@code respondingInstructorList = new HashSet<>()}</li>
+     * <li>{@code respondingStudentList = new HashSet<>()}</li>
+     * </ul>
      */
     public static Builder builder(String feedbackSessionName, String courseId, String creatorEmail) {
         return new Builder(feedbackSessionName, courseId, creatorEmail);
@@ -131,6 +133,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
 
     public String getInstructionsString() {
+        if (instructions == null) {
+            return null;
+        }
+
         return SanitizationHelper.sanitizeForRichText(instructions.getValue());
     }
 

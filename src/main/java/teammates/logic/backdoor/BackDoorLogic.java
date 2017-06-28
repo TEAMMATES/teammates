@@ -346,7 +346,7 @@ public class BackDoorLogic extends Logic {
      * in the json file.
      */
     private FeedbackSessionAttributes cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
+        if (FeedbackSessionType.PRIVATE == session.getFeedbackSessionType()) {
             session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         }
