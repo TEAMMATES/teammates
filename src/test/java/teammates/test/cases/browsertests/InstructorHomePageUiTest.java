@@ -328,7 +328,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.getCourseId(),
                                                            feedbackSessionAwaiting.getFeedbackSessionName()));
-        
+
         homePage.verifyUnclickable(homePage.getSessionResultsOptionsCaretElement(feedbackSessionAwaiting.getCourseId(),
                                                            feedbackSessionAwaiting.getFeedbackSessionName()));
 
