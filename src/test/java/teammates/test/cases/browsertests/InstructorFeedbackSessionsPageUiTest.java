@@ -31,7 +31,7 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SESSIONS_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
+public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     private InstructorFeedbackSessionsPage feedbackPage;
     private String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing. */
@@ -63,7 +63,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     @BeforeMethod
     public void refreshTestData() {
-        testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
+        testData = loadDataBundle("/InstructorFeedbackSessionsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
