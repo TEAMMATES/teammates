@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
-public class InstructorFeedbacksPage extends AppPage {
+public class InstructorFeedbackSessionsPage extends AppPage {
 
     @FindBy(id = "fstype")
     private WebElement fsType;
@@ -104,7 +104,7 @@ public class InstructorFeedbacksPage extends AppPage {
 
     private InstructorCopyFsToModal fsCopyToModal;
 
-    public InstructorFeedbacksPage(Browser browser) {
+    public InstructorFeedbackSessionsPage(Browser browser) {
         super(browser);
         fsCopyToModal = new InstructorCopyFsToModal(browser);
     }
