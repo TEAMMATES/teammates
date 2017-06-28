@@ -32,7 +32,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, newFeedbackSessionName);
 
         if (nextUrl == null) {
-            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         }
 
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {

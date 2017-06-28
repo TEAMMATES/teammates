@@ -18,16 +18,16 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.pagedata.InstructorFeedbacksPageData;
+import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsForm;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 
 /**
- * SUT: {@link InstructorFeedbacksPageData}.
+ * SUT: {@link InstructorFeedbackSessionsPageData}.
  */
-public class InstructorFeedbacksPageDataTest extends BaseTestCase {
+public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static final int NUMBER_OF_HOURS_IN_DAY = 24;
@@ -39,7 +39,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         ______TS("typical success case");
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount, dummySessionToken);
+        InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(instructorAccount,
+                                                                                         dummySessionToken);
 
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
@@ -121,8 +122,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         ______TS("case with instructor with only archived course");
         AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
-        InstructorFeedbacksPageData instructorArchivedCourseData =
-                new InstructorFeedbacksPageData(instructorOfArchivedCourseAccount, dummySessionToken);
+        InstructorFeedbackSessionsPageData instructorArchivedCourseData =
+                new InstructorFeedbackSessionsPageData(instructorOfArchivedCourseAccount, dummySessionToken);
         Map<String, InstructorAttributes> archivedCourseInstructorMap = new HashMap<String, InstructorAttributes>();
 
         instructors = getInstructorsForGoogleId(instructorOfArchivedCourseAccount.googleId, true);
@@ -152,7 +153,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
 
-        InstructorFeedbacksPageData helperData = new InstructorFeedbacksPageData(helperAccount, dummySessionToken);
+        InstructorFeedbackSessionsPageData helperData = new InstructorFeedbackSessionsPageData(helperAccount,
+                                                                                               dummySessionToken);
 
         Map<String, InstructorAttributes> helperCourseInstructorMap = new HashMap<String, InstructorAttributes>();
         instructors = getInstructorsForGoogleId(helperAccount.googleId, true);
@@ -196,7 +198,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
 
-        data = new InstructorFeedbacksPageData(instructorAccount, dummySessionToken);
+        data = new InstructorFeedbackSessionsPageData(instructorAccount, dummySessionToken);
 
         courseInstructorMap = new HashMap<String, InstructorAttributes>();
         instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
@@ -237,7 +239,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         ______TS("typical success case with existing fs passed in");
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount, dummySessionToken);
+        InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(instructorAccount,
+                                                                                         dummySessionToken);
 
         Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
@@ -325,7 +328,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
         ______TS("typical success case with existing fs passed in");
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount, dummySessionToken);
+        InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(instructorAccount,
+                                                                                         dummySessionToken);
 
         Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
