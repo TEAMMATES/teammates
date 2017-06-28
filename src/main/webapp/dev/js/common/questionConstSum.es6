@@ -1,4 +1,6 @@
-import { ParamsNames } from './const.es6';
+import {
+    ParamsNames,
+} from './const.es6';
 
 function updateConstSumPointsValue(questionNum) {
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val() < 1) {

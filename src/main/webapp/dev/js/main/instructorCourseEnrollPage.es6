@@ -1,6 +1,14 @@
-import { showModalAlert } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
-import { prepareInstructorPages } from '../common/instructor.es6';
+import {
+    showModalAlert,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    prepareInstructorPages,
+} from '../common/instructor.es6';
 
 function isUserTyping(str) {
     return str.indexOf('\t') === -1 && str.indexOf('|') === -1;
