@@ -12,7 +12,7 @@
                 </a>
             </span>
             <p>
-                Sections are meant to organize students where the course has significantly large number of students. It is mandatory for courses with more than 100 students to organize a student into a section.
+                Sections are meant for organizing students in courses with significantly large numbers of students. It is mandatory for courses with more than 100 students to organize a student into a section.
                 You are allowed to have sections for courses with less than 100 students, but it is not mandatory.
             </p>
         </li>
@@ -24,11 +24,12 @@
             </span>
             <p>
                 You can specify the section of each student at the time of enrollment. You just have to include a
-                <b>'Section'</b> column in the spreadsheet or the student data you mention in the text box.
+                <b>'Section'</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
                 <br>More information can be found on the course enrollment page.
-                Go to the
-                <b>'Courses'</b> page. You will see the list of courses, then click on
-                <b>'Enroll'</b> button in the last column of the row corresponding to the course to which you want to enroll students. Scroll down to the <b>'More Info'</b> section.
+                To view more information, go to the
+                <b>'Courses'</b> page, click on the
+                <b>'Enroll'</b> button for any course and scroll down to the
+                <b>'More Info'</b> section.
             </p>
         </li>
         <li>
@@ -39,13 +40,13 @@
             </span>
             <p>
                 Go to the
-                <b>'Students'</b> page, click the panel heading for the relevant course. You will see a list of students for the course, then click
-                <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to see.
+                <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
+                <b>'View'</b> button in the last column of the row corresponding to the student whose section you want to edit.
                 <br>A new page will open which displays the student's profile and a field to edit the student's section. It should look something
                 <a href="#studentEditProfile">like this</a>.
                 <br>After editing the section name, click on
-                <b>'Save Changes'</b>. If the changes were saved successfully, you will be redirected to
-                <b>Students</b> page and you should see a box like this:
+                <b>'Save Changes'</b>. If successful, you will be redirected to the
+                <b>'Students'</b> page and you should see a box like this:
                 <br><br>
                 <div>
                     <div class="overflow-auto alert alert-success statusMessage">
