@@ -180,7 +180,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONTRIB");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q2, contribution qn");
-        assertEquals("Please select a visibility option",
+        assertEquals("Shown anonymously to recipient and team members, visible to instructors",
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());

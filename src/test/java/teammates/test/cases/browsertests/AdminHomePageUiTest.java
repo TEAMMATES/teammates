@@ -63,7 +63,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtml("/adminHomePage.html");
     }
 
-    @SuppressWarnings("deprecation")
     private void testCreateInstructorAction() throws Exception {
 
         InstructorAttributes instructor = new InstructorAttributes();
@@ -186,6 +185,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
 
         ______TS("new instructor can view result of First team feedback session of sample course");
+
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
@@ -194,10 +194,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Second team feedback session of sample course");
+
         verifyResultHtml("Second team feedback session",
                 "/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
 
         ______TS("new instructor can view result of Third team feedback session of sample course");
+
         verifyResultHtml("Session with different question types",
                 "/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
@@ -275,7 +277,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
     void verifyResultHtml(String fsname, String resultHtml) throws Exception {
         String demoCourseId = "AHPUiT____.instr1_.gma-demo";
-        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.loadInstructorHomeTab();
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         InstructorFeedbackResultsPage resultsPage =

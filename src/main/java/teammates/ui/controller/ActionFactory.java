@@ -64,6 +64,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
+        map(INSTRUCTOR_COURSE_STUDENT_DELETE_ALL, InstructorCourseStudentDeleteAllAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD, InstructorCourseStudentListDownloadAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE, InstructorCourseStudentDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT, InstructorCourseStudentDetailsEditPageAction.class);
@@ -72,7 +73,7 @@ public class ActionFactory {
         map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE, InstructorEditStudentFeedbackSaveAction.class);
         map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE, InstructorEditInstructorFeedbackPageAction.class);
         map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE, InstructorEditInstructorFeedbackSaveAction.class);
-        map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
+        map(INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, InstructorFeedbackSessionsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
         map(INSTRUCTOR_FEEDBACK_COPY, InstructorFeedbackCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);

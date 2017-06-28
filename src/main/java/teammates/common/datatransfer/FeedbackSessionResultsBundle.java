@@ -38,6 +38,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, String> emailNameTable;
     public Map<String, String> emailLastNameTable;
     public Map<String, String> emailTeamNameTable;
+    public Map<String, String> instructorEmailNameTable;
     public Map<String, Set<String>> rosterTeamNameMembersTable;
     public Map<String, Set<String>> rosterSectionTeamNameTable;
     public Map<String, boolean[]> visibilityTable;
@@ -745,6 +746,7 @@ public class FeedbackSessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
+        this.instructorEmailNameTable = getInstructorEmailNameTableFromRoster(roster);
         this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
@@ -2224,4 +2226,12 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
+    private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
+        Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
+        List<InstructorAttributes> instructorList = roster.getInstructors();
+        for (InstructorAttributes instructor : instructorList) {
+            instructorEmailNameTable.put(instructor.email, instructor.name);
+        }
+        return instructorEmailNameTable;
+    }
 }

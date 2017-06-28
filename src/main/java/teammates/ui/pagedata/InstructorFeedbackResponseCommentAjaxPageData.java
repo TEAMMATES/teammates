@@ -5,7 +5,9 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Assumption;
 import teammates.ui.template.FeedbackResponseCommentRow;
 
 /*
@@ -19,7 +21,9 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showCommentToString;
     public String showGiverNameToString;
     public String errorMessage;
+    public Map<String, String> instructorEmailNameTable;
     public boolean isError;
+    public FeedbackQuestionAttributes question;
 
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -29,7 +33,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities());
+                                               getResponseVisibilities(), instructorEmailNameTable);
         frc.enableEdit();
         frc.enableDelete();
 
@@ -47,7 +51,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
         for (FeedbackParticipantType type : relevantTypes) {
-            responseVisibilities.put(type, true);
+            responseVisibilities.put(type, isResponseVisibleTo(type, question));
         }
 
         return responseVisibilities;
@@ -55,5 +59,32 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
     public String[] getCommentIds() {
         return commentId.split("-");
+    }
+
+    public boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
+        switch (participantType) {
+        case GIVER:
+            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+        case INSTRUCTORS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        case OWN_TEAM_MEMBERS:
+            return question.giverType != FeedbackParticipantType.INSTRUCTORS
+                   && question.giverType != FeedbackParticipantType.SELF
+                   && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        case RECEIVER:
+            return question.recipientType != FeedbackParticipantType.SELF
+                   && question.recipientType != FeedbackParticipantType.NONE
+                   && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+        case RECEIVER_TEAM_MEMBERS:
+            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                    && question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        case STUDENTS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+        default:
+            Assumption.fail("Invalid participant type");
+            return false;
+        }
     }
 }

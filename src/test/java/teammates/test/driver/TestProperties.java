@@ -80,6 +80,9 @@ public final class TestProperties {
     /** Maximum period for verification retries due to persistence delays. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
 
+    /** The directory where credentials used in Gmail API are stored. */
+    static final String TEST_GMAIL_API_FOLDER = "src/test/resources/gmail-api";
+
     static {
         Properties prop = new Properties();
         try {
