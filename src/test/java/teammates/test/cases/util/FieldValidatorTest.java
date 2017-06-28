@@ -86,7 +86,6 @@ public class FieldValidatorTest extends BaseTestCase {
                      actual);
     }
 
-
     @Test
     public void testGetValidityInfoForNonHtmlField_sanitizedInput_returnEmptyString() {
         String sanitizedInput = "Valid sanitized input &lt; &gt; &quot; &#x2f; &#39; &amp;";
