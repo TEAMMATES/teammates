@@ -26,6 +26,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private int iterationCounter;
 
     private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
+    private HashMap<String, String> googleIdToInstitute = new HashMap<String, String>();
 
     public static void main(String[] args) throws IOException {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
@@ -224,8 +225,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {
+        if (googleIdToInstitute.containsKey(googleId)) {
+            return googleIdToInstitute.get(googleId);
+        }
+
         for (Account account : allAccounts) {
             if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
+                googleIdToInstitute.put(googleId, account.getInstitute());
                 return account.getInstitute();
             }
         }
