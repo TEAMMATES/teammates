@@ -2,6 +2,7 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -203,7 +204,7 @@ public class InstructorCourseEditPage extends AppPage {
             assertTrue(getInstructorDisplayedToStudents(instrNum));
             assertEquals(newDisplayName, getInstructorDisplayName(instrNum));
         } else {
-            assertTrue(!getInstructorDisplayedToStudents(instrNum));
+            assertFalse(getInstructorDisplayedToStudents(instrNum));
             assertEquals("(This instructor will NOT be displayed to students)",
                     getDisplayNameField(instrNum).getAttribute("placeholder"));
         }
