@@ -246,6 +246,13 @@ public class InstructorHomePage extends AppPage {
         remindModal.findElement(By.name("form_remind_list")).submit();
     }
 
+    public WebElement getSessionResultsOptionsCaretElement(String courseId, String evalName) {
+        int sessionRowId = getEvaluationRowId(courseId, evalName);
+        return browser.driver.findElement(
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
+                    + "]//button[contains(@class,'session-results-options')]"));
+    }
+
     public WebElement getPublishLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-publish-for-test", getEvaluationRowId(courseId, evalName));
     }

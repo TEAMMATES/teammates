@@ -56,7 +56,7 @@
             Results
         </a>
         <button type="button"
-                class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-caret"
+                class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options"
                 data-toggle="dropdown"
                 aria-expanded="false"
                 <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>>
