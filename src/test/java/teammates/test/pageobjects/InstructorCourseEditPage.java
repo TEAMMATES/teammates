@@ -191,8 +191,8 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     /**
-     * newDisplayName is verified depending on newIsDisplayedToStudents.
-     * If true, the field's value is checked against newDisplayName.
+     * {@code newDisplayName} is verified depending on {@code newIsDisplayedToStudents}.
+     * If {@code newIsDisplayedToStudents} is true, the field's value is checked against {@code newDisplayName}.
      * Otherwise, it is verified that the field's placeholder is shown as expected.
      */
     public void verifyInstructorDetails(int instrNum, String newName, String newEmail,
