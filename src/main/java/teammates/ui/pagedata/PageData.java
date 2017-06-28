@@ -396,14 +396,14 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbacksLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+    public String getInstructorFeedbackSessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
 
-    public String getInstructorFeedbacksLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+    public String getInstructorFeedbackSessionsLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;

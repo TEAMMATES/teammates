@@ -1401,7 +1401,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
-                                                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                                                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                                                 instructor,
                                                 "btn-primary btn-block");
     }
